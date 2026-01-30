@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 실전 모의고사 센터</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- [핵심] PDF 조작 라이브러리 -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        .app-layout {
+            max-width: 480px; margin: 0 auto; min-height: 100vh;
+            background-color: #F9FAFB; position: relative;
+            display: flex; flex-direction: column;
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .chart-container { position: relative; width: 100%; height: 250px; }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #4f46e5; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* New/Badge Styles */
+        .badge-pulse { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+        @keyframes pulse-ring { 0% { transform: scale(.33); } 80%, 100% { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-layout shadow-2xl overflow-hidden">
+        
+        <!-- [1] 글로벌 로딩 화면 -->
+        <div id="global-loading" class="absolute inset-0 z-[100] bg-white flex flex-col items-center justify-center">
+            <div class="spinner mb-4"></div>
+            <p id="loading-text" class="text-sm text-gray-500 font-medium">잠시만 기다려주세요...</p>
+        </div>
+
+        <!-- [2] 인증 컨테이너 (기존 유지) -->
+        <div id="auth-container" class="hidden flex-1 flex flex-col bg-white fade-in z-50 absolute inset-0 overflow-y-auto no-scrollbar">
+            <header class="bg-indigo-600 text-white rounded-b-[2rem] px-6 pt-8 pb-10 shadow-xl relative overflow-hidden shrink-0">
+                <div class="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                     <i data-lucide="atom" class="w-48 h-48"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="mb-2">
+                        <span class="bg-indigo-500/50 border border-indigo-400/30 text-indigo-100 text-[10px] font-bold px-2 py-1 rounded-full backdrop-blur-sm">Premium Service</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <h1 class="text-2xl font-extrabold tracking-tight">갓통과</h1>
+                        <h2 class="text-lg font-bold text-indigo-200">실전 모의고사 센터</h2>
+                    </div>
+                    <p class="text-indigo-100/80 text-xs mt-2 font-medium">로그인 후 모든 서비스를 이용해보세요.</p>
+                </div>
+            </header>
+
+            <div class="flex-1 px-6 py-6 flex flex-col justify-center">
+                <div id="login-view" class="fade-in w-full">
+                    <form id="login-form" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">이메일</label>
+                            <input type="email" id="login-email" class="w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 outline-none bg-gray-50 text-sm" placeholder="example@email.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">비밀번호</label>
+                            <input type="password" id="login-pw" class="w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 outline-none bg-gray-50 text-sm" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg mt-2 flex justify-center items-center gap-2 text-base">
+                            로그인하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                    <div class="text-center mt-6">
+                        <button onclick="toggleAuthMode('signup')" class="w-full py-3 border border-indigo-100 text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-colors text-sm">이메일로 회원가입</button>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                        <button onclick="location.href='../index.html'" class="text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1 mx-auto py-2 px-4 rounded-full hover:bg-gray-100 transition">
+                            <i data-lucide="arrow-left" class="w-3 h-3"></i> 메인으로 돌아가기
+                        </button>
+                    </div>
+                </div>
+
+                <div id="signup-view" class="hidden fade-in w-full">
+                    <form id="signup-form" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">이름</label>
+                            <input type="text" id="signup-name" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm" placeholder="홍길동" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">이메일</label>
+                            <input type="email" id="signup-email" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm" placeholder="example@email.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">비밀번호</label>
+                            <input type="password" id="signup-pw" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm" placeholder="6자 이상" minlength="6" required>
+                        </div>
+                        <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg mt-4 text-base">가입 완료</button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <button onclick="toggleAuthMode('login')" class="text-xs font-bold text-indigo-600 ml-1 hover:underline">로그인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [3] 메인 앱 컨테이너 -->
+        <div id="app-content" class="hidden flex-1 flex flex-col min-h-screen pb-20 fade-in">
+            <!-- 상단 헤더 -->
+            <div class="bg-white sticky top-0 z-30 border-b border-gray-100 shadow-sm">
+                <div class="px-6 py-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-black text-gray-900 tracking-tight">실전 모의고사</h2>
+                        <p class="text-[10px] text-gray-400 font-medium">수능 실전 감각 완벽 대비</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="user-badge" class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full border border-gray-200">GUEST</span>
+                        <button onclick="logout()" class="text-[10px] text-gray-400 underline hover:text-gray-600">로그아웃</button>
+                    </div>
+                </div>
+                <!-- 탭 메뉴 -->
+                <div class="flex px-6 space-x-6 overflow-x-auto no-scrollbar">
+                    <button onclick="switchTab('all')" id="tab-all" class="pb-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap transition-colors">접수/구매</button>
+                    <button onclick="switchTab('my')" id="tab-my" class="pb-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap transition-colors">내 시험지</button>
+                    <button onclick="switchTab('report')" id="tab-report" class="pb-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap transition-colors">성적 리포트</button>
+                </div>
+            </div>
+
+            <div id="exam-content" class="p-6 space-y-4 flex-1 overflow-y-auto"></div>
+
+            <nav class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center z-40 text-xs font-medium text-gray-400 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
+                <button onclick="location.href='../index.html'" class="nav-btn flex flex-col items-center gap-1 hover:text-gray-600 transition-colors">
+                    <i data-lucide="home" class="w-6 h-6"></i><span>홈</span>
+                </button>
+                <button class="nav-btn flex flex-col items-center gap-1 text-indigo-600 transition-colors">
+                    <i data-lucide="file-text" class="w-6 h-6"></i><span>시험응시</span>
+                </button>
+                <button onclick="location.href='../Q-Bank/index.html'" class="nav-btn flex flex-col items-center gap-1 hover:text-gray-600 transition-colors">
+                    <i data-lucide="brain-circuit" class="w-6 h-6"></i><span>문제은행</span>
+                </button>
+                <button onclick="switchTab('report')" class="nav-btn flex flex-col items-center gap-1 hover:text-gray-600 transition-colors">
+                    <i data-lucide="bar-chart-2" class="w-6 h-6"></i><span>성적분석</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 결제 모달 (기존 유지) -->
+    <div id="paymentModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePaymentModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl p-6 transition-transform duration-300 transform translate-y-full shadow-2xl">
+            <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-8"></div>
+            <h3 class="text-xl font-bold text-gray-900">모의고사 구매하기</h3>
+            <p class="text-sm text-gray-500 mt-1 mb-6">입금 확인 후 해당 회차의 다운로드가 가능합니다.</p>
+            <div class="bg-gray-50 p-5 rounded-2xl mb-6 border border-gray-100">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-gray-600 text-sm">상품명</span>
+                    <span class="font-bold text-gray-900" id="modalExamTitle">모의고사</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 text-sm">결제 금액</span>
+                    <span class="font-black text-xl text-indigo-600">5,000원</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 p-4 border border-indigo-100 bg-indigo-50/50 rounded-xl mb-8">
+                <div class="bg-white p-2 rounded-full shadow-sm"><i data-lucide="credit-card" class="w-5 h-5 text-indigo-600"></i></div>
+                <div class="flex-1">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">입금 계좌</p>
+                    <p class="font-bold text-gray-800 text-lg">3333-01-0000000</p>
+                </div>
+                <button onclick="copyToClipboard('3333-01-0000000')" class="text-xs bg-white border border-indigo-100 px-3 py-1.5 rounded-lg font-bold text-indigo-600 hover:bg-indigo-50">복사</button>
+            </div>
+            <button onclick="requestPurchase()" class="w-full bg-gray-900 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-black transition-transform active:scale-[0.98]">입금 완료했습니다 (승인 요청)</button>
+        </div>
+    </div>
+
+    <!-- 성적 입력 모달 (기존 유지) -->
+    <div id="scoreModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeScoreModal()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[360px] bg-white rounded-3xl p-8 shadow-2xl text-center">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">성적 입력</h3>
+            <div class="relative inline-block mb-8">
+                <input type="number" id="scoreInput" class="w-32 text-center text-5xl font-black border-b-4 border-indigo-100 focus:border-indigo-600 outline-none pb-2 text-indigo-600 placeholder-indigo-100 transition-colors" placeholder="0">
+                <span class="absolute bottom-4 -right-6 text-gray-400 font-bold text-lg">점</span>
+            </div>
+            <button onclick="submitScore()" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-transform active:scale-[0.98]">제출하기</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let currentUserData = null;
+        let masterExams = []; 
+        let myExamData = {};  
+        let latestRound = 0; 
+        window.selectedExamId = null; 
+
+        const SECURE_FILE_MAP = {
+            'exam_01': 'k8s_x9d2_exam01.pdf',
+            'exam_02': 'a7d_m4a1_exam02.pdf',
+            'exam_03': 'z9p_q2w3_exam03.pdf',
+        };
+
+        function getSecureFileName(docId) { return SECURE_FILE_MAP[docId] || `${docId}.pdf`; }
+
+        const loadingEl = document.getElementById('global-loading');
+        const loadingText = document.getElementById('loading-text');
+
+        onAuthStateChanged(auth, async (user) => {
+            const authContainer = document.getElementById('auth-container');
+            const appContent = document.getElementById('app-content');
+            if (user) {
+                currentUser = user;
+                authContainer.classList.add('hidden');
+                appContent.classList.remove('hidden');
+                
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if(userDoc.exists()) {
+                        currentUserData = userDoc.data();
+                        const emailId = user.email.split('@')[0];
+                        document.getElementById('user-badge').innerText = emailId + "님";
+                    }
+                    await loadData();
+                } catch (e) {
+                    console.error("초기 로딩 중 오류:", e);
+                    // 오류가 나도 튕기지 않고 빈 화면이라도 보여줌
+                    document.getElementById('user-badge').innerText = "회원님";
+                }
+            } else {
+                currentUser = null;
+                currentUserData = null;
+                appContent.classList.add('hidden');
+                authContainer.classList.remove('hidden');
+            }
+            loadingEl.classList.add('hidden');
+            lucide.createIcons();
+        });
+
+        window.requestPurchase = async () => {
+            if(!window.selectedExamId || !currentUser) return;
+            const depositor = prompt("입금자명을 입력해주세요 (확인용):", currentUserData ? currentUserData.name : "");
+            if (!depositor) return; 
+
+            loadingEl.classList.remove('hidden');
+            loadingText.innerText = "승인 요청 중입니다...";
+            try {
+                await setDoc(doc(db, "users", currentUser.uid, "my_exams", window.selectedExamId), {
+                    status: 'pending', 
+                    requestedAt: new Date().toISOString(),
+                    depositor: depositor,
+                    title: document.getElementById('modalExamTitle').innerText,
+                    score: null
+                }, { merge: true });
+
+                const botToken = "8418122948:AAGLh95SYa2Dj0HPQvFOe3zlHAAHj18b9ow";
+                const chatId = "7703628247";
+                const msg = `🔔 [모의고사 구매 요청]\n\n시험: ${window.selectedExamId}\n학생: ${currentUserData ? currentUserData.name : "알수없음"} (${currentUser.email})\n입금자: ${depositor}\n\n관리자 콘솔에서 승인해주세요!`;
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(msg)}`).catch(()=>console.log('텔레그램 전송 실패'));
+
+                alert("입금 확인 요청이 전송되었습니다.\n선생님 확인 후 자동으로 열립니다!");
+                closePaymentModal();
+            } catch(e) { console.error(e); alert("요청 중 오류가 발생했습니다."); } finally { loadingEl.classList.add('hidden'); }
+        };
+
+        window.downloadExamPaper = async (docId, examTitle) => {
+            if(!currentUser) return alert("로그인이 필요합니다.");
+            loadingEl.classList.remove('hidden');
+            loadingText.innerText = "보안 문서 생성 중...";
+            try {
+                const secureFileName = getSecureFileName(docId);
+                const pdfUrl = `./exams/${secureFileName}`; 
+                const pdfRes = await fetch(pdfUrl);
+                if (!pdfRes.ok) throw new Error("PDF 파일을 찾을 수 없습니다.");
+                const existingPdfBytes = await pdfRes.arrayBuffer();
+
+                let customFont = null;
+                let useFallback = false;
+                const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
+                const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+                try {
+                    const fontUrl = `./fonts/watermark.ttf`; 
+                    const fontRes = await fetch(fontUrl);
+                    if (!fontRes.ok) throw new Error("폰트 파일 없음");
+                    const fontBytes = await fontRes.arrayBuffer();
+                    pdfDoc.registerFontkit(fontkit);
+                    customFont = await pdfDoc.embedFont(fontBytes);
+                } catch (fontErr) {
+                    useFallback = true;
+                    customFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+                }
+
+                const pages = pdfDoc.getPages();
+                const { width, height } = pages[0].getSize();
+                let watermarkText = currentUserData ? `${currentUserData.name} / ${currentUserData.email}` : currentUser.email;
+                
+                pages.forEach(page => {
+                    page.drawText(watermarkText, {
+                        x: width / 2 - 100, y: height / 2, size: 24, font: customFont,
+                        color: rgb(0.8, 0.2, 0.2), opacity: 0.2, rotate: degrees(45),
+                    });
+                    page.drawText(`Licensed to: ${currentUser.uid}`, {
+                        x: 20, y: 20, size: 9, font: customFont, color: rgb(0.5, 0.5, 0.5),
+                    });
+                });
+
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${examTitle}_Secure.pdf`;
+                link.click();
+            } catch (e) { alert("다운로드 실패:\n" + e.message); } finally { loadingEl.classList.add('hidden'); }
+        };
+
+        window.toggleAuthMode = (mode) => {
+            document.getElementById('login-view').classList.toggle('hidden', mode !== 'login');
+            document.getElementById('signup-view').classList.toggle('hidden', mode !== 'signup');
+        };
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pw = document.getElementById('login-pw').value;
+            loadingEl.classList.remove('hidden');
+            try { await signInWithEmailAndPassword(auth, email, pw); } 
+            catch { alert("로그인 실패"); loadingEl.classList.add('hidden'); }
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const pw = document.getElementById('signup-pw').value;
+            loadingEl.classList.remove('hidden');
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, pw);
+                await setDoc(doc(db, "users", cred.user.uid), {
+                    name: name, email: email, joinedAt: new Date().toISOString()
+                });
+                alert("가입 완료!");
+            } catch (err) { alert("가입 실패: " + err.message); loadingEl.classList.add('hidden'); }
+        });
+
+        window.logout = () => { if(confirm('로그아웃 하시겠습니까?')) signOut(auth); };
+
+        async function loadData() {
+            try {
+                // 1. 전체 시험 목록 (기본 데이터라 실패할 일 적음)
+                const q = query(collection(db, "public_exams"), orderBy("id", "asc"));
+                const snapshot = await getDocs(q);
+                masterExams = [];
+                snapshot.forEach(doc => masterExams.push(doc.data()));
+
+                // 2. 현재 시행 회차 설정 (실패 시 기본값)
+                try {
+                    const settingsDoc = await getDoc(doc(db, "settings", "global"));
+                    if(settingsDoc.exists()) {
+                        latestRound = settingsDoc.data().latestRound || 0;
+                    } else {
+                        latestRound = 1;
+                    }
+                } catch(err) {
+                    console.log("Settings fetch error, defaulting to 1");
+                    latestRound = 1; 
+                }
+
+                // 3. 내 시험 정보 (여기가 핵심! 삭제되면 빈 값으로 처리)
+                onSnapshot(collection(db, "users", currentUser.uid, "my_exams"), (snapshot) => {
+                    myExamData = {}; // 초기화
+                    
+                    if (!snapshot.empty) {
+                        snapshot.forEach(doc => {
+                            // 문서가 존재할 때만 데이터 저장
+                            if (doc.exists()) {
+                                myExamData[doc.id] = doc.data();
+                            }
+                        });
+                    }
+                    // 데이터가 비었어도 정상적으로 화면 갱신 (빈 상태로)
+                    refreshCurrentTab();
+                }, (error) => {
+                    console.error("데이터 동기화 오류 (무시함):", error);
+                    // 오류 발생 시 기존 데이터 유지하거나 빈 상태로 갱신하여 튕김 방지
+                    myExamData = {}; 
+                    refreshCurrentTab();
+                });
+            } catch(e) { 
+                console.error("LoadData Critical Error:", e);
+                // 치명적 오류라도 로그인 유지
+            }
+        }
+
+        window.switchTab = (tab) => { window.currentTab = tab; refreshCurrentTab(); };
+        window.currentTab = 'all';
+
+        function refreshCurrentTab() {
+            ['all', 'my', 'report'].forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                if(!el) return;
+                el.className = t === window.currentTab 
+                    ? "pb-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap transition-colors"
+                    : "pb-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap transition-colors";
+            });
+
+            const contentDiv = document.getElementById('exam-content');
+            if (window.currentTab === 'report') renderReport(contentDiv);
+            else renderExamList(contentDiv, window.currentTab);
+            lucide.createIcons();
+        }
+
+        function renderExamList(container, filterType) {
+            let html = '';
+            
+            // 데이터가 없으면 안전하게 처리 (Optional Chaining)
+            const processedExams = masterExams.map(exam => {
+                const docId = `exam_${String(exam.id).padStart(2,'0')}`;
+                // myExamData가 없거나 해당 docId 키가 없으면 undefined 반환 -> 안전
+                const rec = myExamData ? myExamData[docId] : null;
+                return { ...exam, status: rec ? rec.status : 'locked', score: rec?.score, docId };
+            });
+
+            if (filterType === 'my') {
+                const myList = processedExams.filter(e => e.status !== 'locked').sort((a,b) => b.id - a.id);
+                if (myList.length === 0) return container.innerHTML = `<div class="text-center py-20 text-gray-400">보유한 시험지가 없습니다.</div>`;
+                myList.forEach(exam => { html += createCard(exam, false); });
+                container.innerHTML = html;
+                return;
+            }
+
+            if (filterType === 'all') {
+                const applicationRoundId = latestRound + 1;
+                const nextExam = processedExams.find(e => e.id === applicationRoundId);
+
+                if (nextExam) {
+                    html += `
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="relative flex h-3 w-3">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                                </span>
+                                <h3 class="text-sm font-bold text-indigo-900">신청 접수 중</h3>
+                            </div>
+                            ${createCard(nextExam, true)}
+                        </div>
+                    `;
+                }
+
+                const pastExams = processedExams.filter(e => e.id <= latestRound).sort((a,b) => b.id - a.id);
+                if (pastExams.length > 0) {
+                    html += `<div class="mb-4"><h3 class="text-sm font-bold text-gray-800 mb-3">지난 모의고사 구매</h3>`;
+                    pastExams.forEach(exam => {
+                        html += createCard(exam, false);
+                    });
+                    html += `</div>`;
+                }
+
+                const futureExams = processedExams.filter(e => e.id > applicationRoundId).sort((a,b) => a.id - b.id).slice(0, 2);
+                if (futureExams.length > 0) {
+                     html += `
+                        <div class="mt-8 pt-6 border-t border-gray-100">
+                            <h3 class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-wider">공개 예정</h3>
+                            <div class="space-y-3">
+                     `;
+                     futureExams.forEach(exam => {
+                         html += `
+                            <div class="bg-gray-50 rounded-xl p-4 flex justify-between items-center opacity-70">
+                                <div>
+                                    <span class="text-[10px] font-bold text-gray-400 block mb-0.5">${exam.subTitle || 'Coming Soon'}</span>
+                                    <h4 class="text-sm font-bold text-gray-500">${exam.title}</h4>
+                                </div>
+                                <span class="text-xs font-medium text-gray-400 bg-white px-2 py-1 rounded border border-gray-100">오픈 예정</span>
+                            </div>
+                         `;
+                     });
+                     html += `</div></div>`;
+                }
+                
+                container.innerHTML = html;
+            }
+        }
+
+        function createCard(exam, isFeatured) {
+            const dateStr = new Date(exam.date).toLocaleDateString();
+            let btn;
+            
+            if (exam.status === 'graded') {
+                btn = `<div class="flex gap-2"><div class="flex-1 bg-emerald-50 text-emerald-700 py-3 rounded-xl text-center font-bold border border-emerald-100">${exam.score}점</div><button onclick="switchTab('report')" class="w-14 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center"><i data-lucide="bar-chart-2" class="w-5 h-5 text-gray-500"></i></button></div>`;
+            } else if (exam.status === 'purchased') {
+                btn = `<div class="flex gap-2"><button onclick="downloadExamPaper('${exam.docId}', '${exam.title}')" class="flex-1 bg-white border border-gray-200 text-gray-600 py-3 rounded-xl font-bold text-sm hover:bg-gray-50 flex items-center justify-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> 시험지</button><button onclick="location.href='omr.html?id=${exam.docId}&title=${encodeURIComponent(exam.title)}'" class="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-700 transition-colors">정답 제출</button></div>`;
+            } else if (exam.status === 'pending') {
+                btn = `<button disabled class="w-full py-3 bg-yellow-50 text-yellow-600 rounded-xl text-sm font-bold border border-yellow-100 flex items-center justify-center gap-2 cursor-wait"><div class="animate-spin rounded-full h-3 w-3 border-2 border-yellow-600 border-t-transparent"></div>선생님 확인 중... (승인 대기)</button>`;
+            } else {
+                const btnColor = isFeatured ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-200 shadow-lg' : 'bg-gray-900 hover:bg-black text-white shadow';
+                const btnText = isFeatured ? '지금 바로 신청하기' : '구매하기';
+                btn = `<button onclick="openPaymentModal('${exam.docId}', '${exam.title}', ${exam.price})" class="w-full py-3.5 rounded-xl text-sm font-bold flex justify-center items-center gap-2 active:scale-[0.98] transition-transform ${btnColor}"><i data-lucide="lock" class="w-3 h-3 opacity-70"></i> ${exam.price.toLocaleString()}원 ${btnText}</button>`;
+            }
+
+            const style = isFeatured ? 'bg-white border-2 border-indigo-500 shadow-xl relative overflow-hidden' : 'bg-white border border-gray-100 shadow-sm';
+            const bgDeco = isFeatured ? `<div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>` : '';
+            
+            return `<div class="${style} rounded-2xl p-5 mb-4 relative">
+                ${bgDeco}
+                <div class="relative z-10 mb-4">
+                    <span class="text-[10px] font-bold ${isFeatured ? 'text-indigo-600' : 'text-gray-400'} block mb-1 uppercase tracking-wide">${exam.subTitle}</span>
+                    <h4 class="text-lg font-black text-gray-900 leading-tight">${exam.title}</h4>
+                    ${isFeatured ? '<p class="text-xs text-indigo-500 mt-2 font-medium">마감 임박 | 선착순 혜택 적용 중</p>' : `<span class="text-xs text-gray-400 block mt-1">${dateStr} 시행</span>`}
+                </div>
+                <div class="relative z-10">${btn}</div>
+            </div>`;
+        }
+
+        function renderReport(container) {
+            // 데이터가 없어도 안전하게 처리 (빈 배열 반환)
+            const list = masterExams.map(e => {
+                const rec = myExamData ? myExamData[`exam_${String(e.id).padStart(2,'0')}`] : null;
+                return (rec && rec.status === 'graded') ? { ...e, score: rec.score } : null;
+            }).filter(Boolean);
+            
+            if (list.length === 0) return container.innerHTML = `<div class="text-center py-20 text-gray-400">채점 기록이 없습니다.</div>`;
+            
+            const avg = Math.floor(list.reduce((a,b)=>a+b.score,0)/list.length);
+            container.innerHTML = `
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm mb-4">
+                    <h3 class="text-sm font-bold text-gray-900 mb-6">누적 성적 변화</h3>
+                    <div class="chart-container"><canvas id="scoreChart"></canvas></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100"><p class="text-[10px] text-indigo-400 font-bold uppercase mb-1">Total</p><p class="text-2xl font-black text-indigo-700">${list.length}<span class="text-sm font-medium ml-1">회</span></p></div>
+                    <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-100"><p class="text-[10px] text-emerald-500 font-bold uppercase mb-1">Avg</p><p class="text-2xl font-black text-emerald-700">${avg}<span class="text-sm font-medium ml-1">점</span></p></div>
+                </div>`;
+
+            setTimeout(() => {
+                new Chart(document.getElementById('scoreChart'), {
+                    type: 'line',
+                    data: { labels: list.map(e => `${e.id}회`), datasets: [{ label: '내 점수', data: list.map(e => e.score), borderColor: '#4F46E5', backgroundColor: 'rgba(79, 70, 229, 0.1)', borderWidth: 3, fill: true, tension: 0.4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 100 }, x: { display: false } }, plugins: { legend: { display: false } } }
+                });
+            }, 0);
+        }
+
+        window.openPaymentModal = (id, title) => { window.selectedExamId = id; document.getElementById('modalExamTitle').innerText = title; document.getElementById('paymentModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('paymentModal').children[1].classList.remove('translate-y-full'),10); };
+        window.closePaymentModal = () => { document.getElementById('paymentModal').children[1].classList.add('translate-y-full'); setTimeout(()=>document.getElementById('paymentModal').classList.add('hidden'),300); };
+        window.openScoreModal = (id) => { window.selectedExamId = id; document.getElementById('scoreInput').value = ''; document.getElementById('scoreModal').classList.remove('hidden'); };
+        window.closeScoreModal = () => document.getElementById('scoreModal').classList.add('hidden');
+        window.submitScore = async () => {
+            const score = Number(document.getElementById('scoreInput').value);
+            if(!window.selectedExamId || !currentUser) return;
+            try { await setDoc(doc(db, "users", currentUser.uid, "my_exams", window.selectedExamId), { status: 'graded', score, gradedAt: new Date().toISOString() }, { merge: true }); alert("채점 완료!"); closeScoreModal(); switchTab('report'); } catch { alert("저장 실패"); }
+        };
+        window.copyToClipboard = (text) => { navigator.clipboard.writeText(text).then(() => alert('복사되었습니다.')).catch(() => alert('복사 실패')); };
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

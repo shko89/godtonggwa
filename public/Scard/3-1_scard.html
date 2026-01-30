@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 지구 시스템 요약</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 암기장 전용 폰트 */
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; }
+
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 카드 스타일 */
+        .note-card { 
+            transition: transform 0.2s; 
+            break-inside: avoid;
+        }
+        .note-card:active { transform: scale(0.98); }
+
+        /* 테이프 효과 */
+        .tape {
+            position: absolute; top: -10px; left: 50%; width: 80px; height: 25px; z-index: 10;
+            opacity: 0.9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-1deg);
+            clip-path: polygon(2% 0, 98% 0, 100% 10%, 98% 20%, 100% 30%, 98% 40%, 100% 50%, 98% 60%, 100% 70%, 98% 80%, 100% 90%, 98% 100%, 2% 100%, 0 90%, 2% 80%, 0 70%, 2% 60%, 0 50%, 2% 40%, 0 30%, 2% 20%, 0 10%);
+        }
+        .tape-orange { background-color: rgba(255, 224, 178, 0.9); }
+        .tape-blue { background-color: rgba(174, 198, 207, 0.9); transform: translateX(-50%) rotate(1deg); }
+        .tape-green { background-color: rgba(181, 234, 215, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-purple { background-color: rgba(200, 170, 255, 0.9); transform: translateX(-50%) rotate(2deg); }
+        .tape-red { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-gray { background-color: rgba(200, 200, 200, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-pink { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-2deg); }
+        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(-2deg); }
+
+        /* 퀴즈 정답 가리기 인터랙션 */
+        .quiz-box { cursor: pointer; user-select: none; transition: all 0.3s; }
+        .quiz-answer { filter: blur(5px); opacity: 0.7; transition: all 0.3s; background-color: #eee; border-radius: 4px; padding: 0 4px; }
+        .quiz-box.revealed .quiz-answer { filter: blur(0); opacity: 1; background-color: transparent; color: #d63031; font-weight: bold; }
+
+        /* 필기구 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }
+        
+        .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #ff7675; }
+        .blue-pen { color: #0984e3; font-weight: bold; }
+        
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 (고정) -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-3">
+                <!-- 로고 -->
+                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
+                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- 타이틀 -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">3-1. 지구 시스템 요약</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
+            
+            <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 에너지원 (Energy Source)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-sun text-orange-400 mr-1"></i> <strong>태양 에너지 (99.9%)</strong>:
+                        <br> <span class="highlight-yellow">기상 현상, 생명 활동</span>의 근원. 물과 탄소의 순환을 일으킴.
+                    </li>
+                    <li><i class="fas fa-fire text-red-500 mr-1"></i> <strong>지구 내부 에너지</strong>:
+                        <br> 방사성 원소 붕괴열. <span class="highlight-yellow">지각 변동(화산, 지진)</span>, 외핵 대류(자기장)의 원인.
+                    </li>
+                    <li><i class="fas fa-water text-blue-400 mr-1"></i> <strong>조력 에너지</strong>:
+                        <br> 달/태양의 인력. 밀물과 썰물 유발.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 기상 현상과 생명 활동의 주된 에너지원은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">태양 에너지</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
+                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 직권의 층상 구조</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-layer-group text-gray-500 mr-1"></i> <strong>구분 기준</strong>:
+                        <br> <span class="highlight-blue">지진파의 속도 변화</span>.
+                    </li>
+                    <li><i class="fas fa-globe text-brown-500 mr-1"></i> <strong>구조</strong>:
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li><strong>지각</strong>: 가장 얇음 (대륙 > 해양).</li>
+                            <li><strong>맨틀</strong>: <span class="red-pen">부피 최대(80%)</span>. 고체지만 <span class="highlight-yellow">유동성</span> 있음 (대류).</li>
+                            <li><strong>외핵</strong>: <span class="red-pen">액체</span> (지구 자기장 형성).</li>
+                            <li><strong>내핵</strong>: 고체 (철, 니켈).</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구 내부 층 중 액체 상태인 곳은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">외핵</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 기권의 층상 구조</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-thermometer-three-quarters text-red-400 mr-1"></i> <strong>구분 기준</strong>:
+                        <br> <span class="highlight-blue">높이에 따른 온도 변화</span>.
+                    </li>
+                    <li><i class="fas fa-cloud text-blue-300 mr-1"></i> <strong>구조</strong>:
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li><strong>대류권</strong>: 기상 현상 O. (높이 올라갈수록 추움)</li>
+                            <li><strong>성층권</strong>: <span class="highlight-yellow">오존층</span> 존재 (자외선 흡수). 안정층.</li>
+                            <li><strong>중간권</strong>: 대류 O, 기상 X. 최저 온도.</li>
+                            <li><strong>열권</strong>: 오로라. 일교차 큼.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 오존층이 존재하여 자외선을 차단하는 층은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">성층권</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
+                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 수권의 구조</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-tint text-blue-500 mr-1"></i> <strong>분포</strong>:
+                        <br> 해수(약 97%) > 담수(빙하 > 지하수 > 강/호수).
+                    </li>
+                    <li><i class="fas fa-water text-blue-400 mr-1"></i> <strong>해수의 층상 구조</strong> (깊이에 따른 수온):
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li><strong>혼합층</strong>: <span class="highlight-yellow">바람</span>에 의해 수온 일정.</li>
+                            <li><strong>수온 약층</strong>: 매우 <span class="highlight-green">안정</span>. 물질/에너지 교환 차단.</li>
+                            <li><strong>심해층</strong>: 수온 일정(저온). 변화 없음.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 혼합층의 두께를 결정하는 주된 요인은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">바람의 세기</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
+                <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 생물권 & 외권</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-seedling text-green-500 mr-1"></i> <strong>생물권 (Biosphere)</strong>:
+                        <br> 지구상의 모든 생명체. 기권, 직권, 수권에 걸쳐 넓게 분포. 토양 형성에 관여.
+                    </li>
+                    <li><i class="fas fa-star text-purple-500 mr-1"></i> <strong>외권 (Exosphere)</strong>:
+                        <br> 기권 바깥의 우주 공간.
+                        <br> 물질 교환은 거의 없으나, <span class="highlight-yellow">에너지 교환</span>(태양 복사)은 활발함. 지구 자기장이 태양풍 차단.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구 시스템 중 물질 교환이 가장 적은 권역은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">외권</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 상호작용의 예시</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-sync-alt text-gray-500 mr-1"></i> <strong>정의</strong>: 각 권역은 서로 영향을 주고받음.</li>
+                    <li><i class="fas fa-list-ul text-blue-500 mr-1"></i> <strong>대표 사례</strong>:
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li><strong>태풍</strong>: 수권(에너지 공급) $\rightarrow$ 기권.</li>
+                            <li><strong>쓰나미</strong>: 직권(지진) $\rightarrow$ 수권.</li>
+                            <li><strong>화석 연료</strong>: 생물권 $\rightarrow$ 직권.</li>
+                            <li><strong>버섯 바위</strong>: 기권(바람) $\rightarrow$ 직권(침식).</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 태풍은 어느 권역에서 어느 권역으로 에너지가 이동한 것인가?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">수권 → 기권</p>
+                </div>
+            </div>
+
+            <div class="h-10"></div> <!-- 하단 여백 -->
+
+        </main>
+
+        <!-- 하단 네비게이션 바 (고정) -->
+    <div id="common-nav-container"></div>
+
+    <script src="common_nav.js"></script>
+
+    <script>
+        renderCommonNav('home', '../'); 
+    </script>
+    
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 퀴즈 정답 전체 보기 기능
+        function revealAll() {
+            document.querySelectorAll('.quiz-box').forEach(box => {
+                box.classList.add('revealed');
+            });
+        }
+    </script>
+</body>
+</html>

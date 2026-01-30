@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 산과 염기 요약</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 암기장 전용 폰트 */
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; }
+
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 카드 스타일 */
+        .note-card { 
+            transition: transform 0.2s; 
+            break-inside: avoid;
+        }
+        .note-card:active { transform: scale(0.98); }
+
+        /* 테이프 효과 */
+        .tape {
+            position: absolute; top: -10px; left: 50%; width: 80px; height: 25px; z-index: 10;
+            opacity: 0.9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-1deg);
+            clip-path: polygon(2% 0, 98% 0, 100% 10%, 98% 20%, 100% 30%, 98% 40%, 100% 50%, 98% 60%, 100% 70%, 98% 80%, 100% 90%, 98% 100%, 2% 100%, 0 90%, 2% 80%, 0 70%, 2% 60%, 0 50%, 2% 40%, 0 30%, 2% 20%, 0 10%);
+        }
+        .tape-orange { background-color: rgba(255, 224, 178, 0.9); }
+        .tape-blue { background-color: rgba(174, 198, 207, 0.9); transform: translateX(-50%) rotate(1deg); }
+        .tape-green { background-color: rgba(181, 234, 215, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-purple { background-color: rgba(200, 170, 255, 0.9); transform: translateX(-50%) rotate(2deg); }
+        .tape-red { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-gray { background-color: rgba(200, 200, 200, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-pink { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-2deg); }
+        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(-2deg); }
+
+        /* 퀴즈 정답 가리기 인터랙션 */
+        .quiz-box { cursor: pointer; user-select: none; transition: all 0.3s; }
+        .quiz-answer { filter: blur(5px); opacity: 0.7; transition: all 0.3s; background-color: #eee; border-radius: 4px; padding: 0 4px; }
+        .quiz-box.revealed .quiz-answer { filter: blur(0); opacity: 1; background-color: transparent; color: #d63031; font-weight: bold; }
+
+        /* 필기구 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-red { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        
+        .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #ff7675; }
+        .blue-pen { color: #0984e3; font-weight: bold; }
+        
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 (고정) -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-3">
+                <!-- 로고 -->
+                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
+                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- 타이틀 -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">3-6. 산과 염기 요약</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
+            
+            <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
+                <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 산(Acid)의 정의</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-flask text-red-500 mr-1"></i> <strong>정의</strong>:
+                        <br> 물에 녹아 <span class="highlight-red">수소 이온($H^+$)</span>을 내놓는 물질.
+                    </li>
+                    <li><i class="fas fa-atom text-gray-400 mr-1"></i> <strong>이온화 식</strong>:
+                        <br> $HCl \rightarrow H^+ + Cl^-$
+                        <br> $H_2SO_4 \rightarrow 2H^+ + SO_4^{2-}$
+                    </li>
+                    <li><i class="fas fa-link text-blue-400 mr-1"></i> <strong>공통성</strong>:
+                        <br> 산의 공통적인 성질은 모두 <span class="red-pen">$H^+$</span> 때문임.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 산성이 나타나는 원인이 되는 이온은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">수소 이온 (H⁺)</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 산의 특징</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-lemon text-yellow-500 mr-1"></i> <strong>맛/지시약</strong>:
+                        <br> 신맛이 남. 푸른색 리트머스 $\rightarrow$ <span class="red-pen">붉은색</span>.
+                    </li>
+                    <li><i class="fas fa-bolt text-blue-500 mr-1"></i> <strong>금속과 반응</strong>:
+                        <br> 마그네슘(Mg) 등과 반응 $\rightarrow$ <span class="highlight-blue">수소 기체($H_2$)</span> 발생.
+                    </li>
+                    <li><i class="fas fa-egg text-gray-400 mr-1"></i> <strong>탄산 칼슘 반응</strong>:
+                        <br> 달걀 껍데기($CaCO_3$)와 반응 $\rightarrow$ <span class="highlight-yellow">이산화 탄소($CO_2$)</span> 발생.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 산이 달걀 껍데기와 반응하면 발생하는 기체는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">이산화 탄소 (CO₂)</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 염기(Base)의 정의</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-flask text-blue-500 mr-1"></i> <strong>정의</strong>:
+                        <br> 물에 녹아 <span class="highlight-blue">수산화 이온($OH^-$)</span>을 내놓는 물질.
+                    </li>
+                    <li><i class="fas fa-atom text-gray-400 mr-1"></i> <strong>이온화 식</strong>:
+                        <br> $NaOH \rightarrow Na^+ + OH^-$
+                        <br> <span class="text-sm text-gray-500">(*암모니아 $NH_3$는 물과 반응해 $OH^-$ 생성)</span>
+                    </li>
+                    <li><i class="fas fa-link text-red-400 mr-1"></i> <strong>공통성</strong>:
+                        <br> 염기의 성질은 모두 <span class="blue-pen">$OH^-$</span> 때문임.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 염기성이 나타나는 원인이 되는 이온은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">수산화 이온 (OH⁻)</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
+                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 염기의 특징</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-coffee text-brown-500 mr-1"></i> <strong>맛/촉감</strong>:
+                        <br> 쓴맛이 남. 단백질을 녹이는 성질 $\rightarrow$ 만지면 <span class="highlight-green">미끈거림</span>.
+                    </li>
+                    <li><i class="fas fa-palette text-red-500 mr-1"></i> <strong>지시약</strong>:
+                        <br> 붉은색 리트머스 $\rightarrow$ <span class="blue-pen">푸른색</span>.
+                        <br> 페놀프탈레인 $\rightarrow$ <span class="red-pen">붉은색</span>.
+                    </li>
+                    <li><i class="fas fa-ban text-gray-400 mr-1"></i> <strong>반응성</strong>:
+                        <br> 금속이나 달걀 껍데기와 반응하지 않음 (기체 발생 X).
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 염기성 수용액을 만지면 미끈거리는 이유는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">단백질을 녹이기 때문</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
+                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 지시약 색깔 (암기!)</h2>
+                
+                <table class="w-full text-center text-lg font-pen border-collapse text-gray-700">
+                    <thead>
+                        <tr class="bg-gray-100 font-bold text-gray-700">
+                            <th class="p-1 border-b">구분</th>
+                            <th class="p-1 border-b text-red-500">산성</th>
+                            <th class="p-1 border-b text-green-600">중성</th>
+                            <th class="p-1 border-b text-blue-600">염기성</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="p-1 border-b font-bold">리트머스</td>
+                            <td class="p-1 border-b bg-red-50">붉은색</td>
+                            <td class="p-1 border-b">-</td>
+                            <td class="p-1 border-b bg-blue-50">푸른색</td>
+                        </tr>
+                        <tr>
+                            <td class="p-1 border-b font-bold">페놀프</td>
+                            <td class="p-1 border-b">무색</td>
+                            <td class="p-1 border-b">무색</td>
+                            <td class="p-1 border-b bg-red-50 text-red-600 font-bold">붉은색</td>
+                        </tr>
+                        <tr>
+                            <td class="p-1 border-b font-bold">메틸오</td>
+                            <td class="p-1 border-b bg-red-50">붉은색</td>
+                            <td class="p-1 border-b bg-orange-50">노란색</td>
+                            <td class="p-1 border-b bg-yellow-50">노란색</td>
+                        </tr>
+                        <tr>
+                            <td class="p-1 font-bold">BTB</td>
+                            <td class="p-1 bg-yellow-50">노란색</td>
+                            <td class="p-1 bg-green-50">초록색</td>
+                            <td class="p-1 bg-blue-50">파란색</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 페놀프탈레인 용액을 붉게 변화시키는 액성은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">염기성</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(-2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. pH와 세기</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-ruler-horizontal text-gray-500 mr-1"></i> <strong>pH 척도</strong>:
+                        <br> $H^+$ 농도 지수. (0 ~ 14)
+                        <br> <span class="highlight-red">pH < 7 (산성)</span>, pH = 7 (중성), <span class="highlight-blue">pH > 7 (염기성)</span>.
+                    </li>
+                    <li><i class="fas fa-dumbbell text-purple-400 mr-1"></i> <strong>강산 vs 약산</strong>:
+                        <br> <strong>강산(염기)</strong>: 물에서 <span class="highlight-yellow">거의 100% 이온화</span> $\rightarrow$ 이온 수 많음 $\rightarrow$ 전류 강함.
+                        <br> <strong>약산(염기)</strong>: 일부만 이온화.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. pH가 7보다 작을수록 어떤 성질이 강해지는가?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">산성</p>
+                </div>
+            </div>
+
+            <div class="h-10"></div> <!-- 하단 여백 -->
+
+        </main>
+
+        <!-- 하단 네비게이션 바 (고정) -->
+    <div id="common-nav-container"></div>
+
+    <script src="common_nav.js"></script>
+
+    <script>
+        renderCommonNav('home', '../'); 
+    </script>
+    
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 퀴즈 정답 전체 보기 기능
+        function revealAll() {
+            document.querySelectorAll('.quiz-box').forEach(box => {
+                box.classList.add('revealed');
+            });
+        }
+    </script>
+</body>
+</html>

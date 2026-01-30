@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 1타 강사 비밀노트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 1. 손글씨 폰트 로드 */
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
+        
+        body { font-family: 'Gaegu', cursive; background-color: #f0f0f0; }
+
+        /* 2. 줄 공책 배경 스타일 (CSS 패턴) */
+        .notebook-paper {
+            background-color: #fffef0; /* 미색 종이 */
+            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px); /* 파란 줄 */
+            background-size: 100% 30px; /* 줄 간격 */
+            line-height: 30px; /* 글자 줄 간격 맞춤 */
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .notebook-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 40px;
+            width: 2px;
+            background-color: #ff9999; /* 빨간 세로줄 */
+            opacity: 0.6;
+        }
+
+        .handwriting {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 1.6rem;
+            color: #374151;
+            padding-left: 50px;
+            padding-right: 20px;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+        
+        .btn-selected { 
+            background-color: #4f46e5; 
+            color: white; 
+            transform: scale(1.1); 
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);
+            border-color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
+
+    <div class="w-full max-w-4xl flex justify-between items-center mb-6">
+        <button onclick="history.back()" class="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition">
+            <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
+        </button>
+        <h1 class="text-2xl font-bold text-gray-700 flex items-center gap-2">
+            <span class="text-3xl">📓</span> 
+            <span id="exam-title-header">오답노트 펼치는 중...</span>
+        </h1>
+        <div class="w-10"></div>
+    </div>
+
+    <div class="w-full max-w-4xl flex flex-col md:flex-row gap-6 h-[80vh]">
+        
+        <div class="w-full md:w-1/3 bg-white rounded-2xl p-4 shadow-xl flex flex-col border-4 border-gray-300">
+            <div class="mb-4 pb-2 border-b-2 border-dashed border-gray-300 text-center">
+                <span class="text-xl font-bold text-indigo-600">문항 선택하기</span>
+                <p class="text-sm text-gray-500 mt-1">번호를 누르면 해설이 보여요!</p>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto hide-scrollbar">
+                <div class="grid grid-cols-5 gap-2" id="question-grid">
+                    <p class="col-span-5 text-center text-gray-400 py-10 text-xs">데이터 로딩 중...</p>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center">
+                <p class="text-xs text-gray-400 mb-1">현재 보고 있는 문제</p>
+                <div id="current-info-badges" class="flex justify-center gap-2">
+                    <span class="bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded">선택 대기중</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-2/3 relative perspective-1000">
+            <div class="absolute -left-3 top-4 bottom-4 w-6 flex flex-col justify-between z-10 py-2">
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+            </div>
+
+            <div class="w-full h-full bg-[#fffef0] rounded-r-lg shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper">
+                
+                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8">
+                    <span class="text-2xl font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
+                        Q. 문항을 선택해주세요
+                    </span>
+                    </div>
+
+                <div class="flex-1 overflow-y-auto p-6 ml-2 custom-scrollbar relative" id="note-content-area">
+                    <div class="handwriting flex flex-col items-center justify-center h-full text-gray-400 opacity-50 text-center">
+                        <i data-lucide="hand-metal" class="w-12 h-12 mb-2"></i>
+                        왼쪽에서 문항 번호를<br>콕! 눌러보세요.
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-4 right-4 transform rotate-[-10deg] opacity-80">
+                    <span class="bg-yellow-200 text-yellow-800 px-3 py-1 text-lg font-bold shadow-lg border-2 border-yellow-400 rounded-sm">
+                        Very Good! 👍
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const EXAM_ID = urlParams.get('id') || 'exam_01';
+        
+        let examMetaData = null;
+        let aiExamData = null;
+
+        function loadExamDataScript(examId) {
+            return new Promise((resolve, reject) => {
+                const fileName = `exam_data_${examId}.js`; 
+                const script = document.createElement('script');
+                script.src = fileName;
+                
+                script.onload = () => {
+                    if (window.globalExamData) resolve(window.globalExamData);
+                    else resolve(null);
+                };
+                
+                script.onerror = () => {
+                    console.error(`${fileName} 로드 실패`);
+                    resolve(null);
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+
+        async function init() {
+            try {
+                const [metaSnap, loadedAiData] = await Promise.allSettled([
+                    getDoc(doc(db, "exams", EXAM_ID)),
+                    loadExamDataScript(EXAM_ID)
+                ]);
+
+                if (metaSnap.status === 'fulfilled' && metaSnap.value.exists()) {
+                    examMetaData = metaSnap.value.data();
+                    document.getElementById('exam-title-header').innerText = examMetaData.title || "나만의 오답노트";
+                    // [수정] 날짜 표시 로직 삭제됨
+                } else {
+                    document.getElementById('exam-title-header').innerText = "시험 정보를 찾을 수 없습니다.";
+                }
+
+                if (loadedAiData.status === 'fulfilled' && loadedAiData.value) {
+                    aiExamData = loadedAiData.value;
+                } else {
+                    console.warn(`해설 파일(exam_data_${EXAM_ID}.js)이 없습니다.`);
+                }
+
+                renderQuestionGrid();
+                lucide.createIcons();
+
+            } catch (e) {
+                console.error("초기화 오류:", e);
+                alert("데이터 로딩 중 오류가 발생했습니다: " + e.message);
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                init();
+            } else {
+                alert("로그인이 필요한 페이지입니다.");
+                location.href = 'exam.html';
+            }
+        });
+
+        function renderQuestionGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+            const totalQ = examMetaData?.questions?.length || 25;
+
+            for (let i = 1; i <= totalQ; i++) {
+                const btn = document.createElement('button');
+                btn.className = "w-full aspect-square rounded-xl bg-gray-100 border-2 border-gray-200 text-lg font-bold text-gray-500 hover:bg-indigo-100 hover:border-indigo-300 hover:text-indigo-600 transition-all flex items-center justify-center shadow-sm";
+                btn.innerText = i;
+                btn.onclick = () => selectQuestion(i, btn);
+                grid.appendChild(btn);
+            }
+        }
+
+        window.selectQuestion = (no, btnElement) => {
+            document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
+            btnElement.classList.add('btn-selected');
+
+            const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-' };
+            const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === no) : null;
+            
+            const topic = aiQ?.topic || "통합과학";
+            const content = aiQ?.content || "앗! 아직 해설 파일이 업로드되지 않았어요. 😅<br>선생님께 문의해주세요.";
+
+            const noteArea = document.getElementById('note-content-area');
+            const qNumTitle = document.getElementById('note-q-number');
+            
+            noteArea.style.opacity = 0;
+            
+            setTimeout(() => {
+                // [수정] 주제가 길어도 자연스럽게 줄바꿈되도록 span 내부에 렌더링
+                qNumTitle.innerHTML = `<span class="text-indigo-600 mr-2">Q${no}.</span>${topic}`;
+                
+                document.getElementById('current-info-badges').innerHTML = `
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-xs font-bold">배점 ${dbQ.score || 0}점</span>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-xs font-bold">정답 ${dbQ.correctAnswer || '-'}</span>
+                `;
+                noteArea.innerHTML = `<div class="handwriting leading-[30px] pt-2 pb-10">${content}</div>`;
+                noteArea.style.opacity = 1;
+                noteArea.style.transition = "opacity 0.3s ease-in-out";
+            }, 150);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>갓통과 관리자 - 모의고사 DB 생성기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 스타일링 -->
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.6; max-width: 600px; margin: 0 auto; background: #f3f4f6; color: #333; }
+        h1 { border-bottom: 3px solid #4f46e5; padding-bottom: 15px; color: #111827; margin-bottom: 30px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; display: flex; gap: 20px; }
+        .input-wrapper { flex: 1; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #374151; font-size: 0.9em; }
+        input[type="number"] { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        input:focus { outline: none; border-color: #4f46e5; ring: 2px solid #4f46e5; }
+        
+        button { 
+            width: 100%; 
+            background-color: #4f46e5; 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold; 
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #4338ca; }
+        button:active { transform: scale(0.98); }
+
+        #log { 
+            background: #1f2937; 
+            color: #10b981; 
+            padding: 20px; 
+            border-radius: 12px; 
+            height: 300px; 
+            overflow-y: auto; 
+            font-family: 'Consolas', monospace; 
+            font-size: 14px; 
+            white-space: pre-wrap; 
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        }
+        .info-text { font-size: 14px; color: #6b7280; margin-bottom: 20px; background: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6; }
+    </style>
+</head>
+<body>
+
+    <h1>🛠️ 모의고사 데이터 생성 도구</h1>
+
+    <div class="card">
+        <div class="info-text">
+            <strong>💡 안전한 추가 기능</strong><br>
+            원하는 회차의 범위만 지정하여 생성할 수 있습니다.<br>
+            예) 나중에 25회, 26회만 추가하려면 <strong>시작: 25 / 종료: 26</strong>으로 입력하세요.<br>
+            (기존 1~24회 데이터는 건드리지 않습니다.)
+        </div>
+        
+        <div class="input-group">
+            <div class="input-wrapper">
+                <label for="startNum">시작 회차 (Start)</label>
+                <input type="number" id="startNum" value="1" min="1">
+            </div>
+            <div class="input-wrapper">
+                <label for="endNum">종료 회차 (End)</label>
+                <input type="number" id="endNum" value="24" min="1">
+            </div>
+        </div>
+
+        <button id="btn-seed">데이터 생성 시작</button>
+    </div>
+
+    <div id="log">대기 중... 로그가 여기에 표시됩니다.</div>
+
+    <script type="module">
+        // Firebase 라이브러리 임포트 (CDN 방식)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ⚠️ index.html과 동일한 Firebase 설정값 사용
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 버튼 클릭 이벤트
+        document.getElementById('btn-seed').addEventListener('click', async () => {
+            const start = parseInt(document.getElementById('startNum').value);
+            const end = parseInt(document.getElementById('endNum').value);
+            const logDiv = document.getElementById('log');
+
+            // 유효성 검사
+            if(isNaN(start) || isNaN(end)) {
+                alert("숫자를 입력해주세요.");
+                return;
+            }
+            if(start > end) {
+                alert("시작 번호가 종료 번호보다 클 수 없습니다.");
+                return;
+            }
+
+            // 확인 메시지
+            if(!confirm(`${start}회부터 ${end}회까지 데이터를 생성하시겠습니까?\n\n주의: 만약 해당 회차가 이미 존재하면 내용이 초기화(덮어쓰기) 됩니다.`)) return;
+
+            logDiv.innerText = `>>> 작업 시작 (범위: ${start}회 ~ ${end}회)\n----------------------------------------\n`;
+
+            // 반복문으로 데이터 생성
+            for (let i = start; i <= end; i++) {
+                // 날짜 계산 (예시: 1월 1일부터 2주 간격)
+                // 실제 서비스 시에는 관리자 페이지에서 날짜를 개별 수정하는 기능을 만들어야 함
+                let date = new Date(2024, 0, 1 + (i-1)*14); 
+                
+                // 문서 ID 포맷팅 (exam_01, exam_02 ...)
+                const docId = `exam_${String(i).padStart(2, '0')}`;
+                
+                // 저장할 데이터 객체
+                const examData = {
+                    id: i,
+                    title: `제 ${i}회 갓통과 모의고사`,
+                    subTitle: `2024 시즌 ${i <= 12 ? '상반기' : '하반기'} Vol.${i}`,
+                    date: date.toISOString(), // ISO 날짜 형식
+                    price: 5000,
+                    // 예시 로직: 12회까지만 '오픈됨(isOpen: true)', 나머지는 '오픈 예정'
+                    // 나중에 관리자가 수동으로 true로 바꿔주면 학생들에게 보임
+                    isOpen: i <= 12 
+                };
+
+                try {
+                    // Firestore에 저장
+                    // setDoc을 쓰되 { merge: true } 옵션을 주면, 혹시 실수로 돌렸을 때 
+                    // 의도치 않게 다른 필드가 날아가는 것을 일부 방지할 수 있음 (여기선 전체 데이터를 지정하므로 덮어쓰기와 동일)
+                    await setDoc(doc(db, "public_exams", docId), examData, { merge: true });
+                    
+                    logDiv.innerText += `[성공] ${docId} 저장 완료\n`;
+                    logDiv.scrollTop = logDiv.scrollHeight; // 스크롤 자동 내리기
+                } catch (e) {
+                    console.error(e);
+                    logDiv.innerText += `[실패] ${docId} 에러 발생: ${e.message}\n`;
+                }
+            }
+
+            logDiv.innerText += `----------------------------------------\n>>> 모든 작업이 완료되었습니다!`;
+            alert("작업이 완료되었습니다. 로그를 확인하세요.");
+        });
+    </script>
+</body>
+</html>

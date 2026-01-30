@@ -1,0 +1,14 @@
+[
+  "./data/quizzes/class1-easy.json",
+  "./data/quizzes/class1-hard.json",
+  "./data/quizzes/class1-mid.json",
+  "./data/quizzes/class2-mid.json",
+  "./data/quizzes/unit1-easy.json",
+  "./data/quizzes/unit1-hard.json",
+  "./data/quizzes/unit1-mid.json",
+  "./data/quizzes/unit1.json",
+  "./data/quizzes/unit21-easy.json",
+  "./data/quizzes/unit21-hard.json",
+  "./data/quizzes/unit21-mid.json",
+  "./data/quizzes/unit5.json"
+]

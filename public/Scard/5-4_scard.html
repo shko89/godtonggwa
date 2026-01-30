@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 온실기체와 지구온난화 요약</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 암기장 전용 폰트 */
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; }
+
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 카드 스타일 */
+        .note-card { 
+            transition: transform 0.2s; 
+            break-inside: avoid;
+        }
+        .note-card:active { transform: scale(0.98); }
+
+        /* 테이프 효과 */
+        .tape {
+            position: absolute; top: -10px; left: 50%; width: 80px; height: 25px; z-index: 10;
+            opacity: 0.9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-1deg);
+            clip-path: polygon(2% 0, 98% 0, 100% 10%, 98% 20%, 100% 30%, 98% 40%, 100% 50%, 98% 60%, 100% 70%, 98% 80%, 100% 90%, 98% 100%, 2% 100%, 0 90%, 2% 80%, 0 70%, 2% 60%, 0 50%, 2% 40%, 0 30%, 2% 20%, 0 10%);
+        }
+        .tape-orange { background-color: rgba(255, 224, 178, 0.9); }
+        .tape-blue { background-color: rgba(174, 198, 207, 0.9); transform: translateX(-50%) rotate(1deg); }
+        .tape-green { background-color: rgba(181, 234, 215, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-purple { background-color: rgba(200, 170, 255, 0.9); transform: translateX(-50%) rotate(2deg); }
+        .tape-red { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-gray { background-color: rgba(200, 200, 200, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-pink { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-2deg); }
+        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(-2deg); }
+
+        /* 퀴즈 정답 가리기 인터랙션 */
+        .quiz-box { cursor: pointer; user-select: none; transition: all 0.3s; }
+        .quiz-answer { filter: blur(5px); opacity: 0.7; transition: all 0.3s; background-color: #eee; border-radius: 4px; padding: 0 4px; }
+        .quiz-box.revealed .quiz-answer { filter: blur(0); opacity: 1; background-color: transparent; color: #d63031; font-weight: bold; }
+
+        /* 필기구 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-red { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        
+        .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #ff7675; }
+        .blue-pen { color: #0984e3; font-weight: bold; }
+        
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 (고정) -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-3">
+                <!-- 로고 -->
+                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
+                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- 타이틀 -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">4-4. 온실기체와 지구온난화 요약</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
+            
+            <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 지구 복사 평형</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-balance-scale text-orange-400 mr-1"></i> <strong>원리</strong>:
+                        <br> 지구가 흡수하는 태양 복사 에너지 양 = 방출하는 <span class="highlight-yellow">지구 복사 에너지</span> 양.
+                    </li>
+                    <li><i class="fas fa-temperature-high text-red-500 mr-1"></i> <strong>결과</strong>:
+                        <br> 지구의 연평균 기온이 <span class="blue-pen">일정하게 유지</span>됨.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구의 연평균 기온이 일정한 이유는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">복사 평형을 이루기 때문</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
+                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 온실 효과 (Greenhouse Effect)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-sun text-orange-500 mr-1"></i> <strong>태양 복사 (입사)</strong>:
+                        <br> 파장이 짧은 <span class="highlight-yellow">가시광선</span> (대기 투과 잘함).
+                    </li>
+                    <li><i class="fas fa-globe text-blue-500 mr-1"></i> <strong>지구 복사 (방출)</strong>:
+                        <br> 파장이 긴 <span class="highlight-red">적외선</span> (대기가 흡수함).
+                    </li>
+                    <li><i class="fas fa-undo text-gray-500 mr-1"></i> <strong>과정</strong>:
+                        <br> 대기가 지구 복사를 흡수했다가 지표로 <span class="red-pen">재복사</span>하여 보온 효과 발생.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 온실 효과를 일으키는 주된 복사 에너지 형태는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">적외선 (지구 복사 에너지)</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 주요 온실 기체</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-cloud text-gray-400 mr-1"></i> <strong>종류</strong>:
+                        <br> 수증기($H_2O$), 이산화 탄소($CO_2$), 메테인($CH_4$), 오존($O_3$) 등.
+                    </li>
+                    <li><i class="fas fa-exclamation-triangle text-red-500 mr-1"></i> <strong>지구 온난화 주범</strong>:
+                        <br> <span class="red-pen">이산화 탄소($CO_2$)</span>.
+                        <br> <span class="text-sm text-gray-500">(효과는 메테인이 더 크지만, 배출량이 압도적으로 많음)</span>
+                    </li>
+                    <li><i class="fas fa-info-circle text-blue-400 mr-1"></i> <strong>참고</strong>: 질소($N_2$)나 산소($O_2$)는 온실 기체가 아님.</li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구 온난화에 가장 큰 영향을 미치는 기체는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">이산화 탄소 (CO₂)</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
+                <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 지구 온난화 (Global Warming)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-industry text-gray-600 mr-1"></i> <strong>원인</strong>:
+                        <br> 화석 연료 사용 증가, 무분별한 벌목.
+                        <br> $\rightarrow$ 대기 중 <span class="highlight-red">온실 기체 농도 증가</span>.
+                    </li>
+                    <li><i class="fas fa-chart-line text-red-500 mr-1"></i> <strong>메커니즘</strong>:
+                        <br> 온실 기체 증가 $\rightarrow$ 대기의 적외선 흡수량 증가 $\rightarrow$ 지표로의 <span class="red-pen">재복사 에너지 증가</span> $\rightarrow$ 기온 상승.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구 온난화는 대기의 무엇이 증가하여 발생하는가?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">재복사 에너지</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 해수면 상승의 원인</h2>
+                
+                <div class="bg-blue-50 p-2 rounded text-center mb-2">
+                    <span class="font-bold text-blue-700 font-gamja">해수면이 높아지는 2가지 이유</span>
+                </div>
+
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-icicles text-blue-300 mr-1"></i> <strong>빙하 융해</strong>:
+                        <br> 육지의 빙하가 녹아 바다로 흘러감.
+                    </li>
+                    <li><i class="fas fa-thermometer-full text-red-500 mr-1"></i> <strong>해수의 열팽창 (중요!)</strong>:
+                        <br> 수온이 높아지면 물의 부피가 팽창함.
+                        <br> <span class="text-sm text-gray-500">(빙하가 녹는 것보다 더 큰 영향을 주기도 함)</span>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 해수면 상승의 주원인 중 하나로, 물의 부피가 늘어나는 현상은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">해수의 열팽창</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 한반도의 변화</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-temperature-high text-red-400 mr-1"></i> <strong>기온 상승</strong>:
+                        <br> 전 세계 평균보다 빠르게 상승 중. <span class="highlight-yellow">아열대 기후</span>화 진행.
+                    </li>
+                    <li><i class="fas fa-seedling text-green-500 mr-1"></i> <strong>생태계 변화</strong>:
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li>농작물 재배지 북상 (사과: 대구$\rightarrow$강원도).</li>
+                            <li>난류성 어종(오징어, 고등어) 증가, 한류성(명태) 감소.</li>
+                            <li>봄꽃 개화 시기 빨라짐.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 기후 변화로 인해 사과 재배지는 어떻게 이동하고 있는가?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">북쪽으로 이동 (북상)</p>
+                </div>
+            </div>
+
+            <div class="h-10"></div> <!-- 하단 여백 -->
+
+        </main>
+
+        <!-- 하단 네비게이션 바 (고정) -->
+    <div id="common-nav-container"></div>
+
+    <script src="common_nav.js"></script>
+
+    <script>
+        renderCommonNav('home', '../'); 
+    </script>
+    
+    </div>
+    <script>
+        lucide.createIcons();
+
+        // 퀴즈 정답 전체 보기 기능
+        function revealAll() {
+            document.querySelectorAll('.quiz-box').forEach(box => {
+                box.classList.add('revealed');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 판 구조론 요약</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 암기장 전용 폰트 */
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; }
+
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 카드 스타일 */
+        .note-card { 
+            transition: transform 0.2s; 
+            break-inside: avoid;
+        }
+        .note-card:active { transform: scale(0.98); }
+
+        /* 테이프 효과 */
+        .tape {
+            position: absolute; top: -10px; left: 50%; width: 80px; height: 25px; z-index: 10;
+            opacity: 0.9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-1deg);
+            clip-path: polygon(2% 0, 98% 0, 100% 10%, 98% 20%, 100% 30%, 98% 40%, 100% 50%, 98% 60%, 100% 70%, 98% 80%, 100% 90%, 98% 100%, 2% 100%, 0 90%, 2% 80%, 0 70%, 2% 60%, 0 50%, 2% 40%, 0 30%, 2% 20%, 0 10%);
+        }
+        .tape-orange { background-color: rgba(255, 224, 178, 0.9); }
+        .tape-blue { background-color: rgba(174, 198, 207, 0.9); transform: translateX(-50%) rotate(1deg); }
+        .tape-green { background-color: rgba(181, 234, 215, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-purple { background-color: rgba(200, 170, 255, 0.9); transform: translateX(-50%) rotate(2deg); }
+        .tape-red { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-gray { background-color: rgba(200, 200, 200, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-pink { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-2deg); }
+        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(-2deg); }
+
+        /* 퀴즈 정답 가리기 인터랙션 */
+        .quiz-box { cursor: pointer; user-select: none; transition: all 0.3s; }
+        .quiz-answer { filter: blur(5px); opacity: 0.7; transition: all 0.3s; background-color: #eee; border-radius: 4px; padding: 0 4px; }
+        .quiz-box.revealed .quiz-answer { filter: blur(0); opacity: 1; background-color: transparent; color: #d63031; font-weight: bold; }
+
+        /* 필기구 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-red { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        
+        .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #ff7675; }
+        .blue-pen { color: #0984e3; font-weight: bold; }
+        
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 (고정) -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-3">
+                <!-- 로고 -->
+                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
+                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- 타이틀 -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">3-2. 판 구조론 요약</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
+            
+            <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
+                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(-2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 판의 구조와 이동</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-layer-group text-gray-500 mr-1"></i> <strong>판 (암석권)</strong>:
+                        <br> 지각 + <span class="highlight-yellow">상부 맨틀의 일부</span> (두께 약 100km). 단단함.
+                    </li>
+                    <li><i class="fas fa-fire-alt text-red-400 mr-1"></i> <strong>연약권</strong>:
+                        <br> 암석권 아래. 부분 용융 상태 $\rightarrow$ <span class="red-pen">맨틀 대류</span> 발생.
+                    </li>
+                    <li><i class="fas fa-arrow-right text-blue-500 mr-1"></i> <strong>원리</strong>:
+                        <br> 연약권의 대류를 타고 그 위의 판이 이동함.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 판을 이동시키는 힘의 근원은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">맨틀 대류</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
+                <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 발산형 경계 ($\leftarrow \rightarrow$)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-arrows-alt-h text-red-500 mr-1"></i> <strong>특징</strong>: 맨틀 대류 <span class="highlight-red">상승</span> $\rightarrow$ 판이 멀어짐.</li>
+                    <li><i class="fas fa-mountain text-gray-500 mr-1"></i> <strong>지형</strong>:
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li>해양: <span class="red-pen">해령</span> (새로운 지각 생성)</li>
+                            <li>대륙: <strong>열곡대</strong> (동아프리카 열곡대)</li>
+                        </ul>
+                    </li>
+                    <li><i class="fas fa-exclamation-circle text-orange-500 mr-1"></i> <strong>지각 변동</strong>:
+                        <br> <span class="highlight-yellow">화산 활동 O</span>, 천발 지진 O.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 해양판이 생성되며 양쪽으로 멀어지는 해저 산맥은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">해령</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 수렴형: 섭입대 ($\rightarrow \leftarrow$)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-water text-blue-500 mr-1"></i> <strong>조건</strong>: 해양판(밀도 큼)이 대륙판(밀도 작음) 아래로 침강.</li>
+                    <li><i class="fas fa-angle-double-down text-blue-400 mr-1"></i> <strong>지형</strong>:
+                        <br> <span class="blue-pen">해구</span> (가장 깊은 곳), <span class="red-pen">호상 열도</span> (일본), 습곡 산맥(안데스).
+                    </li>
+                    <li><i class="fas fa-bolt text-yellow-500 mr-1"></i> <strong>지각 변동</strong>:
+                        <br> 화산 O, 지진(천발~<span class="highlight-blue">심발</span>).
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 밀도가 큰 판이 작은 판 아래로 들어가는 현상은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">섭입 (Subduction)</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
+                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 수렴형: 충돌대 ($\rightarrow \leftarrow$)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-hand-rock text-gray-500 mr-1"></i> <strong>조건</strong>: 대륙판 vs 대륙판 충돌. (밀도 비슷).</li>
+                    <li><i class="fas fa-mountain text-green-600 mr-1"></i> <strong>지형</strong>:
+                        <br> 거대한 <span class="highlight-green">습곡 산맥</span> (예: 히말라야 산맥).
+                    </li>
+                    <li><i class="fas fa-ban text-red-500 mr-1"></i> <strong>지각 변동</strong>:
+                        <br> <span class="red-pen">화산 활동 거의 없음</span> (마그마 생성 어려움). 지진(천발~중발).
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 대륙판 충돌 구간에서 화산 활동은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">거의 없다 (X)</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 보존형 경계 ($\uparrow \downarrow$)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-exchange-alt text-orange-400 mr-1"></i> <strong>특징</strong>: 판이 생성/소멸되지 않고 어긋나게 스쳐 지나감.</li>
+                    <li><i class="fas fa-road text-gray-500 mr-1"></i> <strong>지형</strong>:
+                        <br> <span class="red-pen">변환 단층</span> (예: 산안드레아스 단층).
+                    </li>
+                    <li><i class="fas fa-exclamation-triangle text-red-500 mr-1"></i> <strong>지각 변동 (암기!)</strong>:
+                        <br> <span class="highlight-yellow">화산 활동 없음 (X)</span>. 오직 <strong>천발 지진</strong>만 발생.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 보존형 경계에서 발생하는 지진의 종류는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">천발 지진</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 지도 속 대표 지역</h2>
+                
+                <div class="bg-indigo-50 p-2 rounded text-sm mb-2 text-center">
+                    <span class="font-bold">지도를 보고 경계 유형 찾기 필수!</span>
+                </div>
+
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> <strong>일본 해구</strong>: 섭입대 (화산O, 지진O).</li>
+                    <li><i class="fas fa-map-marker-alt text-green-500 mr-1"></i> <strong>히말라야</strong>: 충돌대 (화산X, 지진O).</li>
+                    <li><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> <strong>대서양 중앙 해령</strong>: 발산형 (새로운 지각).</li>
+                    <li><i class="fas fa-map-marker-alt text-orange-500 mr-1"></i> <strong>산안드레아스</strong>: 보존형 (화산X, 천발지진).</li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 미국 서부 산안드레아스 단층의 경계 유형은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">보존형 경계</p>
+                </div>
+            </div>
+
+            <div class="h-10"></div> <!-- 하단 여백 -->
+
+        </main>
+
+        <!-- 하단 네비게이션 바 (고정) -->
+    <div id="common-nav-container"></div>
+
+    <script src="common_nav.js"></script>
+
+    <script>
+        renderCommonNav('home', '../'); 
+    </script>
+    
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 퀴즈 정답 전체 보기 기능
+        function revealAll() {
+            document.querySelectorAll('.quiz-box').forEach(box => {
+                box.classList.add('revealed');
+            });
+        }
+    </script>
+</body>
+</html>

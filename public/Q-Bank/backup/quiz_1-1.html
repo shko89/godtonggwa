@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1단원: 과학의 기초 - 통합과학 퀴즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col">
+
+    <!-- 헤더 -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md z-10 shrink-0">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-ruler"></i> 1. 과학의 기초 (랜덤 10문항)
+            </h1>
+            <a href="index.html" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1 rounded-full transition">
+                <i class="fas fa-home"></i> 홈으로
+            </a>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 overflow-y-auto p-4 flex items-start justify-center">
+        <div id="quiz-container" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden fade-in min-h-[400px] mb-8 relative">
+            
+            <!-- 진행 상태 바 -->
+            <div class="w-full bg-gray-200 h-2">
+                <div id="progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- 시작 화면 -->
+            <div id="start-screen" class="p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-bounce">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">단원 실전 퀴즈</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    '과학의 기초' 단원 문제 은행에서<br>
+                    <strong class="text-indigo-600">10문제</strong>를 무작위로 추출했습니다.<br>
+                    준비되셨나요?
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg text-lg flex items-center gap-2 transform hover:scale-105 duration-200">
+                    <i class="fas fa-play"></i> 문제 풀기 시작
+                </button>
+            </div>
+
+            <!-- 문제 영역 -->
+            <div id="question-area" class="hidden p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-indigo-600 tracking-wider">Q <span id="current-num">1</span> / <span id="total-num">10</span></span>
+                    <span id="score-display" class="text-sm font-semibold text-gray-500">0점</span>
+                </div>
+
+                <h2 id="question-text" class="text-xl font-bold mb-6 text-gray-800 leading-snug">
+                    문제 로딩 중...
+                </h2>
+
+                <!-- 힌트 -->
+                <div class="mb-6">
+                    <button onclick="toggleHint()" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center gap-1 focus:outline-none transition">
+                        <i class="far fa-lightbulb"></i> 힌트 보기
+                    </button>
+                    <div id="hint-box" class="hidden mt-2 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200 fade-in">
+                        <!-- 힌트 내용 -->
+                    </div>
+                </div>
+
+                <!-- 보기 리스트 -->
+                <div id="options-list" class="space-y-3"></div>
+
+                <!-- 해설 -->
+                <div id="rationale-area" class="hidden mt-6 p-4 rounded-xl border fade-in bg-gray-50">
+                    <div class="flex items-start gap-3">
+                        <div id="rationale-icon" class="text-2xl mt-1 shrink-0"></div>
+                        <div>
+                            <h3 id="rationale-title" class="font-bold text-lg mb-1"></h3>
+                            <p id="rationale-text" class="text-sm leading-relaxed text-gray-700"></p>
+                        </div>
+                    </div>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
+                        다음 문제 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 결과 화면 -->
+            <div id="result-screen" class="hidden p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-4xl text-indigo-600">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">퀴즈 완료!</h2>
+                <p class="text-gray-600 mb-8">학습이 끝났습니다.</p>
+                
+                <div class="w-full max-w-sm bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">최종 점수</p>
+                    <p class="text-4xl font-bold text-indigo-600"><span id="final-score">0</span> / 100</p>
+                </div>
+
+                <div class="flex gap-3 w-full max-w-sm">
+                    <button onclick="location.reload()" class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition">
+                        다시 풀기
+                    </button>
+                    <a href="index.html" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center">
+                        목록으로
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // 1단원 문제 은행 데이터
+        // ==========================================
+        const questionBank = [
+            { question: "국제 단위계(SI)에서 사용하는 기본 단위가 아닌 것은?", answerOptions: [{text:"미터(m)",isCorrect:false},{text:"킬로그램(kg)",isCorrect:false},{text:"초(s)",isCorrect:false},{text:"리터(L)",isCorrect:true,rationale:"리터는 부피의 단위로 유도 단위에 속하며, SI 기본 단위 7가지(m, kg, s, A, K, mol, cd)에 포함되지 않습니다."}], hint: "부피를 나타내는 단위입니다." },
+            { question: "어떤 물리량을 측정할 때 참값과 측정값의 차이를 무엇이라 하는가?", answerOptions: [{text:"오차",isCorrect:true,rationale:"오차는 측정값에서 참값을 뺀 값을 의미합니다."},{text:"편차",isCorrect:false},{text:"분산",isCorrect:false},{text:"유효숫자",isCorrect:false}], hint: "측정의 불확실성을 나타냅니다." },
+            { question: "과학적 탐구 과정의 순서로 가장 적절한 것은?", answerOptions: [{text:"관찰-가설-실험-결론",isCorrect:true,rationale:"일반적인 연역적 탐구 방법은 문제 인식(관찰) → 가설 설정 → 탐구 설계 및 수행(실험) → 자료 해석 → 결론 도출의 과정을 거칩니다."},{text:"가설-결론-실험-관찰",isCorrect:false},{text:"실험-가설-관찰-결론",isCorrect:false},{text:"결론-관찰-가설-실험",isCorrect:false}], hint: "잠정적인 답(가설)을 먼저 정하고 확인합니다." },
+            { question: "길이 100m를 cm로 환산하면?", answerOptions: [{text:"1000cm",isCorrect:false},{text:"10000cm",isCorrect:true,rationale:"1m = 100cm이므로 100m = 100 * 100 = 10000cm입니다."},{text:"100000cm",isCorrect:false},{text:"10cm",isCorrect:false}], hint: "1m는 100cm입니다." },
+            { question: "다음 중 벡터 물리량(크기와 방향을 가짐)은?", answerOptions: [{text:"질량",isCorrect:false},{text:"속력",isCorrect:false},{text:"속도",isCorrect:true,rationale:"속도는 크기와 방향을 모두 가지는 벡터량이고, 속력은 크기만 가지는 스칼라량입니다."},{text:"온도",isCorrect:false}], hint: "방향이 중요한 물리량입니다." },
+            { question: "연역적 탐구 방법에서 실험 결과를 비교하기 위해 실험군과 비교하는 집단은?", answerOptions: [{text:"대조군",isCorrect:true,rationale:"실험 요인을 변화시키지 않은 집단을 대조군이라 합니다."},{text:"변인군",isCorrect:false},{text:"통제군",isCorrect:false},{text:"독립군",isCorrect:false}], hint: "조작을 가하지 않은 집단입니다." },
+            { question: "실험 결과에 영향을 줄 수 있는 요인들을 일정하게 유지하는 것은?", answerOptions: [{text:"변인 통제",isCorrect:true,rationale:"조작 변인 외의 다른 독립 변인들을 일정하게 유지하는 것을 변인 통제라고 합니다."},{text:"가설 설정",isCorrect:false},{text:"자료 해석",isCorrect:false},{text:"일반화",isCorrect:false}], hint: "다른 조건을 같게 만드는 과정입니다." },
+            { question: "1시간은 몇 초인가?", answerOptions: [{text:"60초",isCorrect:false},{text:"360초",isCorrect:false},{text:"3600초",isCorrect:true,rationale:"1시간 = 60분 = 60 * 60초 = 3600초입니다."},{text:"6000초",isCorrect:false}], hint: "60 곱하기 60을 계산하세요." },
+            { question: "질량의 SI 기본 단위는?", answerOptions: [{text:"그램(g)",isCorrect:false},{text:"밀리그램(mg)",isCorrect:false},{text:"킬로그램(kg)",isCorrect:true,rationale:"질량의 SI 기본 단위는 킬로그램(kg)입니다. 그램(g)이 아님에 주의해야 합니다."},{text:"톤(t)",isCorrect:false}], hint: "k가 붙은 단위입니다." },
+            { question: "현미경 사용 시 배율을 높이면 시야의 밝기는 어떻게 되는가?", answerOptions: [{text:"어두워진다",isCorrect:true,rationale:"배율을 높이면 관찰하는 면적이 좁아져서 들어오는 빛의 양이 줄어들어 시야가 어두워집니다."},{text:"밝아진다",isCorrect:false},{text:"변함없다",isCorrect:false},{text:"색이 변한다",isCorrect:false}], hint: "좁은 구멍으로 세상을 보는 것과 같습니다." },
+            { question: "다음 중 물리량이 아닌 것은?", answerOptions: [{text:"길이",isCorrect:false},{text:"시간",isCorrect:false},{text:"슬픔",isCorrect:true,rationale:"슬픔은 감정으로, 객관적으로 측정하여 수치화할 수 있는 물리량이 아닙니다."},{text:"질량",isCorrect:false}], hint: "측정할 수 없는 감정입니다." },
+            { question: "SI 단위계에서 전류의 기본 단위는?", answerOptions: [{text:"볼트(V)",isCorrect:false},{text:"암페어(A)",isCorrect:true,rationale:"전류의 SI 기본 단위는 암페어(A)입니다."},{text:"와트(W)",isCorrect:false},{text:"쿨롱(C)",isCorrect:false}], hint: "A로 표시합니다." },
+            { question: "섭씨온도 25도(℃)는 절대온도(K)로 약 얼마인가?", answerOptions: [{text:"25K",isCorrect:false},{text:"273K",isCorrect:false},{text:"298K",isCorrect:true,rationale:"절대온도(K) = 섭씨온도(℃) + 273 입니다. 25 + 273 = 298K."},{text:"325K",isCorrect:false}], hint: "273을 더하세요." },
+            { question: "귀납적 탐구 방법의 특징으로 옳은 것은?", answerOptions: [{text:"가설을 설정하지 않는다.",isCorrect:true,rationale:"귀납적 탐구는 여러 관찰 사실로부터 일반적인 원리를 이끌어내는 방법으로, 가설 설정 단계가 없습니다."},{text:"실험이 필수적이다.",isCorrect:false},{text:"연역적 방법보다 논리적이다.",isCorrect:false},{text:"일반화 과정이 없다.",isCorrect:false}], hint: "관찰을 통해 결론을 도출합니다." },
+            { question: "유효숫자 계산에서 12.3 + 0.12의 결과로 적절한 것은?", answerOptions: [{text:"12.42",isCorrect:false},{text:"12.4",isCorrect:true,rationale:"덧셈/뺄셈에서는 소수점 아래 자릿수가 가장 적은 쪽에 맞춥니다. 12.3은 소수 첫째 자리까지이므로 결과도 소수 첫째 자리까지 표시합니다."},{text:"12.420",isCorrect:false},{text:"12.0",isCorrect:false}], hint: "정밀도가 낮은 쪽에 맞춥니다." }
+        ];
+
+        // ==========================================
+        // 퀴즈 로직 (단독 실행용으로 단순화)
+        // ==========================================
+        let currentQuizList = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        function startQuiz() {
+            // 랜덤 셔플 및 10문제 추출
+            const shuffled = [...questionBank];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            currentQuizList = shuffled.slice(0, 10);
+
+            // UI 전환
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-area').classList.remove('hidden');
+            document.getElementById('total-num').innerText = currentQuizList.length;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const qData = currentQuizList[currentQuestionIndex];
+            
+            document.getElementById('current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.question;
+            document.getElementById('hint-box').innerText = qData.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            const progress = ((currentQuestionIndex) / currentQuizList.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const rationaleArea = document.getElementById('rationale-area');
+            rationaleArea.classList.add('hidden');
+            rationaleArea.classList.remove('bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            qData.answerOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition duration-200 font-medium text-gray-700 flex items-center gap-3 group bg-white`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-indigo-200 group-hover:text-indigo-700 transition font-bold text-sm shrink-0">${index + 1}</span>
+                    <span class="leading-snug">${option.text}</span>
+                `;
+                btn.onclick = () => checkAnswer(option, btn, qData.answerOptions);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function toggleHint() {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        }
+
+        function checkAnswer(selectedOption, btnElement, allOptions) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const isCorrect = selectedOption.isCorrect;
+            const rationale = selectedOption.rationale || "해설이 없습니다.";
+            const allButtons = document.getElementById('options-list').children;
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score-display').innerText = `${score}점`;
+                styleButton(btnElement, 'correct');
+                showRationale(true, rationale);
+            } else {
+                styleButton(btnElement, 'wrong');
+                const correctIndex = allOptions.findIndex(o => o.isCorrect === true);
+                if (correctIndex !== -1) styleButton(allButtons[correctIndex], 'correct-light');
+                showRationale(false, rationale);
+            }
+
+            for (let btn of allButtons) {
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-400');
+            }
+        }
+
+        function styleButton(btn, type) {
+            btn.classList.remove('border-gray-200', 'bg-white');
+            const iconSpan = btn.querySelector('span:first-child');
+            if (type === 'correct') {
+                btn.classList.add('border-green-500', 'bg-green-100', 'text-green-900');
+                iconSpan.innerHTML = '<i class="fas fa-check"></i>';
+                iconSpan.classList.add('bg-green-200', 'text-green-800');
+            } else if (type === 'wrong') {
+                btn.classList.add('border-red-500', 'bg-red-100', 'text-red-900');
+                iconSpan.innerHTML = '<i class="fas fa-times"></i>';
+                iconSpan.classList.add('bg-red-200', 'text-red-800');
+            } else if (type === 'correct-light') {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+            }
+        }
+
+        function showRationale(isCorrect, text) {
+            const area = document.getElementById('rationale-area');
+            const icon = document.getElementById('rationale-icon');
+            const title = document.getElementById('rationale-title');
+            const body = document.getElementById('rationale-text');
+            
+            area.classList.remove('hidden');
+            if (isCorrect) {
+                area.classList.add('bg-green-50', 'border-green-200');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600"></i>';
+                title.innerText = "정답입니다!";
+                title.className = 'font-bold text-lg mb-1 text-green-800';
+            } else {
+                area.classList.add('bg-red-50', 'border-red-200');
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-600"></i>';
+                title.innerText = "오답입니다.";
+                title.className = 'font-bold text-lg mb-1 text-red-800';
+            }
+            body.innerText = text;
+            setTimeout(() => area.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuizList.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>

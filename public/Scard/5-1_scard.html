@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 생태계 구성 요소 요약</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 암기장 전용 폰트 */
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; }
+
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 카드 스타일 */
+        .note-card { 
+            transition: transform 0.2s; 
+            break-inside: avoid;
+        }
+        .note-card:active { transform: scale(0.98); }
+
+        /* 테이프 효과 */
+        .tape {
+            position: absolute; top: -10px; left: 50%; width: 80px; height: 25px; z-index: 10;
+            opacity: 0.9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-1deg);
+            clip-path: polygon(2% 0, 98% 0, 100% 10%, 98% 20%, 100% 30%, 98% 40%, 100% 50%, 98% 60%, 100% 70%, 98% 80%, 100% 90%, 98% 100%, 2% 100%, 0 90%, 2% 80%, 0 70%, 2% 60%, 0 50%, 2% 40%, 0 30%, 2% 20%, 0 10%);
+        }
+        .tape-orange { background-color: rgba(255, 224, 178, 0.9); }
+        .tape-blue { background-color: rgba(174, 198, 207, 0.9); transform: translateX(-50%) rotate(1deg); }
+        .tape-green { background-color: rgba(181, 234, 215, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-purple { background-color: rgba(200, 170, 255, 0.9); transform: translateX(-50%) rotate(2deg); }
+        .tape-red { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-gray { background-color: rgba(200, 200, 200, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-pink { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-2deg); }
+        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(-2deg); }
+
+        /* 퀴즈 정답 가리기 인터랙션 */
+        .quiz-box { cursor: pointer; user-select: none; transition: all 0.3s; }
+        .quiz-answer { filter: blur(5px); opacity: 0.7; transition: all 0.3s; background-color: #eee; border-radius: 4px; padding: 0 4px; }
+        .quiz-box.revealed .quiz-answer { filter: blur(0); opacity: 1; background-color: transparent; color: #d63031; font-weight: bold; }
+
+        /* 필기구 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-red { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        
+        .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #ff7675; }
+        .blue-pen { color: #0984e3; font-weight: bold; }
+        
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 (고정) -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-3">
+                <!-- 로고 -->
+                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
+                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- 타이틀 -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">4-1. 생태계 구성 요소 요약</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
+            
+            <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
+                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(-2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 생태계 구성 단계</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-user text-gray-500 mr-1"></i> <strong>개체 (Individual)</strong>: 생명체 하나하나.</li>
+                    <li><i class="fas fa-users text-blue-400 mr-1"></i> <strong>개체군 (Population)</strong>:
+                        <br> 일정한 지역에 사는 <span class="highlight-blue">같은 종</span>의 무리.
+                    </li>
+                    <li><i class="fas fa-city text-red-500 mr-1"></i> <strong>군집 (Community)</strong>:
+                        <br> 여러 개체군(다양한 종)이 모인 것.
+                    </li>
+                    <li><i class="fas fa-globe-asia text-green-500 mr-1"></i> <strong>생태계 (Ecosystem)</strong>: 군집 + 비생물적 환경.</li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 같은 지역에 서식하는 '동일한 종'의 모임은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">개체군</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 생물적 요인의 역할</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-leaf text-green-600 mr-1"></i> <strong>생산자</strong>:
+                        <br> 무기물 $\rightarrow$ 유기물 합성 (광합성). (식물, 조류).
+                    </li>
+                    <li><i class="fas fa-paw text-orange-500 mr-1"></i> <strong>소비자</strong>:
+                        <br> 다른 생물을 먹어 영양 섭취. (초식, 육식 동물).
+                    </li>
+                    <li><i class="fas fa-recycle text-gray-500 mr-1"></i> <strong>분해자</strong>:
+                        <br> 사체/배설물을 <span class="red-pen">무기물로 분해</span>하여 환경으로 돌려보냄. (세균, 버섯, 곰팡이).
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 버섯이나 곰팡이처럼 유기물을 분해하는 생물은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">분해자</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 상호 관계의 구분</h2>
+                
+                <div class="flex justify-center items-center my-2 gap-2 text-lg font-pen text-gray-700">
+                    <div class="bg-gray-100 p-2 rounded text-gray-600 font-bold">환경</div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-red-500 text-sm font-bold">① 작용</span>
+                        <i class="fas fa-exchange-alt text-gray-400"></i>
+                        <span class="text-blue-500 text-sm font-bold">② 반작용</span>
+                    </div>
+                    <div class="bg-green-50 p-2 rounded text-green-600 font-bold">생물</div>
+                </div>
+
+                <ul class="space-y-1 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-arrow-right text-red-400 mr-1"></i> <strong>작용</strong>: 환경(빛, 온도 등) $\rightarrow$ 생물 변화. <br><span class="text-sm text-gray-500">(예: 가을에 낙엽이 짐)</span></li>
+                    <li><i class="fas fa-arrow-left text-blue-400 mr-1"></i> <strong>반작용</strong>: 생물 $\rightarrow$ 환경 변화. <br><span class="text-sm text-gray-500">(예: 지렁이가 흙을 비옥하게 함)</span></li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 숲이 우거져 지표면이 서늘해지는 것은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">반작용 (생물 → 환경)</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 빛과 생물</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-sun text-orange-400 mr-1"></i> <strong>빛의 세기</strong>:
+                        <br> <span class="highlight-yellow">양엽</span> (빛 강함, 두꺼움) vs 음엽 (빛 약함, 얇고 넓음).
+                    </li>
+                    <li><i class="fas fa-rainbow text-purple-400 mr-1"></i> <strong>빛의 파장</strong> (해조류 분포):
+                        <ul class="pl-4 list-disc text-gray-600 text-base">
+                            <li>얕은 바다 (적색광): 녹조류</li>
+                            <li>중간 바다 (황색광): 갈조류</li>
+                            <li>깊은 바다 (<span class="blue-pen">청색광</span>): <span class="red-pen">홍조류</span></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 가장 깊은 바다에서 서식하며 청색광을 이용하는 해조류는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">홍조류 (김, 우뭇가사리)</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
+                <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 온도와 생물</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-thermometer-half text-red-500 mr-1"></i> <strong>동물의 적응</strong>:
+                        <br> 추운 지방 여우: 몸집 <span class="highlight-yellow">크고</span>, 말단부(귀) <span class="highlight-yellow">작음</span>. (열 방출 억제).
+                        <br> <span class="text-sm text-gray-500">(더운 지방 여우는 반대!)</span>
+                    </li>
+                    <li><i class="fas fa-tree text-green-600 mr-1"></i> <strong>식물의 적응</strong>:
+                        <br> 기온 하강 시 잎을 떨어뜨리거나(낙엽), 삼투압을 높여 얼지 않게 함.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 추운 지방에 사는 정온 동물의 몸집 특징은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">몸집이 크다 (부피당 표면적 감소)</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 기타 환경 요인</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-tint text-blue-400 mr-1"></i> <strong>물</strong>:
+                        <br> 건조한 곳 식물은 <span class="highlight-blue">큐티클층</span> 발달, 저수 조직 발달 (선인장).
+                    </li>
+                    <li><i class="fas fa-layer-group text-brown-500 mr-1"></i> <strong>토양</strong>:
+                        <br> 표면(호기성 세균), 깊은 곳(혐기성 세균) 분포 다름.
+                    </li>
+                    <li><i class="fas fa-wind text-gray-400 mr-1"></i> <strong>공기</strong>:
+                        <br> 고산 지대 사람은 산소가 적어 <span class="red-pen">적혈구 수</span>가 많음.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 건조한 지역 식물이 수분 증발을 막기 위해 발달시킨 층은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">큐티클층</p>
+                </div>
+            </div>
+
+            <div class="h-10"></div> <!-- 하단 여백 -->
+
+        </main>
+
+        <!-- 하단 네비게이션 바 (고정) -->
+    <div id="common-nav-container"></div>
+
+    <script src="common_nav.js"></script>
+
+    <script>
+        renderCommonNav('home', '../'); 
+    </script>
+    
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 퀴즈 정답 전체 보기 기능
+        function revealAll() {
+            document.querySelectorAll('.quiz-box').forEach(box => {
+                box.classList.add('revealed');
+            });
+        }
+    </script>
+</body>
+</html>

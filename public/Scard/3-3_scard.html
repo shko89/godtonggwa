@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 중력장 내의 운동 요약</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 암기장 전용 폰트 */
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; }
+
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 카드 스타일 */
+        .note-card { 
+            transition: transform 0.2s; 
+            break-inside: avoid;
+        }
+        .note-card:active { transform: scale(0.98); }
+
+        /* 테이프 효과 */
+        .tape {
+            position: absolute; top: -10px; left: 50%; width: 80px; height: 25px; z-index: 10;
+            opacity: 0.9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-1deg);
+            clip-path: polygon(2% 0, 98% 0, 100% 10%, 98% 20%, 100% 30%, 98% 40%, 100% 50%, 98% 60%, 100% 70%, 98% 80%, 100% 90%, 98% 100%, 2% 100%, 0 90%, 2% 80%, 0 70%, 2% 60%, 0 50%, 2% 40%, 0 30%, 2% 20%, 0 10%);
+        }
+        .tape-orange { background-color: rgba(255, 224, 178, 0.9); }
+        .tape-blue { background-color: rgba(174, 198, 207, 0.9); transform: translateX(-50%) rotate(1deg); }
+        .tape-green { background-color: rgba(181, 234, 215, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-purple { background-color: rgba(200, 170, 255, 0.9); transform: translateX(-50%) rotate(2deg); }
+        .tape-red { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-gray { background-color: rgba(200, 200, 200, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-pink { background-color: rgba(255, 183, 178, 0.9); transform: translateX(-50%) rotate(-2deg); }
+        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(-2deg); }
+
+        /* 퀴즈 정답 가리기 인터랙션 */
+        .quiz-box { cursor: pointer; user-select: none; transition: all 0.3s; }
+        .quiz-answer { filter: blur(5px); opacity: 0.7; transition: all 0.3s; background-color: #eee; border-radius: 4px; padding: 0 4px; }
+        .quiz-box.revealed .quiz-answer { filter: blur(0); opacity: 1; background-color: transparent; color: #d63031; font-weight: bold; }
+
+        /* 필기구 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-red { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-pink { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        
+        .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #ff7675; }
+        .blue-pen { color: #0984e3; font-weight: bold; }
+        
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 (고정) -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-3">
+                <!-- 로고 -->
+                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
+                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- 타이틀 -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">3-3. 중력장 내의 운동 요약</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
+            
+            <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
+                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(-2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">01. 중력 (Gravity)</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-arrow-down text-red-500 mr-1"></i> <strong>방향</strong>:
+                        <br> <span class="highlight-yellow">지구 중심 방향</span> (연직 아래).
+                    </li>
+                    <li><i class="fas fa-weight-hanging text-blue-400 mr-1"></i> <strong>크기 ($F$)</strong>:
+                        <br> $F = mg$ (질량 $\times$ 중력 가속도).
+                        <br> <span class="text-sm text-gray-500">질량이 클수록 중력도 크다.</span>
+                    </li>
+                    <li><i class="fas fa-rocket text-purple-500 mr-1"></i> <strong>중력 가속도 ($g$)</strong>:
+                        <br> 약 <span class="red-pen">9.8 $m/s^2$</span>. 질량에 상관없이 일정!
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구상의 모든 물체에게 일정하게 작용하는 가속도 값은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">9.8 m/s² (중력 가속도)</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
+                <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">02. 자유 낙하 운동</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-stopwatch text-gray-500 mr-1"></i> <strong>정의</strong>:
+                        <br> 공기 저항 없이 <span class="highlight-pink">중력만 받아</span> 낙하하는 운동.
+                    </li>
+                    <li><i class="fas fa-chart-line text-red-500 mr-1"></i> <strong>운동 유형</strong>:
+                        <br> <span class="red-pen">등가속도 직선 운동</span>.
+                        <br> 속력이 매초 9.8m/s씩 빨라짐.
+                    </li>
+                    <li><i class="fas fa-feather-alt text-gray-400 mr-1"></i> <strong>특징</strong>:
+                        <br> 깃털과 쇠구슬이 <span class="blue-pen">동시에</span> 떨어진다. (진공 상태)
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 자유 낙하 운동에서 속력은 어떻게 변하는가?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">일정하게 증가한다</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">03. 수평 투사 운동 분석</h2>
+                
+                <div class="grid grid-cols-2 gap-2 text-center text-lg leading-tight mb-2">
+                    <div class="bg-gray-100 p-2 rounded">
+                        <p class="font-bold text-gray-600 mb-1 font-gamja">수평 (→)</p>
+                        <p class="text-sm font-pen">힘 작용 X</p>
+                        <p class="text-sm text-blue-600 font-bold">등속 운동</p>
+                    </div>
+                    <div class="bg-pink-50 p-2 rounded">
+                        <p class="font-bold text-pink-600 mb-1 font-gamja">수직 (↓)</p>
+                        <p class="text-sm font-pen">중력 작용 O</p>
+                        <p class="text-sm text-red-600 font-bold">등가속도</p>
+                    </div>
+                </div>
+                <ul class="space-y-1 text-lg font-pen leading-snug text-center text-gray-700">
+                    <li><i class="fas fa-project-diagram text-purple-400 mr-1"></i> <strong>경로</strong>: 힘의 방향(아래)과 운동 방향이 달라 <span class="highlight-yellow">포물선</span> 궤도.</li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 수평으로 던진 물체의 수평 방향 속력은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">일정하다 (등속)</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">04. 자유 낙하 vs 수평 투사</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-stopwatch text-red-500 mr-1"></i> <strong>낙하 시간</strong>:
+                        <br> 같은 높이에서 떨어뜨리면 <span class="red-pen">동시에 바닥에 도달</span>함.
+                    </li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1"></i> <strong>이유 (핵심!)</strong>:
+                        <br> 수평으로 던져도 연직(수직) 방향 운동은 <span class="highlight-blue">자유 낙하와 똑같이</span> 중력만 받기 때문.
+                    </li>
+                    <li><i class="fas fa-arrows-alt-h text-gray-400 mr-1"></i> <strong>수평 도달 거리</strong>:
+                        <br> 던지는 <span class="blue-pen">초속도($v$)가 클수록</span> 멀리 날아감 (시간은 동일!).
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 높이가 같을 때, 수평 속력이 2배면 낙하 시간은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">같다 (변하지 않음)</p>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
+                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">05. 뉴턴의 사고 실험</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-globe text-blue-500 mr-1"></i> <strong>원리</strong>:
+                        <br> 수평 속력을 점점 높이면, 물체가 떨어지는 곡선과 <span class="highlight-yellow">지구의 둥근 곡면</span>이 일치하게 됨.
+                    </li>
+                    <li><i class="fas fa-satellite text-gray-500 mr-1"></i> <strong>결과</strong>:
+                        <br> 땅에 닿지 않고 지구 주위를 계속 돎 $\rightarrow$ <span class="red-pen">인공위성 (달)</span>.
+                    </li>
+                    <li><i class="fas fa-magnet text-purple-400 mr-1"></i> <strong>작용하는 힘</strong>:
+                        <br> 계속 돌고 있어도 작용하는 힘은 오직 <span class="highlight-blue">중력</span> 뿐임.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 지구 주위를 도는 인공위성에게 작용하는 힘은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">중력 (지구 중심 방향)</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">06. 중력이 만든 시스템</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-wind text-gray-400 mr-1"></i> <strong>대기권 형성</strong>:
+                        <br> 중력이 기체 분자를 붙잡아 대기층 유지 $\rightarrow$ 호흡, 온도 유지.
+                    </li>
+                    <li><i class="fas fa-sync-alt text-blue-400 mr-1"></i> <strong>대류 현상</strong>:
+                        <br> 찬 공기(밀도 큼)는 아래로, 더운 공기는 위로 $\rightarrow$ <span class="highlight-blue">밀도 차에 의한 대류</span>는 중력 때문.
+                    </li>
+                    <li><i class="fas fa-seedling text-green-500 mr-1"></i> <strong>생명체</strong>:
+                        <br> 식물 뿌리(아래), 줄기(위) 성장. 코끼리/기린의 강한 골격과 혈압.
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 무중력 공간에서 촛불을 켜면 모양은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">동그란 구형 (대류가 없어서)</p>
+                </div>
+            </div>
+
+            <div class="h-10"></div> <!-- 하단 여백 -->
+
+        </main>
+
+        <!-- 하단 네비게이션 바 (고정) -->
+     <div id="common-nav-container"></div>
+
+    <script src="common_nav.js"></script>
+
+    <script>
+        renderCommonNav('home', '../'); 
+    </script>
+    
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 퀴즈 정답 전체 보기 기능
+        function revealAll() {
+            document.querySelectorAll('.quiz-box').forEach(box => {
+                box.classList.add('revealed');
+            });
+        }
+    </script>
+</body>
+</html>

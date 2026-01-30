@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9단원: 생태계와 환경 - 통합과학 퀴즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col">
+
+    <header class="bg-indigo-600 text-white p-4 shadow-md z-10 shrink-0">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-tree"></i> 9. 생태계와 환경 (랜덤 10문항)
+            </h1>
+            <a href="index.html" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1 rounded-full transition">
+                <i class="fas fa-home"></i> 홈으로
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-4 flex items-start justify-center">
+        <div id="quiz-container" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden fade-in min-h-[400px] mb-8 relative">
+            
+            <div class="w-full bg-gray-200 h-2">
+                <div id="progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <div id="start-screen" class="p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-bounce">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">단원 실전 퀴즈</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    '생태계와 환경' 단원 문제 은행에서<br>
+                    <strong class="text-indigo-600">10문제</strong>를 무작위로 추출했습니다.<br>
+                    준비되셨나요?
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg text-lg flex items-center gap-2 transform hover:scale-105 duration-200">
+                    <i class="fas fa-play"></i> 문제 풀기 시작
+                </button>
+            </div>
+
+            <div id="question-area" class="hidden p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-indigo-600 tracking-wider">Q <span id="current-num">1</span> / <span id="total-num">10</span></span>
+                    <span id="score-display" class="text-sm font-semibold text-gray-500">0점</span>
+                </div>
+
+                <h2 id="question-text" class="text-xl font-bold mb-6 text-gray-800 leading-snug">
+                    문제 로딩 중...
+                </h2>
+
+                <div class="mb-6">
+                    <button onclick="toggleHint()" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center gap-1 focus:outline-none transition">
+                        <i class="far fa-lightbulb"></i> 힌트 보기
+                    </button>
+                    <div id="hint-box" class="hidden mt-2 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200 fade-in">
+                        </div>
+                </div>
+
+                <div id="options-list" class="space-y-3"></div>
+
+                <div id="rationale-area" class="hidden mt-6 p-4 rounded-xl border fade-in bg-gray-50">
+                    <div class="flex items-start gap-3">
+                        <div id="rationale-icon" class="text-2xl mt-1 shrink-0"></div>
+                        <div>
+                            <h3 id="rationale-title" class="font-bold text-lg mb-1"></h3>
+                            <p id="rationale-text" class="text-sm leading-relaxed text-gray-700"></p>
+                        </div>
+                    </div>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
+                        다음 문제 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="result-screen" class="hidden p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-4xl text-indigo-600">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">퀴즈 완료!</h2>
+                <p class="text-gray-600 mb-8">학습이 끝났습니다.</p>
+                
+                <div class="w-full max-w-sm bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">최종 점수</p>
+                    <p class="text-4xl font-bold text-indigo-600"><span id="final-score">0</span> / 100</p>
+                </div>
+
+                <div class="flex gap-3 w-full max-w-sm">
+                    <button onclick="location.reload()" class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition">
+                        다시 풀기
+                    </button>
+                    <a href="index.html" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center">
+                        목록으로
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // 9단원: 생태계와 환경 문제 은행 (30문항)
+        // ==========================================
+        const questionBank = [
+            { question: "생태계 구성 요소 중 '비생물적 요인'에 해당하는 것은?", answerOptions: [{text:"분해자",isCorrect:false},{text:"생산자",isCorrect:false},{text:"토양",isCorrect:true,rationale:"토양, 빛, 온도, 물, 공기 등은 생물을 둘러싼 환경 요인으로 비생물적 요인에 해당합니다."},{text:"소비자",isCorrect:false}], hint: "살아있는 생물이 아닌 환경입니다." },
+            { question: "생물적 요인 중 광합성을 통해 무기물로부터 유기물을 합성하는 생물은?", answerOptions: [{text:"소비자",isCorrect:false},{text:"생산자",isCorrect:true,rationale:"식물이나 조류처럼 빛에너지를 이용해 유기물을 스스로 합성하는 생물을 생산자라고 합니다."},{text:"분해자",isCorrect:false},{text:"기생 생물",isCorrect:false}], hint: "스스로 양분을 만듭니다." },
+            { question: "다음 중 '작용(Action)'의 예로 적절한 것은?", answerOptions: [{text:"지렁이가 흙 속에 구멍을 뚫어 토양 통기성을 높인다.",isCorrect:false},{text:"식물이 낙엽을 떨어뜨려 토양을 비옥하게 한다.",isCorrect:false},{text:"가을에 기온이 낮아져 은행나무 잎이 노랗게 물든다.",isCorrect:true,rationale:"'작용'은 비생물적 요인(환경)이 생물에게 영향을 주는 것을 말합니다. 기온(환경)이 식물(생물)에 영향을 준 사례입니다."},{text:"인간이 댐을 건설하여 물의 흐름을 막는다.",isCorrect:false}], hint: "환경 -> 생물 방향의 영향입니다." },
+            { question: "생태계 내 에너지 흐름에 대한 설명으로 옳은 것은?", answerOptions: [{text:"에너지는 생태계 내에서 순환한다.",isCorrect:false},{text:"상위 영양 단계로 갈수록 에너지 양은 증가한다.",isCorrect:false},{text:"에너지는 한 방향으로 흐르며 최종적으로 열에너지로 방출된다.",isCorrect:true,rationale:"에너지는 순환하지 않고 한 방향으로 흐르며, 상위 단계로 전달되지 못한 에너지는 호흡 등을 통해 열에너지로 방출됩니다."},{text:"태양 에너지는 모든 소비자가 직접 이용한다.",isCorrect:false}], hint: "에너지는 돌고 돌지 않고 사라집니다." },
+            { question: "먹이 사슬이 복잡하게 얽혀 있는 관계를 무엇이라 하는가?", answerOptions: [{text:"먹이 피라미드",isCorrect:false},{text:"먹이 그물",isCorrect:true,rationale:"여러 개의 먹이 사슬이 복잡하게 연결된 형태를 먹이 그물이라고 합니다."},{text:"생태 지위",isCorrect:false},{text:"군집",isCorrect:false}], hint: "그물처럼 얽혀 있습니다." },
+            { question: "일반적인 생태 피라미드에서 상위 영양 단계로 갈수록 감소하는 것이 아닌 것은?", answerOptions: [{text:"에너지 총량",isCorrect:false},{text:"개체 수",isCorrect:false},{text:"생물량",isCorrect:false},{text:"생물 농축 농도",isCorrect:true,rationale:"중금속이나 DDT 같은 잔류성 물질의 농도는 상위 영양 단계로 갈수록 높아지는 생물 농축 현상이 나타납니다."}], hint: "독성 물질은 몸에 쌓입니다." },
+            { question: "탄소 순환 과정에서 대기 중의 이산화 탄소를 유기물로 바꾸는 주된 작용은?", answerOptions: [{text:"호흡",isCorrect:false},{text:"광합성",isCorrect:true,rationale:"생산자의 광합성은 대기 중의 CO2를 흡수하여 포도당과 같은 유기물로 저장하는 과정입니다."},{text:"연소",isCorrect:false},{text:"분해",isCorrect:false}], hint: "식물이 하는 작용입니다." },
+            { question: "화석 연료의 과도한 사용이 생태계에 미치는 영향으로 가장 적절한 것은?", answerOptions: [{text:"대기 중 산소 농도 증가",isCorrect:false},{text:"지구 온난화 가속화",isCorrect:true,rationale:"화석 연료 연소는 대기 중 이산화 탄소 농도를 높여 온실 효과를 강화하고 지구 온난화를 일으킵니다."},{text:"해수면 하강",isCorrect:false},{text:"생물 다양성 증가",isCorrect:false}], hint: "온실 기체가 많아집니다." },
+            { question: "안정된 생태계에서 일시적으로 1차 소비자가 늘어났을 때 일어나는 변화는?", answerOptions: [{text:"생산자가 증가한다.",isCorrect:false},{text:"2차 소비자가 감소한다.",isCorrect:false},{text:"생산자는 감소하고 2차 소비자는 증가한다.",isCorrect:true,rationale:"1차 소비자가 늘어나면 먹이가 되는 생산자는 감소하고, 1차 소비자를 먹는 2차 소비자는 먹이가 풍부해져 일시적으로 증가합니다."},{text:"아무 변화가 없다.",isCorrect:false}], hint: "먹히는 쪽과 먹는 쪽을 생각해보세요." },
+            { question: "생태계 평형이 유지되는 원리는 주로 무엇에 의한 것인가?", answerOptions: [{text:"먹이 사슬의 단순화",isCorrect:false},{text:"인위적인 조절",isCorrect:false},{text:"먹이 관계에 의한 피드백",isCorrect:true,rationale:"생태계는 먹이 사슬을 통한 포식-피식 관계의 피드백 작용으로 스스로 개체 수를 조절하여 평형을 유지합니다."},{text:"환경 오염",isCorrect:false}], hint: "자연스러운 조절 과정입니다." },
+            { question: "곰팡이와 세균은 생태계에서 주로 어떤 역할을 하는가?", answerOptions: [{text:"생산자",isCorrect:false},{text:"소비자",isCorrect:false},{text:"분해자",isCorrect:true,rationale:"곰팡이와 세균은 사체나 배설물을 분해하여 무기물로 되돌리는 분해자 역할을 합니다."},{text:"포식자",isCorrect:false}], hint: "죽은 생물을 처리합니다." },
+            { question: "다음 중 '반작용(Reaction)'의 예시는?", answerOptions: [{text:"빛이 강해서 식물이 잘 자란다.",isCorrect:false},{text:"지렁이가 흙을 비옥하게 만든다.",isCorrect:true,rationale:"'반작용'은 생물이 환경에 영향을 주는 것입니다. 지렁이(생물)가 토양(환경)을 변화시키는 것이 예시입니다."},{text:"가뭄으로 인해 식물이 말라 죽는다.",isCorrect:false},{text:"추운 지방의 여우는 귀가 작다.",isCorrect:false}], hint: "생물이 환경을 바꿉니다." },
+            { question: "생물 다양성이 높을수록 생태계에 유리한 점은?", answerOptions: [{text:"생태계 평형이 잘 깨진다.",isCorrect:false},{text:"먹이 그물이 단순해진다.",isCorrect:false},{text:"환경 변화에 대한 저항성이 커진다.",isCorrect:true,rationale:"생물 다양성이 높으면 먹이 그물이 복잡해져서 특정 종이 사라져도 대체할 먹이가 있으므로 생태계 평형이 잘 유지됩니다."},{text:"에너지 효율이 낮아진다.",isCorrect:false}], hint: "대체할 수 있는 생물이 많아집니다." },
+            { question: "질소 순환에서 대기 중의 질소를 식물이 이용 가능한 형태로 바꾸는 과정은?", answerOptions: [{text:"질소 고정",isCorrect:true,rationale:"뿌리혹박테리아 등이 대기 중의 질소(N2)를 암모늄 이온(NH4+) 등의 형태로 바꾸는 것을 질소 고정이라고 합니다."},{text:"질소 동화",isCorrect:false},{text:"탈질산화",isCorrect:false},{text:"연소",isCorrect:false}], hint: "고정시킨다는 표현을 씁니다." },
+            { question: "생태계에서 물질은 순환하지만 이것은 순환하지 않는다. 이것은?", answerOptions: [{text:"물",isCorrect:false},{text:"탄소",isCorrect:false},{text:"질소",isCorrect:false},{text:"에너지",isCorrect:true,rationale:"물질(탄소, 질소 등)은 생태계 내에서 계속 순환하지만, 에너지는 태양에서 유입되어 열로 빠져나가므로 순환하지 않습니다."}], hint: "흐르고 사라집니다." },
+            { question: "사막여우가 북극여우보다 귀가 크고 몸집이 작은 이유는?", answerOptions: [{text:"먹이를 잘 찾기 위해",isCorrect:false},{text:"열 방출을 효과적으로 하기 위해",isCorrect:true,rationale:"더운 환경에 적응하여 몸의 말단부(귀)를 키워 열을 잘 방출하기 위함입니다 (알렌의 법칙)."},{text:"천적 소리를 잘 듣기 위해",isCorrect:false},{text:"눈 속에 파묻히지 않기 위해",isCorrect:false}], hint: "체온 조절과 관련 있습니다." },
+            { question: "다음 중 생태계를 파괴하는 요인이 아닌 것은?", answerOptions: [{text:"환경 오염",isCorrect:false},{text:"무분별한 개발",isCorrect:false},{text:"외래 생물 도입",isCorrect:false},{text:"생태 통로 설치",isCorrect:true,rationale:"생태 통로는 도로 등으로 단절된 서식지를 연결하여 생태계를 보전하는 역할을 합니다."}], hint: "동물들이 지나다니는 길입니다." },
+            { question: "지구 온난화의 주된 원인 물질은?", answerOptions: [{text:"산소",isCorrect:false},{text:"질소",isCorrect:false},{text:"이산화 탄소",isCorrect:true,rationale:"이산화 탄소는 대표적인 온실 기체로, 농도 증가 시 지구 평균 기온을 상승시킵니다."},{text:"수소",isCorrect:false}], hint: "연소할 때 많이 나옵니다." },
+            { question: "1차 소비자가 섭취한 에너지 중 상위 단계로 전달되지 않고 호흡으로 소모되는 것은?", answerOptions: [{text:"생장량",isCorrect:false},{text:"호흡량",isCorrect:true,rationale:"섭취한 에너지 중 일부는 호흡을 통해 생명 활동에 쓰이고 열로 방출됩니다. 이는 상위 단계로 전달되지 않습니다."},{text:"피식량",isCorrect:false},{text:"저장량",isCorrect:false}], hint: "숨 쉬고 활동하는 데 씁니다." },
+            { question: "생태 피라미드를 쌓았을 때 일반적으로 가장 아래에 위치하는 것은?", answerOptions: [{text:"1차 소비자",isCorrect:false},{text:"최종 소비자",isCorrect:false},{text:"생산자",isCorrect:true,rationale:"에너지, 개체 수, 생물량 피라미드 모두 일반적으로 생산자가 가장 하단에 위치하여 베이스를 이룹니다."},{text:"분해자",isCorrect:false}], hint: "가장 양이 많은 기초 단계입니다." },
+            { question: "바다의 깊이에 따라 해조류의 분포가 달라지는 주된 원인은?", answerOptions: [{text:"물의 온도",isCorrect:false},{text:"빛의 파장",isCorrect:true,rationale:"수심에 따라 투과되는 빛의 파장이 다르기 때문에(적색광은 얕은 곳, 청색광은 깊은 곳), 이를 이용하는 해조류의 종류가 달라집니다."},{text:"염분 농도",isCorrect:false},{text:"용존 산소량",isCorrect:false}], hint: "빛의 색깔과 관련 있습니다." },
+            { question: "다음 중 개체군 내의 상호작용에 해당하는 것은?", answerOptions: [{text:"포식과 피식",isCorrect:false},{text:"공생",isCorrect:false},{text:"기생",isCorrect:false},{text:"텃세",isCorrect:true,rationale:"텃세, 순위제, 리더제 등은 같은 종(개체군) 내에서 일어나는 상호작용입니다. 나머지는 군집(이종) 간 상호작용입니다."}], hint: "같은 종끼리 영역을 지킵니다." },
+            { question: "식물의 잎이 빛을 향해 굽어 자라는 성질은?", answerOptions: [{text:"굴광성",isCorrect:true,rationale:"식물이 빛이 오는 방향으로 굽어 자라는 성질을 굴광성이라고 합니다."},{text:"굴지성",isCorrect:false},{text:"주광성",isCorrect:false},{text:"주화성",isCorrect:false}], hint: "빛 광(光)자를 씁니다." },
+            { question: "온실 효과에 대한 설명으로 옳은 것은?", answerOptions: [{text:"지구 생명체에 해롭기만 하다.",isCorrect:false},{text:"대기가 지표의 열을 가두어 온도를 높게 유지한다.",isCorrect:true,rationale:"온실 효과 자체는 지구의 온도를 생명체가 살기 적합하게 유지해 주는 필수적인 현상입니다. 과도한 게 문제입니다."},{text:"오존층 파괴와 같은 현상이다.",isCorrect:false},{text:"태양 빛을 반사시킨다.",isCorrect:false}], hint: "비닐하우스 원리입니다." },
+            { question: "생물 농축 현상이 가장 심하게 나타나는 영양 단계는?", answerOptions: [{text:"생산자",isCorrect:false},{text:"1차 소비자",isCorrect:false},{text:"2차 소비자",isCorrect:false},{text:"최종 소비자",isCorrect:true,rationale:"상위 영양 단계로 갈수록 체내에 오염 물질이 축적되어 농도가 가장 높게 나타납니다."}], hint: "먹이 사슬의 꼭대기입니다." },
+            { question: "식물이 가을에 낙엽을 떨어뜨리는 이유는?", answerOptions: [{text:"수분 손실을 막기 위해",isCorrect:true,rationale:"기온이 낮아지고 건조해지면 뿌리의 물 흡수력이 떨어지므로, 잎을 떨어뜨려 증산 작용을 줄이고 수분 손실을 방지합니다."},{text:"광합성을 더 많이 하기 위해",isCorrect:false},{text:"바람을 잘 맞기 위해",isCorrect:false},{text:"거름을 만들기 위해",isCorrect:false}], hint: "물을 아끼기 위함입니다." },
+            { question: "열대 우림 파괴가 지구 환경에 미치는 영향은?", answerOptions: [{text:"생물 다양성 증가",isCorrect:false},{text:"대기 중 이산화 탄소 감소",isCorrect:false},{text:"대기 중 이산화 탄소 증가",isCorrect:true,rationale:"열대 우림은 광합성을 통해 CO2를 흡수하는 거대한 탄소 저장소이므로, 파괴 시 CO2 흡수가 줄고 저장된 탄소가 방출됩니다."},{text:"토양 비옥도 증가",isCorrect:false}], hint: "나무가 사라지면 탄소 흡수가 줍니다." },
+            { question: "다음 중 생태계 보전을 위한 노력으로 적절하지 않은 것은?", answerOptions: [{text:"멸종 위기종 복원",isCorrect:false},{text:"외래 생물의 무분별한 도입",isCorrect:true,rationale:"천적이 없는 외래 생물의 도입은 고유 생태계를 교란하고 생물 다양성을 감소시킬 수 있습니다."},{text:"국립 공원 지정",isCorrect:false},{text:"옥상 정원 가꾸기",isCorrect:false}], hint: "외부에서 함부로 가져오면 안 됩니다." },
+            { question: "세균 -> 원생동물 -> 작은 물고기 -> 큰 물고기 로 이어지는 관계는?", answerOptions: [{text:"먹이 사슬",isCorrect:true,rationale:"생물들 간의 먹고 먹히는 관계가 사슬처럼 한 줄로 연결된 것을 먹이 사슬이라고 합니다."},{text:"생태 지위",isCorrect:false},{text:"에너지 피라미드",isCorrect:false},{text:"군집",isCorrect:false}], hint: "한 줄로 연결되어 있습니다." },
+            { question: "빛의 세기에 따른 식물의 적응으로, 숲의 아래쪽(약한 빛)에서 잘 자라는 식물은?", answerOptions: [{text:"양수림",isCorrect:false},{text:"음수림",isCorrect:true,rationale:"약한 빛에서도 광합성을 효율적으로 할 수 있어 그늘에서 잘 자라는 식물을 음생 식물(음수)이라고 합니다."},{text:"침엽수림",isCorrect:false},{text:"활엽수림",isCorrect:false}], hint: "그늘 음(陰)자를 씁니다." }
+        ];
+
+        // ==========================================
+        // 퀴즈 로직 (단독 실행용으로 단순화)
+        // ==========================================
+        let currentQuizList = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        function startQuiz() {
+            // 랜덤 셔플 및 10문제 추출 (전체 30문제 중)
+            const shuffled = [...questionBank];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            // *설정: 여기서 slice(0, 10)을 slice(0, 30)으로 바꾸면 30문제를 모두 풉니다.
+            currentQuizList = shuffled.slice(0, 10);
+
+            // UI 전환
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-area').classList.remove('hidden');
+            document.getElementById('total-num').innerText = currentQuizList.length;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const qData = currentQuizList[currentQuestionIndex];
+            
+            document.getElementById('current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.question;
+            document.getElementById('hint-box').innerText = qData.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            const progress = ((currentQuestionIndex) / currentQuizList.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const rationaleArea = document.getElementById('rationale-area');
+            rationaleArea.classList.add('hidden');
+            rationaleArea.classList.remove('bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            qData.answerOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition duration-200 font-medium text-gray-700 flex items-center gap-3 group bg-white`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-indigo-200 group-hover:text-indigo-700 transition font-bold text-sm shrink-0">${index + 1}</span>
+                    <span class="leading-snug">${option.text}</span>
+                `;
+                btn.onclick = () => checkAnswer(option, btn, qData.answerOptions);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function toggleHint() {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        }
+
+        function checkAnswer(selectedOption, btnElement, allOptions) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const isCorrect = selectedOption.isCorrect;
+            const rationale = selectedOption.rationale || "해설이 없습니다.";
+            const allButtons = document.getElementById('options-list').children;
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score-display').innerText = `${score}점`;
+                styleButton(btnElement, 'correct');
+                showRationale(true, rationale);
+            } else {
+                styleButton(btnElement, 'wrong');
+                const correctIndex = allOptions.findIndex(o => o.isCorrect === true);
+                if (correctIndex !== -1) styleButton(allButtons[correctIndex], 'correct-light');
+                showRationale(false, rationale);
+            }
+
+            for (let btn of allButtons) {
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-400');
+            }
+        }
+
+        function styleButton(btn, type) {
+            btn.classList.remove('border-gray-200', 'bg-white');
+            const iconSpan = btn.querySelector('span:first-child');
+            if (type === 'correct') {
+                btn.classList.add('border-green-500', 'bg-green-100', 'text-green-900');
+                iconSpan.innerHTML = '<i class="fas fa-check"></i>';
+                iconSpan.classList.add('bg-green-200', 'text-green-800');
+            } else if (type === 'wrong') {
+                btn.classList.add('border-red-500', 'bg-red-100', 'text-red-900');
+                iconSpan.innerHTML = '<i class="fas fa-times"></i>';
+                iconSpan.classList.add('bg-red-200', 'text-red-800');
+            } else if (type === 'correct-light') {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+            }
+        }
+
+        function showRationale(isCorrect, text) {
+            const area = document.getElementById('rationale-area');
+            const icon = document.getElementById('rationale-icon');
+            const title = document.getElementById('rationale-title');
+            const body = document.getElementById('rationale-text');
+            
+            area.classList.remove('hidden');
+            if (isCorrect) {
+                area.classList.add('bg-green-50', 'border-green-200');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600"></i>';
+                title.innerText = "정답입니다!";
+                title.className = 'font-bold text-lg mb-1 text-green-800';
+            } else {
+                area.classList.add('bg-red-50', 'border-red-200');
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-600"></i>';
+                title.innerText = "오답입니다.";
+                title.className = 'font-bold text-lg mb-1 text-red-800';
+            }
+            body.innerText = text;
+            setTimeout(() => area.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuizList.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>

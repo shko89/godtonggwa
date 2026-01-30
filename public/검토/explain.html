@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI 손글씨 해설</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="exam_data_exam_01.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #F3F4F6; }
+        
+        /* [수정] 손글씨 전용 클래스 + 줄노트 배경 */
+        .handwriting {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 1.8rem; /* 글씨 크기 약간 키움 */
+            color: #2d3748;    /* 진한 연필색 */
+        }
+
+        /* [신규] 줄노트 배경 효과 CSS */
+        .lined-paper {
+            background-color: #fffef9; /* 따뜻한 아이보리색 종이 */
+            /* 가로 줄무늬 (그라데이션 이용) */
+            background-image: linear-gradient(transparent 95%, #e2e8f0 95%); 
+            background-size: 100% 2.5rem; /* 줄 간격 (글씨 크기에 맞춤) */
+            line-height: 2.5rem; /* 줄높이를 배경 줄 간격과 일치시킴 */
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.05); /* 종이 질감 그림자 */
+        }
+
+        /* 스크롤바 숨기기 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* OMR 버튼 활성화 효과 */
+        .omr-btn.active {
+            background-color: #4F46E5; /* Indigo-600 */
+            color: white;
+            border-color: #4F46E5;
+            transform: scale(1.1);
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen">
+
+    <div class="w-full max-w-[480px] bg-white flex flex-col h-screen shadow-2xl relative">
+        
+        <header class="flex items-center px-4 py-3 border-b border-gray-100 bg-white sticky top-0 z-20">
+            <button onclick="history.back()" class="p-2 mr-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
+                <i data-lucide="arrow-left" class="w-6 h-6"></i>
+            </button>
+            <div class="flex-1 overflow-hidden">
+                <h1 class="text-lg font-bold text-gray-900 truncate" id="exam-title">모의고사 제목 로딩 중...</h1>
+                <p class="text-xs text-indigo-600 font-medium">AI Smart Note</p>
+            </div>
+        </header>
+
+        <div class="bg-gray-50 border-b border-gray-200 px-4 py-3 shrink-0 z-10 shadow-sm">
+            <p class="text-[10px] text-gray-400 font-bold mb-2 flex justify-between">
+                <span>QUESTION NAVIGATOR</span>
+                <span id="progress-text">0 / 25 완료</span>
+            </p>
+            <div class="overflow-x-auto no-scrollbar pb-1">
+                <div class="flex gap-2" id="omr-grid" style="min-width: max-content;">
+                    </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto bg-[#FAFAFA] relative" id="viewer-container">
+            
+            <div id="empty-state" class="h-full flex flex-col items-center justify-center text-center text-gray-400 space-y-4 p-5">
+                <div class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mb-2 animate-bounce">
+                    <i data-lucide="hand-metal" class="w-10 h-10 text-indigo-400"></i>
+                </div>
+                <p class="text-sm">상단 번호를 눌러<br><span class="font-bold text-indigo-500">손글씨 해설 노트</span>를 확인하세요!</p>
+            </div>
+
+            <div id="explanation-card" class="hidden p-5 animate-fade-in">
+                <div class="flex justify-between items-end mb-3 ml-8 border-b border-gray-300 pb-1 border-dashed">
+                    <h2 class="text-3xl font-black text-gray-800" style="font-family: 'Nanum Pen Script';">Q. <span id="q-num">1</span></h2>
+                    <span class="text-xs font-bold text-white bg-indigo-500 px-2 py-1 rounded mb-1" id="q-topic">단원 정보</span>
+                </div>
+                
+                <div class="relative">
+                     <div class="absolute left-6 top-0 bottom-0 w-px bg-red-200 h-full opacity-70 z-10"></div>
+
+                    <div class="handwriting lined-paper pl-10 pr-4 py-4 rounded-r-lg min-h-[400px]">
+                        <div id="explanation-content">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ===========================
+        // (Step 2의 자바스크립트 코드 유지)
+        // ===========================
+        lucide.createIcons();
+
+        let currentExamData = null;
+        let selectedQuestionNo = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const docId = urlParams.get('id') || 'exam_sample';
+            await loadExamData(docId);
+        });
+
+        async function loadExamData(docId) {
+            try {
+                // [수정됨] fetch 대신 전역 변수에서 바로 가져옵니다.
+                // exam_data.js 파일이 로드되면 window.globalExamData에 데이터가 있습니다.
+                if (window.globalExamData) {
+                    currentExamData = window.globalExamData;
+                } else {
+                    // 데이터 파일이 없을 경우를 대비한 가짜 데이터 (테스트용)
+                    console.warn("데이터 파일을 찾을 수 없어 샘플 데이터를 사용합니다.");
+                    currentExamData = generateMockData(); 
+                }
+                
+                // 화면 초기 세팅
+                document.getElementById('exam-title').innerText = currentExamData.examInfo.title;
+                document.getElementById('progress-text').innerText = `0 / ${currentExamData.examInfo.totalQuestions} 확인`;
+                
+                renderOMRGrid();
+
+            } catch (error) {
+                console.error("데이터 로드 실패:", error);
+                alert("해설 데이터를 불러오는데 실패했습니다.");
+            }
+        }
+
+        function renderOMRGrid() {
+            const grid = document.getElementById('omr-grid');
+            grid.innerHTML = '';
+            currentExamData.explanations.forEach(item => {
+                const btn = document.createElement('button');
+                btn.id = `btn-${item.no}`;
+                btn.className = `omr-btn w-10 h-10 rounded-xl border border-gray-200 bg-white text-sm font-bold text-gray-500 flex items-center justify-center shrink-0 transition-all active:scale-95 hover:border-indigo-300`;
+                btn.innerText = item.no;
+                btn.onclick = () => selectQuestion(item.no);
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectQuestion(no) {
+            if (selectedQuestionNo) {
+                const prevBtn = document.getElementById(`btn-${selectedQuestionNo}`);
+                if(prevBtn) prevBtn.classList.remove('active');
+            }
+            selectedQuestionNo = no;
+            const currBtn = document.getElementById(`btn-${no}`);
+            if(currBtn) currBtn.classList.add('active');
+
+            const data = currentExamData.explanations.find(e => e.no === no);
+            
+            if (data) {
+                document.getElementById('empty-state').classList.add('hidden');
+                document.getElementById('explanation-card').classList.remove('hidden');
+
+                document.getElementById('q-num').innerText = data.no;
+                document.getElementById('q-topic').innerText = data.topic;
+                document.getElementById('explanation-content').innerHTML = data.content;
+                
+                document.getElementById('viewer-container').scrollTop = 0;
+            }
+        }
+
+        function generateMockData() {
+            const explanations = [];
+            for (let i = 1; i <= 25; i++) {
+                explanations.push({
+                    no: i,
+                    topic: i % 2 === 0 ? "시스템과 상호작용" : "물질과 규칙성",
+                    content: `
+                        안녕! <b>${i}번 문제</b>를 틀렸구나? 괜찮아, 다시 보면 쉬워.<br>
+                        이 문제의 핵심은 <span class="text-red-500">그래프의 기울기</span>를 해석하는 거야.<br>
+                        X축이 시간이고 Y축이 속력이니까, 기울기는 가속도를 의미해.<br><br>
+                        따라서 A구간의 가속도는 2m/s²이 되는 거지!<br>
+                        다음에 풀 땐 <b>단위</b>를 꼭 확인하자! 화이팅! 🔥
+                    `
+                });
+            }
+            return {
+                examInfo: { title: "2026학년도 통합과학 예시문항", totalQuestions: 25 },
+                explanations: explanations
+            };
+        }
+    </script>
+</body>
+</html>

@@ -114,17 +114,17 @@
             <!-- Card 1 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
                 <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(-2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 운동량 ($p$)</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 운동량 (p)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-running text-blue-500 mr-1"></i> <strong>정의</strong>:
                         <br> 운동하는 물체의 운동 정도.
-                        <br> <span class="highlight-cyan">$p = mv$</span> (질량 $\times$ 속도)
+                        <br> <span class="highlight-cyan">p = mv</span> (질량 × 속도)
                     </li>
                     <li><i class="fas fa-compass text-red-400 mr-1"></i> <strong>방향성 (중요!)</strong>:
                         <br> 속도의 방향과 같음. <span class="red-pen">벡터량</span>이므로 방향(+, -)을 꼭 고려해야 함.
                     </li>
                     <li><i class="fas fa-ruler-combined text-gray-400 mr-1"></i> <strong>단위</strong>:
-                        <br> $kg \cdot m/s$
+                        <br> kg ∙ m/s
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -137,17 +137,20 @@
             <!-- Card 2 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
                 <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 충격량 ($I$)</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 충격량 (I)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-fist-raised text-red-500 mr-1"></i> <strong>정의</strong>:
                         <br> 물체가 받은 충격의 정도.
-                        <br> <span class="highlight-yellow">$I = F \Delta t$</span> (힘 $\times$ 시간)
+                        <br> <span class="highlight-yellow">I = FΔt</span> (힘 × 시간)
                     </li>
-                    <li><i class="fas fa-chart-area text-blue-400 mr-1"></i> <strong>그래프 해석 ($F-t$)</strong>:
+                    <li><i class="fas fa-chart-area text-blue-400 mr-1"></i> <strong>그래프 해석 (F-t)</strong>:
                         <br> 힘-시간 그래프에서 <span class="highlight-cyan">밑넓이</span> = 충격량.
                     </li>
+                    <div class="mt-3 mb-2">
+                        <img src="F-t.png" alt="힘-시간 그래프" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                     <li><i class="fas fa-ruler text-gray-400 mr-1"></i> <strong>단위</strong>:
-                        <br> $N \cdot s$ ($= kg \cdot m/s$)
+                        <br> N∙s (= kg∙m/s)
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -160,18 +163,18 @@
             <!-- Card 3 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
                 <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. $I$와 $p$의 관계 (핵심)</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. I와 p의 관계 (핵심)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-link text-gray-500 mr-1"></i> <strong>관계식</strong>:
-                        <br> <span class="red-pen">$I = \Delta p$</span>
+                        <br> <span class="red-pen">I = Δp</span>
                         <br> (충격량 = 운동량의 변화량)
                     </li>
                     <li><i class="fas fa-calculator text-blue-500 mr-1"></i> <strong>계산법</strong>:
-                        <br> $I = mv_{나중} - mv_{처음}$
+                        <br> I = mv<sub><sub>처음</sub>
                         <br> <span class="text-sm text-gray-500">*방향 주의! 튀어나오는 경우 속도 부호 반대.</span>
                     </li>
                     <li><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> <strong>의미</strong>:
-                        <br> 물체에 충격량을 가하면 $\rightarrow$ 운동량(속도)이 변한다.
+                        <br> 물체에 충격량을 가하면 → 운동량(속도)이 변한다.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -187,11 +190,11 @@
                 <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 충격력 줄이기</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-balance-scale text-gray-500 mr-1"></i> <strong>원리</strong>:
-                        <br> $F = \frac{I}{\Delta t}$. 충격량($I$)이 일정할 때, 충돌 시간($\Delta t$)을 <span class="highlight-cyan">길게</span> 하면 $\rightarrow$ 평균 힘($F$)은 <span class="red-pen">감소</span>한다.
+                        <br> F = I/Δt. 충격량(I)이 일정할 때, 충돌 시간(Δt)을 <span class="highlight-cyan">길게</span> 하면 → 평균 힘(F)은 <span class="red-pen">감소</span>한다.
                     </li>
                     <li><i class="fas fa-egg text-orange-400 mr-1"></i> <strong>달걀 실험</strong>:
-                        <br> 시멘트 바닥(시간 짧음, 힘 큼) $\rightarrow$ 깨짐.
-                        <br> 방석 위(시간 긺, 힘 작음) $\rightarrow$ 안 깨짐.
+                        <br> 시멘트 바닥(시간 짧음, 힘 큼) → 깨짐.
+                        <br> 방석 위(시간 긺, 힘 작음) → 안 깨짐.
                         <br> <span class="text-sm text-gray-500">*두 경우 충격량(넓이)은 같음!</span>
                     </li>
                 </ul>
@@ -208,7 +211,7 @@
                 <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 생활 속 안전 장치</h2>
                 
                 <div class="bg-blue-50 p-2 rounded text-center mb-2">
-                    <span class="text-blue-600 font-bold text-lg font-gamja">모두 충돌 시간($\Delta t$) 증가 목적!</span>
+                    <span class="text-blue-600 font-bold text-lg font-gamja">모두 충돌 시간(Δt) 증가 목적!</span>
                 </div>
 
                 <ul class="space-y-1 text-lg font-pen leading-snug text-gray-700">
@@ -231,13 +234,16 @@
                     <li><i class="fas fa-chart-bar text-purple-400 mr-1"></i> <strong>상황</strong>:
                         <br> A(딱딱한 바닥), B(푹신한 방석).
                     </li>
+                    <div class="mt-3 mb-2">
+                        <img src="collision.png" alt="힘-시간 그래프" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                     <li><i class="fas fa-equals text-blue-500 mr-1"></i> <strong>공통점</strong>:
-                        <br> 그래프의 <span class="highlight-yellow">넓이($S_A = S_B$)</span>는 같다.
+                        <br> 그래프의 <span class="highlight-yellow">넓이(S<sub>A</sub> = S<sub>B</sub>)</span>는 같다.
                         <br> (= 운동량의 변화량이 같다)
                     </li>
                     <li><i class="fas fa-not-equal text-red-500 mr-1"></i> <strong>차이점</strong>:
-                        <br> 시간: $t_A < t_B$
-                        <br> 평균 힘(높이): <span class="red-pen">$F_A > F_B$</span>
+                        <br> 시간: t<SUB>A</SUB> < t<SUB>B</SUB>
+                        <br> 평균 힘(높이): <span class="red-pen">F<SUB>A</SUB> > F<SUB>B</SUB></span>
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">

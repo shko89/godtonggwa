@@ -104,16 +104,38 @@
         <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
             
             <!-- Card 1 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
+                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 측정과 어림</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-pen-fancy text-purple-400 mr-1"></i> <strong>측정</strong>:
+                        <br> 물체의 질량, 길이, 부피 등 어떠한 양을 재는 활동
+                    </li>
+                    <li><i class="fas fa-search text-gray-500 mr-1"></i> <strong>어림</strong>:
+                        <br> 어떠한 양을 추정하는 활동
+                    </li>
+                    <li><i class="fas fa-calculator text-green-500 mr-1"></i> <strong>측정 표준</strong>:
+                        <br> 정확하고 일관성 있게 측정하려교 만든 과학적 기준
+                    </li>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. "9시, 25℃, 0.2cm, 한 뼘, 10g"에서 측정 표준을 활용하지 않은 것은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">한 뼘</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
                 <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 측정값 읽기</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 측정값 읽기</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-ruler-horizontal text-green-500 mr-1"></i> <strong>원칙</strong>:
                         <br> 눈금의 값을 읽고, 최소 눈금의 <span class="red-pen">1/10까지 어림</span>하여 기록.
                     </li>
                     <li><i class="fas fa-eye text-blue-400 mr-1"></i> <strong>예시</strong>:
                         <br> 최소 눈금이 1mm인 자로 측정 시:
-                        <br> 2.3cm (X) $\rightarrow$ <span class="highlight-yellow">2.35cm</span> (O).
+                        <br> 2.3cm (X) → <span class="highlight-yellow">2.35cm</span> (O).
                         <br> (마지막 '5'는 어림한 숫자).
                     </li>
                 </ul>
@@ -127,14 +149,14 @@
             <!-- Card 2 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
                 <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 유효숫자 판별법</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 유효숫자 판별법</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-check text-red-500 mr-1"></i> <strong>0이 아닌 숫자</strong>: 모두 유효.</li>
                     <li><i class="fas fa-circle text-gray-400 mr-1"></i> <strong>0의 처리 (중요!)</strong>:
                         <ul class="pl-4 list-disc text-gray-600 text-base">
-                            <li>숫자 사이의 0: 유효 ($1.05 \rightarrow 3$개).</li>
-                            <li>소수점 뒤 끝 0: 유효 ($2.00 \rightarrow 3$개).</li>
-                            <li><span class="red-pen">앞의 0</span>: 유효 아님 ($0.02 \rightarrow 1$개).</li>
+                            <li>숫자 사이의 0: 유효 (1.05 → 3개).</li>
+                            <li>소수점 뒤 끝 0: 유효 (2.00 → 3개).</li>
+                            <li><span class="red-pen">앞의 0</span>: 유효 아님 (0.02 → 1개).</li>
                         </ul>
                     </li>
                 </ul>
@@ -148,16 +170,16 @@
             <!-- Card 3 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
                 <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 과학적 표기법</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 과학적 표기법</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-pen-fancy text-purple-400 mr-1"></i> <strong>형식</strong>:
-                        <br> <span class="highlight-blue">$a \times 10^n$</span> (단, $1 \le a < 10$).
+                        <br> <span class="highlight-blue">a×10<sup>n</sup></span>
                     </li>
                     <li><i class="fas fa-search text-gray-500 mr-1"></i> <strong>장점</strong>:
                         <br> 매우 큰/작은 수를 표현하기 좋고, <span class="red-pen">유효숫자를 명확히</span> 알 수 있음.
                     </li>
                     <li><i class="fas fa-calculator text-green-500 mr-1"></i> <strong>예시</strong>:
-                        <br> $300$ (유효숫자 모름) $\rightarrow$ $3.0 \times 10^2$ (유효숫자 2개).
+                        <br> 300 (유효숫자 모름) → 3.0 × 10<sup>2</sup> (유효숫자 2개).
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -170,15 +192,15 @@
             <!-- Card 4 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
                 <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 덧셈과 뺄셈 규칙</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 덧셈과 뺄셈 규칙</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-plus text-red-500 mr-1"></i> <strong>기준</strong>:
                         <br> <span class="highlight-pink">소수점 자리수</span>가 가장 적은 쪽에 맞춘다.
                         <br> (가장 정밀도가 낮은 측정값 기준).
                     </li>
                     <li><i class="fas fa-calculator text-gray-500 mr-1"></i> <strong>예시</strong>:
-                        <br> $12.11 + 2.1 = 14.21$
-                        <br> $\rightarrow$ <span class="blue-pen">14.2</span> (소수 첫째 자리까지).
+                        <br> 12.11 + 2.1 = 14.21
+                        <br> → <span class="blue-pen">14.2</span> (소수 첫째 자리까지).
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -191,14 +213,14 @@
             <!-- Card 5 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
                 <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 곱셈과 나눗셈 규칙</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 곱셈과 나눗셈 규칙</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-times text-blue-500 mr-1"></i> <strong>기준</strong>:
                         <br> <span class="highlight-yellow">유효숫자 개수</span>가 가장 적은 쪽에 맞춘다.
                     </li>
                     <li><i class="fas fa-calculator text-gray-500 mr-1"></i> <strong>예시</strong>:
-                        <br> $2.5$ (2개) $\times$ $3.42$ (3개) = $8.55$
-                        <br> $\rightarrow$ <span class="blue-pen">8.6</span> (유효숫자 2개로 반올림).
+                        <br> 2.5 (2개) × 3.42 (3개) = 8.55
+                        <br> → <span class="blue-pen">8.6</span> (유효숫자 2개로 반올림).
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -211,14 +233,14 @@
             <!-- Card 6 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
                 <div class="tape bg-mint-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 오차의 종류</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">07. 오차의 종류</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-exclamation-circle text-red-400 mr-1"></i> <strong>계통 오차</strong>:
                         <br> 원인이 명확함. 측정할 때마다 <span class="highlight-mint">일정한 방향</span>으로 발생. (예: 영점 조절 실패).
                     </li>
                     <li><i class="fas fa-random text-blue-400 mr-1"></i> <strong>우연 오차</strong>:
                         <br> 원인 불명. 불규칙하게 발생.
-                        <br> $\rightarrow$ 여러 번 측정하여 <span class="red-pen">평균값</span>을 내면 줄일 수 있음.
+                        <br> → 여러 번 측정하여 <span class="red-pen">평균값</span>을 내면 줄일 수 있음.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">

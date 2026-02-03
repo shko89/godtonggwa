@@ -196,7 +196,7 @@
                             <span id="manage-user-status" class="inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300">Free</span>
                             <div class="flex gap-2">
                                 <button onclick="updateUserPaidStatus(false)" class="text-xs border border-gray-500 text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-700 transition-colors">무료로 전환</button>
-                                <button onclick="updateUserPaidStatus(true)" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg font-bold hover:bg-indigo-500 transition-colors">유료로 전환</button>
+                                <button onclick="updateUserPaidStatus(true)" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg font-bold hover:bg-indigo-50 transition-colors">유료로 전환</button>
                             </div>
                         </div>
                     </div>
@@ -492,9 +492,8 @@
         let searchedUserUid = null; 
         let currentEditingExamId = null;
         let tempExamQuestions = Array(25).fill(null);
-        let v2CurrentFilter = 'all'; // [신규] V2 필터 상태
+        let v2CurrentFilter = 'all'; 
 
-        // [신규] V2 단원명 매핑
         const UNIT_NAMES = {
             unit_01: '1. 과학의 기초',
             unit_02: '2. 원소의 형성',
@@ -518,7 +517,6 @@
             "과학과 미래 사회": ["감염병과 병원체", "인공지능과 과학 탐구", "로봇", "과학기술과 윤리"]
         };
 
-        // 1. 인증 상태 감지
         onAuthStateChanged(auth, async (user) => {
             const loginContainer = document.getElementById('login-container');
             const adminContainer = document.getElementById('admin-container');
@@ -535,8 +533,6 @@
                         
                         if (!unsubscribe) initAdminListener();
                         window.loadExamList();
-                        
-                        // [신규] V2 필터 초기화
                         createV2Filters();
                         
                     } else {
@@ -559,7 +555,6 @@
             }
         });
 
-        // 2. 탭 전환 로직 (V2 로직 교체)
         window.switchAdminTab = (tabName) => {
             document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`section-${tabName}`).classList.remove('hidden');
@@ -571,7 +566,6 @@
                 if (t === tabName) {
                     if (t === 'v2') {
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold bg-amber-600 text-white border border-amber-600 whitespace-nowrap";
-                        // [변경] V2 데이터 로드 함수 교체
                         window.loadV2Questions(v2CurrentFilter); 
                     } else {
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold bg-gray-700 text-white shadow whitespace-nowrap";
@@ -589,7 +583,6 @@
             });
         };
 
-        // --- V2 관리 로직 (admin.html에서 가져온 코드) ---
         function createV2Filters() {
             const container = document.getElementById('v2-filters');
             if(!container) return;
@@ -606,7 +599,6 @@
             const container = document.getElementById('v2-list-container');
             container.innerHTML = '<p class="text-center text-gray-500 text-xs py-10">로딩 중...</p>';
             
-            // 버튼 스타일 업데이트
             document.querySelectorAll('.v2-filter-btn').forEach(btn => {
                 const isAll = filter === 'all' && btn.innerText === '전체';
                 const isUnit = filter !== 'all' && btn.getAttribute('onclick').includes(filter);
@@ -666,12 +658,10 @@
             const modal = document.getElementById('v2-edit-modal');
             modal.classList.remove('hidden');
             document.getElementById('v2-doc-id').value = docId || '';
-            // 초기화
             document.getElementById('v2-q').value = '';
             document.getElementById('v2-exp').value = '';
             window.setV2Answer('O');
             
-            // 필터된 단원 자동 선택
             if(v2CurrentFilter !== 'all') document.getElementById('v2-unit-id').value = v2CurrentFilter;
 
             if(docId) {
@@ -731,8 +721,6 @@
             } catch(e) { alert("삭제 실패"); }
         };
 
-
-        // --- 기존 함수 유지 (admin1.html) ---
         function initAdminListener() {
             unsubscribe = onSnapshot(doc(db, "settings", "global"), (docSnapshot) => {
                 if (docSnapshot.exists()) {
@@ -1002,7 +990,6 @@
             } catch (e) { alert("오류: " + e.message); }
         };
 
-        // [복원] 사용자 관리 로직
         window.searchUser = async () => {
             const inputVal = document.getElementById('search-user-input').value.trim();
             if (!inputVal) return alert("검색어 입력");
@@ -1145,7 +1132,7 @@
             window.updateTopicOptions('');
             safeSetValue('q-difficulty', '2.0'); 
             safeSetValue('q-answer', '');
-            safeSetValue('question-behavioral-domain', ''); // admin.html 고유 필드 초기화
+            safeSetValue('question-behavioral-domain', ''); 
             
             if (docId) {
                 try {
@@ -1169,40 +1156,96 @@
         
         window.closeQuestionModal = () => document.getElementById('question-edit-modal').classList.add('hidden');
         
-        // [수정된 저장 로직] 올바른 ID와 문법 사용
+        /**
+         * [핵심 업데이트 로직]
+         * 문항 은행에서 정보를 수정하면, 해당 문항을 포함하고 있는 모든 모의고사(exams)를 찾아서
+         * 실시간으로 정보를 동기화합니다.
+         */
         window.saveQuestionData = async () => {
+            const originalDocId = document.getElementById('q-doc-id').value;
             const newDocId = document.getElementById('q-id').value.trim();
             if (!newDocId) return alert("ID 필수");
             
-            // 필수 필드 값 가져오기 (admin.html의 고유 필드 포함)
             const domain = document.getElementById('q-domain').value;
             const chapter = document.getElementById('q-chapter').value;
             const topic = document.getElementById('q-topic').value;
             const behavior = document.getElementById('question-behavioral-domain').value;
 
             if (!domain || !chapter || !topic || !behavior) {
-                alert("모든 필드(대단원, 중단원, 소단원, 행동영역)를 선택해주세요.");
+                alert("모든 필드를 선택해주세요.");
                 return;
             }
+
+            const difficulty = Number(document.getElementById('q-difficulty').value);
+            const correctAnswer = Number(document.getElementById('q-answer').value);
 
             try {
                 const data = {
                     id: newDocId,
-                    correctAnswer: Number(document.getElementById('q-answer').value),
-                    difficulty: Number(document.getElementById('q-difficulty').value),
-                    behavioralDomain: behavior, // admin.html의 고유 필드 저장
-                    taxonomy: {
-                        subject: "통합과학",
-                        domain: domain,
-                        chapter: chapter,
-                        topic: topic
-                    },
+                    correctAnswer: correctAnswer,
+                    difficulty: difficulty,
+                    behavioralDomain: behavior,
+                    taxonomy: { subject: "통합과학", domain: domain, chapter: chapter, topic: topic },
                     updatedAt: new Date().toISOString()
                 };
                 
-                // 최신 Modular SDK 문법 사용
+                // 1. 원본 문항 업데이트
                 await setDoc(doc(db, "questions", newDocId), data, { merge: true });
-                alert("저장 완료"); 
+                
+                // ID가 변경된 경우 기존 문서 삭제
+                if (originalDocId && originalDocId !== newDocId) {
+                    await deleteDoc(doc(db, "questions", originalDocId));
+                }
+
+                /** * 2. [실시간 연동 로직] 모든 모의고사(exams)를 전수 조사하여 수정된 문항 정보를 동기화합니다.
+                 * Rule 2에 따라 전체 exams를 가져와 메모리에서 필터링하여 처리합니다.
+                 */
+                const examsSnap = await getDocs(collection(db, "exams"));
+                const batch = writeBatch(db);
+                let updateCount = 0;
+
+                examsSnap.forEach(examDoc => {
+                    const examData = examDoc.data();
+                    // 문항 리스트가 있고 배열인 경우에만 작업 수행
+                    if (examData.questions && Array.isArray(examData.questions)) {
+                        let isModified = false;
+                        const updatedQuestions = examData.questions.map(q => {
+                            // q가 null인 경우(빈 슬롯)를 대비한 가드 클로즈
+                            if (!q || !q.qId) return q;
+
+                            // 원래 ID 또는 변경된 ID와 일치하는 문항 찾기
+                            if (q.qId === originalDocId || q.qId === newDocId) {
+                                isModified = true;
+                                return { 
+                                    ...q, 
+                                    qId: newDocId, // ID가 바뀌었을 수도 있으므로 최신화
+                                    score: difficulty, 
+                                    correctAnswer: correctAnswer 
+                                };
+                            }
+                            return q;
+                        });
+
+                        if (isModified) {
+                            // exams 문서의 questions 배열과 파생된 score_map, answer_key 모두 업데이트하여 정합성 유지
+                            batch.update(examDoc.ref, {
+                                questions: updatedQuestions,
+                                score_map: updatedQuestions.map(uq => uq ? uq.score : 0),
+                                answer_key: updatedQuestions.map(uq => uq ? uq.correctAnswer : 0),
+                                updatedAt: new Date().toISOString()
+                            });
+                            updateCount++;
+                        }
+                    }
+                });
+
+                if (updateCount > 0) {
+                    await batch.commit();
+                    alert(`저장 완료 (${updateCount}개의 모의고사가 실시간으로 동기화되었습니다)`);
+                } else {
+                    alert("저장 완료");
+                }
+
                 window.closeQuestionModal(); 
                 window.loadQuestionsList();
             } catch(e) { 

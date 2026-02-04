@@ -105,7 +105,7 @@ def generate_handwriting_explanation(exam_text, exam_title="2026학년도 예시
 # [Main] 실행 흐름
 # ==========================================
 if __name__ == "__main__":
-    pdf_filename = "k8s_x9d2_exam01.pdf" # PDF 파일명 확인
+    pdf_filename = "exam02.pdf" # PDF 파일명 확인
     
     # 1. OCR 수행
     if os.path.exists(pdf_filename):

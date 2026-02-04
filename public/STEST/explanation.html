@@ -141,14 +141,14 @@
         const db = getFirestore(app);
 
         const urlParams = new URLSearchParams(window.location.search);
-        const EXAM_ID = urlParams.get('id') || 'exam_01';
+        const EXAM_ID = urlParams.get('id') || 'exam_01'; 'exam_02';
         
         let examMetaData = null;
         let aiExamData = null;
 
         function loadExamDataScript(examId) {
             return new Promise((resolve, reject) => {
-                const fileName = `exam_data_${examId}.js`; 
+                const fileName = `${examId}/${examId}.js?v=${new Date().getTime()}`; 
                 const script = document.createElement('script');
                 script.src = fileName;
                 
@@ -184,7 +184,7 @@
                 if (loadedAiData.status === 'fulfilled' && loadedAiData.value) {
                     aiExamData = loadedAiData.value;
                 } else {
-                    console.warn(`해설 파일(exam_data_${EXAM_ID}.js)이 없습니다.`);
+                    console.warn(`해설 파일(${EXAM_ID}.js)이 없습니다.`);
                 }
 
                 renderQuestionGrid();

@@ -116,9 +116,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        // [수정] deleteUser 추가 (회원 탈퇴용)
         import { getAuth, signOut, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        // [수정] deleteDoc 추가 (회원 데이터 삭제용)
         import { getFirestore, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -149,7 +147,6 @@
                     if(userDoc.exists()) {
                         userData = userDoc.data();
                     } else {
-                        // 데이터가 없을 경우 기본값 설정
                         userData = { name: user.displayName || '학생', email: user.email };
                     }
                 } catch(e) { console.error("User Load Error:", e); }
@@ -205,6 +202,24 @@
                         </div>
                     </div>
 
+                    <!-- 기출 해설 서비스 섹션 -->
+                    <div onclick="location.href='./archive/archive.html'" class="bg-white border border-indigo-100 rounded-3xl p-5 shadow-sm active:scale-95 transition-transform cursor-pointer group flex items-center gap-4 relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity"><i data-lucide="history" class="w-32 h-32 text-indigo-600"></i></div>
+                        <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100 shrink-0">
+                            <i data-lucide="scroll-text" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <h3 class="font-bold text-gray-900">기출 해설 아카이브</h3>
+                                <span class="bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">FREE</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500 leading-tight">평가원/수능 기출 시험지를<br>이동 중에 한 문제씩 뽀개기</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-full group-hover:bg-indigo-50 transition-colors">
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400 group-hover:text-indigo-600"></i>
+                        </div>
+                    </div>
+
                     <div>
                         <h3 class="font-bold text-lg text-gray-800 mb-3 px-1 flex items-baseline gap-2">
                             데일리 트레이닝
@@ -224,29 +239,6 @@
                                 <p class="text-[11px] text-gray-500 leading-tight">이동 시간에 푸는<br>수능필수암기 문제 은행</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                        <div class="flex justify-between items-end mb-4">
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-900">나의 학습 리포트</h3>
-                                <p class="text-xs text-gray-500 mt-1">최근 모의고사 성적 추이입니다.</p>
-                            </div>
-                            <span class="text-indigo-600 font-bold text-2xl">B+ <span class="text-xs text-gray-400 font-normal">등급</span></span>
-                        </div>
-                        <div class="h-32 w-full bg-gray-50 rounded-xl relative overflow-hidden flex items-end justify-between px-6 pb-4 mb-4">
-                            <div class="w-4 bg-gray-200 h-[40%] rounded-t-sm"></div>
-                            <div class="w-4 bg-gray-200 h-[55%] rounded-t-sm"></div>
-                            <div class="w-4 bg-gray-200 h-[45%] rounded-t-sm"></div>
-                            <div class="w-4 bg-indigo-500 h-[75%] rounded-t-sm relative group">
-                                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">이번 시험</div>
-                            </div>
-                            <div class="w-4 bg-gray-200 h-[60%] rounded-t-sm"></div>
-                            <div class="absolute top-1/2 left-0 w-full border-t border-dashed border-gray-300"></div>
-                        </div>
-                        <button onclick="location.href='STEST/exam.html?view=report'" class="w-full py-3 border border-gray-200 rounded-xl text-gray-600 text-sm font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                            <i data-lucide="pie-chart" class="w-4 h-4"></i> 취약 단원 상세 분석 보기
-                        </button>
                     </div>
 
                     <div class="mt-8 pt-6 border-t border-gray-100">
@@ -276,17 +268,15 @@
         window.openKakaoInquiry = () => { window.open("https://open.kakao.com/o/s2YBNObi", '_blank'); };
         window.copyToClipboard = (text) => { navigator.clipboard.writeText(text).then(() => alert('복사 완료')).catch(() => alert('복사 실패')); };
 
-        // [추가] 마이페이지: 회원 탈퇴 및 정보 수정 기능 포함
+        // 마이페이지
         window.renderMarket = function() {
             updateNav('마이');
             const userName = userData ? userData.name : '비회원';
             let userPlan = userData && userData.isPaid ? '프리미엄' : '일반';
-            // 비회원일 경우 로그인 버튼 표시
             const loginBtn = currentUser 
                 ? `<button onclick="handleLogout()" class="text-xs text-gray-500 underline ml-auto">로그아웃</button>` 
                 : `<button onclick="location.href='STEST/exam.html'" class="text-xs text-indigo-600 font-bold ml-auto">로그인</button>`;
             
-            // 로그인 상태가 아니면 수정/탈퇴 버튼 비활성화 처리용 스타일
             const opacityClass = currentUser ? '' : 'opacity-50 pointer-events-none';
 
             document.getElementById('main-content').innerHTML = `
@@ -332,11 +322,10 @@
             lucide.createIcons();
         }
 
-        // [추가] 내 정보 수정 화면 렌더링 (이름, 이메일 수정)
+        // 내 정보 수정 화면
         window.renderEditProfile = function() {
             if(!currentUser) return alert("로그인이 필요합니다.");
             
-            // 기존 데이터 가져오기 (없으면 공란 혹은 Auth 정보)
             const currentName = userData.name || "";
             const currentEmail = userData.email || currentUser.email || "";
 
@@ -369,7 +358,7 @@
             lucide.createIcons();
         }
 
-        // [추가] 정보 저장 로직
+        // 정보 저장 로직
         window.saveProfile = async () => {
             const newName = document.getElementById('edit-name').value.trim();
             const newEmail = document.getElementById('edit-email').value.trim();
@@ -377,25 +366,23 @@
             if(!newName) return alert("이름을 입력해주세요.");
             
             try {
-                // Firestore 사용자 정보 업데이트
                 await updateDoc(doc(db, "users", currentUser.uid), { 
                     name: newName,
                     email: newEmail
                 });
                 
-                // 로컬 데이터 갱신
                 userData.name = newName;
                 userData.email = newEmail;
                 
                 alert("정보가 수정되었습니다.");
-                renderMarket(); // 마이페이지로 복귀
+                renderMarket(); 
             } catch(e) {
                 console.error("Profile Update Error:", e);
                 alert("정보 수정 중 오류가 발생했습니다.");
             }
         };
 
-        // [추가] 회원 탈퇴 로직
+        // 회원 탈퇴 로직
         window.handleWithdrawal = async () => {
             if(!confirm("정말 탈퇴하시겠습니까?\n\n탈퇴 시 모든 학습 기록과 구매 내역이 삭제되며 복구할 수 없습니다.")) return;
 
@@ -403,19 +390,15 @@
                 const user = auth.currentUser;
                 const uid = user.uid;
 
-                // 1. Firestore 데이터 삭제
                 await deleteDoc(doc(db, "users", uid));
-
-                // 2. Firebase Auth 계정 삭제
                 await deleteUser(user);
 
                 alert("회원 탈퇴가 완료되었습니다.");
-                window.location.reload(); // 새로고침하여 초기화
+                window.location.reload(); 
             } catch (error) {
                 console.error("Withdrawal Error:", error);
                 if (error.code === 'auth/requires-recent-login') {
                     alert("보안을 위해 다시 로그인한 후 탈퇴를 진행해주세요.");
-                    // 재로그인 유도 로직이 필요하나, 간단히 로그아웃 처리
                     await signOut(auth);
                     renderHome();
                 } else {

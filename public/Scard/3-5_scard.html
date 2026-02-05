@@ -110,10 +110,29 @@
         <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
         <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
             
-            <!-- Card 1 -->
+            <!-- Card 6 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
+                <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 생명시스템의 기본 단위 : 세포</h2>
+                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-water text-blue-400 mr-1"></i> <strong>정의</strong>:
+                        <br> 반투과성 막을 경계로 <span class="highlight-yellow">저농도 → 고농도</span>로 <strong>물</strong>이 이동하는 현상.
+                    </li>
+                    <div class="mt-3 mb-2">
+                        <img src="cell.png" alt="세포의 구조" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
+                </ul>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 생명 시스템의 체계</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">세포 → 조직 → 기관 → 개체</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
                 <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(-2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">01. 핵심 소기관</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 핵심 소기관</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-dna text-red-500 mr-1"></i> <strong>핵 (Nucleus)</strong>:
                         <br> 생명 활동 조절 중추. <span class="red-pen">DNA</span>(유전 정보) 저장.
@@ -135,7 +154,7 @@
             <!-- Card 2 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
                 <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 식물 세포에만 있는 것</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 식물 세포에만 있는 것</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-sun text-orange-400 mr-1"></i> <strong>엽록체</strong>:
                         <br> <span class="highlight-green">광합성</span> 장소. 빛에너지를 포도당(화학에너지)으로 변환.
@@ -157,7 +176,7 @@
             <!-- Card 3 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
                 <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">03. 세포막의 구조</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 세포막의 구조</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-layer-group text-blue-500 mr-1"></i> <strong>인지질 2중층</strong>:
                         <br> 머리(친수성)는 바깥쪽, 꼬리(소수성)는 안쪽으로 배열.
@@ -169,6 +188,9 @@
                         <br> 인지질과 단백질은 고정되지 않고 <span class="highlight-yellow">움직일 수 있음</span>.
                     </li>
                 </ul>
+                <div class="mt-3 mb-2">
+                        <img src="membrane.png" alt="세포의 구조" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                </div>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
                     <p class="text-sm text-gray-700 mb-1">Q. 세포막의 주성분 2가지는?</p>
@@ -179,7 +201,7 @@
             <!-- Card 4 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
                 <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 선택적 투과성</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 선택적 투과성</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-filter text-orange-400 mr-1"></i> <strong>정의</strong>:
                         <br> 물질의 종류나 크기에 따라 통과 여부나 속도가 다른 성질.
@@ -193,7 +215,7 @@
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 기체 분자($O_2, CO_2$)가 통과하는 경로는?</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 기체 분자(O<sub>2</sub>, CO<sub>2</sub>)가 통과하는 경로는?</p>
                     <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">인지질 2중층 (직접 통과)</p>
                 </div>
             </div>
@@ -201,10 +223,10 @@
             <!-- Card 5 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
                 <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(-1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 확산 (에너지 소모 X)</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 확산 (에너지 소모 X)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-arrow-right text-blue-500 mr-1"></i> <strong>방향</strong>:
-                        <br> <span class="highlight-yellow">고농도 $\rightarrow$ 저농도</span>.
+                        <br> <span class="highlight-yellow">고농도 → 저농도</span>.
                     </li>
                     <li><i class="fas fa-road text-gray-500 mr-1"></i> <strong>단순 확산</strong>:
                         <br> 인지질 통과. (폐포의 기체 교환). 속도는 농도 차에 정비례.
@@ -223,21 +245,24 @@
             <!-- Card 6 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
                 <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 삼투 (물의 이동)</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">07. 삼투 (물의 이동)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-water text-blue-400 mr-1"></i> <strong>정의</strong>:
-                        <br> 반투과성 막을 경계로 <span class="highlight-yellow">저농도 $\rightarrow$ 고농도</span>로 <strong>물</strong>이 이동하는 현상.
+                        <br> 반투과성 막을 경계로 <span class="highlight-yellow">저농도 → 고농도</span>로 <strong>물</strong>이 이동하는 현상.
                     </li>
                     <li><i class="fas fa-tint-slash text-red-500 mr-1"></i> <strong>적혈구 변화</strong>:
                         <ul class="pl-4 list-disc text-gray-600 text-base">
-                            <li>저농도 용액: 물 유입 $\rightarrow$ 팽창하다 <span class="red-pen">용혈(터짐)</span>.</li>
-                            <li>고농도 용액: 물 유출 $\rightarrow$ 쭈그러짐.</li>
+                            <li>저농도 용액: 물 유입 → 팽창하다 <span class="red-pen">용혈(터짐)</span>.</li>
+                            <li>고농도 용액: 물 유출 → 쭈그러짐.</li>
                         </ul>
                     </li>
                     <li><i class="fas fa-leaf text-green-500 mr-1"></i> <strong>식물 세포</strong>:
                         <br> 저농도에서 <span class="highlight-green">세포벽</span> 때문에 터지지 않음 (팽윤 상태).
                     </li>
                 </ul>
+                <div class="mt-3 mb-2">
+                        <img src="otmosphere.png" alt="용액 농도에 따른 적혈구" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                </div>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
                     <p class="text-sm text-gray-700 mb-1">Q. 삼투 현상에서 물이 이동하는 방향은 농도가 어떤 쪽?</p>

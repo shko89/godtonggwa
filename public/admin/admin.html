@@ -158,7 +158,18 @@
                     </button>
                 </div>
 
-                <div id="questions-list-container" class="space-y-3 max-h-[500px] overflow-y-auto hide-scrollbar">
+                <!-- 그룹화 필터 영역 (회차별) -->
+                <div class="space-y-3">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider ml-1 flex items-center gap-1">
+                        <i data-lucide="filter" class="w-3 h-3"></i> 회차/유형 그룹 필터
+                    </p>
+                    <div id="question-group-filters" class="flex flex-wrap gap-1.5 p-1 bg-gray-800/50 rounded-xl"></div>
+                </div>
+
+                <!-- 페이지네이션 영역 -->
+                <div id="question-pagination" class="flex flex-wrap gap-1.5"></div>
+
+                <div id="questions-list-container" class="space-y-3 max-h-[500px] overflow-y-auto hide-scrollbar border-t border-gray-800 pt-4">
                     <p class="text-center text-gray-500 text-xs py-4">문항 데이터를 불러오는 중...</p>
                 </div>
             </div>
@@ -329,10 +340,15 @@
                 </div>
             </div>
             
-            <div class="mt-4 pt-4 border-t border-gray-700">
-                <button onclick="openExamQuestionsModal()" class="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm font-bold flex items-center justify-center gap-2 mb-4">
+            <div class="mt-4 pt-4 border-t border-gray-700 space-y-3">
+                <button onclick="openExamQuestionsModal()" class="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm font-bold flex items-center justify-center gap-2">
                     <i data-lucide="list-checks" class="w-4 h-4"></i> 문항 구성 및 배점 관리
                 </button>
+                
+                <button id="btn-generate-archive" onclick="generateExamArchive()" class="w-full py-3 bg-indigo-900/30 border border-indigo-700 hover:bg-indigo-900/50 text-indigo-300 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="box" class="w-4 h-4"></i> 분석 데이터 아카이브 생성/업데이트
+                </button>
+
                 <div class="flex gap-2">
                     <button onclick="closeEditModal()" class="flex-1 py-2 bg-gray-700 text-gray-300 rounded-lg text-sm hover:bg-gray-600">취소</button>
                     <button onclick="saveExamData()" class="flex-1 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-500">저장</button>
@@ -410,12 +426,11 @@
                     </select>
                 </div>
                 
-                <!-- 행동 영역 (admin.html 고유 필드) -->
                 <div class="mb-4">
                     <label class="block text-gray-400 text-xs font-bold mb-2">행동 영역 (과학적 탐구 역량)</label>
                     <select id="question-behavioral-domain" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-xl p-3 focus:outline-none focus:border-purple-500 transition-colors">
                         <option value="">-- 행동 영역 선택 --</option>
-                        <option value="의사소통">이해와 적용</option>
+                        <option value="이해와 적용">이해와 적용</option>
                         <option value="의사소통">의사소통</option>
                         <option value="가설 설정">가설 설정</option>
                         <option value="탐구 설계">탐구 설계</option>
@@ -490,9 +505,15 @@
         let currentRound = 0;
         let unsubscribe = null;
         let searchedUserUid = null; 
-        let currentEditingExamId = null;
         let tempExamQuestions = Array(25).fill(null);
         let v2CurrentFilter = 'all'; 
+
+        // 문항 은행 페이지네이션 및 그룹화 필터 관련 전역 변수
+        let allQuestionsData = []; // 전체 문항 데이터
+        let filteredQuestionsData = []; // 필터링된 문항 데이터
+        let currentQuestionPage = 0;
+        let currentQuestionGroupFilter = 'all'; // 현재 선택된 그룹 필터
+        const questionsPerPage = 25;
 
         const UNIT_NAMES = {
             unit_01: '1. 과학의 기초',
@@ -530,11 +551,9 @@
                         deniedContainer.classList.add('hidden');
                         adminContainer.classList.remove('hidden');
                         document.getElementById('admin-badge').innerText = user.email;
-                        
                         if (!unsubscribe) initAdminListener();
                         window.loadExamList();
                         createV2Filters();
-                        
                     } else {
                         loginContainer.classList.add('hidden');
                         adminContainer.classList.add('hidden');
@@ -558,11 +577,9 @@
         window.switchAdminTab = (tabName) => {
             document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`section-${tabName}`).classList.remove('hidden');
-            
             ['round', 'exam', 'user', 'question', 'v2'].forEach(t => {
                 const btn = document.getElementById(`btn-tab-${t}`);
                 if (!btn) return;
-                
                 if (t === tabName) {
                     if (t === 'v2') {
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold bg-amber-600 text-white border border-amber-600 whitespace-nowrap";
@@ -570,7 +587,6 @@
                     } else {
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold bg-gray-700 text-white shadow whitespace-nowrap";
                     }
-                    
                     if(t === 'exam') window.loadExamList();
                     if(t === 'question') window.loadQuestionsList();
                 } else {
@@ -598,12 +614,8 @@
             v2CurrentFilter = filter;
             const container = document.getElementById('v2-list-container');
             container.innerHTML = '<p class="text-center text-gray-500 text-xs py-10">로딩 중...</p>';
-            
             document.querySelectorAll('.v2-filter-btn').forEach(btn => {
-                const isAll = filter === 'all' && btn.innerText === '전체';
-                const isUnit = filter !== 'all' && btn.getAttribute('onclick').includes(filter);
-                
-                if(isAll || isUnit) {
+                if((filter === 'all' && btn.innerText === '전체') || (filter !== 'all' && btn.getAttribute('onclick').includes(filter))) {
                     btn.classList.remove('bg-gray-800', 'text-gray-400');
                     btn.classList.add('bg-amber-600', 'text-white', 'border-amber-600');
                 } else {
@@ -611,29 +623,18 @@
                     btn.classList.remove('bg-amber-600', 'text-white', 'border-amber-600');
                 }
             });
-
             try {
                 const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
-                let q = filter === 'all' 
-                    ? query(colRef, orderBy('createdAt', 'desc'), limit(100))
-                    : query(colRef, where('unitId', '==', filter));
-                
+                let q = filter === 'all' ? query(colRef, orderBy('createdAt', 'desc'), limit(100)) : query(colRef, where('unitId', '==', filter));
                 const snapshot = await getDocs(q);
                 document.getElementById('v2-total-count').innerText = snapshot.size;
-
-                if (snapshot.empty) {
-                    container.innerHTML = '<p class="text-center text-gray-500 text-xs py-10">문제 없음</p>';
-                    return;
-                }
-
+                if (snapshot.empty) { container.innerHTML = '<p class="text-center text-gray-500 text-xs py-10">문제 없음</p>'; return; }
                 let html = '';
                 snapshot.forEach(doc => {
                     const d = doc.data();
                     const color = d.a === 'O' ? 'text-blue-400' : 'text-red-400';
                     const unitLabel = UNIT_NAMES[d.unitId] || d.unitId;
-                    
-                    html += `
-                        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-colors group">
+                    html += `<div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-colors group">
                             <div class="flex justify-between items-start mb-2">
                                 <span class="text-[10px] bg-gray-700 text-gray-300 px-2 py-0.5 rounded font-mono">${unitLabel}</span>
                                 <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -650,20 +651,16 @@
                 });
                 container.innerHTML = html;
                 lucide.createIcons();
-
             } catch(e) { container.innerHTML = '로드 실패'; console.error(e); }
         };
 
         window.openV2EditModal = async (docId = null) => {
-            const modal = document.getElementById('v2-edit-modal');
-            modal.classList.remove('hidden');
+            document.getElementById('v2-edit-modal').classList.remove('hidden');
             document.getElementById('v2-doc-id').value = docId || '';
             document.getElementById('v2-q').value = '';
             document.getElementById('v2-exp').value = '';
             window.setV2Answer('O');
-            
             if(v2CurrentFilter !== 'all') document.getElementById('v2-unit-id').value = v2CurrentFilter;
-
             if(docId) {
                 try {
                     const docSnap = await getDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', docId));
@@ -679,18 +676,12 @@
         };
 
         window.closeV2Modal = () => document.getElementById('v2-edit-modal').classList.add('hidden');
-
         window.setV2Answer = (ans) => {
             document.getElementById('v2-a').value = ans;
             const oBtn = document.getElementById('btn-ans-o');
             const xBtn = document.getElementById('btn-ans-x');
-            if(ans === 'O') {
-                oBtn.className = "flex-1 py-2 rounded border border-blue-600 bg-blue-600 text-white font-bold";
-                xBtn.className = "flex-1 py-2 rounded border border-gray-600 text-gray-400";
-            } else {
-                oBtn.className = "flex-1 py-2 rounded border border-gray-600 text-gray-400";
-                xBtn.className = "flex-1 py-2 rounded border border-red-600 bg-red-600 text-white font-bold";
-            }
+            if(ans === 'O') { oBtn.className = "flex-1 py-2 rounded border border-blue-600 bg-blue-600 text-white font-bold"; xBtn.className = "flex-1 py-2 rounded border border-gray-600 text-gray-400"; }
+            else { oBtn.className = "flex-1 py-2 rounded border border-gray-600 text-gray-400"; xBtn.className = "flex-1 py-2 rounded border border-red-600 bg-red-600 text-white font-bold"; }
         };
 
         window.saveV2Question = async () => {
@@ -699,14 +690,11 @@
             const q = document.getElementById('v2-q').value;
             const a = document.getElementById('v2-a').value;
             const exp = document.getElementById('v2-exp').value;
-            
             const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
             const data = { unitId, q, a, exp, type: 'OX', createdAt: new Date().toISOString() };
-
             try {
                 if(docId) await updateDoc(doc(colRef, docId), data);
                 else await addDoc(colRef, data);
-                
                 alert("저장됨");
                 window.closeV2Modal();
                 window.loadV2Questions(v2CurrentFilter);
@@ -715,57 +703,34 @@
 
         window.deleteV2Question = async (id) => {
             if(!confirm("삭제?")) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', id));
-                window.loadV2Questions(v2CurrentFilter);
-            } catch(e) { alert("삭제 실패"); }
+            try { await deleteDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', id)); window.loadV2Questions(v2CurrentFilter); } catch(e) { alert("삭제 실패"); }
         };
 
         function initAdminListener() {
             unsubscribe = onSnapshot(doc(db, "settings", "global"), (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    currentRound = docSnapshot.data().latestRound || 0;
-                    document.getElementById('current-round-display').innerText = currentRound;
-                } else {
-                    document.getElementById('current-round-display').innerText = "0";
-                    currentRound = 0;
-                    setDoc(doc(db, "settings", "global"), { latestRound: 0 }, { merge: true });
-                }
+                if (docSnapshot.exists()) { currentRound = docSnapshot.data().latestRound || 0; document.getElementById('current-round-display').innerText = currentRound; }
+                else { document.getElementById('current-round-display').innerText = "0"; currentRound = 0; setDoc(doc(db, "settings", "global"), { latestRound: 0 }, { merge: true }); }
             });
         }
 
         document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
-            const email = document.getElementById('admin-email').value; 
-            const pw = document.getElementById('admin-pw').value;
             const btnText = document.getElementById('btn-text');
             const btnSpinner = document.getElementById('btn-spinner');
-            
-            btnText.textContent = "확인 중..."; 
-            btnSpinner.classList.remove('hidden');
-
-            try { 
-                await signInWithEmailAndPassword(auth, email, pw); 
-            } catch (error) { 
-                alert("로그인 실패: " + error.message); 
-                btnText.textContent = "로그인"; 
-                btnSpinner.classList.add('hidden');
-            }
+            btnText.textContent = "확인 중..."; btnSpinner.classList.remove('hidden');
+            try { await signInWithEmailAndPassword(auth, document.getElementById('admin-email').value, document.getElementById('admin-pw').value); }
+            catch (error) { alert("로그인 실패: " + error.message); btnText.textContent = "로그인"; btnSpinner.classList.add('hidden'); }
         });
 
         window.logout = () => { if (unsubscribe) unsubscribe(); signOut(auth); };
         window.forceLogout = () => signOut(auth);
         
         window.updateRound = async (delta) => { 
-            if (!auth.currentUser) return alert("로그인 필요"); 
             const newValue = currentRound + delta; 
             if(newValue < 0 || newValue > 24) return alert("범위 초과"); 
             if(confirm("변경하시겠습니까?")) { 
-                try { 
-                    document.getElementById('current-round-display').innerText = newValue; 
-                    currentRound = newValue; 
-                    await setDoc(doc(db, "settings", "global"), { latestRound: newValue }, { merge: true }); 
-                } catch(e) { alert("오류: "+e.message); } 
+                try { document.getElementById('current-round-display').innerText = newValue; currentRound = newValue; await setDoc(doc(db, "settings", "global"), { latestRound: newValue }, { merge: true }); }
+                catch(e) { alert("오류: "+e.message); } 
             } 
         };
 
@@ -779,7 +744,6 @@
                 let html = '';
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    const qCount = data.questions ? data.questions.length : 0;
                     html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
                             <div class="flex-1 min-w-0 mr-3">
                                 <div class="flex items-center gap-2 mb-1">
@@ -787,74 +751,161 @@
                                     <span class="text-xs text-emerald-400 font-bold">#${data.id}</span>
                                 </div>
                                 <h4 class="text-sm font-bold text-white truncate">${data.title}</h4>
-                                <div class="flex gap-2 text-xs text-gray-500">
-                                    <span>${data.subTitle || '-'}</span>
-                                    <span>• 문항: ${qCount}개</span>
-                                </div>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="openExamEditModal('${doc.id}')" class="p-2 bg-gray-700 hover:bg-emerald-600 rounded-lg text-gray-300 hover:text-white transition-colors" title="수정"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
-                            </div></div>`;
+                            <button onclick="openExamEditModal('${doc.id}')" class="p-2 bg-gray-700 hover:bg-emerald-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        </div>`;
                 });
-                container.innerHTML = html;
-                lucide.createIcons();
-            } catch (e) { console.error("Load Exam Error:", e); container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패: ${e.message}</p>`; }
+                container.innerHTML = html; lucide.createIcons();
+            } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
         };
 
+        // 문항 은행 로딩 및 그룹화 로직 보완
         window.loadQuestionsList = async () => {
             const container = document.getElementById('questions-list-container');
             container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
+
             try {
-                const q = query(collection(db, "questions"), limit(50)); 
+                // 문항 수가 많아질 것을 고려하여 ID 역순(최신순)으로 전체 데이터를 한 번 가져옵니다.
+                const q = query(collection(db, "questions"), orderBy("id", "desc")); 
                 const snapshot = await getDocs(q);
-                document.getElementById('total-questions-count').innerText = `${snapshot.size}개 (최근)`;
-
-                if (snapshot.empty) { container.innerHTML = '<p class="text-center text-gray-500 text-xs">등록된 문항이 없습니다.</p>'; return; }
-                let html = '';
+                
+                allQuestionsData = [];
                 snapshot.forEach(doc => {
-                    const d = doc.data();
-                    const tax = d.taxonomy || {};
-                    const stats = d.stats || { totalAttempts: 0, correctCount: 0, accuracy: 0 };
-                    const accPercent = stats.totalAttempts > 0 
-                        ? Math.round((stats.correctCount / stats.totalAttempts) * 100) 
-                        : 0;
+                    allQuestionsData.push({ id: doc.id, ...doc.data() });
+                });
 
-                    html += `
-                        <div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
+                document.getElementById('total-questions-count').innerText = `${allQuestionsData.length}개`;
+
+                if (allQuestionsData.length === 0) {
+                    container.innerHTML = '<p class="text-center text-gray-500 text-xs">등록된 문항이 없습니다.</p>';
+                    return;
+                }
+
+                // 그룹 필터 생성
+                renderQuestionGroupFilters();
+                // 첫 필터 상태 적용 (전체)
+                window.applyQuestionFilter('all');
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패: ${e.message}</p>`;
+            }
+        };
+
+        // 문항 ID 공통 패턴을 찾아 그룹 필터 버튼 생성
+        function renderQuestionGroupFilters() {
+            const filterContainer = document.getElementById('question-group-filters');
+            if (!filterContainer) return;
+
+            // ID 패턴 분석 (예: q_2026_01, q_2024_02 등 앞의 3세그먼트 추출)
+            const groups = new Set();
+            allQuestionsData.forEach(d => {
+                const parts = d.id.split('_');
+                if (parts.length >= 3) {
+                    // q_YYYY_RR 형태를 그룹명으로 사용
+                    const groupKey = parts.slice(0, 3).join('_');
+                    groups.add(groupKey);
+                } else {
+                    groups.add('etc'); // 패턴이 다른 경우 기타로 분류
+                }
+            });
+
+            const sortedGroups = Array.from(groups).sort().reverse();
+
+            let html = `<button onclick="applyQuestionFilter('all')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${currentQuestionGroupFilter === 'all' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-600'}">전체보기</button>`;
+            
+            sortedGroups.forEach(group => {
+                const isActive = currentQuestionGroupFilter === group;
+                // 라벨 예쁘게 만들기 (q_2026_01 -> 2026-01)
+                const label = group === 'etc' ? '기타/미분류' : group.replace('q_', '').replace('_', '-');
+                
+                html += `<button onclick="applyQuestionFilter('${group}')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${isActive ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-700'}">
+                    ${label}
+                </button>`;
+            });
+
+            filterContainer.innerHTML = html;
+        }
+
+        // 필터 적용 함수
+        window.applyQuestionFilter = (filter) => {
+            currentQuestionGroupFilter = filter;
+            currentQuestionPage = 0; // 필터 변경 시 첫 페이지로
+
+            if (filter === 'all') {
+                filteredQuestionsData = [...allQuestionsData];
+            } else {
+                filteredQuestionsData = allQuestionsData.filter(d => {
+                    if (filter === 'etc') return d.id.split('_').length < 3;
+                    return d.id.startsWith(filter);
+                });
+            }
+
+            // 필터 버튼 UI 업데이트
+            renderQuestionGroupFilters();
+            // 페이지네이션 버튼 및 현재 페이지 목록 렌더링
+            renderQuestionsPage(0);
+        };
+
+        // 특정 페이지(25개 그룹) 렌더링 함수
+        window.renderQuestionsPage = (pageIndex) => {
+            currentQuestionPage = pageIndex;
+            const container = document.getElementById('questions-list-container');
+            const paginationContainer = document.getElementById('question-pagination');
+            
+            const start = pageIndex * questionsPerPage;
+            const end = start + questionsPerPage;
+            const pageData = filteredQuestionsData.slice(start, end);
+
+            let html = '';
+            if (pageData.length === 0) {
+                html = `<p class="text-center text-gray-500 text-xs py-10">해당 그룹에 문항이 없습니다.</p>`;
+            } else {
+                pageData.forEach(d => {
+                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
                             <div class="flex-1 min-w-0 mr-3">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <span class="bg-purple-900/50 text-purple-300 text-[10px] px-1.5 py-0.5 rounded font-mono border border-purple-800">${doc.id}</span>
-                                    <span class="text-xs text-gray-400 font-bold">${tax.domain || '미분류'}</span>
-                                    <span class="text-xs text-gray-500">&gt; ${tax.chapter || '-'}</span>
+                                    <span class="bg-purple-900/50 text-purple-300 text-[10px] px-1.5 py-0.5 rounded font-mono border border-purple-800">${d.id}</span>
+                                    <span class="text-xs text-gray-400 font-bold">${d.taxonomy?.domain || '미분류'}</span>
                                 </div>
                                 <div class="text-xs text-gray-400 flex gap-3 items-center">
                                     <span>정답: <strong class="text-white">${d.correctAnswer || '?'}</strong></span>
                                     <span>배점: <strong class="text-white">${d.difficulty || '-'}</strong>점</span>
-                                    <span class="text-gray-500 text-[10px]">정답률: ${accPercent}% (${stats.totalAttempts}회)</span>
+                                    <span class="text-[10px] text-gray-500 truncate opacity-60">${d.taxonomy?.topic || ''}</span>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button onclick="openQuestionModal('${doc.id}')" class="p-2 bg-gray-700 hover:bg-purple-600 rounded-lg text-gray-300 hover:text-white transition-colors">
-                                    <i data-lucide="edit-2" class="w-4 h-4"></i>
-                                </button>
-                                <button onclick="deleteQuestionData('${doc.id}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors">
-                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                </button>
+                                <button onclick="openQuestionModal('${d.id}')" class="p-2 bg-gray-700 hover:bg-purple-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                                <button onclick="deleteQuestionData('${d.id}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
-                container.innerHTML = html;
-                lucide.createIcons();
-            } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패: ${e.message}</p>`; }
+            }
+            container.innerHTML = html;
+            container.scrollTop = 0; // 목록 상단으로 스크롤
+
+            // 페이지네이션(그룹 내 페이지 선택) 버튼 생성
+            const totalPages = Math.ceil(filteredQuestionsData.length / questionsPerPage);
+            let pageHtml = '';
+            if (totalPages > 1) {
+                for (let i = 0; i < totalPages; i++) {
+                    const isActive = i === pageIndex;
+                    const rangeStart = i * questionsPerPage + 1;
+                    const rangeEnd = Math.min((i + 1) * questionsPerPage, filteredQuestionsData.length);
+                    
+                    pageHtml += `<button onclick="renderQuestionsPage(${i})" class="px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all ${isActive ? 'bg-indigo-600 text-white shadow-lg' : 'bg-gray-800 text-gray-500 hover:text-white border border-gray-700'}">
+                        ${i + 1}P (${rangeStart}-${rangeEnd})
+                    </button>`;
+                }
+            }
+            paginationContainer.innerHTML = pageHtml;
+            lucide.createIcons();
         };
 
         function safeSetValue(id, val) { const el = document.getElementById(id); if(el) el.value = val; }
 
         window.openExamEditModal = async (docId = null) => {
-            const modal = document.getElementById('edit-modal');
             const idContainer = document.getElementById('edit-id-container');
-            
+            const archiveBtn = document.getElementById('btn-generate-archive');
             safeSetValue('edit-doc-id', docId || '');
             safeSetValue('edit-id-input', '');
             safeSetValue('edit-title', '');
@@ -862,46 +913,36 @@
             safeSetValue('edit-price', 5000);
             safeSetValue('edit-date', '');
             tempExamQuestions = Array(25).fill(null);
-
+            
             if (docId) {
-                if(idContainer) idContainer.classList.add('hidden');
+                idContainer.classList.add('hidden');
+                archiveBtn.classList.remove('hidden'); // 기존 시험일 때만 아카이브 버튼 활성화
                 try {
                     const docSnap = await getDoc(doc(db, "public_exams", docId));
                     if (docSnap.exists()) {
                         const d = docSnap.data();
-                        safeSetValue('edit-title', d.title || '');
-                        safeSetValue('edit-subtitle', d.subTitle || '');
-                        safeSetValue('edit-price', d.price || 5000);
+                        safeSetValue('edit-title', d.title || ''); safeSetValue('edit-subtitle', d.subTitle || ''); safeSetValue('edit-price', d.price || 5000);
                         if(d.date) safeSetValue('edit-date', d.date.split('T')[0]);
-                        
                         const detailSnap = await getDoc(doc(db, "exams", docId));
-                        if(detailSnap.exists()) {
-                            const detail = detailSnap.data();
-                            if(detail.questions) tempExamQuestions = detail.questions;
-                            else if(detail.score_map && detail.answer_key) {
-                                tempExamQuestions = detail.score_map.map((score, i) => ({
-                                    no: i+1, score: score, correctAnswer: detail.answer_key[i], qId: ''
-                                }));
-                            }
-                        }
+                        if(detailSnap.exists()) tempExamQuestions = detailSnap.data().questions || Array(25).fill(null);
                     }
-                } catch(e) { alert("로드 실패: " + e.message); return; }
-            } else {
-                if(idContainer) idContainer.classList.remove('hidden');
+                } catch(e) { alert("로드 실패"); return; }
+            } else { 
+                idContainer.classList.remove('hidden');
+                archiveBtn.classList.add('hidden'); // 새 시험 생성 시에는 아카이브 버튼 숨김
             }
-            modal.classList.remove('hidden');
+            document.getElementById('edit-modal').classList.remove('hidden');
+            lucide.createIcons();
         };
 
         window.closeEditModal = () => document.getElementById('edit-modal').classList.add('hidden');
 
         window.openExamQuestionsModal = () => {
-            const modal = document.getElementById('exam-questions-modal');
             const container = document.getElementById('mapping-form');
             container.innerHTML = '';
             for(let i=0; i<25; i++) {
                 const data = tempExamQuestions[i] || { qId: '', score: 2.0, correctAnswer: '' };
-                container.innerHTML += `
-                    <div class="bg-gray-700/50 p-3 rounded-xl border border-gray-600">
+                container.innerHTML += `<div class="bg-gray-700/50 p-3 rounded-xl border border-gray-600">
                         <div class="flex justify-between items-center mb-2"><span class="text-sm font-bold text-emerald-300">Q${i+1}</span></div>
                         <div class="space-y-2">
                             <div><input type="text" class="map-qid w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-white focus:border-emerald-500 outline-none" placeholder="문항 ID" value="${data.qId || ''}" onchange="fetchQuestionInfo(this, ${i})"></div>
@@ -912,18 +953,13 @@
                         </div>
                     </div>`;
             }
-            modal.classList.remove('hidden');
+            document.getElementById('exam-questions-modal').classList.remove('hidden');
+            lucide.createIcons();
         };
 
         window.closeExamQuestionsModal = () => {
-            const qIds = document.querySelectorAll('.map-qid');
-            const scores = document.querySelectorAll('.map-score');
-            const answers = document.querySelectorAll('.map-ans');
-            for(let i=0; i<25; i++) {
-                tempExamQuestions[i] = {
-                    no: i+1, qId: qIds[i].value.trim(), score: Number(scores[i].value) || 0, correctAnswer: Number(answers[i].value) || 0
-                };
-            }
+            const qIds = document.querySelectorAll('.map-qid'), scores = document.querySelectorAll('.map-score'), answers = document.querySelectorAll('.map-ans');
+            for(let i=0; i<25; i++) tempExamQuestions[i] = { no: i+1, qId: qIds[i].value.trim(), score: Number(scores[i].value) || 0, correctAnswer: Number(answers[i].value) || 0 };
             document.getElementById('exam-questions-modal').classList.add('hidden');
         };
 
@@ -933,333 +969,261 @@
                 const docSnap = await getDoc(doc(db, "questions", qId));
                 if(docSnap.exists()) {
                     const data = docSnap.data();
-                    const scores = document.querySelectorAll('.map-score');
-                    const answers = document.querySelectorAll('.map-ans');
-                    if(data.difficulty) scores[index].value = data.difficulty;
-                    if(data.correctAnswer) answers[index].value = data.correctAnswer;
+                    document.querySelectorAll('.map-score')[index].value = data.difficulty;
+                    document.querySelectorAll('.map-ans')[index].value = data.correctAnswer;
                 } else { inputEl.style.borderColor = 'red'; }
             } catch(e) { console.error(e); }
         };
 
         window.saveExamData = async () => {
-            let docId = document.getElementById('edit-doc-id').value;
-            if(!docId) docId = document.getElementById('edit-id-input').value.trim();
+            let docId = document.getElementById('edit-doc-id').value || document.getElementById('edit-id-input').value.trim();
             if(!docId) return alert("시험 ID 필수");
-            
-            const title = document.getElementById('edit-title').value;
-            const subTitle = document.getElementById('edit-subtitle').value;
-            const price = Number(document.getElementById('edit-price').value);
-            const dateVal = document.getElementById('edit-date').value;
-            
             if (!confirm("저장하시겠습니까?")) return;
             try { 
-                const dateISO = dateVal ? new Date(dateVal).toISOString() : null;
+                const title = document.getElementById('edit-title').value, subTitle = document.getElementById('edit-subtitle').value, price = Number(document.getElementById('edit-price').value), dateVal = document.getElementById('edit-date').value;
                 const numId = Number(docId.replace(/[^0-9]/g, '')) || 0;
-                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateISO }, { merge: true });
-                
-                const scoreArr = tempExamQuestions.map(q => q ? q.score : 0);
-                const ansArr = tempExamQuestions.map(q => q ? q.correctAnswer : 0);
-                
-                await setDoc(doc(db, "exams", docId), { 
-                    title, questions: tempExamQuestions, score_map: scoreArr, answer_key: ansArr, updatedAt: new Date().toISOString() 
-                }, { merge: true });
-                
+                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null }, { merge: true });
+                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString() }, { merge: true });
                 alert("저장 완료"); closeEditModal(); window.loadExamList(); 
             } catch (e) { alert("실패: " + e.message); }
+        };
+
+        window.generateExamArchive = async () => {
+            const examId = document.getElementById('edit-doc-id').value;
+            if (!examId) return alert("시험 ID가 없습니다.");
+            if (!confirm(`${examId}의 분석용 아카이브를 생성/업데이트 하시겠습니까?\n(questions 컬렉션의 최신 정보를 반영합니다)`)) return;
+
+            const btn = document.getElementById('btn-generate-archive');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> 생성 중...`;
+            btn.disabled = true;
+
+            try {
+                const examSnap = await getDoc(doc(db, "exams", examId));
+                if (!examSnap.exists()) throw new Error("시험 상세 정보를 찾을 수 없습니다.");
+                
+                const questions = examSnap.data().questions;
+                if (!questions || questions.length === 0) throw new Error("구성된 문항이 없습니다.");
+
+                const batch = writeBatch(db);
+                const archiveCol = collection(db, 'artifacts', 'godtonggwa_v1', 'public', 'data', 'exam_archive');
+                
+                let successCount = 0;
+
+                for (let i = 0; i < questions.length; i++) {
+                    const qItem = questions[i];
+                    if (!qItem || !qItem.qId) continue;
+
+                    const qSnap = await getDoc(doc(db, "questions", qItem.qId));
+                    if (qSnap.exists()) {
+                        const qData = qSnap.data();
+                        const qNum = i + 1;
+                        const archiveDocId = `${examId}_q${String(qNum).padStart(2, '0')}`;
+                        
+                        batch.set(doc(archiveCol, archiveDocId), {
+                            exam_id: examId,
+                            q_num: qNum,
+                            q_id: qItem.qId,
+                            topic: qData.taxonomy?.topic || "미분류",
+                            domain: qData.behavioralDomain || "미분류",
+                            updatedAt: new Date().toISOString()
+                        });
+                        successCount++;
+                    }
+                }
+
+                await batch.commit();
+                alert(`성공! 총 ${successCount}개의 문항 아카이브가 생성/업데이트되었습니다.`);
+            } catch (e) {
+                alert("오류 발생: " + e.message);
+                console.error(e);
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
         };
 
         window.batchUpdateYear = async () => {
             if (!confirm("일괄 변경?")) return;
             try { 
-                const q = query(collection(db, "public_exams")); 
-                const snapshot = await getDocs(q); 
+                const snapshot = await getDocs(collection(db, "public_exams")); 
                 const updates = []; 
-                let count = 0; 
-                snapshot.forEach(docSnapshot => { 
-                    const data = docSnapshot.data(); 
-                    let needsUpdate = false; 
-                    let newTitle = data.title; 
-                    let newSubTitle = data.subTitle || ""; 
-                    if (newTitle.includes("2024")) { newTitle = newTitle.replace(/2024/g, "2026"); needsUpdate = true; } 
-                    if (newSubTitle.includes("2024")) { newSubTitle = newSubTitle.replace(/2024/g, "2026"); needsUpdate = true; } 
-                    if (needsUpdate) { updates.push(updateDoc(doc(db, "public_exams", docSnapshot.id), { title: newTitle, subTitle: newSubTitle })); count++; } 
+                snapshot.forEach(sd => { 
+                    const d = sd.data(); 
+                    if (d.title.includes("2024") || (d.subTitle && d.subTitle.includes("2024"))) {
+                        updates.push(updateDoc(sd.ref, { title: d.title.replace(/2024/g, "2026"), subTitle: (d.subTitle || "").replace(/2024/g, "2026") }));
+                    }
                 }); 
-                await Promise.all(updates); 
-                alert(`${count}개 수정 완료`); 
-                window.loadExamList(); 
+                await Promise.all(updates); alert(`${updates.length}개 수정 완료`); window.loadExamList(); 
             } catch (e) { alert("오류: " + e.message); }
         };
 
         window.searchUser = async () => {
-            const inputVal = document.getElementById('search-user-input').value.trim();
-            if (!inputVal) return alert("검색어 입력");
+            const val = document.getElementById('search-user-input').value.trim();
+            if (!val) return alert("검색어 입력");
             try {
-                const usersRef = collection(db, "users");
-                let q;
-                if (inputVal.includes('@')) q = query(usersRef, where("email", "==", inputVal));
-                else q = query(usersRef, where("name", "==", inputVal));
-                
-                const querySnapshot = await getDocs(q);
-                if (querySnapshot.empty) { document.getElementById('user-manage-panel').classList.add('hidden'); return alert("사용자 없음"); }
-                
-                const userDoc = querySnapshot.docs[0];
-                const userData = userDoc.data();
-                searchedUserUid = userDoc.id;
-                document.getElementById('manage-user-name').innerText = userData.name || "이름 없음";
-                document.getElementById('manage-user-email').innerText = userData.email || "-";
-                document.getElementById('manage-user-joined').innerText = userData.joinedAt ? new Date(userData.joinedAt).toLocaleDateString() : "-";
+                const q = val.includes('@') ? query(collection(db,"users"), where("email","==",val)) : query(collection(db,"users"), where("name","==",val));
+                const snap = await getDocs(q);
+                if (snap.empty) return alert("사용자 없음");
+                const userDoc = snap.docs[0], d = userDoc.data(); searchedUserUid = userDoc.id;
+                document.getElementById('manage-user-name').innerText = d.name || "이름 없음";
+                document.getElementById('manage-user-email').innerText = d.email || "-";
+                document.getElementById('manage-user-joined').innerText = d.joinedAt ? new Date(d.joinedAt).toLocaleDateString() : "-";
                 document.getElementById('user-manage-panel').classList.remove('hidden');
-                
-                const statusEl = document.getElementById('manage-user-status');
-                if (userData.isPaid) { statusEl.innerText = "Premium"; statusEl.className = "inline-block px-2 py-1 rounded text-xs font-bold bg-indigo-600 text-white"; } 
-                else { statusEl.innerText = "Free"; statusEl.className = "inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300"; }
-                
+                document.getElementById('manage-user-status').innerText = d.isPaid ? "Premium" : "Free";
+                document.getElementById('manage-user-status').className = d.isPaid ? "inline-block px-2 py-1 rounded text-xs font-bold bg-indigo-600 text-white" : "inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300";
                 window.loadUserExamList(searchedUserUid);
-            } catch (e) { alert("검색 오류: " + e.message); }
+            } catch (e) { alert("검색 오류"); }
         };
 
         window.loadUserExamList = async (uid) => {
-            const listContainer = document.getElementById('user-exam-list'); 
-            listContainer.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">조회 중...</p>';
+            const container = document.getElementById('user-exam-list'); container.innerHTML = '로딩...';
             try { 
-                const examsQ = query(collection(db, "public_exams"), orderBy("id", "asc")); 
-                const examsSnapshot = await getDocs(examsQ); 
-                const myExamsRef = collection(db, "users", uid, "my_exams"); 
-                const myExamsSnapshot = await getDocs(myExamsRef); 
-                const myExamsMap = {}; 
-                myExamsSnapshot.forEach(doc => myExamsMap[doc.id] = doc.data()); 
+                const examsSnap = await getDocs(query(collection(db, "public_exams"), orderBy("id", "asc"))); 
+                const mySnap = await getDocs(collection(db, "users", uid, "my_exams")); 
+                const myMap = {}; mySnap.forEach(d => myMap[d.id] = d.data()); 
                 let html = ''; 
-                examsSnapshot.forEach(doc => { 
-                    const exam = doc.data(); 
-                    const examIdStr = `exam_${String(exam.id).padStart(2,'0')}`; 
-                    const userRecord = myExamsMap[examIdStr]; 
-                    const hasPermission = !!userRecord; 
-                    let statusBadge = '<span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">미구매</span>'; 
-                    let actionBtn = `<button onclick="toggleUserExam('${uid}', '${examIdStr}', '${exam.title}', true)" class="text-xs bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg text-white font-bold transition-colors">지급</button>`; 
-                    if (hasPermission) { 
-                        const statusText = userRecord.status === 'graded' ? '채점완료' : (userRecord.status === 'purchased' ? '구매완료' : userRecord.status); 
-                        const badgeColor = userRecord.status === 'graded' ? 'bg-emerald-900 text-emerald-300' : 'bg-blue-900 text-blue-300'; 
-                        statusBadge = `<span class="text-xs px-2 py-1 rounded ${badgeColor}">${statusText}</span>`; 
-                        actionBtn = `<button onclick="toggleUserExam('${uid}', '${examIdStr}', '${exam.title}', false)" class="text-xs bg-red-900/50 hover:bg-red-900 border border-red-800 px-3 py-1.5 rounded-lg text-red-200 transition-colors">회수</button>`; 
-                    } 
-                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex items-center justify-between"><div class="flex-1"><div class="flex items-center gap-2 mb-1"><span class="text-xs text-gray-400 font-mono">#${exam.id}회</span>${statusBadge}</div><p class="text-sm font-bold text-white truncate">${exam.title}</p></div><div class="ml-4">${actionBtn}</div></div>`; 
+                examsSnap.forEach(ed => { 
+                    const e = ed.data(), eid = `exam_${String(e.id).padStart(2,'0')}`, userR = myMap[eid]; 
+                    const statusB = userR ? `<span class="text-xs px-2 py-1 rounded ${userR.status==='graded'?'bg-emerald-900':'bg-blue-900'}">${userR.status}</span>` : '<span class="text-xs text-gray-500">미구매</span>';
+                    const actionB = userR ? `<button onclick="toggleUserExam('${uid}','${eid}','${e.title}',false)" class="text-xs bg-red-900/50 p-1.5 rounded">회수</button>` : `<button onclick="toggleUserExam('${uid}','${eid}','${e.title}',true)" class="text-xs bg-indigo-600 p-1.5 rounded">지급</button>`;
+                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between"><div><span class="text-xs text-gray-400">#${e.id}</span> ${statusB}<p class="text-sm font-bold">${e.title}</p></div>${actionB}</div>`;
                 }); 
-                listContainer.innerHTML = html; 
-            } catch (e) { listContainer.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
+                container.innerHTML = html; lucide.createIcons();
+            } catch (e) { container.innerHTML = '실패'; }
         };
 
-        window.toggleUserExam = async (uid, examDocId, examTitle, grant) => {
-            if (grant) { 
-                if(!confirm("권한 부여?")) return; 
-                try { await setDoc(doc(db, "users", uid, "my_exams", examDocId), { status: 'purchased', title: examTitle, grantedAt: new Date().toISOString(), adminGranted: true }, { merge: true }); window.loadUserExamList(uid); } catch(e) { alert("실패: " + e.message); } 
-            } else { 
-                if(!confirm("권한 회수?")) return; 
-                try { await deleteDoc(doc(db, "users", uid, "my_exams", examDocId)); window.loadUserExamList(uid); } catch(e) { alert("실패: " + e.message); } 
-            }
+        window.toggleUserExam = async (uid, eid, title, grant) => {
+            try { grant ? await setDoc(doc(db,"users",uid,"my_exams",eid), {status:'purchased', title, grantedAt:new Date().toISOString(), adminGranted:true}) : await deleteDoc(doc(db,"users",uid,"my_exams",eid)); window.loadUserExamList(uid); } catch(e) { alert("실패"); }
         };
 
         window.resetUserExamData = async () => {
-            const targetExamId = document.getElementById('reset-exam-id').value.trim();
-            if (!searchedUserUid) return alert("사용자 검색 필요");
-            if (!targetExamId) return alert("시험 ID 입력 필요");
-            if (!confirm("정말 영구 삭제하시겠습니까?")) return;
-            try {
-                const batch = writeBatch(db);
-                batch.delete(doc(db, "users", searchedUserUid, "my_exams", targetExamId));
-                batch.delete(doc(db, "users", searchedUserUid, "exam_results", targetExamId));
-                await batch.commit();
-                alert("삭제 완료");
-                document.getElementById('reset-exam-id').value = '';
-                window.loadUserExamList(searchedUserUid);
-            } catch (e) { alert("오류: " + e.message); }
+            const tid = document.getElementById('reset-exam-id').value.trim();
+            if (!searchedUserUid || !tid) return alert("입력 필요");
+            if (!confirm("삭제?")) return;
+            try { const b = writeBatch(db); b.delete(doc(db,"users",searchedUserUid,"my_exams",tid)); b.delete(doc(db,"users",searchedUserUid,"exam_results",tid)); await b.commit(); alert("완료"); window.loadUserExamList(searchedUserUid); } catch(e) { alert("오류"); }
         };
 
         window.updateUserPaidStatus = async (isPaid) => {
-            if (!searchedUserUid) return alert("사용자 검색 필요");
-            if (isPaid) { 
-                if (!confirm("유료 전환?")) return; 
-                try { 
-                    const batch = writeBatch(db); 
-                    batch.update(doc(db, "users", searchedUserUid), { isPaid: true }); 
-                    const exams = await getDocs(collection(db, "public_exams")); 
-                    exams.forEach(ed => { 
-                        const eid = `exam_${String(ed.data().id).padStart(2,'0')}`; 
-                        batch.set(doc(db, "users", searchedUserUid, "my_exams", eid), { status: 'purchased', title: ed.data().title, grantedAt: new Date().toISOString() }, { merge: true }); 
-                    }); 
-                    await batch.commit(); alert("완료"); window.searchUser(); 
-                } catch (e) { alert("실패: " + e.message); } 
-            } else { 
-                if (confirm("무료 전환?")) { 
-                    let resetData = confirm("데이터 초기화?"); 
-                    try { 
-                        const batch = writeBatch(db); 
-                        batch.update(doc(db, "users", searchedUserUid), { isPaid: false }); 
-                        if (resetData) { 
-                            const myExams = await getDocs(collection(db, "users", searchedUserUid, "my_exams")); 
-                            myExams.forEach(d => batch.delete(d.ref)); 
-                            const results = await getDocs(collection(db, "users", searchedUserUid, "exam_results")); 
-                            results.forEach(d => batch.delete(d.ref)); 
-                        } 
-                        await batch.commit(); alert("완료"); window.searchUser(); 
-                    } catch (e) { alert("실패: " + e.message); } 
-                } 
-            }
+            if (!searchedUserUid) return;
+            try { 
+                const b = writeBatch(db); b.update(doc(db,"users",searchedUserUid), {isPaid});
+                if(isPaid) { const es = await getDocs(collection(db,"public_exams")); es.forEach(ed => { const eid = `exam_${String(ed.data().id).padStart(2,'0')}`; b.set(doc(db,"users",searchedUserUid,"my_exams",eid), {status:'purchased', title:ed.data().title, grantedAt:new Date().toISOString()}, {merge:true}); }); }
+                await b.commit(); window.searchUser();
+            } catch(e) { alert("실패"); }
         };
 
-        window.updateTopicOptions = function(selectedChapter, selectedTopic = null) {
-            const topicSelect = document.getElementById('q-topic');
-            topicSelect.innerHTML = '<option value="">소단원 선택</option>';
-            if (selectedChapter && TOPIC_MAP[selectedChapter]) {
-                TOPIC_MAP[selectedChapter].forEach(topic => {
-                    const option = document.createElement('option');
-                    option.value = topic;
-                    option.text = topic;
-                    if (selectedTopic === topic) option.selected = true;
-                    topicSelect.appendChild(option);
-                });
-            }
+        window.updateTopicOptions = (chapter, topic = null) => {
+            const select = document.getElementById('q-topic'); select.innerHTML = '<option value="">소단원 선택</option>';
+            if (chapter && TOPIC_MAP[chapter]) TOPIC_MAP[chapter].forEach(t => { const o = document.createElement('option'); o.value = t; o.text = t; if(topic===t) o.selected=true; select.appendChild(o); });
         };
-        document.getElementById('q-chapter').addEventListener('change', (e) => {
-            window.updateTopicOptions(e.target.value);
-        });
+        document.getElementById('q-chapter').addEventListener('change', (e) => window.updateTopicOptions(e.target.value));
 
         window.openQuestionModal = async (docId = null) => {
-            const modal = document.getElementById('question-edit-modal');
-            safeSetValue('q-doc-id', docId || '');
-            safeSetValue('q-id', docId || `q_${new Date().getFullYear()}_${Math.random().toString(36).substr(2, 5)}`);
-            safeSetValue('q-domain', '');
-            safeSetValue('q-chapter', '');
-            window.updateTopicOptions('');
-            safeSetValue('q-difficulty', '2.0'); 
-            safeSetValue('q-answer', '');
-            safeSetValue('question-behavioral-domain', ''); 
-            
+            // 기본 필드 초기화
+            safeSetValue('q-doc-id', docId || ''); 
+            safeSetValue('q-id', docId || `q_${new Date().getFullYear()}_${Math.random().toString(36).substr(2,5)}`);
+            safeSetValue('q-domain',''); 
+            safeSetValue('q-chapter',''); 
+            window.updateTopicOptions(''); 
+            safeSetValue('q-difficulty','2.0'); 
+            safeSetValue('q-answer',''); 
+            safeSetValue('question-behavioral-domain','');
+
+            // 통계 초기화
+            document.getElementById('stat-total').innerText = '0';
+            document.getElementById('stat-correct').innerText = '0';
+            document.getElementById('stat-accuracy').innerText = '0%';
+
             if (docId) {
                 try {
-                    const docSnap = await getDoc(doc(db, "questions", docId));
-                    if (docSnap.exists()) {
-                        const d = docSnap.data();
-                        const tax = d.taxonomy || {};
-                        safeSetValue('q-id', docId);
-                        safeSetValue('q-domain', tax.domain || '');
-                        const chapter = tax.chapter || '';
-                        safeSetValue('q-chapter', chapter);
-                        window.updateTopicOptions(chapter, tax.topic);
-                        safeSetValue('q-difficulty', d.difficulty || 2.0);
-                        safeSetValue('q-answer', d.correctAnswer || '');
-                        safeSetValue('question-behavioral-domain', d.behavioralDomain || '');
+                    const snap = await getDoc(doc(db,"questions",docId));
+                    if(snap.exists()) { 
+                        const d = snap.data(), tax = d.taxonomy||{}; 
+                        safeSetValue('q-id', docId); 
+                        safeSetValue('q-domain', tax.domain||''); 
+                        safeSetValue('q-chapter', tax.chapter||''); 
+                        window.updateTopicOptions(tax.chapter, tax.topic); 
+                        
+                        // 난이도 소수점 일치화 (2 -> "2.0")
+                        const diffVal = d.difficulty ? Number(d.difficulty).toFixed(1) : "2.0";
+                        safeSetValue('q-difficulty', diffVal); 
+                        
+                        safeSetValue('q-answer', d.correctAnswer||''); 
+                        safeSetValue('question-behavioral-domain', d.behavioralDomain||''); 
+
+                        // 통계 정보 반영
+                        const stats = d.stats || { total: 0, correct: 0 };
+                        document.getElementById('stat-total').innerText = stats.total || 0;
+                        document.getElementById('stat-correct').innerText = stats.correct || 0;
+                        const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                        document.getElementById('stat-accuracy').innerText = acc + '%';
                     }
                 } catch(e) { console.error(e); }
             }
-            modal.classList.remove('hidden');
+            document.getElementById('question-edit-modal').classList.remove('hidden');
+            lucide.createIcons();
         };
         
         window.closeQuestionModal = () => document.getElementById('question-edit-modal').classList.add('hidden');
         
-        /**
-         * [핵심 업데이트 로직]
-         * 문항 은행에서 정보를 수정하면, 해당 문항을 포함하고 있는 모든 모의고사(exams)를 찾아서
-         * 실시간으로 정보를 동기화합니다.
-         */
         window.saveQuestionData = async () => {
             const originalDocId = document.getElementById('q-doc-id').value;
             const newDocId = document.getElementById('q-id').value.trim();
-            if (!newDocId) return alert("ID 필수");
-            
             const domain = document.getElementById('q-domain').value;
             const chapter = document.getElementById('q-chapter').value;
             const topic = document.getElementById('q-topic').value;
             const behavior = document.getElementById('question-behavioral-domain').value;
-
-            if (!domain || !chapter || !topic || !behavior) {
-                alert("모든 필드를 선택해주세요.");
-                return;
-            }
-
             const difficulty = Number(document.getElementById('q-difficulty').value);
             const correctAnswer = Number(document.getElementById('q-answer').value);
 
+            if (!newDocId || !domain || !chapter || !topic || !behavior) return alert("필수 항목 입력 누락");
+            if (!confirm("저장 및 실시간 동기화를 진행할까요?")) return;
+
             try {
-                const data = {
-                    id: newDocId,
-                    correctAnswer: correctAnswer,
-                    difficulty: difficulty,
-                    behavioralDomain: behavior,
-                    taxonomy: { subject: "통합과학", domain: domain, chapter: chapter, topic: topic },
-                    updatedAt: new Date().toISOString()
-                };
+                const data = { id: newDocId, correctAnswer, difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
                 
-                // 1. 원본 문항 업데이트
                 await setDoc(doc(db, "questions", newDocId), data, { merge: true });
-                
-                // ID가 변경된 경우 기존 문서 삭제
-                if (originalDocId && originalDocId !== newDocId) {
-                    await deleteDoc(doc(db, "questions", originalDocId));
-                }
+                if (originalDocId && originalDocId !== newDocId) await deleteDoc(doc(db, "questions", originalDocId));
 
-                /** * 2. [실시간 연동 로직] 모든 모의고사(exams)를 전수 조사하여 수정된 문항 정보를 동기화합니다.
-                 * Rule 2에 따라 전체 exams를 가져와 메모리에서 필터링하여 처리합니다.
-                 */
-                const examsSnap = await getDocs(collection(db, "exams"));
                 const batch = writeBatch(db);
-                let updateCount = 0;
+                let examUpdateCount = 0;
+                let archiveUpdateCount = 0;
 
+                const examsSnap = await getDocs(collection(db, "exams"));
                 examsSnap.forEach(examDoc => {
-                    const examData = examDoc.data();
-                    // 문항 리스트가 있고 배열인 경우에만 작업 수행
-                    if (examData.questions && Array.isArray(examData.questions)) {
-                        let isModified = false;
-                        const updatedQuestions = examData.questions.map(q => {
-                            // q가 null인 경우(빈 슬롯)를 대비한 가드 클로즈
-                            if (!q || !q.qId) return q;
-
-                            // 원래 ID 또는 변경된 ID와 일치하는 문항 찾기
-                            if (q.qId === originalDocId || q.qId === newDocId) {
-                                isModified = true;
-                                return { 
-                                    ...q, 
-                                    qId: newDocId, // ID가 바뀌었을 수도 있으므로 최신화
-                                    score: difficulty, 
-                                    correctAnswer: correctAnswer 
-                                };
-                            }
+                    const ed = examDoc.data();
+                    if (ed.questions && Array.isArray(ed.questions)) {
+                        let mod = false;
+                        const updatedQ = ed.questions.map(q => {
+                            if (q && (q.qId === originalDocId || q.qId === newDocId)) { mod = true; return { ...q, qId: newDocId, score: difficulty, correctAnswer: correctAnswer }; }
                             return q;
                         });
-
-                        if (isModified) {
-                            // exams 문서의 questions 배열과 파생된 score_map, answer_key 모두 업데이트하여 정합성 유지
-                            batch.update(examDoc.ref, {
-                                questions: updatedQuestions,
-                                score_map: updatedQuestions.map(uq => uq ? uq.score : 0),
-                                answer_key: updatedQuestions.map(uq => uq ? uq.correctAnswer : 0),
-                                updatedAt: new Date().toISOString()
-                            });
-                            updateCount++;
+                        if (mod) { 
+                            batch.update(examDoc.ref, { questions: updatedQ, score_map: updatedQ.map(uq => uq ? uq.score : 0), answer_key: updatedQ.map(uq => uq ? uq.correctAnswer : 0), updatedAt: new Date().toISOString() }); 
+                            examUpdateCount++; 
                         }
                     }
                 });
 
-                if (updateCount > 0) {
-                    await batch.commit();
-                    alert(`저장 완료 (${updateCount}개의 모의고사가 실시간으로 동기화되었습니다)`);
-                } else {
-                    alert("저장 완료");
-                }
+                const archiveRef = collection(db, 'artifacts', 'godtonggwa_v1', 'public', 'data', 'exam_archive');
+                const archiveSnap = await getDocs(archiveRef);
+                archiveSnap.forEach(archiveDoc => {
+                    const ad = archiveDoc.data();
+                    if (ad.q_id === originalDocId || ad.q_id === newDocId) {
+                        batch.update(archiveDoc.ref, { topic: topic, domain: behavior, q_id: newDocId });
+                        archiveUpdateCount++;
+                    }
+                });
 
-                window.closeQuestionModal(); 
-                window.loadQuestionsList();
-            } catch(e) { 
-                alert("저장 실패: " + e.message); 
-                console.error(e);
-            }
+                await batch.commit();
+                alert(`저장 성공!\n- 모의고사 ${examUpdateCount}건 동기화\n- 분석 기록 ${archiveUpdateCount}건 동기화`);
+                window.closeQuestionModal(); window.loadQuestionsList();
+            } catch(e) { alert("저장 실패: " + e.message); }
         };
         
-        window.deleteQuestionData = async (docId) => {
-            if(!confirm("삭제하시겠습니까?")) return;
-            try { await deleteDoc(doc(db, "questions", docId)); alert("삭제됨"); window.loadQuestionsList(); } 
-            catch(e) { alert("실패: " + e.message); }
-        };
-        
+        window.deleteQuestionData = async (id) => { if(confirm("삭제?")) { try { await deleteDoc(doc(db, "questions", id)); window.loadQuestionsList(); } catch(e) { alert("실패"); } } };
         lucide.createIcons();
     </script>
 </body>

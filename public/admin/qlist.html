@@ -17,27 +17,32 @@
         .sidebar-item.active { background-color: #e0e7ff; color: #4338ca; border-right: 3px solid #4338ca; font-weight: bold; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         
-        /* 로그인 오버레이 */
         .overlay-screen { position: fixed; inset: 0; background: #111827; display: flex; align-items: center; justify-content: center; z-index: 1000; }
         .login-card { width: 100%; max-width: 400px; padding: 2.5rem; border-radius: 1.5rem; background: #1f2937; border: 1px solid #374151; text-align: center; color: white; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 매트릭스 테이블 커스텀 스타일 */
         .matrix-table-container { height: calc(100vh - 120px); overflow-x: auto; }
         th.sticky-col-1, td.sticky-col-1 { position: sticky; left: 0; z-index: 20; border-right: 1px solid #e2e8f0; background-color: white; }
-        th.sticky-col-2, td.sticky-col-2 { position: sticky; left: 80px; z-index: 20; border-right: 2px solid #cbd5e1; background-color: white; }
+        th.sticky-col-2, td.sticky-col-2 { position: sticky; left: 100px; z-index: 20; border-right: 2px solid #cbd5e1; background-color: white; }
         thead th.sticky-col-1, thead th.sticky-col-2 { z-index: 40; background-color: #f1f5f9; }
         .circle-badge {
-            width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+            width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
             font-size: 10px; font-weight: bold; color: white; margin: 1px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             cursor: default;
         }
-        .bg-comm { background-color: #94A3B8; } .bg-hypo { background-color: #FBBF24; }
-        .bg-design { background-color: #F87171; } .bg-exec { background-color: #34D399; }
-        .bg-anal { background-color: #60A5FA; } .bg-conc { background-color: #A78BFA; }
+        /* 행동 영역 색상 정의 (admin1.html과 일치) */
+        .bg-apply { background-color: #94A3B8; } /* 이해와 적용 */
+        .bg-comm { background-color: #475569; } /* 의사소통 */
+        .bg-hypo { background-color: #FBBF24; } /* 가설 설정 */
+        .bg-design { background-color: #F87171; } /* 탐구 설계 */
+        .bg-exec { background-color: #34D399; } /* 탐구 수행 및 자료 수집 */
+        .bg-anal { background-color: #60A5FA; } /* 자료 변환 및 해석 */
+        .bg-conc { background-color: #A78BFA; } /* 결론 도출 */
 
-        /* PDF 패널 스타일 */
+        /* 중단원 구분 실선 스타일 */
+        .unit-divider { border-top: 3px solid #1e293b !important; }
+
         #pdf-render-area canvas { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 20px; border-radius: 8px; width: 100%; height: auto; }
         #pdf-panel { transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
         #pdf-panel.closed { width: 0 !important; opacity: 0; padding: 0; border: none; }
@@ -46,7 +51,6 @@
 </head>
 <body class="flex h-screen overflow-hidden text-gray-800">
 
-    <!-- [1. 로그인 화면] -->
     <div id="login-container" class="overlay-screen">
         <div class="login-card fade-in">
             <div class="bg-indigo-600 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -71,7 +75,6 @@
         </div>
     </div>
 
-    <!-- [2. 로딩 화면] -->
     <div id="loading-overlay" class="overlay-screen hidden">
         <div class="flex flex-col items-center gap-3 text-white text-center">
             <div class="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
@@ -79,16 +82,14 @@
         </div>
     </div>
 
-    <!-- [3. 사이드바] -->
     <aside class="w-72 bg-white border-r border-gray-200 flex flex-col z-30 shadow-lg shrink-0">
         <div class="p-6 bg-indigo-700 text-white shadow-md">
             <h1 class="text-xl font-bold flex items-center gap-2">
                 <i data-lucide="layout-dashboard"></i> 통합 관리 Pro
             </h1>
-            <p class="text-[10px] text-indigo-200 mt-1 uppercase font-bold tracking-widest">2028 Unified Science System</p>
+            <p class="text-[10px] text-indigo-200 mt-1 uppercase font-bold tracking-widest">2028 Unified Science</p>
         </div>
 
-        <!-- 메뉴 전환 탭 -->
         <div class="p-3 flex gap-1 bg-indigo-50 border-b border-indigo-100">
             <button onclick="switchMenu('qlist')" id="tab-qlist" class="menu-tab active flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 border border-indigo-200 shadow-sm">
                 <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> 출제 도우미
@@ -98,7 +99,6 @@
             </button>
         </div>
         
-        <!-- 출제 도우미 전용 사이드바 (qlist) -->
         <div id="sidebar-qlist-content" class="flex-1 flex flex-col overflow-hidden">
             <div class="p-4 border-b border-gray-100">
                 <div class="flex justify-between items-center mb-2">
@@ -113,12 +113,11 @@
             <nav class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide" id="sidebar-menu"></nav>
         </div>
 
-        <!-- 분석 매트릭스 전용 사이드바 (matrix) -->
         <div id="sidebar-matrix-content" class="hidden flex-1 flex flex-col p-4 space-y-4 overflow-y-auto">
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <h3 class="text-xs font-bold text-slate-500 mb-3 flex items-center gap-1"><i data-lucide="info" class="w-3 h-3"></i> 매트릭스 안내</h3>
-                <p class="text-[11px] text-slate-400 leading-relaxed">회차별 문항 분포를 한눈에 확인합니다. 행동 영역별 색상 배지를 통해 균형 있는 출제를 도와줍니다.</p>
-                <button onclick="renderMatrix()" class="w-full mt-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold border border-indigo-200 hover:bg-indigo-100 transition-colors flex items-center justify-center gap-2">
+                <p class="text-[11px] text-slate-400 leading-relaxed">이 매트릭스는 <b>문항 은행(Questions)</b>의 전체 데이터와 <b>시험별(Archive)</b> 분포를 실시간으로 비교합니다.</p>
+                <button onclick="renderMatrix()" class="w-full mt-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold border border-indigo-100 transition-colors flex items-center justify-center gap-2 shadow-sm">
                     <i data-lucide="refresh-cw" class="w-3 h-3"></i> 데이터 새로고침
                 </button>
             </div>
@@ -134,44 +133,33 @@
         </div>
     </aside>
 
-    <!-- [4. 메인 어플리케이션 영역] -->
     <main class="flex-1 flex overflow-hidden relative">
-        
-        <!-- 섹션 1: 출제 도우미 (qlist) -->
         <section id="menu-qlist-container" class="flex-1 flex overflow-hidden">
             <section class="flex-1 flex flex-col border-r border-gray-200 bg-white min-w-[400px]">
                 <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm z-20 h-16">
                     <div>
                         <h2 class="text-lg font-bold text-gray-800" id="header-title">단원 선택 대기</h2>
-                        <p class="text-xs text-gray-500 mt-0.5" id="header-desc">질문 리스트를 관리합니다.</p>
+                        <p class="text-xs text-gray-500 mt-0.5" id="header-desc">교육과정 질문 리스트</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="addQuestion()" id="add-btn" class="hidden bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 transition-all shadow-sm active:scale-95 flex items-center gap-1.5 text-xs font-bold">
-                            <i data-lucide="plus" class="w-3 h-3"></i> 질문 추가
-                        </button>
                         <button onclick="togglePDF()" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-200 transition-all shadow-sm active:scale-95 flex items-center gap-1.5 text-xs font-bold border border-slate-200">
                             <span id="pdf-toggle-icon"><i data-lucide="book-open" class="w-3 h-3"></i></span> 
                             <span id="toggle-text">교재 닫기</span>
                         </button>
                     </div>
                 </header>
-
                 <div class="flex-1 overflow-y-auto p-6 bg-slate-50 scrollbar-hide" id="question-container">
                     <div class="flex flex-col items-center justify-center h-full text-gray-400 opacity-60">
                         <i data-lucide="layout-list" class="w-12 h-12 mb-3"></i>
-                        <p class="text-sm text-center leading-relaxed">왼쪽 메뉴에서 단원을 선택하세요.<br>클라우드와 실시간 동기화됩니다.</p>
+                        <p class="text-sm text-center">왼쪽 메뉴에서 단원을 선택하세요.</p>
                     </div>
                 </div>
             </section>
-
             <section id="pdf-panel" class="w-[50%] flex flex-col bg-gray-100 min-w-[400px] border-l border-gray-200 relative shadow-inner">
                 <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm z-20 h-16 shrink-0">
                     <div class="flex items-center gap-2">
                         <span class="bg-red-100 text-red-600 p-1.5 rounded-md"><i data-lucide="file-text" class="w-4 h-4"></i></span>
-                        <div>
-                            <h2 class="text-sm font-bold text-gray-800">교재 뷰어</h2>
-                            <p class="text-[10px] text-gray-500" id="pdf-status-detail">파일 업로드 대기</p>
-                        </div>
+                        <h2 class="text-sm font-bold text-gray-800">교재 뷰어</h2>
                     </div>
                     <div id="page-controls" class="hidden flex items-center gap-2">
                          <span class="text-xs font-bold bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200" id="page-indicator">Page -</span>
@@ -183,425 +171,228 @@
             </section>
         </section>
 
-        <!-- 섹션 2: 분석 매트릭스 (matrix) -->
         <section id="menu-matrix-container" class="hidden flex-1 flex flex-col bg-white overflow-hidden">
             <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm h-16 shrink-0 text-gray-800">
                 <div class="flex items-center gap-2">
                     <span class="bg-indigo-100 text-indigo-600 p-1.5 rounded-md"><i data-lucide="grid-3x3" class="w-4 h-4"></i></span>
                     <h2 class="text-lg font-bold">모의고사 분석 매트릭스</h2>
                 </div>
-                <div class="flex items-center gap-4 text-[11px] font-medium text-gray-500">
-                    <div class="flex items-center gap-1"><div class="w-2.5 h-2.5 rounded-full bg-comm"></div>의사소통</div>
-                    <div class="flex items-center gap-1"><div class="w-2.5 h-2.5 rounded-full bg-hypo"></div>가설설정</div>
-                    <div class="flex items-center gap-1"><div class="w-2.5 h-2.5 rounded-full bg-design"></div>탐구설계</div>
-                    <div class="flex items-center gap-1"><div class="w-2.5 h-2.5 rounded-full bg-exec"></div>수행/수집</div>
-                    <div class="flex items-center gap-1"><div class="w-2.5 h-2.5 rounded-full bg-anal"></div>변환/해석</div>
-                    <div class="flex items-center gap-1"><div class="w-2.5 h-2.5 rounded-full bg-conc"></div>결론도출</div>
+                <div class="flex items-center gap-4 text-[10px] font-medium text-gray-500">
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-apply"></div>이해/적용</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-comm"></div>의사소통</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-hypo"></div>가설설정</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-design"></div>탐구설계</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-exec"></div>수행/수집</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-anal"></div>변환/해석</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-conc"></div>결론도출</div>
                 </div>
             </header>
             <div class="flex-1 matrix-table-container scrollbar-hide">
                 <table class="w-full text-xs text-left border-collapse min-w-max">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr id="matrix-header-row">
-                            <th class="px-2 py-3 sticky-col-1 w-[80px] text-center bg-slate-100 border-b">대단원</th>
-                            <th class="px-4 py-3 sticky-col-2 w-[180px] bg-slate-100 shadow-md text-left border-b">내용 요소</th>
-                        </tr>
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50" id="matrix-thead">
+                        <!-- JS에서 동적으로 생성됨 -->
                     </thead>
                     <tbody id="matrix-body" class="divide-y divide-gray-100"></tbody>
-                    <tfoot id="matrix-footer" class="text-xs text-gray-600"></tfoot>
                 </table>
             </div>
+            <div id="matrix-toast" class="hidden fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-xl">업데이트 완료</div>
         </section>
-
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- Firebase Config ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
-            authDomain: "godtonggwa.firebaseapp.com",
-            projectId: "godtonggwa",
-            storageBucket: "godtonggwa.firebasestorage.app",
-            messagingSenderId: "1087434066468",
-            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db_fs = getFirestore(app);
+        const firebaseConfig = { apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db_fs = getFirestore(app);
         const APP_ID = "godtonggwa_v1";
 
-        // --- 순서 및 구조 정의 (중요: 이 순서가 사이드바와 매트릭스의 절대 기준이 됩니다) ---
         const CURRICULUM_STRUCTURE = {
-            "0. 기초 및 첨단과학": ["기본량과 단위", "측정과 어림", "정보와 신호", "인공지능", "로봇", "과학 윤리", "감염병"],
-            "1. 물질과 규칙성": ["원소의 생성", "별의 진화", "원소의 주기성", "이온 결합", "공유 결합", "지각과 생명체", "전기적 성질"],
-            "2. 시스템과 상호작용": ["지구 시스템", "판 구조론", "중력장 운동", "충돌과 안전", "세포와 물질", "물질대사", "유전자"],
-            "3. 변화와 다양성": ["지질 시대", "대멸종", "진화", "생물 다양성", "산화 환원", "산과 염기", "중화 반응", "에너지 출입"],
-            "4. 환경과 에너지": ["생태계 구성 요소", "생태계 평형", "대기와 해양", "지구 온난화", "핵융합", "발전과 송전", "에너지 효율"]
+            "과학의 기초": ["기본량과 단위", "측정과 어림", "정보와 신호"],
+            "물질과 규칙성": ["원소 형성", "별의 진화", "원소의 주기성", "화학 결합", "지각과 생명체 구성 물질의 규칙성"],
+            "시스템과 상호작용": ["지구시스템의 구성과 상호작용", "판구조론과 지각 변동", "중력장 내의 운동", "충격량과 운동량", "생명 시스템의 기본 단위", "물질대사", "유전자와 단백질", "물질의 전기적 성질"],
+            "변화와 다양성": ["지질시대의 생물과 화석", "지질시대 환경 변화와 대멸종", "자연선택", "생물다양성", "산화와 환원", "중화 반응", "물질 변화에서 에너지 출입"],
+            "환경과 에너지": ["생태계 구성 요소", "생태계 평형", "대기와 해양의 상호작용", "온실기체와 지구온난화", "핵융합", "발전", "에너지 전환과 효율"],
+            "과학과 미래 사회": ["감염병과 병원체", "인공지능과 과학 탐구", "로봇", "과학기술과 윤리"]
         };
-
         const UNIT_KEYS = Object.keys(CURRICULUM_STRUCTURE);
-
-        // --- 전역 데이터 및 상태 ---
-        let scienceDB = null;
-        let pdfDoc = null;
-        let currentCategory = null;
-        let currentTopic = null;
-        let isPdfVisible = true;
-        let unsubscribeQList = null;
-
-        // 원본 qlist.html 순서가 보장된 기초 데이터 매핑
-        const initialScienceData = {
-            "0. 기초 및 첨단과학": {
-                "기본량과 단위": { pdf: {s:32, e:45}, q: ["SI 기본 단위를 쓰고, 힘(N)의 차원을 유도하시오."] },
-                "측정과 어림": { pdf: {s:46, e:52}, q: ["유효숫자의 사칙연산 규칙을 설명하시오."] },
-                "정보와 신호": { pdf: {s:53, e:59}, q: ["아날로그 신호를 디지털로 변환하는 3단계를 서술하시오."] },
-                "인공지능": { pdf: {s:244, e:250}, q: ["머신러닝의 지도학습과 비지도학습의 차이는?"] },
-                "로봇": { pdf: {s:244, e:250}, q: ["로봇의 3대 구성 요소와 기능을 설명하시오."] },
-                "과학 윤리": { pdf: {s:251, e:257}, q: ["연구 진실성을 위협하는 위조, 변조, 표절을 정의하시오."] },
-                "감염병": { pdf: {s:234, e:243}, q: ["세균과 바이러스의 차이점을 비교하시오."] }
-            },
-            "1. 물질과 규칙성": {
-                "원소의 생성": { pdf: {s:60, e:66}, q: ["빅뱅 후 헬륨 원자핵 생성 시기(3분)의 중요성을 서술하시오."] },
-                "별의 진화": { pdf: {s:67, e:75}, q: ["태양 질량 별의 진화 과정을 단계별로 설명하시오."] },
-                "원소의 주기성": { pdf: {s:76, e:82}, q: ["알칼리 금속의 반응성 경향을 전자 배치로 설명하시오."] },
-                "이온 결합": { pdf: {s:83, e:90}, q: ["이온 결합 물질이 고체에서 전기가 통하지 않는 이유는?"] },
-                "공유 결합": { pdf: {s:83, e:90}, q: ["공유 결합 물질의 녹는점이 비교적 낮은 이유를 서술하시오."] },
-                "지각과 생명체": { pdf: {s:91, e:97}, q: ["규산염 사면체의 결합 구조가 복잡할수록 풍화에 강한 이유는?"] },
-                "전기적 성질": { pdf: {s:98, e:104}, q: ["에너지 띠 이론으로 도체와 반도체를 비교하시오."] }
-            },
-            "2. 시스템과 상호작용": {
-                "지구 시스템": { pdf: {s:105, e:112}, q: ["지구 시스템의 에너지원 3가지를 설명하시오."] },
-                "판 구조론": { pdf: {s:113, e:119}, q: ["섭입형 경계에서 나타나는 지각 변동의 특징은?"] },
-                "중력장 운동": { pdf: {s:120, e:129}, q: ["수평으로 던진 물체의 운동을 분해하여 설명하시오."] },
-                "충돌과 안전": { pdf: {s:130, e:136}, q: ["충격량과 운동량 변화량의 관계를 서술하시오."] },
-                "세포와 물질": { pdf: {s:137, e:143}, q: ["세포막을 통한 확산과 삼투의 차이점은?"] },
-                "물질대사": { pdf: {s:137, e:143}, q: ["효소가 활성화 에너지에 미치는 영향을 그래프로 설명하시오."] },
-                "유전자": { pdf: {s:144, e:150}, q: ["생명 중심 원리(전사, 번역) 과정을 서술하시오."] }
-            },
-            "3. 변화와 다양성": {
-                "지질 시대": { pdf: {s:151, e:157}, q: ["표준 화석과 시상 화석의 조건을 비교하시오."] },
-                "대멸종": { pdf: {s:151, e:157}, q: ["가장 큰 규모의 대멸종(3차)의 원인은?"] },
-                "진화": { pdf: {s:158, e:166}, q: ["자연 선택에 의한 진화 과정을 서술하시오."] },
-                "생물 다양성": { pdf: {s:158, e:166}, q: ["생물 다양성의 3가지 층위를 정의하시오."] },
-                "산화 환원": { pdf: {s:167, e:174}, q: ["산화와 환원을 전자의 이동으로 정의하시오."] },
-                "산과 염기": { pdf: {s:175, e:182}, q: ["산의 공통적인 성질(3가지 이상)을 서술하시오."] },
-                "중화 반응": { pdf: {s:175, e:182}, q: ["중화점에서 온도가 가장 높은 이유는?"] },
-                "에너지 출입": { pdf: {s:183, e:190}, q: ["발열 반응과 흡열 반응의 에너지 그래프를 비교하시오."] }
-            },
-            "4. 환경과 에너지": {
-                "생태계 구성 요소": { pdf: {s:191, e:197}, q: ["먹이 사슬과 생태계 구성 요소를 설명하시오."] },
-                "생태계 평형": { pdf: {s:198, e:205}, q: ["먹이 그물의 복잡성과 생태계 평형의 관계는?"] },
-                "대기와 해양": { pdf: {s:206, e:212}, q: ["엘니뇨 발생 시 동태평양의 기상 변화를 설명하시오."] },
-                "지구 온난화": { pdf: {s:206, e:212}, q: ["온실 효과의 원리를 복사 에너지 파장으로 설명하시오."] },
-                "핵융합": { pdf: {s:213, e:219}, q: ["핵융합 에너지의 근원인 질량 결손을 설명하시오."] },
-                "발전과 송전": { pdf: {s:220, e:226}, q: ["전자기 유도 현상이란 무엇인가?"] },
-                "에너지 효율": { pdf: {s:227, e:233}, q: ["열효율이 100%가 될 수 없는 이유를 설명하시오."] }
-            }
+        
+        const domainColors = { 
+            "이해와 적용": "bg-apply",
+            "의사소통": "bg-comm", 
+            "가설 설정": "bg-hypo", 
+            "탐구 설계": "bg-design", 
+            "탐구 수행 및 자료 수집": "bg-exec", 
+            "자료 변환 및 해석": "bg-anal", 
+            "결론 도출": "bg-conc" 
         };
 
-        const domainColors = { "의사소통": "bg-comm", "가설설정": "bg-hypo", "탐구설계": "bg-design", "탐구수행 및 자료수집": "bg-exec", "자료변환 및 해석": "bg-anal", "결론도출": "bg-conc" };
+        let scienceDB = null; let pdfDoc = null; let currentCategory = null; let currentTopic = null; let isPdfVisible = true;
 
-        // --- 2. 메뉴 전환 ---
-        window.switchMenu = (menu) => {
-            document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(`tab-${menu}`).classList.add('active');
-            document.getElementById('menu-qlist-container').classList.add('hidden');
-            document.getElementById('menu-matrix-container').classList.add('hidden');
-            document.getElementById('sidebar-qlist-content').classList.add('hidden');
-            document.getElementById('sidebar-matrix-content').classList.add('hidden');
-            document.getElementById(`menu-${menu}-container`).classList.remove('hidden');
-            document.getElementById(`sidebar-${menu}-content`).classList.remove('hidden');
-            if (menu === 'matrix') renderMatrix();
-            lucide.createIcons();
-        };
-
-        // --- 3. 인증 및 데이터 연동 ---
         onAuthStateChanged(auth, async (user) => {
-            const loginSection = document.getElementById('login-container');
-            const loading = document.getElementById('loading-overlay');
             if (user) {
-                try {
-                    const adminDoc = await getDoc(doc(db_fs, "settings", "admin"));
-                    if (adminDoc.exists() && adminDoc.data().adminEmail === user.email) {
-                        loginSection.classList.add('hidden');
-                        loading.classList.remove('hidden');
-                        document.getElementById('display-email').innerText = user.email;
-                        startQListSync();
-                        loadLocalPDF();
-                    } else {
-                        alert("관리자 권한이 없습니다.");
-                        await signOut(auth);
-                    }
-                } catch (e) {
-                    console.error("Auth Fail:", e);
-                    await signOut(auth);
-                }
-            } else {
-                loginSection.classList.remove('hidden');
-                loading.classList.add('hidden');
-                if (unsubscribeQList) { unsubscribeQList(); unsubscribeQList = null; }
-            }
+                const adminDoc = await getDoc(doc(db_fs, "settings", "admin"));
+                if (adminDoc.exists() && adminDoc.data().adminEmail === user.email) {
+                    document.getElementById('login-container').classList.add('hidden');
+                    document.getElementById('loading-overlay').classList.remove('hidden');
+                    startQListSync(); loadLocalPDF();
+                } else { alert("권한 없음"); signOut(auth); }
+            } else { document.getElementById('login-container').classList.remove('hidden'); }
             lucide.createIcons();
         });
 
         document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('admin-email').value;
-            const pw = document.getElementById('admin-pw').value;
-            const btnText = document.getElementById('btn-text');
-            const btnSpinner = document.getElementById('btn-spinner');
-            btnText.innerText = "인증 중...";
-            btnSpinner.classList.remove('hidden');
-            try { await signInWithEmailAndPassword(auth, email, pw); }
-            catch (error) { 
-                alert("로그인 실패: 정보를 확인하세요.");
-                btnText.innerText = "로그인"; btnSpinner.classList.add('hidden');
-            }
+            try { await signInWithEmailAndPassword(auth, document.getElementById('admin-email').value, document.getElementById('admin-pw').value); }
+            catch (error) { alert("로그인 실패"); }
         });
 
         const startQListSync = () => {
             const docRef = doc(db_fs, 'artifacts', APP_ID, 'public', 'data', 'questions', 'mainDB');
-            unsubscribeQList = onSnapshot(docRef, (snap) => {
-                if (snap.exists()) scienceDB = snap.data().content;
-                else { scienceDB = initialScienceData; setDoc(docRef, { content: initialScienceData }); }
+            onSnapshot(docRef, (snap) => {
+                scienceDB = snap.exists() ? snap.data().content : {};
                 initSidebar();
                 document.getElementById('loading-overlay').classList.add('hidden');
                 if (currentCategory && currentTopic) renderQuestions();
             });
         };
 
-        // --- 4. PDF 로컬 저장 (IndexedDB) ---
-        const IDB_NAME = "ScientificPDFStore";
-        const IDB_STORE = "files";
-        const IDB_KEY = "last_pdf";
-        const openIDB = () => new Promise((res, rej) => {
-            const req = indexedDB.open(IDB_NAME, 1);
-            req.onupgradeneeded = (e) => e.target.result.createObjectStore(IDB_STORE);
-            req.onsuccess = (e) => res(e.target.result);
-            req.onerror = (e) => rej(e.target.error);
-        });
-
-        const loadLocalPDF = async () => {
-            try {
-                const idb = await openIDB();
-                const tx = idb.transaction(IDB_STORE, "readonly");
-                const file = await new Promise(res => {
-                    const req = tx.objectStore(IDB_STORE).get(IDB_KEY);
-                    req.onsuccess = () => res(req.result);
-                });
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = async function() {
-                        const typedarray = new Uint8Array(this.result);
-                        pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
-                        document.getElementById('pdf-status-msg').classList.remove('hidden');
-                        document.getElementById('clear-pdf-btn').classList.remove('hidden');
-                        document.getElementById('pdf-status-detail').innerText = `로드 완료 (${pdfDoc.numPages}쪽)`;
-                        if (currentCategory && currentTopic) renderPDF();
-                    };
-                    reader.readAsArrayBuffer(file);
-                }
-            } catch (e) { console.warn("Stored PDF load fail", e); }
-        };
-
-        window.clearStoredPDF = async () => {
-            if(!confirm("저장된 PDF를 삭제하시겠습니까?")) return;
-            const idb = await openIDB();
-            const tx = idb.transaction(IDB_STORE, "readwrite");
-            tx.objectStore(IDB_STORE).delete(IDB_KEY);
-            tx.oncomplete = () => location.reload();
-        };
-
-        // --- 5. 출제 도우미 로직 (qlist) ---
-        async function saveScienceCloud() {
-            if (!auth.currentUser) return;
-            const docRef = doc(db_fs, 'artifacts', APP_ID, 'public', 'data', 'questions', 'mainDB');
-            await setDoc(docRef, { content: scienceDB }, { merge: true });
-        }
-
-        // [순서 완벽 보정] CURRICULUM_STRUCTURE를 사용하여 절대적인 순서로 렌더링
         function initSidebar() {
-            const nav = document.getElementById('sidebar-menu');
-            nav.innerHTML = '';
-            
+            const nav = document.getElementById('sidebar-menu'); nav.innerHTML = '';
             UNIT_KEYS.forEach(category => {
-                if(!scienceDB[category]) return;
-                
-                const details = document.createElement('details'); 
-                details.open = true;
+                const details = document.createElement('details'); details.open = true;
                 const summary = document.createElement('summary');
                 summary.className = "px-4 py-2 text-xs font-bold text-gray-500 cursor-pointer list-none flex justify-between bg-gray-50 rounded mb-1";
                 summary.innerHTML = `${category} <i data-lucide="chevron-down" class="w-4 h-4"></i>`;
-                
-                const ul = document.createElement('ul');
-                ul.className = "pl-2 border-l-2 border-indigo-100 ml-2 mb-2";
-                
-                // 해당 단원의 주제들도 구조에 정의된 순서대로 루프
-                CURRICULUM_STRUCTURE[category].forEach(topic => {
-                    // 클라우드 데이터에 해당 주제가 있는지 확인
-                    if (!scienceDB[category][topic]) return;
-
+                const ul = document.createElement('ul'); ul.className = "pl-2 border-l-2 border-indigo-100 ml-2 mb-2";
+                (CURRICULUM_STRUCTURE[category] || []).forEach(topic => {
                     const li = document.createElement('li');
-                    li.className = "sidebar-item px-3 py-2 rounded text-sm text-gray-600 hover:bg-indigo-50 cursor-pointer transition-colors";
-                    if(currentTopic === topic) li.classList.add('active');
+                    li.className = `sidebar-item px-3 py-2 rounded text-sm text-gray-600 hover:bg-indigo-50 cursor-pointer transition-colors ${currentTopic === topic ? 'active' : ''}`;
                     li.innerText = topic;
                     li.onclick = () => {
                         currentCategory = category; currentTopic = topic;
                         document.querySelectorAll('.sidebar-item').forEach(e => e.classList.remove('active'));
                         li.classList.add('active');
                         document.getElementById('header-title').innerText = topic;
-                        document.getElementById('header-desc').innerText = `${category} 핵심 질문`;
-                        document.getElementById('add-btn').classList.remove('hidden');
-                        renderQuestions();
-                        if (pdfDoc && isPdfVisible) renderPDF();
+                        renderQuestions(); if (pdfDoc && isPdfVisible) renderPDF();
                     };
                     ul.appendChild(li);
                 });
-                details.appendChild(summary); 
-                details.appendChild(ul);
-                nav.appendChild(details);
+                details.appendChild(summary); details.appendChild(ul); nav.appendChild(details);
             });
             lucide.createIcons();
         }
 
         function renderQuestions() {
-            const container = document.getElementById('question-container');
-            container.innerHTML = '';
+            const container = document.getElementById('question-container'); container.innerHTML = '';
+            if(!scienceDB[currentCategory] || !scienceDB[currentCategory][currentTopic]) {
+                container.innerHTML = '<p class="text-center text-gray-400 py-10">질문 데이터가 없습니다.</p>'; return;
+            }
             scienceDB[currentCategory][currentTopic].q.forEach((q, idx) => {
                 const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-lg shadow-sm mb-3 group border border-gray-200 hover:border-indigo-200 transition-all";
-                card.innerHTML = `
-                    <div class="flex gap-3">
-                        <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center mt-0.5 shrink-0">${idx+1}</span>
-                        <div class="flex-1">
-                            <p class="text-gray-800 leading-relaxed" id="view-${idx}">${q}</p>
-                            <textarea id="edit-${idx}" class="hidden w-full p-2 border rounded-lg text-sm bg-indigo-50/30 h-20 outline-none focus:ring-1 focus:ring-indigo-300 transition-all">${q}</textarea>
-                            <div class="hidden mt-2 flex justify-end gap-2" id="btns-${idx}">
-                                <button onclick="renderQuestions()" class="px-3 py-1 text-xs bg-gray-100 rounded">취소</button>
-                                <button onclick="saveEdit(${idx})" class="px-3 py-1 text-xs bg-indigo-600 text-white rounded shadow-sm hover:bg-indigo-700">저장</button>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onclick="toggleEdit(${idx})" class="text-gray-400 hover:text-blue-500"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                            <button onclick="deleteQuestion(${idx})" class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                        </div>
-                    </div>`;
+                card.className = "bg-white p-5 rounded-lg shadow-sm mb-3 border border-gray-200 group hover:border-indigo-200 transition-all";
+                card.innerHTML = `<div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx+1}</span><p class="text-gray-800 leading-relaxed">${q}</p></div>`;
                 container.appendChild(card);
             });
-            lucide.createIcons();
         }
 
-        window.addQuestion = () => {
-            const q = prompt("질문을 입력하세요:");
-            if(q) { scienceDB[currentCategory][currentTopic].q.push(q); saveScienceCloud(); renderQuestions(); }
-        };
-        window.toggleEdit = (idx) => {
-            document.getElementById(`view-${idx}`).classList.add('hidden');
-            document.getElementById(`edit-${idx}`).classList.remove('hidden');
-            document.getElementById(`btns-${idx}`).classList.remove('hidden');
-        };
-        window.saveEdit = (idx) => {
-            scienceDB[currentCategory][currentTopic].q[idx] = document.getElementById(`edit-${idx}`).value;
-            saveScienceCloud(); renderQuestions();
-        };
-        window.deleteQuestion = (idx) => {
-            if(confirm("삭제하시겠습니까?")) { scienceDB[currentCategory][currentTopic].q.splice(idx, 1); saveScienceCloud(); renderQuestions(); }
-        };
-
-        window.togglePDF = () => {
-            const panel = document.getElementById('pdf-panel');
-            const icon = document.getElementById('pdf-toggle-icon');
-            const text = document.getElementById('toggle-text');
-            isPdfVisible = !isPdfVisible;
-            if (isPdfVisible) {
-                panel.classList.remove('closed');
-                icon.innerHTML = '<i data-lucide="book-open" class="w-3 h-3"></i>';
-                text.innerText = "교재 닫기";
-                if(pdfDoc && currentTopic) setTimeout(renderPDF, 300);
-            } else {
-                panel.classList.add('closed');
-                icon.innerHTML = '<i data-lucide="book" class="w-3 h-3"></i>';
-                text.innerText = "교재 보기";
-            }
-            lucide.createIcons();
-        };
-
-        document.getElementById('pdf-upload').addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if(!file) return;
-            const idb = await openIDB();
-            const tx = idb.transaction(IDB_STORE, "readwrite");
-            tx.objectStore(IDB_STORE).put(file, IDB_KEY);
-            tx.oncomplete = () => loadLocalPDF();
-        });
-
-        async function renderPDF() {
-            const area = document.getElementById('pdf-render-area');
-            area.innerHTML = '';
-            if(!pdfDoc) return;
-            const info = scienceDB[currentCategory][currentTopic].pdf;
-            document.getElementById('page-indicator').innerText = `p.${info.s} ~ p.${info.e}`;
-            document.getElementById('page-controls').classList.remove('hidden');
-            for (let i = info.s; i <= info.e; i++) {
-                if (i > pdfDoc.numPages) break;
-                const canvas = document.createElement('canvas');
-                area.appendChild(canvas);
-                const page = await pdfDoc.getPage(i);
-                const viewport = page.getViewport({ scale: 1.5 });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
-            }
-        }
-
-        // --- 6. 분석 매트릭스 로직 ---
         window.renderMatrix = async () => {
+            const thead = document.getElementById('matrix-thead');
             const tbody = document.getElementById('matrix-body');
-            const theadRow = document.getElementById('matrix-header-row');
-            const tfoot = document.getElementById('matrix-footer');
+            const toast = document.getElementById('matrix-toast');
+            
             try {
-                const q = query(collection(db_fs, 'artifacts', APP_ID, 'public', 'data', 'exam_archive'));
-                const snap = await getDocs(q);
-                let dbData = {}; let roundsSet = new Set();
-                snap.forEach(doc => {
-                    const item = doc.data();
-                    const round = item.exam_round || "미분류";
-                    roundsSet.add(round);
-                    if (!dbData[round]) dbData[round] = {};
-                    if (!dbData[round][item.topic]) dbData[round][item.topic] = [];
-                    dbData[round][item.topic].push({ qNum: item.q_num, domain: item.domain || "미분류" });
+                // 1. 문항 은행 전체 데이터 로드
+                const bankSnap = await getDocs(collection(db_fs, "questions"));
+                let bankCounts = {}; 
+                bankSnap.forEach(d => {
+                    const data = d.data(); const topic = data.taxonomy?.topic;
+                    if(topic) bankCounts[topic] = (bankCounts[topic] || 0) + 1;
                 });
-                const sortedRounds = Array.from(roundsSet).sort();
-                theadRow.innerHTML = `
-                    <th class="px-2 py-3 sticky-col-1 w-[80px] text-center bg-slate-100 border-b">대단원</th>
-                    <th class="px-4 py-3 sticky-col-2 w-[180px] bg-slate-100 shadow-md text-left border-b">내용 요소</th>
-                `;
-                sortedRounds.forEach(r => theadRow.innerHTML += `<th class="px-2 py-3 text-center min-w-[70px] bg-white border-b font-bold text-indigo-900 border-r border-gray-100">${r}</th>`);
-                theadRow.innerHTML += `<th class="px-2 py-3 text-center min-w-[80px] bg-indigo-50 border-b text-indigo-700">누적</th>`;
-                tbody.innerHTML = '';
-                const stats = Array.from({length: sortedRounds.length}, () => Array(UNIT_KEYS.length).fill(0));
 
-                UNIT_KEYS.forEach((unit, uIdx) => {
+                // 2. 시험 아카이브 데이터 로드
+                const archiveSnap = await getDocs(collection(db_fs, 'artifacts', APP_ID, 'public', 'data', 'exam_archive'));
+                let archiveData = {}; let roundsSet = new Set();
+                archiveSnap.forEach(doc => {
+                    const item = doc.data(); 
+                    const round = item.exam_id || "미분류"; 
+                    roundsSet.add(round);
+                    if (!archiveData[round]) archiveData[round] = {};
+                    if (!archiveData[round][item.topic]) archiveData[round][item.topic] = [];
+                    archiveData[round][item.topic].push({ qNum: item.q_num, domain: item.domain });
+                });
+
+                // 3. 모의고사(exams) 정답지 데이터 로드
+                const examsSnap = await getDocs(collection(db_fs, "exams"));
+                let examsMeta = {};
+                examsSnap.forEach(doc => {
+                    const d = doc.data();
+                    const key = d.answer_key || [];
+                    let dist = [0,0,0,0,0];
+                    key.forEach(ans => { if(ans >= 1 && ans <= 5) dist[ans-1]++; });
+                    examsMeta[doc.id] = { ansDist: dist.join('/') };
+                });
+
+                const sortedRounds = Array.from(roundsSet).sort();
+
+                // 4. 헤더 생성 (3줄 구성: 이름, 정답분포, 단원분포)
+                let headerHtml = `
+                    <tr>
+                        <th rowspan="3" class="px-2 py-3 sticky-col-1 w-[100px] text-center bg-slate-100 border-b">중단원</th>
+                        <th rowspan="3" class="px-4 py-3 sticky-col-2 w-[220px] bg-slate-100 shadow-md text-left border-b">소단원 (내용 요소)</th>
+                `;
+                sortedRounds.forEach(r => headerHtml += `<th class="px-2 py-2 text-center min-w-[95px] bg-white border-b font-black text-indigo-900 border-r border-gray-100 text-[11px]">${r}</th>`);
+                headerHtml += `<th rowspan="3" class="px-2 py-3 text-center min-w-[80px] bg-indigo-50 border-b text-indigo-700 font-black">Bank</th></tr>`;
+                
+                // 정답 분포 줄 (글씨 크기 인상: text-[11px])
+                headerHtml += `<tr>`;
+                sortedRounds.forEach(r => {
+                    const dist = examsMeta[r] ? examsMeta[r].ansDist : "-/-/-/-/-";
+                    headerHtml += `<th class="px-2 py-1.5 text-center bg-slate-50 border-b text-[11px] font-medium text-gray-600 border-r border-gray-100">${dist}</th>`;
+                });
+                headerHtml += `</tr>`;
+
+                // 단원별 문항수 줄 (글씨 크기 인상 및 강조: text-[11px], font-bold, text-indigo-800)
+                headerHtml += `<tr>`;
+                sortedRounds.forEach(r => {
+                    let unitStats = [];
+                    UNIT_KEYS.forEach(unit => {
+                        let count = 0;
+                        CURRICULUM_STRUCTURE[unit].forEach(t => { if(archiveData[r] && archiveData[r][t]) count += archiveData[r][t].length; });
+                        unitStats.push(count);
+                    });
+                    headerHtml += `<th class="px-2 py-1.5 text-center bg-indigo-50/50 border-b text-[11px] font-bold text-indigo-800 border-r border-gray-100">${unitStats.join('/')}</th>`;
+                });
+                headerHtml += `</tr>`;
+                
+                thead.innerHTML = headerHtml;
+
+                // 5. 본문 생성 (중단원 사이 구분선 추가)
+                tbody.innerHTML = '';
+                UNIT_KEYS.forEach((unit) => {
                     const topics = CURRICULUM_STRUCTURE[unit];
                     topics.forEach((topic, tIdx) => {
-                        const tr = document.createElement('tr'); tr.className = "hover:bg-gray-50 transition-colors group";
+                        const tr = document.createElement('tr'); 
+                        tr.className = "hover:bg-gray-50 transition-colors group";
+                        
+                        // 중단원 시작 시 굵은 실선 추가
+                        if (tIdx === 0) tr.classList.add('unit-divider');
+
                         if (tIdx === 0) {
-                            const tdUnit = document.createElement('td'); tdUnit.className = "px-2 py-3 font-bold text-[10px] text-gray-500 bg-white sticky-col-1 align-top pt-4 border-b border-r border-gray-200";
+                            const tdUnit = document.createElement('td'); 
+                            tdUnit.className = "px-2 py-3 font-bold text-[10px] text-gray-600 bg-white sticky-col-1 align-top pt-4 border-b border-r border-gray-200";
                             tdUnit.rowSpan = topics.length; tdUnit.innerText = unit; tr.appendChild(tdUnit);
                         }
-                        const tdTopic = document.createElement('td'); tdTopic.className = "px-4 py-2 text-xs font-medium text-gray-700 bg-white sticky-col-2 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-r border-gray-300 truncate";
+                        
+                        const tdTopic = document.createElement('td'); 
+                        tdTopic.className = "px-4 py-2 text-xs font-medium text-gray-700 bg-white sticky-col-2 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)] border-b border-r border-gray-300 truncate";
                         tdTopic.innerText = topic; tr.appendChild(tdTopic);
-                        let topicTotal = 0;
-                        sortedRounds.forEach((round, rIdx) => {
-                            const qs = (dbData[round] && dbData[round][topic]) ? dbData[round][topic] : [];
-                            topicTotal += qs.length;
-                            stats[rIdx][uIdx] += qs.length;
-                            const td = document.createElement('td'); td.className = "px-1 py-1 text-center border-r border-gray-100 border-b align-middle";
+                        
+                        sortedRounds.forEach((round) => {
+                            const qs = (archiveData[round] && archiveData[round][topic]) ? archiveData[round][topic] : [];
+                            const td = document.createElement('td'); 
+                            td.className = "px-1 py-1 text-center border-r border-gray-100 border-b align-middle";
                             if (qs.length > 0) {
                                 let html = '<div class="flex justify-center gap-1 flex-wrap">';
                                 qs.forEach(q => html += `<div class="circle-badge ${domainColors[q.domain] || "bg-gray-400"}" title="${q.domain}">${q.qNum}</div>`);
@@ -609,29 +400,51 @@
                             } else td.innerHTML = `<span class="text-gray-200">-</span>`;
                             tr.appendChild(td);
                         });
-                        const tdTotal = document.createElement('td'); tdTotal.className = "px-2 py-2 text-center text-xs font-bold bg-indigo-50/20 border-b border-indigo-100";
-                        tdTotal.innerText = topicTotal; tr.appendChild(tdTotal);
+                        
+                        const tdTotal = document.createElement('td'); 
+                        tdTotal.className = "px-2 py-2 text-center text-xs font-bold bg-indigo-50/20 border-b border-indigo-100";
+                        const countInBank = bankCounts[topic] || 0;
+                        tdTotal.innerHTML = `<span class="${countInBank > 0 ? 'text-indigo-600' : 'text-gray-300'}">${countInBank}</span>`;
+                        tr.appendChild(tdTotal);
                         tbody.appendChild(tr);
                     });
                 });
-                tfoot.innerHTML = '';
-                const trFoot = document.createElement('tr');
-                trFoot.innerHTML = `<td colspan="2" class="sticky-col-1 px-4 py-3 text-right text-xs font-bold text-gray-600 bg-slate-100 border-t-2 border-gray-300 z-30">단원별 분포</td>`;
-                sortedRounds.forEach((_, rIdx) => {
-                    const counts = stats[rIdx]; const total = counts.reduce((a,b)=>a+b,0);
-                    trFoot.innerHTML += `<td class="px-1 py-2 text-center border-r border-gray-300 border-t-2 bg-slate-100">
-                        <div class="text-[8px] font-mono text-gray-500 mb-1">${counts.join('/')}</div>
-                        <div class="text-[10px] font-bold ${total === 25 ? "text-gray-700" : "text-red-600"}">계: ${total}</div>
-                    </td>`;
-                });
-                trFoot.innerHTML += `<td class="bg-indigo-100 border-t-2 border-indigo-200"></td>`;
-                tfoot.appendChild(trFoot);
+                toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 2000);
                 lucide.createIcons();
-            } catch (e) { console.error("Matrix Load Error:", e); }
+            } catch (e) { console.error(e); }
         };
 
-        window.handleLogout = () => { if(confirm("로그아웃 하시겠습니까?")) signOut(auth); };
-
+        const openIDB = () => new Promise(res => { const req = indexedDB.open("ScientificPDFStore", 1); req.onsuccess = (e) => res(e.target.result); });
+        const loadLocalPDF = async () => {
+            try {
+                const idb = await openIDB(); const req = idb.transaction("files", "readonly").objectStore("files").get("last_pdf");
+                req.onsuccess = async () => { if (req.result) { const reader = new FileReader(); reader.onload = async function() { pdfDoc = await pdfjsLib.getDocument(new Uint8Array(this.result)).promise; document.getElementById('pdf-status-msg').classList.remove('hidden'); document.getElementById('clear-pdf-btn').classList.remove('hidden'); }; reader.readAsArrayBuffer(req.result); } };
+            } catch (e) {}
+        };
+        window.clearStoredPDF = async () => { if(confirm("삭제?")) { const idb = await openIDB(); idb.transaction("files", "readwrite").objectStore("files").delete("last_pdf"); location.reload(); } };
+        window.togglePDF = () => { const panel = document.getElementById('pdf-panel'); isPdfVisible = !isPdfVisible; panel.classList.toggle('closed', !isPdfVisible); if(isPdfVisible && pdfDoc && currentTopic) renderPDF(); };
+        async function renderPDF() {
+            const area = document.getElementById('pdf-render-area'); area.innerHTML = '';
+            if(!pdfDoc || !scienceDB[currentCategory] || !scienceDB[currentCategory][currentTopic] || !scienceDB[currentCategory][currentTopic].pdf) return;
+            const info = scienceDB[currentCategory][currentTopic].pdf;
+            document.getElementById('page-indicator').innerText = `p.${info.s} ~ p.${info.e}`;
+            for (let i = info.s; i <= info.e; i++) {
+                if (i > pdfDoc.numPages) break;
+                const canvas = document.createElement('canvas'); area.appendChild(canvas);
+                const page = await pdfDoc.getPage(i); const viewport = page.getViewport({ scale: 1.5 });
+                canvas.height = viewport.height; canvas.width = viewport.width;
+                await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+            }
+        }
+        window.switchMenu = (menu) => {
+            document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${menu}`).classList.add('active');
+            ['qlist', 'matrix'].forEach(m => { document.getElementById(`menu-${m}-container`).classList.add('hidden'); document.getElementById(`sidebar-${m}-content`).classList.add('hidden'); });
+            document.getElementById(`menu-${menu}-container`).classList.remove('hidden'); document.getElementById(`sidebar-${menu}-content`).classList.remove('hidden');
+            if (menu === 'matrix') renderMatrix();
+            lucide.createIcons();
+        };
+        window.handleLogout = () => { if(confirm("로그아웃?")) signOut(auth); };
         lucide.createIcons();
     </script>
 </body>

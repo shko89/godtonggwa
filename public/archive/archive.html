@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 기출 해설 아카이브</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- PDF.js 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&display=swap');
+        
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; }
+        
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #FFFFFF;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 손글씨 폰트 적용: 실제 선생님이 첨삭해준 느낌 */
+        .handwritten { font-family: 'Nanum Pen Script', cursive; font-size: 1.5rem; line-height: 1.3; color: #374151; }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 문제 번호 버튼 디자인 */
+        .num-btn {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-weight: 800;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid #F1F5F9;
+            background-color: #F8FAFC;
+            color: #64748B;
+            font-size: 1.1rem;
+        }
+        .num-btn:active { transform: scale(0.85); background-color: #EEF2FF; color: #4F46E5; border-color: #C7D2FE; }
+        
+        .question-canvas { width: 100%; height: auto; display: block; }
+        .premium-banner { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%); }
+
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-bounce-subtle { animation: bounce-subtle 2.5s infinite ease-in-out; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- 상단 헤더 (Step 2, 3에서만 노출) -->
+        <header id="app-header" class="hidden bg-white/90 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100">
+            <button onclick="handleBack()" id="back-btn" class="mr-3 p-1.5 hover:bg-gray-100 rounded-full transition-colors">
+                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
+            </button>
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-100">
+                    <i data-lucide="scroll-text" class="w-4.5 h-4.5 text-white"></i>
+                </div>
+                <h1 class="text-lg font-black text-gray-900 tracking-tight" id="header-title">기출 해설 아카이브</h1>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto hide-scrollbar">
+            
+            <!-- [View 1] 시험지 목록 -->
+            <div id="view-exam-list" class="fade-in p-5 space-y-7">
+                <div class="premium-banner rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden mt-2">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-4">
+                             <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-md border border-white/20">
+                                <i data-lucide="scroll-text" class="w-4.5 h-4.5 text-white"></i>
+                             </div>
+                             <h2 class="text-2xl font-black tracking-tight">기출 해설 아카이브</h2>
+                        </div>
+                        <p class="text-indigo-50 text-[13px] font-medium leading-relaxed opacity-90">
+                            버스나 지하철 이동 시간, 틈새 시간을 활용해<br>
+                            기출문제를 한 문항씩 완벽하게 마스터하세요!
+                        </p>
+                        <div class="mt-8 flex items-center gap-2 text-[11px] font-black bg-white text-indigo-700 w-fit px-4 py-2.5 rounded-full shadow-xl shadow-black/20 animate-bounce-subtle border-2 border-white/50">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-amber-500 fill-amber-500"></i> 
+                            <span>2028 통합과학 25문항 완벽 대응</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="font-black text-gray-900 flex items-center gap-2 text-lg px-1">
+                        <i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>
+                        학년도별 기출 분석
+                    </h3>
+                    <div id="exam-list-container" class="grid grid-cols-1 gap-4">
+                        <!-- 데이터는 JS에서 로드 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- [View 2] 문항 선택 그리드 (2단 구성 반영) -->
+            <div id="view-num-grid" class="hidden fade-in p-6">
+                <div class="bg-indigo-50/50 rounded-[32px] p-7 border border-indigo-100/50 mb-7">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">Exam Board</span>
+                        <h3 id="grid-title" class="text-xl font-black text-gray-900 tracking-tight">-</h3>
+                    </div>
+                    <p class="text-[13px] text-gray-500 font-medium leading-tight">왼쪽 단부터 오른쪽 단 순서로 배치되어 있습니다.</p>
+                </div>
+                <div id="num-grid" class="grid grid-cols-5 gap-3.5 pb-10"></div>
+            </div>
+
+            <!-- [View 3] 상세 풀이 및 손글씨 해설 -->
+            <div id="view-solve" class="hidden fade-in px-5 py-2">
+                <div class="bg-white rounded-[32px] shadow-xl shadow-gray-100 border border-gray-100 p-4 mb-7 overflow-hidden">
+                    <div class="flex justify-between items-center px-3 py-3 border-b border-gray-50 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span id="solve-q-label" class="text-indigo-600 font-black text-xl tracking-tighter">Q 01</span>
+                            <span class="text-gray-200 font-thin text-xl">|</span>
+                            <span id="solve-q-score" class="text-amber-500 text-xs font-black uppercase">3 Points</span>
+                        </div>
+                        <button onclick="showStep(2)" class="p-2 hover:bg-gray-50 rounded-full text-gray-400 transition-colors">
+                            <i data-lucide="grid" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <!-- 문제 이미지 영역 -->
+                    <div id="canvas-wrapper" class="bg-white rounded-2xl overflow-hidden min-h-[150px] border border-gray-50 flex items-center justify-center">
+                        <canvas id="q-canvas" class="question-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- 손글씨 해설 영역 -->
+                <div id="exp-panel" class="hidden space-y-6 mb-16 fade-in">
+                    <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-[28px] shadow-sm flex items-center justify-between">
+                        <div>
+                            <h4 class="text-emerald-700 font-black text-[10px] mb-1 flex items-center gap-1.5 uppercase tracking-widest">
+                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Correct Answer
+                            </h4>
+                            <p id="correct-ans" class="text-4xl font-black text-emerald-600">③</p>
+                        </div>
+                        <span id="solve-q-topic" class="text-emerald-600 text-[11px] font-bold bg-white px-3 py-1.5 rounded-full border border-emerald-100 shadow-sm max-w-[150px] truncate">단원명 정보</span>
+                    </div>
+
+                    <div class="bg-white border-2 border-indigo-50 p-8 rounded-[32px] shadow-2xl relative">
+                        <div class="absolute -top-3 left-8 bg-indigo-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest border-2 border-white">1타 강사's Note</div>
+                        <h4 class="text-gray-400 font-bold text-[9px] mb-5 flex items-center gap-1.5 uppercase tracking-tighter opacity-60">
+                            <i data-lucide="pen-tool" class="w-3 h-3 text-indigo-400"></i> 옆집 선생님의 친절한 비밀과외
+                        </h4>
+                        <!-- 실제 손글씨 느낌 해설 -->
+                        <div id="exp-text" class="handwritten text-gray-800 space-y-2">
+                            해설을 불러오는 중이야!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 풀이 화면 고정 버튼 -->
+        <div id="solve-footer" class="hidden p-4 bg-white/90 backdrop-blur-xl border-t border-gray-100 flex gap-2.5 sticky bottom-[72px] z-[40]">
+            <button id="btn-show-ans" onclick="toggleExp()" class="flex-1 bg-indigo-600 text-white h-15 py-4 rounded-[22px] font-black text-sm shadow-xl shadow-indigo-100 active:scale-95 transition-all flex items-center justify-center gap-2">
+                <i data-lucide="eye" class="w-4 h-4"></i> <span>정답 및 해설 보기</span>
+            </button>
+            <button onclick="nextQuestion()" class="w-15 px-4 bg-gray-900 text-white rounded-[22px] flex items-center justify-center active:scale-95 transition-all shadow-lg">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- 하단 네비게이션 -->
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center sticky bottom-0 w-full z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">홈</span>
+            </button>
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">시험응시</span>
+            </button>
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span>
+            </button>
+            <button onclick="location.href='../STEST/exam.html?view=report'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">성적분석</span>
+            </button>
+            <button onclick="location.href='../index.html?view=market'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">마이</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- 로딩 오버레이 -->
+    <div id="loading" class="hidden fixed inset-0 bg-white/95 z-[100] flex flex-col items-center justify-center text-indigo-600">
+        <div class="w-14 h-14 border-[5px] border-indigo-600 border-t-transparent rounded-full animate-spin mb-6 shadow-2xl"></div>
+        <p class="font-black text-sm tracking-tight text-gray-900" id="loading-text">기출 데이터를 정밀 분석 중...</p>
+    </div>
+
+    <script type="module">
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // [핵심 데이터베이스] 2단 구성을 고려한 좌표 데이터 예시
+        // rect: [x_ratio, y_ratio, width_ratio, height_ratio]
+        const EXAM_DATABASE = {
+            "2028_PRETEST": {
+                title: "2028 통합과학 예비문항",
+                pdfFile: "2028_pretest.pdf",
+                total: 25,
+                coords: {
+                    // 왼쪽 단 (0.0 ~ 0.5), 오른쪽 단 (0.5 ~ 1.0)
+                    1: { p: 1, rect: [0.05, 0.08, 0.44, 0.35], ans: "③", score: 2, topic: "물질의 규칙성" },
+                    2: { p: 1, rect: [0.05, 0.45, 0.44, 0.45], ans: "⑤", score: 3, topic: "시스템과 상호작용" },
+                    3: { p: 1, rect: [0.51, 0.08, 0.44, 0.40], ans: "①", score: 2, topic: "별의 진화" },
+                    4: { p: 1, rect: [0.51, 0.50, 0.44, 0.40], ans: "②", score: 3, topic: "중력장 운동" },
+                    // ... 25번까지 동일한 패턴으로 왼쪽단 먼저 채우고 오른쪽단 채우는 데이터 필요
+                },
+                explanations: {
+                    1: "안녕! 수능 1번은 언제나 설레지? 이 문제는 <b>원소의 주기성</b>을 묻고 있어.<br>핵심은 <span class='text-red-500'>원자가 전자 수</span>가 같으면 화학적 성질이 비슷하다는 거야. 주기율표를 다시 한번 머릿속에 그려봐! 할 수 있지?",
+                    2: "자, 2번은 <b>중력장 내의 운동</b>이네. (👀 그림 확인 필요!) <br>그래프의 기울기가 무엇을 의미할까? 바로 <span class='text-red-500'>가속도</span>야! 질량이 일정할 때 힘과 가속도는 비례한다는 점 잊지 마. 헷갈렸지? 괜찮아, 다시 보면 보여!",
+                    3: "<b>별의 진화</b> 과정은 순서가 정말 중요해.<br>주계열성 다음엔 뭐가 오지? 맞아, 적색 거성이야. <span class='text-red-500'>중력 수축과 내부 압력</span>의 균형을 잘 생각해보렴. 수능에서 무조건 나오는 단골 손님이야!",
+                    4: "이 문제는 탐구 수행 과정이네.<br>가설이 맞는지 확인하려면 <span class='text-red-500'>변인 통제</span>를 완벽하게 해야 해. 어떤 변인을 일정하게 두었는지 잘 살펴봐! 꼼꼼함이 1등급을 만든단다. 응원할게!"
+                }
+            },
+            "2024_CSAT": {
+                title: "2024학년도 수능 기출",
+                pdfFile: "2024_csat.pdf",
+                total: 20,
+                coords: {
+                    1: { p: 1, rect: [0.05, 0.08, 0.44, 0.30], ans: "④", score: 2, topic: "생명 시스템" }
+                },
+                explanations: {
+                    1: "수능의 시작 1번! <b>리보솜</b>의 기능은 단백질 합성이지.<br>세포 소기관의 특징을 묻는 문제는 절대 틀리면 안 돼. <span class='text-red-500'>기본이 가장 강력한 무기</span>라는 사실! 자신 있게 풀어보자!"
+                }
+            }
+        };
+
+        let currentExamId = null;
+        let currentQNum = 0;
+        let pdfDoc = null;
+        let currentStep = 1; // 1: List, 2: Grid, 3: Solve
+
+        // 초기 목록 생성
+        function renderExamList() {
+            const container = document.getElementById('exam-list-container');
+            container.innerHTML = '';
+            Object.keys(EXAM_DATABASE).forEach(id => {
+                const exam = EXAM_DATABASE[id];
+                const is2028 = id.includes('2028');
+                container.innerHTML += `
+                    <button onclick="selectExam('${id}')" class="bg-white border border-gray-100 p-5 rounded-[32px] text-left hover:border-indigo-400 transition-all shadow-sm active:scale-[0.97] group relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="${is2028 ? 'bg-indigo-50 text-indigo-700' : 'bg-red-50 text-red-700'} text-[10px] font-black px-3 py-1 rounded-full border border-opacity-20">
+                                ${is2028 ? 'PREMIUM ANALYSIS' : 'OFFICIAL CSAT'}
+                            </span>
+                            <div class="bg-gray-50 p-2 rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <h4 class="font-black text-gray-900 text-xl tracking-tight">${exam.title}</h4>
+                    </button>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        window.selectExam = async (id) => {
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('loading-text').innerText = "시험지 불러오는 중...";
+            currentExamId = id;
+            const exam = EXAM_DATABASE[id];
+            
+            try {
+                // PDF 로드
+                const loadingTask = pdfjsLib.getDocument(exam.pdfFile);
+                pdfDoc = await loadingTask.promise;
+                initNumGrid(exam.total);
+                showStep(2);
+            } catch(e) {
+                console.error(e);
+                alert("PDF 파일을 불러오지 못했습니다. archive 폴더에 파일이 있는지 확인해줘!");
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+            }
+        };
+
+        function initNumGrid(count) {
+            const container = document.getElementById('num-grid');
+            container.innerHTML = '';
+            for(let i=1; i<=count; i++) {
+                const btn = document.createElement('button');
+                btn.className = "num-btn shadow-sm";
+                btn.innerText = i;
+                btn.onclick = () => loadQuestion(i);
+                container.appendChild(btn);
+            }
+        }
+
+        window.loadQuestion = async (num) => {
+            currentQNum = num;
+            const exam = EXAM_DATABASE[currentExamId];
+            const qData = exam.coords[num];
+            
+            if(!qData) {
+                alert("해당 문항의 데이터가 아직 준비되지 않았어. 조금만 기다려줘!");
+                return;
+            }
+            
+            document.getElementById('solve-q-label').innerText = `Q ${String(num).padStart(2, '0')}`;
+            document.getElementById('solve-q-score').innerText = `${qData.score} Points`;
+            document.getElementById('solve-q-topic').innerText = qData.topic;
+            document.getElementById('correct-ans').innerText = qData.ans;
+            document.getElementById('exp-text').innerHTML = exam.explanations[num] || "선생님이 열심히 해설을 쓰고 있어! 금방 알려줄게.";
+            
+            document.getElementById('exp-panel').classList.add('hidden');
+            document.getElementById('btn-show-ans').innerHTML = `<i data-lucide="eye" class="w-4 h-4"></i> <span>정답 및 해설 보기</span>`;
+            
+            await renderQuestionCrop(qData);
+            showStep(3);
+            lucide.createIcons();
+        };
+
+        // 핵심: 2단 구성을 지원하는 고해상도 크롭 렌더링
+        async function renderQuestionCrop(qData) {
+            const canvas = document.getElementById('q-canvas');
+            const ctx = canvas.getContext('2d');
+            const page = await pdfDoc.getPage(qData.p);
+            
+            const scale = 3.5; // 가로 크롭 시 가독성을 위한 고배율
+            const viewport = page.getViewport({ scale });
+            
+            const [rx, ry, rw, rh] = qData.rect;
+            const x = rx * viewport.width;
+            const y = ry * viewport.height;
+            const w = rw * viewport.width;
+            const h = rh * viewport.height;
+
+            canvas.width = w;
+            canvas.height = h;
+
+            // 임시 오프스크린 캔버스에 렌더링 후 필요한 영역만 복사
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = viewport.width;
+            tempCanvas.height = viewport.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            await page.render({ canvasContext: tempCtx, viewport }).promise;
+            ctx.drawImage(tempCanvas, x, y, w, h, 0, 0, w, h);
+        }
+
+        window.toggleExp = () => {
+            const panel = document.getElementById('exp-panel');
+            const btn = document.getElementById('btn-show-ans');
+            if(panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                btn.innerHTML = `<i data-lucide="eye-off" class="w-4 h-4"></i> <span>해설 닫기</span>`;
+                setTimeout(() => {
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                panel.classList.add('hidden');
+                btn.innerHTML = `<i data-lucide="eye" class="w-4 h-4"></i> <span>정답 및 해설 보기</span>`;
+            }
+            lucide.createIcons();
+        };
+
+        window.nextQuestion = () => {
+            const exam = EXAM_DATABASE[currentExamId];
+            if(currentQNum < exam.total) loadQuestion(currentQNum + 1);
+            else { alert("오늘의 기출 학습 완료! 정말 멋지다 친구야!"); showStep(2); }
+        };
+
+        window.handleBack = () => {
+            if(currentStep === 3) showStep(2);
+            else if(currentStep === 2) showStep(1);
+        };
+
+        window.showStep = (step) => {
+            currentStep = step;
+            const header = document.getElementById('app-header');
+            document.getElementById('view-exam-list').classList.add('hidden');
+            document.getElementById('view-num-grid').classList.add('hidden');
+            document.getElementById('view-solve').classList.add('hidden');
+            document.getElementById('solve-footer').classList.add('hidden');
+
+            if(step === 1) {
+                header.classList.add('hidden');
+                document.getElementById('view-exam-list').classList.remove('hidden');
+            } else if(step === 2) {
+                header.classList.remove('hidden');
+                document.getElementById('view-num-grid').classList.remove('hidden');
+                document.getElementById('header-title').innerText = EXAM_DATABASE[currentExamId].title;
+            } else if(step === 3) {
+                header.classList.remove('hidden');
+                document.getElementById('view-solve').classList.remove('hidden');
+                document.getElementById('solve-footer').classList.remove('hidden');
+            }
+            lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        renderExamList();
+        lucide.createIcons();
+    </script>
+</body>
+</html>

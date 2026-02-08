@@ -83,6 +83,11 @@
         /* 애니메이션 */
         .fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 테이블 스타일 커스텀 */
+        .summary-table { width: 100%; border-collapse: collapse; font-family: 'Nanum Pen Script', cursive; font-size: 1.1rem; }
+        .summary-table th { background-color: #f3f4f6; padding: 6px; border: 1px solid #e5e7eb; font-family: 'Gamja Flower', cursive; }
+        .summary-table td { padding: 6px; border: 1px solid #e5e7eb; text-align: center; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -122,8 +127,11 @@
                         <br> 저위도(적도): 에너지 <span class="highlight-red">과잉</span>.
                         <br> 고위도(극): 에너지 <span class="highlight-blue">부족</span>.
                     </li>
+                    <li><i class="fas fa-sync text-gray-500 mr-1"></i> <strong>지구의 자전:</strong>:
+                        <br> 북반구는 <span class="red-pen">진행 방향의 오른쪽</span>으로 휨
+                    </li>
                     <li><i class="fas fa-sync-alt text-gray-500 mr-1"></i> <strong>역할</strong>:
-                        <br> 대기와 해수가 순환하며 남는 에너지를 고위도로 운반 $\rightarrow$ <span class="blue-pen">지구 전체의 열평형</span> 유지.
+                        <br> 대기와 해수가 순환하며 남는 에너지를 고위도로 운반 → <span class="blue-pen">지구 전체의 열평형</span> 유지.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -138,19 +146,22 @@
                 <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(1deg);"></div>
                 <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">02. 대기 대순환 모델</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-circle-notch text-orange-400 mr-1"></i> <strong>해들리 순환 ($0^\circ \sim 30^\circ$)</strong>:
-                        <br> 적도 상승 $\rightarrow$ 위도 30도 하강. 지표면: <span class="red-pen">무역풍</span> (북동풍).
+                    <div class="mt-3 mb-4">
+                        <img src="atmcycle.png" alt="대기 대순환 모형" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
+                    <li><i class="fas fa-circle-notch text-orange-400 mr-1"></i> <strong>해들리 순환 (0° ～ 30°)</strong>:
+                        <br> 적도 상승 → 위도 30도 하강. 지표면: <span class="red-pen">무역풍</span> (북동풍).
                     </li>
-                    <li><i class="fas fa-circle-notch text-green-500 mr-1"></i> <strong>페렐 순환 ($30^\circ \sim 60^\circ$)</strong>:
+                    <li><i class="fas fa-circle-notch text-green-500 mr-1"></i> <strong>페렐 순환 (30° ～ 60°)</strong>:
                         <br> 간접 순환. 지표면: <span class="blue-pen">편서풍</span> (서풍 계열).
                     </li>
-                    <li><i class="fas fa-circle-notch text-purple-500 mr-1"></i> <strong>극 순환 ($60^\circ \sim 90^\circ$)</strong>:
-                        <br> 극 하강 $\rightarrow$ 위도 60도 상승. 지표면: <strong>극동풍</strong>.
+                    <li><i class="fas fa-circle-notch text-purple-500 mr-1"></i> <strong>극 순환 (60° ～ 90°)</strong>:
+                        <br> 극 하강 → 위도 60도 상승. 지표면: <strong>극동풍</strong>.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 우리나라(중위도)에 영향을 주는 탁월풍은?</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 우리나라(중위도)에 영향을 주는 바람은?</p>
                     <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">편서풍</p>
                 </div>
             </div>
@@ -163,18 +174,21 @@
                 <div class="bg-blue-50 p-2 rounded text-center mb-2">
                     <span class="font-bold text-gray-700 font-gamja">바람 방향 = 해류 방향</span>
                 </div>
-
+                
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-wind text-orange-400 mr-1"></i> <strong>무역풍 $\rightarrow$ 적도 해류</strong>:
-                        <br> 북적도 해류 (동 $\rightarrow$ 서).
+                    <li><i class="fas fa-wind text-orange-400 mr-1"></i> <strong>무역풍 → 적도 해류</strong>:
+                        <br> 북적도 해류 (동 → 서).
                     </li>
-                    <li><i class="fas fa-wind text-blue-400 mr-1"></i> <strong>편서풍 $\rightarrow$ 편서풍 해류</strong>:
-                        <br> 북태평양 해류 (서 $\rightarrow$ 동).
+                    <li><i class="fas fa-wind text-blue-400 mr-1"></i> <strong>편서풍 → 편서풍 해류</strong>:
+                        <br> 북태평양 해류 (서 → 동).
                     </li>
                     <li><i class="fas fa-sync text-gray-500 mr-1"></i> <strong>아열대 순환</strong>:
                         <br> 북반구는 <span class="red-pen">시계 방향</span> (크게 회전).
-                        <br> (북적도 $\rightarrow$ 쿠로시오 $\rightarrow$ 북태평양 $\rightarrow$ 캘리포니아)
+                        <br> (북적도 → 쿠로시오 → 북태평양 → 캘리포니아)
                     </li>
+                    <div class="mt-3 mb-4">
+                        <img src="pacific.png" alt="해수의 표층 순환" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
@@ -189,12 +203,15 @@
                 <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 엘니뇨 발생 원리</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-arrow-right text-gray-500 mr-1"></i> <strong>평상시</strong>:
-                        <br> 강한 무역풍 $\rightarrow$ 따뜻한 물이 서쪽(인니)으로 이동 $\rightarrow$ 동쪽(페루)은 <span class="highlight-blue">용승(찬물)</span> 활발.
+                        <br> 강한 무역풍 → 따뜻한 물이 서쪽(인니)으로 이동 → 동쪽(페루)은 <span class="highlight-blue">용승(찬물)</span> 활발.
                     </li>
                     <li><i class="fas fa-exclamation-circle text-red-500 mr-1"></i> <strong>엘니뇨 발생 시</strong>:
-                        <br> <span class="red-pen">무역풍 약화</span> $\rightarrow$ 따뜻한 물이 동쪽으로 역류 $\rightarrow$ 동태평양 용승 약화 $\rightarrow$ <span class="highlight-red">수온 상승</span>.
+                        <br> <span class="red-pen">무역풍 약화</span> → 따뜻한 물이 동쪽으로 역류 → 동태평양 용승 약화 → <span class="highlight-red">수온 상승</span>.
                     </li>
                 </ul>
+                <div class="mt-3 mb-4">
+                        <img src="elinoe.png" alt="엘리뇨" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
                     <p class="text-sm text-gray-700 mb-1">Q. 엘니뇨 발생의 직접적인 원인인 바람의 변화는?</p>
@@ -202,20 +219,75 @@
                 </div>
             </div>
 
-            <!-- Card 5 -->
+            <!-- Card 5: 페루 연안 비교 분석 -->
+            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 600ms;">
+                <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 동태평양(페루) 비교</h2>
+                
+                <div class="overflow-hidden rounded-lg border border-gray-200 mb-4">
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th class="w-2/7">구분</th>
+                                <th class="text-blue-600">평상시</th>
+                                <th class="text-red-600">엘니뇨</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="bg-gray-50 font-bold">무역풍</td>
+                                <td>강함</td>
+                                <td class="red-pen text-sm">약화</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-gray-50 font-bold">해수 용승</td>
+                                <td class="highlight-blue">활발(좋은 어장)</td>
+                                <td>약화(어장 황폐화)</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-gray-50 font-bold">표층 수온</td>
+                                <td>낮음 (찬물)</td>
+                                <td class="highlight-red">상승</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-gray-50 font-bold">해수면 기압</td>
+                                <td>고기압</td>
+                                <td class="blue-pen text-sm">저기압</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-gray-50 font-bold">날씨</td>
+                                <td>건조 (맑음)</td>
+                                <td class="red-pen text-sm">호우/홍수</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-gray-50 font-bold">표층 수온편차<br>(관측값-평년값)</td>
+                                <td></td>
+                                <td class="red-pen text-sm">(＋)</td>
+                            </tr>
+                    </table>
+                </div>
+
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
+                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 엘니뇨 시기 페루 연안의 어획량이 줄어드는 이유는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">찬물의 용승 약화로 영양염류 감소</p>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
                 <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">05. 엘니뇨의 영향 (반대)</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 엘니뇨의 영향 (반대)</h2>
                 
                 <div class="grid grid-cols-2 gap-2 text-center text-base leading-tight mb-2">
                     <div class="bg-blue-50 p-2 rounded">
                         <p class="font-bold text-gray-600 mb-1 font-gamja">서태평양 (인니)</p>
-                        <p class="text-xs font-pen">수온 하강 $\rightarrow$ 고기압</p>
+                        <p class="text-xs font-pen">수온 하강 → 고기압</p>
                         <p class="text-red-500 font-bold">가뭄, 산불</p>
                     </div>
                     <div class="bg-red-50 p-2 rounded">
                         <p class="font-bold text-gray-600 mb-1 font-gamja">동태평양 (페루)</p>
-                        <p class="text-xs font-pen">수온 상승 $\rightarrow$ 저기압</p>
+                        <p class="text-xs font-pen">수온 상승 → 저기압</p>
                         <p class="text-blue-500 font-bold">홍수, 폭우</p>
                     </div>
                 </div>
@@ -229,17 +301,17 @@
                 </div>
             </div>
 
-            <!-- Card 6 -->
+            <!-- Card 7 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
                 <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">06. 사막화 현상</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">07. 사막화 현상</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-sun text-orange-500 mr-1"></i> <strong>발생 지역</strong>:
                         <br> 위도 30도 부근 (해들리/페렐 경계).
                         <br> <span class="highlight-yellow">고압대(하강 기류)</span>가 형성되어 맑고 건조함.
                     </li>
                     <li><i class="fas fa-exclamation-triangle text-red-500 mr-1"></i> <strong>원인</strong>:
-                        <br> 자연적(대기 대순환) + 인위적(과잉 방목, 벌목) 요인 $\rightarrow$ 사막 면적 확대.
+                        <br> 자연적(대기 대순환) + 인위적(과잉 방목, 벌목) 요인 → 사막 면적 확대.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -254,15 +326,17 @@
         </main>
 
         <!-- 하단 네비게이션 바 (고정) -->
-    <div id="common-nav-container"></div>
+        <div id="common-nav-container"></div>
+    </div>
 
     <script src="common_nav.js"></script>
-
     <script>
-        renderCommonNav('home', '../'); 
+        // 만약 common_nav.js가 없다면 에러 방지용 더미 함수
+        if (typeof renderCommonNav === 'function') {
+            renderCommonNav('home', '../'); 
+        }
     </script>
     
-    </div>
     <script>
         lucide.createIcons();
 

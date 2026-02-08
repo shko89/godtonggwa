@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>갓통과 - 기출 좌표 추출기 (UHD Commentary Editor)</title>
+    <title>갓통과 - 기출 좌표 추출기 (UHD Data Editor)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -14,7 +14,7 @@
         #pdf-render-container { position: relative; display: inline-block; cursor: crosshair; user-select: none; text-align: left; margin: 60px auto 150px auto; box-shadow: 0 0 80px rgba(0,0,0,0.9); background-color: white; }
         #pdf-canvas { display: block; }
         #selection-rect { position: absolute; border: 2px solid #6366f1; background-color: rgba(99, 102, 241, 0.2); pointer-events: none; display: none; z-index: 100; }
-        .captured-rect { position: absolute; border: 1.5px solid #10b981; background-color: rgba(16, 185, 129, 0.1); pointer-events: none; z-index: 50; transition: all 0.2s; }
+        .captured-rect { position: absolute; border: 1.5 solid #10b981; background-color: rgba(16, 185, 129, 0.1); pointer-events: none; z-index: 50; transition: all 0.2s; }
         .captured-rect.active { border: 3px solid #f43f5e; background-color: rgba(244, 63, 94, 0.2); z-index: 60; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
@@ -28,8 +28,8 @@
         <div class="flex items-center gap-3">
             <div class="bg-indigo-600 p-2 rounded-xl shadow-lg"><i data-lucide="highlighter" class="w-5 h-5 text-white"></i></div>
             <div>
-                <h1 class="text-lg font-black text-white">기출 좌표 & 해설 추출기</h1>
-                <p class="text-[9px] text-indigo-400 font-bold uppercase mt-1 tracking-widest animate-pulse">UHD DB Sync Active</p>
+                <h1 class="text-lg font-black text-white">기출 좌표 추출기</h1>
+                <p class="text-[9px] text-indigo-400 font-bold uppercase mt-1 tracking-widest animate-pulse">UHD Mapping Mode</p>
             </div>
         </div>
         
@@ -42,12 +42,12 @@
         <div class="flex gap-2">
             <input type="file" id="pdf-input" accept=".pdf" class="hidden">
             <button onclick="document.getElementById('pdf-input').click()" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-white/5">
-                <i data-lucide="file-up" class="w-4 h-4"></i> PDF
+                <i data-lucide="file-up" class="w-4 h-4"></i> PDF 로드
             </button>
             <button onclick="loadFromDB()" class="bg-indigo-900/50 hover:bg-indigo-900 border border-indigo-700 text-indigo-300 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
                 <i data-lucide="cloud-download" class="w-4 h-4"></i> DB 로드
             </button>
-            <button onclick="saveToDB()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+            <button onclick="saveToDB()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg">
                 <i data-lucide="save" class="w-4 h-4"></i> 전체 저장
             </button>
         </div>
@@ -62,10 +62,10 @@
             </div>
         </div>
 
-        <aside class="w-[450px] bg-slate-900 border-l border-white/5 flex flex-col shrink-0 shadow-2xl z-40 overflow-hidden">
+        <aside class="w-[400px] bg-slate-900 border-l border-white/5 flex flex-col shrink-0 shadow-2xl z-40 overflow-hidden">
             <div class="p-6 border-b border-white/5 bg-slate-900/50">
                 <label class="text-[10px] uppercase font-black text-indigo-400 mb-2 block tracking-widest">Target Exam ID</label>
-                <input type="text" id="target-exam-id" placeholder="예: 2028_PRETEST" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 font-bold text-indigo-300 text-sm shadow-inner transition-all">
+                <input type="text" id="target-exam-id" placeholder="예: 2028_pretest" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 font-bold text-indigo-300 text-sm shadow-inner transition-all">
                 
                 <div class="mt-4 flex justify-between items-center mb-2">
                     <span class="text-[10px] text-slate-500 font-black uppercase">Navigation</span>
@@ -78,11 +78,11 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-                <!-- [해설 입력창 강화] -->
+                <!-- [수정] 해설 입력창을 삭제하고 핵심 정보 입력란만 유지 -->
                 <div id="edit-form-container" class="bg-black/30 p-5 rounded-2xl border border-white/5 space-y-4">
                     <div class="flex justify-between items-center">
-                        <h2 class="font-bold text-white text-xs uppercase tracking-widest flex items-center gap-2"><i data-lucide="edit-3" class="w-4 h-4 text-indigo-500"></i> 문항 & 해설 설정</h2>
-                        <span id="edit-mode-indicator" class="hidden text-[9px] font-black bg-rose-600 px-2 py-0.5 rounded-full animate-pulse">EDITING Q<span id="editing-q-num-text"></span></span>
+                        <h2 class="font-bold text-white text-xs uppercase tracking-widest flex items-center gap-2"><i data-lucide="edit-3" class="w-4 h-4 text-indigo-500"></i> 문항 상세 설정</h2>
+                        <span id="edit-mode-indicator" class="hidden text-[9px] font-black bg-rose-600 text-white px-2 py-0.5 rounded-full animate-pulse">EDITING Q<span id="editing-q-num-text"></span></span>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -98,16 +98,6 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="text-[10px] font-black text-slate-500 mb-1 block">1타 강사의 한마디 (핵심 해설)</label>
-                        <textarea id="q-commentary" rows="3" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-indigo-500 text-slate-200 leading-relaxed" placeholder="여기에 해설을 입력하세요..."></textarea>
-                    </div>
-
-                    <div>
-                        <label class="text-[10px] font-black text-slate-500 mb-1 block">자료 해석 비법 (Tip)</label>
-                        <textarea id="q-tip" rows="2" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-indigo-500 text-indigo-300 leading-relaxed" placeholder="자료 해석 노하우를 입력하세요..."></textarea>
-                    </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-[10px] font-black text-slate-500 mb-1 block">배점</label>
@@ -116,7 +106,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="text-[10px] font-black text-slate-500 mb-1 block">단원</label>
+                            <label class="text-[10px] font-black text-slate-500 mb-1 block">단원 (Topic)</label>
                             <select id="q-topic" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2 outline-none text-[10px]">
                                 <option value="미분류">단원 선택</option>
                             </select>
@@ -124,7 +114,7 @@
                     </div>
 
                     <button onclick="updateAndSaveSingle()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-black shadow-lg flex items-center justify-center gap-2 transition-all">
-                        <i data-lucide="cloud-upload" class="w-4 h-4"></i> 이 문항만 DB에 즉시 업데이트
+                        <i data-lucide="cloud-upload" class="w-4 h-4"></i> 이 문항 정보만 DB 업데이트
                     </button>
                 </div>
 
@@ -193,7 +183,6 @@
         window.prevPage = () => { if(pageNum > 1) { pageNum--; renderPage(); } };
         window.nextPage = () => { if(pageNum < pdfDoc.numPages) { pageNum++; renderPage(); } };
         window.changeZoom = (delta) => { userScale = Math.max(0.2, Math.min(4.0, userScale + delta)); renderPage(); };
-        window.resetZoom = () => { userScale = 1.0; renderPage(); };
 
         window.loadFromDB = async () => {
             const examId = document.getElementById('target-exam-id').value.trim();
@@ -206,7 +195,7 @@
                     updateDataList(); renderCapturedLayers();
                     const keys = Object.keys(currentData).map(Number);
                     if(keys.length > 0) document.getElementById('q-num').value = Math.max(...keys) + 1;
-                    alert("성공적으로 불러왔습니다!");
+                    alert("데이터를 성공적으로 불러왔습니다!");
                 } else { alert("데이터가 없습니다."); currentData = {}; updateDataList(); }
             } catch (e) { alert("오류: " + e.message); }
             finally { document.getElementById('loading-overlay').classList.add('hidden'); }
@@ -225,7 +214,14 @@
             const rx = parseFloat(selection.style.left) / vW, ry = parseFloat(selection.style.top) / vH, rw = parseFloat(selection.style.width) / vW, rh = parseFloat(selection.style.height) / vH;
             if(rw < 0.005 || rh < 0.005) { selection.style.display = 'none'; return; }
             const num = document.getElementById('q-num').value;
-            currentData[num] = { p: pageNum, rect: [rx, ry, rw, rh].map(v => parseFloat(v.toFixed(6))), ans: document.getElementById('q-ans').value, score: parseFloat(document.getElementById('q-score').value), topic: document.getElementById('q-topic').value, commentary: document.getElementById('q-commentary').value, tip: document.getElementById('q-tip').value };
+            // [수정] 코멘터리 및 팁 데이터 필드 제거
+            currentData[num] = { 
+                p: pageNum, 
+                rect: [rx, ry, rw, rh].map(v => parseFloat(v.toFixed(6))), 
+                ans: document.getElementById('q-ans').value, 
+                score: parseFloat(document.getElementById('q-score').value), 
+                topic: document.getElementById('q-topic').value 
+            };
             if(!editingNum) document.getElementById('q-num').value = parseInt(num) + 1;
             selection.style.display = 'none'; updateDataList(); renderCapturedLayers();
         };
@@ -241,7 +237,7 @@
                 item.innerHTML = `
                     <div class="flex flex-col text-left">
                         <span class="text-indigo-400 font-black text-sm">Question ${n}</span>
-                        <span class="text-[9px] font-bold opacity-50 uppercase">P${d.p} · ${d.ans} · ${d.score}pts</span>
+                        <span class="text-[9px] font-bold opacity-50 uppercase">P${d.p} · ${d.ans} · ${d.score}점 · ${d.topic}</span>
                     </div>
                     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button onclick="editItem('${n}', event)" class="p-2 text-slate-400 hover:text-indigo-400"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
@@ -261,8 +257,6 @@
             document.getElementById('q-ans').value = d.ans || "①";
             document.getElementById('q-score').value = d.score || 2.0;
             document.getElementById('q-topic').value = d.topic || "미분류";
-            document.getElementById('q-commentary').value = d.commentary || "";
-            document.getElementById('q-tip').value = d.tip || "";
             document.getElementById('edit-form-container').classList.add('edit-mode-active');
             document.getElementById('edit-mode-indicator').classList.remove('hidden');
             document.getElementById('editing-q-num-text').innerText = n;
@@ -281,8 +275,6 @@
             currentData[num].ans = document.getElementById('q-ans').value;
             currentData[num].score = parseFloat(document.getElementById('q-score').value);
             currentData[num].topic = document.getElementById('q-topic').value;
-            currentData[num].commentary = document.getElementById('q-commentary').value;
-            currentData[num].tip = document.getElementById('q-tip').value;
             
             const examId = document.getElementById('target-exam-id').value.trim();
             if(!examId) return alert("Exam ID 입력!");
@@ -290,7 +282,7 @@
             try {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', examId), { examId, coords: currentData, updatedAt: new Date().toISOString() });
                 editingNum = null; document.getElementById('edit-form-container').classList.remove('edit-mode-active'); document.getElementById('edit-mode-indicator').classList.add('hidden');
-                alert(`✅ Q${num} 문항이 DB에 저장되었습니다!`); updateDataList();
+                alert(`✅ Q${num} 문항 정보가 DB에 업데이트되었습니다!`); updateDataList();
             } catch (e) { alert("저장 실패"); }
             finally { document.getElementById('loading-overlay').classList.add('hidden'); }
         };
@@ -307,8 +299,19 @@
             });
         }
 
-        window.deleteData = (n, e) => { if(e) e.stopPropagation(); if(confirm(`문항 Q${n} 삭제?`)) { delete currentData[n]; updateDataList(); renderCapturedLayers(); } };
-        window.saveToDB = async () => { /* 전체 저장 로직 (동일) */ };
+        window.deleteData = (n, e) => { if(e) e.stopPropagation(); if(confirm(`문항 Q${n} 좌표 정보를 삭제하시겠습니까?`)) { delete currentData[n]; updateDataList(); renderCapturedLayers(); } };
+        window.saveToDB = async () => { 
+            const examId = document.getElementById('target-exam-id').value.trim();
+            if(!examId) return alert("시험 ID를 입력하세요!");
+            if(Object.keys(currentData).length === 0) return alert("저장할 데이터가 없습니다.");
+            if(!confirm(`[${examId}]의 전체 데이터를 클라우드에 저장하시겠습니까?`)) return;
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', examId), { examId, coords: currentData, updatedAt: new Date().toISOString() });
+                alert("🎉 전체 데이터 동기화 완료!");
+            } catch (e) { alert("저장 실패"); }
+            finally { document.getElementById('loading-overlay').classList.add('hidden'); }
+        };
         lucide.createIcons();
     </script>
 </body>

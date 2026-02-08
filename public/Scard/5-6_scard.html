@@ -127,6 +127,20 @@
                     <li><i class="fas fa-compass text-blue-400 mr-1"></i> <strong>렌츠 법칙 (방향)</strong>:
                         <br> 자기장의 <span class="red-pen">변화를 방해</span>하는 방향으로 전류 발생.
                     </li>
+                    <div class="mt-3 mb-4">
+                        <img src="lenz.png" alt="전자기 유도" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
+                    <li><i class="fas fa-exchange-alt text-pink-500 mr-1"></i> <strong>전류 방향 공식 (암기 팁)</strong>:
+                        <div class="grid grid-cols-2 gap-2 mt-1 text-center text-base">
+                            <div class="border border-red-200 rounded bg-red-50">N 접근 = S 후퇴</div>
+                            <div class="border border-blue-200 rounded bg-blue-50">S 접근 = N 후퇴</div>
+                        </div>
+                    </li>
+                    <li><i class="fas fa-microscope text-indigo-500 mr-1"></i> <strong>자석의 낙하 (솔레노이드 통과)</strong>:
+                        <br> <span class="text-sm bg-gray-100 rounded px-1">입구</span>: 자석을 밀어냄 (척력) → 속력 감소
+                        <br> <span class="text-sm bg-gray-100 rounded px-1">출구</span>: 자석을 당김 (인력) → 속력 감소
+                        <br> 역학적 에너지 <span class="red-pen">일부 감소</span> (전기E로 전환).
+                    </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
@@ -143,11 +157,14 @@
                     <li><i class="fas fa-cogs text-gray-500 mr-1"></i> <strong>구조</strong>:
                         <br> 자석 사이에 코일(회전자)이 들어있는 구조. (전동기와 구조 동일, 반대 원리).
                     </li>
+                    <div class="mt-3 mb-4">
+                        <img src="powerdevice.png" alt="발전기의 원리" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                     <li><i class="fas fa-sync-alt text-green-500 mr-1"></i> <strong>작동</strong>:
-                        <br> 터빈 회전 $\rightarrow$ 자석과 코일의 상대 운동 $\rightarrow$ 전자기 유도 $\rightarrow$ 전기 생산.
+                        <br> 터빈 회전 → 자석과 코일의 상대 운동 → 전자기 유도 → 전기 생산.
                     </li>
                     <li><i class="fas fa-exchange-alt text-blue-500 mr-1"></i> <strong>에너지 전환</strong>:
-                        <br> <span class="highlight-blue">운동(역학적) 에너지</span> $\rightarrow$ <span class="highlight-yellow">전기 에너지</span>.
+                        <br> <span class="highlight-blue">운동(역학적) 에너지</span> → <span class="highlight-yellow">전기 에너지</span>.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
@@ -166,16 +183,12 @@
                     <div class="bg-red-50 p-2 rounded">
                         <p class="font-bold text-red-600 mb-1 font-gamja">화력 발전</p>
                         <p class="text-xs font-pen">화석 연료 연소</p>
-                        <p class="text-xs font-pen">화학 E</p>
-                        <p class="text-xs">$\downarrow$</p>
-                        <p class="text-xs font-pen">열 E</p>
+                        <p class="text-xs font-pen">화학 E → 열 E</p>
                     </div>
                     <div class="bg-blue-50 p-2 rounded">
                         <p class="font-bold text-blue-600 mb-1 font-gamja">핵발전</p>
                         <p class="text-xs font-pen">우라늄 분열</p>
-                        <p class="text-xs font-pen">핵 E</p>
-                        <p class="text-xs">$\downarrow$</p>
-                        <p class="text-xs font-pen">열 E</p>
+                        <p class="text-xs font-pen">핵 E → 열 E</p>
                     </div>
                 </div>
                 <ul class="space-y-1 text-lg font-pen leading-snug text-center text-gray-700">
@@ -194,10 +207,10 @@
                 <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">04. 송전과 손실 전력</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-road text-gray-500 mr-1"></i> <strong>발생 원인</strong>:
-                        <br> 송전선의 <strong>저항($R$)</strong> 때문에 전기 에너지 일부가 <span class="highlight-red">열에너지</span>로 손실됨.
+                        <br> 송전선의 <strong>저항(R)</strong> 때문에 전기 에너지 일부가 <span class="highlight-red">열에너지</span>로 손실됨.
                     </li>
                     <li><i class="fas fa-calculator text-blue-500 mr-1"></i> <strong>손실 전력 공식</strong>:
-                        <br> <span class="red-pen text-xl">$P_{loss} = I^2 R$</span>
+                        <br> <span class="red-pen text-xl">P<sub>손실</sub> = I<sup>2</sup>R</span>
                         <br> (전류의 제곱에 비례, 저항에 비례)
                     </li>
                     <li><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> <strong>줄이는 법</strong>: 저항($R$)을 줄이거나, <span class="highlight-blue">전류($I$)를 줄여야</span> 함.</li>
@@ -210,47 +223,18 @@
             </div>
 
             <!-- Card 5 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
-                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">05. 고전압 송전 (승압)</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-balance-scale text-purple-400 mr-1"></i> <strong>전력 공식</strong>:
-                        <br> 송전 전력 $P = V \times I$ (일정).
-                    </li>
-                    <li><i class="fas fa-arrow-up text-red-500 mr-1"></i> <strong>원리 (핵심!)</strong>:
-                        <br> 전압($V$)을 <span class="red-pen">$n$배</span> 높이면 $\rightarrow$ 전류($I$)는 <span class="blue-pen">$1/n$배</span> 감소.
-                    </li>
-                    <li><i class="fas fa-magic text-yellow-500 mr-1"></i> <strong>효과 ($I^2R$)</strong>:
-                        <br> 손실 전력은 <span class="highlight-red">$\frac{1}{n^2}$배</span>로 획기적으로 감소함.
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 송전 전압을 10배 높이면 손실 전력은 어떻게 되는가?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">1/100배로 감소</p>
-                </div>
-            </div>
-
-            <!-- Card 6 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
                 <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">06. 변압기의 원리</h2>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">05. 여러가지 발전 방식</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-magnet text-red-400 mr-1"></i> <strong>기본 원리</strong>:
-                        <br> 1차 코일의 자기장 변화가 2차 코일에 유도 전류 생성 (<span class="highlight-yellow">전자기 유도</span>).
-                    </li>
-                    <li><i class="fas fa-sort-numeric-down text-blue-500 mr-1"></i> <strong>전압 조절</strong>:
-                        <br> 코일 감은 수($N$)에 비례.
-                        <br> $V_1 : V_2 = N_1 : N_2$
-                    </li>
-                    <li><i class="fas fa-bolt text-gray-500 mr-1"></i> <strong>전력 보존</strong>:
-                        <br> $V_1 I_1 = V_2 I_2$ (전압과 전류는 반비례).
-                    </li>
+                    <div class="mt-3 mb-4">
+                        <img src="plant.png" alt="여러가지 발전 방식" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 2차 코일의 감은 수가 1차의 3배면 전압은?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">3배 높아짐</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 높은 곳에 있는 물의 위치 에너지를 이용하여 터빈을 돌려 전기 에너지를 얻는 방식은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">수력 발전</p>
                 </div>
             </div>
 

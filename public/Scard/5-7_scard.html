@@ -83,6 +83,10 @@
         /* 애니메이션 */
         .fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .fraction { display: inline-block; vertical-align: middle; text-align: center; line-height: 1; }
+        .fraction > span { display: block; padding: 0 2px; }
+        .fraction span.fdn { border-top: 1.5px solid #1e293b; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -123,9 +127,9 @@
                     </li>
                     <li><i class="fas fa-lightbulb text-orange-400 mr-1"></i> <strong>예시</strong>:
                         <ul class="pl-4 list-disc text-gray-600 text-base">
-                            <li>전구: 전기 E $\rightarrow$ <span class="highlight-yellow">빛 E</span> + 열 E</li>
-                            <li>광합성: 빛 E $\rightarrow$ <span class="highlight-yellow">화학 E</span></li>
-                            <li>폭포: 위치(퍼텐셜) E $\rightarrow$ 운동 E</li>
+                            <li>전구: 전기 E → <span class="highlight-yellow">빛 E</span> + 열 E</li>
+                            <li>광합성: 빛 E → <span class="highlight-yellow">화학 E</span></li>
+                            <li>폭포: 위치(퍼텐셜) E → 운동 E</li>
                         </ul>
                     </li>
                 </ul>
@@ -143,7 +147,7 @@
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-balance-scale text-red-500 mr-1"></i> <strong>법칙</strong>:
                         <br> 에너지는 전환될 뿐, 새로 생기거나 없어지지 않는다.
-                        <br> $\rightarrow$ <span class="highlight-blue">전체 에너지 총량은 항상 일정</span>.
+                        <br> → <span class="highlight-blue">전체 에너지 총량은 항상 일정</span>.
                     </li>
                     <li><i class="fas fa-exclamation-circle text-gray-500 mr-1"></i> <strong>주의</strong>:
                         <br> "에너지를 절약하자"는 말은 총량이 줄어서가 아니라, <span class="red-pen">사용 가능한 에너지</span>가 줄어들기 때문임.
@@ -165,28 +169,33 @@
                         <br> 화석 연료 등을 연소시켜 얻은 <span class="highlight-yellow">열에너지</span>를 <span class="highlight-blue">일(역학적 에너지)</span>로 바꾸는 장치. (자동차 엔진, 증기 기관).
                     </li>
                     <li><i class="fas fa-arrow-down text-gray-500 mr-1"></i> <strong>에너지 흐름</strong>:
-                        <br> 고열원($Q_1$) $\rightarrow$ 일($W$) + 저열원($Q_2$, 방출).
-                        <br> $\therefore Q_1 = W + Q_2$
+                        <br> 고열원(Q<sub>1</sub>) → 일(W) + 저열원(Q<sub>2</sub>, 방출).
+                        <br> Q<sub>1</sub> = W + Q<sub>2</sub>
                     </li>
+                    <div class="mt-3 mb-4">
+                        <img src="engine.png" alt="열기관" class="w-full rounded-lg border border-gray-200 shadow-sm">
+                    </div>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 열기관이 흡수한 열($Q_1$)은 일($W$)과 무엇의 합인가?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">방출한 열 ($Q_2$)</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 열기관이 흡수한 열(Q<sub>1</sub>)은 일(W)과 무엇의 합인가?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">방출한 열 (Q<sub>2</sub>)</p>
                 </div>
             </div>
 
             <!-- Card 4 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
                 <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 열효율 ($e$) 계산</h2>
+                <h2 class="text-2xl font-title text-gray-800 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-2">04. 열효율 (e) 계산</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-calculator text-blue-500 mr-1"></i> <strong>공식</strong>:
-                        <br> $e = \frac{\text{한 일}(W)}{\text{공급한 열}(Q_1)} = \frac{Q_1 - Q_2}{Q_1} = 1 - \frac{Q_2}{Q_1}$
+                        <br> 열효율(e) = <div class="fraction"><span>한 일(W)</span><span class="fdn">공급한 열(Q<sub>1</sub>)</span></div>
+                        <br> 에너지 효율(%) = <div class="fraction"><span>유용하게 사용된 에너지</span><span class="fdn">공급한 에너지</span></div>×100
+                    
                     </li>
                     <li><i class="fas fa-ban text-red-500 mr-1"></i> <strong>한계</strong>:
                         <br> 열효율이 1 (100%)인 열기관은 <span class="red-pen">만들 수 없다</span>.
-                        <br> (반드시 방출되는 열 $Q_2 > 0$ 이기 때문).
+                        <br> (반드시 방출되는 열 Q<sub>2</sub> > 0 이기 때문).
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">

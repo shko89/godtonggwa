@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center">
+            <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center shrink-0">
                 <p class="text-xs text-gray-400 mb-1">현재 보고 있는 문제</p>
                 <div id="current-info-badges" class="flex justify-center gap-2">
                     <span class="bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded">선택 대기중</span>
@@ -100,11 +100,11 @@
 
             <div class="w-full h-full bg-[#fffef0] rounded-r-lg shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper">
                 
-                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8">
+                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8 bg-indigo-50/10">
                     <span class="text-2xl font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
                         Q. 문항을 선택해주세요
                     </span>
-                    </div>
+                </div>
 
                 <div class="flex-1 overflow-y-auto p-6 ml-2 custom-scrollbar relative" id="note-content-area">
                     <div class="handwriting flex flex-col items-center justify-center h-full text-gray-400 opacity-50 text-center">
@@ -113,12 +113,22 @@
                     </div>
                 </div>
                 
-                <div class="absolute bottom-4 right-4 transform rotate-[-10deg] opacity-80">
+                <div class="absolute bottom-4 right-4 transform rotate-[-10deg] opacity-80 pointer-events-none">
                     <span class="bg-yellow-200 text-yellow-800 px-3 py-1 text-lg font-bold shadow-lg border-2 border-yellow-400 rounded-sm">
                         Very Good! 👍
                     </span>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 커스텀 메시지 박스 (시스템 alert 대체) -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl text-center max-w-xs w-full mx-4">
+            <i data-lucide="lock" class="w-12 h-12 text-indigo-600 mx-auto mb-4"></i>
+            <h2 class="text-xl font-bold mb-2">로그인 필요</h2>
+            <p class="text-gray-500 text-sm mb-6">유료 회원 전용 서비스입니다.<br>로그인 후 이용해 주세요.</p>
+            <button id="go-login" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl active:scale-95 transition-transform">로그인하러 가기</button>
         </div>
     </div>
 
@@ -141,13 +151,13 @@
         const db = getFirestore(app);
 
         const urlParams = new URLSearchParams(window.location.search);
-        const EXAM_ID = urlParams.get('id') || 'exam_01'; 'exam_02';
+        const EXAM_ID = urlParams.get('id') || 'exam_01';
         
         let examMetaData = null;
         let aiExamData = null;
 
         function loadExamDataScript(examId) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const fileName = `${examId}/${examId}.js?v=${new Date().getTime()}`; 
                 const script = document.createElement('script');
                 script.src = fileName;
@@ -158,7 +168,7 @@
                 };
                 
                 script.onerror = () => {
-                    console.error(`${fileName} 로드 실패`);
+                    console.warn(`해설 파일(${fileName})을 찾을 수 없습니다.`);
                     resolve(null);
                 };
                 
@@ -176,15 +186,12 @@
                 if (metaSnap.status === 'fulfilled' && metaSnap.value.exists()) {
                     examMetaData = metaSnap.value.data();
                     document.getElementById('exam-title-header').innerText = examMetaData.title || "나만의 오답노트";
-                    // [수정] 날짜 표시 로직 삭제됨
                 } else {
                     document.getElementById('exam-title-header').innerText = "시험 정보를 찾을 수 없습니다.";
                 }
 
                 if (loadedAiData.status === 'fulfilled' && loadedAiData.value) {
                     aiExamData = loadedAiData.value;
-                } else {
-                    console.warn(`해설 파일(${EXAM_ID}.js)이 없습니다.`);
                 }
 
                 renderQuestionGrid();
@@ -192,16 +199,21 @@
 
             } catch (e) {
                 console.error("초기화 오류:", e);
-                alert("데이터 로딩 중 오류가 발생했습니다: " + e.message);
             }
         }
 
+        // [수정] 익명 로그인 배제 및 리다이렉트 에러 해결
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 init();
             } else {
-                alert("로그인이 필요한 페이지입니다.");
-                location.href = 'exam.html';
+                const modal = document.getElementById('auth-modal');
+                modal.classList.remove('hidden');
+                document.getElementById('go-login').onclick = () => {
+                    const target = 'exam.html';
+                    // 빈 URL이 아님을 보장하며 안전하게 이동
+                    if (target) window.location.assign(target);
+                };
             }
         });
 
@@ -223,11 +235,12 @@
             document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
             btnElement.classList.add('btn-selected');
 
-            const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-' };
+            // [수정] Firebase Database의 topic 값을 최우선으로 호출
+            const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-', topic: '통합과학' };
             const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === no) : null;
             
-            const topic = aiQ?.topic || "통합과학";
-            const content = aiQ?.content || "앗! 아직 해설 파일이 업로드되지 않았어요. 😅<br>선생님께 문의해주세요.";
+            const topic = dbQ.topic || aiQ?.topic || "통합과학";
+            const content = aiQ?.content || "앗! 아직 이 문항의 비밀노트 해설이 준비되지 않았어요. 😅<br>선생님이 지금 정리 중이니 조금만 기다려줘!";
 
             const noteArea = document.getElementById('note-content-area');
             const qNumTitle = document.getElementById('note-q-number');
@@ -235,14 +248,15 @@
             noteArea.style.opacity = 0;
             
             setTimeout(() => {
-                // [수정] 주제가 길어도 자연스럽게 줄바꿈되도록 span 내부에 렌더링
                 qNumTitle.innerHTML = `<span class="text-indigo-600 mr-2">Q${no}.</span>${topic}`;
                 
                 document.getElementById('current-info-badges').innerHTML = `
                     <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-xs font-bold">배점 ${dbQ.score || 0}점</span>
                     <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-xs font-bold">정답 ${dbQ.correctAnswer || '-'}</span>
                 `;
-                noteArea.innerHTML = `<div class="handwriting leading-[30px] pt-2 pb-10">${content}</div>`;
+                
+                // [수정] 하단 잘림 방지를 위해 pb-32 추가
+                noteArea.innerHTML = `<div class="handwriting leading-[30px] pt-2 pb-32">${content}</div>`;
                 noteArea.style.opacity = 1;
                 noteArea.style.transition = "opacity 0.3s ease-in-out";
             }, 150);

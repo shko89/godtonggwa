@@ -44,30 +44,24 @@
     <div class="app-container" id="app">
         <!-- 상단 헤더 -->
         <header class="bg-white/80 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-100">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="renderHome()">
-                <!-- 로고 -->
-                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md transform hover:rotate-3 transition-transform">
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
-                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="50" cy="50" rx="40" ry="12" stroke="url(#grad_header)" stroke-width="6" transform="rotate(45 50 50)"/>
-                        <ellipse cx="50" cy="50" rx="40" ry="12" stroke="url(#grad_header)" stroke-width="6" transform="rotate(-45 50 50)"/>
-                        <circle cx="50" cy="50" r="8" fill="#A78BFA"/>
-                        <defs>
-                            <linearGradient id="grad_header" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
+            <div class="flex items-center gap-[18px] cursor-pointer" onclick="renderHome()">
+                <div class="w-[72px] h-[72px] flex items-center justify-center relative shrink-0">
+                    <svg class="w-[66px] h-[66px] relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="50" cy="50" rx="42" ry="15" stroke="#3b82f6" stroke-width="4.5" transform="rotate(0 50 50)"/>
+                        <ellipse cx="50" cy="50" rx="42" ry="15" stroke="#10b981" stroke-width="4.5" transform="rotate(45 50 50)"/>
+                        <ellipse cx="50" cy="50" rx="42" ry="15" stroke="#f59e0b" stroke-width="4.5" transform="rotate(90 50 50)"/>
+                        <ellipse cx="50" cy="50" rx="42" ry="15" stroke="#ef4444" stroke-width="4.5" transform="rotate(135 50 50)"/>
+                        <circle cx="50" cy="50" r="9" fill="#1e293b"/>
+                        <path d="M46 54 L50 46 L54 54" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                <!-- 타이틀 영역 -->
-                <div class="flex flex-col justify-center">
-                    <div class="flex items-baseline gap-2">
-                    <h1 class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 drop-shadow-sm flex items-center gap-1">
-                        갓통과<span class="text-xs font-bold text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded-full border border-indigo-100 tracking-normal self-start mt-1">PLUS</span>
-                    </h1>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-[30px] font-black tracking-tighter text-slate-900 leading-none">갓통과</h1>
+                        <span class="text-[15px] font-bold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100 leading-none">PLUS</span>
+                    </div>
+                    <p class="text-[13.5px] font-bold text-slate-400 tracking-[0.25em] mt-2 leading-none uppercase">INTEGRATED SCIENCE</p>
                 </div>
-            </div>
             </div>
             <div class="flex items-center gap-3">
                 <button class="relative p-2 hover:bg-gray-50 rounded-full transition-colors">
@@ -113,7 +107,7 @@
         </nav>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK 및 앱 로직 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -132,7 +126,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // 전역 변수
         window.auth = auth;
         window.db = db;
         
@@ -174,13 +167,13 @@
             }
         };
 
-        // 1. 홈 화면 렌더링
         window.renderHome = function() {
             updateNav('홈');
             document.querySelector('.app-container').style.backgroundColor = '#F9FAFB';
             
             const html = `
                 <div class="fade-in space-y-6">
+                    <!-- 메인 배너: 실전 모의고사 -->
                     <div class="relative bg-gray-900 rounded-3xl p-6 text-white overflow-hidden shadow-xl group cursor-pointer" onclick="location.href='STEST/exam.html'">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-600 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
                         <div class="absolute bottom-0 left-0 w-48 h-48 bg-purple-600 rounded-full blur-3xl opacity-20 -ml-10 -mb-10"></div>
@@ -202,7 +195,7 @@
                         </div>
                     </div>
 
-                    <!-- 기출 해설 서비스 섹션 -->
+                    <!-- 아카이브 배너 -->
                     <div onclick="location.href='./archive/archive.html'" class="bg-white border border-indigo-100 rounded-3xl p-5 shadow-sm active:scale-95 transition-transform cursor-pointer group flex items-center gap-4 relative overflow-hidden">
                         <div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity"><i data-lucide="history" class="w-32 h-32 text-indigo-600"></i></div>
                         <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100 shrink-0">
@@ -220,6 +213,7 @@
                         </div>
                     </div>
 
+                    <!-- 데일리 트레이닝 섹션 -->
                     <div>
                         <h3 class="font-bold text-lg text-gray-800 mb-3 px-1 flex items-baseline gap-2">
                             데일리 트레이닝
@@ -241,6 +235,35 @@
                         </div>
                     </div>
 
+                    <!-- 킬러 문항 정복 섹션 (새로 추가됨) -->
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-3 px-1 flex items-baseline gap-2">
+                            킬러 문항 정복
+                            <span class="text-xs text-rose-500 font-medium tracking-wide">Killer Simulation</span>
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- 산화환원 반응 시뮬레이션 -->
+                            <div onclick="location.href='./simulation/redox.html'" class="bg-gradient-to-br from-indigo-500 to-blue-600 p-5 rounded-3xl active:scale-95 transition-transform cursor-pointer relative overflow-hidden shadow-lg shadow-indigo-100 group">
+                                <div class="absolute -right-2 -bottom-2 p-3 opacity-20 group-hover:scale-110 transition-transform"><i data-lucide="flask-conical" class="w-16 h-16 text-white"></i></div>
+                                <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center backdrop-blur-sm mb-4 text-white">
+                                    <i data-lucide="test-tube-2" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-base mb-1">금속의 산화환원</h4>
+                                <p class="text-[10px] text-indigo-100 leading-tight opacity-90">이온 모형의 해석 및<br>그래프 변화 시뮬레이션</p>
+                            </div>
+                            <!-- 중화반응 시뮬레이션 -->
+                            <div onclick="location.href='./simulation/acidbase.html'" class="bg-gradient-to-br from-emerald-500 to-teal-600 p-5 rounded-3xl active:scale-95 transition-transform cursor-pointer relative overflow-hidden shadow-lg shadow-emerald-100 group">
+                                <div class="absolute -right-2 -bottom-2 p-3 opacity-20 group-hover:scale-110 transition-transform"><i data-lucide="droplets" class="w-16 h-16 text-white"></i></div>
+                                <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center backdrop-blur-sm mb-4 text-white">
+                                    <i data-lucide="thermometer" class="w-5 h-5"></i>
+                                </div>
+                                <h4 class="font-bold text-white text-base mb-1">중화 반응</h4>
+                                <p class="text-[10px] text-emerald-50 opacity-90 leading-tight">혼합 용액의 액성과 온도<br>이온 수 관계의 활용과 해석</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 하단 문의 섹션 -->
                     <div class="mt-8 pt-6 border-t border-gray-100">
                         <h3 class="font-bold text-gray-800 mb-3 text-sm px-1">학습에 어려움이 있나요?</h3>
                         <div class="grid grid-cols-2 gap-3">
@@ -261,14 +284,12 @@
             lucide.createIcons();
         }
 
-        // 분석, 기타 기능
         window.renderAnalysis = function() { location.href = 'STEST/exam.html?view=report'; }
         window.manageSubscription = () => { if(!currentUser) return alert("로그인 필요"); alert(userData.isPaid ? "프리미엄 이용 중" : "관리자 문의 필요"); };
         window.openSettings = () => { alert("설정\n\nv1.3.0"); };
         window.openKakaoInquiry = () => { window.open("https://open.kakao.com/o/s2YBNObi", '_blank'); };
         window.copyToClipboard = (text) => { navigator.clipboard.writeText(text).then(() => alert('복사 완료')).catch(() => alert('복사 실패')); };
 
-        // 마이페이지
         window.renderMarket = function() {
             updateNav('마이');
             const userName = userData ? userData.name : '비회원';
@@ -322,13 +343,10 @@
             lucide.createIcons();
         }
 
-        // 내 정보 수정 화면
         window.renderEditProfile = function() {
             if(!currentUser) return alert("로그인이 필요합니다.");
-            
             const currentName = userData.name || "";
             const currentEmail = userData.email || currentUser.email || "";
-
             document.getElementById('main-content').innerHTML = `
                 <div class="fade-in pt-6 px-6 h-full flex flex-col">
                     <div class="flex items-center gap-2 mb-8">
@@ -337,7 +355,6 @@
                         </button>
                         <h2 class="text-xl font-bold text-gray-900">내 정보 수정</h2>
                     </div>
-
                     <div class="space-y-6 flex-1">
                         <div>
                             <label class="block text-xs font-bold text-gray-500 mb-2">이름 (닉네임)</label>
@@ -349,7 +366,6 @@
                             <p class="text-[10px] text-gray-400 mt-2 ml-1">* 연락 가능한 이메일을 입력해주세요.</p>
                         </div>
                     </div>
-
                     <button onclick="saveProfile()" class="w-full bg-indigo-600 text-white font-bold h-14 rounded-xl shadow-lg hover:bg-indigo-700 transition-colors mb-4 flex items-center justify-center gap-2">
                         <i data-lucide="save" class="w-5 h-5"></i> 저장하기
                     </button>
@@ -358,52 +374,30 @@
             lucide.createIcons();
         }
 
-        // 정보 저장 로직
         window.saveProfile = async () => {
             const newName = document.getElementById('edit-name').value.trim();
             const newEmail = document.getElementById('edit-email').value.trim();
-
             if(!newName) return alert("이름을 입력해주세요.");
-            
             try {
-                await updateDoc(doc(db, "users", currentUser.uid), { 
-                    name: newName,
-                    email: newEmail
-                });
-                
-                userData.name = newName;
-                userData.email = newEmail;
-                
-                alert("정보가 수정되었습니다.");
-                renderMarket(); 
-            } catch(e) {
-                console.error("Profile Update Error:", e);
-                alert("정보 수정 중 오류가 발생했습니다.");
-            }
+                await updateDoc(doc(db, "users", currentUser.uid), { name: newName, email: newEmail });
+                userData.name = newName; userData.email = newEmail;
+                alert("정보가 수정되었습니다."); renderMarket(); 
+            } catch(e) { console.error("Profile Update Error:", e); alert("정보 수정 중 오류가 발생했습니다."); }
         };
 
-        // 회원 탈퇴 로직
         window.handleWithdrawal = async () => {
             if(!confirm("정말 탈퇴하시겠습니까?\n\n탈퇴 시 모든 학습 기록과 구매 내역이 삭제되며 복구할 수 없습니다.")) return;
-
             try {
                 const user = auth.currentUser;
                 const uid = user.uid;
-
-                await deleteDoc(doc(db, "users", uid));
-                await deleteUser(user);
-
-                alert("회원 탈퇴가 완료되었습니다.");
-                window.location.reload(); 
+                await deleteDoc(doc(db, "users", uid)); await deleteUser(user);
+                alert("회원 탈퇴가 완료되었습니다."); window.location.reload(); 
             } catch (error) {
                 console.error("Withdrawal Error:", error);
                 if (error.code === 'auth/requires-recent-login') {
                     alert("보안을 위해 다시 로그인한 후 탈퇴를 진행해주세요.");
-                    await signOut(auth);
-                    renderHome();
-                } else {
-                    alert("탈퇴 처리 중 오류가 발생했습니다. 관리자에게 문의해주세요.");
-                }
+                    await signOut(auth); renderHome();
+                } else { alert("탈퇴 처리 중 오류가 발생했습니다. 관리자에게 문의해주세요."); }
             }
         };
 

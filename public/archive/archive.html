@@ -66,16 +66,15 @@
         #zoom-canvas { background: white; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: block; max-width: none; }
         .zoom-footer { padding: 24px; display: flex; justify-content: center; gap: 16px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 10; padding-bottom: 40px; }
 
-        /* [수정] 전체 화면 확대 최적화 */
+        /* 전체 화면 확대 최적화 */
         #solve-zoom-wrapper { 
             transform-origin: top center; 
-            transition: transform 0.05s linear; /* 더 즉각적인 반응을 위해 시간 단축 */
+            transition: transform 0.05s linear;
             will-change: transform; 
-            /* 평소에는 터치 이벤트를 브라우저에 맡김 */
             touch-action: pan-y; 
         }
         #solve-zoom-wrapper.zoomed {
-            touch-action: none; /* 확대된 상태에서만 드래그 전용으로 변경 */
+            touch-action: none;
         }
         .zoom-indicator {
             position: fixed;
@@ -96,10 +95,22 @@
         .highlight-yellow { background-color: #fef08a; padding: 2px 4px; border-radius: 4px; font-weight: bold; color: #854d0e; }
         .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
         .red-pen { color: #ef4444; text-decoration: underline; font-weight: bold; }
-        .fraction { display: inline-block; vertical-align: middle; text-align: center; line-height: 1; }
-        .fraction > span { display: block; padding: 0 2px; }
-        .fraction span.fdn { border-top: 1.5px solid #1e293b; }
-        .small-text { font-size: 10px; }
+        
+        /* [추가] 정답 및 해설 가리기 스타일 */
+        .ans-blurred { filter: blur(8px); opacity: 0.5; transition: all 0.3s; }
+        .ans-revealed { filter: blur(0); opacity: 1; }
+        .btn-exp-view { 
+            background: #4F46E5; 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            font-weight: 900; 
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .btn-exp-view:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -122,11 +133,11 @@
                 <div class="premium-banner rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden mt-2">
                     <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                     <div class="relative z-10 text-left">
-                        <div class="flex items-center gap-3 mb-4 text-left">
+                        <div class="flex items-center gap-3 mb-4">
                              <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-md border border-white/20"><i data-lucide="scroll-text" class="w-4.5 h-4.5 text-white"></i></div>
                              <h2 class="text-2xl font-black tracking-tight text-white leading-tight">기출 해설 아카이브</h2>
                         </div>
-                        <p class="text-indigo-50 text-[13px] font-medium leading-relaxed opacity-90 text-left">버스나 지하철 이동 시간, 자투리 시간을 활용해 <br>기출 문제를 한 문항씩 완벽하게 마스터하세요!</p>
+                        <p class="text-indigo-50 text-[13px] font-medium leading-relaxed opacity-90">버스나 지하철 이동 시간, 자투리 시간을 활용해 <br>기출 문제를 한 문항씩 완벽하게 마스터하세요!</p>
                         <div class="mt-8 flex items-center gap-2 text-[11px] font-black bg-white text-indigo-700 w-fit px-4 py-2.5 rounded-full shadow-xl">
                             <i data-lucide="sparkles" class="w-4 h-4 text-amber-500 fill-amber-500"></i> <span>2028 통합과학 예비문항 완벽 해설</span>
                         </div>
@@ -134,19 +145,19 @@
                 </div>
 
                 <div class="space-y-4">
-                    <h3 class="font-black text-gray-900 flex items-center gap-2 text-lg px-1 text-left"><i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>학년도별 기출 분석</h3>
+                    <h3 class="font-black text-gray-900 flex items-center gap-2 text-lg px-1"><i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>학년도별 기출 분석</h3>
                     <div id="exam-list-container" class="grid grid-cols-1 gap-4 pb-20"></div>
                 </div>
             </div>
 
             <!-- [View 2] 문항 선택 그리드 -->
             <div id="view-num-grid" class="hidden fade-in p-6">
-                <div class="bg-indigo-50/50 rounded-[32px] p-7 border border-indigo-100/50 mb-7 shadow-sm text-left">
+                <div class="bg-indigo-50/50 rounded-[32px] p-7 border border-indigo-100/50 mb-7 shadow-sm">
                     <div class="flex items-center gap-2 mb-1">
                         <span class="bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">Exam Board</span>
-                        <h3 id="grid-title" class="text-xl font-black text-gray-900 tracking-tight text-left leading-tight">-</h3>
+                        <h3 id="grid-title" class="text-xl font-black text-gray-900 tracking-tight leading-tight">-</h3>
                     </div>
-                    <p class="text-[13px] text-gray-500 font-medium leading-tight text-left">학습을 원하는 문항 번호를 선택해 주세요.</p>
+                    <p class="text-[13px] text-gray-500 font-medium">학습을 원하는 문항 번호를 선택해 주세요.</p>
                 </div>
                 <div id="num-grid" class="grid grid-cols-5 gap-4 pb-24"></div>
             </div>
@@ -173,10 +184,14 @@
                                 </div>
                             </div>
 
-                            <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-2xl flex items-center justify-between">
+                            <!-- [수정] 정답 영역: 블러 처리 및 클릭 인터랙션 -->
+                            <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-2xl flex items-center justify-between cursor-pointer group" onclick="revealCorrectAns()">
                                 <div class="text-left pl-2">
-                                    <h4 class="text-emerald-700 font-black text-[9px] uppercase tracking-widest text-left">Answer</h4>
-                                    <p id="correct-ans" class="text-3xl font-black text-emerald-600 text-left">③</p>
+                                    <h4 class="text-emerald-700 font-black text-[9px] uppercase tracking-widest">Answer</h4>
+                                    <div id="ans-mask" class="flex items-center gap-2 py-1">
+                                        <p id="correct-ans" class="text-3xl font-black text-emerald-600 ans-blurred">③</p>
+                                        <span id="ans-click-tip" class="text-[10px] text-emerald-400 font-bold bg-emerald-100/50 px-2 py-0.5 rounded animate-pulse">탭하여 정답 확인</span>
+                                    </div>
                                 </div>
                                 <div class="text-right pr-2">
                                     <span id="solve-q-topic" class="text-emerald-600 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-emerald-100 shadow-sm block mb-1">단원 정보</span>
@@ -185,13 +200,24 @@
                         </div>
 
                         <div class="w-full lg:w-1/2">
+                            <!-- [수정] 비밀노트 영역: 해설 가리기 버튼 및 인터랙션 -->
                             <div class="h-full min-h-[600px] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper fade-in">
                                 <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-4 ml-8 bg-indigo-50/30">
                                     <i data-lucide="pen-tool" class="w-5 h-5 text-indigo-600 mr-2"></i>
                                     <span id="note-topic-text" class="text-xl font-bold text-gray-700 handwriting" style="padding:0;">비밀노트 로딩 중...</span>
                                 </div>
                                 <div class="flex-1 p-6 ml-2 relative text-left">
-                                    <div id="exp-text-main" class="handwriting leading-[30px] pt-2 pb-16 text-left">해설을 로드하고 있습니다...</div>
+                                    <!-- 해설 보기 버튼 오버레이 -->
+                                    <div id="exp-lock-overlay" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/10 backdrop-blur-[2px]">
+                                        <button onclick="revealExplanation()" class="btn-exp-view flex items-center gap-2">
+                                            <i data-lucide="eye" class="w-5 h-5"></i>
+                                            <span>해설 보기</span>
+                                        </button>
+                                        <p class="mt-4 text-[13px] font-bold text-gray-500">문제를 충분히 고민한 후 확인하세요!</p>
+                                    </div>
+                                    <!-- 해설 본문 (초기 hidden) -->
+                                    <div id="exp-text-main" class="handwriting leading-[30px] pt-2 pb-16 text-left opacity-0 transition-opacity duration-500">해설을 로드하고 있습니다...</div>
+                                    
                                     <div class="absolute bottom-10 right-6 transform rotate-[-10deg] opacity-60">
                                         <span class="bg-rose-100 text-rose-600 px-4 py-1.5 text-xl font-black shadow-lg border-2 border-rose-300 rounded-sm">Very Good! 👍</span>
                                     </div>
@@ -204,7 +230,7 @@
             </div>
         </main>
 
-        <nav id="bottom-nav" class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] transition-all duration-300">
+        <nav id="bottom-nav" class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
             <button onclick="location.href='../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1"><i data-lucide="home" class="w-6 h-6"></i><span class="text-[10px] font-bold">홈</span></button>
             <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1"><i data-lucide="file-text" class="w-6 h-6"></i><span class="text-[10px] font-bold">시험응시</span></button>
             <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group"><div class="bg-gray-900 p-4 rounded-full shadow-lg border-4 border-white"><i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i></div><span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span></button>
@@ -213,9 +239,8 @@
         </nav>
     </div>
 
+    <!-- UHD 확대 모달 등 기타 요소 생략 (기존과 동일) -->
     <div id="solve-zoom-info" class="zoom-indicator">ZOOM x1.0</div>
-
-    <!-- UHD 확대 모달 -->
     <div id="zoom-modal">
         <div class="zoom-header">
             <div class="flex items-center gap-2"><span class="bg-indigo-600 p-1 rounded shadow-lg shadow-indigo-500/20"><i data-lucide="search" class="w-4 h-4 text-white"></i></span><div class="flex flex-col"><span class="text-[9px] font-black uppercase text-indigo-400 leading-none tracking-widest">UHD Display</span><span class="text-[11px] font-bold text-white mt-1" id="zoom-status">100%</span></div></div>
@@ -249,8 +274,6 @@
         const EXAM_META = { "2028_pretest": { title: "2028 통합과학 예비문항", pdfFile: "2028_pretest.pdf" }, "2024_11": { title: "2024학년도 수능 기출", pdfFile: "2024_11.pdf" } };
 
         let currentExamId = null, currentQNum = 0, pdfDoc = null, examCoords = {}, currentStep = 1, aiExamData = null; 
-        
-        // 줌 관련 변수
         let scale = 1, fitScale = 1, translateX = 0, translateY = 0, lastX = 0, lastY = 0, initialDist = 0;
         let stageScale = 1, stageX = 0, stageY = 0, stageLastX = 0, stageLastY = 0, stageInitialDist = 0;
         
@@ -276,7 +299,7 @@
                 const exam = EXAM_META[id];
                 const btn = document.createElement('button');
                 btn.className = "bg-white border border-gray-100 p-6 rounded-[28px] text-left hover:border-indigo-400 shadow-sm active:scale-[0.97] group mb-2 w-full transition-all";
-                btn.innerHTML = `<div class="flex justify-between items-center mb-1 text-left"><span class="text-[10px] font-black text-indigo-500 tracking-widest uppercase opacity-60">High Performance</span><i data-lucide="chevron-right" class="w-5 h-5 text-gray-300"></i></div><h4 class="font-black text-gray-900 text-xl tracking-tight text-left leading-tight">${exam.title}</h4>`;
+                btn.innerHTML = `<div class="flex justify-between items-center mb-1"><span class="text-[10px] font-black text-indigo-500 tracking-widest uppercase opacity-60">High Performance</span><i data-lucide="chevron-right" class="w-5 h-5 text-gray-300"></i></div><h4 class="font-black text-gray-900 text-xl tracking-tight leading-tight">${exam.title}</h4>`;
                 btn.onclick = () => selectExam(id); container.appendChild(btn);
             });
             lucide.createIcons();
@@ -306,13 +329,32 @@
             currentQNum = num; const qData = examCoords[num];
             const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === num) : null;
             const dbTopic = qData.topic || "통합과학";
+            
+            // 상태 초기화 (정답 및 해설 가리기)
+            document.getElementById('correct-ans').classList.add('ans-blurred');
+            document.getElementById('ans-click-tip').classList.remove('hidden');
+            document.getElementById('exp-lock-overlay').classList.remove('hidden');
+            document.getElementById('exp-text-main').classList.add('opacity-0');
+
             document.getElementById('solve-q-label').innerText = `Q ${String(num).padStart(2, '0')}`;
             document.getElementById('solve-q-score').innerText = `${qData.score || 2.0} Points`;
             document.getElementById('solve-q-topic').innerText = dbTopic;
             document.getElementById('correct-ans').innerText = qData.ans || "?";
             document.getElementById('note-topic-text').innerText = `Q${num}. ${dbTopic}`;
             document.getElementById('exp-text-main').innerHTML = aiQ?.content || "해설 준비 중입니다.";
+            
             await renderQuestionCrop(qData); showStep(3); lucide.createIcons();
+        };
+
+        // [추가] 정답 및 해설 공개 함수
+        window.revealCorrectAns = () => {
+            document.getElementById('correct-ans').classList.remove('ans-blurred');
+            document.getElementById('ans-click-tip').classList.add('hidden');
+        };
+
+        window.revealExplanation = () => {
+            document.getElementById('exp-lock-overlay').classList.add('hidden');
+            document.getElementById('exp-text-main').classList.remove('opacity-0');
         };
 
         async function renderQuestionCrop(qData) {
@@ -327,9 +369,7 @@
             ctx.drawImage(temp, rx * vp.width, ry * vp.height, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
         }
 
-        /* [수정] 전체 화면 확대 최적화 로직 */
         function updateStageTransform() {
-            // requestAnimationFrame을 사용하여 부드럽게 업데이트
             window.requestAnimationFrame(() => {
                 stageWrapper.style.transform = `translate(${stageX}px, ${stageY}px) scale(${stageScale})`;
                 if (stageScale > 1.02) {
@@ -355,12 +395,10 @@
             } else if (e.touches.length === 2) {
                 stageInitialDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
             }
-        }, { passive: true }); // 기본 스크롤 성능을 위해 passive: true
+        }, { passive: true });
 
         mainContent.addEventListener('touchmove', (e) => {
             if (currentStep !== 3) return;
-            
-            // 1. 손가락 2개일 때는 줌 기능 (무조건 가로챔)
             if (e.touches.length === 2) {
                 if (e.cancelable) e.preventDefault();
                 const currentDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
@@ -370,9 +408,7 @@
                 }
                 stageInitialDist = currentDist;
                 updateStageTransform();
-            } 
-            // 2. 확대된 상태에서 손가락 1개일 때는 드래그 기능 (가로챔)
-            else if (stageScale > 1.02 && e.touches.length === 1) {
+            } else if (stageScale > 1.02 && e.touches.length === 1) {
                 if (e.cancelable) e.preventDefault();
                 stageX += (e.touches[0].clientX - stageLastX);
                 stageY += (e.touches[0].clientY - stageLastY);
@@ -380,10 +416,8 @@
                 stageLastY = e.touches[0].clientY;
                 updateStageTransform();
             }
-            // 3. 확대되지 않은 상태에서 1개 손가락은 아무것도 하지 않음 (브라우저가 자연스럽게 스크롤함)
         }, { passive: false });
 
-        // UHD 확대 모달 (기존 유지)
         const zViewport = document.getElementById('zoom-viewport'), zContainer = document.getElementById('zoom-canvas-container'), zCanvas = document.getElementById('zoom-canvas');
         window.openZoom = () => {
             const src = document.getElementById('q-canvas'); document.getElementById('zoom-modal').style.display = 'flex';

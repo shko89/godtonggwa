@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 브랜드 로고 키트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&display=swap');
+        .logo-font { font-family: 'Noto Sans KR', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8">
+
+    <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Header -->
+        <header class="text-center">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">갓통과 브랜드 에셋</h1>
+            <p class="text-slate-500">통합과학의 가치를 담은 로고를 고해상도 이미지로 저장하세요.</p>
+        </header>
+
+        <!-- Main Logo Preview -->
+        <div class="bg-white rounded-3xl p-12 shadow-sm border border-slate-200 flex flex-col items-center justify-center space-y-10">
+            <div id="logo-container" class="bg-white p-10 rounded-2xl">
+                <!-- SVG Logo: Lines removed as requested -->
+                <svg id="main-logo-svg" width="300" height="300" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background for visibility in editor, will be transparent in export -->
+                    <rect width="200" height="220" fill="white" fill-opacity="0"/>
+                    
+                    <!-- Orbits -->
+                    <ellipse cx="100" cy="90" rx="75" ry="28" stroke="#3b82f6" stroke-width="5" transform="rotate(0 100 90)"/>
+                    <ellipse cx="100" cy="90" rx="75" ry="28" stroke="#10b981" stroke-width="5" transform="rotate(45 100 90)"/>
+                    <ellipse cx="100" cy="90" rx="75" ry="28" stroke="#f59e0b" stroke-width="5" transform="rotate(90 100 90)"/>
+                    <ellipse cx="100" cy="90" rx="75" ry="28" stroke="#ef4444" stroke-width="5" transform="rotate(135 100 90)"/>
+                    
+                    <!-- Center Core -->
+                    <circle cx="100" cy="90" r="16" fill="#1e293b"/>
+                    <path d="M94 96 L100 84 L106 96" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Text Logo -->
+                    <text x="100" y="175" text-anchor="middle" fill="#1e293b" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -0.05em;">갓통과</text>
+                    
+                    <!-- Subtitle (Centered, without flanking lines) -->
+                    <text x="100" y="205" text-anchor="middle" fill="#94a3b8" style="font-family: Arial, sans-serif; font-weight: bold; font-size: 10px; letter-spacing: 0.35em;">INTEGRATED SCIENCE</text>
+                </svg>
+            </div>
+
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button onclick="downloadLogo('png')" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-blue-200 active:scale-95">
+                    <i data-lucide="download"></i> PNG 이미지로 저장
+                </button>
+                <button onclick="downloadLogo('svg')" class="bg-slate-800 hover:bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-lg active:scale-95">
+                    <i data-lucide="file-code"></i> SVG 파일로 저장
+                </button>
+            </div>
+            <p class="text-xs text-slate-400">배경이 투명한 고해상도 파일로 저장됩니다.</p>
+        </div>
+
+        <!-- Variation Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-slate-900 p-8 rounded-3xl flex flex-col items-center justify-center space-y-4">
+                <span class="text-slate-500 text-xs font-bold uppercase">Dark Mode Background</span>
+                <div class="scale-50 origin-center" id="logo-dark-preview"></div>
+            </div>
+            <div class="bg-white border border-slate-200 p-8 rounded-3xl flex flex-col items-center justify-center space-y-4">
+                <span class="text-slate-500 text-xs font-bold uppercase">App Icon Size</span>
+                <div class="w-20 h-20 bg-slate-900 rounded-2xl flex items-center justify-center">
+                   <svg width="60" height="60" viewBox="0 0 100 100">
+                        <ellipse cx="50" cy="50" rx="40" ry="14" stroke="#3b82f6" stroke-width="4" transform="rotate(0 50 50)"/>
+                        <ellipse cx="50" cy="50" rx="40" ry="14" stroke="#10b981" stroke-width="4" transform="rotate(45 50 50)"/>
+                        <ellipse cx="50" cy="50" rx="40" ry="14" stroke="#f59e0b" stroke-width="4" transform="rotate(90 50 50)"/>
+                        <ellipse cx="50" cy="50" rx="40" ry="14" stroke="#ef4444" stroke-width="4" transform="rotate(135 50 50)"/>
+                        <circle cx="50" cy="50" r="8" fill="white"/>
+                   </svg>
+                </div>
+            </div>
+             <div class="bg-blue-600 p-8 rounded-3xl flex flex-col items-center justify-center space-y-4">
+                <span class="text-blue-200 text-xs font-bold uppercase">Primary Color Back</span>
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center font-black text-2xl text-blue-600">갓</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Export -->
+    <canvas id="export-canvas" style="display:none;"></canvas>
+
+    <script>
+        lucide.createIcons();
+
+        // Clone logo for dark preview
+        const mainLogo = document.getElementById('main-logo-svg');
+        const darkPreview = document.getElementById('logo-dark-preview');
+        const darkClone = mainLogo.cloneNode(true);
+        // Change text to white for dark background
+        darkClone.querySelectorAll('text').forEach(t => t.setAttribute('fill', 'white'));
+        darkPreview.appendChild(darkClone);
+
+        async function downloadLogo(format) {
+            const svgElement = document.getElementById('main-logo-svg');
+            
+            if (format === 'svg') {
+                const svgData = new XMLSerializer().serializeToString(svgElement);
+                const blob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "god-tong-gwa-logo.svg";
+                link.click();
+            } else if (format === 'png') {
+                const canvas = document.getElementById('export-canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set high resolution
+                const scale = 4; 
+                canvas.width = 300 * scale;
+                canvas.height = 300 * scale;
+                
+                const svgData = new XMLSerializer().serializeToString(svgElement);
+                const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+                const url = URL.createObjectURL(svgBlob);
+                
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    URL.revokeObjectURL(url);
+                    
+                    const pngUrl = canvas.toDataURL("image/png");
+                    const link = document.createElement("a");
+                    link.href = pngUrl;
+                    link.download = "god-tong-gwa-logo.png";
+                    link.click();
+                };
+                img.src = url;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -245,13 +245,19 @@
                 <div class="flex justify-between items-center mb-6">
                     <div>
                         <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i data-lucide="database" class="w-5 h-5 text-amber-500"></i> V2 문제 관리
+                            <i data-lucide="database" class="w-5 h-5 text-amber-500"></i> V2 문제 관리 (빈칸 채우기)
                         </h2>
                         <p class="text-xs text-amber-200/60 mt-1">총 <span id="v2-total-count" class="font-bold text-white">0</span>개의 문제가 등록되어 있습니다.</p>
                     </div>
-                    <button onclick="openV2EditModal()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow-lg">
-                        <i data-lucide="plus" class="w-3 h-3"></i> 문제 추가
-                    </button>
+                    <div class="flex gap-2">
+                        <!-- 버튼 기능 변경: 데이터 업로드 기능은 유지하되 데이터는 파일에서 제거 -->
+                        <button onclick="seedV2Database()" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 border border-gray-600">
+                            <i data-lucide="upload-cloud" class="w-3 h-3"></i> 테스트 데이터 업로드 (예시)
+                        </button>
+                        <button onclick="openV2EditModal()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow-lg">
+                            <i data-lucide="plus" class="w-3 h-3"></i> 문제 추가
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex gap-2 mb-4 overflow-x-auto no-scrollbar pb-2" id="v2-filters">
@@ -268,7 +274,7 @@
     <!-- 모달: V2 문제 편집 -->
     <div id="v2-edit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[90] hidden p-4">
         <div class="bg-gray-800 w-full max-w-md rounded-2xl p-6 border border-gray-600 shadow-2xl">
-            <h3 class="text-lg font-bold text-white mb-4">V2 문제 편집</h3>
+            <h3 class="text-lg font-bold text-white mb-4">V2 문제 편집 (빈칸 채우기)</h3>
             <input type="hidden" id="v2-doc-id">
             <div class="space-y-3">
                 <div>
@@ -288,20 +294,16 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1">문제 (Q)</label>
-                    <textarea id="v2-q" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-sm text-white h-20 focus:border-amber-500 outline-none"></textarea>
+                    <label class="text-xs text-gray-400 block mb-1">문제 (Q) - 빈칸은 ( ) 로 표시</label>
+                    <textarea id="v2-q" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-sm text-white h-20 focus:border-amber-500 outline-none" placeholder="예: 길이의 표준 단위는 (   )이다."></textarea>
                 </div>
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1">정답 (A)</label>
-                    <div class="flex gap-2">
-                        <button type="button" onclick="setV2Answer('O')" id="btn-ans-o" class="flex-1 py-2 rounded border border-gray-600 text-gray-400 text-sm hover:bg-gray-700">O</button>
-                        <button type="button" onclick="setV2Answer('X')" id="btn-ans-x" class="flex-1 py-2 rounded border border-gray-600 text-gray-400 text-sm hover:bg-gray-700">X</button>
-                    </div>
-                    <input type="hidden" id="v2-a">
+                    <label class="text-xs text-gray-400 block mb-1">정답 (A) - 단답형</label>
+                    <input type="text" id="v2-a" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-sm text-white focus:border-amber-500 outline-none" placeholder="예: 미터(m)">
                 </div>
                 <div>
                     <label class="text-xs text-gray-400 block mb-1">해설 (Exp)</label>
-                    <textarea id="v2-exp" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-sm text-white h-20 focus:border-amber-500 outline-none"></textarea>
+                    <textarea id="v2-exp" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-sm text-white h-20 focus:border-amber-500 outline-none" placeholder="해설 입력"></textarea>
                 </div>
             </div>
             <div class="flex gap-2 mt-6">
@@ -529,6 +531,89 @@
             unit_11: '11. 과학과 미래'
         };
 
+        // =========================================================================================
+        // [수정] 550개의 시드 데이터 제거 (DB에 이미 업로드 완료)
+        // 용량 최적화를 위해 예시 문항 1개만 남겨둡니다.
+        // 나중에 다시 대량 업로드가 필요하면 이 배열에 데이터를 채워넣고 seedV2Database 함수를 사용하세요.
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '3. 물질과 규칙성' 50문항 데이터 (단원: unit_03)
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '4. 지구 시스템' 50문항 데이터 (단원: unit_04)
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '5. 역학적 시스템' 50문항 데이터 (단원: unit_05)
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '6. 생명 시스템' 50문항 데이터 (단원: unit_06)
+        // =========================================================================================
+            const V2_SEED_DATA = [
+             ];
+
+        // [수정] DB 초기화(삭제) 후 데이터 등록 함수
+        // [수정] DB '추가' 업로드 함수 (삭제 로직 제거됨)
+        window.seedV2Database = async () => {
+            const btn = document.querySelector('button[onclick="seedV2Database()"]');
+            
+            // 안내 메시지 변경 (덮어쓰기가 아님을 명시)
+            if(!confirm(`✅ 확인\n\n기존 데이터를 유지하고,\n새로운 ${V2_SEED_DATA.length}개 문항을 '추가'합니다.\n(Unit 2 원소의 형성)\n\n계속하시겠습니까?`)) return;
+
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> 데이터 추가 중...`;
+
+            try {
+                const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
+                const batchLimit = 400; 
+
+                // ----------------------------------------------------
+                // [변경] 삭제 단계(Delete Phase) 삭제됨
+                // ----------------------------------------------------
+
+                // ----------------------------------------------------
+                // 데이터 추가 단계 (Upload Phase)
+                // ----------------------------------------------------
+                const bulkData = [...V2_SEED_DATA];
+                let uploadedCount = 0;
+
+                for (let i = 0; i < bulkData.length; i += batchLimit) {
+                    const batch = writeBatch(db);
+                    const chunk = bulkData.slice(i, i + batchLimit);
+                    
+                    chunk.forEach((item) => {
+                        // doc()을 호출하여 자동으로 새로운 랜덤 ID 생성 -> 기존 데이터와 겹치지 않음
+                        const newDocRef = doc(colRef);
+                        batch.set(newDocRef, {
+                            unitId: item.u,
+                            q: item.q,
+                            a: item.a,
+                            exp: item.e,
+                            type: 'blank',
+                            createdAt: new Date().toISOString()
+                        });
+                    });
+
+                    await batch.commit();
+                    uploadedCount += chunk.length;
+                }
+
+                alert(`성공!\n- ${uploadedCount}개의 새로운 문항이 DB에 추가되었습니다.`);
+                
+                // 완료 후 2단원으로 필터 변경하여 보여주기
+                const v2TabBtn = document.getElementById('btn-tab-v2');
+                if(v2TabBtn) v2TabBtn.click();
+                setTimeout(() => window.loadV2Questions('unit_11'), 500);
+
+            } catch (e) {
+                console.error(e);
+                alert("작업 실패: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="upload-cloud" class="w-3 h-3"></i> 테스트 데이터 업로드 (예시)`;
+                lucide.createIcons();
+            }
+        };
+
         const TOPIC_MAP = {
             "과학의 기초": ["기본량과 단위", "측정과 어림", "정보와 신호"],
             "물질과 규칙성": ["원소 형성", "별의 진화", "원소의 주기성", "화학 결합", "지각과 생명체 구성 물질의 규칙성"],
@@ -632,8 +717,9 @@
                 let html = '';
                 snapshot.forEach(doc => {
                     const d = doc.data();
-                    const color = d.a === 'O' ? 'text-blue-400' : 'text-red-400';
                     const unitLabel = UNIT_NAMES[d.unitId] || d.unitId;
+                    
+                    // [변경] 리스트 UI: OX 색상 대신 텍스트 표시
                     html += `<div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-colors group">
                             <div class="flex justify-between items-start mb-2">
                                 <span class="text-[10px] bg-gray-700 text-gray-300 px-2 py-0.5 rounded font-mono">${unitLabel}</span>
@@ -642,10 +728,10 @@
                                     <button onclick="deleteV2Question('${doc.id}')" class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                 </div>
                             </div>
-                            <p class="text-sm font-bold text-white mb-2">${d.q}</p>
-                            <div class="flex gap-4 text-xs text-gray-400">
-                                <span class="font-bold ${color}">정답: ${d.a}</span>
-                                <span class="truncate max-w-[200px]">${d.exp || ''}</span>
+                            <p class="text-sm font-bold text-white mb-3 leading-relaxed">${d.q}</p>
+                            <div class="flex flex-col gap-1 text-xs text-gray-400 bg-gray-900/50 p-3 rounded-lg">
+                                <span class="font-bold text-emerald-400 flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> 정답: ${d.a}</span>
+                                <span class="text-gray-500">${d.exp || '해설 없음'}</span>
                             </div>
                         </div>`;
                 });
@@ -659,8 +745,11 @@
             document.getElementById('v2-doc-id').value = docId || '';
             document.getElementById('v2-q').value = '';
             document.getElementById('v2-exp').value = '';
-            window.setV2Answer('O');
+            // [변경] 정답 초기화
+            document.getElementById('v2-a').value = '';
+            
             if(v2CurrentFilter !== 'all') document.getElementById('v2-unit-id').value = v2CurrentFilter;
+            
             if(docId) {
                 try {
                     const docSnap = await getDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', docId));
@@ -669,29 +758,29 @@
                         document.getElementById('v2-unit-id').value = d.unitId;
                         document.getElementById('v2-q').value = d.q;
                         document.getElementById('v2-exp').value = d.exp;
-                        window.setV2Answer(d.a);
+                        document.getElementById('v2-a').value = d.a;
                     }
                 } catch(e) { alert("로드 실패"); }
             }
         };
 
         window.closeV2Modal = () => document.getElementById('v2-edit-modal').classList.add('hidden');
-        window.setV2Answer = (ans) => {
-            document.getElementById('v2-a').value = ans;
-            const oBtn = document.getElementById('btn-ans-o');
-            const xBtn = document.getElementById('btn-ans-x');
-            if(ans === 'O') { oBtn.className = "flex-1 py-2 rounded border border-blue-600 bg-blue-600 text-white font-bold"; xBtn.className = "flex-1 py-2 rounded border border-gray-600 text-gray-400"; }
-            else { oBtn.className = "flex-1 py-2 rounded border border-gray-600 text-gray-400"; xBtn.className = "flex-1 py-2 rounded border border-red-600 bg-red-600 text-white font-bold"; }
-        };
+        
+        // [변경] 정답 입력 처리 (텍스트 인풋이므로 setV2Answer 함수는 제거하거나 사용하지 않음)
+        // 기존 버튼 방식의 setV2Answer 제거됨
 
         window.saveV2Question = async () => {
             const docId = document.getElementById('v2-doc-id').value;
             const unitId = document.getElementById('v2-unit-id').value;
             const q = document.getElementById('v2-q').value;
-            const a = document.getElementById('v2-a').value;
+            const a = document.getElementById('v2-a').value; // [변경] 텍스트 값
             const exp = document.getElementById('v2-exp').value;
+            
+            if(!q || !a) return alert("문제와 정답을 입력하세요.");
+
             const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
-            const data = { unitId, q, a, exp, type: 'OX', createdAt: new Date().toISOString() };
+            // [변경] type: 'blank'로 저장
+            const data = { unitId, q, a, exp, type: 'blank', createdAt: new Date().toISOString() };
             try {
                 if(docId) await updateDoc(doc(colRef, docId), data);
                 else await addDoc(colRef, data);

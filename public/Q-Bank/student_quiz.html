@@ -2,27 +2,36 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>갓통과 학생용 퀴즈</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
+    <!-- Pretendard Font (세련된 고딕) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* 폰트 적용 및 기본 모바일 설정 */
+        body { 
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            overscroll-behavior-y: none; /* 모바일 스크롤 바운스 방지 */
+            background-color: #F0F2F5; /* 배경색을 조금 더 진하게 하여 앱 영역 구분 */
+        }
         
-        /* 앱 컨테이너 (index.html과 동일) */
+        /* 앱 컨테이너: 모바일 뷰포트 최적화 */
         .app-container {
-            max-width: 480px;
+            max-width: 480px; /* 태블릿/PC에서는 앱 모양 유지 */
             margin: 0 auto;
-            height: 100vh; /* 고정 높이 */
+            height: 100vh; /* 폴백 */
+            height: 100dvh; /* 모바일 동적 높이 (주소창 대응) */
             background-color: #F9FAFB;
             position: relative;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* 전체 스크롤 방지 */
+            overflow: hidden;
         }
 
         /* 스크롤바 숨기기 */
@@ -37,15 +46,58 @@
 
         /* 버튼 인터랙션 */
         .btn-press:active { transform: scale(0.96); transition: transform 0.1s; }
+        
+        /* 텍스트 선택 방지 (UI 요소용) */
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* 빈칸 스타일 */
+        .blank-box {
+            display: inline-block;
+            min-width: 40px;
+            border-bottom: 2px dashed #6366F1;
+            color: transparent;
+            text-align: center;
+            padding: 0 6px;
+            font-weight: 700;
+            transition: all 0.3s;
+            background-color: rgba(99, 102, 241, 0.08);
+            border-radius: 4px;
+            margin: 0 3px;
+            line-height: 1.4;
+            vertical-align: bottom;
+        }
+        .blank-box.revealed {
+            color: #4F46E5;
+            border-bottom: 2px solid #4F46E5;
+            background-color: transparent;
+        }
+
+        /* 아이폰 홈 인디케이터 대응 padding */
+        .safe-pb {
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+        }
+
+        /* [수정] 윗첨자(sup), 아래첨자(sub) 스타일 복구 (Tailwind Reset 대응) */
+        sup, sub {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+        sup { top: -0.5em; }
+        sub { bottom: -0.25em; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="text-gray-800">
 
     <div class="app-container">
         <!-- [1] 상단 고정 헤더 -->
-        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center z-50 border-b border-gray-100 shrink-0">
+        <header class="bg-white/90 backdrop-blur-md px-5 py-3 flex justify-between items-center z-50 border-b border-gray-100 shrink-0 no-select pt-[calc(10px+env(safe-area-inset-top))]">
             <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
-                <!-- 로고 디자인 (index.html 통일) -->
+                <!-- 로고 -->
                 <div class="w-9 h-9 bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
                     <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
                     <svg class="w-5 h-5 relative z-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -60,24 +112,25 @@
                     </div>
                 </div>
             </div>
-            <button onclick="goHome()" class="p-2 bg-gray-50 rounded-full hover:bg-gray-100 text-gray-400">
+            <button onclick="goHome()" class="p-2 bg-gray-50 rounded-full hover:bg-gray-100 text-gray-400 active:bg-gray-200 transition-colors">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </header>
 
-        <!-- [2] 중앙 스크롤 영역 (문제 표시) -->
+        <!-- [2] 중앙 스크롤 영역 -->
         <main id="main-content" class="flex-1 overflow-y-auto hide-scrollbar p-5 relative bg-[#F9FAFB]">
             <!-- Content Injected via JS -->
         </main>
 
-        <!-- [3] 하단 고정 영역 (네비게이션 or O/X버튼) -->
-        <div id="bottom-bar" class="bg-white border-t border-gray-100 p-4 shrink-0 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] pb-8">
+        <!-- [3] 하단 고정 영역 -->
+        <!-- safe-pb 클래스로 아이폰 하단 바 영역 보호 -->
+        <div id="bottom-bar" class="bg-white border-t border-gray-100 p-4 shrink-0 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] safe-pb overflow-visible no-select">
             <!-- Content Injected via JS -->
         </div>
     </div>
 
     <!-- 로딩 오버레이 -->
-    <div id="loading-overlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-[100] flex flex-col items-center justify-center hidden">
+    <div id="loading-overlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-[100] flex flex-col items-center justify-center hidden no-select">
         <div class="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-3"></div>
         <p class="text-xs font-bold text-indigo-600 animate-pulse">데이터를 불러오고 있습니다...</p>
     </div>
@@ -85,7 +138,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        // [수정] doc, getDoc 추가 (마이페이지 데이터 연동용)
         import { getFirestore, collection, query, where, getDocs, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -142,7 +194,6 @@
                     text.innerText = "온라인";
                     text.classList.add('text-green-600');
                     
-                    // [추가] 사용자 정보 로드 (마이페이지용)
                     try {
                         const userDoc = await getDoc(doc(db, "users", user.uid));
                         if(userDoc.exists()) {
@@ -162,22 +213,16 @@
 
         const initAuth = () => {
             return new Promise((resolve) => {
-                // Firebase가 기존 로그인 정보를 복구했는지 먼저 확인합니다.
                 const unsubscribe = onAuthStateChanged(auth, async (user) => {
-                    unsubscribe(); // 확인이 끝났으므로 리스너를 바로 해제합니다.
-
+                    unsubscribe();
                     if (user) {
-                        // 1. 이미 로그인된 사용자가 있다면? 아무것도 하지 않고 유지합니다.
-                        console.log("기존 로그인 세션 유지됨:", user.uid);
                         resolve(user);
                     } else {
-                        // 2. 로그인된 사용자가 없을 때만! 익명 로그인을 진행합니다.
                         try {
                             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                                 try { 
                                     await signInWithCustomToken(auth, __initial_auth_token); 
                                 } catch (e) { 
-                                    console.warn("Token auth failed, fallback to anon");
                                     await signInAnonymously(auth);
                                 }
                             } else {
@@ -185,7 +230,6 @@
                             }
                         } catch (e) {
                             console.error("Auth Error", e);
-                            if(e.code === 'auth/admin-restricted-operation') alert("관리자 설정 오류: 익명 로그인을 활성화해주세요.");
                         }
                         resolve();
                     }
@@ -193,39 +237,67 @@
             });
         };
 
+        // [New] 텍스트 포맷팅 함수 (첨자 변환)
+        function formatText(text) {
+            if (!text) return '';
+            // 1. 윗첨자 변환: ^숫자 또는 ^+ ^- (예: 10^-9, Na^+, a^2)
+            // 정규식: ^ 뒤에 숫자, +, - 가 오는 경우 <sup> 태그로 감쌈
+            let formatted = text.replace(/\^([0-9\+\-]+)/g, '<sup>$1</sup>');
+            
+            // 2. 아래첨자 변환: _숫자 (예: H_2O) - 필요시 사용
+            formatted = formatted.replace(/_([0-9\+\-]+)/g, '<sub>$1</sub>');
+            
+            return formatted;
+        }
+
         // --- 렌더링 함수들 ---
 
         // 1. 홈 화면 (단원 선택)
         window.renderHome = () => {
             state.mode = 'home';
             const main = document.getElementById('main-content');
-            const bottom = document.getElementById('bottom-bar');
-
-            // Main: 단원 목록
+            
             main.innerHTML = `
                 <div class="fade-in pb-4">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center mb-6">
-                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <i data-lucide="zap" class="w-6 h-6"></i>
+                    <!-- Banner -->
+                    <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-gray-900 p-4 rounded-2xl shadow-lg mb-4 relative overflow-hidden flex justify-between items-center group no-select">
+                        <!-- Decor -->
+                        <div class="absolute -right-4 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors"></div>
+                        <div class="absolute -left-4 -bottom-6 w-20 h-20 bg-indigo-500/20 rounded-full blur-xl"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-white/20 text-indigo-100 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md border border-white/10 shadow-sm">Daily Study</span>
+                            </div>
+                            <h2 class="text-lg font-black text-white tracking-tight leading-none mb-1">빈칸 완성 마스터</h2>
+                            <p class="text-[11px] text-indigo-200 opacity-90">2028 수능 필수 개념, <span class="text-white font-bold underline decoration-indigo-400 decoration-2 underline-offset-2">키워드</span>로 정복!</p>
                         </div>
-                        <h2 class="text-xl font-black text-gray-900 mb-2">OX 스피드 퀴즈</h2>
-                        <p class="text-sm text-gray-500 break-keep leading-relaxed">
-                            이동 시간에 가볍게 푸는 수능 필수 암기!<br>
-                            <span class="text-indigo-600 font-bold">하루 5분</span>, 과학 등급을 올려보세요.
-                        </p>
+
+                        <div class="relative z-10 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center border border-white/20 backdrop-blur-sm shadow-inner shrink-0 ml-3">
+                            <i data-lucide="edit-3" class="w-5 h-5 text-white"></i>
+                        </div>
                     </div>
 
-                    <p class="text-xs font-bold text-gray-400 mb-3 px-1">학습할 단원 선택</p>
-                    <div class="space-y-3">
+                    <p class="text-xs font-bold text-gray-400 mb-2 px-1 no-select">학습할 단원 선택</p>
+                    
+                    <!-- 2열 그리드 -->
+                    <div class="grid grid-cols-2 gap-2 pb-24">
                         ${UNIT_NAMES.map(unit => `
-                            <button onclick="startQuiz('${unit.id}', '${unit.title}')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:border-indigo-100 hover:shadow-md transition-all flex items-center justify-between group text-left">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${unit.color} flex items-center justify-center text-white shadow-sm shrink-0">
-                                        <span class="font-bold text-sm">${unit.id.split('_')[1]}</span>
-                                    </div>
-                                    <span class="font-bold text-gray-700 text-sm group-hover:text-indigo-600 transition-colors">${unit.title}</span>
+                            <button onclick="startQuiz('${unit.id}', '${unit.title}')" class="btn-press bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:border-indigo-100 hover:shadow-md transition-all flex flex-col justify-between h-24 group text-left relative overflow-hidden">
+                                <!-- 배경 장식 아이콘 -->
+                                <div class="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
+                                    <i data-lucide="hash" class="w-10 h-10 text-indigo-900"></i>
                                 </div>
-                                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300 group-hover:text-indigo-400"></i>
+                                
+                                <!-- 단원 번호 -->
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br ${unit.color} flex items-center justify-center text-white shadow-sm shrink-0 z-10">
+                                    <span class="font-bold text-xs">${unit.id.split('_')[1]}</span>
+                                </div>
+                                
+                                <!-- 텍스트 정보 -->
+                                <div class="z-10">
+                                    <span class="font-bold text-gray-700 text-sm group-hover:text-indigo-600 transition-colors leading-tight block break-keep">${unit.title}</span>
+                                </div>
                             </button>
                         `).join('')}
                     </div>
@@ -235,30 +307,40 @@
             renderBottomNav('quiz');
         };
 
-        // [추가] 하단 네비게이션 렌더링 함수
+        // 하단 네비게이션
         function renderBottomNav(activeTab) {
             const bottom = document.getElementById('bottom-bar');
             
-            // 탭 스타일 결정
             const getTabClass = (name) => name === activeTab 
-                ? "flex flex-col items-center gap-1 text-indigo-600 transition-colors"
-                : "flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600 transition-colors";
+                ? "text-indigo-600 font-bold"
+                : "text-gray-400 hover:text-gray-600 font-medium";
 
             bottom.innerHTML = `
-                <div class="flex justify-between items-center max-w-[400px] mx-auto">
-                    <button onclick="location.href='../index.html'" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600 transition-colors">
+                <div class="flex justify-between items-center relative max-w-[400px] mx-auto">
+                    <button onclick="location.href='../index.html'" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600 transition-colors btn-press">
                         <i data-lucide="home" class="w-6 h-6"></i>
                         <span class="text-[10px] font-bold">홈</span>
                     </button>
-                    <button onclick="renderHome()" class="${getTabClass('quiz')}">
-                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
-                        <span class="text-[10px] font-bold">퀴즈</span>
-                    </button>
-                    <button onclick="location.href='../STEST/exam.html'" class="flex flex-col items-center gap-1 text-gray-400 hover:text-indigo-600 transition-colors">
+                    
+                    <button onclick="location.href='../STEST/exam.html'" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600 transition-colors btn-press">
                         <i data-lucide="file-text" class="w-6 h-6"></i>
-                        <span class="text-[10px] font-bold">모의고사</span>
+                        <span class="text-[10px] font-bold">시험응시</span>
                     </button>
-                    <button onclick="renderMarket()" class="${getTabClass('market')}">
+                    
+                    <!-- 중앙 플로팅 버튼 -->
+                    <button onclick="renderHome()" class="nav-btn flex flex-col items-center gap-1 -mt-12 group relative z-10 btn-press">
+                        <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform border-4 border-white ${activeTab === 'quiz' ? 'ring-2 ring-indigo-100' : ''}">
+                            <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-gray-900 mt-1">문제은행</span>
+                    </button>
+                    
+                    <button onclick="location.href='../STEST/exam.html?view=report'" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600 transition-colors btn-press">
+                        <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                        <span class="text-[10px] font-bold">성적분석</span>
+                    </button>
+                    
+                    <button onclick="renderMarket()" class="nav-btn flex flex-col items-center gap-1 ${getTabClass('market')} transition-colors btn-press">
                         <i data-lucide="user" class="w-6 h-6"></i>
                         <span class="text-[10px] font-bold">마이</span>
                     </button>
@@ -267,7 +349,7 @@
             lucide.createIcons();
         }
 
-        // [추가] 마이 페이지 렌더링 (index.html 참고)
+        // 마이 페이지 렌더링
         window.renderMarket = () => {
             state.mode = 'market';
             const main = document.getElementById('main-content');
@@ -279,10 +361,10 @@
                 : `<span class="text-xs text-gray-400 ml-auto">자동 로그인 상태</span>`;
 
             main.innerHTML = `
-                <div class="fade-in space-y-4 pt-4">
+                <div class="fade-in space-y-4 pt-4 pb-20">
                     <h2 class="text-xl font-bold text-gray-800 flex justify-between items-center px-1">마이페이지 ${loginBtn}</h2>
                     
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 flex items-center gap-4 shadow-sm">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 flex items-center gap-4 shadow-sm no-select">
                         <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100">
                             <i data-lucide="user" class="w-7 h-7"></i>
                         </div>
@@ -293,14 +375,14 @@
                     </div>
 
                     <div class="space-y-3 mt-6">
-                         <div onclick="alert('준비중입니다')" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                         <div onclick="alert('준비중입니다')" class="btn-press bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors no-select">
                             <div class="flex items-center gap-3">
                                 <div class="bg-blue-50 p-2 rounded-lg"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i></div>
                                 <span class="text-sm font-medium text-gray-700">내 정보 수정</span>
                             </div>
                             <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
                         </div>
-                         <div onclick="alert('관리자에게 문의하세요')" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                         <div onclick="alert('관리자에게 문의하세요')" class="btn-press bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors no-select">
                             <div class="flex items-center gap-3">
                                 <div class="bg-purple-50 p-2 rounded-lg"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i></div>
                                 <span class="text-sm font-medium text-gray-700">이용권 관리</span>
@@ -310,7 +392,7 @@
                     </div>
 
                     <div class="bg-gray-50 p-4 rounded-xl mt-6 text-center">
-                        <p class="text-xs text-gray-400">앱 버전 v1.0.2</p>
+                        <p class="text-xs text-gray-400">앱 버전 v1.0.8 (Format Fix)</p>
                     </div>
                 </div>
             `;
@@ -361,11 +443,15 @@
             const main = document.getElementById('main-content');
             const bottom = document.getElementById('bottom-bar');
 
-            // Main: 문제 카드 (스크롤 가능)
+            // [수정] 텍스트 포맷팅 적용: ^숫자 -> 윗첨자
+            const formattedQText = formatText(q.q);
+            // 빈칸 생성 (포맷팅된 텍스트에서 빈칸 치환)
+            const questionText = formattedQText.replace(/\(\s*\)/g, `<span class="blank-box text-indigo-600">?</span>`);
+
             main.innerHTML = `
-                <div class="fade-in min-h-full flex flex-col justify-center">
+                <div class="fade-in min-h-full flex flex-col justify-center pb-20">
                     <!-- 진행률 -->
-                    <div class="flex items-center gap-2 mb-6 px-2">
+                    <div class="flex items-center gap-2 mb-6 px-2 no-select">
                         <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                             <div class="h-full bg-indigo-500 transition-all duration-300" style="width: ${((state.currentIdx) / state.questions.length) * 100}%"></div>
                         </div>
@@ -373,77 +459,74 @@
                     </div>
 
                     <!-- 문제 카드 -->
-                    <div id="quiz-card" class="bg-white rounded-[2rem] p-8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-gray-100 text-center relative overflow-hidden transition-all duration-300">
+                    <div id="quiz-card" class="bg-white rounded-[2rem] p-8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-gray-100 text-left relative overflow-hidden transition-all duration-300 flex flex-col justify-center items-start min-h-[320px]">
                         <div class="absolute -top-6 -left-6 w-24 h-24 bg-indigo-50 rounded-full"></div>
-                        <span class="relative z-10 text-indigo-600 font-black text-6xl opacity-10 block mb-4 font-serif">Q.</span>
-                        <p class="relative z-10 text-xl font-bold text-gray-800 leading-relaxed break-keep min-h-[120px] flex items-center justify-center">
-                            ${q.q}
-                        </p>
-                    </div>
+                        
+                        <div class="relative z-10 mb-6">
+                            <span class="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold no-select">핵심 개념</span>
+                        </div>
+                        
+                        <h3 class="relative z-10 text-lg font-semibold text-gray-800 leading-8 break-keep tracking-tight">
+                            ${questionText}
+                        </h3>
 
-                    <!-- 해설 박스 (처음엔 숨김) -->
-                    <div id="exp-box" class="hidden mt-6 bg-gray-900 text-white p-5 rounded-2xl shadow-lg slide-up">
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-400 shrink-0 mt-0.5"></i>
-                            <div>
-                                <p id="result-msg" class="font-bold text-lg mb-1"></p>
-                                <p class="text-sm text-gray-300 leading-relaxed">${q.exp || '해설 없음'}</p>
+                        <!-- 정답/해설 영역 (처음엔 숨김) -->
+                        <div id="answer-reveal" class="hidden w-full slide-up mt-8">
+                            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 w-full text-left">
+                                <p class="text-xs text-gray-400 font-bold mb-1 no-select">정답</p>
+                                <!-- [수정] 정답 포맷팅 -->
+                                <p class="text-2xl font-black text-indigo-600 mb-3">${formatText(q.a)}</p>
+                                <div class="h-px bg-gray-200 w-full mb-3"></div>
+                                <p class="text-sm text-gray-600 leading-relaxed text-left break-keep">
+                                    <span class="bg-gray-200 text-gray-600 text-[10px] px-1.5 py-0.5 rounded mr-1 no-select">해설</span>
+                                    <!-- [수정] 해설 포맷팅 -->
+                                    ${formatText(q.exp)}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
 
-            // Bottom: O/X 버튼 (고정)
+            // Bottom: 정답 확인 버튼
             bottom.innerHTML = `
-                <div id="ox-container" class="grid grid-cols-2 gap-3 h-full">
-                    <button onclick="submitAnswer('O')" class="btn-press bg-white border-2 border-indigo-100 hover:border-indigo-500 hover:bg-indigo-50 rounded-2xl h-16 flex items-center justify-center gap-2 transition-all group shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                            <span class="text-lg font-black">O</span>
-                        </div>
-                        <span class="font-bold text-gray-600 group-hover:text-indigo-700">그렇다</span>
-                    </button>
-                    <button onclick="submitAnswer('X')" class="btn-press bg-white border-2 border-red-100 hover:border-red-500 hover:bg-red-50 rounded-2xl h-16 flex items-center justify-center gap-2 transition-all group shadow-sm">
-                        <div class="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white transition-colors">
-                            <span class="text-lg font-black">X</span>
-                        </div>
-                        <span class="font-bold text-gray-600 group-hover:text-red-700">아니다</span>
-                    </button>
-                </div>
-                <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-gray-900 text-white font-bold h-16 rounded-2xl shadow-lg hover:bg-black transition-colors flex items-center justify-center gap-2">
-                    다음 문제 <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                <button onclick="showAnswer()" class="btn-press w-full bg-indigo-600 text-white font-bold h-14 rounded-2xl shadow-lg shadow-indigo-200 text-lg flex items-center justify-center gap-2 no-select">
+                    정답 확인하기 <i data-lucide="eye" class="w-5 h-5"></i>
                 </button>
             `;
             lucide.createIcons();
         }
 
-        window.submitAnswer = (ans) => {
+        window.showAnswer = () => {
             const q = state.questions[state.currentIdx];
-            const isCorrect = ans === q.a;
             
-            // 1. 버튼 숨기고 다음 버튼 준비
-            document.getElementById('ox-container').classList.add('hidden');
-            document.getElementById('next-btn').classList.remove('hidden');
+            const blankBoxes = document.querySelectorAll('.blank-box');
+            blankBoxes.forEach(box => {
+                // [수정] 정답 표시 시 포맷팅 적용 & innerHTML 사용
+                box.innerHTML = formatText(q.a); 
+                box.classList.add('revealed');
+            });
 
-            // 2. 카드 스타일 변경
-            const card = document.getElementById('quiz-card');
-            card.classList.remove('border-gray-100');
-            
-            if(isCorrect) {
-                state.score++;
-                card.classList.add('border-green-500', 'bg-green-50');
-                document.getElementById('result-msg').innerHTML = `<span class="text-green-400">정답입니다!</span>`;
-            } else {
-                state.wrongAnswers.push({ ...q, myAns: ans });
-                card.classList.add('border-red-500', 'bg-red-50');
-                document.getElementById('result-msg').innerHTML = `<span class="text-red-400">오답입니다.</span> <span class="text-xs text-gray-400">(정답: ${q.a})</span>`;
-            }
+            document.getElementById('answer-reveal').classList.remove('hidden');
 
-            // 3. 해설 표시
-            document.getElementById('exp-box').classList.remove('hidden');
+            const bottom = document.getElementById('bottom-bar');
+            bottom.innerHTML = `
+                <div class="flex gap-3 h-14 slide-up no-select">
+                    <button onclick="rateAnswer(false)" class="btn-press flex-1 bg-white border-2 border-red-100 text-red-500 font-bold rounded-2xl hover:bg-red-50 hover:border-red-200 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="x" class="w-5 h-5"></i> 몰랐음
+                    </button>
+                    <button onclick="rateAnswer(true)" class="btn-press flex-1 bg-white border-2 border-green-100 text-green-600 font-bold rounded-2xl hover:bg-green-50 hover:border-green-200 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="check" class="w-5 h-5"></i> 맞혔음!
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
         };
 
-        window.nextQuestion = () => {
+        window.rateAnswer = (isCorrect) => {
+            if(isCorrect) state.score++;
+            else state.wrongAnswers.push(state.questions[state.currentIdx]);
+
             state.currentIdx++;
             if(state.currentIdx >= state.questions.length) finishQuiz();
             else renderQuestion();
@@ -455,58 +538,69 @@
             const main = document.getElementById('main-content');
             const bottom = document.getElementById('bottom-bar');
 
-            // 점수에 따른 메시지
-            const percentage = (state.score / state.questions.length) * 100;
+            const percentage = Math.round((state.score / state.questions.length) * 100);
             let msg = "노력이 필요해요!";
             if(percentage === 100) msg = "완벽합니다! 갓통과!";
             else if(percentage >= 80) msg = "훌륭해요! 조금만 더!";
             else if(percentage >= 50) msg = "잘했어요! 복습해볼까요?";
 
-            // 오답 리스트 생성
+            // [수정] 오답 노트 포맷팅 적용
             const reviewHtml = state.wrongAnswers.length > 0 
                 ? state.wrongAnswers.map(item => `
-                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm mb-3">
-                        <div class="flex gap-2 mb-2">
-                            <span class="bg-red-100 text-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded">오답</span>
-                            <p class="text-sm font-bold text-gray-800">${item.q}</p>
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm mb-3">
+                        <div class="mb-2">
+                             <p class="text-sm font-bold text-gray-800 leading-relaxed text-left">${formatText(item.q).replace(/\(\s*\)/g, `<span class="text-red-500 font-bold underline decoration-red-300 underline-offset-4">${formatText(item.a)}</span>`)}</p>
                         </div>
-                        <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg leading-relaxed">
-                            <span class="font-bold text-indigo-600 mr-1">해설</span> ${item.exp}
-                        </div>
+                        <p class="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl leading-relaxed text-left">
+                            ${formatText(item.exp)}
+                        </p>
                     </div>`).join('') 
-                : `<div class="text-center py-8 text-gray-400 text-sm">틀린 문제가 없습니다. 완벽해요! 🎉</div>`;
+                : `<div class="text-center py-10">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="party-popper" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm">틀린 문제가 없습니다.<br>완벽하게 암기하셨네요!</p>
+                   </div>`;
 
             main.innerHTML = `
-                <div class="fade-in text-center pt-4">
-                    <div class="inline-block relative mb-6">
-                        <div class="w-24 h-24 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg shadow-indigo-200">
-                            <i data-lucide="trophy" class="w-10 h-10 text-white"></i>
+                <div class="fade-in pt-4 pb-20">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-black text-gray-900 mb-2">${msg}</h2>
+                        <p class="text-gray-500 text-sm">오늘의 암기 결과는?</p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 mb-8 flex justify-between items-center no-select">
+                        <div class="text-center flex-1 border-r border-gray-100">
+                            <p class="text-xs text-gray-400 font-bold mb-1">총 문항</p>
+                            <p class="text-xl font-black text-gray-800">${state.questions.length}</p>
                         </div>
-                        <div class="absolute -bottom-2 -right-2 bg-white text-indigo-600 font-black text-lg px-3 py-1 rounded-full shadow border border-gray-100">
-                            ${state.score}점
+                        <div class="text-center flex-1 border-r border-gray-100">
+                            <p class="text-xs text-gray-400 font-bold mb-1">맞힌 개수</p>
+                            <p class="text-xl font-black text-indigo-600">${state.score}</p>
+                        </div>
+                        <div class="text-center flex-1">
+                            <p class="text-xs text-gray-400 font-bold mb-1">정답률</p>
+                            <p class="text-xl font-black text-indigo-600">${percentage}%</p>
                         </div>
                     </div>
-                    
-                    <h2 class="text-2xl font-black text-gray-900 mb-1">${msg}</h2>
-                    <p class="text-sm text-gray-500 mb-8">총 ${state.questions.length}문제 중 ${state.score}개를 맞혔습니다.</p>
 
-                    <div class="text-left">
-                        <h3 class="text-sm font-bold text-gray-900 mb-3 px-1 flex items-center gap-2">
-                            <i data-lucide="book-open" class="w-4 h-4 text-indigo-500"></i> 오답 노트
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900 mb-4 px-1 flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-red-500"></i>
+                            틀린 문제 다시보기
                         </h3>
-                        <div class="pb-10">${reviewHtml}</div>
+                        ${reviewHtml}
                     </div>
                 </div>
             `;
 
-            // Bottom: 재시작 버튼
             bottom.innerHTML = `
-                <div class="grid grid-cols-3 gap-3">
-                    <button onclick="goHome()" class="col-span-1 bg-white border border-gray-200 text-gray-600 font-bold h-14 rounded-xl hover:bg-gray-50">
-                        목록으로
+                <div class="grid grid-cols-3 gap-3 no-select">
+                    <button onclick="goHome()" class="col-span-1 bg-white border border-gray-300 text-gray-600 font-bold h-14 rounded-xl hover:bg-gray-50 btn-press">
+                        종료
                     </button>
-                    <button onclick="renderQuestion()" class="col-span-2 bg-indigo-600 text-white font-bold h-14 rounded-xl shadow-lg hover:bg-indigo-700 shadow-indigo-200">
-                        다시 풀기
+                    <button onclick="startQuiz('${state.questions[0].unitId}', '')" class="col-span-2 bg-gray-900 text-white font-bold h-14 rounded-xl shadow-lg hover:bg-black btn-press">
+                        다시 학습하기
                     </button>
                 </div>
             `;

@@ -9,8 +9,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&display=swap');
         
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; }
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; margin: 0; }
         
+        /* 앱 컨테이너: card_list.html 스타일 적용 */
         .app-container {
             max-width: 480px;
             margin: 0 auto;
@@ -63,7 +64,6 @@
             transform: translateY(-1px);
         }
         
-        /* 그래프 스타일 */
         .graph-wrapper { background: white; border-radius: 20px; border: 1px solid #e2e8f0; padding: 12px; height: 230px; position: relative; }
         canvas { width: 100%; height: 100%; }
 
@@ -125,7 +125,6 @@
             min-width: 50px;
         }
 
-        /* 반응식 입력 디자인 */
         .eqn-input {
             width: 32px;
             padding: 2px;
@@ -142,11 +141,11 @@
 
     <div class="app-container">
         <!-- 상단 헤더 -->
-        <header id="sub-header" class="hidden bg-white/95 backdrop-blur-md px-5 py-3 border-b border-gray-100 sticky top-0 z-50 flex items-center gap-3">
-            <button onclick="goBack()" class="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
+        <header id="sub-header" class="bg-white/95 backdrop-blur-md px-5 py-3 border-b border-gray-100 sticky top-0 z-50 flex items-center gap-3">
+            <button onclick="location.href='../index.html'" class="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
                 <i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i>
             </button>
-            <h1 class="text-base font-black text-gray-900 tracking-tight" id="header-title">산화환원 마스터</h1>
+            <h1 class="text-base font-black text-gray-900 tracking-tight" id="header-title">산화/환원 마스터</h1>
         </header>
 
         <main id="content" class="flex-1 p-4 overflow-y-auto hide-scrollbar pb-32">
@@ -158,7 +157,7 @@
                     <div class="relative z-10 text-left">
                         <div class="flex items-center gap-3 mb-3">
                              <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-md border border-white/20"><i data-lucide="zap" class="w-4.5 h-4.5 text-white"></i></div>
-                             <h2 class="text-xl font-black tracking-tight text-white leading-tight">산화환원 정복 시뮬레이션</h2>
+                             <h2 class="text-xl font-black tracking-tight text-white leading-tight">산화/환원 정복 시뮬레이션</h2>
                         </div>
                         <p class="text-blue-50 text-[12px] font-medium leading-relaxed opacity-90">2028 수능 통합과학 고난도 킬러 유형,<br>모형 분석과 그래프 해석으로 완벽히 정복하세요!</p>
                     </div>
@@ -293,7 +292,7 @@
                         </div>
 
                         <div id="eqnContainer" class="bg-gray-50 p-3 rounded-xl border border-gray-200/50 flex flex-col gap-2">
-                            <!-- JS 생성 영역 -->
+                            <!-- JS 생성 -->
                         </div>
                     </div>
 
@@ -309,6 +308,32 @@
             </div>
         </main>
 
+        <!-- 하단 네비게이션: index.html과 디자인 로직 통일 -->
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">홈</span>
+            </button>
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">시험응시</span>
+            </button>
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg border-4 border-white transition-transform group-hover:scale-105">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span>
+            </button>
+            <button onclick="location.href='../STEST/exam.html?view=report'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">성적분석</span>
+            </button>
+            <button onclick="location.href='../index.html?view=market'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">마이</span>
+            </button>
+        </nav>
+
         <!-- 해설 모달 -->
         <div id="explanation-modal" class="modal-overlay" onclick="closeModal()">
             <div class="modal-content" onclick="event.stopPropagation()">
@@ -320,45 +345,22 @@
                 </div>
             </div>
         </div>
-
-        <!-- 하단 네비게이션 -->
-        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
-            <button onclick="location.href='../../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="home" class="w-5 h-5"></i><span class="text-[10px] font-bold">홈</span>
-            </button>
-            <button onclick="location.href='../../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="file-text" class="w-5 h-5"></i><span class="text-[10px] font-bold">시험응시</span>
-            </button>
-            <button onclick="location.href='../../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
-                <div class="bg-gray-900 p-3 rounded-full shadow-lg border-4 border-white transition-transform group-hover:scale-105"><i data-lucide="brain-circuit" class="w-6 h-6 text-white"></i></div>
-                <span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span>
-            </button>
-            <button onclick="location.href='../../STEST/exam.html?view=report'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="bar-chart-2" class="w-5 h-5"></i><span class="text-[10px] font-bold">성적분석</span>
-            </button>
-            <button onclick="location.href='../../index.html?view=market'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="user" class="w-5 h-5"></i><span class="text-[10px] font-bold">마이</span>
-            </button>
-        </nav>
     </div>
 
     <script>
-        // --- 전역 변수 및 상수 ---
         let currentMode = 'MENU';
         const SHAPES = ['circle', 'square', 'triangle'];
         const COLORS = ['#ef4444', '#3b82f6', '#10b981'];
 
-        // --- 앱 상태 관리 ---
         function switchMode(mode) {
             currentMode = mode;
             document.getElementById('menu-view').classList.add('hidden');
             document.getElementById('model-sim').classList.add('hidden');
             document.getElementById('graph-sim').classList.add('hidden');
-            document.getElementById('sub-header').classList.remove('hidden');
             
             if(mode === 'MENU') {
                 document.getElementById('menu-view').classList.remove('hidden');
-                document.getElementById('sub-header').classList.add('hidden');
+                document.getElementById('header-title').innerText = "산화환원 마스터";
             } else if(mode === 'MODEL') {
                 document.getElementById('model-sim').classList.remove('hidden');
                 document.getElementById('header-title').innerText = "입자 모형 분석";
@@ -369,19 +371,14 @@
                 initGraphSim();
             }
             lucide.createIcons();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function goBack() {
-            if(currentMode === 'MENU') window.location.href = '../../index.html';
-            else switchMode('MENU');
+            document.getElementById('content').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function closeModal() {
             document.getElementById('explanation-modal').style.display = 'none';
         }
 
-        // --- 시나리오 1: 입자 모형 분석 로직 ---
+        /* 입자 모형 시뮬레이션 로직 */
         let modelScenario = {};
         function initModelSim() {
             document.getElementById('model-feedback').innerText = '';
@@ -434,15 +431,12 @@
                     const opt = document.createElement('div');
                     opt.className = `shape-option border border-transparent opacity-30 hover:opacity-100 transition-all cursor-pointer`;
                     opt.dataset.type = shapeType;
-                    
                     const inner = document.createElement('div');
                     inner.className = `shape ${shapeType}`;
-                    
                     let color = '#ccc';
                     Object.values(modelScenario.shapes).forEach(s => { if(s.shape === shapeType) color = s.color; });
                     if(shapeType === 'triangle') inner.style.borderBottomColor = color;
                     else inner.style.backgroundColor = color;
-                    
                     opt.appendChild(inner);
                     opt.onclick = () => {
                         Array.from(div.children).forEach(c => c.classList.remove('selected', 'border-indigo-500', 'opacity-100'));
@@ -461,23 +455,17 @@
             const ux = parseInt(document.getElementById('charge-x').value);
             const uy = parseInt(document.getElementById('charge-y').value);
             const feedback = document.getElementById('model-feedback');
-
             if(!ux || !uy || !getSel('spectator-selector')) {
                 feedback.innerText = "데이터 분석을 완료해 주세요.";
                 feedback.className = "text-center text-[11px] font-black text-amber-500";
                 return;
             }
-
             const isCorrect = (getSel('spectator-selector') === modelScenario.shapes.spectator.shape &&
                                getSel('reactant-selector') === modelScenario.shapes.reactant.shape &&
                                getSel('product-selector') === modelScenario.shapes.product.shape &&
                                ux === modelScenario.cx && uy === modelScenario.cy);
-
-            if(isCorrect) {
-                feedback.innerHTML = "<span class='text-emerald-500'>정답입니다! 정확한 분석입니다. 👍</span>";
-            } else {
-                feedback.innerHTML = "<span class='text-rose-500'>오답입니다. 모형의 개수비를 다시 분석하세요.</span>";
-            }
+            if(isCorrect) feedback.innerHTML = "<span class='text-emerald-500'>정답입니다! 정확한 분석입니다. 👍</span>";
+            else feedback.innerHTML = "<span class='text-rose-500'>오답입니다. 모형의 개수비를 다시 분석하세요.</span>";
         }
 
         function showModelExplanation() {
@@ -485,7 +473,6 @@
             const shapeNames = { 'circle': '동그라미', 'square': '네모', 'triangle': '세모' };
             const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
             const div = gcd(s.reactantCount, s.productCount);
-            
             let html = `
                 <p><strong>1. 이온 판별</strong></p>
                 <ul class="list-disc ml-5 space-y-2">
@@ -498,13 +485,12 @@
                 <p class="bg-gray-50 p-2 rounded text-center text-sm font-bold mt-1">사라진 X<sup>a+</sup> 전하 = 생성된 Y<sup>b+</sup> 전하</p>
                 <p class="mt-2">개수비 (X : Y) = ${s.reactantCount} : ${s.productCount} = ${s.reactantCount/div} : ${s.productCount/div}</p>
                 <p>전하량비 (a : b) = ${s.productCount/div} : ${s.reactantCount/div}</p>
-                <p>따라서 <strong>a = +${s.cx}, b = +${s.cy}</strong>입니다.</p>
-            `;
+                <p>따라서 <strong>a = +${s.cx}, b = +${s.cy}</strong>입니다.</p>`;
             document.getElementById('explanation-text').innerHTML = html;
             document.getElementById('explanation-modal').style.display = 'flex';
         }
 
-        // --- 시나리오 2: 그래프 해석 로직 ---
+        /* 그래프 시뮬레이션 로직 */
         let graphProblem = null;
         let graphCanvas, ctx;
 
@@ -519,34 +505,20 @@
             document.getElementById('chargeB').value = '';
             document.getElementById('chargeC').value = '';
             document.getElementById('graph-feedback').innerText = '';
-
             const isThree = Math.random() > 0.4; 
             const charges = [1, 2, 3].sort(() => Math.random() - 0.5);
             const nA = charges[0], nB = charges[1], nC = isThree ? charges[2] : null;
-
             const N0 = 12; 
             const p1_y = (N0 * nA) / nB; 
             const p1_x = p1_y; 
             let points = [{x:0, y:N0}, {x:p1_x, y:p1_y}];
-            
             if(isThree) {
                 const p2_y = (p1_y * nB) / nC;
                 points.push({x: p1_x + p2_y, y: p2_y});
                 document.getElementById('colChargeC').classList.remove('hidden');
-            } else {
-                document.getElementById('colChargeC').classList.add('hidden');
-            }
-
+            } else document.getElementById('colChargeC').classList.add('hidden');
             graphProblem = { isThree, charges: [nA, nB, nC], points, N0 };
-            
-            document.getElementById('graph-desc').innerHTML = `
-                <div class="flex items-center gap-2 mb-1">
-                    <i data-lucide="help-circle" class="w-3.5 h-3.5 text-blue-500"></i>
-                    <span class="font-black uppercase tracking-wider text-[9px]">문제 상황</span>
-                </div>
-                A<sup>a+</sup> 수용액에 금속 B를 넣어 반응시킨 결과입니다. ${isThree ? '이후 금속 C를 추가로 넣었습니다.' : ''}
-            `;
-
+            document.getElementById('graph-desc').innerHTML = `A<sup>a+</sup> 수용액에 금속 B를 넣어 반응시킨 결과입니다. ${isThree ? '이후 금속 C를 추가로 넣었습니다.' : ''}`;
             renderGraph();
             renderEqnInputs();
             lucide.createIcons();
@@ -557,165 +529,56 @@
             const h = graphCanvas.height = graphCanvas.parentElement.clientHeight;
             ctx.clearRect(0,0,w,h);
             const padding = 45;
-            
             const maxXVal = Math.max(...graphProblem.points.map(p => p.x));
             const maxYVal = Math.max(graphProblem.N0, ...graphProblem.points.map(p => p.y));
             const maxX = maxXVal * 1.25;
             const maxY = maxYVal * 1.25;
-
             const mapX = (v) => padding + v * (w - padding * 2) / maxX;
             const mapY = (v) => h - padding - v * (h - padding * 2) / maxY;
-
-            // 축 그리기
             ctx.beginPath(); ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.5;
             ctx.moveTo(padding, 20); ctx.lineTo(padding, h-padding); ctx.lineTo(w-20, h-padding); ctx.stroke();
-            
-            ctx.fillStyle = '#64748b'; ctx.font = 'bold 9px Noto Sans KR';
-            ctx.fillText('이온 수', padding - 40, 30);
-            ctx.fillText('금속 투입량 (N)', w - 65, h - 15);
-
-            // 축 눈금 표시
             const yTicks = [...new Set([graphProblem.N0, ...graphProblem.points.map(p => p.y)])].sort((a,b) => a-b);
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
             yTicks.forEach(val => {
                 if(val < 0.1) return;
                 const y = mapY(val);
                 ctx.beginPath(); ctx.moveTo(padding-4, y); ctx.lineTo(padding, y); ctx.stroke();
+                ctx.fillStyle = '#64748b'; ctx.font = 'bold 9px Noto Sans KR';
                 ctx.fillText(Math.round(val*10)/10 + 'N', padding - 8, y);
-                ctx.beginPath(); ctx.strokeStyle = '#f1f5f9'; ctx.moveTo(padding, y); ctx.lineTo(w-20, y); ctx.stroke();
             });
-
-            const xTicks = [...new Set(graphProblem.points.map(p => p.x))].sort((a,b) => a-b);
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            ctx.strokeStyle = '#334155';
-            xTicks.forEach(val => {
-                if(val < 0.1) return;
-                const x = mapX(val);
-                ctx.beginPath(); ctx.moveTo(x, h-padding); ctx.lineTo(x, h-padding+4); ctx.stroke();
-                ctx.fillText(Math.round(val*10)/10 + 'N', x, h - padding + 8);
-                ctx.beginPath(); ctx.strokeStyle = '#f1f5f9'; ctx.moveTo(x, 20); ctx.lineTo(x, h-padding); ctx.stroke();
-            });
-
             if(currentMode === 'GRAPH_TOTAL') {
-                ctx.beginPath(); ctx.strokeStyle = '#4f46e5'; ctx.lineWidth = 3; ctx.lineJoin = 'round';
-                ctx.moveTo(mapX(graphProblem.points[0].x), mapY(graphProblem.points[0].y));
-                graphProblem.points.forEach(p => ctx.lineTo(mapX(p.x), mapY(p.y)));
-                ctx.stroke();
-                graphProblem.points.forEach(p => {
-                    ctx.fillStyle = '#4f46e5'; ctx.beginPath(); ctx.arc(mapX(p.x), mapY(p.y), 3.5, 0, Math.PI*2); ctx.fill();
-                });
+                ctx.beginPath(); ctx.strokeStyle = '#4f46e5'; ctx.lineWidth = 3; ctx.moveTo(mapX(0), mapY(graphProblem.N0));
+                graphProblem.points.forEach(p => ctx.lineTo(mapX(p.x), mapY(p.y))); ctx.stroke();
             } else {
                 const pts = graphProblem.points;
-                // A (사라짐)
                 drawLine(mapX(0), mapY(graphProblem.N0), mapX(pts[1].x), mapY(0), '#ef4444');
-                // B (생성 및 소멸)
                 drawLine(mapX(0), mapY(0), mapX(pts[1].x), mapY(pts[1].y), '#3b82f6');
                 if(graphProblem.isThree) {
                     drawLine(mapX(pts[1].x), mapY(pts[1].y), mapX(pts[2].x), mapY(0), '#3b82f6');
                     drawLine(mapX(pts[1].x), mapY(0), mapX(pts[2].x), mapY(pts[2].y), '#10b981');
                 }
-
-                // 기호 (A, B, C) 그래프 외곽(피크 지점 위)에 표시
-                ctx.font = 'bold 13px Noto Sans KR';
-                ctx.textAlign = 'center';
-                
-                // A 기호: 시작점 왼쪽 상단
-                drawLabel(ctx, mapX(0) + 12, mapY(graphProblem.N0) - 12, 'A', '#ef4444');
-                
-                // B 기호: 첫 번째 꺾임점(피크) 상단
-                drawLabel(ctx, mapX(pts[1].x), mapY(pts[1].y) - 15, 'B', '#3b82f6');
-                
-                // C 기호: 두 번째 꺾임점 상단
-                if(graphProblem.isThree) {
-                    drawLabel(ctx, mapX(pts[2].x), mapY(pts[2].y) - 15, 'C', '#10b981');
-                }
             }
         }
 
-        function drawLine(x1, y1, x2, y2, color) {
-            ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-        }
-
-        function drawLabel(ctx, x, y, text, color) {
-            // 가독성을 위한 텍스트 외곽선 효과
-            ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-            ctx.lineWidth = 3;
-            ctx.strokeText(text, x, y);
-            ctx.fillStyle = color;
-            ctx.fillText(text, x, y);
-        }
+        function drawLine(x1, y1, x2, y2, color) { ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
 
         function renderEqnInputs() {
             const container = document.getElementById('eqnContainer');
             const p = graphProblem;
-            let html = `
-                <div class="flex items-center justify-center gap-1 text-[11px] font-black">
-                    <input type="number" id="c1_a" class="eqn-input">A<sup>a+</sup> + 
-                    <input type="number" id="c1_b" class="eqn-input">B &rarr; 
-                    <input type="number" id="c1_a_p" class="eqn-input">A + 
-                    <input type="number" id="c1_b_p" class="eqn-input">B<sup>b+</sup>
-                </div>
-            `;
-            if(p.isThree) {
-                html += `
-                    <div class="flex items-center justify-center gap-1 text-[11px] font-black mt-2">
-                        <input type="number" id="c2_b" class="eqn-input">B<sup>b+</sup> + 
-                        <input type="number" id="c2_c" class="eqn-input">C &rarr; 
-                        <input type="number" id="c2_b_p" class="eqn-input">B + 
-                        <input type="number" id="c2_c_p" class="eqn-input">C<sup>c+</sup>
-                    </div>
-                `;
-            }
-            container.innerHTML = html;
+            container.innerHTML = `<div class="flex items-center justify-center gap-1 text-[11px] font-black"><input type="number" id="c1_a" class="eqn-input">A<sup>a+</sup> + <input type="number" id="c1_b" class="eqn-input">B &rarr; <input type="number" id="c1_a_p" class="eqn-input">A + <input type="number" id="c1_b_p" class="eqn-input">B<sup>b+</sup></div>`;
         }
 
         function checkGraphAnswer() {
             const na = parseInt(document.getElementById('chargeA').value);
             const nb = parseInt(document.getElementById('chargeB').value);
-            const nc = graphProblem.isThree ? parseInt(document.getElementById('chargeC').value) : null;
-            const feedback = document.getElementById('graph-feedback');
-
-            if(!na || !nb || (graphProblem.isThree && !nc)) {
-                feedback.innerText = "데이터를 모두 입력해 주세요.";
-                feedback.className = "text-center text-[11px] font-black text-amber-500";
-                return;
-            }
-
             const p = graphProblem;
-            const chargesCorrect = (na === p.charges[0] && nb === p.charges[1] && (!p.isThree || nc === p.charges[2]));
-
-            if(chargesCorrect) {
-                feedback.innerHTML = "<span class='text-emerald-500'>정답입니다! 전하량 비 분석 성공 🎯</span>";
-            } else {
-                feedback.innerHTML = "<span class='text-rose-500'>기울기와 눈금을 다시 정밀하게 분석해 보세요.</span>";
-            }
+            if(na === p.charges[0] && nb === p.charges[1]) document.getElementById('graph-feedback').innerHTML = "<span class='text-emerald-500'>정답입니다! 🎯</span>";
+            else document.getElementById('graph-feedback').innerHTML = "<span class='text-rose-500'>다시 분석해 보세요.</span>";
         }
 
         function showGraphExplanation() {
             const p = graphProblem;
-            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-            const g1 = gcd(p.charges[0], p.charges[1]);
-            const c1A = p.charges[1]/g1;
-            const c1B = p.charges[0]/g1;
-
-            let html = `
-                <p><strong>1. 기울기와 전하량 비</strong></p>
-                <p>그래프 눈금에서 반응비 (A : B) = ${p.N0} : ${p.points[1].y.toFixed(1)} = ${c1A} : ${c1B}</p>
-                <p>전하량 비 (a : b) = 반응한 개수비의 역수 = ${p.charges[0]} : ${p.charges[1]}</p>
-                <p class="mt-4"><strong>2. 화학 반응식 완성</strong></p>
-                <p class="bg-gray-50 p-3 rounded text-sm mt-1">
-                    ${c1A}A<sup>${p.charges[0]}+</sup> + ${c1B}B &rarr; ${c1A}A + ${c1B}B<sup>${p.charges[1]}+</sup>
-                </p>
-                <p class="mt-3">A의 전하량(a) = +${p.charges[0]}, B의 전하량(b) = +${p.charges[1]}</p>
-            `;
-            if(p.isThree) {
-                const g2 = gcd(p.charges[1], p.charges[2]);
-                const c2B = p.charges[2]/g2;
-                const c2C = p.charges[1]/g2;
-                html += `<p class="mt-2">동일한 원리로 C를 분석하면 c = +${p.charges[2]}입니다.</p>`;
-            }
+            let html = `<p><strong>분석 해설</strong></p><p>반응 전하량 보존에 의해 a= +${p.charges[0]}, b= +${p.charges[1]} 입니다.</p>`;
             document.getElementById('explanation-text').innerHTML = html;
             document.getElementById('explanation-modal').style.display = 'flex';
         }

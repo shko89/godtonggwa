@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        /* 메인 페이지와 동일한 폰트 및 기본 스타일 적용 */
+        /* 메인 페이지와 동일한 폰트 적용 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
         
         body { 
@@ -23,9 +23,10 @@
             overflow: hidden; /* 전체 스크롤 방지 */
         }
 
-        /* 앱 셸 구조: 480px 고정 및 중앙 정렬 */
+        /* 앱 셸 구조: 화면 크기에 맞춰 최적화 (유동적 너비) */
         .app-shell {
-            max-width: 480px;
+            width: 100%;
+            max-width: 640px; /* 기존 480px에서 확장하여 그래프/표 공간 확보 */
             margin: 0 auto;
             height: 100vh;
             background-color: #FFFFFF;
@@ -41,53 +42,74 @@
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             background-color: #fff;
-            /* 하단 네비게이션 바에 가려지지 않도록 여백 확보 */
-            padding-bottom: 90px; 
+            padding-bottom: 100px; 
+            
+            /* --- [사용자 가이드] 시뮬레이터 내부 텍스트 크기 조절 --- */
+            font-size: 13px; /* 기본 폰트 크기를 여기서 조절하세요 (예: 12px, 0.85rem 등) */
+            line-height: 1.4;
         }
+
+        /* 시뮬레이터 내부 모든 텍스트에 폰트 크기 상속 강제 적용 */
+        #root * {
+            font-size: inherit;
+        }
+
+        /* 특정 태그(예: 표, 버튼)의 글자가 너무 크다면 아래 설정을 활용하세요 */
+        #root h1, #root h2, #root h3 { font-size: 1.1em; font-weight: 800; }
+        #root table { font-size: 0.9em; width: 100% !important; }
+        #root button { font-size: 0.95em; }
 
         /* 스크롤바 숨기기 */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* 기존 빌드된 CSS와 메인 디자인의 충돌 방지 및 최적화 */
-        #root > div {
-            min-height: 100%;
-        }
-        
-        /* 네비게이션 버튼 애니메이션 */
         .nav-btn:active { transform: scale(0.95); }
+
+        /* 하단 네비게이션도 앱 셸 너비를 따라가도록 수정 */
+        .fixed-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            border-top: 1px solid #f3f4f6;
+            padding: 12px 24px 24px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+            height: 85px;
+        }
     </style>
 
-    <!-- [중요] 기존 시뮬레이터의 Vite 빌드 자산 (JS/CSS) -->
-    <!-- 경로가 ./assets/ 인지 확인하세요. 업로드된 파일 기준으로 작성되었습니다. -->
+    <!-- 기존 시뮬레이터의 Vite 빌드 자산 (JS/CSS) -->
     <script type="module" crossorigin src="./assets/index-C8IR4JxV.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DQ3P1g1z.css">
 </head>
 <body>
 
     <div class="app-shell">
-        <!-- 상단 헤더: 메인 페이지와 디자인 통일 -->
-        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100 shadow-sm h-[80px]">
+        <!-- 상단 헤더 -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100 shadow-sm h-[80px] shrink-0">
             <button onclick="location.href='../../index.html'" class="p-2 -ml-2 mr-3 hover:bg-gray-100 rounded-full transition-colors text-gray-600">
                 <i data-lucide="arrow-left" class="w-6 h-6"></i>
             </button>
             <div class="flex flex-col">
-                <h1 class="text-xl font-black text-slate-900 tracking-tighter leading-none">중화반응 시뮬</h1>
-                <p class="text-[10px] font-bold text-slate-400 tracking-[0.2em] mt-1.5 uppercase leading-none">Simulator Mode</p>
+                <h1 class="text-xl font-black text-slate-900 tracking-tighter leading-none">중화반응 마스터</h1>
+                <p class="text-[10px] font-bold text-slate-400 tracking-[0.2em] mt-1.5 uppercase leading-none">Antigravity Mode</p>
             </div>
-            <!-- 알림 아이콘 (장식용) -->
             <button class="ml-auto p-2 text-gray-400">
                 <i data-lucide="bell" class="w-5 h-5"></i>
             </button>
         </header>
 
-        <!-- 실제 시뮬레이터(React/Vite)가 렌더링되는 영역 -->
+        <!-- 실제 시뮬레이터가 렌더링되는 영역 -->
         <main id="root" class="hide-scrollbar">
-            <!-- 여기에 index-C8IR4JxV.js 에 의해 시뮬레이터가 그려집니다. -->
+            <!-- React 앱이 여기에 로드됩니다. -->
         </main>
 
-        <!-- 하단 네비게이션 바: 메인 페이지와 100% 동일한 구조 -->
-        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.03)] h-[85px]">
+        <!-- 하단 네비게이션 바 -->
+        <nav class="fixed-nav">
             <button onclick="location.href='../../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
                 <i data-lucide="home" class="w-6 h-6"></i>
                 <span class="text-[10px] font-bold">홈</span>
@@ -118,7 +140,6 @@
     </div>
 
     <script>
-        // Lucide 아이콘 로드 및 초기화
         window.addEventListener('load', () => {
             if (window.lucide) {
                 lucide.createIcons();

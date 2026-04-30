@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2028 통합과학 모의고사 분석 매트릭스</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                startSync();
+            }
+        });
+
+        function startSync() {
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'matrix_storage');
+            onSnapshot(docRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data().examData;
+                    if (data) {
+                        window.examData = data;
+                        window.renderMatrix();
+                    }
+                }
+            }, (err) => console.error("Firestore Error:", err));
+        }
+
+        window.saveToCloud = async function() {
+            if (!auth.currentUser) return;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'matrix_storage');
+            try {
+                await setDoc(docRef, { 
+                    examData: window.examData,
+                    lastUpdated: new Date().toISOString()
+                });
+                showToast("데이터가 클라우드에 동기화되었습니다.");
+            } catch (err) {
+                console.error("Save Error:", err);
+            }
+        };
+
+        initAuth();
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; overflow-y: auto; }
+        
+        .matrix-outer-wrapper { overflow-x: auto; width: 100%; border-radius: 0.5rem; background: white; border: 1px solid #e2e8f0; }
+        
+        table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1400px; table-layout: fixed; }
+        
+        .col-unit { width: 100px; }
+        .col-topic { width: 220px; }
+        .col-round { width: auto; }
+
+        thead th { position: sticky; top: 0; z-index: 40; background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; }
+        thead tr:nth-child(1) th { height: 36px; font-size: 11px; top: 0; }
+        thead tr:nth-child(2) th { height: 32px; top: 36px; }
+
+        .sticky-col-1 { position: sticky; left: 0; z-index: 25; background-color: white !important; border-right: 1px solid #e2e8f0; }
+        .sticky-col-2 { position: sticky; left: 100px; z-index: 25; background-color: white !important; border-right: 2px solid #94a3b8; }
+        
+        thead th.sticky-col-1, thead th.sticky-col-2 { z-index: 50; background-color: #f1f5f9 !important; }
+        
+        td { border-bottom: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; height: 38px; padding: 0 !important; }
+        tr:hover td:not(.sticky-col-1):not(.sticky-col-2) { background-color: #f8fafc; }
+        
+        .circle-badge {
+            width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 800; color: white; margin: 1px; box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            cursor: pointer; transition: transform 0.1s;
+        }
+        
+        .bg-understand { background-color: #64748b; }
+        .bg-apply { background-color: #0ea5e9; }
+        .bg-comm { background-color: #475569; }
+        .bg-hypo { background-color: #f59e0b; }
+        .bg-design { background-color: #ef4444; }
+        .bg-exec { background-color: #10b981; }
+        .bg-anal { background-color: #6366f1; }
+        .bg-conc { background-color: #8b5cf6; }
+
+        .unit-divider td { border-top: 1.5px solid #cbd5e1 !important; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.active { display: flex; }
+        .stat-text { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: -0.5px; color: #94a3b8; }
+    </style>
+</head>
+<body class="p-2">
+
+    <header class="bg-white border border-gray-200 rounded-lg mb-2 px-4 py-2 flex flex-col gap-1 shrink-0 sticky top-0 z-[60] shadow-sm">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <h1 class="text-sm font-black tracking-tight text-indigo-900">2028 통합과학 분석 매트릭스</h1>
+                <div class="flex items-center gap-2 ml-4">
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-understand"></div>이해</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-apply"></div>적용</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-comm"></div>의사소통</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-hypo"></div>가설</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-design"></div>설계</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-exec"></div>수행</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-anal"></div>해석</div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-conc"></div>결론</div>
+                </div>
+            </div>
+            <div id="sync-status" class="text-[9px] font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase">Cloud Linked</div>
+        </div>
+    </header>
+
+    <div class="matrix-outer-wrapper shadow-lg">
+        <table class="text-[11px]">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="sticky-col-1 col-unit font-black">중단원</th>
+                    <th rowspan="2" class="sticky-col-2 col-topic font-black px-2 text-left">내용 요소</th>
+                    <script>
+                        for(let i=1; i<=10; i++) {
+                            document.write(`<th class="col-round font-black text-[10px] text-indigo-700">${i}회차</th>`);
+                        }
+                    </script>
+                </tr>
+                <tr>
+                    <script>
+                        for(let i=1; i<=10; i++) {
+                            document.write(`
+                                <th class="px-1 border-b border-gray-200">
+                                    <div id="stat-round-${i}" class="stat-text text-center">0/0/0/0/0/0/0/0</div>
+                                </th>
+                            `);
+                        }
+                    </script>
+                </tr>
+            </thead>
+            <tbody id="matrix-body">
+                <!-- JavaScript Builds Content -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 문항 등록 모달 -->
+    <div id="add-modal" class="modal-overlay">
+        <div class="bg-white rounded-xl w-72 p-5 shadow-2xl border border-gray-100">
+            <h3 id="modal-info-text" class="text-sm font-black text-gray-900 mb-4 border-b pb-2 border-gray-50"></h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 mb-1 uppercase">문항 번호</label>
+                    <input type="number" id="input-qnum" min="1" max="25" class="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm font-bold focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="1-25">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 mb-1 uppercase">행동 영역</label>
+                    <select id="input-domain" class="w-full px-3 py-2 rounded-lg border border-gray-200 text-xs font-bold focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option value="이해">지식의 이해</option>
+                        <option value="적용">개념의 적용</option>
+                        <option value="의사소통">의사소통 및 통합 사고</option>
+                        <option value="가설 설정">가설 설정</option>
+                        <option value="탐구 설계">탐구 설계</option>
+                        <option value="탐구 수행 및 자료 수집">수행 및 자료 수집</option>
+                        <option value="자료 변환 및 해석">변환 및 해석</option>
+                        <option value="결론 도출">결론 도출</option>
+                    </select>
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button onclick="closeModal()" class="flex-1 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-bold text-gray-500 transition-colors">취소</button>
+                    <button onclick="saveQuestion()" class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-md transition-colors">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-2 bg-gray-900/90 backdrop-blur text-white text-[10px] font-bold rounded-full opacity-0 pointer-events-none transition-all duration-300 z-[100]"></div>
+
+    <script>
+        const CURRICULUM_DATA = [
+            { unit: "과학의 기초", topics: ["기본량과 단위", "측정과 어림", "정보와 신호"] },
+            { unit: "물질의 규칙성", topics: ["원소의 형성", "별의 진화와 원소의 생성", "원소의 주기성", "원소의 화학 결합", "지각과 생명체의 구성 물질의 규칙성"] },
+            { unit: "시스템과 상호 작용", topics: ["지구 시스템의 구성과 상호 작용", "지권의 변화", "중력과 역학적 시스템", "역학적 시스템과 안전", "생명 시스템의 기본 단위", "생명 시스템의 물질대사", "생명 시스템의 정보 흐름"] },
+            { unit: "변화와 다양성", topics: ["지질 시대와 화석", "환경 변화와 생물 다양성", "자연 선택과 생물의 진화", "생물 다양성의 보존", "산화 환원 반응", "중화 반응"] },
+            { unit: "환경과 에너지", topics: ["생태계의 구성 요소와 환경", "생태계의 평형", "대기와 해양의 순환", "에너지의 전환과 효율적인 이용", "발전과 에너지의 효율적 이용"] },
+            { unit: "과학과 미래 사회", topics: ["감염병과 과학 탐구", "인공지능과 과학 탐구", "로봇과 과학 탐구", "과학 기술과 윤리"] }
+        ];
+
+        const domainColors = { 
+            "이해": "bg-understand", "적용": "bg-apply", "의사소통": "bg-comm", "가설 설정": "bg-hypo", 
+            "탐구 설계": "bg-design", "탐구 수행 및 자료 수집": "bg-exec", 
+            "자료 변환 및 해석": "bg-anal", "결론 도출": "bg-conc" 
+        };
+
+        window.examData = {};
+        for(let i=1; i<=10; i++) window.examData[i] = {};
+
+        let currentEditingRound = 1;
+        let currentEditingTopic = "";
+
+        function buildTable() {
+            const tbody = document.getElementById('matrix-body');
+            tbody.innerHTML = '';
+            CURRICULUM_DATA.forEach(unitObj => {
+                unitObj.topics.forEach((topic, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-topic', topic);
+                    tr.className = idx === 0 ? "unit-divider" : "";
+
+                    if(idx === 0) {
+                        const tdUnit = document.createElement('td');
+                        tdUnit.className = "sticky-col-1 text-center font-black text-gray-400 align-middle text-[9px] leading-tight px-1";
+                        tdUnit.rowSpan = unitObj.topics.length;
+                        tdUnit.innerText = unitObj.unit;
+                        tr.appendChild(tdUnit);
+                    }
+
+                    const tdTopic = document.createElement('td');
+                    tdTopic.className = "sticky-col-2 px-3 font-semibold text-gray-700 align-middle text-[10px] leading-tight";
+                    tdTopic.innerText = topic;
+                    tr.appendChild(tdTopic);
+
+                    for(let r=1; r<=10; r++) {
+                        const td = document.createElement('td');
+                        td.className = "text-center align-middle bg-white border-r border-gray-50";
+                        td.setAttribute('data-round', r);
+                        tr.appendChild(td);
+                    }
+                    tbody.appendChild(tr);
+                });
+            });
+            window.renderMatrix();
+        }
+
+        window.renderMatrix = function() {
+            for(let r=1; r<=10; r++) {
+                let counts = { "이해":0, "적용":0, "의사소통":0, "가설 설정":0, "탐구 설계":0, "탐구 수행 및 자료 수집":0, "자료 변환 및 해석":0, "결론 도출":0 };
+                
+                CURRICULUM_DATA.forEach(unitObj => {
+                    unitObj.topics.forEach(topic => {
+                        const qs = window.examData[r][topic] || [];
+                        qs.forEach(q => { if(counts[q.domain] !== undefined) counts[q.domain]++; });
+
+                        const tr = document.querySelector(`tr[data-topic="${topic}"]`);
+                        if(!tr) return;
+                        const td = tr.querySelector(`td[data-round="${r}"]`);
+                        
+                        let html = '<div class="flex justify-center items-center gap-0.5 flex-wrap h-full px-1 py-1">';
+                        qs.sort((a,b) => a.qNum - b.qNum).forEach(q => {
+                            html += `<div class="circle-badge ${domainColors[q.domain]} hover:scale-110" onclick="deleteQuestion(${r}, '${topic}', ${q.qNum})">${q.qNum}</div>`;
+                        });
+                        html += `<button onclick="openModal(${r}, '${topic}')" class="w-5 h-5 rounded-full border border-dashed border-gray-300 text-gray-300 hover:text-indigo-600 hover:border-indigo-400 hover:bg-indigo-50 flex items-center justify-center transition-all shrink-0"><i data-lucide="plus" class="w-3 h-3"></i></button>`;
+                        html += '</div>';
+                        td.innerHTML = html;
+                    });
+                });
+
+                const statEl = document.getElementById(`stat-round-${r}`);
+                if(statEl) statEl.innerText = Object.values(counts).join('/');
+            }
+            lucide.createIcons();
+        }
+
+        function openModal(round, topic) {
+            currentEditingRound = round;
+            currentEditingTopic = topic;
+            document.getElementById('modal-info-text').innerHTML = `<span class="text-indigo-600">${round}회차</span> <span class="text-gray-400 mx-1">|</span> <span class="text-[11px]">${topic}</span>`;
+            document.getElementById('input-qnum').value = '';
+            document.getElementById('add-modal').classList.add('active');
+            setTimeout(() => document.getElementById('input-qnum').focus(), 50);
+        }
+
+        function closeModal() { document.getElementById('add-modal').classList.remove('active'); }
+
+        function saveQuestion() {
+            const qNum = parseInt(document.getElementById('input-qnum').value);
+            const domain = document.getElementById('input-domain').value;
+            if (!qNum) { showToast("문항 번호를 입력하세요."); return; }
+            if (qNum < 1 || qNum > 25) { showToast("1~25 사이의 번호를 입력하세요."); return; }
+            
+            if (!window.examData[currentEditingRound][currentEditingTopic]) window.examData[currentEditingRound][currentEditingTopic] = [];
+            
+            let isDup = false;
+            for(let t in window.examData[currentEditingRound]) {
+                if(window.examData[currentEditingRound][t].some(q => q.qNum === qNum)) { isDup = true; break; }
+            }
+            if(isDup) { showToast(`${currentEditingRound}회차 내 ${qNum}번 중복!`); return; }
+
+            window.examData[currentEditingRound][currentEditingTopic].push({ qNum, domain });
+            closeModal();
+            window.renderMatrix();
+            if (window.saveToCloud) window.saveToCloud();
+        }
+
+        function deleteQuestion(round, topic, qNum) {
+            window.examData[round][topic] = window.examData[round][topic].filter(q => q.qNum !== qNum);
+            window.renderMatrix();
+            if (window.saveToCloud) window.saveToCloud();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg; toast.classList.remove('opacity-0', 'translate-y-4');
+            setTimeout(() => toast.classList.add('opacity-0', 'translate-y-4'), 2000);
+        }
+
+        document.addEventListener("DOMContentLoaded", buildTable);
+    </script>
+</body>
+</html>

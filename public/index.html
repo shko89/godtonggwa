@@ -74,6 +74,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                <!-- 새로 추가된 커뮤니티 아이콘 (빠른 접근용) -->
+                <button onclick="location.href='./Board/board.html'" class="relative p-2 hover:bg-gray-50 rounded-full transition-colors">
+                    <i data-lucide="message-square-text" class="w-6 h-6 text-indigo-600"></i>
+                </button>
                 <button class="relative p-2 hover:bg-gray-50 rounded-full transition-colors">
                     <i data-lucide="bell" class="w-6 h-6 text-gray-600"></i>
                     <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
@@ -214,7 +218,7 @@
                                 <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
                             </div>
                             <h2 class="text-3xl font-black mb-2 leading-tight"><span class="text-white">통합과학 실전모의고사</span></h2>
-                            <p class="text-gray-400 text-xs mb-6 max-w-[90%] font-medium">수능 1등급을 위한 프리미엄 서비스. 24회차 풀패키지</p>
+                            <p class="text-gray-400 text-xs mb-6 max-w-[90%] font-medium">수능 1등급을 위한 프리미엄 서비스. 24회차 풀패키지 진행중.</p>
                             <div class="flex gap-3">
                                 <button class="flex-1 bg-white text-gray-900 py-3.5 rounded-xl font-bold text-sm hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 shadow-lg">
                                     <i data-lucide="pen-tool" class="w-4 h-4 text-indigo-600"></i> 시험 응시하기
@@ -283,7 +287,7 @@
                                 <p class="text-[10px] text-indigo-100 leading-tight opacity-90">이온 모형의 해석 및<br>그래프 변화 시뮬레이션</p>
                             </div>
                             <!-- 중화반응 시뮬레이션: 이 부분만 location.href로 변경 -->
-                            <div onclick="location.href='./simulation/acid-base.html'" class="bg-gradient-to-br from-emerald-500 to-teal-600 p-5 rounded-3xl active:scale-95 transition-transform cursor-pointer relative overflow-hidden shadow-lg shadow-emerald-100 group">
+                            <div onclick="location.href='./simulation/acid-base/index.html'" class="bg-gradient-to-br from-emerald-500 to-teal-600 p-5 rounded-3xl active:scale-95 transition-transform cursor-pointer relative overflow-hidden shadow-lg shadow-emerald-100 group">
                                 <div class="absolute -right-2 -bottom-2 p-3 opacity-20 group-hover:scale-110 transition-transform"><i data-lucide="droplets" class="w-16 h-16 text-white"></i></div>
                                 <div class="bg-white/20 w-10 h-10 rounded-xl flex items-center justify-center backdrop-blur-sm mb-4 text-white">
                                     <i data-lucide="thermometer" class="w-5 h-5"></i>
@@ -294,20 +298,28 @@
                         </div>
                     </div>
 
-                    <!-- 하단 문의 섹션 (복구 완료) -->
-                    <div class="mt-8 pt-6 border-t border-gray-100">
-                        <h3 class="font-bold text-gray-800 mb-3 text-sm px-1">학습에 어려움이 있나요?</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div onclick="openKakaoInquiry()" class="bg-[#FEE500] p-4 rounded-xl flex flex-col items-center justify-center cursor-pointer shadow-sm active:scale-95 transition-transform">
-                                <div class="bg-white/30 p-2 rounded-lg mb-2"><i data-lucide="message-circle" class="w-6 h-6 text-[#371D1E]"></i></div>
-                                <span class="text-xs font-bold text-[#371D1E]">카톡 문의하기</span><span class="text-[9px] text-[#371D1E]/70 mt-0.5">실시간 상담</span>
+                    <!-- 이동됨: AI 학습 커뮤니티 배너 (가장 하단) -->
+                    <div onclick="location.href='./Board/board.html'" class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-5 text-white active:scale-95 transition-transform cursor-pointer shadow-lg shadow-blue-200/50 relative overflow-hidden group">
+                        <!-- 배경 데코레이션 아이콘 -->
+                        <div class="absolute right-0 top-0 opacity-10 group-hover:scale-110 transition-transform origin-bottom-right">
+                            <i data-lucide="message-square-dashed" class="w-32 h-32 -mt-6 -mr-6"></i>
+                        </div>
+                        <div class="relative z-10 flex items-center gap-4">
+                            <!-- 강조 아이콘 영역 -->
+                            <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm shrink-0 border border-white/30 shadow-inner">
+                                <i data-lucide="sparkles" class="w-7 h-7 text-white"></i>
                             </div>
-                            <div class="bg-white border border-gray-200 p-4 rounded-xl flex flex-col items-center justify-center cursor-pointer shadow-sm active:scale-95 transition-transform" onclick="copyToClipboard('godtonggwa@gmail.com')">
-                                <div class="bg-gray-50 p-2 rounded-lg mb-2"><i data-lucide="mail" class="w-6 h-6 text-gray-600"></i></div>
-                                <span class="text-xs font-bold text-gray-700">이메일 문의</span><span class="text-[9px] text-gray-400 mt-0.5">godtonggwa@gmail.com</span>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-bold text-lg">Q&A 학습 커뮤니티</h3>
+                                    <span class="bg-blue-400/50 text-white text-[9px] font-bold px-2 py-0.5 rounded-full border border-blue-300/50">AI 튜터</span>
+                                </div>
+                                <p class="text-[11px] text-blue-100 leading-tight font-medium">모르는 문항? 1등급 AI 튜터와<br>통과 마스터들에게 질문하세요!</p>
+                            </div>
+                            <div class="bg-white/10 p-2 rounded-full group-hover:bg-white/20 transition-colors">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-white"></i>
                             </div>
                         </div>
-                        <p class="text-[10px] text-gray-400 mt-3 text-center">운영시간: 평일 09:00 - 18:00 (주말/공휴일 휴무)</p>
                     </div>
                 </div>
             `;
@@ -351,6 +363,22 @@
                             <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
                          </div>
                     </div>
+                    
+                    <!-- 마이페이지로 이동된 고객센터 섹션 -->
+                    <div class="mt-8 pt-6 border-t border-gray-100">
+                        <h3 class="font-bold text-gray-800 mb-3 text-sm px-1">고객센터 / 앱 이용 문의</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div onclick="openKakaoInquiry()" class="bg-[#FEE500] p-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-95 transition-transform">
+                                <i data-lucide="message-circle" class="w-5 h-5 text-[#371D1E]"></i>
+                                <span class="text-xs font-bold text-[#371D1E]">카톡 문의</span>
+                            </div>
+                            <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-95 transition-transform" onclick="copyToClipboard('godtonggwa@gmail.com')">
+                                <i data-lucide="mail" class="w-5 h-5 text-gray-600"></i>
+                                <span class="text-xs font-bold text-gray-700">이메일 문의</span>
+                            </div>
+                        </div>
+                    </div>
+
                     ${currentUser ? `<div class="mt-8 pt-4 border-t border-gray-100 text-center"><button onclick="handleWithdrawal()" class="text-xs text-red-400 underline hover:text-red-600 transition-colors flex items-center justify-center gap-1 mx-auto"><i data-lucide="user-x" class="w-3 h-3"></i> 회원 탈퇴</button></div>` : ''}
                 </div>`;
             document.getElementById('main-content').scrollTop = 0;
@@ -407,8 +435,13 @@
                 else { btn.classList.remove('text-indigo-600'); btn.classList.add('text-gray-400'); }
             });
         }
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('view') === 'my') {
+            renderMarket();
+        } else {
+            renderHome();
+        }
         
-        renderHome();
         window.addEventListener('load', () => { if(window.lucide) lucide.createIcons(); });
     </script>
 </body>

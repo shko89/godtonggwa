@@ -96,14 +96,14 @@
                 </div>
             </div>
             <h3 class="text-lg font-bold text-gray-900 mb-1">AI 채점 분석 중...</h3>
-            <p id="loading-status-text" class="text-sm text-gray-500">배점에 따른 원점수 계산 및<br>오답 노트/통계를 산출하고 있습니다.</p>
+            <p class="text-sm text-gray-500">배점에 따른 원점수 계산 및<br>등급을 산출하고 있습니다.</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, runTransaction, serverTimestamp, writeBatch, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
@@ -134,11 +134,12 @@
         const EXAM_ID = urlParams.get('id');
         let EXAM_TITLE = decodeURIComponent(urlParams.get('title') || '실전 모의고사');
         
-        let SCORE_MAP = null;     
-        let CORRECT_ANSWERS = null; 
-        let TOTAL_QUESTIONS = 25; 
-        let EXAM_QUESTIONS = null; // [추가] 오답 노트를 위해 문제 ID 등의 원본 배열 보관
+        // [수정] DB에서 불러올 데이터 변수 (초기값 null)
+        let SCORE_MAP = null;     // 문항별 배점 배열
+        let CORRECT_ANSWERS = null; // 정답 배열
+        let TOTAL_QUESTIONS = 25; // 기본값 (DB 데이터에 따라 변경 가능)
 
+        // 초기화 함수
         async function initExam() {
             if (!EXAM_ID) {
                 alert("잘못된 접근입니다. (시험 ID 없음)");
@@ -149,31 +150,50 @@
             document.getElementById('exam-id-display').innerText = EXAM_ID.toUpperCase();
             
             try {
-                const examDocRef = doc(db, "exams", EXAM_ID);
+                // 1. DB에서 시험 정보(정답, 배점) 가져오기
+                // * public_exams 컬렉션이나 exams 컬렉션 등 실제 정답이 저장된 곳을 지정해야 합니다.
+                // * 보안상 클라이언트에서 정답을 미리 로드하는 것은 취약할 수 있으나, 
+                // * 현재 구조(클라이언트 채점)를 유지하기 위해 불러옵니다.
+                // * (실제 서비스에선 Cloud Functions 채점을 권장하지만 요청사항에 따라 유지)
+                
+                // 여기서는 'exams' 컬렉션의 문서에 정답/배점이 있다고 가정합니다.
+                // 만약 'public_exams'에 있다면 경로를 수정하세요.
+                const examDocRef = doc(db, "exams", EXAM_ID); // 또는 "public_exams"
                 const examSnap = await getDoc(examDocRef);
 
                 if (!examSnap.exists()) {
+                    // 문서가 없으면 기본값 생성 로직 (또는 에러)
+                    // 여기서는 기존 로직처럼 자동 생성하거나 에러 처리
                     console.warn("시험 데이터가 DB에 없습니다. (기본값 사용 불가 - 관리자 문의)");
+                    // alert("시험 데이터를 불러올 수 없습니다.");
+                    // window.safeNavigate('exam.html');
+                    // return;
+                    
+                    // [임시] DB 데이터가 없을 때를 대비해 기존 알고리즘 유지 (테스트용)
+                    // 실제 운영 시에는 이 부분을 제거하고 alert 후 리턴해야 함
                     useFallbackData();
                 } else {
                     const data = examSnap.data();
                     
+                    // DB 필드명: answer_key(배열), score_map(배열) 가정
                     if (data.answer_key && data.score_map) {
                         CORRECT_ANSWERS = data.answer_key;
                         SCORE_MAP = data.score_map;
                         TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
                         if (data.title) EXAM_TITLE = data.title;
-                        if (data.questions) EXAM_QUESTIONS = data.questions; // 원본 문제 메타데이터 보관
                     } else {
+                        // 데이터는 있는데 필드가 비었으면 Fallback
                         console.warn("정답/배점 필드가 비어있습니다.");
                         useFallbackData();
                     }
                 }
 
+                // 2. 화면 렌더링
                 document.getElementById('exam-title-display').innerText = EXAM_TITLE;
                 document.getElementById('total-q-display').innerText = TOTAL_QUESTIONS;
                 renderOMR();
                 
+                // 3. 로딩 해제 및 버튼 활성화
                 document.getElementById('grid-loading').classList.add('hidden');
                 document.getElementById('omr-grid').classList.remove('hidden');
                 const btn = document.getElementById('submit-btn');
@@ -188,14 +208,17 @@
             }
         }
 
+        // [임시] 기존 하드코딩 로직 (DB 데이터 없을 때 비상용)
         function useFallbackData() {
             TOTAL_QUESTIONS = 25;
+            // 배점 (1.5, 2.0, 2.5)
             SCORE_MAP = [];
             for(let i = 1; i <= TOTAL_QUESTIONS; i++) {
                 if (i <= 10) SCORE_MAP.push(1.5);
                 else if (i <= 15) SCORE_MAP.push(2.0);
                 else SCORE_MAP.push(2.5);
             }
+            // 정답 (알고리즘 생성)
             const seed = EXAM_ID.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
             CORRECT_ANSWERS = [];
             for(let i=0; i<TOTAL_QUESTIONS; i++) {
@@ -210,6 +233,7 @@
                 const row = document.createElement('div');
                 row.className = "omr-row flex items-center justify-between py-2 border-b border-gray-100 hover:bg-gray-50 transition-colors px-2 rounded-lg";
                 
+                // 배점 정보 (디버깅용으로 title에 표시 가능)
                 const score = SCORE_MAP[i-1];
                 
                 let optionsHtml = '';
@@ -229,6 +253,8 @@
                 `;
                 grid.appendChild(row);
             }
+            
+            // 카운터 초기화
             updateCount();
         }
 
@@ -258,65 +284,11 @@
             return 9;
         }
 
-        /**
-         * [신규 추가] 오답 노트 및 누적 통계를 업데이트하는 함수
-         */
-        async function processAndSaveWrongAnswers(userId, examId, evaluatedAnswers) {
-            // 틀린 문제 중 qId가 명확히 존재하는 문제들만 필터링
-            const wrongAnswers = evaluatedAnswers.filter(ans => !ans.isCorrect && ans.qId);
-            if (wrongAnswers.length === 0) return;
-
-            const batch = writeBatch(db);
-
-            // 오답 문항들의 세부 정보(topic, behavioralDomain)를 questions 컬렉션에서 가져옴
-            await Promise.all(wrongAnswers.map(async (ans) => {
-                let topic = "미분류";
-                let behavior = "미분류";
-
-                try {
-                    const qSnap = await getDoc(doc(db, "questions", ans.qId));
-                    if (qSnap.exists()) {
-                        const qData = qSnap.data();
-                        topic = qData.taxonomy?.topic || "미분류";
-                        behavior = qData.behavioralDomain || "미분류";
-                    }
-                } catch(e) { 
-                    console.warn(`문항(${ans.qId}) 정보 로드 실패:`, e); 
-                }
-
-                // 1. wrong_answers 서브 컬렉션에 저장 (문항 ID를 문서명으로)
-                const wrongAnswerRef = doc(db, "users", userId, "wrong_answers", ans.qId);
-                batch.set(wrongAnswerRef, {
-                    examId: examId,
-                    qId: ans.qId,
-                    topic: topic,
-                    behavior: behavior,
-                    studentMark: ans.studentMark,
-                    correctAnswer: ans.correctAnswer,
-                    wrongCount: increment(1), // 다시 틀렸을 때 누적
-                    lastFailedAt: new Date().toISOString()
-                }, { merge: true });
-
-                // 2. 대시보드 로딩 최적화를 위한 '누적 통계(summary)' 업데이트
-                const statsRef = doc(db, "users", userId, "user_stats", "summary");
-                batch.set(statsRef, {
-                    [`topic_stats.${topic}.wrong`]: increment(1),
-                    [`behavior_stats.${behavior}.wrong`]: increment(1)
-                }, { merge: true });
-            }));
-
-            try {
-                await batch.commit();
-                console.log("오답 노트 데이터베이스 구축 완료!");
-            } catch (error) {
-                console.error("오답 노트 저장 중 오류 발생:", error);
-            }
-        }
-
         window.submitAnswers = async function() {
             const user = auth.currentUser;
             if(!user) return alert("로그인이 필요합니다.");
 
+            // 데이터 로드 확인
             if (!SCORE_MAP || !CORRECT_ANSWERS) {
                 return alert("채점 기준 데이터가 로드되지 않았습니다. 새로고침 해주세요.");
             }
@@ -335,7 +307,6 @@
                 let myAnswers = [];
                 let rawScore = 0;
                 let correctList = [];
-                let evaluatedAnswers = []; // 오답노트 구성을 위한 상세 배열
 
                 for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
                     const selected = document.querySelector(`input[name="q${i}"]:checked`);
@@ -348,22 +319,12 @@
                     if (isCorrect) {
                         rawScore += SCORE_MAP[i-1]; 
                     }
-
-                    // 오답 데이터 처리를 위해 원본 맵핑 아이디 획득
-                    const qData = EXAM_QUESTIONS && EXAM_QUESTIONS[i-1] ? EXAM_QUESTIONS[i-1] : null;
-                    evaluatedAnswers.push({
-                        no: i,
-                        qId: qData ? qData.qId : null,
-                        isCorrect: isCorrect,
-                        studentMark: val,
-                        correctAnswer: CORRECT_ANSWERS[i-1],
-                        score: SCORE_MAP[i-1]
-                    });
                 }
                 
+                // 소수점 보정
                 rawScore = Math.round(rawScore * 10) / 10;
 
-                // B. DB Transaction (채점 및 모의고사 성적 기록)
+                // B. DB Transaction
                 const examRef = doc(db, "exams", EXAM_ID);
                 const myResultRef = doc(db, "users", user.uid, "exam_results", EXAM_ID);
 
@@ -391,13 +352,16 @@
                     const percentile = Math.round(getCumulativeProbability(zScore) * 100);
                     const grade = calculateGrade(percentile);
 
+                    // 통계 업데이트
                     transaction.set(examRef, { 
                         participantCount: newCount, 
                         totalScoreSum: newSum, 
                         totalScoreSqSum: newSumSq,
                         lastUpdated: serverTimestamp(),
+                        // (선택) 정답/배점 정보가 없으면 여기서 저장해둘 수도 있음 (최초 1회)
                     }, { merge: true });
 
+                    // 내 결과 저장
                     transaction.set(myResultRef, {
                         examId: EXAM_ID,
                         title: EXAM_TITLE,
@@ -406,19 +370,17 @@
                         grade: grade,           
                         percentile: percentile, 
                         myAnswers: myAnswers,
+                        // 나중에 복기를 위해 당시의 정답/배점도 스냅샷으로 저장
                         scoreMap: SCORE_MAP, 
                         submittedAt: serverTimestamp()
                     });
                     
+                    // 구매 상태 변경 (채점 완료)
                     const myPurchaseRef = doc(db, "users", user.uid, "my_exams", EXAM_ID);
                     transaction.set(myPurchaseRef, { status: 'graded', score: rawScore }, { merge: true });
 
                     return { rawScore, standardScore, grade, percentile };
                 });
-
-                // C. [신규 로직 실행] 오답 노트 및 누적 통계 일괄 업데이트
-                document.getElementById('loading-status-text').innerHTML = "AI 채점 완료!<br>취약 단원 및 오답 노트를 분석 중입니다...";
-                await processAndSaveWrongAnswers(user.uid, EXAM_ID, evaluatedAnswers);
 
                 document.getElementById('loading-overlay').classList.add('hidden');
                 
@@ -438,6 +400,7 @@
                 alert("로그인이 필요합니다.");
                 window.safeNavigate('../index.html');
             } else {
+                // 로그인 확인 후 시험 정보 로드 시작
                 initExam();
             }
         });

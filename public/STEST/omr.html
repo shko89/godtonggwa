@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>갓통과 - OMR 답안 제출</title>
+    <title>갓통과 - OMR 비동기 제출 테스트</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -103,7 +103,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, runTransaction, serverTimestamp, writeBatch, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, runTransaction, serverTimestamp, writeBatch, increment, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
@@ -144,6 +144,21 @@
                 alert("잘못된 접근입니다. (시험 ID 없음)");
                 window.safeNavigate('../index.html');
                 return;
+            }
+
+            // [신규 로직] 중복 제출 원천 차단벽
+            try {
+                const user = auth.currentUser;
+                if (user) {
+                    const myExamSnap = await getDoc(doc(db, "users", user.uid, "my_exams", EXAM_ID));
+                    if (myExamSnap.exists() && myExamSnap.data().status === 'graded') {
+                        alert("이미 성적 처리가 완료된 시험입니다.\n내 시험지에서 성적표와 오답 노트를 확인해 주세요.\n(정확한 백분위 통계를 위해 재제출은 차단됩니다.)");
+                        window.safeNavigate('exam.html');
+                        return;
+                    }
+                }
+            } catch(e) {
+                console.error("중복 검사 오류:", e);
             }
 
             document.getElementById('exam-id-display').innerText = EXAM_ID.toUpperCase();
@@ -247,15 +262,11 @@
 
         function calculateGrade(percentile) {
             const rank = 100 - percentile;
-            if (rank <= 4) return 1;
-            if (rank <= 11) return 2;
-            if (rank <= 23) return 3;
-            if (rank <= 40) return 4;
-            if (rank <= 60) return 5;
-            if (rank <= 77) return 6;
-            if (rank <= 89) return 7;
-            if (rank <= 96) return 8;
-            return 9;
+            if (rank <= 10) return 1;
+            if (rank <= 34) return 2;
+            if (rank <= 66) return 3;
+            if (rank <= 90) return 4;
+            return 5;
         }
 
         /**
@@ -363,58 +374,65 @@
                 
                 rawScore = Math.round(rawScore * 10) / 10;
 
-                // B. DB Transaction (채점 및 모의고사 성적 기록)
+                // B. 비동기 큐(Queue) 기반 채점 기록 [신규 아키텍처]
                 const examRef = doc(db, "exams", EXAM_ID);
                 const myResultRef = doc(db, "users", user.uid, "exam_results", EXAM_ID);
+                const myPurchaseRef = doc(db, "users", user.uid, "my_exams", EXAM_ID);
 
-                const result = await runTransaction(db, async (transaction) => {
-                    const examDoc = await transaction.get(examRef);
-                    let count = 0, sum = 0, sumSq = 0;
+                // 1. 단순 읽기(Read)로 현재 전체 통계를 가져와 "가채점" 표준점수 계산 (트랜잭션 X)
+                const examDoc = await getDoc(examRef);
+                let count = 0, sum = 0, sumSq = 0;
+                if (examDoc.exists()) {
+                    const data = examDoc.data();
+                    count = data.participantCount || 0;
+                    sum = data.totalScoreSum || 0;
+                    sumSq = data.totalScoreSqSum || 0;
+                }
 
-                    if (examDoc.exists()) {
-                        const data = examDoc.data();
-                        count = data.participantCount || 0;
-                        sum = data.totalScoreSum || 0;
-                        sumSq = data.totalScoreSqSum || 0;
-                    }
+                // 가채점을 위해 클라이언트에서 임시 계산
+                const newCount = count + 1;
+                const newSum = sum + rawScore;
+                const newSumSq = sumSq + (rawScore * rawScore);
+                
+                const mean = newSum / newCount;
+                const variance = (newSumSq / newCount) - (mean * mean);
+                const stdDev = Math.sqrt(Math.max(0, variance));
 
-                    const newCount = count + 1;
-                    const newSum = sum + rawScore;
-                    const newSumSq = sumSq + (rawScore * rawScore);
-                    
-                    const mean = newSum / newCount;
-                    const variance = (newSumSq / newCount) - (mean * mean);
-                    const stdDev = Math.sqrt(Math.max(0, variance));
+                let zScore = (stdDev > 0) ? (rawScore - mean) / stdDev : 0;
+                const standardScore = Math.round(50 + (10 * zScore));
+                const percentile = Math.round(getCumulativeProbability(zScore) * 100);
+                const grade = calculateGrade(percentile);
 
-                    let zScore = (stdDev > 0) ? (rawScore - mean) / stdDev : 0;
-                    const standardScore = Math.round(50 + (10 * zScore));
-                    const percentile = Math.round(getCumulativeProbability(zScore) * 100);
-                    const grade = calculateGrade(percentile);
-
-                    transaction.set(examRef, { 
-                        participantCount: newCount, 
-                        totalScoreSum: newSum, 
-                        totalScoreSqSum: newSumSq,
-                        lastUpdated: serverTimestamp(),
-                    }, { merge: true });
-
-                    transaction.set(myResultRef, {
-                        examId: EXAM_ID,
-                        title: EXAM_TITLE,
-                        score: rawScore,        
-                        standardScore: standardScore, 
-                        grade: grade,           
-                        percentile: percentile, 
-                        myAnswers: myAnswers,
-                        scoreMap: SCORE_MAP, 
-                        submittedAt: serverTimestamp()
-                    });
-                    
-                    const myPurchaseRef = doc(db, "users", user.uid, "my_exams", EXAM_ID);
-                    transaction.set(myPurchaseRef, { status: 'graded', score: rawScore }, { merge: true });
-
-                    return { rawScore, standardScore, grade, percentile };
+                // 2. 일괄 쓰기(Batch) - 개인 성적 기록만 저장 (서버 병목 없음)
+                const batch = writeBatch(db);
+                batch.set(myResultRef, {
+                    examId: EXAM_ID,
+                    title: EXAM_TITLE,
+                    score: rawScore,        
+                    standardScore: standardScore, // 가채점 (임시)
+                    grade: grade,           
+                    percentile: percentile, 
+                    myAnswers: myAnswers,
+                    scoreMap: SCORE_MAP, 
+                    submittedAt: serverTimestamp(),
+                    isAsyncCalculated: true // 비동기 모드 플래그
                 });
+                batch.set(myPurchaseRef, { status: 'graded', score: rawScore }, { merge: true });
+
+                // 3. 큐(Queue) 생성 - 서버(Cloud Functions)가 감지하여 전체 통계(exams) 업데이트 처리
+                const queueRef = doc(collection(db, "exam_submissions_queue"));
+                batch.set(queueRef, {
+                    examId: EXAM_ID,
+                    uid: user.uid,
+                    rawScore: rawScore,
+                    evaluatedAnswers: evaluatedAnswers,
+                    status: 'pending',
+                    createdAt: serverTimestamp()
+                });
+
+                await batch.commit();
+                
+                const result = { rawScore, standardScore, grade, percentile };
 
                 // C. [신규 로직 실행] 오답 노트 및 누적 통계 일괄 업데이트
                 document.getElementById('loading-status-text').innerHTML = "AI 채점 완료!<br>취약 단원 및 오답 노트를 분석 중입니다...";
@@ -422,7 +440,7 @@
 
                 document.getElementById('loading-overlay').classList.add('hidden');
                 
-                alert(`[채점 완료]\n\n등급: ${result.grade}등급 (상위 ${100 - result.percentile}%)\n표준점수: ${result.standardScore}\n원점수: ${result.rawScore} / 50점`);
+                alert(`[비동기 제출 완료]\n\n등급: ${result.grade}등급 (가채점)\n표준점수: ${result.standardScore}\n원점수: ${result.rawScore} / 50점\n\n전체 통계는 서버에서 1~2분 뒤 안전하게 일괄 합산됩니다.`);
                 
                 window.safeNavigate('exam.html'); 
 

@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        400;500;700;900&display=swap');
+        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         /* 스크롤바 숨기기 */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -33,10 +33,17 @@
         /* 카드 터치 효과 */
         .topic-card:active { transform: scale(0.96); }
 
+        
+        /* Premium UI */
+        .hover-lift { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #e2e8f0; }
+
         /* 애니메이션 */
         .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -54,32 +61,32 @@
         <main class="flex-1 p-4 pb-24 overflow-y-auto hide-scrollbar" id="main-list">
             </main>
 
-        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
-            <button onclick="location.href='../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 hover:text-gray-600 transition-colors">
+                        <nav id="bottom-nav" class="bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
                 <i data-lucide="home" class="w-6 h-6"></i>
-                <span class="text-[10px] font-bold">홈</span>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
             </button>
             
-            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
                 <i data-lucide="file-text" class="w-6 h-6"></i>
-                <span class="text-[10px] font-bold">시험응시</span>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
             </button>
             
             <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
                 <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
                     <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
                 </div>
-                <span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
             </button>
             
-            <button onclick="location.href='../STEST/exam.html?view=report'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
-                <span class="text-[10px] font-bold">성적분석</span>
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
             </button>
             
-            <button onclick="renderMarket()" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
                 <i data-lucide="user" class="w-6 h-6"></i>
-                <span class="text-[10px] font-bold">마이</span>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
             </button>
         </nav>
     </div>
@@ -163,29 +170,49 @@
         // 마이페이지 렌더링 함수 (index.html과 동일한 로직, 대상 ID만 조정)
         window.renderMarket = function() {
             updateNav('마이');
-            const main = document.getElementById('main-list'); // 리스트 영역을 덮어씀
+            
+            updateNav('마이');
+            let mainList = document.getElementById('main-list-wrapper');
+            let myPage = document.getElementById('mypage-view');
+            
+            if(!mainList) {
+                const listHtml = document.getElementById('main-list').innerHTML;
+                document.getElementById('main-list').innerHTML = `<div id="main-list-wrapper">${listHtml}</div><div id="mypage-view" class="hidden"></div>`;
+                mainList = document.getElementById('main-list-wrapper');
+                myPage = document.getElementById('mypage-view');
+            }
             
             const userName = userData ? userData.name : '비회원';
             let userPlan = userData && userData.isPaid ? '프리미엄' : '일반';
             const loginBtn = currentUser ? `<button onclick="handleLogout()" class="text-xs text-gray-500 underline ml-auto">로그아웃</button>` : `<button onclick="location.href='../STEST/exam.html'" class="text-xs text-indigo-600 font-bold ml-auto">로그인</button>`;
             
-            main.innerHTML = `
+            mainList.classList.add('hidden');
+            myPage.classList.remove('hidden');
+            
+            myPage.innerHTML = `
                 <div class="fade-in space-y-4 pt-10 px-2" id="mypage-user-name">
                     <h2 class="text-xl font-bold text-gray-800 flex justify-between items-center">마이페이지 ${loginBtn}</h2>
-                    <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-4 shadow-sm">
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-4 shadow-sm hover-lift">
                         <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400"><i data-lucide="user" class="w-6 h-6"></i></div>
                         <div><p class="font-bold text-lg">${userName}님</p><p class="text-xs text-gray-500">${userPlan}</p></div>
                     </div>
                     <div class="space-y-3 mt-6">
-                         <div onclick="updateUserInfo()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50"><div class="flex items-center gap-3"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i><span class="text-sm">내 정보 수정</span></div></div>
-                         <div onclick="manageSubscription()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50"><div class="flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i><span class="text-sm">이용권 관리</span></div></div>
+                         <div onclick="updateUserInfo()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 hover-lift"><div class="flex items-center gap-3"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i><span class="text-sm">내 정보 수정</span></div></div>
+                         <div onclick="manageSubscription()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 hover-lift"><div class="flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i><span class="text-sm">이용권 관리</span></div></div>
                     </div>
                     <div class="mt-8 text-center">
-                        <button onclick="location.reload()" class="text-sm text-gray-500 underline">암기장 목록으로 돌아가기</button>
+                        <button onclick="closeMyPage()" class="text-sm text-gray-500 underline hover:text-gray-800 transition">암기장 목록으로 돌아가기</button>
                     </div>
                 </div>`;
             lucide.createIcons();
         }
+        
+        window.closeMyPage = function() {
+            document.getElementById('mypage-view').classList.add('hidden');
+            document.getElementById('main-list-wrapper').classList.remove('hidden');
+            updateNav('');
+        }
+
     </script>
 
     <script>
@@ -299,7 +326,7 @@
                     <div id="content-${index}" class="accordion-content ${isOpen} bg-gray-50/50">
                         <div class="p-3 grid grid-cols-2 gap-3">
                             ${section.items.map(item => `
-                                <div onclick="location.href='${item.file}'" class="topic-card bg-white p-3 rounded-xl border border-gray-200 shadow-sm cursor-pointer flex flex-col gap-2 hover:border-indigo-200 transition-all">
+                                <div onclick="location.href='${item.file}'" class="topic-card hover-lift bg-white p-3 rounded-xl border border-gray-200 shadow-sm cursor-pointer flex flex-col gap-2 hover:border-indigo-200 transition-all">
                                     <div class="flex justify-between items-start">
                                         <div class="p-2 ${section.bg} rounded-lg ${section.text}">
                                             <i data-lucide="${item.icon}" class="w-4 h-4"></i>

@@ -153,19 +153,12 @@
 
         // 2. 등급 계산기 (상위 누적 % 기준)
         function calculateGrade(percentile) {
-            // percentile: 내 밑에 몇 %가 있는가 (예: 96이면 상위 4%)
-            // rankPercent: 상위 몇 %인가 (100 - percentile)
-            const rankPercent = 100 - percentile;
-            
-            if (rankPercent <= 4) return 1;
-            if (rankPercent <= 11) return 2;
-            if (rankPercent <= 23) return 3;
-            if (rankPercent <= 40) return 4;
-            if (rankPercent <= 60) return 5;
-            if (rankPercent <= 77) return 6;
-            if (rankPercent <= 89) return 7;
-            if (rankPercent <= 96) return 8;
-            return 9;
+            const rank = 100 - percentile;
+            if (rank <= 10) return 1;
+            if (rank <= 34) return 2;
+            if (rank <= 66) return 3;
+            if (rank <= 90) return 4;
+            return 5;
         }
 
         window.submitAnswers = async function() {

@@ -273,15 +273,11 @@
 
         function calculateGrade(percentile) {
             const rank = 100 - percentile;
-            if (rank <= 4) return 1;
-            if (rank <= 11) return 2;
-            if (rank <= 23) return 3;
-            if (rank <= 40) return 4;
-            if (rank <= 60) return 5;
-            if (rank <= 77) return 6;
-            if (rank <= 89) return 7;
-            if (rank <= 96) return 8;
-            return 9;
+            if (rank <= 10) return 1;
+            if (rank <= 34) return 2;
+            if (rank <= 66) return 3;
+            if (rank <= 90) return 4;
+            return 5;
         }
 
         window.submitAnswers = async function() {

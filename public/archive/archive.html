@@ -130,16 +130,35 @@
             
             <!-- [View 1] 시험지 목록 화면 -->
             <div id="view-exam-list" class="fade-in p-5 space-y-7">
-                <div class="premium-banner rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden mt-2">
-                    <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                <div class="bg-gradient-to-br from-indigo-900 to-indigo-700 rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden mt-2 border border-indigo-500/30">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                    
                     <div class="relative z-10 text-left">
-                        <div class="flex items-center gap-3 mb-4">
-                             <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-md border border-white/20"><i data-lucide="scroll-text" class="w-4.5 h-4.5 text-white"></i></div>
-                             <h2 class="text-2xl font-black tracking-tight text-white leading-tight">기출 해설 아카이브</h2>
+                        <div class="flex items-center gap-3 mb-6">
+                             <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-inner"><i data-lucide="award" class="w-5 h-5 text-amber-400"></i></div>
+                             <h2 class="text-2xl font-black tracking-tight text-white leading-tight">기출분석 & OMR 리포트</h2>
                         </div>
-                        <p class="text-indigo-50 text-[13px] font-medium leading-relaxed opacity-90">버스나 지하철 이동 시간, 자투리 시간을 활용해 <br>기출 문제를 한 문항씩 완벽하게 마스터하세요!</p>
-                        <div class="mt-8 flex items-center gap-2 text-[11px] font-black bg-white text-indigo-700 w-fit px-4 py-2.5 rounded-full shadow-xl">
-                            <i data-lucide="sparkles" class="w-4 h-4 text-amber-500 fill-amber-500"></i> <span>2028 통합과학 예비문항 완벽 해설</span>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3 bg-indigo-900/40 p-4 rounded-2xl border border-indigo-400/20 backdrop-blur-sm shadow-inner">
+                                <div class="bg-indigo-500/30 p-2 rounded-lg mt-0.5"><i data-lucide="bar-chart-2" class="w-4 h-4 text-white"></i></div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white mb-1 tracking-tight">실전 수능 시뮬레이션</h4>
+                                    <p class="text-indigo-100 text-xs font-medium leading-relaxed opacity-90 break-keep">종이 시험지처럼 OMR 카드를 제출하고, 전체 응시자 중 나의 위치를 정밀 분석한 <strong class="text-amber-300">프리미엄 성적 리포트</strong>를 받아보세요.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 bg-indigo-900/40 p-4 rounded-2xl border border-indigo-400/20 backdrop-blur-sm shadow-inner">
+                                <div class="bg-indigo-500/30 p-2 rounded-lg mt-0.5"><i data-lucide="book-open" class="w-4 h-4 text-white"></i></div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white mb-1 tracking-tight">스마트 기출 학습</h4>
+                                    <p class="text-indigo-100 text-xs font-medium leading-relaxed opacity-90 break-keep">언제 어디서나 자투리 시간을 활용해 기출문제를 한 문항씩 완벽한 해설과 함께 스마트하게 마스터하세요!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex items-center gap-2 text-[11px] font-black bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 w-fit px-4 py-2.5 rounded-full shadow-lg">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-amber-900"></i> <span>2028 통합과학 예시문항 OMR 진행 중</span>
                         </div>
                     </div>
                 </div>
@@ -151,13 +170,20 @@
             </div>
 
             <!-- [View 2] 문항 선택 그리드 -->
-            <div id="view-num-grid" class="hidden fade-in p-6">
-                <div class="bg-indigo-50/50 rounded-[32px] p-7 border border-indigo-100/50 mb-7 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
+            <div id="view-num-grid" class="hidden fade-in p-6 pb-32">
+                <div class="bg-indigo-50/50 rounded-[32px] p-7 border border-indigo-100/50 mb-7 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-indigo-500 opacity-5 rounded-full -mr-10 -mt-10 blur-xl pointer-events-none"></div>
+                    <div class="flex items-center gap-2 mb-1 relative z-10">
                         <span class="bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">Exam Board</span>
                         <h3 id="grid-title" class="text-xl font-black text-gray-900 tracking-tight leading-tight">-</h3>
                     </div>
-                    <p class="text-[13px] text-gray-500 font-medium">학습을 원하는 문항 번호를 선택해 주세요.</p>
+                    <p class="text-[13px] text-gray-500 font-medium relative z-10 mb-5">학습을 원하는 문항 번호를 선택해 주세요.</p>
+                    
+                    <!-- NEW: OMR 입력 버튼 -->
+                    <button onclick="handleArchiveOMRClick()" id="btn-archive-omr" class="relative z-10 w-full bg-gradient-to-r from-gray-900 to-gray-800 text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-all border border-gray-700">
+                        <i data-lucide="edit-3" class="w-5 h-5 text-indigo-300"></i>
+                        <span class="tracking-tight text-[13px]">OMR 카드 입력 및 성적 분석</span>
+                    </button>
                 </div>
                 <div id="num-grid" class="grid grid-cols-5 gap-4 pb-24"></div>
             </div>
@@ -230,12 +256,33 @@
             </div>
         </main>
 
-        <nav id="bottom-nav" class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
-            <button onclick="location.href='../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1"><i data-lucide="home" class="w-6 h-6"></i><span class="text-[10px] font-bold">홈</span></button>
-            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1"><i data-lucide="file-text" class="w-6 h-6"></i><span class="text-[10px] font-bold">시험응시</span></button>
-            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group"><div class="bg-gray-900 p-4 rounded-full shadow-lg border-4 border-white"><i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i></div><span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span></button>
-            <button onclick="location.href='../STEST/exam.html?view=report'" class="nav-btn text-gray-400 flex flex-col items-center gap-1"><i data-lucide="bar-chart-2" class="w-6 h-6"></i><span class="text-[10px] font-bold">성적분석</span></button>
-            <button onclick="location.href='../index.html?view=market'" class="nav-btn text-gray-400 flex flex-col items-center gap-1"><i data-lucide="user" class="w-6 h-6"></i><span class="text-[10px] font-bold">마이</span></button>
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
+            </button>
+            
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+            </button>
+            
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+            </button>
+            
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-indigo-600 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+            </button>
+            
+            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
+            </button>
         </nav>
     </div>
 
@@ -261,8 +308,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
@@ -271,7 +318,7 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         const RENDERING_QUALITY = 3.5;
-        const EXAM_META = { "2028_pretest": { title: "2028 통합과학 예비문항", pdfFile: "2028_pretest.pdf" }, "2024_11": { title: "2024학년도 수능 기출", pdfFile: "2024_11.pdf" } };
+        let EXAM_META = {};
 
         let currentExamId = null, currentQNum = 0, pdfDoc = null, examCoords = {}, currentStep = 1, aiExamData = null; 
         let scale = 1, fitScale = 1, translateX = 0, translateY = 0, lastX = 0, lastY = 0, initialDist = 0;
@@ -282,7 +329,17 @@
         const zoomInfo = document.getElementById('solve-zoom-info');
         const zoomResetBtn = document.getElementById('solve-zoom-reset');
 
-        signInAnonymously(auth).then(() => renderExamList());
+        let authInitialized = false;
+        onAuthStateChanged(auth, (user) => {
+            if (!authInitialized) {
+                authInitialized = true;
+                if (!user) {
+                    signInAnonymously(auth).then(() => renderExamList());
+                } else {
+                    renderExamList();
+                }
+            }
+        });
 
         function loadExamDataScript(examId) {
             return new Promise((resolve) => {
@@ -293,23 +350,71 @@
             });
         }
 
-        function renderExamList() {
-            const container = document.getElementById('exam-list-container'); container.innerHTML = '';
-            Object.keys(EXAM_META).forEach(id => {
-                const exam = EXAM_META[id];
-                const btn = document.createElement('button');
-                btn.className = "bg-white border border-gray-100 p-6 rounded-[28px] text-left hover:border-indigo-400 shadow-sm active:scale-[0.97] group mb-2 w-full transition-all";
-                btn.innerHTML = `<div class="flex justify-between items-center mb-1"><span class="text-[10px] font-black text-indigo-500 tracking-widest uppercase opacity-60">High Performance</span><i data-lucide="chevron-right" class="w-5 h-5 text-gray-300"></i></div><h4 class="font-black text-gray-900 text-xl tracking-tight leading-tight">${exam.title}</h4>`;
-                btn.onclick = () => selectExam(id); container.appendChild(btn);
-            });
-            lucide.createIcons();
+        async function renderExamList() {
+            const container = document.getElementById('exam-list-container');
+            container.innerHTML = '<div class="text-center text-sm text-gray-500 py-10">기출문제를 불러오는 중입니다...</div>';
+            
+            try {
+                const q = query(collection(db, "public_exams"), where("type", "==", "past"));
+                const snap = await getDocs(q);
+                
+                let fetchedExams = [];
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    let artifactId = doc.id;
+                    if (doc.id === 'past_예비문항') artifactId = '2028_pretest';
+                    
+                    fetchedExams.push({
+                        id: doc.id,
+                        orderId: data.id || 0,
+                        title: data.title || doc.id,
+                        pdfFile: artifactId + ".pdf",
+                        artifactId: artifactId
+                    });
+                });
+                
+                fetchedExams.sort((a, b) => a.orderId - b.orderId);
+                
+                EXAM_META = {};
+                fetchedExams.forEach(exam => {
+                    EXAM_META[exam.id] = { title: exam.title, pdfFile: exam.pdfFile, artifactId: exam.artifactId };
+                });
+                
+                if (Object.keys(EXAM_META).length === 0) {
+                    EXAM_META = { "2028_pretest": { title: "2028 통합과학 예비문항", pdfFile: "2028_pretest.pdf" }, "2024_11": { title: "2024학년도 수능 기출", pdfFile: "2024_11.pdf" } };
+                }
+
+                container.innerHTML = '';
+                Object.keys(EXAM_META).forEach(id => {
+                    const exam = EXAM_META[id];
+                    const btn = document.createElement('button');
+                    btn.className = "bg-white border border-gray-100 p-6 rounded-[28px] text-left hover:border-indigo-400 shadow-sm active:scale-[0.97] group mb-2 w-full transition-all";
+                    btn.innerHTML = `<div class="flex justify-between items-center mb-1"><span class="text-[10px] font-black text-indigo-500 tracking-widest uppercase opacity-60">High Performance</span><i data-lucide="chevron-right" class="w-5 h-5 text-gray-300"></i></div><h4 class="font-black text-gray-900 text-xl tracking-tight leading-tight">${exam.title}</h4>`;
+                    btn.onclick = () => selectExam(id); container.appendChild(btn);
+                });
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Failed to fetch past exams:", err);
+                container.innerHTML = '<div class="text-center text-sm text-red-400 py-10">데이터를 불러오지 못했습니다. (' + err.message + ')</div>';
+            }
         }
+
+        window.handleArchiveOMRClick = () => {
+            const user = auth.currentUser;
+            if(!user || user.isAnonymous) {
+                alert("로그인이 필요한 서비스입니다. OMR을 제출하고 성적을 분석하려면 로그인해 주세요.");
+                location.href = '../index.html';
+                return;
+            }
+            location.href = '../STEST/omr.html?id=' + currentExamId;
+        };
 
         window.selectExam = async (id) => {
             document.getElementById('loading').classList.remove('hidden');
             currentExamId = id;
             try {
-                const [docSnap, loadedAiData] = await Promise.all([getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', id)), loadExamDataScript(id)]);
+                const artifactId = EXAM_META[id].artifactId || id;
+                const [docSnap, loadedAiData] = await Promise.all([getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', artifactId)), loadExamDataScript(artifactId)]);
                 if (!docSnap.exists()) throw new Error("좌표 데이터가 없습니다.");
                 examCoords = docSnap.data().coords; aiExamData = loadedAiData;
                 pdfDoc = await pdfjsLib.getDocument(EXAM_META[id].pdfFile).promise;

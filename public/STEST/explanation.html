@@ -231,7 +231,7 @@
             }
         }
 
-        window.selectQuestion = (no, btnElement) => {
+        window.selectQuestion = async (no, btnElement) => {
             document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
             btnElement.classList.add('btn-selected');
 
@@ -246,6 +246,70 @@
             const qNumTitle = document.getElementById('note-q-number');
             
             noteArea.style.opacity = 0;
+
+            // [추가] 데이터베이스에서 문항 통계 및 학생 오답 여부 로드
+            let statsHtml = '';
+            const user = auth.currentUser;
+            if (dbQ && dbQ.qId) {
+                try {
+                    const [qSnap, wrongSnap] = await Promise.all([
+                        getDoc(doc(db, "questions", dbQ.qId)),
+                        user ? getDoc(doc(db, "users", user.uid, "wrong_answers", dbQ.qId)) : Promise.resolve(null)
+                    ]);
+                    
+                    let qData = qSnap.exists() ? qSnap.data() : null;
+                    let wData = wrongSnap && wrongSnap.exists() ? wrongSnap.data() : null;
+                    
+                    if (qData && qData.stats) {
+                        const totalAttempts = qData.stats.totalAttempts || 0;
+                        const correctCount = qData.stats.correctCount || 0;
+                        if (totalAttempts > 0) {
+                            const correctRate = Math.round((correctCount / totalAttempts) * 100);
+                            let diagnosis = "";
+                            let diagColor = "";
+                            
+                            if (correctRate >= 70) {
+                                diagnosis = "다수의 학생들이 맞춘 <b>기본 개념 문항</b>입니다. 만약 틀렸다면 기초 복습이 시급합니다!";
+                                diagColor = "text-green-800 bg-green-50 border-green-300";
+                            } else if (correctRate >= 40) {
+                                diagnosis = "개념의 정확한 적용을 묻는 <b>핵심 문항</b>입니다. 헷갈린 선지가 있다면 반드시 짚고 넘어가세요.";
+                                diagColor = "text-yellow-800 bg-yellow-50 border-yellow-300";
+                            } else {
+                                diagnosis = "오답률이 높은 <b>킬러 문항</b>입니다! 좌절하지 말고 출제자의 의도를 파악해 보세요.";
+                                diagColor = "text-red-800 bg-red-50 border-red-300";
+                            }
+                            
+                            statsHtml += `
+                                <div class="mb-6 p-5 rounded-2xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="text-2xl">📊</span>
+                                        <h3 class="font-bold text-lg">전체 응시자 정답률: ${correctRate}%</h3>
+                                    </div>
+                                    <p class="text-[15px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
+                            `;
+                            
+                            if (wData && qData.distractorStats) {
+                                const myMark = wData.studentMark;
+                                const distCount = qData.distractorStats[myMark] || 0;
+                                const distRate = Math.round((distCount / totalAttempts) * 100);
+                                if (myMark > 0 && myMark !== wData.correctAnswer) {
+                                    statsHtml += `
+                                        <div class="mt-4 pt-3 border-t border-black/10 flex items-start gap-2">
+                                            <span class="text-xl">🚨</span>
+                                            <p class="text-[15px]">
+                                                <b>매력적인 오답 경보:</b> 내가 고른 <b>${myMark}번</b> 선지는 전체 응시자의 <b>${distRate}%</b>가 낚인 함정이었습니다. 당신만 틀린 게 아니에요!
+                                            </p>
+                                        </div>
+                                    `;
+                                }
+                            }
+                            statsHtml += `</div>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error("통계 로딩 중 오류:", e);
+                }
+            }
             
             setTimeout(() => {
                 qNumTitle.innerHTML = `<span class="text-indigo-600 mr-2">Q${no}.</span>${topic}`;
@@ -255,11 +319,11 @@
                     <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-xs font-bold">정답 ${dbQ.correctAnswer || '-'}</span>
                 `;
                 
-                // [수정] 하단 잘림 방지를 위해 pb-32 추가
-                noteArea.innerHTML = `<div class="handwriting leading-[30px] pt-2 pb-32">${content}</div>`;
+                // [수정] 하단 잘림 방지를 위해 pb-32 추가 및 통계 HTML 삽입
+                noteArea.innerHTML = statsHtml + `<div class="handwriting leading-[30px] pt-2 pb-32">${content}</div>`;
                 noteArea.style.opacity = 1;
                 noteArea.style.transition = "opacity 0.3s ease-in-out";
-            }, 150);
+            }, 50);
         };
     </script>
 </body>

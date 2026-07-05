@@ -91,33 +91,12 @@
         </div>
 
         <div class="flex space-x-1 bg-gray-900 p-1 rounded-xl overflow-x-auto no-scrollbar">
-            <button onclick="switchAdminTab('round')" id="btn-tab-round" class="flex-1 py-2 rounded-lg text-sm font-bold bg-gray-700 text-white shadow transition-all whitespace-nowrap px-4">회차 관리</button>
+            <button onclick="switchAdminTab('package')" id="btn-tab-package" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">패키지 관리</button>
             <button onclick="switchAdminTab('exam')" id="btn-tab-exam" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">모의고사 관리</button>
             <button onclick="switchAdminTab('question')" id="btn-tab-question" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">문항 은행</button>
             <button onclick="switchAdminTab('user')" id="btn-tab-user" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">사용자 관리</button>
+            <button onclick="switchAdminTab('order')" id="btn-tab-order" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">주문 관리</button>
             <button onclick="switchAdminTab('v2')" id="btn-tab-v2" class="flex-1 py-2 rounded-lg text-sm font-bold text-amber-400 hover:text-amber-300 transition-all whitespace-nowrap px-4 border border-amber-500/30">V2 퀴즈DB</button>
-        </div>
-
-        <!-- 1. 회차 관리 섹션 -->
-        <div id="section-round" class="admin-section">
-            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
-                <h2 class="text-sm font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4 text-indigo-400"></i> 회차 진행 관리</h2>
-                <div class="flex items-center justify-center gap-1 mb-4">
-                    <span id="current-round-display" class="text-5xl font-black text-indigo-400">-</span>
-                    <span class="text-lg text-gray-500 font-bold mt-3">회</span>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="updateRound(-1)" class="bg-gray-800 hover:bg-gray-700 text-white py-3 rounded-xl font-bold text-sm transition-colors border border-gray-600">
-                        -1 회차
-                    </button>
-                    <button onclick="updateRound(1)" class="bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-bold text-sm transition-colors shadow-lg">
-                        +1 회차
-                    </button>
-                </div>
-                <p class="text-xs text-gray-500 mt-4 text-center">
-                    현재 회차까지 '지난 시험'으로, 다음 회차는 '접수 중'으로 표시됩니다.
-                </p>
-            </div>
         </div>
 
         <!-- 2. 모의고사 관리 섹션 -->
@@ -137,9 +116,9 @@
                     <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
                 </div>
 
-                <div class="pt-4 border-t border-gray-800">
+                <div class="pt-4 border-t border-gray-800 space-y-3">
                     <button onclick="batchUpdateYear()" class="w-full py-3 bg-emerald-900/30 hover:bg-emerald-900/50 border border-emerald-800 text-emerald-400 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2">
-                        <i data-lucide="refresh-cw" class="w-3 h-3"></i> 모든 데이터의 '2024'를 '2026'으로 일괄 변경
+                        <i data-lucide="refresh-cw" class="w-3 h-3"></i> 전체 모의고사 '2024'를 '2026'으로 일괄 변경
                     </button>
                 </div>
             </div>
@@ -202,28 +181,25 @@
                     </div>
 
                     <div class="mb-6 bg-gray-800 p-4 rounded-xl border border-gray-600">
-                        <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">멤버십 권한 일괄 변경</h3>
-                        <div class="flex items-center justify-between">
-                            <span id="manage-user-status" class="inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300">Free</span>
-                            <div class="flex gap-2">
-                                <button onclick="updateUserPaidStatus(false)" class="text-xs border border-gray-500 text-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-700 transition-colors">무료로 전환</button>
-                                <button onclick="updateUserPaidStatus(true)" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg font-bold hover:bg-indigo-50 transition-colors">유료로 전환</button>
-                            </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xs font-bold text-gray-400 uppercase">유저 보유 패키지 현황</h3>
                         </div>
-                    </div>
-
-                    <h3 class="text-xs font-bold text-gray-400 mb-3 uppercase flex items-center gap-2">
-                        <i data-lucide="check-circle-2" class="w-3 h-3"></i> 회차별 권한 관리
-                    </h3>
-                    <div id="user-exam-list" class="space-y-2 max-h-[350px] overflow-y-auto hide-scrollbar mb-6">
-                        <p class="text-center text-gray-500 text-xs py-4">목록을 불러오는 중...</p>
+                        <div id="user-packages-list" class="space-y-2 max-h-[300px] overflow-y-auto hide-scrollbar mb-4">
+                            <p class="text-center text-gray-500 text-xs py-4">조회 중...</p>
+                        </div>
+                        <div class="pt-3 border-t border-gray-700 flex gap-2">
+                            <select id="grant-package-select" class="flex-1 bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-xs text-white focus:border-indigo-500 outline-none">
+                                <option value="">패키지 선택...</option>
+                            </select>
+                            <button onclick="grantPackageToUser()" class="text-xs bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-indigo-500 transition-colors whitespace-nowrap">수동 지급</button>
+                        </div>
                     </div>
 
                     <div class="pt-6 border-t border-gray-700">
                         <h3 class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
                             <i data-lucide="alert-triangle" class="w-3 h-3"></i> 위험 구역 (데이터 삭제)
                         </h3>
-                        <div class="bg-red-900/10 p-3 rounded-xl border border-red-900/30">
+                        <div class="bg-red-900/10 p-3 rounded-xl border border-red-900/30 mb-4">
                             <div class="flex gap-2">
                                 <input type="text" id="reset-exam-id" class="flex-1 px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:border-red-500 outline-none text-white text-sm" placeholder="삭제할 시험 ID (예: exam_01)">
                                 <button onclick="resetUserExamData()" class="bg-red-900/50 hover:bg-red-900 border border-red-800 text-red-200 px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-colors">
@@ -239,7 +215,37 @@
             </div>
         </div>
 
-        <!-- 5. V2 문제 관리 섹션 -->
+        <!-- 패키지 관리 섹션 -->
+        <div id="section-package" class="admin-section hidden">
+            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i> 패키지 상품 관리</h2>
+                    <div class="flex gap-2">
+                        <button onclick="openPackageEditModal()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1">
+                            <i data-lucide="plus" class="w-3 h-3"></i> 새 패키지 만들기
+                        </button>
+                        <button onclick="loadPackages()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg border border-gray-600 transition-colors text-white">새로고침</button>
+                    </div>
+                </div>
+                <div id="package-list-container" class="space-y-3 max-h-[600px] overflow-y-auto hide-scrollbar">
+                    <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 주문 관리 섹션 -->
+        <div id="section-order" class="admin-section hidden">
+            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="package" class="w-4 h-4 text-emerald-400"></i> 패키지 주문 내역</h2>
+                    <button onclick="loadOrders()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg border border-gray-600 transition-colors text-white">새로고침</button>
+                </div>
+                <div id="order-list-container" class="space-y-3 max-h-[600px] overflow-y-auto hide-scrollbar">
+                    <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
+                </div>
+            </div>
+        </div>
+
         <div id="section-v2" class="admin-section hidden">
             <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 border border-amber-500/30">
                 <div class="flex justify-between items-center mb-6">
@@ -250,7 +256,6 @@
                         <p class="text-xs text-amber-200/60 mt-1">총 <span id="v2-total-count" class="font-bold text-white">0</span>개의 문제가 등록되어 있습니다.</p>
                     </div>
                     <div class="flex gap-2">
-                        <!-- 버튼 기능 변경: 데이터 업로드 기능은 유지하되 데이터는 파일에서 제거 -->
                         <button onclick="seedV2Database()" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 border border-gray-600">
                             <i data-lucide="upload-cloud" class="w-3 h-3"></i> 테스트 데이터 업로드 (예시)
                         </button>
@@ -312,6 +317,60 @@
             </div>
         </div>
     </div>
+    <!-- 모달: 패키지 정보 수정 -->
+    <div id="package-edit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[70] hidden p-4">
+        <div class="bg-gray-800 w-full max-w-sm rounded-2xl p-6 border border-gray-600 shadow-2xl">
+            <h3 class="text-lg font-bold text-white mb-4">패키지 설정</h3>
+            <div class="space-y-4">
+                <input type="hidden" id="pkg-doc-id">
+                <div id="pkg-id-container">
+                    <label class="block text-xs font-bold text-gray-400 mb-1">패키지 ID (영문/숫자 조합)</label>
+                    <input type="text" id="pkg-id-input" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white" placeholder="예: pkg_season1">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1">패키지 제목</label>
+                    <input type="text" id="pkg-title" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white" placeholder="예: 시즌 1: 기출 완벽 분석">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1">가격 (숫자만)</label>
+                    <input type="number" id="pkg-price" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white" placeholder="예: 36000">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1">상태</label>
+                    <select id="pkg-status" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white">
+                        <option value="active">활성화 (판매중)</option>
+                        <option value="inactive">비활성화 (판매중지)</option>
+                    </select>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-bold text-gray-400">포함할 모의고사 목록</label>
+                        <button onclick="openPackageExamsModal()" class="text-[10px] bg-indigo-600 text-white px-2 py-0.5 rounded">시험 선택</button>
+                    </div>
+                    <div id="pkg-selected-exams" class="text-xs text-indigo-300 bg-gray-900/50 p-2 rounded-lg break-words min-h-[30px]">
+                        선택된 모의고사가 없습니다.
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-2 mt-6">
+                <button onclick="closePackageEditModal()" class="flex-1 py-2.5 bg-gray-700 text-gray-300 rounded-xl text-sm font-bold hover:bg-gray-600 transition-colors">취소</button>
+                <button onclick="savePackageData()" class="flex-1 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-bold hover:bg-emerald-500 transition-colors">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 패키지에 포함할 시험 선택 -->
+    <div id="package-exams-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-[80] hidden p-4">
+        <div class="bg-gray-800 w-full max-w-md rounded-2xl p-6 border border-gray-600 shadow-2xl flex flex-col max-h-[80vh]">
+            <h3 class="text-lg font-bold text-white mb-4">모의고사 다중 선택</h3>
+            <div id="pkg-exams-checkbox-list" class="flex-1 overflow-y-auto space-y-2 hide-scrollbar mb-4">
+                <!-- 자바스크립트로 체크박스 목록 렌더링 -->
+            </div>
+            <div class="flex gap-2 mt-auto">
+                <button onclick="closePackageExamsModal()" class="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-500 transition-colors">완료</button>
+            </div>
+        </div>
+    </div>
 
     <!-- 모달: 시험 정보 수정 -->
     <div id="edit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[70] hidden p-4">
@@ -321,7 +380,14 @@
             <div class="space-y-3">
                 <div id="edit-id-container">
                     <label class="text-xs text-gray-400 block mb-1">시험 ID (필수)</label>
-                    <input id="edit-id-input" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: exam_01">
+                    <input id="edit-id-input" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: exam_01 / past_2406">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">유형 (Type)</label>
+                    <select id="edit-type" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none">
+                        <option value="premium">갓통과 프리미엄 (Premium)</option>
+                        <option value="past">기출 모의고사 (Past)</option>
+                    </select>
                 </div>
                 
                 <div>
@@ -331,10 +397,6 @@
                 <div>
                     <label class="text-xs text-gray-400 block mb-1">부제목 (SubTitle)</label>
                     <input id="edit-subtitle" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="text-xs text-gray-400 block mb-1">가격 (Price)</label>
-                    <input type="number" id="edit-price" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none">
                 </div>
                 <div>
                     <label class="text-xs text-gray-400 block mb-1">시행 날짜 (Date)</label>
@@ -458,6 +520,11 @@
                     </div>
                 </div>
                 
+                <div class="mb-4">
+                    <label class="text-xs text-gray-400 block mb-1">해시태그 (Tags) - 선택사항</label>
+                    <input type="text" id="q-tags" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="쉼표(,)로 구분해 입력. 예: 그래프해석, 기출변형">
+                </div>
+                
                 <div class="bg-gray-700/30 p-3 rounded-lg border border-gray-600">
                     <p class="text-xs font-bold text-gray-400 mb-2">누적 통계 (자동 계산)</p>
                     <div class="grid grid-cols-3 gap-2 text-center text-xs">
@@ -504,8 +571,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        let currentRound = 0;
-        let unsubscribe = null;
         let searchedUserUid = null; 
         let tempExamQuestions = Array(25).fill(null);
         let v2CurrentFilter = 'all'; 
@@ -531,32 +596,11 @@
             unit_11: '11. 과학과 미래'
         };
 
-        // =========================================================================================
-        // [수정] 550개의 시드 데이터 제거 (DB에 이미 업로드 완료)
-        // 용량 최적화를 위해 예시 문항 1개만 남겨둡니다.
-        // 나중에 다시 대량 업로드가 필요하면 이 배열에 데이터를 채워넣고 seedV2Database 함수를 사용하세요.
-        // =========================================================================================
-        // =========================================================================================
-        // [수정] 2028 통합과학 '3. 물질과 규칙성' 50문항 데이터 (단원: unit_03)
-        // =========================================================================================
-        // =========================================================================================
-        // [수정] 2028 통합과학 '4. 지구 시스템' 50문항 데이터 (단원: unit_04)
-        // =========================================================================================
-        // =========================================================================================
-        // [수정] 2028 통합과학 '5. 역학적 시스템' 50문항 데이터 (단원: unit_05)
-        // =========================================================================================
-        // =========================================================================================
-        // [수정] 2028 통합과학 '6. 생명 시스템' 50문항 데이터 (단원: unit_06)
-        // =========================================================================================
-            const V2_SEED_DATA = [
-             ];
+        const V2_SEED_DATA = [];
 
-        // [수정] DB 초기화(삭제) 후 데이터 등록 함수
-        // [수정] DB '추가' 업로드 함수 (삭제 로직 제거됨)
         window.seedV2Database = async () => {
             const btn = document.querySelector('button[onclick="seedV2Database()"]');
             
-            // 안내 메시지 변경 (덮어쓰기가 아님을 명시)
             if(!confirm(`✅ 확인\n\n기존 데이터를 유지하고,\n새로운 ${V2_SEED_DATA.length}개 문항을 '추가'합니다.\n(Unit 2 원소의 형성)\n\n계속하시겠습니까?`)) return;
 
             btn.disabled = true;
@@ -565,14 +609,6 @@
             try {
                 const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
                 const batchLimit = 400; 
-
-                // ----------------------------------------------------
-                // [변경] 삭제 단계(Delete Phase) 삭제됨
-                // ----------------------------------------------------
-
-                // ----------------------------------------------------
-                // 데이터 추가 단계 (Upload Phase)
-                // ----------------------------------------------------
                 const bulkData = [...V2_SEED_DATA];
                 let uploadedCount = 0;
 
@@ -581,7 +617,6 @@
                     const chunk = bulkData.slice(i, i + batchLimit);
                     
                     chunk.forEach((item) => {
-                        // doc()을 호출하여 자동으로 새로운 랜덤 ID 생성 -> 기존 데이터와 겹치지 않음
                         const newDocRef = doc(colRef);
                         batch.set(newDocRef, {
                             unitId: item.u,
@@ -599,7 +634,6 @@
 
                 alert(`성공!\n- ${uploadedCount}개의 새로운 문항이 DB에 추가되었습니다.`);
                 
-                // 완료 후 2단원으로 필터 변경하여 보여주기
                 const v2TabBtn = document.getElementById('btn-tab-v2');
                 if(v2TabBtn) v2TabBtn.click();
                 setTimeout(() => window.loadV2Questions('unit_11'), 500);
@@ -636,8 +670,7 @@
                         deniedContainer.classList.add('hidden');
                         adminContainer.classList.remove('hidden');
                         document.getElementById('admin-badge').innerText = user.email;
-                        if (!unsubscribe) initAdminListener();
-                        window.loadExamList();
+                        window.switchAdminTab('package');
                         createV2Filters();
                     } else {
                         loginContainer.classList.add('hidden');
@@ -662,7 +695,7 @@
         window.switchAdminTab = (tabName) => {
             document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`section-${tabName}`).classList.remove('hidden');
-            ['round', 'exam', 'user', 'question', 'v2'].forEach(t => {
+            ['exam', 'package', 'user', 'question', 'v2', 'order'].forEach(t => {
                 const btn = document.getElementById(`btn-tab-${t}`);
                 if (!btn) return;
                 if (t === tabName) {
@@ -673,7 +706,9 @@
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold bg-gray-700 text-white shadow whitespace-nowrap";
                     }
                     if(t === 'exam') window.loadExamList();
+                    if(t === 'package') window.loadPackages();
                     if(t === 'question') window.loadQuestionsList();
+                    if(t === 'order') window.loadOrders();
                 } else {
                     if (t === 'v2') {
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold text-amber-500 hover:text-amber-400 border border-amber-500/30 whitespace-nowrap";
@@ -719,7 +754,6 @@
                     const d = doc.data();
                     const unitLabel = UNIT_NAMES[d.unitId] || d.unitId;
                     
-                    // [변경] 리스트 UI: OX 색상 대신 텍스트 표시
                     html += `<div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-colors group">
                             <div class="flex justify-between items-start mb-2">
                                 <span class="text-[10px] bg-gray-700 text-gray-300 px-2 py-0.5 rounded font-mono">${unitLabel}</span>
@@ -745,7 +779,6 @@
             document.getElementById('v2-doc-id').value = docId || '';
             document.getElementById('v2-q').value = '';
             document.getElementById('v2-exp').value = '';
-            // [변경] 정답 초기화
             document.getElementById('v2-a').value = '';
             
             if(v2CurrentFilter !== 'all') document.getElementById('v2-unit-id').value = v2CurrentFilter;
@@ -766,20 +799,16 @@
 
         window.closeV2Modal = () => document.getElementById('v2-edit-modal').classList.add('hidden');
         
-        // [변경] 정답 입력 처리 (텍스트 인풋이므로 setV2Answer 함수는 제거하거나 사용하지 않음)
-        // 기존 버튼 방식의 setV2Answer 제거됨
-
         window.saveV2Question = async () => {
             const docId = document.getElementById('v2-doc-id').value;
             const unitId = document.getElementById('v2-unit-id').value;
             const q = document.getElementById('v2-q').value;
-            const a = document.getElementById('v2-a').value; // [변경] 텍스트 값
+            const a = document.getElementById('v2-a').value;
             const exp = document.getElementById('v2-exp').value;
             
             if(!q || !a) return alert("문제와 정답을 입력하세요.");
 
             const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
-            // [변경] type: 'blank'로 저장
             const data = { unitId, q, a, exp, type: 'blank', createdAt: new Date().toISOString() };
             try {
                 if(docId) await updateDoc(doc(colRef, docId), data);
@@ -794,14 +823,6 @@
             if(!confirm("삭제?")) return;
             try { await deleteDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', id)); window.loadV2Questions(v2CurrentFilter); } catch(e) { alert("삭제 실패"); }
         };
-
-        function initAdminListener() {
-            unsubscribe = onSnapshot(doc(db, "settings", "global"), (docSnapshot) => {
-                if (docSnapshot.exists()) { currentRound = docSnapshot.data().latestRound || 0; document.getElementById('current-round-display').innerText = currentRound; }
-                else { document.getElementById('current-round-display').innerText = "0"; currentRound = 0; setDoc(doc(db, "settings", "global"), { latestRound: 0 }, { merge: true }); }
-            });
-        }
-
         document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             const btnText = document.getElementById('btn-text');
@@ -811,17 +832,8 @@
             catch (error) { alert("로그인 실패: " + error.message); btnText.textContent = "로그인"; btnSpinner.classList.add('hidden'); }
         });
 
-        window.logout = () => { if (unsubscribe) unsubscribe(); signOut(auth); };
+        window.logout = () => { signOut(auth); };
         window.forceLogout = () => signOut(auth);
-        
-        window.updateRound = async (delta) => { 
-            const newValue = currentRound + delta; 
-            if(newValue < 0 || newValue > 24) return alert("범위 초과"); 
-            if(confirm("변경하시겠습니까?")) { 
-                try { document.getElementById('current-round-display').innerText = newValue; currentRound = newValue; await setDoc(doc(db, "settings", "global"), { latestRound: newValue }, { merge: true }); }
-                catch(e) { alert("오류: "+e.message); } 
-            } 
-        };
 
         window.loadExamList = async () => {
             const container = document.getElementById('exam-list-container');
@@ -848,13 +860,307 @@
             } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
         };
 
-        // 문항 은행 로딩 및 그룹화 로직 보완
+        let tempPackageExams = []; 
+        let allPublicExamsData = []; 
+
+        window.loadPackages = async () => {
+            const container = document.getElementById('package-list-container');
+            container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
+            try {
+                const snapshot = await getDocs(query(collection(db, "packages")));
+                if (snapshot.empty) { container.innerHTML = '<p class="text-center text-gray-500 text-xs">등록된 패키지가 없습니다.</p>'; return; }
+                let html = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const examCount = data.exams ? data.exams.length : 0;
+                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-indigo-500/50 transition-colors">
+                            <div class="flex-1 min-w-0 mr-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="bg-indigo-900/50 text-indigo-300 text-[10px] px-1.5 py-0.5 rounded border border-indigo-800 font-mono">${doc.id}</span>
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded ${data.status === 'active' ? 'bg-emerald-900 text-emerald-300' : 'bg-red-900 text-red-300'} font-bold">${data.status === 'active' ? '판매중' : '판매중지'}</span>
+                                </div>
+                                <h4 class="text-sm font-bold text-white truncate mb-1">${data.title}</h4>
+                                <p class="text-xs text-gray-400">포함된 모의고사: <strong class="text-indigo-300">${examCount}개</strong> | 가격: ${data.price?.toLocaleString()}원</p>
+                            </div>
+                            <button onclick="openPackageEditModal('${doc.id}')" class="p-2 bg-gray-700 hover:bg-indigo-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        </div>`;
+                });
+                container.innerHTML = html; lucide.createIcons();
+            } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
+        };
+
+        window.openPackageEditModal = async (docId = null) => {
+            const idContainer = document.getElementById('pkg-id-container');
+            safeSetValue('pkg-doc-id', docId || '');
+            safeSetValue('pkg-id-input', '');
+            safeSetValue('pkg-title', '');
+            safeSetValue('pkg-price', 36000);
+            safeSetValue('pkg-status', 'active');
+            tempPackageExams = [];
+            window.updatePackageExamsUI();
+
+            if (docId) {
+                idContainer.classList.add('hidden');
+                try {
+                    const docSnap = await getDoc(doc(db, "packages", docId));
+                    if (docSnap.exists()) {
+                        const d = docSnap.data();
+                        safeSetValue('pkg-title', d.title || '');
+                        safeSetValue('pkg-price', d.price || 0);
+                        safeSetValue('pkg-status', d.status || 'active');
+                        tempPackageExams = d.exams || [];
+                        window.updatePackageExamsUI();
+                    }
+                } catch(e) { alert("로드 실패"); return; }
+            } else { 
+                idContainer.classList.remove('hidden');
+            }
+
+            try {
+                const examsSnap = await getDocs(query(collection(db, "public_exams"), orderBy("id", "asc")));
+                allPublicExamsData = [];
+                examsSnap.forEach(d => { allPublicExamsData.push({ id: d.id, ...d.data() }); });
+            } catch(e) { console.error("시험 목록 로드 실패", e); }
+
+            document.getElementById('package-edit-modal').classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.closePackageEditModal = () => document.getElementById('package-edit-modal').classList.add('hidden');
+
+        window.updatePackageExamsUI = () => {
+            const container = document.getElementById('pkg-selected-exams');
+            if(tempPackageExams.length === 0) {
+                container.innerHTML = "선택된 모의고사가 없습니다.";
+                return;
+            }
+            container.innerHTML = tempPackageExams.map(eid => `<span class="inline-block bg-indigo-900/80 text-indigo-200 px-1.5 py-0.5 rounded text-[10px] mr-1 mb-1">${eid}</span>`).join('');
+        };
+
+        window.openPackageExamsModal = () => {
+            const container = document.getElementById('pkg-exams-checkbox-list');
+            if(allPublicExamsData.length === 0) {
+                container.innerHTML = '<p class="text-xs text-gray-400">등록된 모의고사가 없습니다.</p>';
+            } else {
+                let html = '';
+                allPublicExamsData.forEach(exam => {
+                    const isChecked = tempPackageExams.includes(exam.id) ? 'checked' : '';
+                    html += `<label class="flex items-center p-3 rounded-lg bg-gray-700/50 hover:bg-gray-700 cursor-pointer border border-gray-600 transition-colors">
+                        <input type="checkbox" value="${exam.id}" class="pkg-exam-cb w-4 h-4 text-indigo-600 bg-gray-800 border-gray-600 rounded focus:ring-indigo-600 focus:ring-2" ${isChecked}>
+                        <div class="ml-3 flex-1">
+                            <div class="text-xs font-bold text-white mb-0.5"><span class="text-indigo-400">#${exam.id}</span> ${exam.title}</div>
+                        </div>
+                    </label>`;
+                });
+                container.innerHTML = html;
+            }
+            document.getElementById('package-exams-modal').classList.remove('hidden');
+        };
+
+        window.closePackageExamsModal = () => {
+            const checkboxes = document.querySelectorAll('.pkg-exam-cb:checked');
+            tempPackageExams = Array.from(checkboxes).map(cb => cb.value);
+            window.updatePackageExamsUI();
+            document.getElementById('package-exams-modal').classList.add('hidden');
+        };
+
+        window.savePackageData = async () => {
+            let docId = document.getElementById('pkg-doc-id').value || document.getElementById('pkg-id-input').value.trim();
+            if(!docId) return alert("패키지 ID 필수");
+            if (!confirm("저장하시겠습니까? (소급 적용: 이 패키지를 이미 구매한 유저의 권한도 자동으로 동기화됩니다)")) return;
+            
+            try { 
+                const title = document.getElementById('pkg-title').value;
+                const price = Number(document.getElementById('pkg-price').value);
+                const status = document.getElementById('pkg-status').value;
+                
+                const packageData = { 
+                    title, 
+                    price, 
+                    status, 
+                    exams: tempPackageExams, 
+                    updatedAt: new Date().toISOString() 
+                };
+
+                await setDoc(doc(db, "packages", docId), packageData, { merge: true });
+                
+                alert("패키지 설정이 저장되었습니다. 소급 적용(동기화)을 시작합니다...");
+                await window.syncPackageExamsToUsers(docId, tempPackageExams, title);
+
+                alert("패키지 저장 및 유저 동기화가 완료되었습니다.");
+                window.closePackageEditModal(); 
+                window.loadPackages(); 
+            } catch (e) { alert("실패: " + e.message); }
+        };
+
+        window.syncPackageExamsToUsers = async (pkgId, examsList, pkgTitle) => {
+            try {
+                const q = query(collection(db, "orders"), where("packageId", "==", pkgId), where("status", "==", "approved"));
+                const orderSnap = await getDocs(q);
+                
+                const uids = new Set();
+                orderSnap.forEach(d => {
+                    if(d.data().uid) uids.add(d.data().uid);
+                });
+
+                if(uids.size === 0) return;
+
+                let batchCount = 0;
+                let batch = writeBatch(db);
+
+                for(const uid of uids) {
+                    batch.set(doc(db, "users", uid, "my_packages", pkgId), {
+                        status: 'active',
+                        title: pkgTitle,
+                        updatedAt: new Date().toISOString()
+                    }, { merge: true });
+                    batchCount++;
+
+                    for(const examId of examsList) {
+                        batch.set(doc(db, "users", uid, "my_exams", examId), {
+                            status: 'purchased',
+                            packageId: pkgId,
+                            grantedAt: new Date().toISOString(),
+                            adminGranted: true
+                        }, { merge: true });
+                        batchCount++;
+
+                        if(batchCount >= 400) {
+                            await batch.commit();
+                            batch = writeBatch(db);
+                            batchCount = 0;
+                        }
+                    }
+                }
+                
+                if(batchCount > 0) await batch.commit();
+
+            } catch (error) {
+                console.error("소급 적용 중 오류", error);
+                throw new Error("소급 적용 중 오류: " + error.message);
+            }
+        };
+
+        window.loadOrders = async () => {
+            const container = document.getElementById('order-list-container');
+            container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
+            try {
+                const q = query(collection(db, "orders"), orderBy("createdAt", "desc"), limit(50));
+                const snapshot = await getDocs(q);
+                if (snapshot.empty) { container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">주문 내역이 없습니다.</p>'; return; }
+                let html = '';
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    const dateStr = d.createdAt ? new Date(d.createdAt).toLocaleString() : '날짜 없음';
+                    const isPending = d.status === 'pending';
+                    html += `<div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="bg-gray-700 text-gray-300 px-2 py-0.5 rounded font-mono text-[10px] mr-2">${doc.id}</span>
+                                <span class="text-[10px] px-2 py-0.5 rounded ${isPending ? 'bg-amber-900 text-amber-300 font-bold' : 'bg-emerald-900 text-emerald-300 font-bold'}">${isPending ? '승인 대기' : '승인 완료'}</span>
+                            </div>
+                            <span class="text-[10px] text-gray-500">${dateStr}</span>
+                        </div>
+                        <div class="text-sm font-bold text-white mb-1">구매자: ${d.email}</div>
+                        <div class="text-xs text-gray-400 mb-3">상품명: <span class="text-indigo-300 font-bold">${d.packageName || '알 수 없는 상품'}</span></div>
+                        ${isPending ? `<button onclick="approveOrder('${doc.id}', '${d.uid}', '${d.packageId}', '${d.packageName || ''}')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors">입금 확인 및 권한 지급 (승인)</button>` 
+                        : (d.status === 'refunded' ? `<button disabled class="w-full bg-red-900/50 text-red-400 px-3 py-2 rounded-lg text-xs font-bold cursor-not-allowed border border-red-800">환불/취소 완료</button>`
+                          : `<button onclick="cancelOrder('${doc.id}', '${d.uid}', '${d.packageId}', '${d.packageName || ''}')" class="w-full bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors mt-2">승인 취소 (환불/권한 회수)</button>`)}
+                    </div>`;
+                });
+                container.innerHTML = html;
+            } catch(e) {
+                container.innerHTML = `<p class="text-center text-red-400 text-xs py-4">로딩 실패: ${e.message}</p>`;
+            }
+        };
+
+        window.cancelOrder = async (orderId, uid, packageId, packageName) => {
+            if(!confirm(`정말 승인을 취소하고 환불 처리하시겠습니까?\n[${packageName}]에 대한 학생의 열람 권한이 즉시 회수됩니다.`)) return;
+
+            try {
+                const batch = writeBatch(db);
+                batch.update(doc(db, "orders", orderId), { status: 'refunded', refundedAt: new Date().toISOString() });
+
+                if (packageId === 'pkg_allpass') {
+                    batch.set(doc(db, "users", uid), { hasAllPass: false }, { merge: true });
+                    batch.delete(doc(db, "users", uid, "my_packages", packageId));
+                } else {
+                    const pkgSnap = await getDoc(doc(db, "packages", packageId));
+                    batch.delete(doc(db, "users", uid, "my_packages", packageId));
+                    if(pkgSnap.exists()) {
+                        const examsList = pkgSnap.data().exams || [];
+                        examsList.forEach(examId => {
+                            batch.delete(doc(db, "users", uid, "my_exams", examId));
+                        });
+                    }
+                }
+
+                await batch.commit();
+                alert("환불 처리 및 권한 회수 완료!");
+                window.loadOrders();
+            } catch(e) {
+                console.error("취소 처리 오류", e);
+                alert("취소 실패: " + e.message);
+            }
+        };
+
+        window.approveOrder = async (orderId, uid, packageId, packageName) => {
+            if(!confirm(`해당 주문을 승인하시겠습니까?\n구매자에게 [${packageName}] 권한이 즉시 지급됩니다.`)) return;
+
+            try {
+                const batch = writeBatch(db);
+                batch.update(doc(db, "orders", orderId), { status: 'approved', approvedAt: new Date().toISOString() });
+
+                if (packageId === 'pkg_allpass') {
+                    // 가상 올패스 (마스터 키) 지급 로직
+                    batch.set(doc(db, "users", uid), { hasAllPass: true }, { merge: true });
+                    batch.set(doc(db, "users", uid, "my_packages", packageId), {
+                        status: 'active',
+                        title: packageName,
+                        grantedAt: new Date().toISOString(),
+                        adminGranted: true
+                    }, { merge: true });
+                } else {
+                    // 일반 패키지 지급 로직
+                    const pkgSnap = await getDoc(doc(db, "packages", packageId));
+                    if(!pkgSnap.exists()) {
+                        alert("해당 패키지 정보를 찾을 수 없습니다. (삭제되었거나 ID 오류)");
+                        return;
+                    }
+                    const pkgData = pkgSnap.data();
+                    const examsList = pkgData.exams || [];
+
+                    batch.set(doc(db, "users", uid, "my_packages", packageId), {
+                        status: 'active',
+                        title: packageName,
+                        grantedAt: new Date().toISOString(),
+                        adminGranted: true
+                    }, { merge: true });
+
+                    examsList.forEach(examId => {
+                        batch.set(doc(db, "users", uid, "my_exams", examId), {
+                            status: 'purchased',
+                            packageId: packageId,
+                            grantedAt: new Date().toISOString(),
+                            adminGranted: true
+                        }, { merge: true });
+                    });
+                }
+
+                await batch.commit();
+                alert("승인 완료! 권한이 성공적으로 지급되었습니다.");
+                window.loadOrders();
+            } catch(e) {
+                console.error("승인 중 오류", e);
+                alert("승인 실패: " + e.message);
+            }
+        };
+
         window.loadQuestionsList = async () => {
             const container = document.getElementById('questions-list-container');
             container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
 
             try {
-                // 문항 수가 많아질 것을 고려하여 ID 역순(최신순)으로 전체 데이터를 한 번 가져옵니다.
                 const q = query(collection(db, "questions"), orderBy("id", "desc")); 
                 const snapshot = await getDocs(q);
                 
@@ -870,9 +1176,7 @@
                     return;
                 }
 
-                // 그룹 필터 생성
                 renderQuestionGroupFilters();
-                // 첫 필터 상태 적용 (전체)
                 window.applyQuestionFilter('all');
             } catch (e) {
                 console.error(e);
@@ -880,21 +1184,18 @@
             }
         };
 
-        // 문항 ID 공통 패턴을 찾아 그룹 필터 버튼 생성
         function renderQuestionGroupFilters() {
             const filterContainer = document.getElementById('question-group-filters');
             if (!filterContainer) return;
 
-            // ID 패턴 분석 (예: q_2026_01, q_2024_02 등 앞의 3세그먼트 추출)
             const groups = new Set();
             allQuestionsData.forEach(d => {
                 const parts = d.id.split('_');
                 if (parts.length >= 3) {
-                    // q_YYYY_RR 형태를 그룹명으로 사용
                     const groupKey = parts.slice(0, 3).join('_');
                     groups.add(groupKey);
                 } else {
-                    groups.add('etc'); // 패턴이 다른 경우 기타로 분류
+                    groups.add('etc'); 
                 }
             });
 
@@ -904,7 +1205,6 @@
             
             sortedGroups.forEach(group => {
                 const isActive = currentQuestionGroupFilter === group;
-                // 라벨 예쁘게 만들기 (q_2026_01 -> 2026-01)
                 const label = group === 'etc' ? '기타/미분류' : group.replace('q_', '').replace('_', '-');
                 
                 html += `<button onclick="applyQuestionFilter('${group}')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${isActive ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-700'}">
@@ -915,10 +1215,9 @@
             filterContainer.innerHTML = html;
         }
 
-        // 필터 적용 함수
         window.applyQuestionFilter = (filter) => {
             currentQuestionGroupFilter = filter;
-            currentQuestionPage = 0; // 필터 변경 시 첫 페이지로
+            currentQuestionPage = 0; 
 
             if (filter === 'all') {
                 filteredQuestionsData = [...allQuestionsData];
@@ -929,13 +1228,10 @@
                 });
             }
 
-            // 필터 버튼 UI 업데이트
             renderQuestionGroupFilters();
-            // 페이지네이션 버튼 및 현재 페이지 목록 렌더링
             renderQuestionsPage(0);
         };
 
-        // 특정 페이지(25개 그룹) 렌더링 함수
         window.renderQuestionsPage = (pageIndex) => {
             currentQuestionPage = pageIndex;
             const container = document.getElementById('questions-list-container');
@@ -970,9 +1266,8 @@
                 });
             }
             container.innerHTML = html;
-            container.scrollTop = 0; // 목록 상단으로 스크롤
+            container.scrollTop = 0; 
 
-            // 페이지네이션(그룹 내 페이지 선택) 버튼 생성
             const totalPages = Math.ceil(filteredQuestionsData.length / questionsPerPage);
             let pageHtml = '';
             if (totalPages > 1) {
@@ -999,18 +1294,18 @@
             safeSetValue('edit-id-input', '');
             safeSetValue('edit-title', '');
             safeSetValue('edit-subtitle', '');
-            safeSetValue('edit-price', 5000);
             safeSetValue('edit-date', '');
             tempExamQuestions = Array(25).fill(null);
             
             if (docId) {
                 idContainer.classList.add('hidden');
-                archiveBtn.classList.remove('hidden'); // 기존 시험일 때만 아카이브 버튼 활성화
+                archiveBtn.classList.remove('hidden'); 
                 try {
                     const docSnap = await getDoc(doc(db, "public_exams", docId));
                     if (docSnap.exists()) {
                         const d = docSnap.data();
-                        safeSetValue('edit-title', d.title || ''); safeSetValue('edit-subtitle', d.subTitle || ''); safeSetValue('edit-price', d.price || 5000);
+                        safeSetValue('edit-title', d.title || ''); safeSetValue('edit-subtitle', d.subTitle || '');
+                        safeSetValue('edit-type', d.type || 'premium');
                         if(d.date) safeSetValue('edit-date', d.date.split('T')[0]);
                         const detailSnap = await getDoc(doc(db, "exams", docId));
                         if(detailSnap.exists()) tempExamQuestions = detailSnap.data().questions || Array(25).fill(null);
@@ -1018,7 +1313,7 @@
                 } catch(e) { alert("로드 실패"); return; }
             } else { 
                 idContainer.classList.remove('hidden');
-                archiveBtn.classList.add('hidden'); // 새 시험 생성 시에는 아카이브 버튼 숨김
+                archiveBtn.classList.add('hidden'); 
             }
             document.getElementById('edit-modal').classList.remove('hidden');
             lucide.createIcons();
@@ -1069,10 +1364,11 @@
             if(!docId) return alert("시험 ID 필수");
             if (!confirm("저장하시겠습니까?")) return;
             try { 
-                const title = document.getElementById('edit-title').value, subTitle = document.getElementById('edit-subtitle').value, price = Number(document.getElementById('edit-price').value), dateVal = document.getElementById('edit-date').value;
+                const title = document.getElementById('edit-title').value, subTitle = document.getElementById('edit-subtitle').value, dateVal = document.getElementById('edit-date').value;
+                const examType = document.getElementById('edit-type').value;
                 const numId = Number(docId.replace(/[^0-9]/g, '')) || 0;
-                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null }, { merge: true });
-                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString() }, { merge: true });
+                await setDoc(doc(db, "public_exams", docId), { id: numId, type: examType, title, subTitle, date: dateVal ? new Date(dateVal).toISOString() : null }, { merge: true });
+                await setDoc(doc(db, "exams", docId), { type: examType, title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString() }, { merge: true });
                 alert("저장 완료"); closeEditModal(); window.loadExamList(); 
             } catch (e) { alert("실패: " + e.message); }
         };
@@ -1160,47 +1456,88 @@
                 document.getElementById('manage-user-email').innerText = d.email || "-";
                 document.getElementById('manage-user-joined').innerText = d.joinedAt ? new Date(d.joinedAt).toLocaleDateString() : "-";
                 document.getElementById('user-manage-panel').classList.remove('hidden');
-                document.getElementById('manage-user-status').innerText = d.isPaid ? "Premium" : "Free";
-                document.getElementById('manage-user-status').className = d.isPaid ? "inline-block px-2 py-1 rounded text-xs font-bold bg-indigo-600 text-white" : "inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300";
-                window.loadUserExamList(searchedUserUid);
+                window.loadUserPackagesList(searchedUserUid);
+                window.populateGrantPackageDropdown();
             } catch (e) { alert("검색 오류"); }
         };
 
-        window.loadUserExamList = async (uid) => {
-            const container = document.getElementById('user-exam-list'); container.innerHTML = '로딩...';
+        window.loadUserPackagesList = async (uid) => {
+            const container = document.getElementById('user-packages-list'); container.innerHTML = '로딩...';
             try { 
-                const examsSnap = await getDocs(query(collection(db, "public_exams"), orderBy("id", "asc"))); 
-                const mySnap = await getDocs(collection(db, "users", uid, "my_exams")); 
-                const myMap = {}; mySnap.forEach(d => myMap[d.id] = d.data()); 
+                const mySnap = await getDocs(collection(db, "users", uid, "my_packages")); 
+                if(mySnap.empty) { container.innerHTML = '<p class="text-center text-gray-500 text-xs py-2">보유 중인 패키지가 없습니다.</p>'; return; }
                 let html = ''; 
-                examsSnap.forEach(ed => { 
-                    const e = ed.data(), eid = `exam_${String(e.id).padStart(2,'0')}`, userR = myMap[eid]; 
-                    const statusB = userR ? `<span class="text-xs px-2 py-1 rounded ${userR.status==='graded'?'bg-emerald-900':'bg-blue-900'}">${userR.status}</span>` : '<span class="text-xs text-gray-500">미구매</span>';
-                    const actionB = userR ? `<button onclick="toggleUserExam('${uid}','${eid}','${e.title}',false)" class="text-xs bg-red-900/50 p-1.5 rounded">회수</button>` : `<button onclick="toggleUserExam('${uid}','${eid}','${e.title}',true)" class="text-xs bg-indigo-600 p-1.5 rounded">지급</button>`;
-                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between"><div><span class="text-xs text-gray-400">#${e.id}</span> ${statusB}<p class="text-sm font-bold">${e.title}</p></div>${actionB}</div>`;
+                mySnap.forEach(d => { 
+                    const pkg = d.data();
+                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center">
+                        <div>
+                            <p class="text-sm font-bold text-white">${pkg.title || d.id}</p>
+                            <p class="text-[10px] text-gray-400">지급일: ${pkg.grantedAt ? new Date(pkg.grantedAt).toLocaleString() : '알 수 없음'}</p>
+                        </div>
+                        <button onclick="revokePackageFromUser('${uid}','${d.id}')" class="text-xs bg-red-900/50 hover:bg-red-900 border border-red-800 text-red-200 px-3 py-1.5 rounded transition-colors">회수</button>
+                    </div>`;
                 }); 
-                container.innerHTML = html; lucide.createIcons();
-            } catch (e) { container.innerHTML = '실패'; }
+                container.innerHTML = html; 
+            } catch (e) { container.innerHTML = '오류 발생'; }
         };
 
-        window.toggleUserExam = async (uid, eid, title, grant) => {
-            try { grant ? await setDoc(doc(db,"users",uid,"my_exams",eid), {status:'purchased', title, grantedAt:new Date().toISOString(), adminGranted:true}) : await deleteDoc(doc(db,"users",uid,"my_exams",eid)); window.loadUserExamList(uid); } catch(e) { alert("실패"); }
+        window.populateGrantPackageDropdown = async () => {
+            const select = document.getElementById('grant-package-select');
+            select.innerHTML = '<option value="">패키지 로딩 중...</option>';
+            try {
+                const pkgSnap = await getDocs(query(collection(db, "packages"), orderBy("createdAt", "desc")));
+                let html = '<option value="">지급할 패키지 선택...</option>';
+                pkgSnap.forEach(d => {
+                    html += `<option value="${d.id}" data-title="${d.data().title}">${d.data().title}</option>`;
+                });
+                select.innerHTML = html;
+            } catch (e) { select.innerHTML = '<option value="">로딩 실패</option>'; }
+        };
+
+        window.grantPackageToUser = async () => {
+            if(!searchedUserUid) return alert("유저를 검색해주세요.");
+            const select = document.getElementById('grant-package-select');
+            const pkgId = select.value;
+            if(!pkgId) return alert("지급할 패키지를 선택하세요.");
+            const pkgTitle = select.options[select.selectedIndex].getAttribute('data-title');
+            
+            if(!confirm(`[${pkgTitle}] 패키지를 수동 지급하시겠습니까?`)) return;
+            try {
+                const pkgSnap = await getDoc(doc(db, "packages", pkgId));
+                if(!pkgSnap.exists()) return alert("패키지를 찾을 수 없습니다.");
+                const examsList = pkgSnap.data().exams || [];
+
+                const batch = writeBatch(db);
+                batch.set(doc(db, "users", searchedUserUid, "my_packages", pkgId), {
+                    status: 'active', title: pkgTitle, grantedAt: new Date().toISOString(), adminGranted: true
+                }, { merge: true });
+
+                examsList.forEach(eid => {
+                    batch.set(doc(db, "users", searchedUserUid, "my_exams", eid), {
+                        status: 'purchased', packageId: pkgId, grantedAt: new Date().toISOString(), adminGranted: true
+                    }, { merge: true });
+                });
+
+                await batch.commit();
+                alert("지급 완료!");
+                window.loadUserPackagesList(searchedUserUid);
+            } catch(e) { alert("지급 실패: " + e.message); }
+        };
+
+        window.revokePackageFromUser = async (uid, pkgId) => {
+            if(!confirm("이 패키지를 회수하시겠습니까?\n(참고: my_exams 권한은 수동으로 제어해야 합니다.)")) return;
+            try {
+                await deleteDoc(doc(db, "users", uid, "my_packages", pkgId));
+                alert("회수 완료");
+                window.loadUserPackagesList(uid);
+            } catch(e) { alert("회수 실패: " + e.message); }
         };
 
         window.resetUserExamData = async () => {
             const tid = document.getElementById('reset-exam-id').value.trim();
             if (!searchedUserUid || !tid) return alert("입력 필요");
-            if (!confirm("삭제?")) return;
-            try { const b = writeBatch(db); b.delete(doc(db,"users",searchedUserUid,"my_exams",tid)); b.delete(doc(db,"users",searchedUserUid,"exam_results",tid)); await b.commit(); alert("완료"); window.loadUserExamList(searchedUserUid); } catch(e) { alert("오류"); }
-        };
-
-        window.updateUserPaidStatus = async (isPaid) => {
-            if (!searchedUserUid) return;
-            try { 
-                const b = writeBatch(db); b.update(doc(db,"users",searchedUserUid), {isPaid});
-                if(isPaid) { const es = await getDocs(collection(db,"public_exams")); es.forEach(ed => { const eid = `exam_${String(ed.data().id).padStart(2,'0')}`; b.set(doc(db,"users",searchedUserUid,"my_exams",eid), {status:'purchased', title:ed.data().title, grantedAt:new Date().toISOString()}, {merge:true}); }); }
-                await b.commit(); window.searchUser();
-            } catch(e) { alert("실패"); }
+            if (!confirm("삭제하시겠습니까?")) return;
+            try { const b = writeBatch(db); b.delete(doc(db,"users",searchedUserUid,"my_exams",tid)); b.delete(doc(db,"users",searchedUserUid,"exam_results",tid)); await b.commit(); alert("초기화 완료"); } catch(e) { alert("오류"); }
         };
 
         window.updateTopicOptions = (chapter, topic = null) => {
@@ -1241,12 +1578,16 @@
                         
                         safeSetValue('q-answer', d.correctAnswer||''); 
                         safeSetValue('question-behavioral-domain', d.behavioralDomain||''); 
+                        safeSetValue('q-tags', d.tags ? d.tags.join(', ') : ''); 
 
-                        // 통계 정보 반영
-                        const stats = d.stats || { total: 0, correct: 0 };
-                        document.getElementById('stat-total').innerText = stats.total || 0;
-                        document.getElementById('stat-correct').innerText = stats.correct || 0;
-                        const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                        // 통계 정보 반영 (totalAttempts, correctCount 필드 사용)
+                        const stats = d.stats || { totalAttempts: 0, correctCount: 0 };
+                        const totalAtt = stats.totalAttempts || 0;
+                        const corrCnt = stats.correctCount || 0;
+                        
+                        document.getElementById('stat-total').innerText = totalAtt;
+                        document.getElementById('stat-correct').innerText = corrCnt;
+                        const acc = totalAtt > 0 ? Math.round((corrCnt / totalAtt) * 100) : 0;
                         document.getElementById('stat-accuracy').innerText = acc + '%';
                     }
                 } catch(e) { console.error(e); }
@@ -1266,12 +1607,34 @@
             const behavior = document.getElementById('question-behavioral-domain').value;
             const difficulty = Number(document.getElementById('q-difficulty').value);
             const correctAnswer = Number(document.getElementById('q-answer').value);
+            const tagsInput = document.getElementById('q-tags').value;
 
             if (!newDocId || !domain || !chapter || !topic || !behavior) return alert("필수 항목 입력 누락");
             if (!confirm("저장 및 실시간 동기화를 진행할까요?")) return;
 
             try {
-                const data = { id: newDocId, correctAnswer, difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
+                // [DB 스키마 패치] 기존 데이터를 확인하여 tags와 distractorStats가 덮어씌워지지 않게 보존
+                const existingSnap = await getDoc(doc(db, "questions", newDocId));
+                let distractorStats = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0 };
+                
+                if (existingSnap.exists()) {
+                    const ed = existingSnap.data();
+                    if (ed.distractorStats) distractorStats = ed.distractorStats;
+                }
+
+                // UI에서 입력된 태그 문자열을 배열로 변환
+                const tags = tagsInput.split(',').map(t => t.trim()).filter(t => t.length > 0);
+
+                const data = { 
+                    id: newDocId, 
+                    correctAnswer, 
+                    difficulty, 
+                    behavioralDomain: behavior, 
+                    taxonomy: { subject: "통합과학", domain, chapter, topic }, 
+                    updatedAt: new Date().toISOString(),
+                    tags: tags,
+                    distractorStats: distractorStats
+                };
                 
                 await setDoc(doc(db, "questions", newDocId), data, { merge: true });
                 if (originalDocId && originalDocId !== newDocId) await deleteDoc(doc(db, "questions", originalDocId));

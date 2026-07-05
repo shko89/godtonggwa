@@ -11,11 +11,12 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         /* 암기장 전용 폰트 */
         .font-gamja { font-family: 'Gamja Flower', cursive; }
@@ -209,24 +210,34 @@
         const navContainer = document.getElementById('common-nav-container');
         if (navContainer) {
             navContainer.innerHTML = `
-                <nav class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white/80 backdrop-blur-md border-t border-gray-200 py-3 px-8 flex justify-between items-center z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
-                    <button class="flex flex-col items-center gap-1 text-indigo-600">
-                        <i data-lucide="home" class="w-6 h-6"></i>
-                        <span class="text-[10px] font-bold">홈</span>
-                    </button>
-                    <button class="flex flex-col items-center gap-1 text-gray-400">
-                        <i data-lucide="search" class="w-6 h-6"></i>
-                        <span class="text-[10px] font-medium">검색</span>
-                    </button>
-                    <button class="flex flex-col items-center gap-1 text-gray-400">
-                        <i data-lucide="bookmark" class="w-6 h-6"></i>
-                        <span class="text-[10px] font-medium">저장</span>
-                    </button>
-                    <button class="flex flex-col items-center gap-1 text-gray-400">
-                        <i data-lucide="user" class="w-6 h-6"></i>
-                        <span class="text-[10px] font-medium">마이</span>
-                    </button>
-                </nav>
+                                <nav id="bottom-nav" class="bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
+            </button>
+            
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+            </button>
+            
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+            </button>
+            
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+            </button>
+            
+            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
+            </button>
+        </nav>
             `;
             lucide.createIcons();
         }

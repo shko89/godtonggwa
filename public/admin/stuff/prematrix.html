@@ -12,50 +12,90 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = JSON.parse(__firebase_config);
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+        const appId = 'godtonggwa_v1';
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // 1. 기본 빈 데이터 구조 세팅
+        window.examData = {};
+        for(let i=1; i<=10; i++) window.examData[i] = {};
+
+        // [핵심 패치 1] F5 새로고침 방어: 로컬 스토리지에서 즉시 복구
+        // 브라우저에 저장된 데이터가 있다면 무조건 먼저 불러옵니다.
+        const savedLocalData = localStorage.getItem('prematrix_data');
+        if (savedLocalData) {
+            try {
+                window.examData = JSON.parse(savedLocalData);
+            } catch(e) { console.error("로컬 데이터 파싱 에러", e); }
+        }
 
         const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth); 
+                }
+            } catch (error) {
+                console.error("인증 실패:", error);
             }
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                document.getElementById('sync-status').innerText = "Cloud Linked";
+                document.getElementById('sync-status').className = "text-[9px] font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase";
                 startSync();
+            } else {
+                document.getElementById('sync-status').innerText = "Local Mode";
+                document.getElementById('sync-status').className = "text-[9px] font-black text-amber-500 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 uppercase";
             }
         });
 
         function startSync() {
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'matrix_storage');
+            // [핵심 패치 2] 홀수 경로 에러 해결 (6개 짝수 경로로 교정)
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'sandbox', 'matrix_storage');
             onSnapshot(docRef, (snap) => {
                 if (snap.exists()) {
                     const data = snap.data().examData;
                     if (data) {
                         window.examData = data;
-                        window.renderMatrix();
+                        localStorage.setItem('prematrix_data', JSON.stringify(data)); // 클라우드 데이터를 로컬에 덮어쓰기
+                        if (window.renderMatrix) window.renderMatrix(); 
                     }
                 }
-            }, (err) => console.error("Firestore Error:", err));
+            }, (err) => console.error("Firestore 읽기 에러 (권한 부족일 수 있음):", err));
         }
 
         window.saveToCloud = async function() {
-            if (!auth.currentUser) return;
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'matrix_storage');
+            // [핵심 패치 3] 서버 저장 전에 무조건 브라우저에 먼저 저장! (새로고침 무적 방어)
+            localStorage.setItem('prematrix_data', JSON.stringify(window.examData));
+
+            if (!auth.currentUser) {
+                showToast("로컬 브라우저에 저장되었습니다. (로그인 안 됨)");
+                return;
+            }
+
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'sandbox', 'matrix_storage');
             try {
                 await setDoc(docRef, { 
                     examData: window.examData,
                     lastUpdated: new Date().toISOString()
                 });
-                showToast("데이터가 클라우드에 동기화되었습니다.");
+                showToast("클라우드 서버에 안전하게 저장되었습니다.");
             } catch (err) {
                 console.error("Save Error:", err);
+                showToast("로컬에 임시 저장되었습니다. (클라우드 권한 없음)");
             }
         };
 
@@ -111,7 +151,7 @@
     <header class="bg-white border border-gray-200 rounded-lg mb-2 px-4 py-2 flex flex-col gap-1 shrink-0 sticky top-0 z-[60] shadow-sm">
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <h1 class="text-sm font-black tracking-tight text-indigo-900">2028 통합과학 분석 매트릭스</h1>
+                <h1 class="text-sm font-black tracking-tight text-indigo-900">2028 통합과학 분석 매트릭스 (수동 관리)</h1>
                 <div class="flex items-center gap-2 ml-4">
                     <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-understand"></div>이해</div>
                     <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-apply"></div>적용</div>
@@ -123,7 +163,7 @@
                     <div class="flex items-center gap-1 text-[9px] font-bold text-gray-500"><div class="w-2 h-2 rounded-full bg-conc"></div>결론</div>
                 </div>
             </div>
-            <div id="sync-status" class="text-[9px] font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase">Cloud Linked</div>
+            <div id="sync-status" class="text-[9px] font-black text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200 uppercase">Connecting...</div>
         </div>
     </header>
 
@@ -192,11 +232,11 @@
     <script>
         const CURRICULUM_DATA = [
             { unit: "과학의 기초", topics: ["기본량과 단위", "측정과 어림", "정보와 신호"] },
-            { unit: "물질의 규칙성", topics: ["원소의 형성", "별의 진화와 원소의 생성", "원소의 주기성", "원소의 화학 결합", "지각과 생명체의 구성 물질의 규칙성"] },
-            { unit: "시스템과 상호 작용", topics: ["지구 시스템의 구성과 상호 작용", "지권의 변화", "중력과 역학적 시스템", "역학적 시스템과 안전", "생명 시스템의 기본 단위", "생명 시스템의 물질대사", "생명 시스템의 정보 흐름"] },
-            { unit: "변화와 다양성", topics: ["지질 시대와 화석", "환경 변화와 생물 다양성", "자연 선택과 생물의 진화", "생물 다양성의 보존", "산화 환원 반응", "중화 반응"] },
-            { unit: "환경과 에너지", topics: ["생태계의 구성 요소와 환경", "생태계의 평형", "대기와 해양의 순환", "에너지의 전환과 효율적인 이용", "발전과 에너지의 효율적 이용"] },
-            { unit: "과학과 미래 사회", topics: ["감염병과 과학 탐구", "인공지능과 과학 탐구", "로봇과 과학 탐구", "과학 기술과 윤리"] }
+            { unit: "물질과 규칙성", topics: ["원소 형성", "별의 진화", "원소의 주기성", "화학 결합", "지각과 생명체 구성 물질의 규칙성"] },
+            { unit: "시스템과 상호작용", topics: ["지구시스템의 구성과 상호작용", "판구조론과 지각 변동", "중력장 내의 운동", "충격량과 운동량", "생명 시스템의 기본 단위", "물질대사", "유전자와 단백질", "물질의 전기적 성질"] },
+            { unit: "변화와 다양성", topics: ["지질시대의 생물과 화석", "지질시대 환경 변화와 대멸종", "자연선택", "생물다양성", "산화와 환원", "중화 반응", "물질 변화에서 에너지 출입"] },
+            { unit: "환경과 에너지", topics: ["생태계 구성 요소", "생태계 평형", "대기와 해양의 상호작용", "온실기체와 지구온난화", "핵융합", "발전", "에너지 전환과 효율"] },
+            { unit: "과학과 미래 사회", topics: ["감염병과 병원체", "인공지능과 과학 탐구", "로봇", "과학기술과 윤리"] }
         ];
 
         const domainColors = { 
@@ -204,9 +244,6 @@
             "탐구 설계": "bg-design", "탐구 수행 및 자료 수집": "bg-exec", 
             "자료 변환 및 해석": "bg-anal", "결론 도출": "bg-conc" 
         };
-
-        window.examData = {};
-        for(let i=1; i<=10; i++) window.examData[i] = {};
 
         let currentEditingRound = 1;
         let currentEditingTopic = "";
@@ -242,7 +279,7 @@
                     tbody.appendChild(tr);
                 });
             });
-            window.renderMatrix();
+            window.renderMatrix(); 
         }
 
         window.renderMatrix = function() {
@@ -283,9 +320,9 @@
             setTimeout(() => document.getElementById('input-qnum').focus(), 50);
         }
 
-        function closeModal() { document.getElementById('add-modal').classList.remove('active'); }
+        window.closeModal = function() { document.getElementById('add-modal').classList.remove('active'); }
 
-        function saveQuestion() {
+        window.saveQuestion = function() {
             const qNum = parseInt(document.getElementById('input-qnum').value);
             const domain = document.getElementById('input-domain').value;
             if (!qNum) { showToast("문항 번호를 입력하세요."); return; }
@@ -301,22 +338,24 @@
 
             window.examData[currentEditingRound][currentEditingTopic].push({ qNum, domain });
             closeModal();
-            window.renderMatrix();
-            if (window.saveToCloud) window.saveToCloud();
+            window.renderMatrix(); 
+            if (window.saveToCloud) window.saveToCloud(); 
         }
 
-        function deleteQuestion(round, topic, qNum) {
+        window.deleteQuestion = function(round, topic, qNum) {
             window.examData[round][topic] = window.examData[round][topic].filter(q => q.qNum !== qNum);
             window.renderMatrix();
-            if (window.saveToCloud) window.saveToCloud();
+            if (window.saveToCloud) window.saveToCloud(); 
         }
 
         function showToast(msg) {
+            window.renderMatrix(); // 토스트를 띄울 때 혹시 모를 누락 방지용 재렌더링
             const toast = document.getElementById('toast');
             toast.innerText = msg; toast.classList.remove('opacity-0', 'translate-y-4');
             setTimeout(() => toast.classList.add('opacity-0', 'translate-y-4'), 2000);
         }
 
+        // 로컬 데이터 로딩이 끝난 뒤에 테이블을 그려야 안전함
         document.addEventListener("DOMContentLoaded", buildTable);
     </script>
 </body>

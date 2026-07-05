@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>2028 통합과학 프리미엄 모의고사 패키지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; }
+        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100 h-[70px]">
+            <button onclick="location.href='index.html'" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
+                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+            </button>
+            <h1 class="text-lg font-black ml-2 text-gray-900 tracking-tight">프리미엄 패키지 안내</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto hide-scrollbar pb-32">
+            <!-- Hero Section -->
+            <div class="bg-gray-900 text-white p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-600 rounded-full blur-3xl opacity-30 -mr-16 -mt-16"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-purple-600 rounded-full blur-3xl opacity-20 -ml-10 -mb-10"></div>
+                
+                <div class="relative z-10 fade-in">
+                    <span class="bg-gradient-to-r from-amber-400 to-amber-500 border border-amber-300/50 text-gray-900 text-xs font-black px-3 py-1.5 rounded-full shadow-sm mb-4 inline-block">런칭 특별 한정 판매</span>
+                    <h2 class="text-3xl font-black mb-4 leading-tight mt-2">
+                        2028 통합과학<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">예비문항 완벽 분석<br>실전 모의고사</span>
+                    </h2>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                        개정 교육과정이 반영된 첫 수능의 나침반!<br>
+                        출제 경향을 완벽히 분석한 4회분 실전 패키지로 1등급을 향한 확실한<br>대비를 시작하세요.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="px-6 py-8 space-y-6 bg-gray-50">
+                <h3 class="text-xl font-black text-gray-900 text-center mb-6">패키지 핵심 구성</h3>
+                
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 fade-in flex gap-4 items-start" style="animation-delay: 0.1s;">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="package" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base mb-1">실물 시험지 총 4회분 배송</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">PDF 파일이 아닌, 실제 수능과 동일한 규격과 재질의 실물 시험지 4회분이 집으로 바로 배송됩니다. 실전과 똑같은 긴장감을 경험하세요.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 fade-in flex gap-4 items-start" style="animation-delay: 0.2s;">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base mb-1">전용 앱 OMR 채점</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">시험지를 풀고 난 후, 갓통과 앱에 접속해 스마트폰으로 간편하게 정답을 제출하고 즉시 채점 결과를 확인할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 fade-in flex gap-4 items-start" style="animation-delay: 0.3s;">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base mb-1">AI 약점 분석 성적 리포트</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">단순한 점수를 넘어, 취약 단원 분석과 전체 석차, 그리고 AI 기반의 맞춤형 학습 피드백이 담긴 프리미엄 성적표가 제공됩니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 text-center">
+                    <p class="text-sm font-bold text-indigo-600 mb-2">프리미엄 패키지 특별가</p>
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <span class="text-gray-400 line-through text-lg">50,000원</span>
+                        <span class="text-3xl font-black text-gray-900">39,000<span class="text-xl">원</span></span>
+                    </div>
+                    <p class="text-xs text-gray-500">(배송비 포함, 총 4회분 실물 모의고사 + 앱 분석 서비스)</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Fixed Bottom CTA -->
+        <div class="fixed bottom-0 w-full max-w-[480px] bg-white border-t border-gray-100 p-4 pb-8 z-50">
+            <button onclick="handleApply()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black text-lg shadow-[0_10px_25px_rgba(79,70,229,0.3)] transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
+                지금 패키지 신청하기
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </button>
+            <p class="text-center text-[11px] text-gray-400 mt-3 font-medium">버튼 클릭 시 결제창이 바로 열립니다.</p>
+        </div>
+
+        <!-- Package Order Modal -->
+        <div id="packageOrderModal" class="fixed inset-0 z-[60] hidden">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePackageOrderModal()"></div>
+            <div class="absolute bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl p-6 transition-transform duration-300 transform translate-y-full shadow-2xl overflow-y-auto max-h-[90vh]">
+                <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
+                <h3 class="text-xl font-bold text-gray-900 mb-1">시즌 0 패키지 신청</h3>
+                <p class="text-sm text-gray-500 mb-6">실물 모의고사 배송 및 앱 분석 서비스</p>
+                
+                <div class="bg-indigo-50 p-5 rounded-2xl mb-6 border border-indigo-100">
+                    <div class="flex items-start gap-3 mb-2">
+                        <i data-lucide="package" class="w-5 h-5 text-indigo-600 mt-0.5"></i>
+                        <div>
+                            <span id="orderPackageTitle" class="font-bold text-indigo-900 text-sm">2028 통합과학 예비문항 완벽 분석 모의고사</span>
+                            <p id="orderPackageDesc" class="text-xs text-indigo-700 mt-1">총 4회분 실전 모의고사</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center mt-2 pt-3 border-t border-indigo-100/50">
+                        <span id="orderPackagePrice" class="font-black text-xl text-indigo-600">39,000원</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 p-4 border border-gray-100 bg-gray-50 rounded-xl mb-6">
+                    <div class="bg-white p-2 rounded-full shadow-sm"><i data-lucide="credit-card" class="w-5 h-5 text-gray-600"></i></div>
+                    <div class="flex-1">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">입금 계좌</p>
+                        <p class="font-bold text-gray-800 text-sm">국민 3333-01-0000000 (예금주: 신승원)</p>
+                    </div>
+                    <button onclick="copyToClipboard('3333-01-0000000')" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg hover:bg-indigo-100">복사</button>
+                </div>
+
+                <form id="orderForm" onsubmit="submitPackageOrder(event)">
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">입금자명</label>
+                            <input type="text" id="orderDepositor" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="입금자 성함을 입력하세요">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">수령인 이름 (실명)</label>
+                            <input type="text" id="orderName" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="택배를 받을 실명을 입력하세요">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">전화번호 (숫자만)</label>
+                            <input type="tel" id="orderPhone" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="010-0000-0000">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">배송지 주소</label>
+                            <div class="flex gap-2 mb-2">
+                                <input type="text" id="orderZonecode" readonly class="w-24 bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none cursor-pointer" placeholder="우편번호" onclick="execDaumPostcode()">
+                                <button type="button" onclick="execDaumPostcode()" class="flex-1 bg-gray-800 text-white font-bold text-xs rounded-xl hover:bg-gray-700 transition-colors">주소 검색</button>
+                            </div>
+                            <input type="text" id="orderAddress" readonly class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none mb-2 cursor-pointer" placeholder="기본 주소 (버튼을 눌러 검색)" onclick="execDaumPostcode()">
+                            <input type="text" id="orderAddressDetail" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="상세 주소를 입력하세요 (동/호수)">
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4 mt-2">
+                        <div class="flex items-start gap-2">
+                            <input type="checkbox" id="refundAgree" required class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                            <div class="flex-1">
+                                <label for="refundAgree" class="text-xs font-bold text-gray-800 block cursor-pointer">갓통과 환불 규정에 동의합니다. (필수)</label>
+                                <button type="button" onclick="toggleRefundPolicy()" class="text-[10px] text-gray-500 underline mt-0.5 outline-none">[규정 전문 보기]</button>
+                            </div>
+                        </div>
+                        <div id="refundPolicyContent" class="hidden mt-3 text-[10px] text-gray-600 space-y-1.5 border-t border-gray-200 pt-3">
+                            <p class="font-bold text-gray-700">[단과 패키지 (시즌 0~4)]</p>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><strong>배송 전 (결제 당일):</strong> 100% 전액 환불</li>
+                                <li><strong>배송 후:</strong> 상품 수령일로부터 7일 이내, <strong>미개봉 상태</strong>에 한해 반품 확인 후 환불 (왕복 택배비 구매자 부담)</li>
+                                <li><strong>환불 불가 조건:</strong> 시험지 포장(비닐) 훼손, 문제지 훼손, 앱 내 OMR 응시 이력이 있는 경우 상품 가치 훼손으로 환불 불가</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">결제 신청하기</button>
+                </form>
+                <p class="text-[10px] text-center text-gray-400 mt-4">입금 확인 후 관리자가 승인하면 서비스가 활성화됩니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
+        const app = initializeApp(firebaseConfig); 
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        let isUserLoggedIn = false;
+        let currentUser = null;
+        let allPackages = [];
+
+        async function fetchAllPackages() {
+            try {
+                const q = query(collection(db, 'packages'), where('status', '==', 'active'));
+                const snap = await getDocs(q);
+                const select = document.getElementById('orderPackageSelect');
+                select.innerHTML = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    allPackages.push({ id: doc.id, ...data });
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.innerText = `${data.title} - ${(data.price||0).toLocaleString()}원`;
+                    select.appendChild(option);
+                });
+                
+                // Set default based on hash
+                const hash = window.location.hash.replace('#', '');
+                if (hash && allPackages.some(p => p.id === hash)) {
+                    select.value = hash;
+                }
+                updatePackagePrice();
+            } catch (e) { console.error(e); }
+        }
+        fetchAllPackages();
+        
+        window.updatePackagePrice = () => {
+            const select = document.getElementById('orderPackageSelect');
+            const pkg = allPackages.find(p => p.id === select.value);
+            if (pkg) {
+                document.getElementById('orderPackagePrice').innerText = (pkg.price||0).toLocaleString() + '원';
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            isUserLoggedIn = !!user;
+            currentUser = user;
+        });
+
+        window.copyToClipboard = (text) => {
+            navigator.clipboard.writeText(text).then(() => alert('계좌번호가 복사되었습니다.')).catch(() => alert('복사 실패'));
+        };
+
+        window.handleApply = (targetPkgId = null) => {
+            if (!isUserLoggedIn) {
+                alert("로그인이 필요합니다. 로그인 후 신청해주세요.");
+                window.location.href = 'STEST/exam.html';
+                return;
+            }
+            
+            if (targetPkgId) {
+                const select = document.getElementById('orderPackageSelect');
+                if (allPackages.some(p => p.id === targetPkgId)) {
+                    select.value = targetPkgId;
+                    updatePackagePrice();
+                }
+            }
+
+            const modal = document.getElementById('packageOrderModal');
+            const inner = modal.children[1];
+            modal.classList.remove('hidden');
+            setTimeout(() => { inner.classList.remove('translate-y-full'); }, 10);
+        };
+
+        window.closePackageOrderModal = () => {
+            const modal = document.getElementById('packageOrderModal');
+            const inner = modal.children[1];
+            inner.classList.add('translate-y-full');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
+        window.submitPackageOrder = async (e) => {
+            e.preventDefault();
+            if(!currentUser) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+            
+            const depositor = document.getElementById('orderDepositor').value;
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            
+            const zonecode = document.getElementById('orderZonecode').value;
+            const baseAddress = document.getElementById('orderAddress').value;
+            const detailAddress = document.getElementById('orderAddressDetail').value;
+            
+            if(!baseAddress) {
+                alert("주소 검색 버튼을 눌러 배송지를 입력해주세요.");
+                return;
+            }
+            if(!document.getElementById('refundAgree').checked) {
+                alert("환불 규정에 동의해주셔야 결제가 가능합니다.");
+                return;
+            }
+            const address = `(${zonecode}) ${baseAddress} ${detailAddress}`;
+            
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "처리 중...";
+            btn.disabled = true;
+            
+            try {
+                const select = document.getElementById('orderPackageSelect');
+                const pkg = allPackages.find(p => p.id === select.value);
+                if (!pkg) { alert("패키지를 선택해주세요."); btn.innerText="결제 신청하기"; btn.disabled=false; return; }
+                const orderPkgId = pkg.id;
+                const orderPkgTitle = pkg.title;
+                const orderPkgPrice = pkg.price;
+
+                await addDoc(collection(db, "orders"), {
+                    uid: currentUser.uid,
+                    email: currentUser.email,
+                    depositor: depositor,
+                    name: name,
+                    phone: phone,
+                    address: address,
+                    packageId: orderPkgId,
+                    packageName: orderPkgTitle,
+                    price: orderPkgPrice,
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                });
+
+                const botToken = "8418122948:AAGLh95SYa2Dj0HPQvFOe3zlHAAHj18b9ow";
+                const chatId = "7703628247";
+                const text = `[새 패키지 주문 - 단과]
+패키지명: ${orderPkgTitle}
+입금자: ${depositor}\n수령인: ${name}\n전화: ${phone}\n주소: ${address}\n이메일: ${currentUser.email}`;
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({chat_id: chatId, text: text})
+                }).catch(err => console.error("Telegram error:", err));
+
+                alert("패키지 신청이 완료되었습니다! 입금 확인 후 승인 처리됩니다.");
+                closePackageOrderModal();
+                
+                window.location.href = 'index.html?view=my';
+            } catch (error) {
+                console.error(error);
+                alert("주문 처리 중 오류가 발생했습니다.");
+            } finally {
+                btn.innerText = "결제 신청하기";
+                btn.disabled = false;
+            }
+        };
+
+        window.execDaumPostcode = () => {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('orderZonecode').value = data.zonecode;
+                    document.getElementById('orderAddress').value = data.address;
+                    document.getElementById('orderAddressDetail').focus();
+                }
+            }).open();
+        };
+
+        window.toggleRefundPolicy = () => {
+            const content = document.getElementById('refundPolicyContent');
+            content.classList.toggle('hidden');
+        };
+
+        window.addEventListener('load', () => {
+            if(window.lucide) lucide.createIcons();
+        });
+    </script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</body>
+</html>

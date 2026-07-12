@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 5종 교과서 탐구 전수조사 마스터 DB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700;800;900&display=swap');
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; overflow: hidden; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .pub-header { font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px 6px 0 0; color: white; display: flex; align-items: center; justify-content: space-between; }
+        .bg-bs { background-color: #059669; } .text-bs { color: #059669; } .border-bs { border-color: #059669; }
+        .bg-da { background-color: #2563eb; } .text-da { color: #2563eb; } .border-da { border-color: #2563eb; }
+        .bg-mr { background-color: #d97706; } .text-mr { color: #d97706; } .border-mr { border-color: #d97706; }
+        .bg-cj { background-color: #7c3aed; } .text-cj { color: #7c3aed; } .border-cj { border-color: #7c3aed; }
+        .bg-ks { background-color: #e11d48; } .text-ks { color: #e11d48; } .border-ks { border-color: #e11d48; }
+
+        .activity-type { font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-right: 4px; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .activity-item { padding: 10px; border-bottom: 1px dashed #e2e8f0; }
+        .activity-item:last-child { border-bottom: none; }
+        
+        .domain-nav.active { background-color: #1e293b; color: white; border-color: #1e293b; }
+        .domain-nav.active .badge { background-color: white; color: #1e293b; }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <!-- 상단 헤더 -->
+    <header class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center shadow-md z-20 shrink-0">
+        <div class="flex items-center gap-4">
+            <div class="bg-indigo-500 p-2.5 rounded-xl shadow-inner">
+                <i data-lucide="database" class="w-6 h-6 text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-black tracking-tight">2022 개정 통합과학 <span class="text-indigo-400">탐구 전수조사 마스터 DB</span></h1>
+                <p class="text-slate-400 text-xs font-bold mt-1 tracking-wide">6 DOMAINS · 26 ELEMENTS · 5 PUBLISHERS COMPLETE DATA</p>
+            </div>
+        </div>
+        <div class="relative w-80">
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+            <input type="text" id="searchInput" onkeyup="renderCards()" placeholder="실험명, 키워드, 내용 요소 검색..." class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+        </div>
+    </header>
+
+    <!-- 메인 레이아웃 -->
+    <main class="flex-1 flex overflow-hidden bg-slate-50">
+        
+        <!-- 사이드바 -->
+        <aside class="w-72 bg-white border-r border-slate-200 flex flex-col z-10 shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+            <div class="p-5 border-b border-slate-100">
+                <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Navigation</h2>
+                <p class="text-sm font-bold text-slate-700">영역별 필터링</p>
+            </div>
+            <nav class="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2" id="domainNav">
+                <button onclick="setDomain('all')" class="domain-nav active w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>전체 보기</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">26</span>
+                </button>
+                <button onclick="setDomain('1. 과학의 기초')" class="domain-nav w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>1. 과학의 기초</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">2</span>
+                </button>
+                <button onclick="setDomain('2. 물질과 규칙성')" class="domain-nav w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>2. 물질과 규칙성</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">5</span>
+                </button>
+                <button onclick="setDomain('3. 시스템과 상호작용')" class="domain-nav w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>3. 시스템과 상호작용</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">7</span>
+                </button>
+                <button onclick="setDomain('4. 변화와 다양성')" class="domain-nav w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>4. 변화와 다양성</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">5</span>
+                </button>
+                <button onclick="setDomain('5. 환경과 에너지')" class="domain-nav w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>5. 환경과 에너지</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">5</span>
+                </button>
+                <button onclick="setDomain('6. 과학과 미래 사회')" class="domain-nav w-full text-left px-4 py-3 rounded-xl border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all flex items-center justify-between">
+                    <span>6. 과학과 미래 사회</span>
+                    <span class="badge bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-black">2</span>
+                </button>
+            </nav>
+            <div class="p-4 bg-slate-100 border-t border-slate-200">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-2"><i data-lucide="info" class="w-3.5 h-3.5"></i> 누락 제로 보증</div>
+                <p class="text-[10px] text-slate-400 leading-tight">교과서 본문, 탐구 활동, 실험, 해보기 코너의 모든 데이터를 배열로 구조화하여 100% 출력합니다.</p>
+            </div>
+        </aside>
+
+        <!-- 콘텐츠 영역 -->
+        <section class="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8" id="cardContainer">
+            <!-- JS로 렌더링됨 -->
+        </section>
+
+    </main>
+
+    <script>
+        // 26개 내용 요소 x 5종 교과서 전수 데이터 (누락 없음)
+        const fullDB = [
+            // --- 1. 과학의 기초 ---
+            {
+                domain: "1. 과학의 기초", id: "12통과1-01-01", element: "기본량과 단위",
+                goal: "SI 기본 단위의 정의를 이해하고, 일상생활 및 과학 탐구에서 측정의 중요성을 인식한다.",
+                pubs: {
+                    bs: [{ type: "활동", title: "화성 기후 궤도선 폭발 사고 사례 분석", desc: "단위 혼용(파운드 vs 뉴턴)으로 인한 폭발 사례를 통해 국제 표준 단위 사용 중요성 토론." }],
+                    da: [{ type: "탐구", title: "SI 기본 단위의 재정의 사례 조사", desc: "킬로그램, 암페어 등이 물리 상수를 기반으로 재정의된 이유 조사 및 발표." }],
+                    mr: [{ type: "탐구", title: "단위가 달라서 발생한 사고 사례 조사하기", desc: "항공기 연료 보급 사고 등 단위 혼용으로 인한 사회적 비용 분석." }],
+                    cj: [{ type: "탐구", title: "단위 체계의 국제적 규약 조사", desc: "킬로그램 원기 폐기 및 상수 기반 재정의 배경 토론." }],
+                    ks: [{ type: "탐구", title: "SI 기본 단위의 정의와 변천사 조사하기", desc: "질량(kg), 시간(s) 등 기본 단위의 정의가 불변의 상수를 이용해 재정의된 과정을 발표." }]
+                }
+            },
+            {
+                domain: "1. 과학의 기초", id: "12통과1-01-02", element: "정보와 신호 / 측정과 어림",
+                goal: "아날로그와 디지털 신호의 차이를 이해하고, 측정값의 어림과 유효 숫자의 개념을 탐구한다.",
+                pubs: {
+                    bs: [
+                        { type: "실험", title: "유효 숫자를 고려한 물체의 밀도 측정", desc: "전자저울과 눈금실린더를 사용하여 금속 시료의 질량/부피 측정 후 유효 숫자 고려 계산." },
+                        { type: "탐구", title: "QR 코드 속에 숨겨진 디지털 원리", desc: "0과 1의 이진수 정보가 체크무늬 패턴으로 변환되는 과정을 분석하고 부호화 실습." }
+                    ],
+                    da: [
+                        { type: "실험", title: "아날로그 신호의 디지털 변환 과정 모의 활동", desc: "연속적인 그래프를 격자판에 올리고 각 지점의 값을 숫자로 바꾸어 전송 및 복원 실습." },
+                        { type: "실험", title: "신체 부위를 이용한 어림 측정과 도구 측정 비교", desc: "뼘, 발 등을 이용해 길이를 어림하고 줄자로 실측하여 오차 범위를 계산하며 측정 도구의 필요성 확인." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "유효 숫자를 고려한 물체의 밀도 측정 실험", desc: "버니어 캘리퍼스와 전자저울을 사용하여 측정 기구의 정밀도를 파악하고 연산 법칙 적용." },
+                        { type: "활동", title: "아날로그와 디지털 신호의 변화 체험", desc: "목소리를 오실로스코프로 관찰하여 파동 신호의 디지털 변환 과정(표본화, 양자화) 탐색." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "디지털 정보의 샘플링 주기에 따른 음질 변화 분석", desc: "스마트 기기를 이용해 샘플링 주기를 다르게 녹음한 후 파형 해상도와 음질의 관계 분석." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "스마트폰 센서를 이용한 물리량 측정과 어림", desc: "일상적인 물체의 길이나 무게를 눈으로 어림한 후 스마트폰 앱 센서로 실측하여 오차 비교." },
+                        { type: "탐구", title: "디지털 신호의 0과 1 변환 원리 모형 구성", desc: "아날로그 그래프를 샘플링하여 이진법 데이터로 변환하는 과정을 직접 시뮬레이션." }
+                    ]
+                }
+            },
+
+            // --- 2. 물질과 규칙성 ---
+            {
+                domain: "2. 물질과 규칙성", id: "12통과1-02-01", element: "원소 형성 / 별의 진화",
+                goal: "빅뱅 우주론과 별의 내부 핵융합을 통해 오늘날 우주를 구성하는 원소들이 형성되었음을 설명한다.",
+                pubs: {
+                    bs: [{ type: "실험", title: "스펙트럼 관찰을 통한 원소의 확인", desc: "햇빛, 형광등, 금속 원소의 불꽃색 스펙트럼을 분광기로 관찰하여 고유성 확인." }],
+                    da: [
+                        { type: "실험", title: "간이 분광기로 관찰하는 선스펙트럼 분석", desc: "회절 격자 필름을 이용하여 방전관의 스펙트럼을 관찰하고 원소 성분 대조." },
+                        { type: "탐구", title: "별의 질량에 따른 원소 생성 과정 플로우차트 작성", desc: "태양 정도 질량의 별과 무거운 별의 진화 과정을 구분하고 도식화." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "분광기를 이용한 여러 가지 광원의 스펙트럼 관찰", desc: "연속, 선, 흡수 스펙트럼의 특징 비교 및 우주 구성 원소 유추." },
+                        { type: "탐구", title: "빅뱅 후 초기 우주에서 헬륨 원자핵 생성 모형화", desc: "입자 모형을 이용해 양성자와 중성자 비율에 따른 수소/헬륨 질량비 계산." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "선스펙트럼 분석을 통한 원소 감별", desc: "미지의 스펙트럼 데이터를 해석하여 우주 구성 원소 비율 추론." },
+                        { type: "탐구", title: "우주 배경 복사 분석 및 별의 층상 구조 비교", desc: "WMAP 데이터 해석 및 질량에 따른 별 내부 구조 차이 토의." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "간이 분광기를 이용한 여러 가지 광원의 스펙트럼 관찰", desc: "태양, 형광등, 방전관의 선스펙트럼을 비교하여 원소 성분 추론." },
+                        { type: "탐구", title: "별의 질량에 따른 진화 경로 카드 분류하기", desc: "진화 단계별 특징과 생성되는 원소를 카드로 배열." }
+                    ]
+                }
+            },
+            {
+                domain: "2. 물질과 규칙성", id: "12통과1-02-02", element: "원소의 주기성",
+                goal: "주기율표의 구성 원리를 이해하고, 알칼리 금속과 할로젠 원소의 성질을 비교한다.",
+                pubs: {
+                    bs: [{ type: "실험", title: "알칼리 금속의 성질 탐구", desc: "리튬, 나트륨, 칼륨의 단면 광택 상실 및 물 반응성, 페놀프탈레인 색 변화 관찰." }],
+                    da: [
+                        { type: "실험", title: "알칼리 금속의 반응성 비교 실험", desc: "나트륨과 칼륨을 물에 넣어 반응성을 관찰하고 수용액 액성 확인." },
+                        { type: "탐구", title: "할로젠 원소의 물리적/화학적 성질 데이터 분석", desc: "F, Cl, Br, I의 색깔, 상태, 반응성 자료 해석." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "알칼리 금속의 성질 비교 실험", desc: "물과의 반응성 크기 비교 및 수소 기체 발생 확인." },
+                        { type: "활동", title: "나만의 주기율표 만들기", desc: "원소 카드의 성질 규칙성을 찾아 원소를 재배열하는 활동." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "할로젠 원소의 반응성 비교", desc: "염소수, 브로민수, 아이오딘수를 이용한 앙금 생성 및 색 변화 관찰." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "알칼리 금속의 성질 확인하기", desc: "단면 관찰, 물과의 반응 및 페놀프탈레인 용액의 색 변화 관찰." },
+                        { type: "탐구", title: "나만의 주기율표 만들기", desc: "화학적 성질이 유사한 원소들을 그룹화하여 배치." }
+                    ]
+                }
+            },
+            {
+                domain: "2. 물질과 규칙성", id: "12통과1-02-03", element: "이온 결합 / 공유 결합",
+                goal: "전자 배치 모형을 사용하여 이온 결합과 공유 결합의 형성 과정을 설명한다.",
+                pubs: {
+                    bs: [{ type: "활동", title: "모형을 이용한 이온 결합과 공유 결합 표현", desc: "전자 카드를 이용하여 염화 나트륨과 물 분자의 전자 이동 시각화." }],
+                    da: [{ type: "실험", title: "전해질과 비전해질 수용액의 전류 흐름 확인", desc: "소금물과 설탕물에 전극을 연결하여 LED 점등 여부 관찰." }],
+                    mr: [
+                        { type: "실험", title: "화학 결합의 종류에 따른 전기 전도성 확인", desc: "염화 나트륨과 설탕물의 전기 전도성 유무를 통해 결합 특성 분석." },
+                        { type: "탐구", title: "옥텟 규칙을 만족하는 분자의 입체 모형 만들기", desc: "분자 모형 키트를 이용해 공유 결합 물질 구조 제작." }
+                    ],
+                    cj: [{ type: "실험", title: "녹는점과 수용액의 전도성 측정", desc: "이온 결합 물질과 공유 결합 물질의 물리적 성질 차이 기록." }],
+                    ks: [{ type: "실험", title: "여러 가지 물질의 전기 전도성 측정", desc: "고체와 수용액 상태의 전기 전도성을 비교하여 결합 종류 구분." }]
+                }
+            },
+            {
+                domain: "2. 물질과 규칙성", id: "12통과1-02-04", element: "전기적 성질 / 지각과 생명체 구성 물질",
+                goal: "지각과 생명체를 구성하는 물질의 결합 규칙성을 파악하고 신소재의 활용을 조사한다.",
+                pubs: {
+                    bs: [
+                        { type: "탐구", title: "규산염 광물의 구조와 특징 분석", desc: "사면체의 공유 산소 수에 따른 화학식과 물리적 성질 차이 분석." },
+                        { type: "활동", title: "탄소 신소재의 활용 사례 조사", desc: "그래핀, 탄소 나노튜브의 특성 및 디스플레이 활용 조사." }
+                    ],
+                    da: [
+                        { type: "탐구", title: "탄소 화합물과 규산염 화합물의 구조적 유사성 비교", desc: "사슬형, 고리형 등 다양한 결합 구조를 모형으로 조립." },
+                        { type: "실험", title: "자석을 이용한 액체 질소 냉각 초전도체 띄우기", desc: "초전도체의 임계 온도와 마이스너 효과 시각적 확인." }
+                    ],
+                    mr: [
+                        { type: "탐구", title: "규산염 사면체와 탄소 화합물 모형 조립", desc: "공유 산소 수에 따른 공간적 배치 차이 관찰." },
+                        { type: "조사", title: "일상에서 활용되는 신소재와 과학 윤리", desc: "나노 기술의 인체 영향성 및 신소재 활용 토론." }
+                    ],
+                    cj: [
+                        { type: "조사", title: "반도체와 나노 신소재의 활용과 미래", desc: "p형, n형 접합 원리 및 초전도체 활용 영상 분석." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "초전도체의 마이스너 효과 관찰", desc: "액체 질소로 냉각시킨 초전도체 위 자석 부상 관찰." },
+                        { type: "탐구", title: "규산염 사면체 모형 조립하기", desc: "사면체 유닛을 연결하여 망상 구조 등 규칙성 시각화." }
+                    ]
+                }
+            },
+
+            // --- 3. 시스템과 상호작용 ---
+            {
+                domain: "3. 시스템과 상호작용", id: "12통과1-03-01", element: "지구시스템 / 판구조론",
+                goal: "지구 시스템 각 권역의 상호작용과 판의 경계에서 일어나는 지각 변동 메커니즘을 설명한다.",
+                pubs: {
+                    bs: [{ type: "탐구", title: "전 세계 지진과 화산대 분포 지도 겹치기", desc: "발생 지점 데이터를 투명 종이에 플롯하여 판의 경계와 일치함 증명." }],
+                    da: [{ type: "탐구", title: "판 경계 유형에 따른 지형 형성 모형 제작", desc: "우드락으로 해구, 해령, 습곡 산맥 재현." }],
+                    mr: [
+                        { type: "탐구", title: "지진대와 화산대 분포 분석하기", desc: "판의 경계와 지각 변동 상관관계 지도 분석." },
+                        { type: "실험", title: "해령과 해구의 형성을 나타내는 대류 모형 실험", desc: "가열을 통한 액체 대류로 상층부 물질 이동 관찰." }
+                    ],
+                    cj: [{ type: "활동", title: "판의 경계에서 나타나는 지형 카드 매칭", desc: "위성 사진과 발산형/수렴형 모식도 연결." }],
+                    ks: [
+                        { type: "탐구", title: "지진대와 화산대 지도를 판의 경계와 겹쳐보고 규칙성 찾기", desc: "화산/지진 활동 분포 지도 비교 분석." },
+                        { type: "실험", title: "해령의 확장과 자기장 역전 모형 실험", desc: "종이띠를 이용해 해령 확장 재현." }
+                    ]
+                }
+            },
+            {
+                domain: "3. 시스템과 상호작용", id: "12통과1-03-02", element: "중력장 내의 운동",
+                goal: "자유 낙하 운동과 수평으로 던진 물체의 운동을 분석하여 중력의 영향을 설명한다.",
+                pubs: {
+                    bs: [
+                        { type: "실험", title: "역학 수레의 운동 분석", desc: "다중 노출 사진을 이용해 v-t 그래프 기울기(가속도) 측정." },
+                        { type: "실험", title: "자유 낙하 운동 분석", desc: "스마트 기기를 이용해 물체의 낙하 시간 간격 분석." }
+                    ],
+                    da: [{ type: "실험", title: "수직 낙하와 수평 투사 물체의 동시 착지 확인", desc: "발사 장치로 두 쇠구슬 동시 낙하 후 소리 비교." }],
+                    mr: [
+                        { type: "실험", title: "자유 낙하와 수평 던지기 운동 스마트폰 촬영 분석", desc: "Tracker 프로그램을 이용해 x축, y축 속도 성분 분석." },
+                        { type: "탐구", title: "중력의 영향 조사", desc: "기린의 혈압, 식물의 굴성 등 생명 유지 원리 조사." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "다중 노출 사진을 이용한 가속도 측정", desc: "일정 시간 간격 위치 변화 측정." },
+                        { type: "실험", title: "동시 낙하 원리 시뮬레이션", desc: "공기 저항이 없을 때 무거운/가벼운 물체 낙하 비교." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "동영상 분석 소프트웨어를 활용한 낙하 운동 분석", desc: "수직 방향 가속도가 일정함을 정량적 확인." },
+                        { type: "탐구", title: "중력과 대기 순환", desc: "대기 성분이 중력에 유지되는 과정 토의." }
+                    ]
+                }
+            },
+            {
+                domain: "3. 시스템과 상호작용", id: "12통과1-03-03", element: "충격량과 운동량",
+                goal: "충돌 사고 예방을 위한 안전 장치의 과학적 원리를 충격량과 충돌 시간의 관계로 설명한다.",
+                pubs: {
+                    bs: [{ type: "실험", title: "달걀 자유 낙하 장치 설계 및 제작", desc: "충돌 시간을 늘려 달걀이 깨지지 않는 장치 고안." }],
+                    da: [
+                        { type: "실험", title: "다양한 재질의 바닥 위로 떨어뜨린 달걀의 파손 비교", desc: "방석, 맨바닥 낙하 비교." },
+                        { type: "탐구", title: "스마트폰 가속도 센서를 이용한 충돌 시간 연장 효과 분석", desc: "에어백 원리 정량 실험." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "충격 흡수 장치 설계 및 효능 검증", desc: "스마트폰 가속도 센서를 이용해 최대 충격력 감소 확인." },
+                        { type: "실험", title: "고무줄과 스펀지를 이용한 수레 충돌(범퍼) 실험", desc: "충격량 변화 분석." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "빨대 로켓을 이용한 작용 반작용과 충격량", desc: "부는 시간(빨대 길이)에 따른 비행 거리 실험." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "달걀 낙하 장치 설계 및 충돌 완화 실험", desc: "충돌 완화 장치 제작 및 테스트." },
+                        { type: "탐구", title: "역학적 에너지와 충돌 안전 설계", desc: "높이에 따른 충격량 변화 토의." }
+                    ]
+                }
+            },
+            {
+                domain: "3. 시스템과 상호작용", id: "12통과1-03-04", element: "생명 시스템 / 세포막 / 효소 / 유전",
+                goal: "세포막을 통한 물질 출입, 효소의 작용, 유전 정보의 흐름(중심 원리)을 통합적으로 탐구한다.",
+                pubs: {
+                    bs: [
+                        { type: "실험", title: "카탈레이스의 작용 관찰", desc: "감자즙을 이용한 과산화 수소 분해 반응 속도 비교." },
+                        { type: "실험", title: "달걀 노른자 막을 이용한 삼투 현상", desc: "농도 차에 따른 부피 변화 관찰." }
+                    ],
+                    da: [
+                        { type: "실험", title: "아밀레이스의 농도에 따른 녹말 분해 속도 측정", desc: "아이오딘 반응을 통한 시간별 색 변화 관찰." },
+                        { type: "탐구", title: "DNA-RNA-단백질 정보 흐름 암호 해독 활동", desc: "염기 서열 전사 및 번역 게임." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "온도와 pH가 카탈레이스 활성에 미치는 영향", desc: "조건에 따른 거품 발생 높이 비교." },
+                        { type: "실험", title: "세포막의 삼투 현상 관찰", desc: "양파 표피 세포의 원형질 분리 현상 현미경 관찰." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "효소의 기질 특이성 모형", desc: "자물쇠-열쇠 모형을 이용한 효소-기질 복합체 설명." },
+                        { type: "탐구", title: "염기 서열 암호 판독을 통한 가상 단백질 만들기", desc: "코돈표 해석 실습." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "침 속 아밀레이스 반응 실험", desc: "효소 소화 작용 확인." },
+                        { type: "탐구", title: "DNA 정보로부터 단백질 합성 모형 활동", desc: "염기 서열 카드를 이용한 시뮬레이션." }
+                    ]
+                }
+            },
+
+            // --- 4. 변화와 다양성 ---
+            {
+                domain: "4. 변화와 다양성", id: "12통과2-01-01", element: "지질시대 / 대멸종",
+                goal: "화석 분포와 지층 분석을 통해 대륙 이동의 증거를 찾고 생태계 대멸종의 원인을 탐구한다.",
+                pubs: {
+                    bs: [{ type: "탐구", title: "지질 시대 연대표 만들기", desc: "46억 년을 24시간/100m로 환산하여 대멸종 및 표준 화석 배치." }],
+                    da: [{ type: "탐구", title: "지질 시대의 기온 변화와 생물 속 수의 변화 그래프 해석", desc: "기후 변화와 멸종의 상관관계 도출." }],
+                    mr: [
+                        { type: "탐구", title: "지질 시대별 생물계의 변화와 화석 조사", desc: "대멸종 시나리오 작성." },
+                        { type: "분석", title: "해양 생물 과(Family) 수 변화 그래프 분석", desc: "5차 대멸종 시기 파악." }
+                    ],
+                    cj: [{ type: "탐구", title: "지질 시대 생물의 출현과 멸종 연대표 제작", desc: "지구 환경 변화 연계." }],
+                    ks: [
+                        { type: "탐구", title: "화석 사진을 이용한 지질 시대 환경 추론", desc: "삼엽충, 암모나이트 등을 통한 바다/육지 환경 구분." },
+                        { type: "토론", title: "현 인류 세대의 6차 멸종 가능성", desc: "생물다양성 위기 토론." }
+                    ]
+                }
+            },
+            {
+                domain: "4. 변화와 다양성", id: "12통과2-01-02", element: "자연선택 / 생물다양성",
+                goal: "변이와 자연선택에 의한 진화 과정(항생제 내성 세균 등)을 모의 실험으로 설명한다.",
+                pubs: {
+                    bs: [{ type: "활동", title: "항생제 내성 세균 형성 모의 실험", desc: "흰/검은 바둑알을 이용해 항생제 투여 시 집단 구성 변화 확률 모델링." }],
+                    da: [{ type: "실험", title: "핀치 새의 부리 모양과 먹이 획득 모의 활동", desc: "집게 등 도구로 먹이 채집 효율 비교." }],
+                    mr: [
+                        { type: "실험", title: "핀치 부리 모형을 이용한 자연선택 모의 활동", desc: "적응 환경에 따른 생존율 비교." },
+                        { type: "활동", title: "생물다양성 유지의 가치 분석", desc: "단일 경작과 생태 공원 조성 사례 비교 토론." }
+                    ],
+                    cj: [{ type: "실험", title: "항생제 내성 세균 형성 시뮬레이션", desc: "색종이 조각을 이용한 내성 유전자 증식 과정 실습." }],
+                    ks: [{ type: "실험", title: "항생제 내성 세균 형성 과정 모의 활동", desc: "구슬을 이용하여 자연 선택 과정 시뮬레이션." }]
+                }
+            },
+            {
+                domain: "4. 변화와 다양성", id: "12통과2-01-03", element: "산화환원 / 산염기 / 중화반응",
+                goal: "전자의 이동에 따른 산화 환원을 이해하고, 생활 속 산·염기 중화 반응의 원리를 분석한다.",
+                pubs: {
+                    bs: [
+                        { type: "실험", title: "금속과 산의 반응성 서열 확인", desc: "구리판 연소(산화) 및 환원 관찰." },
+                        { type: "실험", title: "천연 지시약(자색 양배추)을 이용한 용액의 분류", desc: "식초, 세정제 등의 pH 색 변화 관찰." }
+                    ],
+                    da: [
+                        { type: "실험", title: "금속과 산의 반응을 통한 수소 기체 발생 확인", desc: "아연 조각과 염산 반응 시 기체 포집 및 연소." },
+                        { type: "실험", title: "산과 염기를 섞을 때의 중화열 측정", desc: "중화점 온도 그래프 작성." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "질산 은 용액과 구리판의 반응 관찰", desc: "은 석출과 용액 색 변화를 통한 전자 이동 메커니즘 확인." },
+                        { type: "실험", title: "중화 적정 및 지시약의 색 변화 확인", desc: "BTB, 페놀프탈레인 활용 pH 및 온도 측정." }
+                    ],
+                    cj: [
+                        { type: "실험", title: "천연 지시약을 이용한 pH 측정", desc: "일상 물질 산성도 분류." },
+                        { type: "실험", title: "MBL 전도도 센서를 이용한 중화 반응", desc: "전류 세기 최소 지점(중화점) 탐색." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "구리판 연소와 산화 구리의 환원 실험", desc: "겉불꽃/속불꽃 반응 관찰." },
+                        { type: "실험", title: "중화 반응 시의 온도 변화와 중화점 찾기", desc: "혼합 부피에 따른 열 발생량 정량 계산." }
+                    ]
+                }
+            },
+
+            // --- 5. 환경과 에너지 ---
+            {
+                domain: "5. 환경과 에너지", id: "12통과2-02-01", element: "생태계 평형",
+                goal: "생태계 구성 요소의 상호작용과 먹이 그물 내 에너지 흐름을 이해한다.",
+                pubs: {
+                    bs: [{ type: "탐구", title: "생태 피라미드 모형 구성 및 개체 수 변화 토론", desc: "특정 소비자 제거 시 발생하는 연쇄 반응(Trophic Cascade) 분석." }],
+                    da: [{ type: "탐구", title: "가상 생태계 모의 소프트웨어를 이용한 개체 수 변화 관찰", desc: "평형 파괴 후 복구 과정 컴퓨터 시뮬레이션." }],
+                    mr: [{ type: "탐구", title: "생물 농축 현상 자료 해석하기", desc: "살충제(DDT)가 상위 포식자로 이동하는 농도 배율 데이터 분석." }],
+                    cj: [{ type: "탐구", title: "먹이 그물 복잡성에 따른 생태계 안정성 모델링", desc: "생물 종 수에 따른 멸종 확률 비교." }],
+                    ks: [{ type: "탐구", title: "학교 숲 생태계 구성 요소 관찰 및 먹이 그물 그리기", desc: "직접 야외 관찰을 통한 복잡한 상호작용 연결망 작성." }]
+                }
+            },
+            {
+                domain: "5. 환경과 에너지", id: "12통과2-02-02", element: "해양과 대기 / 지구온난화",
+                goal: "지구 온난화, 엘니뇨 등 기상 이변의 메커니즘을 데이터를 통해 해석한다.",
+                pubs: {
+                    bs: [
+                        { type: "실험", title: "이산화 탄소 농도에 따른 기온 상승 비교", desc: "밀폐 용기에 CO2와 공기를 넣고 전등을 비추어 온도 상승률 차이 측정." }
+                    ],
+                    da: [
+                        { type: "탐구", title: "과거 80만 년간의 이산화 탄소 농도와 지구 기온 편차 분석", desc: "빙하 코어 데이터 상관관계 도출." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "온실 효과와 해수면 상승 실험", desc: "대륙빙하와 해빙빙하가 녹을 때 물 높이 변화 비교." }
+                    ],
+                    cj: [
+                        { type: "탐구", title: "엘니뇨 시기 태평양 수온 분포 자료 해석", desc: "동태평양 해수면 온도 상승과 기상 이변 관계 조사." }
+                    ],
+                    ks: [
+                        { type: "탐구", title: "해수면 온도 편차 자료 분석을 통한 엘니뇨 판별", desc: "기상청 데이터를 이용해 엘니뇨 시기 특정." },
+                        { type: "실험", title: "온실효과 모의 실험", desc: "온실 기체가 갇힌 공간의 온도 상승 모니터링." }
+                    ]
+                }
+            },
+            {
+                domain: "5. 환경과 에너지", id: "12통과2-02-03", element: "발전 / 에너지 효율",
+                goal: "전자기 유도 현상을 이용한 발전 원리와 열역학 법칙에 따른 에너지 효율 한계를 이해한다.",
+                pubs: {
+                    bs: [
+                        { type: "실험", title: "전자기 유도 현상 확인", desc: "검류계 연결 코일에 자석을 넣고 빼며 유도 전류 방향/세기 관찰." },
+                        { type: "탐구", title: "하이브리드 자동차의 회생 제동 시스템 조사", desc: "에너지 회수 원리 발표." }
+                    ],
+                    da: [
+                        { type: "실험", title: "손으로 돌리는 자가 발전기를 이용한 전기 생산", desc: "회전 속도에 따른 전구 밝기 변화 관찰." },
+                        { type: "탐구", title: "우리 집 에너지 소비 구조 진단", desc: "가전제품 효율 등급 조사 및 탄소 중립 방안 수립." }
+                    ],
+                    mr: [
+                        { type: "실험", title: "간이 발전기 제작 및 유도 전류 관찰", desc: "에나멜선 코일과 자석으로 LED 점등 조건 탐구." },
+                        { type: "탐구", title: "에너지 효율 등급과 소비 효율 계산", desc: "연간 전기 요금 및 탄소 배출량 산출." }
+                    ],
+                    cj: [
+                        { type: "탐구", title: "에너지 제로 하우스 건축 설계 토의", desc: "단열과 신재생 에너지를 활용한 설계." },
+                        { type: "조사", title: "수소 연료 전지 자동차 원리 장단점", desc: "내연 기관과의 에너지 전환 효율 비교." }
+                    ],
+                    ks: [
+                        { type: "실험", title: "전자기 유도를 이용한 간이 발전기 제작", desc: "역학적 에너지가 전기 에너지로 전환됨 확인." },
+                        { type: "활동", title: "가전제품 에너지 효율 등급 비교", desc: "열에너지 손실 감소 방안 제안." }
+                    ]
+                }
+            },
+
+            // --- 6. 과학과 미래 사회 ---
+            {
+                domain: "6. 과학과 미래 사회", id: "12통과2-03-01", element: "감염병 / 인공지능",
+                goal: "감염병 확산을 막기 위한 방역의 원리와 AI의 과학적 활용 가능성을 탐색한다.",
+                pubs: {
+                    bs: [{ type: "활동", title: "머신러닝 모델을 이용한 질병 예측 체험", desc: "엔트리/스크래치 활용 증상 데이터 학습 및 판별 AI 제작." }],
+                    da: [{ type: "탐구", title: "시뮬레이션 프로그램을 이용한 감염병 확산 모델링", desc: "백신 접종률에 따른 집단 면역 효과 가상 시나리오 분석." }],
+                    mr: [{ type: "활동", title: "AI를 활용한 감염병 확산 시뮬레이션", desc: "전파율, 치명률 변수 조정을 통한 방역 정책 효과성 실험." }],
+                    cj: [{ type: "조사", title: "빅데이터를 활용한 질병 예측 시스템 조사", desc: "구글 플루 트렌드 등 검색어 분석 선제 대응 사례." }],
+                    ks: [
+                        { type: "탐구", title: "공공 데이터를 활용한 감염병 확산 경로 시각화", desc: "질병관리청 통계 자료의 지도 맵핑." },
+                        { type: "실험", title: "머신러닝 생물 분류기 만들기", desc: "이미지 학습 툴을 사용한 분류 정확도 테스트." }
+                    ]
+                }
+            },
+            {
+                domain: "6. 과학과 미래 사회", id: "12통과2-03-02", element: "로봇 / 과학윤리",
+                goal: "로봇 기술의 발달이 인간 삶에 미치는 영향과 과학 기술 개발 과정의 윤리적 쟁점을 토론한다.",
+                pubs: {
+                    bs: [{ type: "토론", title: "로봇세(Robot Tax) 도입과 인공지능 권리 부여 논쟁", desc: "노동 시장 대체에 따른 사회적 책임 토론." }],
+                    da: [{ type: "탐구", title: "자율 주행 자동차의 도덕적 판단 기준(트롤리 딜레마)", desc: "위급 상황 시 알고리즘 우선가치 설정 윤리 토론." }],
+                    mr: [
+                        { type: "토론", title: "자율주행 자동차의 트롤리 딜레마 윤리", desc: "과학적, 철학적 가이드라인 마련." },
+                        { type: "활동", title: "미래 사회를 변화시킬 융합 로봇 설계하기", desc: "돌봄 로봇 등 인간 중심적 기술 기획." }
+                    ],
+                    cj: [{ type: "토론", title: "로봇세 도입 찬반 토론", desc: "노동력 대체와 사회 복지 재원 확보 쟁점." }],
+                    ks: [
+                        { type: "탐구", title: "우리 생활 속에 도입된 로봇 센서 원리 조사", desc: "초음파, 라이다 센서의 역할 분석." },
+                        { type: "토론", title: "인공지능 자율 주행차 윤리 토론", desc: "책임 소재에 대한 찬반 쟁점 분석." }
+                    ]
+                }
+            }
+        ];
+
+        let currentDomain = 'all';
+
+        function setDomain(domain) {
+            currentDomain = domain;
+            document.querySelectorAll('.domain-nav').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            renderCards();
+        }
+
+        function renderCards() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('cardContainer');
+            container.innerHTML = '';
+
+            const filteredData = fullDB.filter(item => {
+                const matchDomain = currentDomain === 'all' || item.domain === currentDomain;
+                const pubText = Object.values(item.pubs).flat().map(p => `${p.title} ${p.desc}`).join(' ');
+                const searchText = `${item.element} ${item.goal} ${pubText}`.toLowerCase();
+                const matchSearch = searchText.includes(searchVal);
+                return matchDomain && matchSearch;
+            });
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `<div class="flex flex-col items-center justify-center h-64 text-slate-400">
+                    <i data-lucide="search-x" class="w-12 h-12 mb-4 opacity-50"></i>
+                    <p class="font-bold">검색 결과가 없습니다.</p>
+                </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 rounded-2xl shadow-sm mb-8 overflow-hidden";
+
+                // Header
+                let html = `
+                    <div class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="bg-indigo-100 text-indigo-700 font-mono text-xs font-bold px-2 py-0.5 rounded">${item.id}</span>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${item.domain}</span>
+                            </div>
+                            <h3 class="text-xl font-black text-slate-800">${item.element}</h3>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-3 rounded-lg md:max-w-md text-sm font-semibold text-slate-600 shadow-sm leading-relaxed">
+                            <span class="text-indigo-500 font-black mr-1">목표:</span> ${item.goal}
+                        </div>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 xl:grid-cols-5 gap-5">
+                `;
+
+                // Publishers
+                const pubKeys = [
+                    { key: 'ks', name: '금성', colorClass: 'ks' },
+                    { key: 'bs', name: '비상', colorClass: 'bs' },
+                    { key: 'da', name: '동아', colorClass: 'da' },
+                    { key: 'cj', name: '천재', colorClass: 'cj' },
+                    { key: 'mr', name: '미래엔', colorClass: 'mr' }
+                ];
+
+                pubKeys.forEach(pub => {
+                    const acts = item.pubs[pub.key];
+                    html += `
+                        <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                            <div class="pub-header bg-${pub.colorClass}">
+                                <span>${pub.name}</span>
+                                <span class="bg-white/20 text-white text-[9px] px-1.5 py-0.5 rounded-full">${acts.length}</span>
+                            </div>
+                            <div class="bg-white flex-1 flex flex-col divide-y divide-slate-100">
+                    `;
+                    acts.forEach(act => {
+                        html += `
+                                <div class="activity-item group">
+                                    <div class="mb-1.5 leading-snug">
+                                        <span class="activity-type">${act.type}</span>
+                                        <span class="text-[13px] font-bold text-slate-800 group-hover:text-${pub.colorClass} transition-colors">${act.title}</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 leading-relaxed">${act.desc}</p>
+                                </div>
+                        `;
+                    });
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Initialize
+        window.onload = renderCards;
+    </script>
+</body>
+</html>

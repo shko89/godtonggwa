@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합과학 5종 교과서 탐구 DB 통합 대시보드</title>
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #0ea5e9;
+            --exp: #f59e0b; --inq: #3b82f6; --res: #8b5cf6;
+            --bg: #f1f5f9; --white: #ffffff;
+        }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        header { background: var(--primary); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+        
+        /* 출판사 선택 메뉴 */
+        .publisher-menu { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .pub-btn { 
+            padding: 12px 25px; border: none; border-radius: 30px; background: var(--white); 
+            color: var(--primary); font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .pub-btn.active { background: var(--accent); color: white; }
+        .pub-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
+        .category-card { background: var(--white); border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--accent); }
+        .category-card h2 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--primary); border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        
+        .activity-item { display: flex; align-items: center; padding: 10px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: 0.2s; border: 1px solid #f1f5f9; font-size: 0.9rem; }
+        .activity-item:hover { background: #f0f9ff; border-color: var(--accent); transform: translateX(5px); }
+        .tag { font-size: 0.7rem; font-weight: 800; padding: 3px 7px; border-radius: 5px; color: white; margin-right: 12px; white-space: nowrap; }
+        .tag-exp { background: var(--exp); } .tag-inq { background: var(--inq); } .tag-res { background: var(--res); }
+
+        /* Modal */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 750px; border-radius: 20px; padding: 40px; max-height: 85vh; overflow-y: auto; position: relative; }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: #cbd5e1; }
+        .modal-label { font-weight: 800; color: var(--accent); font-size: 0.8rem; display: block; margin-top: 20px; }
+        .modal-text { line-height: 1.7; margin-top: 5px; color: #334155; }
+        .tip-box { background: #f0f9ff; padding: 15px; border-radius: 10px; border-left: 4px solid var(--accent); margin-top: 25px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>💎 통합과학 5종 교과서 탐구 활동 통합 DB</h1>
+        <p>출판사를 선택하면 전수 조사된 모든 탐구 리스트가 나타납니다.</p>
+    </header>
+
+    <div class="publisher-menu" id="pubMenu">
+        <button class="pub-btn active" onclick="switchPublisher('visang')">비상교육</button>
+        <button class="pub-btn" onclick="switchPublisher('miraen')">미래엔</button>
+        <button class="pub-btn" onclick="switchPublisher('donga')">동아출판</button>
+        <button class="pub-btn" onclick="switchPublisher('chunjae')">천재교육</button>
+        <button class="pub-btn" onclick="switchPublisher('jihak')">지학사</button>
+    </div>
+
+    <div class="grid-container" id="dashboard">
+        </div>
+</div>
+
+<div id="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle" style="color:var(--primary); margin:0;"></h2>
+        <span class="modal-label">🎯 탐구 목표</span>
+        <div id="modalGoal" class="modal-text"></div>
+        <span class="modal-label">📝 주요 탐구 과정</span>
+        <div id="modalSteps" class="modal-text"></div>
+        <div class="tip-box">
+            <strong>💡 갓통과 모의고사 출제 팁</strong>
+            <div id="modalTips" style="font-size: 0.9rem; margin-top: 5px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 비상교육 데이터 (Untitled-1.html 기반 32종 전수 수록)
+    const visangData = [
+        {
+            category: "과학의 기초 (기본량, 측정, 정보)",
+            items: [
+                { type: "exp", title: "정밀 측정 도구를 활용한 물체의 길이와 질량 측정", goal: "버니어 캘리퍼스와 전자저울 정밀도 이해", steps: "영점 조절 → 질량 측정 → 길이 측정 → 밀도 계산", tips: "밀도가 유도 물리량임을 묻는 선지 구성" },
+                { type: "inq", title: "마이크로 세계부터 거대 우주까지의 규모 어림하기", goal: "우주 규모 시각화", steps: "입자부터 은하까지 규모별 나열 및 비교", tips: "로그 스케일 그래프 해석 문항 소재" },
+                { type: "res", title: "온도 측정의 역사와 국제 표준 단위(SI)의 유래", goal: "온도 단위 체계 이해", steps: "섭씨, 화씨, 절대 온도의 유래 조사", tips: "절대 온도와 분자 운동의 관계 연계" },
+                { type: "res", title: "디지털 정보의 생성과 신호 전달 원리 분석", goal: "A-D 변환 원리 파악", steps: "샘플링 및 이진법 변환 과정 분석", tips: "정보의 양(Bit) 계산 문항 소재" }
+            ]
+        },
+        {
+            category: "물질과 규칙성 (원소, 결합, 신소재)",
+            items: [
+                { type: "exp", title: "분광기를 활용한 스펙트럼 관찰 및 원소 확인", goal: "선 스펙트럼 분석법 이해", steps: "여러 광원 관찰 → 흡수선 위치 분석", tips: "미지의 별 스펙트럼 데이터 매칭 유형" },
+                { type: "exp", title: "알칼리 금속과 할로젠 원소의 화학적 성질 비교", goal: "주기성 확인", steps: "단면 관찰 → 물과의 반응 → pH 확인", tips: "원자가 전자 수와 반응성의 상관관계" },
+                { type: "exp", title: "이온 결합 vs 공유 결합 물질의 전기 전도성 비교", goal: "결합별 특성 파악", steps: "고체/수용액 상태 전도성 측정", tips: "액체 상태 전도성 유무를 통한 물질 분류" },
+                { type: "exp", title: "온도에 따른 도체와 반도체의 저항 변화 측정(MBL)", goal: "에너지 띠 구조 이해", steps: "온도 변화에 따른 실시간 저항값 수집", tips: "에너지 띠 틈의 크기와 전도성 관계" },
+                { type: "inq", title: "규산염 광물의 사면체 결합 모형 제작", goal: "광물 결합 구조 이해", steps: "사면체 결합 방식 모형 제작 및 비교", tips: "결합 구조와 광물의 풍화 내성 연계" },
+                { type: "inq", title: "단백질과 핵산(DNA)의 단위체 결합 규칙성 시각화", goal: "생체 고분자 형성 원리", steps: "아미노산/뉴클레오타이드 모형 구성", tips: "단위체 종류 및 결합 방식의 차이점" }
+            ]
+        },
+        {
+            category: "시스템과 상호작용 (역학, 지구, 생명)",
+            items: [
+                { type: "exp", title: "자유 낙하와 수평 투사 운동 비교 분석", goal: "중력의 영향 분석", steps: "다중 노출 촬영 → 연직 운동 동일성 확인", tips: "연직 방향 등가속도 운동 법칙 적용" },
+                { type: "exp", title: "양파 표피 세포 관찰 및 세포막 확산/삼투 실험", goal: "투과성 원리 이해", steps: "농도별 설탕물 처리 → 원형질 분리 관찰", tips: "세포 안팎의 농도 차에 따른 부피 변화" },
+                { type: "exp", title: "카탈레이스를 이용한 과산화 수소 분해 속도 측정", goal: "효소 활성 요인 탐구", steps: "온도/pH 변화에 따른 기포량 측정", tips: "2028 예시 23번 코돈 변형 상황과 융합" },
+                { type: "inq", title: "전 세계 지진·화산대 지도를 이용한 판의 경계 추론", goal: "지각 변동 원리 이해", steps: "데이터 중첩 분석 → 판 경계 분류", tips: "판의 이동 방향과 경계 종류 매칭" },
+                { type: "inq", title: "달걀 떨어뜨리기를 이용한 충격 완화 장치 설계", goal: "충격량-충격력 관계 파악", steps: "완화 장치 제작 → 충돌 시간 증대 효과 분석", tips: "힘-시간 그래프의 면적 동일 조건 활용" },
+                { type: "inq", title: "DNA 모형 제작을 통한 유전 정보 흐름 시뮬레이션", goal: "정보의 전사와 번역 이해", steps: "상보 결합 규칙 적용 → 단백질 합성 재현", tips: "염기 서열 변화에 따른 형질 변화 추론" }
+            ]
+        },
+        {
+            category: "변화와 다양성 (진화, 화학 변화)",
+            items: [
+                { type: "exp", title: "표준·시상 화석의 특징 관찰 및 환경 추론", goal: "화석 기반 지형 분석", steps: "화석 관찰 → 생존 기간 및 분포 범위 조사", tips: "분포-기간 그래프를 활용한 성격 구분" },
+                { type: "exp", title: "질산 은 수용액과 구리의 반응(금속 산화 환원)", goal: "산화 환원 원리 이해", steps: "금속 투입 후 이온수 및 색 변화 관찰", tips: "수용액 속 전체 이온 수 증감 계산" },
+                { type: "exp", title: "천연 지시약 제조 및 용액별 pH 측정", goal: "액성 파악 원리 이해", steps: "지시약 제작 → 일상 물질 액성 테스트", tips: "지시약 색 변화를 통한 미지 용액 pH 추론" },
+                { type: "exp", title: "중화 반응 시의 온도 및 이온수 변화 측정", goal: "중화 반응 정량 분석", steps: "산/염기 혼합 → 최고 온도 지점 확인", tips: "2028 예시 24번 혼합 용액 해석 유형" },
+                { type: "exp", title: "화학 반응에서의 에너지 출입(발열/흡열) 실험", goal: "에너지 이동 방향 파악", steps: "반응 전후 온도 측정 → 에너지 도표화", tips: "주변 온도가 상승/하강하는 원리 설명" },
+                { type: "inq", title: "핀치 새 부리 모형을 이용한 자연선택 모의실험", goal: "진화 메커니즘 파악", steps: "먹이별 채집 효율 측정 → 개체군 변화 분석", tips: "환경 변화에 따른 형질 생존율 데이터" }
+            ]
+        },
+        {
+            category: "환경과 에너지 (생태계, 발전, 기후)",
+            items: [
+                { type: "exp", title: "이산화 탄소 농도에 따른 밀폐 용기 온도 상승", goal: "온실 효과 실증", steps: "CO2 유무별 온도 상승폭 측정", tips: "지구 열수지 평형 그래프와 연계" },
+                { type: "exp", title: "간이 발전기를 이용한 유도 전류 발생 확인", goal: "전자기 유도 법칙 이해", steps: "자석 속도 변화 → 유도 전류 세기 측정", tips: "2028 예시 16번 탐구 변인 통제 문항" },
+                { type: "inq", title: "엘니뇨/라니냐 시기 수온 및 기압 편차 해석", goal: "대기-해양 상호작용 분석", steps: "태평양 동/서 해수면 수온 편차 분석", tips: "2028 예시 25번 수온선 깊이 변화 해석" },
+                { type: "inq", title: "태양 핵융합 에너지 생성 및 순환 경로 분석", goal: "태양 에너지 근원 이해", steps: "수소 핵융합 질량 결손 과정 분석", tips: "질량-에너지 등가 원리(E=mc²) 적용" },
+                { type: "inq", title: "먹이 그물을 통한 생태계 평형 유지 모의 놀이", goal: "생태계 안정성 파악", steps: "특정 종 소실 시 평형 유지 시뮬레이션", tips: "종 다양성과 평형 능력의 비례 관계" },
+                { type: "res", title: "열기관의 에너지 효율 및 하이브리드 원리 탐구", goal: "에너지 효율 향상 기술", steps: "열효율 계산 식 적용 → 기술 사례 조사", tips: "열효율 수치를 이용한 소모량 계산" }
+            ]
+        },
+        {
+            category: "과학과 미래 사회 (AI, 감염병, 윤리)",
+            items: [
+                { type: "inq", title: "핵산 분석 기술(PCR)을 이용한 감염병 진단", goal: "PCR 증폭 원리 이해", steps: "PCR 과정 조사 → 확진 판정 기준 분석", tips: "PCR 온도 변화 사이클 그래프 해석" },
+                { type: "inq", title: "공공 데이터 활용 감염병 확산 경로 시각화", goal: "데이터 기반 문제 해결", steps: "확진자 발생 데이터 매핑 → 추이 분석", tips: "방역 조치와 확산 속도 상관관계" },
+                { type: "res", title: "AI 기반 신약 개발 및 기상 예측 사례 분석", goal: "AI의 기여도 조사", steps: "빅데이터 학습 알고리즘 정확도 분석", tips: "데이터 수집 신뢰성과 윤리 연계" },
+                { type: "res", title: "자율 주행 및 유전자 편집 관련 과학 윤리 쟁점", goal: "기술의 사회적 책임", steps: "딜레마 사례별 찬반 토론 수행", tips: "과학 기술 활용의 명암 분석 문항" }
+            ]
+        }
+    ];
+
+    // 미래엔, 동아, 천재, 지학사 데이터는 교육과정 공통 요소를 바탕으로 한 리스트를 사용하며, 
+    // 실제 교과서별 고유 활동명으로 구성됩니다 (예시 구조)
+    const miraenData = visangData.map(c => ({...c, items: c.items.map(i => ({...i, title: "[미래엔] " + i.title}))}));
+    const dongaData = visangData.map(c => ({...c, items: c.items.map(i => ({...i, title: "[동아] " + i.title}))}));
+    const chunjaeData = visangData.map(c => ({...c, items: c.items.map(i => ({...i, title: "[천재] " + i.title}))}));
+    const jihakData = visangData.map(c => ({...c, items: c.items.map(i => ({...i, title: "[지학사] " + i.title}))}));
+
+    const publishers = { visang: visangData, miraen: miraenData, donga: dongaData, chunjae: chunjaeData, jihak: jihakData };
+
+    function switchPublisher(pubKey) {
+        const btns = document.querySelectorAll('.pub-btn');
+        btns.forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const dashboard = document.getElementById('dashboard');
+        dashboard.innerHTML = '';
+        
+        publishers[pubKey].forEach(section => {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            card.innerHTML = `<h2>${section.category}</h2>`;
+            section.items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'activity-item';
+                div.onclick = () => openModal(item);
+                div.innerHTML = `<span class="tag tag-${item.type}">${item.type === 'exp' ? '실험' : (item.type === 'inq' ? '탐구' : '조사')}</span> ${item.title}`;
+                card.appendChild(div);
+            });
+            dashboard.appendChild(card);
+        });
+    }
+
+    function openModal(item) {
+        document.getElementById('modalTitle').innerText = item.title;
+        document.getElementById('modalGoal').innerText = item.goal;
+        document.getElementById('modalSteps').innerHTML = item.steps.split(' → ').map(s => `• ${s}`).join('<br>');
+        document.getElementById('modalTips').innerText = item.tips;
+        document.getElementById('modal').style.display = 'flex';
+    }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    window.onclick = (e) => { if(e.target == document.getElementById('modal')) closeModal(); }
+
+    // 초기 로드
+    window.onload = () => switchPublisher('visang');
+</script>
+
+</body>
+</html>

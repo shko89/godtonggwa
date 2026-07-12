@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7단원: 생물 다양성 - 통합과학 퀴즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col">
+
+    <!-- 헤더 -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md z-10 shrink-0">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-paw"></i> 7. 생물 다양성 (랜덤 10문항)
+            </h1>
+            <a href="index.html" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1 rounded-full transition">
+                <i class="fas fa-home"></i> 홈으로
+            </a>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 overflow-y-auto p-4 flex items-start justify-center">
+        <div id="quiz-container" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden fade-in min-h-[400px] mb-8 relative">
+            
+            <!-- 진행 상태 바 -->
+            <div class="w-full bg-gray-200 h-2">
+                <div id="progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- 시작 화면 -->
+            <div id="start-screen" class="p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-bounce">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">단원 실전 퀴즈</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    '생물 다양성' 단원 문제 은행(총 30문항)에서<br>
+                    <strong class="text-indigo-600">10문제</strong>를 무작위로 추출했습니다.<br>
+                    진화, 변이, 생태계 보전 내용을 점검해보세요!
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg text-lg flex items-center gap-2 transform hover:scale-105 duration-200">
+                    <i class="fas fa-play"></i> 문제 풀기 시작
+                </button>
+            </div>
+
+            <!-- 문제 영역 -->
+            <div id="question-area" class="hidden p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-indigo-600 tracking-wider">Q <span id="current-num">1</span> / <span id="total-num">10</span></span>
+                    <span id="score-display" class="text-sm font-semibold text-gray-500">0점</span>
+                </div>
+
+                <h2 id="question-text" class="text-xl font-bold mb-6 text-gray-800 leading-snug">
+                    문제 로딩 중...
+                </h2>
+
+                <!-- 힌트 -->
+                <div class="mb-6">
+                    <button onclick="toggleHint()" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center gap-1 focus:outline-none transition">
+                        <i class="far fa-lightbulb"></i> 힌트 보기
+                    </button>
+                    <div id="hint-box" class="hidden mt-2 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200 fade-in">
+                        <!-- 힌트 내용 -->
+                    </div>
+                </div>
+
+                <!-- 보기 리스트 -->
+                <div id="options-list" class="space-y-3"></div>
+
+                <!-- 해설 -->
+                <div id="rationale-area" class="hidden mt-6 p-4 rounded-xl border fade-in bg-gray-50">
+                    <div class="flex items-start gap-3">
+                        <div id="rationale-icon" class="text-2xl mt-1 shrink-0"></div>
+                        <div>
+                            <h3 id="rationale-title" class="font-bold text-lg mb-1"></h3>
+                            <p id="rationale-text" class="text-sm leading-relaxed text-gray-700"></p>
+                        </div>
+                    </div>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
+                        다음 문제 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 결과 화면 -->
+            <div id="result-screen" class="hidden p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-4xl text-indigo-600">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">퀴즈 완료!</h2>
+                <p class="text-gray-600 mb-8">학습이 끝났습니다.</p>
+                
+                <div class="w-full max-w-sm bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">최종 점수</p>
+                    <p class="text-4xl font-bold text-indigo-600"><span id="final-score">0</span> / 100</p>
+                </div>
+
+                <div class="flex gap-3 w-full max-w-sm">
+                    <button onclick="location.reload()" class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition">
+                        다시 풀기
+                    </button>
+                    <a href="index.html" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center">
+                        목록으로
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // 7단원 문제 은행 데이터 (30문항)
+        // ==========================================
+        const questionBank = [
+            // [지질 시대와 화석]
+            { question: "지질 시대를 구분하는 가장 큰 기준은?", answerOptions: [{text:"기후 변화",isCorrect:false},{text:"생물계의 급격한 변화",isCorrect:true,rationale:"대멸종이나 새로운 생물의 출현 등 생물계의 큰 변화를 기준으로 시대를 구분합니다."},{text:"지각 변동",isCorrect:false},{text:"해수면 변화",isCorrect:false}], hint: "화석의 종류가 확 바뀌는 시점입니다." },
+            { question: "과거 생물의 흔적이나 유해가 지층 속에 남아 있는 것을 무엇이라 하는가?", answerOptions: [{text:"화석",isCorrect:true,rationale:"동식물의 뼈, 껍데기, 발자국 등이 암석 속에 보존된 것을 화석이라 합니다."},{text:"광물",isCorrect:false},{text:"암석",isCorrect:false},{text:"유물",isCorrect:false}], hint: "공룡 뼈 같은 것입니다." },
+            { question: "특정한 시기에만 번성하여 지층의 생성 시대를 알려주는 화석은?", answerOptions: [{text:"시상 화석",isCorrect:false},{text:"표준 화석",isCorrect:true,rationale:"생존 기간이 짧고 분포 면적이 넓어 시대를 구분하는 기준이 되는 화석입니다(예: 공룡, 삼엽충)."},{text:"살아있는 화석",isCorrect:false},{text:"흔적 화석",isCorrect:false}], hint: "그 시대의 '표준'이 됩니다." },
+            { question: "특정한 환경에서만 서식하여 지층의 생성 환경을 알려주는 화석은?", answerOptions: [{text:"시상 화석",isCorrect:true,rationale:"생존 기간이 길고 분포 면적이 좁아 당시 환경을 알려주는 화석입니다(예: 고사리-따뜻하고 습한 육지)."},{text:"표준 화석",isCorrect:false},{text:"몰드",isCorrect:false},{text:"캐스트",isCorrect:false}], hint: "환경을 '시사'해 줍니다." },
+            { question: "고생대를 대표하는 표준 화석이 아닌 것은?", answerOptions: [{text:"삼엽충",isCorrect:false},{text:"방추충(푸줄리나)",isCorrect:false},{text:"암모나이트",isCorrect:true,rationale:"암모나이트와 공룡은 중생대를 대표하는 표준 화석입니다."},{text:"갑주어",isCorrect:false}], hint: "중생대에 살았습니다." },
+            { question: "중생대를 대표하는 동물 화석은?", answerOptions: [{text:"매머드",isCorrect:false},{text:"삼엽충",isCorrect:false},{text:"공룡",isCorrect:true,rationale:"중생대는 파충류의 시대로 공룡이 번성했습니다."},{text:"화폐석",isCorrect:false}], hint: "쥬라기 공원을 생각해보세요." },
+            { question: "신생대의 표준 화석으로 옳은 것은?", answerOptions: [{text:"공룡",isCorrect:false},{text:"삼엽충",isCorrect:false},{text:"매머드",isCorrect:true,rationale:"신생대에는 매머드와 화폐석 등이 번성했습니다."},{text:"암모나이트",isCorrect:false}], hint: "거대한 털북숭이 코끼리입니다." },
+            { question: "최초의 육상 생물이 출현한 지질 시대는?", answerOptions: [{text:"선캄브리아 시대",isCorrect:false},{text:"고생대",isCorrect:true,rationale:"고생대 중반에 오존층이 형성되면서 생물이 육지로 진출하기 시작했습니다."},{text:"중생대",isCorrect:false},{text:"신생대",isCorrect:false}], hint: "오존층이 생긴 이후입니다." },
+            { question: "지질 시대 중 가장 긴 기간을 차지하는 시대는?", answerOptions: [{text:"선캄브리아 시대",isCorrect:true,rationale:"지구 역사의 약 88%를 차지하는 가장 긴 시대입니다."},{text:"고생대",isCorrect:false},{text:"중생대",isCorrect:false},{text:"신생대",isCorrect:false}], hint: "화석이 거의 발견되지 않는 아주 옛날입니다." },
+            { question: "지질 시대 동안 발생한 대멸종의 횟수는?", answerOptions: [{text:"1회",isCorrect:false},{text:"3회",isCorrect:false},{text:"5회",isCorrect:true,rationale:"지질 시대 동안 총 5번의 대멸종이 있었으며, 가장 큰 규모는 고생대 말 페름기 대멸종입니다."},{text:"10회",isCorrect:false}], hint: "손가락 개수와 같습니다." },
+
+            // [생물의 진화]
+            { question: "생물이 오랜 시간을 거쳐 환경에 적응하며 몸의 구조나 특성이 변하는 현상은?", answerOptions: [{text:"진화",isCorrect:true,rationale:"진화는 여러 세대에 걸쳐 집단의 유전적 구성이 변하는 과정입니다."},{text:"변이",isCorrect:false},{text:"유전",isCorrect:false},{text:"발생",isCorrect:false}], hint: "원숭이가 사람이 되었다는 오해를 받는 단어입니다." },
+            { question: "다윈의 진화론 핵심 원리는?", answerOptions: [{text:"용불용설",isCorrect:false},{text:"자연 선택설",isCorrect:true,rationale:"환경에 유리한 형질을 가진 개체가 더 많이 살아남아 자손을 남긴다는 이론입니다."},{text:"돌연변이설",isCorrect:false},{text:"격리설",isCorrect:false}], hint: "자연이 선택합니다." },
+            { question: "같은 종의 개체들 사이에서 나타나는 형질의 차이를 무엇이라 하는가?", answerOptions: [{text:"변이",isCorrect:true,rationale:"변이는 개체 간 유전적 차이로 인해 나타나는 다양성입니다."},{text:"진화",isCorrect:false},{text:"적응",isCorrect:false},{text:"유전",isCorrect:false}], hint: "형제끼리도 얼굴이 다른 이유입니다." },
+            { question: "자연 선택 과정의 순서로 옳은 것은?", answerOptions: [{text:"과잉 생산 - 개체 변이 - 생존 경쟁 - 자연 선택",isCorrect:true,rationale:"많은 자손이 태어나고(과잉 생산), 서로 다른 형질을 가지며(변이), 살아남기 위해 경쟁하다가(생존 경쟁), 환경에 적합한 개체가 남습니다(자연 선택)."},{text:"자연 선택 - 과잉 생산 - 생존 경쟁 - 개체 변이",isCorrect:false},{text:"개체 변이 - 자연 선택 - 과잉 생산 - 생존 경쟁",isCorrect:false},{text:"생존 경쟁 - 과잉 생산 - 자연 선택 - 개체 변이",isCorrect:false}], hint: "많이 낳고, 다르고, 싸우고, 살아남습니다." },
+            { question: "기린의 목이 길어진 이유를 다윈의 진화론으로 설명하면?", answerOptions: [{text:"높은 곳의 잎을 먹으려고 노력해서 길어졌다",isCorrect:false},{text:"목이 긴 기린이 생존에 유리하여 살아남았다",isCorrect:true,rationale:"다양한 목 길이를 가진 기린 중 목이 긴 기린이 먹이를 먹기에 유리하여 선택되었습니다."},{text:"갑자기 돌연변이로 모두 길어졌다",isCorrect:false},{text:"목이 짧은 기린이 이민을 갔다",isCorrect:false}], hint: "노력해서 변한 것이 아니라 원래 긴 놈만 살아남았습니다." },
+            { question: "항생제 내성 세균이 증가하는 원인은?", answerOptions: [{text:"세균이 항생제에 적응하려고 노력해서",isCorrect:false},{text:"항생제를 먹이로 삼아서",isCorrect:false},{text:"내성 세균만 살아남아 증식했기 때문(자연 선택)",isCorrect:true,rationale:"항생제 사용 시 내성이 없는 세균은 죽고, 우연히 내성을 가진 세균만 살아남아 번식하게 됩니다."},{text:"항생제가 세균을 강하게 만들어서",isCorrect:false}], hint: "약에 죽지 않는 놈들만 남았습니다." },
+            { question: "변이의 주된 원인 두 가지는?", answerOptions: [{text:"영양 섭취, 운동",isCorrect:false},{text:"돌연변이, 유성 생식 과정의 유전자 조합",isCorrect:true,rationale:"DNA 복제 오류 등의 돌연변이와 생식 세포 분열 및 수정 과정에서의 다양한 조합이 변이를 만듭니다."},{text:"학습, 훈련",isCorrect:false},{text:"기후, 토양",isCorrect:false}], hint: "유전자가 섞이거나 바뀌는 것입니다." },
+            { question: "핀치새의 부리 모양이 다양한 이유는?", answerOptions: [{text:"먹이 종류와 환경에 적응했기 때문",isCorrect:true,rationale:"각 섬의 먹이 환경(선인장, 곤충, 씨앗 등)에 적합한 부리를 가진 핀치가 자연 선택되었습니다."},{text:"서로 싸우다가 부러져서",isCorrect:false},{text:"원래 다른 종이었기 때문",isCorrect:false},{text:"날씨가 추워서",isCorrect:false}], hint: "갈라파고스 군도의 새입니다." },
+            { question: "다음 중 획득 형질(후천적 형질)의 예는?", answerOptions: [{text:"타고난 혈액형",isCorrect:false},{text:"보디빌더의 발달한 근육",isCorrect:true,rationale:"운동으로 발달시킨 근육은 유전되지 않는 획득 형질입니다."},{text:"눈동자 색깔",isCorrect:false},{text:"피부색",isCorrect:false}], hint: "노력으로 만든 특징입니다." },
+            { question: "진화는 항상 어떤 방향으로 일어나는가?", answerOptions: [{text:"더 크고 강한 방향으로",isCorrect:false},{text:"더 복잡한 방향으로",isCorrect:false},{text:"정해진 방향은 없다(환경에 적합한 방향)",isCorrect:true,rationale:"진화는 목적이나 정해진 방향이 없으며, 당시 환경에 가장 적합한 개체가 선택되는 과정입니다."},{text:"지능이 높아지는 방향으로",isCorrect:false}], hint: "그때그때 다릅니다." },
+
+            // [생물 다양성]
+            { question: "생물 다양성의 세 가지 구성 요소가 아닌 것은?", answerOptions: [{text:"유전적 다양성",isCorrect:false},{text:"종 다양성",isCorrect:false},{text:"생태계 다양성",isCorrect:false},{text:"문화적 다양성",isCorrect:true,rationale:"생물 다양성은 유전적, 종, 생태계 다양성을 포함하는 개념입니다."}], hint: "사람의 생활 양식과는 관련이 적습니다." },
+            { question: "같은 종이라도 색, 크기, 무늬 등이 다양한 것은 어떤 다양성인가?", answerOptions: [{text:"종 다양성",isCorrect:false},{text:"유전적 다양성",isCorrect:true,rationale:"개체 간 유전자의 차이로 인해 나타나는 다양성입니다(예: 다양한 얼룩말 무늬, 무당벌레 껍질)."},{text:"생태계 다양성",isCorrect:false},{text:"서식지 다양성",isCorrect:false}], hint: "유전자가 다르기 때문입니다." },
+            { question: "일정한 지역에 얼마나 많은 종류의 생물이 사는지를 나타내는 것은?", answerOptions: [{text:"종 다양성",isCorrect:true,rationale:"종의 수가 많고, 각 종의 분포 비율이 균등할수록 종 다양성이 높습니다."},{text:"유전적 다양성",isCorrect:false},{text:"생태계 다양성",isCorrect:false},{text:"개체군 밀도",isCorrect:false}], hint: "얼마나 다양한 생물이 있는가입니다." },
+            { question: "유전적 다양성이 높을 때의 장점은?", answerOptions: [{text:"모든 개체가 동일해진다",isCorrect:false},{text:"환경 변화나 질병에 멸종할 확률이 낮아진다",isCorrect:true,rationale:"다양한 유전 형질이 있으면 급격한 환경 변화나 전염병이 닥쳐도 살아남는 개체가 있을 확률이 높습니다."},{text:"천적에게 쉽게 발견된다",isCorrect:false},{text:"번식 속도가 느려진다",isCorrect:false}], hint: "바나나 전염병을 생각해보세요." },
+            { question: "생물 다양성을 감소시키는 가장 큰 주원인은?", answerOptions: [{text:"서식지 파괴 및 단편화",isCorrect:true,rationale:"인간 활동에 의한 숲 벌채, 도로 건설 등 서식지 파괴가 가장 큰 원인입니다."},{text:"환경 오염",isCorrect:false},{text:"외래종 도입",isCorrect:false},{text:"불법 포획",isCorrect:false}], hint: "집을 없애는 것입니다." },
+            { question: "외래 생물(침입종)이 생태계에 미치는 영향으로 옳은 것은?", answerOptions: [{text:"토종 생물의 먹이를 늘려준다",isCorrect:false},{text:"천적이 없어 과도하게 번식하여 생태계 평형을 깬다",isCorrect:true,rationale:"뉴트리아, 배스 등은 천적이 없어 고유종을 위협하고 생태계를 교란합니다."},{text:"생물 다양성을 항상 증가시킨다",isCorrect:false},{text:"아무런 영향이 없다",isCorrect:false}], hint: "황소개구리를 생각해보세요." },
+            { question: "서식지 단편화(잘게 쪼개짐)를 막고 생물 이동을 돕기 위해 설치하는 것은?", answerOptions: [{text:"생태 통로",isCorrect:true,rationale:"도로 등으로 끊어진 서식지를 연결하여 야생 동물의 이동과 유전자 교류를 돕는 통로입니다."},{text:"울타리",isCorrect:false},{text:"가로등",isCorrect:false},{text:"댐",isCorrect:false}], hint: "동물들이 건너다니는 다리입니다." },
+            { question: "생물 다양성 보전을 위한 국제 협약이 아닌 것은?", answerOptions: [{text:"생물 다양성 협약",isCorrect:false},{text:"람사르 협약",isCorrect:false},{text:"사이테스(CITES)",isCorrect:false},{text:"자유 무역 협정(FTA)",isCorrect:true,rationale:"FTA는 국가 간 무역 장벽을 완화하는 경제 협정입니다. 람사르는 습지, 사이테스는 멸종위기종 거래 관련입니다."}], hint: "경제 관련 약속입니다." },
+            { question: "19세기 아일랜드 대기근의 원인이 된 감자 잎마름병 피해가 컸던 이유는?", answerOptions: [{text:"종 다양성이 높아서",isCorrect:false},{text:"유전적 다양성이 매우 낮아서",isCorrect:true,rationale:"유전적으로 동일한 품종의 감자만 심었기 때문에 질병에 모두 취약했습니다."},{text:"생태계 다양성이 높아서",isCorrect:false},{text:"감자를 너무 많이 먹어서",isCorrect:false}], hint: "모두 똑같은 감자만 심었습니다." },
+            { question: "다음 중 생물 자원의 예시가 아닌 것은?", answerOptions: [{text:"목화(옷)",isCorrect:false},{text:"주목나무(항암제)",isCorrect:false},{text:"플라스틱(석유)",isCorrect:true,rationale:"플라스틱은 석유 화학 제품으로, 생물 자원이라기보다 지하자원(화석 연료) 가공품에 가깝습니다. (넓은 의미에선 화석 생물이지만 보통 생물 자원은 현생 생물을 의미함)"},{text:"누에고치(비단)",isCorrect:false}], hint: "인공적으로 합성한 물질입니다." }
+        ];
+
+        // ==========================================
+        // 퀴즈 로직
+        // ==========================================
+        let currentQuizList = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        function startQuiz() {
+            const shuffled = [...questionBank];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            currentQuizList = shuffled.slice(0, 10);
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-area').classList.remove('hidden');
+            document.getElementById('total-num').innerText = currentQuizList.length;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const qData = currentQuizList[currentQuestionIndex];
+            
+            document.getElementById('current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.question;
+            document.getElementById('hint-box').innerText = qData.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            const progress = ((currentQuestionIndex) / currentQuizList.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const rationaleArea = document.getElementById('rationale-area');
+            rationaleArea.classList.add('hidden');
+            rationaleArea.classList.remove('bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            qData.answerOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition duration-200 font-medium text-gray-700 flex items-center gap-3 group bg-white`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-indigo-200 group-hover:text-indigo-700 transition font-bold text-sm shrink-0">${index + 1}</span>
+                    <span class="leading-snug">${option.text}</span>
+                `;
+                btn.onclick = () => checkAnswer(option, btn, qData.answerOptions);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function toggleHint() {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        }
+
+        function checkAnswer(selectedOption, btnElement, allOptions) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const isCorrect = selectedOption.isCorrect;
+            const rationale = selectedOption.rationale || "해설이 없습니다.";
+            const allButtons = document.getElementById('options-list').children;
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score-display').innerText = `${score}점`;
+                styleButton(btnElement, 'correct');
+                showRationale(true, rationale);
+            } else {
+                styleButton(btnElement, 'wrong');
+                const correctIndex = allOptions.findIndex(o => o.isCorrect === true);
+                if (correctIndex !== -1) styleButton(allButtons[correctIndex], 'correct-light');
+                showRationale(false, rationale);
+            }
+
+            for (let btn of allButtons) {
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-400');
+            }
+        }
+
+        function styleButton(btn, type) {
+            btn.classList.remove('border-gray-200', 'bg-white');
+            const iconSpan = btn.querySelector('span:first-child');
+            if (type === 'correct') {
+                btn.classList.add('border-green-500', 'bg-green-100', 'text-green-900');
+                iconSpan.innerHTML = '<i class="fas fa-check"></i>';
+                iconSpan.classList.add('bg-green-200', 'text-green-800');
+            } else if (type === 'wrong') {
+                btn.classList.add('border-red-500', 'bg-red-100', 'text-red-900');
+                iconSpan.innerHTML = '<i class="fas fa-times"></i>';
+                iconSpan.classList.add('bg-red-200', 'text-red-800');
+            } else if (type === 'correct-light') {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+            }
+        }
+
+        function showRationale(isCorrect, text) {
+            const area = document.getElementById('rationale-area');
+            const icon = document.getElementById('rationale-icon');
+            const title = document.getElementById('rationale-title');
+            const body = document.getElementById('rationale-text');
+            
+            area.classList.remove('hidden');
+            if (isCorrect) {
+                area.classList.add('bg-green-50', 'border-green-200');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600"></i>';
+                title.innerText = "정답입니다!";
+                title.className = 'font-bold text-lg mb-1 text-green-800';
+            } else {
+                area.classList.add('bg-red-50', 'border-red-200');
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-600"></i>';
+                title.innerText = "오답입니다.";
+                title.className = 'font-bold text-lg mb-1 text-red-800';
+            }
+            body.innerText = text;
+            setTimeout(() => area.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuizList.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>

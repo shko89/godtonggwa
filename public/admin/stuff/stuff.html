@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 통합과학 마스터 시스템</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700;800;900&display=swap');
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #f8fafc; 
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="h-screen w-full relative flex flex-col justify-center items-center px-4 sm:px-6 bg-grid-pattern overflow-hidden">
+
+    <!-- 배경 장식 (블러 효과) -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-400/20 blur-[100px]"></div>
+        <div class="absolute top-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-blue-400/20 blur-[100px]"></div>
+        <div class="absolute -bottom-[10%] left-[20%] w-[60%] h-[60%] rounded-full bg-purple-400/15 blur-[100px]"></div>
+    </div>
+
+    <!-- 헤더 섹션 (상하 여백 축소) -->
+    <div class="text-center mb-8 max-w-3xl mx-auto z-10 shrink-0">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-600 text-white mb-4 shadow-lg shadow-indigo-200 transform hover:scale-105 transition-transform">
+            <i data-lucide="atom" class="w-6 h-6"></i>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mb-3">
+            갓통과 <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">잡동사니</span> 관리 시스템
+        </h1>
+    </div>
+
+    <!-- 메뉴 그리드 (카드 패딩 및 간격 최적화) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 w-full max-w-4xl z-10 shrink-0">
+
+        <!-- 1. 32회차 갓통과 모의고사 -->
+        <a href="32examset.html" class="group relative bg-white p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-indigo-200 overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform"></div>
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+                    <i data-lucide="file-check-2" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">32회차 갓통과 모의고사</h2>
+                <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                    2028 수능 규격에 맞춘 32세트 이원목적분류표 생성기. 36종 내용 요소를 무작위로 배분합니다.
+                </p>
+            </div>
+            <div class="mt-5 flex items-center text-indigo-600 font-bold text-xs">
+                시스템 열기 <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+        </a>
+
+        <!-- 2. 5종 교과서 단원별 실험 목록 -->
+        <a href="book_exp1.html" class="group relative bg-white p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-emerald-200 overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform"></div>
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-sm">
+                    <i data-lucide="database" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">5종 교과서 단원별 실험</h2>
+                <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                    2022 개정 통합과학 6개 영역, 26개 내용 요소에 대한 5종 교과서 탐구 전수조사 마스터 DB입니다.
+                </p>
+            </div>
+            <div class="mt-5 flex items-center text-emerald-600 font-bold text-xs">
+                시스템 열기 <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+        </a>
+
+        <!-- 3. 교과서별 실험 목록 -->
+        <a href="book_exp2.html" class="group relative bg-white p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-blue-200 overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform"></div>
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
+                    <i data-lucide="library" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">교과서별 실험 목록</h2>
+                <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                    비상, 미래엔, 동아, 천재, 지학사 등 출판사별 탐구 활동을 모아놓은 통합 대시보드입니다.
+                </p>
+            </div>
+            <div class="mt-5 flex items-center text-blue-600 font-bold text-xs">
+                시스템 열기 <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+        </a>
+
+        <!-- 4. 모의고사 문항 분석 -->
+        <a href="prematrix.html" class="group relative bg-white p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-purple-200 overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-[80px] -z-10 group-hover:scale-110 transition-transform"></div>
+            <div>
+                <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors shadow-sm">
+                    <i data-lucide="grid-3x3" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors">모의고사 문항 분석</h2>
+                <p class="text-xs text-slate-500 font-medium leading-relaxed">
+                    모의고사 회차별로 8개 행동 영역과 단원별 출제 비율을 한눈에 파악하고 동기화하는 매트릭스.
+                </p>
+            </div>
+            <div class="mt-5 flex items-center text-purple-600 font-bold text-xs">
+                시스템 열기 <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- 하단 푸터 -->
+    <footer class="mt-10 text-center z-10 shrink-0">
+        <p class="text-[11px] font-semibold text-slate-400">© 2026 God-Tonggwa Education. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Lucide 아이콘 렌더링
+        lucide.createIcons();
+    </script>
+</body>
+</html>

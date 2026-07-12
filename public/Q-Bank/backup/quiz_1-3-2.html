@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5단원: 역학적 시스템 - 통합과학 퀴즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col">
+
+    <!-- 헤더 -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md z-10 shrink-0">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-apple-alt"></i> 5. 역학적 시스템 (랜덤 10문항)
+            </h1>
+            <a href="index.html" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1 rounded-full transition">
+                <i class="fas fa-home"></i> 홈으로
+            </a>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 overflow-y-auto p-4 flex items-start justify-center">
+        <div id="quiz-container" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden fade-in min-h-[400px] mb-8 relative">
+            
+            <!-- 진행 상태 바 -->
+            <div class="w-full bg-gray-200 h-2">
+                <div id="progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- 시작 화면 -->
+            <div id="start-screen" class="p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-bounce">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">단원 실전 퀴즈</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    '역학적 시스템' 단원 문제 은행(총 30문항)에서<br>
+                    <strong class="text-indigo-600">10문제</strong>를 무작위로 추출했습니다.<br>
+                    중력, 운동량, 충격량 개념을 점검해보세요!
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg text-lg flex items-center gap-2 transform hover:scale-105 duration-200">
+                    <i class="fas fa-play"></i> 문제 풀기 시작
+                </button>
+            </div>
+
+            <!-- 문제 영역 -->
+            <div id="question-area" class="hidden p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-indigo-600 tracking-wider">Q <span id="current-num">1</span> / <span id="total-num">10</span></span>
+                    <span id="score-display" class="text-sm font-semibold text-gray-500">0점</span>
+                </div>
+
+                <h2 id="question-text" class="text-xl font-bold mb-6 text-gray-800 leading-snug">
+                    문제 로딩 중...
+                </h2>
+
+                <!-- 힌트 -->
+                <div class="mb-6">
+                    <button onclick="toggleHint()" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center gap-1 focus:outline-none transition">
+                        <i class="far fa-lightbulb"></i> 힌트 보기
+                    </button>
+                    <div id="hint-box" class="hidden mt-2 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200 fade-in">
+                        <!-- 힌트 내용 -->
+                    </div>
+                </div>
+
+                <!-- 보기 리스트 -->
+                <div id="options-list" class="space-y-3"></div>
+
+                <!-- 해설 -->
+                <div id="rationale-area" class="hidden mt-6 p-4 rounded-xl border fade-in bg-gray-50">
+                    <div class="flex items-start gap-3">
+                        <div id="rationale-icon" class="text-2xl mt-1 shrink-0"></div>
+                        <div>
+                            <h3 id="rationale-title" class="font-bold text-lg mb-1"></h3>
+                            <p id="rationale-text" class="text-sm leading-relaxed text-gray-700"></p>
+                        </div>
+                    </div>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
+                        다음 문제 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 결과 화면 -->
+            <div id="result-screen" class="hidden p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-4xl text-indigo-600">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">퀴즈 완료!</h2>
+                <p class="text-gray-600 mb-8">학습이 끝났습니다.</p>
+                
+                <div class="w-full max-w-sm bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">최종 점수</p>
+                    <p class="text-4xl font-bold text-indigo-600"><span id="final-score">0</span> / 100</p>
+                </div>
+
+                <div class="flex gap-3 w-full max-w-sm">
+                    <button onclick="location.reload()" class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition">
+                        다시 풀기
+                    </button>
+                    <a href="index.html" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center">
+                        목록으로
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // 5단원 문제 은행 데이터 (30문항)
+        // ==========================================
+        const questionBank = [
+            // [중력과 운동]
+            { question: "지표면 근처에서 물체에 작용하는 중력의 방향은?", answerOptions: [{text:"북쪽",isCorrect:false},{text:"남쪽",isCorrect:false},{text:"지구 중심 방향(연직 아래)",isCorrect:true,rationale:"중력은 항상 지구 중심 방향으로 작용합니다."},{text:"수평 방향",isCorrect:false}], hint: "우리가 서 있을 때 발바닥이 향하는 방향입니다." },
+            { question: "질량이 다른 두 물체를 공기 저항이 없는 진공 중에서 동시에 떨어뜨리면?", answerOptions: [{text:"무거운 것이 먼저 떨어진다",isCorrect:false},{text:"가벼운 것이 먼저 떨어진다",isCorrect:false},{text:"동시에 떨어진다",isCorrect:true,rationale:"중력 가속도는 질량에 관계없이 일정하므로 동시에 떨어집니다."},{text:"무거운 것이 더 늦게 떨어진다",isCorrect:false}], hint: "갈릴레이의 피사의 사탑 실험과 관련 있습니다." },
+            { question: "지표면 근처에서 자유 낙하 하는 물체의 가속도(g)는 약 얼마인가?", answerOptions: [{text:"9.8 m/s²",isCorrect:true,rationale:"지구의 중력 가속도 상수는 약 9.8 m/s²입니다."},{text:"1 m/s²",isCorrect:false},{text:"98 m/s²",isCorrect:false},{text:"0 m/s²",isCorrect:false}], hint: "1초마다 속력이 약 10 m/s씩 증가합니다." },
+            { question: "수평으로 던진 물체의 수평 방향 운동은 어떤 운동인가?", answerOptions: [{text:"등속 직선 운동",isCorrect:true,rationale:"공기 저항을 무시할 때 수평 방향으로는 힘이 작용하지 않아 등속 운동을 합니다."},{text:"등가속도 운동",isCorrect:false},{text:"정지",isCorrect:false},{text:"원 운동",isCorrect:false}], hint: "옆으로 미는 힘은 처음 한 번뿐이고 그 뒤로는 없습니다." },
+            { question: "수평으로 던진 물체의 연직(수직) 방향 운동은 어떤 운동인가?", answerOptions: [{text:"등속 운동",isCorrect:false},{text:"자유 낙하(등가속도) 운동",isCorrect:true,rationale:"연직 방향으로는 중력이 계속 작용하므로 자유 낙하와 같은 등가속도 운동을 합니다."},{text:"등속 원운동",isCorrect:false},{text:"진자 운동",isCorrect:false}], hint: "아래로는 중력이 계속 당깁니다." },
+            { question: "같은 높이에서 자유 낙하 시킨 물체 A와 수평으로 던진 물체 B 중 먼저 바닥에 닿는 것은?", answerOptions: [{text:"A",isCorrect:false},{text:"B",isCorrect:false},{text:"동시에 닿는다",isCorrect:true,rationale:"연직 방향 운동은 둘 다 동일한 중력 가속도를 받으므로 높이가 같다면 동시에 떨어집니다."},{text:"질량에 따라 다르다",isCorrect:false}], hint: "수평 운동은 떨어지는 시간에 영향을 주지 않습니다." },
+            { question: "뉴턴의 운동 제1법칙은 무엇인가?", answerOptions: [{text:"가속도의 법칙",isCorrect:false},{text:"관성의 법칙",isCorrect:true,rationale:"물체가 원래의 운동 상태를 계속 유지하려는 성질을 관성이라고 합니다."},{text:"작용 반작용의 법칙",isCorrect:false},{text:"만유인력의 법칙",isCorrect:false}], hint: "버스가 급정거할 때 몸이 쏠리는 현상입니다." },
+            { question: "뉴턴의 운동 제2법칙(가속도의 법칙)을 나타낸 식은?", answerOptions: [{text:"F = ma",isCorrect:true,rationale:"힘(F)은 질량(m)과 가속도(a)의 곱과 같습니다."},{text:"E = mc²",isCorrect:false},{text:"p = mv",isCorrect:false},{text:"v = gt",isCorrect:false}], hint: "힘은 질량 곱하기 가속도입니다." },
+            { question: "뉴턴의 운동 제3법칙은 무엇인가?", answerOptions: [{text:"관성의 법칙",isCorrect:false},{text:"작용 반작용의 법칙",isCorrect:true,rationale:"한 물체가 다른 물체에 힘을 가하면, 동시에 반대 방향으로 같은 크기의 힘이 작용합니다."},{text:"에너지 보존 법칙",isCorrect:false},{text:"운동량 보존 법칙",isCorrect:false}], hint: "벽을 밀면 벽도 나를 밉니다." },
+            { question: "무게와 질량의 차이에 대한 설명으로 옳은 것은?", answerOptions: [{text:"무게는 장소에 따라 변하지 않는다",isCorrect:false},{text:"질량의 단위는 N(뉴턴)이다",isCorrect:false},{text:"무게는 물체에 작용하는 중력의 크기이다",isCorrect:true,rationale:"무게는 중력의 크기로 장소(중력 가속도)에 따라 변하지만, 질량은 고유한 양으로 변하지 않습니다."},{text:"달에 가면 질량이 1/6로 줄어든다",isCorrect:false}], hint: "질량은 내 살이고, 무게는 저울 눈금입니다." },
+
+            // [운동량과 충격량]
+            { question: "운동량(p)을 구하는 공식은?", answerOptions: [{text:"질량 × 가속도",isCorrect:false},{text:"질량 × 속도",isCorrect:true,rationale:"운동량의 크기는 질량(m)과 속도(v)의 곱이며, 방향은 속도의 방향과 같습니다."},{text:"힘 × 시간",isCorrect:false},{text:"속도 ÷ 시간",isCorrect:false}], hint: "무거울수록, 빠를수록 운동량이 큽니다." },
+            { question: "충격량(I)을 구하는 공식은?", answerOptions: [{text:"힘 × 거리",isCorrect:false},{text:"힘 × 시간",isCorrect:true,rationale:"충격량은 물체에 작용한 힘(F)과 힘이 작용한 시간(Δt)의 곱입니다."},{text:"질량 × 속도",isCorrect:false},{text:"질량 × 가속도",isCorrect:false}], hint: "오랫동안 밀수록 충격량이 큽니다." },
+            { question: "물체가 받은 충격량은 물체의 무엇의 변화량과 같은가?", answerOptions: [{text:"속도",isCorrect:false},{text:"가속도",isCorrect:false},{text:"운동량",isCorrect:true,rationale:"충격량(I) = 나중 운동량 - 처음 운동량 = 운동량의 변화량(Δp)입니다."},{text:"질량",isCorrect:false}], hint: "운동 상태의 양이 변합니다." },
+            { question: "운동량의 단위로 옳은 것은?", answerOptions: [{text:"N",isCorrect:false},{text:"m/s²",isCorrect:false},{text:"kg·m/s",isCorrect:true,rationale:"질량(kg)과 속도(m/s)의 곱이므로 kg·m/s를 사용합니다."},{text:"J(줄)",isCorrect:false}], hint: "kg 곱하기 m/s입니다." },
+            { question: "충격량의 단위인 N·s(뉴턴초)와 같은 차원을 가지는 단위는?", answerOptions: [{text:"kg·m/s",isCorrect:true,rationale:"충격량은 운동량의 변화량이므로 운동량의 단위와 차원이 같습니다."},{text:"kg·m/s²",isCorrect:false},{text:"m/s",isCorrect:false},{text:"N/m",isCorrect:false}], hint: "운동량 단위와 같습니다." },
+            { question: "질량이 2kg인 물체가 3m/s로 운동할 때의 운동량은?", answerOptions: [{text:"1.5 kg·m/s",isCorrect:false},{text:"5 kg·m/s",isCorrect:false},{text:"6 kg·m/s",isCorrect:true,rationale:"p = mv = 2kg × 3m/s = 6 kg·m/s"},{text:"0 kg·m/s",isCorrect:false}], hint: "2 곱하기 3은?" },
+            { question: "힘-시간 그래프(F-t 그래프)에서 그래프 아랫부분의 넓이가 의미하는 것은?", answerOptions: [{text:"이동 거리",isCorrect:false},{text:"가속도",isCorrect:false},{text:"충격량",isCorrect:true,rationale:"힘(F)과 시간(t)의 곱이므로 넓이는 충격량을 나타냅니다."},{text:"일",isCorrect:false}], hint: "F × t 입니다." },
+            { question: "달걀을 방석 위에 떨어뜨리면 깨지지 않는 이유는?", answerOptions: [{text:"충격량이 줄어들기 때문",isCorrect:false},{text:"충돌 시간이 길어져 충격력이 작아지기 때문",isCorrect:true,rationale:"운동량의 변화량(충격량)은 같지만, 푹신한 방석이 충돌 시간을 길게 하여 평균 힘(충격력)을 줄여줍니다."},{text:"중력이 줄어들기 때문",isCorrect:false},{text:"운동량의 변화량이 커지기 때문",isCorrect:false}], hint: "충격량은 같지만 덜 아프게 받습니다." },
+            { question: "포수가 야구공을 받을 때 손을 뒤로 빼면서 받는 이유는?", answerOptions: [{text:"충격량을 줄이기 위해",isCorrect:false},{text:"충격력을 줄이기 위해",isCorrect:true,rationale:"공을 멈추게 하는 충격량은 같지만, 손을 뒤로 빼면 멈추는 시간이 길어져 손이 받는 평균 힘(충격력)이 감소합니다."},{text:"공을 더 빨리 멈추기 위해",isCorrect:false},{text:"멋있어 보이기 위해",isCorrect:false}], hint: "시간을 늘려 힘을 줄이는 원리입니다." },
+            { question: "자동차 에어백의 원리로 옳은 것은?", answerOptions: [{text:"충돌 시간을 짧게 하여 힘을 줄인다",isCorrect:false},{text:"충돌 시간을 길게 하여 힘을 줄인다",isCorrect:true,rationale:"사람이 부딪히는 시간을 길게 하여 인체가 받는 충격력을 감소시킵니다."},{text:"충격량 자체를 없앤다",isCorrect:false},{text:"관성을 없앤다",isCorrect:false}], hint: "푹신한 것에 부딪히면 덜 아픕니다." },
+
+            // [종합 응용]
+            { question: "로켓이 가스를 분출하며 앞으로 나아가는 원리는?", answerOptions: [{text:"관성",isCorrect:false},{text:"작용 반작용",isCorrect:true,rationale:"로켓이 가스를 뒤로 밀면(작용), 가스도 로켓을 앞으로 밉니다(반작용)."},{text:"중력",isCorrect:false},{text:"마찰력",isCorrect:false}], hint: "내가 밀면 상대도 나를 밉니다." },
+            { question: "안전벨트가 필요한 이유는 물체의 어떤 성질 때문인가?", answerOptions: [{text:"가속도",isCorrect:false},{text:"관성",isCorrect:true,rationale:"자동차가 급정거해도 몸은 계속 앞으로 나아가려는 관성이 있어 튕겨 나갈 수 있습니다."},{text:"탄성",isCorrect:false},{text:"마찰",isCorrect:false}], hint: "가던 길을 계속 가려는 성질입니다." },
+            { question: "질량 10kg인 물체에 20N의 힘을 가할 때 가속도는?", answerOptions: [{text:"0.5 m/s²",isCorrect:false},{text:"2 m/s²",isCorrect:true,rationale:"a = F/m = 20N / 10kg = 2 m/s²"},{text:"10 m/s²",isCorrect:false},{text:"200 m/s²",isCorrect:false}], hint: "20 나누기 10은?" },
+            { question: "높은 곳에서 뛰어내릴 때 무릎을 굽히는 이유는?", answerOptions: [{text:"착지 시간을 줄이기 위해",isCorrect:false},{text:"착지 시간을 늘려 충격력을 줄이기 위해",isCorrect:true,rationale:"무릎을 굽히면 멈추는 데 걸리는 시간이 늘어나 뼈와 관절이 받는 힘이 줄어듭니다."},{text:"운동량을 늘리기 위해",isCorrect:false},{text:"위치 에너지를 줄이기 위해",isCorrect:false}], hint: "에어백의 원리와 같습니다." },
+            { question: "지구 주위를 도는 인공위성의 운동 원리는?", answerOptions: [{text:"중력이 없어서",isCorrect:false},{text:"계속 떨어지고 있지만 지구가 둥글기 때문",isCorrect:true,rationale:"뉴턴의 대포 실험처럼, 수평으로 아주 빠르게 던지면 떨어지는 곡선과 지구의 둥근 곡면이 일치하여 땅에 닿지 않고 계속 돕니다."},{text:"엔진을 계속 켜고 있어서",isCorrect:false},{text:"바람이 불어서",isCorrect:false}], hint: "뉴턴의 대포 실험을 상상해보세요." },
+            { question: "범퍼카의 고무 테두리의 역할은?", answerOptions: [{text:"충돌 시 충격량을 줄인다",isCorrect:false},{text:"충돌 시 시간을 늘려 충격력을 줄인다",isCorrect:true,rationale:"에어백과 마찬가지로 충돌 시간을 늘려 탑승자에게 가해지는 힘을 줄입니다."},{text:"디자인을 위해서",isCorrect:false},{text:"마찰을 줄이기 위해",isCorrect:false}], hint: "딱딱한 것보다 말랑한 것이 덜 아픕니다." },
+            { question: "정지해 있는 버스가 갑자기 출발할 때 승객의 몸이 뒤로 쏠리는 이유는?", answerOptions: [{text:"정지 관성",isCorrect:true,rationale:"정지해 있던 승객은 계속 정지해 있으려 하는데 버스만 앞으로 가므로 뒤로 쏠리는 것처럼 느껴집니다."},{text:"운동 관성",isCorrect:false},{text:"작용 반작용",isCorrect:false},{text:"중력",isCorrect:false}], hint: "멈춰 있으려는 성질입니다." },
+            { question: "운동량 보존 법칙이 성립하는 조건은?", answerOptions: [{text:"외부에서 힘(외력)이 작용하지 않을 때",isCorrect:true,rationale:"외력이 없으면 충돌 전후 전체 운동량의 합은 항상 일정하게 보존됩니다."},{text:"마찰력이 클 때",isCorrect:false},{text:"에너지가 소모될 때",isCorrect:false},{text:"질량이 변할 때",isCorrect:false}], hint: "방해하는 힘이 없을 때입니다." },
+            { question: "속도가 일정하게 증가하는 운동을 무엇이라 하는가?", answerOptions: [{text:"등속 운동",isCorrect:false},{text:"등가속도 운동",isCorrect:true,rationale:"가속도가 일정하여 속도가 일정하게 변하는 운동입니다."},{text:"원 운동",isCorrect:false},{text:"진동",isCorrect:false}], hint: "자유 낙하가 대표적인 예입니다." },
+            { question: "물체의 운동 방향과 같은 방향으로 힘이 작용하면 속력은?", answerOptions: [{text:"빨라진다",isCorrect:true,rationale:"운동 방향으로 힘을 받으면 가속도가 생겨 속력이 증가합니다."},{text:"느려진다",isCorrect:false},{text:"변하지 않는다",isCorrect:false},{text:"멈춘다",isCorrect:false}], hint: "뒤에서 밀어주면 더 빨라집니다." }
+        ];
+
+        // ==========================================
+        // 퀴즈 로직
+        // ==========================================
+        let currentQuizList = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        function startQuiz() {
+            const shuffled = [...questionBank];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            currentQuizList = shuffled.slice(0, 10);
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-area').classList.remove('hidden');
+            document.getElementById('total-num').innerText = currentQuizList.length;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const qData = currentQuizList[currentQuestionIndex];
+            
+            document.getElementById('current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.question;
+            document.getElementById('hint-box').innerText = qData.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            const progress = ((currentQuestionIndex) / currentQuizList.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const rationaleArea = document.getElementById('rationale-area');
+            rationaleArea.classList.add('hidden');
+            rationaleArea.classList.remove('bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            qData.answerOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition duration-200 font-medium text-gray-700 flex items-center gap-3 group bg-white`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-indigo-200 group-hover:text-indigo-700 transition font-bold text-sm shrink-0">${index + 1}</span>
+                    <span class="leading-snug">${option.text}</span>
+                `;
+                btn.onclick = () => checkAnswer(option, btn, qData.answerOptions);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function toggleHint() {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        }
+
+        function checkAnswer(selectedOption, btnElement, allOptions) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const isCorrect = selectedOption.isCorrect;
+            const rationale = selectedOption.rationale || "해설이 없습니다.";
+            const allButtons = document.getElementById('options-list').children;
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score-display').innerText = `${score}점`;
+                styleButton(btnElement, 'correct');
+                showRationale(true, rationale);
+            } else {
+                styleButton(btnElement, 'wrong');
+                const correctIndex = allOptions.findIndex(o => o.isCorrect === true);
+                if (correctIndex !== -1) styleButton(allButtons[correctIndex], 'correct-light');
+                showRationale(false, rationale);
+            }
+
+            for (let btn of allButtons) {
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-400');
+            }
+        }
+
+        function styleButton(btn, type) {
+            btn.classList.remove('border-gray-200', 'bg-white');
+            const iconSpan = btn.querySelector('span:first-child');
+            if (type === 'correct') {
+                btn.classList.add('border-green-500', 'bg-green-100', 'text-green-900');
+                iconSpan.innerHTML = '<i class="fas fa-check"></i>';
+                iconSpan.classList.add('bg-green-200', 'text-green-800');
+            } else if (type === 'wrong') {
+                btn.classList.add('border-red-500', 'bg-red-100', 'text-red-900');
+                iconSpan.innerHTML = '<i class="fas fa-times"></i>';
+                iconSpan.classList.add('bg-red-200', 'text-red-800');
+            } else if (type === 'correct-light') {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+            }
+        }
+
+        function showRationale(isCorrect, text) {
+            const area = document.getElementById('rationale-area');
+            const icon = document.getElementById('rationale-icon');
+            const title = document.getElementById('rationale-title');
+            const body = document.getElementById('rationale-text');
+            
+            area.classList.remove('hidden');
+            if (isCorrect) {
+                area.classList.add('bg-green-50', 'border-green-200');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600"></i>';
+                title.innerText = "정답입니다!";
+                title.className = 'font-bold text-lg mb-1 text-green-800';
+            } else {
+                area.classList.add('bg-red-50', 'border-red-200');
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-600"></i>';
+                title.innerText = "오답입니다.";
+                title.className = 'font-bold text-lg mb-1 text-red-800';
+            }
+            body.innerText = text;
+            setTimeout(() => area.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuizList.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>

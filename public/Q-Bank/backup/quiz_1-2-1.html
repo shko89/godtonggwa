@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2028 통합과학: 원소의 형성 핵심 퀴즈 (랜덤)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c7c7c7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0a0a0; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col">
+
+    <!-- 헤더 -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md z-10 shrink-0">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-random"></i> 원소의 형성 (랜덤 10문항)
+            </h1>
+            <button onclick="location.reload()" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1 rounded-full transition">
+                <i class="fas fa-redo"></i> 초기화
+            </button>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 overflow-y-auto p-4 flex items-start justify-center">
+        <div id="quiz-container" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden fade-in min-h-[400px] mb-8">
+            <!-- 진행 상태 바 -->
+            <div class="w-full bg-gray-200 h-2">
+                <div id="progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- 1. 시작 화면 (랜덤 추출 안내) -->
+            <div id="start-screen" class="p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-bounce">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">실전 모의 퀴즈</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    전체 문제 은행에서 <strong class="text-indigo-600">10문제</strong>를 무작위로 추출하여<br>
+                    실전처럼 구성된 문제입니다.<br>
+                    <span class="text-sm text-gray-400">(매번 문제 구성이 달라집니다)</span>
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg text-lg flex items-center gap-2 transform hover:scale-105 duration-200">
+                    <i class="fas fa-play"></i> 퀴즈 시작하기
+                </button>
+            </div>
+
+            <!-- 2. 문제 영역 (초기에는 숨김) -->
+            <div id="question-area" class="hidden p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-indigo-600 tracking-wider">QUESTION <span id="current-num">1</span> / <span id="total-num">10</span></span>
+                    <span id="score-display" class="text-sm font-semibold text-gray-500">점수: 0</span>
+                </div>
+
+                <h2 id="question-text" class="text-xl md:text-2xl font-bold mb-6 text-gray-800 leading-snug">
+                    문제 로딩 중...
+                </h2>
+
+                <!-- 힌트 버튼 -->
+                <div class="mb-6">
+                    <button onclick="toggleHint()" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center gap-1 focus:outline-none transition">
+                        <i class="far fa-lightbulb"></i> 힌트 보기
+                    </button>
+                    <div id="hint-box" class="hidden mt-2 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200 fade-in">
+                        <!-- 힌트 내용 -->
+                    </div>
+                </div>
+
+                <!-- 보기 영역 -->
+                <div id="options-list" class="space-y-3">
+                    <!-- 자바스크립트로 버튼 생성됨 -->
+                </div>
+
+                <!-- 해설 영역 -->
+                <div id="rationale-area" class="hidden mt-6 p-4 rounded-xl border fade-in bg-gray-50">
+                    <div class="flex items-start gap-3">
+                        <div id="rationale-icon" class="text-2xl mt-1 shrink-0"></div>
+                        <div>
+                            <h3 id="rationale-title" class="font-bold text-lg mb-1"></h3>
+                            <p id="rationale-text" class="text-sm leading-relaxed text-gray-700"></p>
+                        </div>
+                    </div>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
+                        다음 문제 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. 결과 화면 (숨김 상태) -->
+            <div id="result-screen" class="hidden p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-4xl text-indigo-600">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">퀴즈 완료!</h2>
+                <p class="text-gray-600 mb-8">수고하셨습니다. 결과는 다음과 같습니다.</p>
+                
+                <div class="w-full max-w-sm bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">최종 점수</p>
+                    <p class="text-4xl font-bold text-indigo-600"><span id="final-score">0</span> / 100</p>
+                </div>
+
+                <div class="flex gap-3 w-full max-w-sm">
+                    <button onclick="initGame()" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fas fa-redo"></i> 다른 문제 풀기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // [문제 은행] 15개 이상의 문제 데이터
+        // ==========================================
+        const questionBank = [
+            {
+                "id": 1,
+                "question": "빅뱅 우주론에 따르면, 우주 탄생 후 약 3분이 지났을 때 우주의 온도가 낮아지며 양성자와 중성자가 결합하여 생성된 것은 무엇입니까?",
+                "answerOptions": [
+                    { "text": "중성 원자", "rationale": "중성 원자는 약 38만 년 후에 생성되었습니다.", "isCorrect": false },
+                    { "text": "헬륨 원자핵", "rationale": "약 3분 시점에 양성자와 중성자가 결합해 헬륨 원자핵이 생성되었습니다.", "isCorrect": true },
+                    { "text": "탄소 원자핵", "rationale": "탄소는 별 내부에서 생성됩니다.", "isCorrect": false },
+                    { "text": "쿼크", "rationale": "쿼크는 빅뱅 직후 생성되었습니다.", "isCorrect": false }
+                ],
+                "hint": "이 시기에 수소 원자핵과 이것의 질량비는 약 3:1로 결정되었습니다."
+            },
+            {
+                "id": 2,
+                "question": "빅뱅 후 약 38만 년이 지났을 때 일어난 사건으로 옳은 것은 무엇입니까?",
+                "answerOptions": [
+                    { "text": "최초의 별 탄생", "rationale": "별은 수억 년 뒤에 탄생했습니다.", "isCorrect": false },
+                    { "text": "우주 배경 복사 방출", "rationale": "전자가 원자핵에 잡히면서 빛이 자유롭게 퍼져나갔습니다.", "isCorrect": true },
+                    { "text": "급격한 인플레이션", "rationale": "인플레이션은 빅뱅 직후입니다.", "isCorrect": false },
+                    { "text": "헬륨 원자핵 생성", "rationale": "헬륨 원자핵은 3분 시점입니다.", "isCorrect": false }
+                ],
+                "hint": "우주가 투명해진 시기입니다."
+            },
+            {
+                "id": 3,
+                "question": "우주 초기 수소와 헬륨의 질량비가 약 3:1이 된 주된 이유는 무엇입니까?",
+                "answerOptions": [
+                    { "text": "양성자와 중성자 개수 비가 1:1이었기 때문", "rationale": "초기 1:1에서 7:1로 변했습니다.", "isCorrect": false },
+                    { "text": "헬륨 핵 합성 당시 개수 비가 약 7:1이었기 때문", "rationale": "14:2 비율로 결합하여 질량비 3:1이 되었습니다.", "isCorrect": true },
+                    { "text": "별의 내부 핵융합 때문", "rationale": "빅뱅 핵합성의 결과입니다.", "isCorrect": false },
+                    { "text": "우주 배경 복사의 균일성 때문", "rationale": "질량비의 직접적 원인은 아닙니다.", "isCorrect": false }
+                ],
+                "hint": "양성자가 중성자보다 많았습니다."
+            },
+            {
+                "id": 4,
+                "question": "주계열성 중심부에서 일어나는 주된 에너지 생성 반응은?",
+                "answerOptions": [
+                    { "text": "수소 핵융합 반응", "rationale": "주계열성은 수소를 헬륨으로 융합합니다.", "isCorrect": true },
+                    { "text": "헬륨 핵융합 반응", "rationale": "적색 거성 단계입니다.", "isCorrect": false },
+                    { "text": "탄소 핵융합 반응", "rationale": "더 진화된 단계입니다.", "isCorrect": false },
+                    { "text": "핵분열 반응", "rationale": "별은 핵융합을 합니다.", "isCorrect": false }
+                ],
+                "hint": "태양도 지금 이 반응을 하고 있습니다."
+            },
+            {
+                "id": 5,
+                "question": "태양 정도 질량의 별이 적색 거성 단계에서 최종적으로 만드는 원소는?",
+                "answerOptions": [
+                    { "text": "철(Fe)", "rationale": "철은 초거성에서 만들어집니다.", "isCorrect": false },
+                    { "text": "탄소(C)", "rationale": "헬륨 핵융합의 결과물입니다.", "isCorrect": true },
+                    { "text": "우라늄(U)", "rationale": "초신성 폭발 시 생성됩니다.", "isCorrect": false },
+                    { "text": "규소(Si)", "rationale": "더 큰 별에서 생성됩니다.", "isCorrect": false }
+                ],
+                "hint": "원자번호 6번입니다."
+            },
+            {
+                "id": 6,
+                "question": "초거성 중심부에서 핵융합으로 생성 가능한 가장 무거운 원소는?",
+                "answerOptions": [
+                    { "text": "납(Pb)", "rationale": "철보다 무겁습니다.", "isCorrect": false },
+                    { "text": "금(Au)", "rationale": "초신성 폭발이 필요합니다.", "isCorrect": false },
+                    { "text": "철(Fe)", "rationale": "가장 안정된 원자핵입니다.", "isCorrect": true },
+                    { "text": "산소(O)", "rationale": "더 무거운 원소도 생성 가능합니다.", "isCorrect": false }
+                ],
+                "hint": "핵융합으로는 더 이상 에너지가 나오지 않는 단계입니다."
+            },
+            {
+                "id": 7,
+                "question": "금, 납, 우라늄 같은 철보다 무거운 원소의 생성 과정은?",
+                "answerOptions": [
+                    { "text": "주계열성 단계", "rationale": "수소 핵융합만 일어납니다.", "isCorrect": false },
+                    { "text": "초신성 폭발", "rationale": "폭발 에너지로 중성자를 포획하여 생성됩니다.", "isCorrect": true },
+                    { "text": "백색 왜성", "rationale": "핵융합이 멈춘 상태입니다.", "isCorrect": false },
+                    { "text": "빅뱅", "rationale": "가벼운 원소만 생성되었습니다.", "isCorrect": false }
+                ],
+                "hint": "별의 최후 폭발입니다."
+            },
+            {
+                "id": 8,
+                "question": "태양계 형성 과정 중 미행성체 형성 다음 단계는?",
+                "answerOptions": [
+                    { "text": "성운의 수축", "rationale": "가장 초기 단계입니다.", "isCorrect": false },
+                    { "text": "원시 행성 형성", "rationale": "미행성체들이 충돌하여 원시 행성이 됩니다.", "isCorrect": true },
+                    { "text": "초신성 폭발", "rationale": "태양계 형성 이전 사건입니다.", "isCorrect": false },
+                    { "text": "우주 배경 복사", "rationale": "우주 초기의 일입니다.", "isCorrect": false }
+                ],
+                "hint": "충돌과 병합이 일어납니다."
+            },
+            {
+                "id": 9,
+                "question": "지구 생명체를 구성하는 탄소, 산소 등의 기원은?",
+                "answerOptions": [
+                    { "text": "빅뱅", "rationale": "빅뱅 때는 수소, 헬륨이 주였습니다.", "isCorrect": false },
+                    { "text": "별의 진화와 폭발", "rationale": "별 내부에서 만들어져 우주로 퍼졌습니다.", "isCorrect": true },
+                    { "text": "태양 내부", "rationale": "태양은 아직 탄소를 만들지 못했습니다.", "isCorrect": false },
+                    { "text": "지구 내부", "rationale": "지구에서는 핵융합이 안 일어납니다.", "isCorrect": false }
+                ],
+                "hint": "별의 먼지(Stardust)입니다."
+            },
+            {
+                "id": 10,
+                "question": "태양보다 질량이 매우 큰 별의 내부 구조 특징은?",
+                "answerOptions": [
+                    { "text": "균일한 혼합물", "rationale": "층상 구조를 이룹니다.", "isCorrect": false },
+                    { "text": "양파 껍질 구조 (중심에 철)", "rationale": "무거운 원소가 중심에 쌓입니다.", "isCorrect": true },
+                    { "text": "중심에 수소", "rationale": "중심은 다 타서 무거운 원소가 됩니다.", "isCorrect": false },
+                    { "text": "단일 헬륨층", "rationale": "여러 원소 층이 있습니다.", "isCorrect": false }
+                ],
+                "hint": "무거운 것일수록 아래(중심)로 가라앉습니다."
+            },
+            {
+                "id": 11,
+                "question": "지구형 행성과 목성형 행성의 특징 비교로 옳은 것은?",
+                "answerOptions": [
+                    { "text": "지구형은 질량이 크고 밀도가 작다.", "rationale": "지구형은 질량이 작고 밀도가 큽니다(암석).", "isCorrect": false },
+                    { "text": "목성형은 주로 수소와 헬륨으로 되어 있다.", "rationale": "태양계 외곽의 저온 환경에서 기체 성분이 뭉쳤습니다.", "isCorrect": true },
+                    { "text": "지구형은 위성 수가 많다.", "rationale": "위성 수는 목성형이 훨씬 많습니다.", "isCorrect": false },
+                    { "text": "목성형은 고리가 없다.", "rationale": "목성형 행성들은 모두 고리가 있습니다.", "isCorrect": false }
+                ],
+                "hint": "목성형은 가스 행성입니다."
+            },
+            {
+                "id": 12,
+                "question": "스펙트럼 분석을 통해 알 수 있는 정보가 아닌 것은?",
+                "answerOptions": [
+                    { "text": "별의 구성 원소", "rationale": "흡수선의 위치로 알 수 있습니다.", "isCorrect": false },
+                    { "text": "별의 표면 온도", "rationale": "스펙트럼의 형(색깔)으로 알 수 있습니다.", "isCorrect": false },
+                    { "text": "별의 정확한 나이", "rationale": "스펙트럼만으로는 나이를 정확히 알기 어렵습니다.", "isCorrect": true },
+                    { "text": "별의 후퇴 속도", "rationale": "도플러 효과(적색 편이)로 알 수 있습니다.", "isCorrect": false }
+                ],
+                "hint": "빛의 정보만으로 '시간'을 직접 측정하긴 어렵습니다."
+            },
+            {
+                "id": 13,
+                "question": "우주의 팽창을 보여주는 가장 대표적인 관측 증거는?",
+                "answerOptions": [
+                    { "text": "외부 은하의 적색 편이", "rationale": "멀어지는 은하에서 빛의 파장이 길어지는 현상입니다.", "isCorrect": true },
+                    { "text": "별의 시차", "rationale": "별까지의 거리를 재는 방법입니다.", "isCorrect": false },
+                    { "text": "일식 현상", "rationale": "태양계 내의 현상입니다.", "isCorrect": false },
+                    { "text": "오로라", "rationale": "지구 자기장과 태양풍의 상호작용입니다.", "isCorrect": false }
+                ],
+                "hint": "허블이 관측했습니다."
+            },
+            {
+                "id": 14,
+                "question": "다음 중 알칼리 금속의 성질이 아닌 것은?",
+                "answerOptions": [
+                    { "text": "물과 격렬하게 반응한다.", "rationale": "수소 기체를 발생시킵니다.", "isCorrect": false },
+                    { "text": "공기 중에서 쉽게 산화된다.", "rationale": "광택을 잃기 쉽습니다.", "isCorrect": false },
+                    { "text": "전자 1개를 잃고 +1가 양이온이 되기 쉽다.", "rationale": "1족 원소의 특징입니다.", "isCorrect": false },
+                    { "text": "비활성 기체와 반응성이 비슷하다.", "rationale": "비활성 기체는 반응성이 거의 없지만, 알칼리 금속은 반응성이 매우 큽니다.", "isCorrect": true }
+                ],
+                "hint": "매우 반응성이 커서 자연 상태에서 순수하게 존재하기 힘듭니다."
+            },
+            {
+                "id": 15,
+                "question": "주기율표에서 화학적 성질이 비슷한 원소들이 세로줄에 배치되는 이유는?",
+                "answerOptions": [
+                    { "text": "원자 번호가 같기 때문", "rationale": "원자 번호는 모두 다릅니다.", "isCorrect": false },
+                    { "text": "원자가 전자 수가 같기 때문", "rationale": "가장 바깥쪽 전자의 수가 화학적 성질을 결정합니다.", "isCorrect": true },
+                    { "text": "질량수가 비슷하기 때문", "rationale": "질량과는 직접 관련이 적습니다.", "isCorrect": false },
+                    { "text": "중성자 수가 같기 때문", "rationale": "동위원소 등의 차이가 있습니다.", "isCorrect": false }
+                ],
+                "hint": "족(Group)이 같으면 이것의 개수가 같습니다."
+            }
+        ];
+
+        // ==========================================
+        // [로직] 게임 상태 및 함수
+        // ==========================================
+        let currentQuizList = []; // 랜덤으로 뽑힌 10문제
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        // 초기화
+        function initGame() {
+            document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            score = 0;
+            currentQuestionIndex = 0;
+            document.getElementById('score-display').innerText = '점수: 0';
+        }
+
+        // 퀴즈 시작 (랜덤 추출)
+        function startQuiz() {
+            // Fisher-Yates Shuffle
+            currentQuizList = [...questionBank];
+            for (let i = currentQuizList.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentQuizList[i], currentQuizList[j]] = [currentQuizList[j], currentQuizList[i]];
+            }
+            // 10문제만 자르기
+            currentQuizList = currentQuizList.slice(0, 10);
+            
+            // 화면 전환
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-area').classList.remove('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('total-num').innerText = currentQuizList.length;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const qData = currentQuizList[currentQuestionIndex];
+            
+            // UI 업데이트
+            document.getElementById('current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.question;
+            document.getElementById('hint-box').innerText = qData.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            // 프로그래스 바 업데이트
+            const progress = ((currentQuestionIndex) / currentQuizList.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            // 보기 초기화
+            const rationaleArea = document.getElementById('rationale-area');
+            rationaleArea.classList.add('hidden');
+            rationaleArea.classList.remove('bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            // 보기 버튼 생성
+            qData.answerOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition duration-200 font-medium text-gray-700 flex items-center gap-3 group bg-white`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-indigo-200 group-hover:text-indigo-700 transition font-bold text-sm shrink-0">${index + 1}</span>
+                    <span class="leading-snug">${option.text}</span>
+                `;
+                btn.onclick = () => checkAnswer(option, btn);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function toggleHint() {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        }
+
+        function checkAnswer(selectedOption, btnElement) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const allButtons = document.getElementById('options-list').children;
+            const qData = currentQuizList[currentQuestionIndex];
+            const correctIndex = qData.answerOptions.findIndex(o => o.isCorrect);
+
+            if (selectedOption.isCorrect) {
+                // 정답 처리
+                score += 10;
+                document.getElementById('score-display').innerText = `점수: ${score}`;
+                
+                btnElement.classList.replace('border-gray-200', 'border-green-500');
+                btnElement.classList.add('bg-green-100', 'text-green-900');
+                btnElement.querySelector('span:first-child').innerHTML = '<i class="fas fa-check"></i>';
+                btnElement.querySelector('span:first-child').classList.add('bg-green-200', 'text-green-800');
+                
+                showRationale(true, selectedOption.rationale);
+            } else {
+                // 오답 처리
+                btnElement.classList.replace('border-gray-200', 'border-red-500');
+                btnElement.classList.add('bg-red-100', 'text-red-900');
+                btnElement.querySelector('span:first-child').innerHTML = '<i class="fas fa-times"></i>';
+                btnElement.querySelector('span:first-child').classList.add('bg-red-200', 'text-red-800');
+                
+                // 정답 버튼 표시 (힌트 제공)
+                const correctBtn = allButtons[correctIndex];
+                correctBtn.classList.replace('border-gray-200', 'border-green-500');
+                correctBtn.classList.add('bg-green-50', 'text-green-800');
+
+                showRationale(false, selectedOption.rationale);
+            }
+
+            // 모든 버튼 비활성화
+            for (let btn of allButtons) {
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-400');
+            }
+        }
+
+        function showRationale(isCorrect, text) {
+            const area = document.getElementById('rationale-area');
+            const icon = document.getElementById('rationale-icon');
+            const title = document.getElementById('rationale-title');
+            const body = document.getElementById('rationale-text');
+            const nextBtn = document.getElementById('next-btn');
+
+            area.classList.remove('hidden');
+            
+            if (isCorrect) {
+                area.classList.add('bg-green-50', 'border-green-200');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600"></i>';
+                title.innerText = "정답입니다!";
+                title.className = 'font-bold text-lg mb-1 text-green-800';
+            } else {
+                area.classList.add('bg-red-50', 'border-red-200');
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-600"></i>';
+                title.innerText = "오답입니다.";
+                title.className = 'font-bold text-lg mb-1 text-red-800';
+            }
+            body.innerText = text;
+
+            if (currentQuestionIndex === currentQuizList.length - 1) {
+                nextBtn.innerHTML = '결과 보기 <i class="fas fa-chart-bar"></i>';
+            } else {
+                nextBtn.innerHTML = '다음 문제 <i class="fas fa-arrow-right"></i>';
+            }
+            
+            // 해설 영역이 잘 보이도록 스크롤 조정
+            setTimeout(() => {
+                area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuizList.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+                document.getElementById('quiz-container').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>

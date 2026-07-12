@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 금속 산화환원 시뮬레이터</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&display=swap');
+        
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; margin: 0; }
+        
+        /* 앱 컨테이너: card_list.html 스타일 적용 */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #FFFFFF;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .premium-banner { background: linear-gradient(135deg, #3B82F6 0%, #4F46E5 50%, #8B5CF6 100%); }
+
+        /* 이온 모형 비커 스타일 */
+        .beaker {
+            width: 125px;
+            height: 125px;
+            border: 4px solid #333;
+            border-top: none;
+            border-radius: 0 0 1.2rem 1.2rem;
+            background-color: rgba(186, 230, 253, 0.4);
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px;
+            margin: 5px auto;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+        
+        .beaker::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid #bae6fd;
+        }
+
+        .shape { width: 18px; height: 18px; margin: 2px; transition: all 0.3s; display: inline-block; position: relative; z-index: 5; }
+        .shape.circle { border-radius: 50%; }
+        .shape.square { border-radius: 4px; }
+        .shape.triangle { 
+            width: 0; height: 0; 
+            border-left: 9px solid transparent; 
+            border-right: 9px solid transparent; 
+            border-bottom: 18px solid; 
+            background-color: transparent !important;
+            transform: translateY(-1px);
+        }
+        
+        .graph-wrapper { background: white; border-radius: 20px; border: 1px solid #e2e8f0; padding: 12px; height: 230px; position: relative; }
+        canvas { width: 100%; height: 100%; }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hidden { display: none !important; }
+
+        .shape-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+        }
+        .shape-option.selected {
+            border-color: #4F46E5;
+            opacity: 1 !important;
+            transform: scale(1.1);
+            background-color: #EEF2FF;
+        }
+
+        /* 해설 모달 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .handwriting { font-family: 'Nanum Pen Script', cursive; font-size: 1.5rem; line-height: 1.2; color: #334155; }
+        
+        .compact-select {
+            padding: 4px 6px;
+            background-color: #fff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 900;
+            color: #4F46E5;
+            outline: none;
+            text-align: center;
+            min-width: 50px;
+        }
+
+        .eqn-input {
+            width: 32px;
+            padding: 2px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 12px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- 상단 헤더 -->
+        <header id="sub-header" class="bg-white/95 backdrop-blur-md px-5 py-3 border-b border-gray-100 sticky top-0 z-50 flex items-center gap-3">
+            <button onclick="location.href='../index.html'" class="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i>
+            </button>
+            <h1 class="text-base font-black text-gray-900 tracking-tight" id="header-title">산화/환원 마스터</h1>
+        </header>
+
+        <main id="content" class="flex-1 p-4 overflow-y-auto hide-scrollbar pb-32">
+            
+            <!-- [View 1] 메인 메뉴 -->
+            <div id="menu-view" class="fade-in space-y-6">
+                <div class="premium-banner rounded-[32px] p-7 text-white shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                    <div class="relative z-10 text-left">
+                        <div class="flex items-center gap-3 mb-3">
+                             <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-md border border-white/20"><i data-lucide="zap" class="w-4.5 h-4.5 text-white"></i></div>
+                             <h2 class="text-xl font-black tracking-tight text-white leading-tight">산화/환원 정복 시뮬레이션</h2>
+                        </div>
+                        <p class="text-blue-50 text-[12px] font-medium leading-relaxed opacity-90">2028 수능 통합과학 고난도 킬러 유형,<br>모형 분석과 그래프 해석으로 완벽히 정복하세요!</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="font-black text-gray-900 flex items-center gap-2 text-base px-1"><i data-lucide="layout-grid" class="w-4 h-4 text-blue-600"></i>학습 단계 선택</h3>
+                    
+                    <button onclick="switchMode('MODEL')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="shapes" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">입자 모형 분석</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">이온의 종류와 전하량 추론 학습</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+
+                    <button onclick="switchMode('GRAPH_TOTAL')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-amber-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="line-chart" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">전체 이온 수 그래프</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">이온 수 변화를 통한 전하량 비 분석</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+
+                    <button onclick="switchMode('GRAPH_INDIVIDUAL')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">이온별 변화 그래프</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">성분 이온의 증감을 통한 계수 결정</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- [View 2] 이온 모형 시뮬레이션 -->
+            <div id="model-sim" class="hidden fade-in space-y-4">
+                <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100/50 text-[12px] text-indigo-800 font-medium leading-relaxed">
+                    비커 속 모형 변화를 분석하여 금속 이온의 종류와 전하량(a, b)을 찾으세요.
+                </div>
+                
+                <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center gap-2">
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[12px] font-black text-gray-400 mb-1 px-1.5 bg-gray-100 rounded">반응 전 (XCl<sub>a</sub>)</span>
+                        <div class="beaker" id="beaker-before"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-indigo-600 p-1 rounded-full"><i data-lucide="arrow-right" class="w-3.5 h-3.5 text-white"></i></div>
+                        <span class="text-[9px] font-black text-indigo-600 mt-1">Y 반응</span>
+                    </div>
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-[12px] font-black text-gray-400 mb-1 px-1.5 bg-gray-100 rounded">반응 후 (YCl<sub>b</sub>)</span>
+                        <div class="beaker" id="beaker-after"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-[28px] border border-gray-100 space-y-3 shadow-lg">
+                    <h4 class="text-[12px] font-black text-gray-900 mb-1">이온 분석 및 매칭</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between bg-gray-50/50 p-2 rounded-xl border border-gray-100">
+                            <span class="text-[12px] font-bold text-gray-500 w-24 shrink-0">구경꾼(Cl<sup>-</sup>)</span>
+                            <div id="spectator-selector" class="flex gap-1 items-center flex-1 justify-center"></div>
+                            <div class="w-[60px] shrink-0"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-50/50 p-2 rounded-xl border border-gray-100">
+                            <span class="text-[12px] font-bold text-gray-500 w-24 shrink-0">전 이온(X<sup>a+</sup>)</span>
+                            <div id="reactant-selector" class="flex gap-1 items-center flex-1 justify-center"></div>
+                            <div class="shrink-0 flex items-center gap-1">
+                                <span class="text-[9px] text-gray-400 font-bold">a:</span>
+                                <select id="charge-x" class="compact-select">
+                                    <option value="">선택</option><option value="1">+1</option><option value="2">+2</option><option value="3">+3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-gray-50/50 p-2 rounded-xl border border-gray-100">
+                            <span class="text-[12px] font-bold text-gray-500 w-24 shrink-0">후 이온(Y<sup>b+</sup>)</span>
+                            <div id="product-selector" class="flex gap-1 items-center flex-1 justify-center"></div>
+                            <div class="shrink-0 flex items-center gap-1">
+                                <span class="text-[9px] text-gray-400 font-bold">b:</span>
+                                <select id="charge-y" class="compact-select">
+                                    <option value="">선택</option><option value="1">+1</option><option value="2">+2</option><option value="3">+3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-1">
+                        <div class="flex gap-2">
+                            <button onclick="checkModelAnswer()" class="flex-1 bg-indigo-600 text-white h-11 rounded-xl font-black shadow-lg shadow-indigo-100 active:scale-[0.98] transition-all">확인</button>
+                            <button onclick="showModelExplanation()" class="flex-1 bg-white text-indigo-600 border-2 border-indigo-600 h-11 rounded-xl font-black active:scale-[0.98] transition-all">해설</button>
+                        </div>
+                        <p id="model-feedback" class="text-center text-[11px] font-black min-h-[16px] mt-2"></p>
+                        <button onclick="initModelSim()" class="w-full bg-gray-50 text-gray-400 h-9 rounded-xl font-bold text-[14px] active:scale-[0.98] transition-all mt-1 uppercase tracking-tighter">새로운 문제</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [View 3] 그래프 시나리오 -->
+            <div id="graph-sim" class="hidden fade-in space-y-4">
+                <div id="graph-desc" class="bg-blue-50 p-4 rounded-2xl border border-blue-100/50 text-[12px] text-blue-800 font-medium leading-relaxed">
+                    데이터 분석 중...
+                </div>
+
+                <div class="graph-wrapper shadow-xl">
+                    <canvas id="reactionGraph"></canvas>
+                </div>
+
+                <div class="bg-white p-4 rounded-[28px] border border-gray-100 space-y-4 shadow-lg">
+                    <div class="space-y-3">
+                        <h4 class="text-[12px] font-black text-gray-900">전하량 및 반응식 분석</h4>
+                        <div class="flex items-center justify-around bg-gray-50/50 p-2 rounded-xl gap-2">
+                            <div class="flex items-center gap-1">
+                                <label class="text-[10px] font-black text-gray-400 uppercase">전하량 a</label>
+                                <input type="number" id="chargeA" class="w-10 p-1.5 border border-gray-200 rounded-lg text-xs font-black text-center focus:outline-none" placeholder="a">
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <label class="text-[10px] font-black text-gray-400 uppercase">전하량 b</label>
+                                <input type="number" id="chargeB" class="w-10 p-1.5 border border-gray-200 rounded-lg text-xs font-black text-center focus:outline-none" placeholder="b">
+                            </div>
+                            <div class="flex items-center gap-1" id="colChargeC">
+                                <label class="text-[10px] font-black text-gray-400 uppercase">전하량 c</label>
+                                <input type="number" id="chargeC" class="w-10 p-1.5 border border-gray-200 rounded-lg text-xs font-black text-center focus:outline-none" placeholder="c">
+                            </div>
+                        </div>
+
+                        <div id="eqnContainer" class="bg-gray-50 p-3 rounded-xl border border-gray-200/50 flex flex-col gap-2">
+                            <!-- JS 생성 -->
+                        </div>
+                    </div>
+
+                    <div class="pt-1">
+                        <div class="flex gap-2">
+                            <button onclick="checkGraphAnswer()" class="flex-1 bg-blue-600 text-white h-11 rounded-xl font-black shadow-lg shadow-indigo-100 active:scale-[0.98] transition-all">확인</button>
+                            <button onclick="showGraphExplanation()" class="flex-1 bg-white text-blue-600 border-2 border-blue-600 h-11 rounded-xl font-black active:scale-[0.98] transition-all">해설</button>
+                        </div>
+                        <p id="graph-feedback" class="text-center text-[12px] font-black min-h-[16px] mt-2"></p>
+                        <button onclick="generateGraphProblem()" class="w-full bg-gray-50 text-gray-400 h-9 rounded-xl font-bold text-[10px] active:scale-[0.98] transition-all mt-1 uppercase tracking-tighter">새로운 그래프</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 하단 네비게이션: index.html과 디자인 로직 통일 -->
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
+            </button>
+            
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+            </button>
+            
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+            </button>
+            
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+            </button>
+            
+            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
+            </button>
+        </nav>
+
+        <!-- 해설 모달 -->
+        <div id="explanation-modal" class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center mb-5">
+                    <h3 class="text-base font-black text-gray-900">상세 분석 해설</h3>
+                    <button onclick="closeModal()" class="p-1.5 hover:bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div id="explanation-text" class="handwriting leading-relaxed space-y-4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'MENU';
+        const SHAPES = ['circle', 'square', 'triangle'];
+        const COLORS = ['#ef4444', '#3b82f6', '#10b981'];
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('menu-view').classList.add('hidden');
+            document.getElementById('model-sim').classList.add('hidden');
+            document.getElementById('graph-sim').classList.add('hidden');
+            
+            if(mode === 'MENU') {
+                document.getElementById('menu-view').classList.remove('hidden');
+                document.getElementById('header-title').innerText = "산화환원 마스터";
+            } else if(mode === 'MODEL') {
+                document.getElementById('model-sim').classList.remove('hidden');
+                document.getElementById('header-title').innerText = "입자 모형 분석";
+                initModelSim();
+            } else {
+                document.getElementById('graph-sim').classList.remove('hidden');
+                document.getElementById('header-title').innerText = (mode === 'GRAPH_TOTAL') ? "전체 이온 수 분석" : "이온별 변화 분석";
+                initGraphSim();
+            }
+            lucide.createIcons();
+            document.getElementById('content').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeModal() {
+            document.getElementById('explanation-modal').style.display = 'none';
+        }
+
+        /* 입자 모형 시뮬레이션 로직 */
+        let modelScenario = {};
+        function initModelSim() {
+            document.getElementById('model-feedback').innerText = '';
+            document.getElementById('charge-x').value = '';
+            document.getElementById('charge-y').value = '';
+            
+            let cx = Math.floor(Math.random() * 3) + 1;
+            let cy = Math.floor(Math.random() * 3) + 1;
+            while (cx === cy) cy = Math.floor(Math.random() * 3) + 1;
+
+            modelScenario = { cx, cy, shapes: {} };
+            let indices = [0, 1, 2].sort(() => Math.random() - 0.5);
+            ['spectator', 'reactant', 'product'].forEach((role, i) => {
+                modelScenario.shapes[role] = { shape: SHAPES[indices[i]], color: COLORS[indices[i]], label: role };
+            });
+
+            let k = (cx + cy <= 4) ? 2 : 1; 
+            modelScenario.reactantCount = k * cy;
+            modelScenario.productCount = k * cx;
+            modelScenario.spectatorCount = k * cx * cy; 
+
+            renderModelBeakers();
+            renderModelSelectors();
+        }
+
+        function renderModelBeakers() {
+            const draw = (id, role1, count1, role2, count2) => {
+                const beaker = document.getElementById(id);
+                beaker.innerHTML = '';
+                let ions = [];
+                for(let i=0; i<count1; i++) ions.push(modelScenario.shapes[role1]);
+                if(count2 > 0) for(let i=0; i<count2; i++) ions.push(modelScenario.shapes[role2]);
+                
+                ions.sort(() => Math.random() - 0.5).forEach(s => {
+                    const el = document.createElement('div');
+                    el.className = `shape ${s.shape}`;
+                    if(s.shape === 'triangle') el.style.borderBottomColor = s.color;
+                    else el.style.backgroundColor = s.color;
+                    beaker.appendChild(el);
+                });
+            };
+            draw('beaker-before', 'reactant', modelScenario.reactantCount, 'spectator', modelScenario.spectatorCount);
+            draw('beaker-after', 'product', modelScenario.productCount, 'spectator', modelScenario.spectatorCount);
+        }
+
+        function renderModelSelectors() {
+            ['spectator-selector', 'reactant-selector', 'product-selector'].forEach(id => {
+                const div = document.getElementById(id); div.innerHTML = '';
+                SHAPES.forEach(shapeType => {
+                    const opt = document.createElement('div');
+                    opt.className = `shape-option border border-transparent opacity-30 hover:opacity-100 transition-all cursor-pointer`;
+                    opt.dataset.type = shapeType;
+                    const inner = document.createElement('div');
+                    inner.className = `shape ${shapeType}`;
+                    let color = '#ccc';
+                    Object.values(modelScenario.shapes).forEach(s => { if(s.shape === shapeType) color = s.color; });
+                    if(shapeType === 'triangle') inner.style.borderBottomColor = color;
+                    else inner.style.backgroundColor = color;
+                    opt.appendChild(inner);
+                    opt.onclick = () => {
+                        Array.from(div.children).forEach(c => c.classList.remove('selected', 'border-indigo-500', 'opacity-100'));
+                        opt.classList.add('selected', 'border-indigo-500', 'opacity-100');
+                    };
+                    div.appendChild(opt);
+                });
+            });
+        }
+
+        function checkModelAnswer() {
+            const getSel = (id) => {
+                const s = document.querySelector(`#${id} .selected`);
+                return s ? s.dataset.type : null;
+            };
+            const ux = parseInt(document.getElementById('charge-x').value);
+            const uy = parseInt(document.getElementById('charge-y').value);
+            const feedback = document.getElementById('model-feedback');
+            if(!ux || !uy || !getSel('spectator-selector')) {
+                feedback.innerText = "데이터 분석을 완료해 주세요.";
+                feedback.className = "text-center text-[11px] font-black text-amber-500";
+                return;
+            }
+            const isCorrect = (getSel('spectator-selector') === modelScenario.shapes.spectator.shape &&
+                               getSel('reactant-selector') === modelScenario.shapes.reactant.shape &&
+                               getSel('product-selector') === modelScenario.shapes.product.shape &&
+                               ux === modelScenario.cx && uy === modelScenario.cy);
+            if(isCorrect) feedback.innerHTML = "<span class='text-emerald-500'>정답입니다! 정확한 분석입니다. 👍</span>";
+            else feedback.innerHTML = "<span class='text-rose-500'>오답입니다. 모형의 개수비를 다시 분석하세요.</span>";
+        }
+
+        function showModelExplanation() {
+            const s = modelScenario;
+            const shapeNames = { 'circle': '동그라미', 'square': '네모', 'triangle': '세모' };
+            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+            const div = gcd(s.reactantCount, s.productCount);
+            let html = `
+                <p><strong>1. 이온 판별</strong></p>
+                <ul class="list-disc ml-5 space-y-2">
+                    <li><span class="text-blue-600 font-bold">${shapeNames[s.shapes.spectator.shape]}</span>: 반응 전후 개수가 ${s.spectatorCount}개로 불변 &rarr; 구경꾼 이온(Cl<sup>-</sup>)</li>
+                    <li><span class="text-red-600 font-bold">${shapeNames[s.shapes.reactant.shape]}</span>: 반응 후 사라짐 &rarr; 반응 전 이온(X<sup>a+</sup>)</li>
+                    <li><span class="text-emerald-600 font-bold">${shapeNames[s.shapes.product.shape]}</span>: 반응 후 생성 &rarr; 생성된 이온(Y<sup>b+</sup>)</li>
+                </ul>
+                <p class="mt-4"><strong>2. 전하량 보존 법칙</strong></p>
+                <p>수용액 속 양이온의 총 전하량은 보존되어야 합니다.</p>
+                <p class="bg-gray-50 p-2 rounded text-center text-sm font-bold mt-1">사라진 X<sup>a+</sup> 전하 = 생성된 Y<sup>b+</sup> 전하</p>
+                <p class="mt-2">개수비 (X : Y) = ${s.reactantCount} : ${s.productCount} = ${s.reactantCount/div} : ${s.productCount/div}</p>
+                <p>전하량비 (a : b) = ${s.productCount/div} : ${s.reactantCount/div}</p>
+                <p>따라서 <strong>a = +${s.cx}, b = +${s.cy}</strong>입니다.</p>`;
+            document.getElementById('explanation-text').innerHTML = html;
+            document.getElementById('explanation-modal').style.display = 'flex';
+        }
+
+        /* 그래프 시뮬레이션 로직 */
+        let graphProblem = null;
+        let graphCanvas, ctx;
+
+        function initGraphSim() {
+            graphCanvas = document.getElementById('reactionGraph');
+            ctx = graphCanvas.getContext('2d');
+            generateGraphProblem();
+        }
+
+        function generateGraphProblem() {
+            document.getElementById('chargeA').value = '';
+            document.getElementById('chargeB').value = '';
+            document.getElementById('chargeC').value = '';
+            document.getElementById('graph-feedback').innerText = '';
+            const isThree = Math.random() > 0.4; 
+            const charges = [1, 2, 3].sort(() => Math.random() - 0.5);
+            const nA = charges[0], nB = charges[1], nC = isThree ? charges[2] : null;
+            const N0 = 12; 
+            const p1_y = (N0 * nA) / nB; 
+            const p1_x = p1_y; 
+            let points = [{x:0, y:N0}, {x:p1_x, y:p1_y}];
+            if(isThree) {
+                const p2_y = (p1_y * nB) / nC;
+                points.push({x: p1_x + p2_y, y: p2_y});
+                document.getElementById('colChargeC').classList.remove('hidden');
+            } else document.getElementById('colChargeC').classList.add('hidden');
+            graphProblem = { isThree, charges: [nA, nB, nC], points, N0 };
+            document.getElementById('graph-desc').innerHTML = `A<sup>a+</sup> 수용액에 금속 B를 넣어 반응시킨 결과입니다. ${isThree ? '이후 금속 C를 추가로 넣었습니다.' : ''}`;
+            renderGraph();
+            renderEqnInputs();
+            lucide.createIcons();
+        }
+
+        function renderGraph() {
+            const w = graphCanvas.width = graphCanvas.parentElement.clientWidth;
+            const h = graphCanvas.height = graphCanvas.parentElement.clientHeight;
+            ctx.clearRect(0,0,w,h);
+            const padding = 45;
+            const maxXVal = Math.max(...graphProblem.points.map(p => p.x));
+            const maxYVal = Math.max(graphProblem.N0, ...graphProblem.points.map(p => p.y));
+            const maxX = maxXVal * 1.25;
+            const maxY = maxYVal * 1.25;
+            const mapX = (v) => padding + v * (w - padding * 2) / maxX;
+            const mapY = (v) => h - padding - v * (h - padding * 2) / maxY;
+            ctx.beginPath(); ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.5;
+            ctx.moveTo(padding, 20); ctx.lineTo(padding, h-padding); ctx.lineTo(w-20, h-padding); ctx.stroke();
+            const yTicks = [...new Set([graphProblem.N0, ...graphProblem.points.map(p => p.y)])].sort((a,b) => a-b);
+            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            yTicks.forEach(val => {
+                if(val < 0.1) return;
+                const y = mapY(val);
+                ctx.beginPath(); ctx.moveTo(padding-4, y); ctx.lineTo(padding, y); ctx.stroke();
+                ctx.fillStyle = '#64748b'; ctx.font = 'bold 9px Noto Sans KR';
+                ctx.fillText(Math.round(val*10)/10 + 'N', padding - 8, y);
+            });
+            if(currentMode === 'GRAPH_TOTAL') {
+                ctx.beginPath(); ctx.strokeStyle = '#4f46e5'; ctx.lineWidth = 3; ctx.moveTo(mapX(0), mapY(graphProblem.N0));
+                graphProblem.points.forEach(p => ctx.lineTo(mapX(p.x), mapY(p.y))); ctx.stroke();
+            } else {
+                const pts = graphProblem.points;
+                drawLine(mapX(0), mapY(graphProblem.N0), mapX(pts[1].x), mapY(0), '#ef4444');
+                drawLine(mapX(0), mapY(0), mapX(pts[1].x), mapY(pts[1].y), '#3b82f6');
+                if(graphProblem.isThree) {
+                    drawLine(mapX(pts[1].x), mapY(pts[1].y), mapX(pts[2].x), mapY(0), '#3b82f6');
+                    drawLine(mapX(pts[1].x), mapY(0), mapX(pts[2].x), mapY(pts[2].y), '#10b981');
+                }
+            }
+        }
+
+        function drawLine(x1, y1, x2, y2, color) { ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
+
+        function renderEqnInputs() {
+            const container = document.getElementById('eqnContainer');
+            const p = graphProblem;
+            container.innerHTML = `<div class="flex items-center justify-center gap-1 text-[11px] font-black"><input type="number" id="c1_a" class="eqn-input">A<sup>a+</sup> + <input type="number" id="c1_b" class="eqn-input">B &rarr; <input type="number" id="c1_a_p" class="eqn-input">A + <input type="number" id="c1_b_p" class="eqn-input">B<sup>b+</sup></div>`;
+        }
+
+        function checkGraphAnswer() {
+            const na = parseInt(document.getElementById('chargeA').value);
+            const nb = parseInt(document.getElementById('chargeB').value);
+            const p = graphProblem;
+            if(na === p.charges[0] && nb === p.charges[1]) document.getElementById('graph-feedback').innerHTML = "<span class='text-emerald-500'>정답입니다! 🎯</span>";
+            else document.getElementById('graph-feedback').innerHTML = "<span class='text-rose-500'>다시 분석해 보세요.</span>";
+        }
+
+        function showGraphExplanation() {
+            const p = graphProblem;
+            let html = `<p><strong>분석 해설</strong></p><p>반응 전하량 보존에 의해 a= +${p.charges[0]}, b= +${p.charges[1]} 입니다.</p>`;
+            document.getElementById('explanation-text').innerHTML = html;
+            document.getElementById('explanation-modal').style.display = 'flex';
+        }
+
+        window.onload = () => lucide.createIcons();
+    </script>
+</body>
+</html>

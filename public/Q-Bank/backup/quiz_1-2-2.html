@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3단원: 물질의 구조와 성질 - 통합과학 퀴즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col">
+
+    <!-- 헤더 -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md z-10 shrink-0">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-shapes"></i> 3. 물질의 구조와 성질 (랜덤 10문항)
+            </h1>
+            <a href="index.html" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1 rounded-full transition">
+                <i class="fas fa-home"></i> 홈으로
+            </a>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 overflow-y-auto p-4 flex items-start justify-center">
+        <div id="quiz-container" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden fade-in min-h-[400px] mb-8 relative">
+            
+            <!-- 진행 상태 바 -->
+            <div class="w-full bg-gray-200 h-2">
+                <div id="progress-bar" class="bg-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- 시작 화면 -->
+            <div id="start-screen" class="p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-3xl text-indigo-600 animate-bounce">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">단원 실전 퀴즈</h2>
+                <p class="text-gray-600 mb-8 leading-relaxed">
+                    '물질의 구조와 성질' 단원 문제 은행(총 30문항)에서<br>
+                    <strong class="text-indigo-600">10문제</strong>를 무작위로 추출했습니다.<br>
+                    화학 결합과 신소재 분야를 점검해보세요!
+                </p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-lg text-lg flex items-center gap-2 transform hover:scale-105 duration-200">
+                    <i class="fas fa-play"></i> 문제 풀기 시작
+                </button>
+            </div>
+
+            <!-- 문제 영역 -->
+            <div id="question-area" class="hidden p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-bold text-indigo-600 tracking-wider">Q <span id="current-num">1</span> / <span id="total-num">10</span></span>
+                    <span id="score-display" class="text-sm font-semibold text-gray-500">0점</span>
+                </div>
+
+                <h2 id="question-text" class="text-xl font-bold mb-6 text-gray-800 leading-snug">
+                    문제 로딩 중...
+                </h2>
+
+                <!-- 힌트 -->
+                <div class="mb-6">
+                    <button onclick="toggleHint()" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center gap-1 focus:outline-none transition">
+                        <i class="far fa-lightbulb"></i> 힌트 보기
+                    </button>
+                    <div id="hint-box" class="hidden mt-2 p-3 bg-yellow-50 text-yellow-800 text-sm rounded-lg border border-yellow-200 fade-in">
+                        <!-- 힌트 내용 -->
+                    </div>
+                </div>
+
+                <!-- 보기 리스트 -->
+                <div id="options-list" class="space-y-3"></div>
+
+                <!-- 해설 -->
+                <div id="rationale-area" class="hidden mt-6 p-4 rounded-xl border fade-in bg-gray-50">
+                    <div class="flex items-start gap-3">
+                        <div id="rationale-icon" class="text-2xl mt-1 shrink-0"></div>
+                        <div>
+                            <h3 id="rationale-title" class="font-bold text-lg mb-1"></h3>
+                            <p id="rationale-text" class="text-sm leading-relaxed text-gray-700"></p>
+                        </div>
+                    </div>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
+                        다음 문제 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 결과 화면 -->
+            <div id="result-screen" class="hidden p-8 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+                <div class="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-4xl text-indigo-600">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">퀴즈 완료!</h2>
+                <p class="text-gray-600 mb-8">학습이 끝났습니다.</p>
+                
+                <div class="w-full max-w-sm bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">최종 점수</p>
+                    <p class="text-4xl font-bold text-indigo-600"><span id="final-score">0</span> / 100</p>
+                </div>
+
+                <div class="flex gap-3 w-full max-w-sm">
+                    <button onclick="location.reload()" class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition">
+                        다시 풀기
+                    </button>
+                    <a href="index.html" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition flex items-center justify-center">
+                        목록으로
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // 3단원 문제 은행 데이터 (30문항)
+        // ==========================================
+        const questionBank = [
+            // [화학 결합 기초]
+            { question: "비활성 기체(18족)가 화학적으로 안정한 이유는?", answerOptions: [{text:"전자 껍질이 없어서",isCorrect:false},{text:"가장 바깥 전자 껍질에 전자가 8개(헬륨은 2개) 채워져 있어서",isCorrect:true,rationale:"옥텟 규칙(8전자 규칙)을 만족하여 에너지 상태가 가장 낮고 안정합니다."},{text:"원자핵의 양성자 수가 많아서",isCorrect:false},{text:"전자가 계속 움직여서",isCorrect:false}], hint: "옥텟 규칙과 관련이 있습니다." },
+            { question: "나트륨(Na) 원자가 안정해지기 위해 형성하는 이온은?", answerOptions: [{text:"Na⁺",isCorrect:true,rationale:"나트륨은 원자가 전자가 1개이므로, 전자 1개를 잃고 +1가 양이온이 되어 네온과 같은 전자 배치를 가집니다."},{text:"Na⁻",isCorrect:false},{text:"Na²⁺",isCorrect:false},{text:"Na²⁻",isCorrect:false}], hint: "1족 원소는 전자 1개를 잃기 쉽습니다." },
+            { question: "다음 중 이온 결합 물질은?", answerOptions: [{text:"물(H₂O)",isCorrect:false},{text:"염화 나트륨(NaCl)",isCorrect:true,rationale:"금속 원소(Na)와 비금속 원소(Cl) 사이의 정전기적 인력으로 형성된 이온 결합 물질입니다."},{text:"다이아몬드(C)",isCorrect:false},{text:"설탕(C₁₂H₂₂O₁₁)",isCorrect:false}], hint: "금속과 비금속의 결합을 찾으세요." },
+            { question: "공유 결합이 형성되는 원리는?", answerOptions: [{text:"전자를 주고받아 양이온과 음이온이 된다",isCorrect:false},{text:"전자쌍을 서로 공유하여 결합한다",isCorrect:true,rationale:"비금속 원소들이 서로 전자를 내놓아 전자쌍을 만들고 이를 공유함으로써 결합합니다."},{text:"자유 전자가 금속 양이온 사이를 이동한다",isCorrect:false},{text:"중성자가 전자를 당긴다",isCorrect:false}], hint: "서로 손을 맞잡는 것과 같습니다." },
+            { question: "이온 결합 물질의 일반적인 성질이 아닌 것은?", answerOptions: [{text:"녹는점과 끓는점이 높다",isCorrect:false},{text:"고체 상태에서 전기가 잘 통한다",isCorrect:true,rationale:"이온 결합 물질은 고체 상태에서는 이온이 강하게 결합되어 이동할 수 없으므로 전기가 통하지 않습니다."},{text:"물에 잘 녹는 것이 많다",isCorrect:false},{text:"외부에서 힘을 가하면 잘 부서진다",isCorrect:false}], hint: "소금 덩어리 자체는 전기가 통하지 않습니다." },
+            
+            // [물질의 성질]
+            { question: "설탕 수용액이 전기가 통하지 않는 이유는?", answerOptions: [{text:"이온이 없기 때문이다",isCorrect:true,rationale:"설탕은 공유 결합 물질로, 물에 녹아도 이온화되지 않고 분자 상태로 존재하므로 전하를 운반할 입자가 없습니다."},{text:"전자가 너무 많아서",isCorrect:false},{text:"물과 반응하여 고체가 되어서",isCorrect:false},{text:"설탕이 금속이기 때문이다",isCorrect:false}], hint: "전기를 운반할 '짐꾼(이온)'이 없습니다." },
+            { question: "공유 결합 물질인 흑연이 전기가 통하는 이유는?", answerOptions: [{text:"이온 결합 물질이기 때문이다",isCorrect:false},{text:"탄소 원자가 3개의 결합을 하고 남은 전자가 자유롭게 이동하기 때문이다",isCorrect:true,rationale:"흑연은 탄소가 3개의 다른 탄소와 결합하고 남은 1개의 전자가 층 사이를 이동할 수 있어 예외적으로 전도성이 있습니다."},{text:"금속 원소가 포함되어 있어서",isCorrect:false},{text:"물에 녹아 있어서",isCorrect:false}], hint: "탄소의 팔 4개 중 3개만 잡고 있습니다." },
+            { question: "지각을 구성하는 광물의 대부분을 차지하는 물질의 결합 구조는?", answerOptions: [{text:"규산염 사면체",isCorrect:true,rationale:"지각의 90% 이상은 규소와 산소가 결합한 규산염 광물로 이루어져 있습니다."},{text:"탄소 사슬",isCorrect:false},{text:"단백질 나선",isCorrect:false},{text:"이온 결정",isCorrect:false}], hint: "Si와 O로 이루어진 피라미드 모양입니다." },
+            { question: "규산염 사면체의 기본 화학식과 전하량은?", answerOptions: [{text:"SiO₄⁴⁻",isCorrect:true,rationale:"1개의 규소(Si⁴⁺)와 4개의 산소(O²⁻)가 결합하여 전체적으로 -4의 전하를 띱니다."},{text:"SiO₂",isCorrect:false},{text:"SiC",isCorrect:false},{text:"Al₂O₃",isCorrect:false}], hint: "중심에 규소 1개, 꼭짓점에 산소 4개입니다." },
+            { question: "규산염 광물의 결합 구조가 복잡할수록(독립형→망상형) 나타나는 특징은?", answerOptions: [{text:"풍화에 약해진다",isCorrect:false},{text:"공유 결합하는 산소의 수가 많아진다",isCorrect:true,rationale:"구조가 복잡해질수록 이웃하는 사면체와 공유하는 산소의 수가 늘어나며(0개→4개), 풍화에 강해집니다."},{text:"규소의 비율이 줄어든다",isCorrect:false},{text:"전기 전도성이 높아진다",isCorrect:false}], hint: "서로 더 많이 손을 잡게 됩니다." },
+
+            // [생명체 구성 물질]
+            { question: "탄소 화합물이 생명체의 주요 구성 물질인 이유는?", answerOptions: [{text:"지각에 가장 많기 때문에",isCorrect:false},{text:"결합이 쉽게 끊어져서",isCorrect:false},{text:"다양하고 복잡한 분자를 만들 수 있어서",isCorrect:true,rationale:"탄소는 원자가 전자가 4개로, 최대 4개의 다른 원자와 결합하여 사슬, 가지, 고리 등 다양한 골격을 형성할 수 있습니다."},{text:"물에 잘 녹지 않아서",isCorrect:false}], hint: "레고 블록처럼 다양한 모양을 만들 수 있습니다." },
+            { question: "단백질을 구성하는 기본 단위체는?", answerOptions: [{text:"포도당",isCorrect:false},{text:"아미노산",isCorrect:true,rationale:"단백질은 약 20종류의 아미노산이 펩타이드 결합으로 연결된 중합체입니다."},{text:"뉴클레오타이드",isCorrect:false},{text:"지방산",isCorrect:false}], hint: "근육을 만드는 영양소의 분해물입니다." },
+            { question: "두 아미노산 사이에서 물 분자가 빠져나가며 형성되는 결합은?", answerOptions: [{text:"펩타이드 결합",isCorrect:true,rationale:"카복실기와 아미노기 사이에서 물이 빠져나가는 축합 중합 반응으로 형성됩니다."},{text:"글리코사이드 결합",isCorrect:false},{text:"에스터 결합",isCorrect:false},{text:"수소 결합",isCorrect:false}], hint: "단백질을 만드는 결합입니다." },
+            { question: "DNA와 RNA를 구성하는 기본 단위체는?", answerOptions: [{text:"뉴클레오타이드",isCorrect:true,rationale:"인산, 당, 염기가 1:1:1로 결합된 뉴클레오타이드가 핵산의 단위체입니다."},{text:"아미노산",isCorrect:false},{text:"글리세롤",isCorrect:false},{text:"포도당",isCorrect:false}], hint: "인산-당-염기로 이루어져 있습니다." },
+            { question: "DNA의 염기 중 아데닌(A)과 짝을 이루는 것은?", answerOptions: [{text:"구아닌(G)",isCorrect:false},{text:"사이토신(C)",isCorrect:false},{text:"티민(T)",isCorrect:true,rationale:"DNA에서 아데닌(A)은 항상 티민(T)과 상보적으로 수소 결합을 합니다."},{text:"유라실(U)",isCorrect:false}], hint: "RNA에서는 유라실이지만 DNA에서는 이것입니다." },
+
+            // [신소재 - 전기적 성질]
+            { question: "도체, 반도체, 절연체를 구분하는 기준인 '띠 간격(Band Gap)'에 대한 설명으로 옳은 것은?", answerOptions: [{text:"도체는 띠 간격이 매우 넓다",isCorrect:false},{text:"절연체는 띠 간격이 좁다",isCorrect:false},{text:"반도체는 도체와 절연체의 중간 정도 띠 간격을 가진다",isCorrect:true,rationale:"띠 간격이 적당하여 조건(온도, 전압 등)에 따라 전자가 전도띠로 이동할 수 있습니다."},{text:"띠 간격은 물질의 강도를 의미한다",isCorrect:false}], hint: "전자가 점프해야 하는 계곡의 너비와 같습니다." },
+            { question: "순수한 반도체(규소 등)에 불순물을 섞어 전기 전도성을 높이는 과정은?", answerOptions: [{text:"도핑(Doping)",isCorrect:true,rationale:"13족이나 15족 원소를 미량 첨가하여 전하 운반자(전자 또는 양공)를 늘리는 것을 도핑이라 합니다."},{text:"코팅",isCorrect:false},{text:"정제",isCorrect:false},{text:"증류",isCorrect:false}], hint: "스포츠에서의 금지 약물 복용과 같은 용어입니다." },
+            { question: "p형 반도체와 n형 반도체를 접합하여 만든, 전류를 한쪽 방향으로만 흐르게 하는 소자는?", answerOptions: [{text:"다이오드",isCorrect:true,rationale:"다이오드는 정류 작용(교류를 직류로 변환)을 하는 대표적인 반도체 소자입니다."},{text:"트랜지스터",isCorrect:false},{text:"축전기",isCorrect:false},{text:"저항",isCorrect:false}], hint: "발광 OO(LED)의 기본 구조입니다." },
+            { question: "트랜지스터의 주된 기능 두 가지는?", answerOptions: [{text:"발전, 송전",isCorrect:false},{text:"증폭 작용, 스위치 작용",isCorrect:true,rationale:"약한 신호를 강하게 만드는 증폭 작용과 전류를 흐르게/안 흐르게 하는 스위치 작용을 합니다."},{text:"냉각, 가열",isCorrect:false},{text:"빛 흡수, 빛 방출",isCorrect:false}], hint: "컴퓨터 CPU의 핵심 기능입니다." },
+            { question: "초전도체가 임계 온도 이하에서 전기 저항이 0이 되는 현상은?", answerOptions: [{text:"마이스너 효과",isCorrect:false},{text:"초전도 현상",isCorrect:true,rationale:"저항이 0이 되어 전류가 손실 없이 흐르는 현상을 초전도 현상이라 합니다."},{text:"양자 얽힘",isCorrect:false},{text:"광전 효과",isCorrect:false}], hint: "이름 그대로 전도가 '초(Super)'월적으로 잘 되는 현상입니다." },
+
+            // [신소재 - 자기적 성질 및 나노]
+            { question: "초전도체가 자석 위에 둥둥 떠 있는 현상(반자성)을 무엇이라 하는가?", answerOptions: [{text:"마이스너 효과",isCorrect:true,rationale:"초전도체 내부로 자기장이 침투하지 못하고 밀려나 자석을 밀어내는 현상입니다."},{text:"도플러 효과",isCorrect:false},{text:"온실 효과",isCorrect:false},{text:"나비 효과",isCorrect:false}], hint: "자기 부상 열차의 원리 중 하나입니다." },
+            { question: "흑연의 한 층을 떼어낸 2차원 평면 구조의 신소재는?", answerOptions: [{text:"탄소 나노 튜브",isCorrect:false},{text:"그래핀",isCorrect:true,rationale:"그래핀은 탄소 원자들이 육각형 벌집 모양으로 연결된 한 층의 평면 구조입니다."},{text:"풀러렌",isCorrect:false},{text:"다이아몬드",isCorrect:false}], hint: "휘어지는 투명 디스플레이의 소재입니다." },
+            { question: "탄소 나노 튜브(CNT)의 특징이 아닌 것은?", answerOptions: [{text:"전기 전도성이 좋다",isCorrect:false},{text:"열 전도성이 좋다",isCorrect:false},{text:"강철보다 강도가 약하다",isCorrect:true,rationale:"탄소 나노 튜브는 강철보다 훨씬 강도가 높고 가볍습니다."},{text:"탄소로만 이루어져 있다",isCorrect:false}], hint: "매우 가볍지만 튼튼합니다." },
+            { question: "액정(Liquid Crystal)의 특징은?", answerOptions: [{text:"항상 고체 상태이다",isCorrect:false},{text:"액체와 고체의 중간 성질을 가진다",isCorrect:true,rationale:"전압을 가하면 분자 배열이 규칙적으로 변하는 액체와 결정의 성질을 동시에 가집니다."},{text:"자석에만 반응한다",isCorrect:false},{text:"스스로 빛을 낸다",isCorrect:false}], hint: "LCD 화면에 쓰입니다." },
+            { question: "자연계의 생물학적 특성을 모방하여 신소재를 만드는 기술은?", answerOptions: [{text:"유전 공학",isCorrect:false},{text:"생체 모방 기술(Biomimetics)",isCorrect:true,rationale:"도꼬마리 열매(벨크로), 연잎(방수), 게코 도마뱀(접착) 등이 대표적입니다."},{text:"나노 기술",isCorrect:false},{text:"핵융합 기술",isCorrect:false}], hint: "찍찍이 테이프는 식물 열매를 흉내 낸 것입니다." },
+
+            // [종합 응용]
+            { question: "공유 결합 물질이지만 예외적으로 녹는점이 매우 높은 것은?", answerOptions: [{text:"드라이아이스",isCorrect:false},{text:"다이아몬드",isCorrect:true,rationale:"다이아몬드는 탄소 원자들이 그물처럼 강하게 공유 결합한 원자 결정이므로 녹는점이 매우 높습니다."},{text:"설탕",isCorrect:false},{text:"아이오딘",isCorrect:false}], hint: "가장 단단한 광물입니다." },
+            { question: "네오디뮴 자석의 특징으로 옳은 것은?", answerOptions: [{text:"자성이 매우 약하다",isCorrect:false},{text:"충격에 매우 강하다",isCorrect:false},{text:"철 원자보다 자성이 강한 희토류를 포함한다",isCorrect:true,rationale:"희토류 원소인 네오디뮴과 붕소, 철을 합금하여 만든 강력한 영구 자석입니다."},{text:"전기가 통하지 않는다",isCorrect:false}], hint: "하드디스크 모터나 강력 스피커에 쓰입니다." },
+            { question: "다음 중 탄소 동소체가 아닌 것은?", answerOptions: [{text:"다이아몬드",isCorrect:false},{text:"흑연",isCorrect:false},{text:"그래핀",isCorrect:false},{text:"암모니아",isCorrect:true,rationale:"암모니아(NH₃)는 질소와 수소의 화합물이며, 탄소로만 이루어진 동소체가 아닙니다."}], hint: "탄소가 전혀 들어있지 않습니다." },
+            { question: "규산염 광물 중 '망상 구조'를 가지며 가장 풍화에 강한 것은?", answerOptions: [{text:"감람석",isCorrect:false},{text:"휘석",isCorrect:false},{text:"각섬석",isCorrect:false},{text:"석영",isCorrect:true,rationale:"석영은 모든 산소를 공유하는 망상 구조(SiO₂)로 결합이 매우 단단하고 화학적으로 안정합니다."}], hint: "모래의 주성분입니다." },
+            { question: "단백질의 입체 구조가 변하여 기능을 잃는 현상은?", answerOptions: [{text:"변성",isCorrect:true,rationale:"열이나 pH 변화 등에 의해 단백질의 구조가 풀리거나 바뀌어 기능을 상실하는 것을 변성이라 합니다."},{text:"융해",isCorrect:false},{text:"증발",isCorrect:false},{text:"산화",isCorrect:false}], hint: "달걀 흰자가 익으면 하얗게 굳는 현상입니다." }
+        ];
+
+        // ==========================================
+        // 퀴즈 로직 (단독 실행용으로 단순화)
+        // ==========================================
+        let currentQuizList = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        function startQuiz() {
+            // 랜덤 셔플 및 10문제 추출
+            const shuffled = [...questionBank];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            currentQuizList = shuffled.slice(0, 10);
+
+            // UI 전환
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-area').classList.remove('hidden');
+            document.getElementById('total-num').innerText = currentQuizList.length;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const qData = currentQuizList[currentQuestionIndex];
+            
+            document.getElementById('current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('question-text').innerText = qData.question;
+            document.getElementById('hint-box').innerText = qData.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            
+            const progress = ((currentQuestionIndex) / currentQuizList.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const rationaleArea = document.getElementById('rationale-area');
+            rationaleArea.classList.add('hidden');
+            rationaleArea.classList.remove('bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            qData.answerOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition duration-200 font-medium text-gray-700 flex items-center gap-3 group bg-white`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-indigo-200 group-hover:text-indigo-700 transition font-bold text-sm shrink-0">${index + 1}</span>
+                    <span class="leading-snug">${option.text}</span>
+                `;
+                btn.onclick = () => checkAnswer(option, btn, qData.answerOptions);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function toggleHint() {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        }
+
+        function checkAnswer(selectedOption, btnElement, allOptions) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const isCorrect = selectedOption.isCorrect;
+            const rationale = selectedOption.rationale || "해설이 없습니다.";
+            const allButtons = document.getElementById('options-list').children;
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score-display').innerText = `${score}점`;
+                styleButton(btnElement, 'correct');
+                showRationale(true, rationale);
+            } else {
+                styleButton(btnElement, 'wrong');
+                const correctIndex = allOptions.findIndex(o => o.isCorrect === true);
+                if (correctIndex !== -1) styleButton(allButtons[correctIndex], 'correct-light');
+                showRationale(false, rationale);
+            }
+
+            for (let btn of allButtons) {
+                btn.onclick = null;
+                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-400');
+            }
+        }
+
+        function styleButton(btn, type) {
+            btn.classList.remove('border-gray-200', 'bg-white');
+            const iconSpan = btn.querySelector('span:first-child');
+            if (type === 'correct') {
+                btn.classList.add('border-green-500', 'bg-green-100', 'text-green-900');
+                iconSpan.innerHTML = '<i class="fas fa-check"></i>';
+                iconSpan.classList.add('bg-green-200', 'text-green-800');
+            } else if (type === 'wrong') {
+                btn.classList.add('border-red-500', 'bg-red-100', 'text-red-900');
+                iconSpan.innerHTML = '<i class="fas fa-times"></i>';
+                iconSpan.classList.add('bg-red-200', 'text-red-800');
+            } else if (type === 'correct-light') {
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+            }
+        }
+
+        function showRationale(isCorrect, text) {
+            const area = document.getElementById('rationale-area');
+            const icon = document.getElementById('rationale-icon');
+            const title = document.getElementById('rationale-title');
+            const body = document.getElementById('rationale-text');
+            
+            area.classList.remove('hidden');
+            if (isCorrect) {
+                area.classList.add('bg-green-50', 'border-green-200');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600"></i>';
+                title.innerText = "정답입니다!";
+                title.className = 'font-bold text-lg mb-1 text-green-800';
+            } else {
+                area.classList.add('bg-red-50', 'border-red-200');
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-600"></i>';
+                title.innerText = "오답입니다.";
+                title.className = 'font-bold text-lg mb-1 text-red-800';
+            }
+            body.innerText = text;
+            setTimeout(() => area.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuizList.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('question-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>

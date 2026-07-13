@@ -1,0 +1,1 @@
+const admin = require('firebase-admin'); admin.initializeApp({ projectId: 'godtonggwa' }); const db = admin.firestore(); async function check() { const snap = await db.collection('exams').limit(1).get(); if(snap.empty) return; const data = snap.docs[0].data(); console.log(JSON.stringify(data.questions, null, 2)); } check().catch(console.error);

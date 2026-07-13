@@ -120,12 +120,6 @@
                 <div id="exam-list-container" class="space-y-3 max-h-[500px] overflow-y-auto hide-scrollbar mb-4">
                     <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
                 </div>
-
-                <div class="pt-4 border-t border-gray-800">
-                    <button onclick="batchUpdateYear()" class="w-full py-3 bg-emerald-900/30 hover:bg-emerald-900/50 border border-emerald-800 text-emerald-400 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2">
-                        <i data-lucide="refresh-cw" class="w-3 h-3"></i> 모든 데이터의 '2024'를 '2026'으로 일괄 변경
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -394,9 +388,15 @@
             <input type="hidden" id="q-doc-id"> 
             
             <div class="space-y-4">
-                <div>
-                    <label class="text-xs text-gray-400 block mb-1">문항 ID (예: q_2026_phys_01)</label>
-                    <input id="q-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="자동 생성 가능">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-1">문항 ID (예: q_2028_s0_01)</label>
+                        <input id="q-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="자동 생성 가능">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-1">출처 모의고사 ID (선택)</label>
+                        <input id="q-source-exam-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="예: 2028_s0_01">
+                    </div>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
@@ -922,7 +922,7 @@
                 
                 allQuestionsData = [];
                 snapshot.forEach(doc => {
-                    allQuestionsData.push({ id: doc.id, ...doc.data() });
+                    allQuestionsData.push({ ...doc.data(), id: doc.id, docId: doc.id });
                 });
 
                 document.getElementById('total-questions-count').innerText = `${allQuestionsData.length}개`;
@@ -1013,15 +1013,32 @@
 
             const itemsHtml = await Promise.all(pageData.map(async (d) => {
                 const examId = d.sourceExamId || (d.id.split('_').slice(1, -1).join('_'));
-                const imageFileName = d.imageFile || `${d.id}.png`;
-                const imagePath = `questions/${examId}/${imageFileName}`;
                 
-                let imageUrl = '';
-                try {
-                    const imageRef = ref(storage, imagePath);
-                    imageUrl = await getDownloadURL(imageRef);
-                } catch (error) {
-                    console.warn(`이미지 로드 실패 (${imagePath}):`, error);
+                // 실제 Storage의 폴더 구조 (예: questions/kice/2028/2028_pretest/...) 반영 로직
+                let storagePrefix = d.storagePrefix || '';
+                if (!storagePrefix) {
+                    if (d.id.startsWith('kice_')) {
+                        const yearMatch = d.id.match(/kice_(\d{4})/);
+                        const year = yearMatch ? yearMatch[1] : '';
+                        storagePrefix = year ? `kice/${year}` : 'kice';
+                    } else if (d.id.startsWith('mock_')) {
+                        const yearMatch = d.id.match(/mock_(\d{4})/);
+                        const year = yearMatch ? yearMatch[1] : '';
+                        storagePrefix = year ? `mock/${year}` : 'mock';
+                    }
+                }
+                
+                const imageFileName = d.imageFile || `${d.id}.png`;
+                const imagePath = storagePrefix ? `questions/${storagePrefix}/${examId}/${imageFileName}` : `questions/${examId}/${imageFileName}`;
+                
+                let imageUrl = d.image_path || d.imagePath || '';
+                if (!imageUrl) {
+                    try {
+                        const imageRef = ref(storage, imagePath);
+                        imageUrl = await getDownloadURL(imageRef);
+                    } catch (error) {
+                        console.warn(`이미지 로드 실패 (${imagePath}):`, error);
+                    }
                 }
 
                 return `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
@@ -1292,21 +1309,6 @@
             }
         };
 
-        window.batchUpdateYear = async () => {
-            if (!await customConfirm("일괄 변경하시겠습니까?")) return;
-            try { 
-                const snapshot = await getDocs(collection(db, "public_exams")); 
-                const updates = []; 
-                snapshot.forEach(sd => { 
-                    const d = sd.data(); 
-                    if (d.title.includes("2024") || (d.subTitle && d.subTitle.includes("2024"))) {
-                        updates.push(updateDoc(sd.ref, { title: d.title.replace(/2024/g, "2026"), subTitle: (d.subTitle || "").replace(/2024/g, "2026") }));
-                    }
-                }); 
-                await Promise.all(updates); await customAlert(`${updates.length}개 수정 완료`); window.loadExamList(); 
-            } catch (e) { await customAlert("오류: " + e.message); }
-        };
-
         window.searchUser = async () => {
             const val = document.getElementById('search-user-input').value.trim();
             if (!val) return await customAlert("검색어 입력");
@@ -1385,6 +1387,7 @@
         window.openQuestionModal = async (docId = null) => {
             safeSetValue('q-doc-id', docId || ''); 
             safeSetValue('q-id', docId || `q_${new Date().getFullYear()}_${Math.random().toString(36).substr(2,5)}`);
+            safeSetValue('q-source-exam-id', ''); 
             safeSetValue('q-domain',''); 
             safeSetValue('q-chapter',''); 
             window.updateTopicOptions(''); 
@@ -1402,6 +1405,7 @@
                     if(snap.exists()) { 
                         const d = snap.data(), tax = d.taxonomy||{}; 
                         safeSetValue('q-id', docId); 
+                        safeSetValue('q-source-exam-id', d.sourceExamId || ''); 
                         safeSetValue('q-domain', tax.domain||''); 
                         safeSetValue('q-chapter', tax.chapter||''); 
                         window.updateTopicOptions(tax.chapter, tax.topic); 
@@ -1429,6 +1433,7 @@
         window.saveQuestionData = async () => {
             const originalDocId = document.getElementById('q-doc-id').value;
             const newDocId = document.getElementById('q-id').value.trim();
+            const sourceExamId = document.getElementById('q-source-exam-id').value.trim();
             const domain = document.getElementById('q-domain').value;
             const chapter = document.getElementById('q-chapter').value;
             const topic = document.getElementById('q-topic').value;
@@ -1441,7 +1446,7 @@
             if (!await customConfirm("저장 및 실시간 동기화를 진행할까요?")) return;
 
             try {
-                const data = { id: newDocId, correctAnswer, difficulty, score: difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
+                const data = { id: newDocId, sourceExamId, correctAnswer, difficulty, score: difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
                 
                 await setDoc(doc(db, "questions", newDocId), data, { merge: true });
                 if (originalDocId && originalDocId !== newDocId) await deleteDoc(doc(db, "questions", originalDocId));

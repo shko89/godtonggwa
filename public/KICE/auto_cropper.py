@@ -8,23 +8,17 @@ from datetime import datetime
 # 파이어베이스 초기화 함수
 def init_firebase():
     if not firebase_admin._apps:
-        # 파일이 위치한 루트 디렉토리를 기준으로 경로를 고정합니다.
-        # __file__은 현재 스크립트의 절대 경로를 가리킵니다.
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        key_path = os.path.join(base_dir, 'firebase_service_key.json')
-        
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        key_path = os.path.join(base_dir, '..', 'firebase_service_key.json')
         if not os.path.exists(key_path):
-            raise FileNotFoundError(f"❌ 키 파일을 찾을 수 없습니다: {key_path}\n루트 디렉토리에 'firebase_service_key.json'이 있는지 확인하세요.")
-            
+            raise FileNotFoundError(f"❌ 키 파일을 찾을 수 없습니다: {key_path}")
         cred = credentials.Certificate(key_path)
         firebase_admin.initialize_app(cred)
-        print("✅ 파이어베이스 인증 완료 (루트 키 파일 사용)")
     return firestore.client()
 
 # 2. 파이어베이스에서 좌표 다운로드 함수
 def fetch_coords_from_db(db, exam_id):
     print(f"☁️ Firebase에서 [{exam_id}] 좌표 및 메타데이터 다운로드 중...")
-    # 주의: 규칙에 따라 경로를 명확히 정의합니다.
     doc_ref = db.collection('artifacts').document('godtonggwa_v1') \
                 .collection('public').document('data') \
                 .collection('archive_coords').document(exam_id)
@@ -38,10 +32,40 @@ def fetch_coords_from_db(db, exam_id):
 def build_item_bank(pdf_path, exam_id, coords_data, output_dir="2028_pretest"):
     save_dir = os.path.join(output_dir, exam_id)
     os.makedirs(save_dir, exist_ok=True)
-    
-    # 이하 기존 로직 유지...
+    doc = fitz.open(pdf_path)
+    matrix = fitz.Matrix(3.0, 3.0) 
     bank_metadata = {}
-    # ... (생략된 로직은 기존과 동일하게 유지)
+
+    for q_num_str, data in sorted(coords_data.items(), key=lambda x: int(x[0])):
+        q_num = int(q_num_str)
+        page = doc[data.get('p', 1) - 1]
+        rx, ry, rw, rh = data['rect']
+        clip_rect = fitz.Rect(rx * page.rect.width, ry * page.rect.height, (rx + rw) * page.rect.width, (ry + rh) * page.rect.height)
+        pix = page.get_pixmap(matrix=matrix, clip=clip_rect)
+        
+        # 이미지 이름 형식
+        img_filename = f"{exam_id}_q{str(q_num).zfill(2)}.png"
+        pix.save(os.path.join(save_dir, img_filename))
+        
+        # 새로운 ID 공식: kice_{exam_id}_q{q_num}
+        q_id = f"kice_{exam_id}_q{str(q_num).zfill(2)}"
+        
+        bank_metadata[q_id] = {
+            "id": q_id,
+            "sourceExamId": exam_id,
+            "examQNum": q_num,
+            "imageFile": img_filename,
+            "correctAnswer": str(data.get('ans', '3')),
+            "score": float(data.get('score', 2.0)),
+            "difficulty": int(data.get('difficulty', 3)), 
+            "taxonomy": {"subject": "통합과학", "domain": "통합과학1", "topic": data.get('topic', '미분류')},
+            "behavioralDomain": data.get('behavior', '자료 변환 및 해석'), 
+            "qType": data.get('type', '합답형(ㄱ,ㄴ,ㄷ)'),             
+            "tags": data.get('tags', []),                              
+            "stats": { "total": 0, "correct": 0 },
+            "updatedAt": datetime.utcnow().isoformat() + "Z"
+        }
+    doc.close()
     
     with open(os.path.join(save_dir, f"{exam_id}_master_db.json"), 'w', encoding='utf-8') as f:
         json.dump(bank_metadata, f, ensure_ascii=False, indent=4)
@@ -54,6 +78,14 @@ if __name__ == "__main__":
     
     try:
         db = init_firebase()
-        # 이하 실행 로직...
+        coords = fetch_coords_from_db(db, TARGET_EXAM_ID)
+        
+        # 1. 이미지 자르기 & JSON 만들기
+        metadata = build_item_bank(TARGET_PDF_FILE, TARGET_EXAM_ID, coords)
+        
+        # 2. Firebase 업로드 실행! (현재는 로컬 저장만)
+        # upload_to_firestore(metadata)
+        print("✅ 로컬 이미지 자르기 및 메타데이터 JSON 저장이 완료되었습니다.")
+        print("\n🎉 모든 작업 완료!")
     except Exception as e:
-        print(f"오류 발생: {e}")
+        print(f"❌ 오류: {e}")

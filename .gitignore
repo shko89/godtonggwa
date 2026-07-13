@@ -67,3 +67,9 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+firebase_service_key.json
+
+＃생성된 데이터 폴더 (로컬에서만 관리)
+
+2028_pretest/

@@ -91,14 +91,37 @@
         </div>
 
         <div class="flex space-x-1 bg-gray-900 p-1 rounded-xl overflow-x-auto no-scrollbar">
-            <button onclick="switchAdminTab('exam')" id="btn-tab-exam" class="flex-1 py-2 rounded-lg text-sm font-bold bg-gray-700 text-white shadow transition-all whitespace-nowrap px-4">모의고사 관리</button>
+            <button onclick="switchAdminTab('round')" id="btn-tab-round" class="flex-1 py-2 rounded-lg text-sm font-bold bg-gray-700 text-white shadow transition-all whitespace-nowrap px-4">회차 관리</button>
+            <button onclick="switchAdminTab('exam')" id="btn-tab-exam" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">모의고사 관리</button>
             <button onclick="switchAdminTab('question')" id="btn-tab-question" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">문항 은행</button>
             <button onclick="switchAdminTab('user')" id="btn-tab-user" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">사용자 관리</button>
             <button onclick="switchAdminTab('v2')" id="btn-tab-v2" class="flex-1 py-2 rounded-lg text-sm font-bold text-amber-400 hover:text-amber-300 transition-all whitespace-nowrap px-4 border border-amber-500/30">V2 퀴즈DB</button>
         </div>
 
+        <!-- 1. 회차 관리 섹션 -->
+        <div id="section-round" class="admin-section">
+            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
+                <h2 class="text-sm font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4 text-indigo-400"></i> 회차 진행 관리</h2>
+                <div class="flex items-center justify-center gap-1 mb-4">
+                    <span id="current-round-display" class="text-5xl font-black text-indigo-400">-</span>
+                    <span class="text-lg text-gray-500 font-bold mt-3">회</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="updateRound(-1)" class="bg-gray-800 hover:bg-gray-700 text-white py-3 rounded-xl font-bold text-sm transition-colors border border-gray-600">
+                        -1 회차
+                    </button>
+                    <button onclick="updateRound(1)" class="bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-bold text-sm transition-colors shadow-lg">
+                        +1 회차
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-4 text-center">
+                    현재 회차까지 '지난 시험'으로, 다음 회차는 '접수 중'으로 표시됩니다.
+                </p>
+            </div>
+        </div>
+
         <!-- 2. 모의고사 관리 섹션 -->
-        <div id="section-exam" class="admin-section">
+        <div id="section-exam" class="admin-section hidden">
             <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="database" class="w-4 h-4 text-emerald-400"></i> 모의고사 목록 (exams)</h2>
@@ -110,15 +133,10 @@
                     </div>
                 </div>
                 
-                <div class="flex space-x-2 mb-4 bg-gray-800 p-1 rounded-lg">
-                    <button onclick="filterExamList('ALL')" id="btn-filter-ALL" class="exam-filter-btn flex-1 py-1.5 rounded-md text-xs font-bold bg-emerald-600 text-white transition-colors">전체보기</button>
-                    <button onclick="filterExamList('FREE_ARCHIVE')" id="btn-filter-FREE_ARCHIVE" class="exam-filter-btn flex-1 py-1.5 rounded-md text-xs font-medium text-gray-400 hover:text-white transition-colors">무료 기출</button>
-                    <button onclick="filterExamList('SEASON_MOCK')" id="btn-filter-SEASON_MOCK" class="exam-filter-btn flex-1 py-1.5 rounded-md text-xs font-medium text-gray-400 hover:text-white transition-colors">시즌 모의고사</button>
-                    <button onclick="filterExamList('WEEKLY_MAG')" id="btn-filter-WEEKLY_MAG" class="exam-filter-btn flex-1 py-1.5 rounded-md text-xs font-medium text-gray-400 hover:text-white transition-colors">주간지</button>
-                </div>
-
                 <div id="exam-list-container" class="space-y-3 max-h-[500px] overflow-y-auto hide-scrollbar mb-4">
                     <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
+                </div>
+
                 </div>
             </div>
         </div>
@@ -208,7 +226,7 @@
                                     삭제
                                 </button>
                             </div>
-                            <p class="text-[10px] text-gray-500 mt-2">* 해당 회차의 구매 기록(my_exams), 성적표(exam_results), 오답노트(wrong_answers)가 모두 영구 삭제됩니다.</p>
+                            <p class="text-[10px] text-gray-500 mt-2">* 해당 회차의 구매 기록(my_exams)과 성적표(exam_results)가 모두 영구 삭제됩니다.</p>
                         </div>
                     </div>
 
@@ -228,6 +246,7 @@
                         <p class="text-xs text-amber-200/60 mt-1">총 <span id="v2-total-count" class="font-bold text-white">0</span>개의 문제가 등록되어 있습니다.</p>
                     </div>
                     <div class="flex gap-2">
+                        <!-- 버튼 기능 변경: 데이터 업로드 기능은 유지하되 데이터는 파일에서 제거 -->
                         <button onclick="seedV2Database()" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 border border-gray-600">
                             <i data-lucide="upload-cloud" class="w-3 h-3"></i> 테스트 데이터 업로드 (예시)
                         </button>
@@ -255,14 +274,19 @@
             <input type="hidden" id="v2-doc-id">
             <div class="space-y-3">
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1">단원 (2028 개정 교육과정 기준)</label>
+                    <label class="text-xs text-gray-400 block mb-1">단원</label>
                     <select id="v2-unit-id" class="w-full bg-gray-900 border border-gray-600 rounded p-2 text-sm text-white focus:border-amber-500 outline-none">
                         <option value="unit_01">1. 과학의 기초</option>
-                        <option value="unit_02">2. 물질과 규칙성</option>
-                        <option value="unit_03">3. 시스템과 상호작용</option>
-                        <option value="unit_04">4. 변화와 다양성</option>
-                        <option value="unit_05">5. 환경과 에너지</option>
-                        <option value="unit_06">6. 과학과 미래 사회</option>
+                        <option value="unit_02">2. 원소의 형성</option>
+                        <option value="unit_03">3. 물질의 구조</option>
+                        <option value="unit_04">4. 지구 시스템</option>
+                        <option value="unit_05">5. 역학적 시스템</option>
+                        <option value="unit_06">6. 생명 시스템</option>
+                        <option value="unit_07">7. 지질과 생물</option>
+                        <option value="unit_08">8. 화학 변화</option>
+                        <option value="unit_09">9. 생태계와 기후</option>
+                        <option value="unit_10">10. 에너지</option>
+                        <option value="unit_11">11. 과학과 미래</option>
                     </select>
                 </div>
                 <div>
@@ -292,12 +316,8 @@
             <input type="hidden" id="edit-doc-id">
             <div class="space-y-3">
                 <div id="edit-id-container">
-                    <label class="text-xs text-gray-400 block mb-1">시험 문서 ID (파이어베이스 고유 키)</label>
-                    <input id="edit-id-input" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: final_exam">
-                </div>
-                <div>
-                    <label class="text-xs text-gray-400 block mb-1">정렬 번호 / Exam ID</label>
-                    <input type="text" id="edit-order-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: 2028_s0_01">
+                    <label class="text-xs text-gray-400 block mb-1">시험 ID (필수)</label>
+                    <input id="edit-id-input" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: exam_01">
                 </div>
                 
                 <div>
@@ -315,22 +335,6 @@
                 <div>
                     <label class="text-xs text-gray-400 block mb-1">시행 날짜 (Date)</label>
                     <input type="date" id="edit-date" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="text-xs text-emerald-400 block mb-1">서비스 유형 (Service Type)</label>
-                    <select id="edit-service-type" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none">
-                        <option value="FREE_ARCHIVE">무료 기출 (FREE_ARCHIVE)</option>
-                        <option value="SEASON_MOCK">시즌 모의고사 (SEASON_MOCK)</option>
-                        <option value="WEEKLY_MAG">주간지 (WEEKLY_MAG)</option>
-                    </select>
-                </div>
-                <div class="flex items-center gap-2 mt-2">
-                    <input type="checkbox" id="edit-auth-required" class="w-4 h-4 rounded bg-gray-900 border-gray-600 text-emerald-500 focus:ring-emerald-500">
-                    <label for="edit-auth-required" class="text-xs text-gray-300">인증/결제 필수 (isAuthRequired)</label>
-                </div>
-                <div class="flex items-center gap-2 mt-2">
-                    <input type="checkbox" id="edit-content-visible" class="w-4 h-4 rounded bg-gray-900 border-gray-600 text-emerald-500 focus:ring-emerald-500">
-                    <label for="edit-content-visible" class="text-xs text-gray-300">인앱 문제/해설 공개 (isContentVisible)</label>
                 </div>
             </div>
             
@@ -362,14 +366,9 @@
                 <button onclick="closeExamQuestionsModal()" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             
-            <div class="mb-4 bg-gray-700/50 p-3 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs text-gray-300">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="info" class="w-4 h-4 text-blue-400"></i>
-                    <span>문항 ID를 입력하고 엔터/포커스 이동 시 배점과 정답을 자동으로 불러옵니다.</span>
-                </div>
-                <button onclick="autoFillQuestions()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-1 transition-colors whitespace-nowrap shadow-lg">
-                    <i data-lucide="zap" class="w-4 h-4"></i> 시험 ID 기반 자동 채우기 (01~25번)
-                </button>
+            <div class="mb-4 bg-gray-700/50 p-3 rounded-lg flex items-center gap-2 text-xs text-gray-300">
+                <i data-lucide="info" class="w-4 h-4 text-blue-400"></i>
+                <span>문항 ID를 입력하고 엔터/포커스 이동 시 배점과 정답을 자동으로 불러옵니다. (수동 변경 가능)</span>
             </div>
 
             <div id="mapping-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 max-h-[60vh] overflow-y-auto p-1 custom-scrollbar">
@@ -388,24 +387,20 @@
             <input type="hidden" id="q-doc-id"> 
             
             <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-1">문항 ID (예: q_2028_s0_01)</label>
-                        <input id="q-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="자동 생성 가능">
-                    </div>
-                    <div>
-                        <label class="text-xs text-gray-400 block mb-1">출처 모의고사 ID (선택)</label>
-                        <input id="q-source-exam-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="예: 2028_s0_01">
-                    </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">문항 ID (예: q_2026_phys_01)</label>
+                    <input id="q-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="자동 생성 가능">
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="text-xs text-gray-400 block mb-1">대분류 (Domain)</label>
+                        <label class="text-xs text-gray-400 block mb-1">대단원 (Domain)</label>
                         <select id="q-domain" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none">
                             <option value="">선택하세요</option>
-                            <option value="통합과학1">통합과학 1</option>
-                            <option value="통합과학2">통합과학 2</option>
+                            <option value="물리학">물리학</option>
+                            <option value="화학">화학</option>
+                            <option value="생명과학">생명과학</option>
+                            <option value="지구과학">지구과학</option>
                         </select>
                     </div>
                     <div>
@@ -433,15 +428,13 @@
                     <label class="block text-gray-400 text-xs font-bold mb-2">행동 영역 (과학적 탐구 역량)</label>
                     <select id="question-behavioral-domain" class="w-full bg-gray-900 border border-gray-700 text-white text-xs rounded-xl p-3 focus:outline-none focus:border-purple-500 transition-colors">
                         <option value="">-- 행동 영역 선택 --</option>
-                        <!-- 2022 개정안 8대 행동 영역 완벽 반영 -->
-                        <option value="이해">1. 이해</option>
-                        <option value="적용">2. 적용</option>
-                        <option value="문제 인식 및 가설 설정">3. 문제 인식 및 가설 설정</option>
-                        <option value="탐구 설계">4. 탐구 설계</option>
-                        <option value="탐구 수행 및 자료 수집">5. 탐구 수행 및 자료 수집</option>
-                        <option value="자료 변환 및 해석">6. 자료 변환 및 해석</option>
-                        <option value="결론 도출 및 일반화">7. 결론 도출 및 일반화</option>
-                        <option value="의사소통">8. 의사소통</option>
+                        <option value="이해와 적용">이해와 적용</option>
+                        <option value="의사소통">의사소통</option>
+                        <option value="가설 설정">가설 설정</option>
+                        <option value="탐구 설계">탐구 설계</option>
+                        <option value="탐구 수행 및 자료 수집">탐구 수행 및 자료 수집</option>
+                        <option value="자료 변환 및 해석">자료 변환 및 해석</option>
+                        <option value="결론 도출">결론 도출</option>
                     </select>
                     <p class="text-gray-500 text-[10px] mt-1">* 2022 개정 교육과정의 탐구 기능을 기반으로 분류합니다.</p>
                 </div>
@@ -457,7 +450,7 @@
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 block mb-1">정답 (Correct Answer)</label>
-                        <input type="number" id="q-answer" step="1" min="1" max="5" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="1~5">
+                        <input type="number" id="q-answer" min="1" max="5" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="1~5">
                     </div>
                 </div>
                 
@@ -487,35 +480,10 @@
         </div>
     </div>
 
-    <!-- 모달: 이미지 확대 보기 -->
-    <div id="image-preview-modal" class="fixed inset-0 bg-black/95 flex items-center justify-center z-[100] hidden p-4" onclick="closeImagePreview()">
-        <button class="absolute top-4 right-4 text-white/50 hover:text-white p-2" onclick="closeImagePreview()">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-        <div class="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-xl border border-gray-700 flex items-center justify-center" onclick="event.stopPropagation()">
-            <img id="preview-img-full" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl bg-white" alt="확대 이미지">
-        </div>
-    </div>
-
-    <!-- 모달: 커스텀 알림/확인창 (alert/confirm 대체) -->
-    <div id="custom-alert-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999] hidden p-4">
-        <div class="bg-gray-800 rounded-2xl p-6 border border-gray-600 shadow-2xl max-w-sm w-full text-center">
-            <div class="mx-auto w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mb-4">
-                <i data-lucide="info" class="w-6 h-6 text-indigo-400"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-2" id="custom-alert-title">알림</h3>
-            <p class="text-sm text-gray-300 mb-6 whitespace-pre-line" id="custom-alert-msg"></p>
-            <div class="flex gap-2 justify-center" id="custom-alert-buttons">
-                <!-- 버튼 동적 주입 -->
-            </div>
-        </div>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, deleteDoc, updateDoc, onSnapshot, collection, query, where, getDocs, orderBy, writeBatch, limit, addDoc, collectionGroup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc, updateDoc, onSnapshot, collection, query, where, getDocs, orderBy, writeBatch, limit, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const V2_APP_ID = "godtonggwa_v1";
 
@@ -531,82 +499,85 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
         
+        let currentRound = 0;
+        let unsubscribe = null;
         let searchedUserUid = null; 
         let tempExamQuestions = Array(25).fill(null);
         let v2CurrentFilter = 'all'; 
 
-        let allQuestionsData = []; 
-        let filteredQuestionsData = []; 
+        // 문항 은행 페이지네이션 및 그룹화 필터 관련 전역 변수
+        let allQuestionsData = []; // 전체 문항 데이터
+        let filteredQuestionsData = []; // 필터링된 문항 데이터
         let currentQuestionPage = 0;
-        let currentQuestionGroupFilter = 'all'; 
+        let currentQuestionGroupFilter = 'all'; // 현재 선택된 그룹 필터
         const questionsPerPage = 25;
 
         const UNIT_NAMES = {
             unit_01: '1. 과학의 기초',
-            unit_02: '2. 물질과 규칙성',
-            unit_03: '3. 시스템과 상호작용',
-            unit_04: '4. 변화와 다양성',
-            unit_05: '5. 환경과 에너지',
-            unit_06: '6. 과학과 미래 사회'
+            unit_02: '2. 원소의 형성',
+            unit_03: '3. 물질의 구조',
+            unit_04: '4. 지구 시스템',
+            unit_05: '5. 역학적 시스템',
+            unit_06: '6. 생명 시스템',
+            unit_07: '7. 지질과 생물',
+            unit_08: '8. 화학 변화',
+            unit_09: '9. 생태계와 기후',
+            unit_10: '10. 에너지',
+            unit_11: '11. 과학과 미래'
         };
 
-        const V2_SEED_DATA = [];
+        // =========================================================================================
+        // [수정] 550개의 시드 데이터 제거 (DB에 이미 업로드 완료)
+        // 용량 최적화를 위해 예시 문항 1개만 남겨둡니다.
+        // 나중에 다시 대량 업로드가 필요하면 이 배열에 데이터를 채워넣고 seedV2Database 함수를 사용하세요.
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '3. 물질과 규칙성' 50문항 데이터 (단원: unit_03)
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '4. 지구 시스템' 50문항 데이터 (단원: unit_04)
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '5. 역학적 시스템' 50문항 데이터 (단원: unit_05)
+        // =========================================================================================
+        // =========================================================================================
+        // [수정] 2028 통합과학 '6. 생명 시스템' 50문항 데이터 (단원: unit_06)
+        // =========================================================================================
+            const V2_SEED_DATA = [
+             ];
 
-        window.customAlert = (msg) => {
-            return new Promise(resolve => {
-                document.getElementById('custom-alert-msg').innerText = msg;
-                document.getElementById('custom-alert-title').innerText = "알림";
-                const btnContainer = document.getElementById('custom-alert-buttons');
-                btnContainer.innerHTML = `<button class="px-6 py-2 w-full bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-500" id="custom-alert-ok">확인</button>`;
-                document.getElementById('custom-alert-modal').classList.remove('hidden');
-                document.getElementById('custom-alert-ok').onclick = () => {
-                    document.getElementById('custom-alert-modal').classList.add('hidden');
-                    resolve();
-                };
-            });
-        };
-
-        window.customConfirm = (msg) => {
-            return new Promise(resolve => {
-                document.getElementById('custom-alert-msg').innerText = msg;
-                document.getElementById('custom-alert-title').innerText = "확인";
-                const btnContainer = document.getElementById('custom-alert-buttons');
-                btnContainer.innerHTML = `
-                    <button class="flex-1 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600" id="custom-alert-cancel">취소</button>
-                    <button class="flex-1 py-2 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-500" id="custom-alert-confirm">확인</button>
-                `;
-                document.getElementById('custom-alert-modal').classList.remove('hidden');
-                document.getElementById('custom-alert-cancel').onclick = () => {
-                    document.getElementById('custom-alert-modal').classList.add('hidden');
-                    resolve(false);
-                };
-                document.getElementById('custom-alert-confirm').onclick = () => {
-                    document.getElementById('custom-alert-modal').classList.add('hidden');
-                    resolve(true);
-                };
-            });
-        };
-
+        // [수정] DB 초기화(삭제) 후 데이터 등록 함수
+        // [수정] DB '추가' 업로드 함수 (삭제 로직 제거됨)
         window.seedV2Database = async () => {
-            const proceed = await customConfirm(`✅ 확인\n\n기존 데이터를 유지하고,\n새로운 ${V2_SEED_DATA.length}개 문항을 '추가'합니다.\n\n계속하시겠습니까?`);
-            if(!proceed) return;
-            
             const btn = document.querySelector('button[onclick="seedV2Database()"]');
+            
+            // 안내 메시지 변경 (덮어쓰기가 아님을 명시)
+            if(!confirm(`✅ 확인\n\n기존 데이터를 유지하고,\n새로운 ${V2_SEED_DATA.length}개 문항을 '추가'합니다.\n(Unit 2 원소의 형성)\n\n계속하시겠습니까?`)) return;
+
             btn.disabled = true;
             btn.innerHTML = `<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> 데이터 추가 중...`;
 
             try {
                 const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
                 const batchLimit = 400; 
+
+                // ----------------------------------------------------
+                // [변경] 삭제 단계(Delete Phase) 삭제됨
+                // ----------------------------------------------------
+
+                // ----------------------------------------------------
+                // 데이터 추가 단계 (Upload Phase)
+                // ----------------------------------------------------
                 const bulkData = [...V2_SEED_DATA];
                 let uploadedCount = 0;
 
                 for (let i = 0; i < bulkData.length; i += batchLimit) {
                     const batch = writeBatch(db);
                     const chunk = bulkData.slice(i, i + batchLimit);
+                    
                     chunk.forEach((item) => {
+                        // doc()을 호출하여 자동으로 새로운 랜덤 ID 생성 -> 기존 데이터와 겹치지 않음
                         const newDocRef = doc(colRef);
                         batch.set(newDocRef, {
                             unitId: item.u,
@@ -617,16 +588,21 @@
                             createdAt: new Date().toISOString()
                         });
                     });
+
                     await batch.commit();
                     uploadedCount += chunk.length;
                 }
-                await customAlert(`성공!\n- ${uploadedCount}개의 새로운 문항이 DB에 추가되었습니다.`);
+
+                alert(`성공!\n- ${uploadedCount}개의 새로운 문항이 DB에 추가되었습니다.`);
+                
+                // 완료 후 2단원으로 필터 변경하여 보여주기
                 const v2TabBtn = document.getElementById('btn-tab-v2');
                 if(v2TabBtn) v2TabBtn.click();
-                setTimeout(() => window.loadV2Questions('unit_01'), 500);
+                setTimeout(() => window.loadV2Questions('unit_11'), 500);
+
             } catch (e) {
                 console.error(e);
-                await customAlert("작업 실패: " + e.message);
+                alert("작업 실패: " + e.message);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = `<i data-lucide="upload-cloud" class="w-3 h-3"></i> 테스트 데이터 업로드 (예시)`;
@@ -656,31 +632,33 @@
                         deniedContainer.classList.add('hidden');
                         adminContainer.classList.remove('hidden');
                         document.getElementById('admin-badge').innerText = user.email;
+                        if (!unsubscribe) initAdminListener();
                         window.loadExamList();
-                        switchAdminTab('exam'); 
                         createV2Filters();
                     } else {
                         loginContainer.classList.add('hidden');
                         adminContainer.classList.add('hidden');
                         deniedContainer.classList.remove('hidden');
                         document.getElementById('denied-email').innerText = user.email;
+                        if (unsubscribe) { unsubscribe(); unsubscribe = null; }
                     }
                 } catch (error) {
                     console.error("DB Check Error:", error);
-                    await customAlert("DB 연결 오류: " + error.message);
+                    alert("DB 연결 오류: " + error.message);
                     await signOut(auth);
                 }
             } else {
                 loginContainer.classList.remove('hidden');
                 adminContainer.classList.add('hidden');
                 deniedContainer.classList.add('hidden');
+                if (unsubscribe) { unsubscribe(); unsubscribe = null; }
             }
         });
 
         window.switchAdminTab = (tabName) => {
             document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`section-${tabName}`).classList.remove('hidden');
-            ['exam', 'user', 'question', 'v2'].forEach(t => {
+            ['round', 'exam', 'user', 'question', 'v2'].forEach(t => {
                 const btn = document.getElementById(`btn-tab-${t}`);
                 if (!btn) return;
                 if (t === tabName) {
@@ -706,7 +684,7 @@
             const container = document.getElementById('v2-filters');
             if(!container) return;
             let html = `<button onclick="loadV2Questions('all')" class="v2-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-600 text-white whitespace-nowrap">전체</button>`;
-            for(let i=1; i<=6; i++) {
+            for(let i=1; i<=11; i++) {
                 const id = `unit_${String(i).padStart(2,'0')}`;
                 html += `<button onclick="loadV2Questions('${id}')" class="v2-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700 whitespace-nowrap">${i}단원</button>`;
             }
@@ -737,6 +715,7 @@
                     const d = doc.data();
                     const unitLabel = UNIT_NAMES[d.unitId] || d.unitId;
                     
+                    // [변경] 리스트 UI: OX 색상 대신 텍스트 표시
                     html += `<div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:border-amber-500/50 transition-colors group">
                             <div class="flex justify-between items-start mb-2">
                                 <span class="text-[10px] bg-gray-700 text-gray-300 px-2 py-0.5 rounded font-mono">${unitLabel}</span>
@@ -762,6 +741,7 @@
             document.getElementById('v2-doc-id').value = docId || '';
             document.getElementById('v2-q').value = '';
             document.getElementById('v2-exp').value = '';
+            // [변경] 정답 초기화
             document.getElementById('v2-a').value = '';
             
             if(v2CurrentFilter !== 'all') document.getElementById('v2-unit-id').value = v2CurrentFilter;
@@ -776,102 +756,47 @@
                         document.getElementById('v2-exp').value = d.exp;
                         document.getElementById('v2-a').value = d.a;
                     }
-                } catch(e) { await customAlert("로드 실패"); }
+                } catch(e) { alert("로드 실패"); }
             }
         };
 
         window.closeV2Modal = () => document.getElementById('v2-edit-modal').classList.add('hidden');
         
+        // [변경] 정답 입력 처리 (텍스트 인풋이므로 setV2Answer 함수는 제거하거나 사용하지 않음)
+        // 기존 버튼 방식의 setV2Answer 제거됨
+
         window.saveV2Question = async () => {
             const docId = document.getElementById('v2-doc-id').value;
             const unitId = document.getElementById('v2-unit-id').value;
             const q = document.getElementById('v2-q').value;
-            const a = document.getElementById('v2-a').value; 
+            const a = document.getElementById('v2-a').value; // [변경] 텍스트 값
             const exp = document.getElementById('v2-exp').value;
             
-            if(!q || !a) return await customAlert("문제와 정답을 입력하세요.");
+            if(!q || !a) return alert("문제와 정답을 입력하세요.");
 
             const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
+            // [변경] type: 'blank'로 저장
             const data = { unitId, q, a, exp, type: 'blank', createdAt: new Date().toISOString() };
             try {
                 if(docId) await updateDoc(doc(colRef, docId), data);
                 else await addDoc(colRef, data);
-                await customAlert("저장되었습니다.");
+                alert("저장됨");
                 window.closeV2Modal();
                 window.loadV2Questions(v2CurrentFilter);
-            } catch(e) { await customAlert("저장 실패"); }
+            } catch(e) { alert("저장 실패"); }
         };
 
         window.deleteV2Question = async (id) => {
-            if(!await customConfirm("정말 삭제하시겠습니까?")) return;
-            try { await deleteDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', id)); window.loadV2Questions(v2CurrentFilter); } 
-            catch(e) { await customAlert("삭제 실패"); }
+            if(!confirm("삭제?")) return;
+            try { await deleteDoc(doc(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems', id)); window.loadV2Questions(v2CurrentFilter); } catch(e) { alert("삭제 실패"); }
         };
 
-        let allExamsData = [];
-        window.currentExamFilter = 'ALL';
-
-        window.filterExamList = (type) => {
-            window.currentExamFilter = type;
-            document.querySelectorAll('.exam-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-600', 'text-white', 'font-bold');
-                btn.classList.add('bg-gray-800', 'text-gray-400', 'font-medium');
+        function initAdminListener() {
+            unsubscribe = onSnapshot(doc(db, "settings", "global"), (docSnapshot) => {
+                if (docSnapshot.exists()) { currentRound = docSnapshot.data().latestRound || 0; document.getElementById('current-round-display').innerText = currentRound; }
+                else { document.getElementById('current-round-display').innerText = "0"; currentRound = 0; setDoc(doc(db, "settings", "global"), { latestRound: 0 }, { merge: true }); }
             });
-            const activeBtn = document.getElementById(`btn-filter-${type}`);
-            if (activeBtn) {
-                activeBtn.classList.remove('bg-gray-800', 'text-gray-400', 'font-medium');
-                activeBtn.classList.add('bg-emerald-600', 'text-white', 'font-bold');
-            }
-            renderExamList();
-        };
-
-        window.renderExamList = () => {
-            const container = document.getElementById('exam-list-container');
-            let filtered = allExamsData;
-            if (window.currentExamFilter !== 'ALL') {
-                filtered = allExamsData.filter(d => d.serviceType === window.currentExamFilter);
-            }
-            if (filtered.length === 0) { container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">결과가 없습니다.</p>'; return; }
-            
-            let html = '';
-            filtered.forEach(data => {
-                let badge = '';
-                if (data.serviceType === 'FREE_ARCHIVE') badge = '<span class="text-[9px] bg-blue-900/50 text-blue-300 px-1.5 py-0.5 rounded border border-blue-800">무료기출</span>';
-                else if (data.serviceType === 'SEASON_MOCK') badge = '<span class="text-[9px] bg-purple-900/50 text-purple-300 px-1.5 py-0.5 rounded border border-purple-800">시즌</span>';
-                else if (data.serviceType === 'WEEKLY_MAG') badge = '<span class="text-[9px] bg-orange-900/50 text-orange-300 px-1.5 py-0.5 rounded border border-orange-800">주간지</span>';
-
-                html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
-                            <div class="flex-1 min-w-0 mr-3">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="bg-gray-700 text-gray-300 text-[10px] px-1.5 py-0.5 rounded font-mono">${data.docId}</span>
-                                    ${badge}
-                                    <span class="text-xs text-emerald-400 font-bold">#${data.orderId || data.docId}</span>
-                                </div>
-                                <h4 class="text-sm font-bold text-white truncate">${data.title}</h4>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="openExamEditModal('${data.docId}')" class="p-2 bg-gray-700 hover:bg-emerald-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
-                                <button onclick="deleteExamData('${data.docId}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors" title="삭제"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                            </div>
-                        </div>`;
-            });
-            container.innerHTML = html; lucide.createIcons();
-        };
-
-        window.loadExamList = async () => {
-            const container = document.getElementById('exam-list-container');
-            container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
-            try {
-                const q = query(collection(db, "public_exams"), orderBy("id", "asc"));
-                const snapshot = await getDocs(q);
-                allExamsData = [];
-                snapshot.forEach(doc => {
-                    allExamsData.push({ docId: doc.id, orderId: doc.data().id, ...doc.data() });
-                });
-                renderExamList();
-            } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
-        };
-
+        }
 
         document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
@@ -879,22 +804,18 @@
             const btnSpinner = document.getElementById('btn-spinner');
             btnText.textContent = "확인 중..."; btnSpinner.classList.remove('hidden');
             try { await signInWithEmailAndPassword(auth, document.getElementById('admin-email').value, document.getElementById('admin-pw').value); }
-            catch (error) { await customAlert("로그인 실패: " + error.message); btnText.textContent = "로그인"; btnSpinner.classList.add('hidden'); }
+            catch (error) { alert("로그인 실패: " + error.message); btnText.textContent = "로그인"; btnSpinner.classList.add('hidden'); }
         });
 
-        window.logout = async () => { 
-            if (await customConfirm("로그아웃 하시겠습니까?")) {
-                signOut(auth).then(() => location.reload()); 
-            }
-        };
-        window.forceLogout = () => signOut(auth).then(() => location.reload());
+        window.logout = () => { if (unsubscribe) unsubscribe(); signOut(auth); };
+        window.forceLogout = () => signOut(auth);
         
         window.updateRound = async (delta) => { 
             const newValue = currentRound + delta; 
-            if(newValue < 0 || newValue > 24) return await customAlert("범위 초과"); 
-            if(await customConfirm("변경하시겠습니까?")) { 
+            if(newValue < 0 || newValue > 24) return alert("범위 초과"); 
+            if(confirm("변경하시겠습니까?")) { 
                 try { document.getElementById('current-round-display').innerText = newValue; currentRound = newValue; await setDoc(doc(db, "settings", "global"), { latestRound: newValue }, { merge: true }); }
-                catch(e) { await customAlert("오류: "+e.message); } 
+                catch(e) { alert("오류: "+e.message); } 
             } 
         };
 
@@ -904,25 +825,38 @@
             try {
                 const q = query(collection(db, "public_exams"), orderBy("id", "asc"));
                 const snapshot = await getDocs(q);
-                allExamsData = [];
+                if (snapshot.empty) { container.innerHTML = '<p class="text-center text-gray-500 text-xs">데이터가 없습니다.</p>'; return; }
+                let html = '';
                 snapshot.forEach(doc => {
-                    allExamsData.push({ docId: doc.id, orderId: doc.data().id, ...doc.data() });
+                    const data = doc.data();
+                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
+                            <div class="flex-1 min-w-0 mr-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="bg-gray-700 text-gray-300 text-[10px] px-1.5 py-0.5 rounded font-mono">${doc.id}</span>
+                                    <span class="text-xs text-emerald-400 font-bold">#${data.id}</span>
+                                </div>
+                                <h4 class="text-sm font-bold text-white truncate">${data.title}</h4>
+                            </div>
+                            <button onclick="openExamEditModal('${doc.id}')" class="p-2 bg-gray-700 hover:bg-emerald-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                        </div>`;
                 });
-                renderExamList();
+                container.innerHTML = html; lucide.createIcons();
             } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
         };
 
+        // 문항 은행 로딩 및 그룹화 로직 보완
         window.loadQuestionsList = async () => {
             const container = document.getElementById('questions-list-container');
             container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
 
             try {
+                // 문항 수가 많아질 것을 고려하여 ID 역순(최신순)으로 전체 데이터를 한 번 가져옵니다.
                 const q = query(collection(db, "questions"), orderBy("id", "desc")); 
                 const snapshot = await getDocs(q);
                 
                 allQuestionsData = [];
                 snapshot.forEach(doc => {
-                    allQuestionsData.push({ ...doc.data(), id: doc.id, docId: doc.id });
+                    allQuestionsData.push({ id: doc.id, ...doc.data() });
                 });
 
                 document.getElementById('total-questions-count').innerText = `${allQuestionsData.length}개`;
@@ -932,7 +866,9 @@
                     return;
                 }
 
+                // 그룹 필터 생성
                 renderQuestionGroupFilters();
+                // 첫 필터 상태 적용 (전체)
                 window.applyQuestionFilter('all');
             } catch (e) {
                 console.error(e);
@@ -940,18 +876,21 @@
             }
         };
 
+        // 문항 ID 공통 패턴을 찾아 그룹 필터 버튼 생성
         function renderQuestionGroupFilters() {
             const filterContainer = document.getElementById('question-group-filters');
             if (!filterContainer) return;
 
+            // ID 패턴 분석 (예: q_2026_01, q_2024_02 등 앞의 3세그먼트 추출)
             const groups = new Set();
             allQuestionsData.forEach(d => {
                 const parts = d.id.split('_');
                 if (parts.length >= 3) {
+                    // q_YYYY_RR 형태를 그룹명으로 사용
                     const groupKey = parts.slice(0, 3).join('_');
                     groups.add(groupKey);
                 } else {
-                    groups.add('etc'); 
+                    groups.add('etc'); // 패턴이 다른 경우 기타로 분류
                 }
             });
 
@@ -961,6 +900,7 @@
             
             sortedGroups.forEach(group => {
                 const isActive = currentQuestionGroupFilter === group;
+                // 라벨 예쁘게 만들기 (q_2026_01 -> 2026-01)
                 const label = group === 'etc' ? '기타/미분류' : group.replace('q_', '').replace('_', '-');
                 
                 html += `<button onclick="applyQuestionFilter('${group}')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${isActive ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-700'}">
@@ -971,9 +911,10 @@
             filterContainer.innerHTML = html;
         }
 
+        // 필터 적용 함수
         window.applyQuestionFilter = (filter) => {
             currentQuestionGroupFilter = filter;
-            currentQuestionPage = 0; 
+            currentQuestionPage = 0; // 필터 변경 시 첫 페이지로
 
             if (filter === 'all') {
                 filteredQuestionsData = [...allQuestionsData];
@@ -984,11 +925,14 @@
                 });
             }
 
+            // 필터 버튼 UI 업데이트
             renderQuestionGroupFilters();
+            // 페이지네이션 버튼 및 현재 페이지 목록 렌더링
             renderQuestionsPage(0);
         };
 
-        window.renderQuestionsPage = async (pageIndex) => {
+        // 특정 페이지(25개 그룹) 렌더링 함수
+        window.renderQuestionsPage = (pageIndex) => {
             currentQuestionPage = pageIndex;
             const container = document.getElementById('questions-list-container');
             const paginationContainer = document.getElementById('question-pagination');
@@ -997,62 +941,12 @@
             const end = start + questionsPerPage;
             const pageData = filteredQuestionsData.slice(start, end);
 
+            let html = '';
             if (pageData.length === 0) {
-                container.innerHTML = `<p class="text-center text-gray-500 text-xs py-10">해당 그룹에 문항이 없습니다.</p>`;
-                paginationContainer.innerHTML = '';
-                return;
-            }
-
-            container.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-10 gap-3">
-                    <i data-lucide="loader-2" class="w-6 h-6 animate-spin text-purple-400"></i>
-                    <p class="text-xs text-gray-400">보안 토큰을 확인하고 이미지를 불러오는 중입니다...</p>
-                </div>
-            `;
-            lucide.createIcons();
-
-            const itemsHtml = await Promise.all(pageData.map(async (d) => {
-                const examId = d.sourceExamId || (d.id.split('_').slice(1, -1).join('_'));
-                
-                // 실제 Storage의 폴더 구조 (예: questions/kice/2028/2028_pretest/...) 반영 로직
-                let storagePrefix = d.storagePrefix || '';
-                if (!storagePrefix) {
-                    if (d.id.startsWith('kice_')) {
-                        const yearMatch = d.id.match(/kice_(\d{4})/);
-                        const year = yearMatch ? yearMatch[1] : '';
-                        storagePrefix = year ? `kice/${year}` : 'kice';
-                    } else if (d.id.startsWith('mock_')) {
-                        const yearMatch = d.id.match(/mock_(\d{4})/);
-                        const year = yearMatch ? yearMatch[1] : '';
-                        storagePrefix = year ? `mock/${year}` : 'mock';
-                    }
-                }
-                
-                const imageFileName = d.imageFile || `${d.id}.png`;
-                const imagePath = storagePrefix ? `questions/${storagePrefix}/${examId}/${imageFileName}` : `questions/${examId}/${imageFileName}`;
-                
-                let imageUrl = d.image_path || d.imagePath || '';
-                if (!imageUrl) {
-                    try {
-                        const imageRef = ref(storage, imagePath);
-                        imageUrl = await getDownloadURL(imageRef);
-                    } catch (error) {
-                        console.warn(`이미지 로드 실패 (${imagePath}):`, error);
-                    }
-                }
-
-                return `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
-                            
-                            <div class="shrink-0 mr-4 cursor-pointer" onclick="if('${imageUrl}') openImagePreview('${imageUrl}')">
-                                <div class="w-16 h-16 bg-gray-900 rounded-lg border border-gray-600 overflow-hidden flex items-center justify-center relative group/img">
-                                    <img src="${imageUrl}" 
-                                         alt="문항 썸네일" 
-                                         class="w-full h-full object-contain p-1"
-                                         onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'text-[10px] text-gray-500\\'>이미지 없음</span>';">
-                                    ${imageUrl ? `<div class="absolute inset-0 bg-black/50 hidden group-hover/img:flex items-center justify-center transition-all"><i data-lucide="zoom-in" class="w-4 h-4 text-white"></i></div>` : ''}
-                                </div>
-                            </div>
-
+                html = `<p class="text-center text-gray-500 text-xs py-10">해당 그룹에 문항이 없습니다.</p>`;
+            } else {
+                pageData.forEach(d => {
+                    html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
                             <div class="flex-1 min-w-0 mr-3">
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="bg-purple-900/50 text-purple-300 text-[10px] px-1.5 py-0.5 rounded font-mono border border-purple-800">${d.id}</span>
@@ -1060,7 +954,7 @@
                                 </div>
                                 <div class="text-xs text-gray-400 flex gap-3 items-center">
                                     <span>정답: <strong class="text-white">${d.correctAnswer || '?'}</strong></span>
-                                    <span>배점: <strong class="text-white">${parseFloat(d.score || (d.difficulty > 3 ? 2.5 : (d.difficulty < 2 ? 1.5 : 2.0))).toFixed(1)}</strong>점</span>
+                                    <span>배점: <strong class="text-white">${d.difficulty || '-'}</strong>점</span>
                                     <span class="text-[10px] text-gray-500 truncate opacity-60">${d.taxonomy?.topic || ''}</span>
                                 </div>
                             </div>
@@ -1069,11 +963,12 @@
                                 <button onclick="deleteQuestionData('${d.id}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             </div>
                         </div>`;
-            }));
+                });
+            }
+            container.innerHTML = html;
+            container.scrollTop = 0; // 목록 상단으로 스크롤
 
-            container.innerHTML = itemsHtml.join('');
-            container.scrollTop = 0; 
-
+            // 페이지네이션(그룹 내 페이지 선택) 버튼 생성
             const totalPages = Math.ceil(filteredQuestionsData.length / questionsPerPage);
             let pageHtml = '';
             if (totalPages > 1) {
@@ -1098,7 +993,6 @@
             const archiveBtn = document.getElementById('btn-generate-archive');
             safeSetValue('edit-doc-id', docId || '');
             safeSetValue('edit-id-input', '');
-            safeSetValue('edit-order-id', ''); // 새 필드 초기화
             safeSetValue('edit-title', '');
             safeSetValue('edit-subtitle', '');
             safeSetValue('edit-price', 5000);
@@ -1107,27 +1001,20 @@
             
             if (docId) {
                 idContainer.classList.add('hidden');
-                archiveBtn.classList.remove('hidden'); 
+                archiveBtn.classList.remove('hidden'); // 기존 시험일 때만 아카이브 버튼 활성화
                 try {
                     const docSnap = await getDoc(doc(db, "public_exams", docId));
                     if (docSnap.exists()) {
                         const d = docSnap.data();
-                        safeSetValue('edit-order-id', docId || (d.id !== undefined ? d.id : '')); // exam_id 최우선 출력
-                        safeSetValue('edit-title', d.title || ''); 
-                        safeSetValue('edit-subtitle', d.subTitle || ''); 
-                        safeSetValue('edit-price', d.price || 5000);
+                        safeSetValue('edit-title', d.title || ''); safeSetValue('edit-subtitle', d.subTitle || ''); safeSetValue('edit-price', d.price || 5000);
                         if(d.date) safeSetValue('edit-date', d.date.split('T')[0]);
-                        safeSetValue('edit-service-type', d.serviceType || 'SEASON_MOCK');
-                        document.getElementById('edit-auth-required').checked = d.isAuthRequired !== undefined ? d.isAuthRequired : true;
-                        document.getElementById('edit-content-visible').checked = d.isContentVisible !== undefined ? d.isContentVisible : false;
-
                         const detailSnap = await getDoc(doc(db, "exams", docId));
                         if(detailSnap.exists()) tempExamQuestions = detailSnap.data().questions || Array(25).fill(null);
                     }
-                } catch(e) { await customAlert("로드 실패"); return; }
+                } catch(e) { alert("로드 실패"); return; }
             } else { 
                 idContainer.classList.remove('hidden');
-                archiveBtn.classList.add('hidden'); 
+                archiveBtn.classList.add('hidden'); // 새 시험 생성 시에는 아카이브 버튼 숨김
             }
             document.getElementById('edit-modal').classList.remove('hidden');
             lucide.createIcons();
@@ -1145,8 +1032,8 @@
                         <div class="space-y-2">
                             <div><input type="text" class="map-qid w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-white focus:border-emerald-500 outline-none" placeholder="문항 ID" value="${data.qId || ''}" onchange="fetchQuestionInfo(this, ${i})"></div>
                             <div class="flex gap-2">
-                                <input type="number" step="0.5" min="1.5" max="2.5" class="map-score w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-center text-white" placeholder="배점" value="${data.score || ''}">
-                                <input type="number" step="1" min="1" max="5" class="map-ans w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-center text-white" placeholder="정답" value="${data.correctAnswer || ''}">
+                                <input type="number" step="0.1" class="map-score w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-center text-white" placeholder="배점" value="${data.score || ''}">
+                                <input type="number" class="map-ans w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-center text-white" placeholder="정답" value="${data.correctAnswer || ''}">
                             </div>
                         </div>
                     </div>`;
@@ -1167,96 +1054,29 @@
                 const docSnap = await getDoc(doc(db, "questions", qId));
                 if(docSnap.exists()) {
                     const data = docSnap.data();
-                    document.querySelectorAll('.map-score')[index].value = data.score || (data.difficulty > 3 ? 2.5 : (data.difficulty < 2 ? 1.5 : 2.0));
+                    document.querySelectorAll('.map-score')[index].value = data.difficulty;
                     document.querySelectorAll('.map-ans')[index].value = data.correctAnswer;
-                    inputEl.style.borderColor = '#4b5563'; // 성공 시 기본색으로 복귀
-                } else { inputEl.style.borderColor = 'red'; } // 실패 시 빨간색 표시
+                } else { inputEl.style.borderColor = 'red'; }
             } catch(e) { console.error(e); }
-        };
-
-        // [수정된 자동 채우기 로직]
-        window.autoFillQuestions = async () => {
-            const examId = document.getElementById('edit-doc-id')?.value;
-            if(!examId) { alert("시험 문서 ID가 입력되지 않았습니다."); return; }
-            
-            if(!confirm(`[${examId}] 시험의 문항 25개를 DB에서 최신 데이터로 동기화하시겠습니까?`)) return;
-
-            const qIds = document.querySelectorAll('.map-qid');
-            const scores = document.querySelectorAll('.map-score');
-            const answers = document.querySelectorAll('.map-ans');
-            
-            for(let i=0; i<25; i++) {
-                const qId = `q_${examId}_${String(i+1).padStart(2, '0')}`;
-                if(qIds[i]) qIds[i].value = qId;
-                
-                try {
-                    const docSnap = await getDoc(doc(db, "questions", qId));
-                    if(docSnap.exists()) {
-                        const data = docSnap.data();
-                        
-                        // 배점 필드 처리: step="0.5" 속성 부여 및 소수점 1자리 고정 (이전 데이터 보정 포함)
-                        if(scores[i]) {
-                            scores[i].setAttribute('step', '0.5');
-                            scores[i].setAttribute('min', '1.5');
-                            scores[i].setAttribute('max', '2.5');
-                            let diff = parseFloat(data.score || (data.difficulty > 3 ? 2.5 : (data.difficulty < 2 ? 1.5 : 2.0)));
-                            scores[i].value = diff.toFixed(1);
-                        }
-                        
-                        if(answers[i]) answers[i].value = data.correctAnswer || "";
-                        if(qIds[i]) qIds[i].style.borderColor = '#4b5563';
-                    } else {
-                        if(qIds[i]) qIds[i].style.borderColor = '#ef4444';
-                    }
-                } catch(e) { console.error("데이터 로드 오류:", e); }
-            }
-            alert("동기화가 완료되었습니다.");
         };
 
         window.saveExamData = async () => {
             let docId = document.getElementById('edit-doc-id').value || document.getElementById('edit-id-input').value.trim();
-            if(!docId) return await customAlert("시험 ID 필수");
-            if (!await customConfirm("저장하시겠습니까?")) return;
+            if(!docId) return alert("시험 ID 필수");
+            if (!confirm("저장하시겠습니까?")) return;
             try { 
-                const title = document.getElementById('edit-title').value;
-                const subTitle = document.getElementById('edit-subtitle').value;
-                const price = Number(document.getElementById('edit-price').value);
-                const dateVal = document.getElementById('edit-date').value;
-                
-                // 변경됨: 명시적인 정렬 번호를 사용하고, 입력하지 않았을 경우에만 기존처럼 정규식으로 추출
-                const orderInput = document.getElementById('edit-order-id').value;
-                const numId = (orderInput !== '' && !isNaN(orderInput)) ? Number(orderInput) : (Number(docId.replace(/[^0-9]/g, '')) || 0);
-
-                const serviceType = document.getElementById('edit-service-type').value;
-                const isAuthRequired = document.getElementById('edit-auth-required').checked;
-                const isContentVisible = document.getElementById('edit-content-visible').checked;
-
-                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null, serviceType, isAuthRequired, isContentVisible }, { merge: true });
-                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString(), serviceType, isAuthRequired, isContentVisible }, { merge: true });
-                await customAlert("저장 완료"); closeEditModal(); window.loadExamList(); 
-            } catch (e) { await customAlert("실패: " + e.message); }
-        };
-
-        window.deleteExamData = async (docId) => {
-            if (!await customConfirm(`경고: [${docId}] 모의고사를 삭제하시겠습니까?\n\n'public_exams' 및 'exams' 컬렉션의 데이터가 영구 삭제됩니다.\n(학생들의 응시 기록 등은 삭제되지 않습니다.)`)) return;
-
-            try {
-                const batch = writeBatch(db);
-                batch.delete(doc(db, "public_exams", docId));
-                batch.delete(doc(db, "exams", docId));
-
-                await batch.commit();
-                await customAlert("삭제가 완료되었습니다.");
-                window.loadExamList();
-            } catch (e) {
-                await customAlert("삭제 실패: " + e.message);
-            }
+                const title = document.getElementById('edit-title').value, subTitle = document.getElementById('edit-subtitle').value, price = Number(document.getElementById('edit-price').value), dateVal = document.getElementById('edit-date').value;
+                const numId = Number(docId.replace(/[^0-9]/g, '')) || 0;
+                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null }, { merge: true });
+                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString() }, { merge: true });
+                alert("저장 완료"); closeEditModal(); window.loadExamList(); 
+            } catch (e) { alert("실패: " + e.message); }
         };
 
         window.generateExamArchive = async () => {
             const examId = document.getElementById('edit-doc-id').value;
-            if (!examId) return await customAlert("시험 ID가 없습니다.");
-            if (!await customConfirm(`${examId}의 분석용 아카이브를 생성/업데이트 하시겠습니까?\n(questions 컬렉션의 최신 정보를 반영합니다)`)) return;
+            if (!examId) return alert("시험 ID가 없습니다.");
+            if (!confirm(`${examId}의 분석용 아카이브를 생성/업데이트 하시겠습니까?\n(questions 컬렉션의 최신 정보를 반영합니다)`)) return;
 
             const btn = document.getElementById('btn-generate-archive');
             const originalHtml = btn.innerHTML;
@@ -1298,9 +1118,9 @@
                 }
 
                 await batch.commit();
-                await customAlert(`성공! 총 ${successCount}개의 문항 아카이브가 생성/업데이트되었습니다.`);
+                alert(`성공! 총 ${successCount}개의 문항 아카이브가 생성/업데이트되었습니다.`);
             } catch (e) {
-                await customAlert("오류 발생: " + e.message);
+                alert("오류 발생: " + e.message);
                 console.error(e);
             } finally {
                 btn.innerHTML = originalHtml;
@@ -1311,11 +1131,11 @@
 
         window.searchUser = async () => {
             const val = document.getElementById('search-user-input').value.trim();
-            if (!val) return await customAlert("검색어 입력");
+            if (!val) return alert("검색어 입력");
             try {
                 const q = val.includes('@') ? query(collection(db,"users"), where("email","==",val)) : query(collection(db,"users"), where("name","==",val));
                 const snap = await getDocs(q);
-                if (snap.empty) return await customAlert("사용자 없음");
+                if (snap.empty) return alert("사용자 없음");
                 const userDoc = snap.docs[0], d = userDoc.data(); searchedUserUid = userDoc.id;
                 document.getElementById('manage-user-name').innerText = d.name || "이름 없음";
                 document.getElementById('manage-user-email').innerText = d.email || "-";
@@ -1324,7 +1144,7 @@
                 document.getElementById('manage-user-status').innerText = d.isPaid ? "Premium" : "Free";
                 document.getElementById('manage-user-status').className = d.isPaid ? "inline-block px-2 py-1 rounded text-xs font-bold bg-indigo-600 text-white" : "inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300";
                 window.loadUserExamList(searchedUserUid);
-            } catch (e) { await customAlert("검색 오류"); }
+            } catch (e) { alert("검색 오류"); }
         };
 
         window.loadUserExamList = async (uid) => {
@@ -1345,28 +1165,14 @@
         };
 
         window.toggleUserExam = async (uid, eid, title, grant) => {
-            try { grant ? await setDoc(doc(db,"users",uid,"my_exams",eid), {status:'purchased', title, grantedAt:new Date().toISOString(), adminGranted:true}) : await deleteDoc(doc(db,"users",uid,"my_exams",eid)); window.loadUserExamList(uid); } 
-            catch(e) { await customAlert("실패"); }
+            try { grant ? await setDoc(doc(db,"users",uid,"my_exams",eid), {status:'purchased', title, grantedAt:new Date().toISOString(), adminGranted:true}) : await deleteDoc(doc(db,"users",uid,"my_exams",eid)); window.loadUserExamList(uid); } catch(e) { alert("실패"); }
         };
 
         window.resetUserExamData = async () => {
             const tid = document.getElementById('reset-exam-id').value.trim();
-            if (!searchedUserUid || !tid) return await customAlert("입력 필요");
-            if (!await customConfirm("데이터를 완전히 삭제하시겠습니까?")) return;
-            try { 
-                const b = writeBatch(db); 
-                b.delete(doc(db,"users",searchedUserUid,"my_exams",tid)); 
-                b.delete(doc(db,"users",searchedUserUid,"exam_results",tid)); 
-                
-                const waSnap = await getDocs(query(collection(db, "users", searchedUserUid, "wrong_answers"), where("examId", "==", tid)));
-                waSnap.forEach(waDoc => {
-                    b.delete(waDoc.ref);
-                });
-
-                await b.commit(); 
-                await customAlert("완료"); 
-                window.loadUserExamList(searchedUserUid); 
-            } catch(e) { await customAlert("오류: " + e.message); }
+            if (!searchedUserUid || !tid) return alert("입력 필요");
+            if (!confirm("삭제?")) return;
+            try { const b = writeBatch(db); b.delete(doc(db,"users",searchedUserUid,"my_exams",tid)); b.delete(doc(db,"users",searchedUserUid,"exam_results",tid)); await b.commit(); alert("완료"); window.loadUserExamList(searchedUserUid); } catch(e) { alert("오류"); }
         };
 
         window.updateUserPaidStatus = async (isPaid) => {
@@ -1375,7 +1181,7 @@
                 const b = writeBatch(db); b.update(doc(db,"users",searchedUserUid), {isPaid});
                 if(isPaid) { const es = await getDocs(collection(db,"public_exams")); es.forEach(ed => { const eid = `exam_${String(ed.data().id).padStart(2,'0')}`; b.set(doc(db,"users",searchedUserUid,"my_exams",eid), {status:'purchased', title:ed.data().title, grantedAt:new Date().toISOString()}, {merge:true}); }); }
                 await b.commit(); window.searchUser();
-            } catch(e) { await customAlert("실패"); }
+            } catch(e) { alert("실패"); }
         };
 
         window.updateTopicOptions = (chapter, topic = null) => {
@@ -1385,9 +1191,9 @@
         document.getElementById('q-chapter').addEventListener('change', (e) => window.updateTopicOptions(e.target.value));
 
         window.openQuestionModal = async (docId = null) => {
+            // 기본 필드 초기화
             safeSetValue('q-doc-id', docId || ''); 
             safeSetValue('q-id', docId || `q_${new Date().getFullYear()}_${Math.random().toString(36).substr(2,5)}`);
-            safeSetValue('q-source-exam-id', ''); 
             safeSetValue('q-domain',''); 
             safeSetValue('q-chapter',''); 
             window.updateTopicOptions(''); 
@@ -1395,6 +1201,7 @@
             safeSetValue('q-answer',''); 
             safeSetValue('question-behavioral-domain','');
 
+            // 통계 초기화
             document.getElementById('stat-total').innerText = '0';
             document.getElementById('stat-correct').innerText = '0';
             document.getElementById('stat-accuracy').innerText = '0%';
@@ -1405,17 +1212,18 @@
                     if(snap.exists()) { 
                         const d = snap.data(), tax = d.taxonomy||{}; 
                         safeSetValue('q-id', docId); 
-                        safeSetValue('q-source-exam-id', d.sourceExamId || ''); 
                         safeSetValue('q-domain', tax.domain||''); 
                         safeSetValue('q-chapter', tax.chapter||''); 
                         window.updateTopicOptions(tax.chapter, tax.topic); 
                         
-                        let diffNum = parseFloat(d.score || (d.difficulty > 3 ? 2.5 : (d.difficulty < 2 ? 1.5 : 2.0)));
-                        safeSetValue('q-difficulty', diffNum.toFixed(1)); 
+                        // 난이도 소수점 일치화 (2 -> "2.0")
+                        const diffVal = d.difficulty ? Number(d.difficulty).toFixed(1) : "2.0";
+                        safeSetValue('q-difficulty', diffVal); 
                         
                         safeSetValue('q-answer', d.correctAnswer||''); 
                         safeSetValue('question-behavioral-domain', d.behavioralDomain||''); 
 
+                        // 통계 정보 반영
                         const stats = d.stats || { total: 0, correct: 0 };
                         document.getElementById('stat-total').innerText = stats.total || 0;
                         document.getElementById('stat-correct').innerText = stats.correct || 0;
@@ -1433,7 +1241,6 @@
         window.saveQuestionData = async () => {
             const originalDocId = document.getElementById('q-doc-id').value;
             const newDocId = document.getElementById('q-id').value.trim();
-            const sourceExamId = document.getElementById('q-source-exam-id').value.trim();
             const domain = document.getElementById('q-domain').value;
             const chapter = document.getElementById('q-chapter').value;
             const topic = document.getElementById('q-topic').value;
@@ -1441,12 +1248,11 @@
             const difficulty = Number(document.getElementById('q-difficulty').value);
             const correctAnswer = Number(document.getElementById('q-answer').value);
 
-            if (!newDocId || !domain || !chapter || !topic) return await customAlert("필수 항목 입력 누락 (문항 ID, 단원 정보)");
-            if (!behavior || behavior === "미분류") return await customAlert("행동 영역(탐구 역량)은 반드시 선택해야 합니다.\n(레이더 차트 렌더링 필수값)");
-            if (!await customConfirm("저장 및 실시간 동기화를 진행할까요?")) return;
+            if (!newDocId || !domain || !chapter || !topic || !behavior) return alert("필수 항목 입력 누락");
+            if (!confirm("저장 및 실시간 동기화를 진행할까요?")) return;
 
             try {
-                const data = { id: newDocId, sourceExamId, correctAnswer, difficulty, score: difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
+                const data = { id: newDocId, correctAnswer, difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
                 
                 await setDoc(doc(db, "questions", newDocId), data, { merge: true });
                 if (originalDocId && originalDocId !== newDocId) await deleteDoc(doc(db, "questions", originalDocId));
@@ -1454,7 +1260,6 @@
                 const batch = writeBatch(db);
                 let examUpdateCount = 0;
                 let archiveUpdateCount = 0;
-                let wrongAnswersUpdateCount = 0;
 
                 const examsSnap = await getDocs(collection(db, "exams"));
                 examsSnap.forEach(examDoc => {
@@ -1482,35 +1287,13 @@
                     }
                 });
 
-                const targetQid = originalDocId || newDocId;
-                if (targetQid) {
-                    const waSnap = await getDocs(query(collectionGroup(db, "wrong_answers"), where("qId", "==", targetQid)));
-                    waSnap.forEach(waDoc => {
-                        batch.update(waDoc.ref, { topic: topic, behavior: behavior, qId: newDocId });
-                        wrongAnswersUpdateCount++;
-                    });
-                }
-
                 await batch.commit();
-                await customAlert(`저장 성공!\n- 모의고사 ${examUpdateCount}건 동기화\n- 분석 기록 ${archiveUpdateCount}건 동기화\n- 학생 오답노트 ${wrongAnswersUpdateCount}건 동기화`);
+                alert(`저장 성공!\n- 모의고사 ${examUpdateCount}건 동기화\n- 분석 기록 ${archiveUpdateCount}건 동기화`);
                 window.closeQuestionModal(); window.loadQuestionsList();
-            } catch(e) { await customAlert("저장 실패: " + e.message); }
+            } catch(e) { alert("저장 실패: " + e.message); }
         };
         
-        window.deleteQuestionData = async (id) => { if(await customConfirm("문항을 정말 삭제하시겠습니까?")) { try { await deleteDoc(doc(db, "questions", id)); window.loadQuestionsList(); } catch(e) { await customAlert("삭제 실패"); } } };
-        
-        window.openImagePreview = (url) => {
-            const modal = document.getElementById('image-preview-modal');
-            const img = document.getElementById('preview-img-full');
-            img.src = url;
-            modal.classList.remove('hidden');
-        };
-
-        window.closeImagePreview = () => {
-            document.getElementById('image-preview-modal').classList.add('hidden');
-            document.getElementById('preview-img-full').src = '';
-        };
-
+        window.deleteQuestionData = async (id) => { if(confirm("삭제?")) { try { await deleteDoc(doc(db, "questions", id)); window.loadQuestionsList(); } catch(e) { alert("실패"); } } };
         lucide.createIcons();
     </script>
 </body>

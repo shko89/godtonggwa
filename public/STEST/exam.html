@@ -688,22 +688,21 @@
             let html = '';
             
             if (filterType === 'my') {
-                // 새로운 렌더링 로직: pkg.exams 배열에 의존하지 않음
+                // 시즌 모의고사 및 주간지 리스트업
                 const myAccessibleExams = masterExams.filter(e => {
-                    if (e.type === 'past') return false;
-                    return currentUserData?.hasAllPass || (e.packageId && myPackagesData[e.packageId]);
+                    if (e.serviceType === 'FREE_ARCHIVE') return false;
+                    return true; 
                 });
 
                 // 기출문제 보관소 (archive.html) OMR 제출 결과 파싱
                 const completedArchiveExams = [];
                 Object.keys(myExamData || {}).forEach(examId => {
-                    if (examId.startsWith('past_') && myExamData[examId].status === 'graded') {
-                        const meta = masterExams.find(e => e.docId === examId);
-                        const actualTitle = meta ? meta.title : `기출문제: ${examId.replace('past_', '')}`;
+                    const meta = masterExams.find(e => e.docId === examId);
+                    if (meta && meta.serviceType === 'FREE_ARCHIVE' && myExamData[examId].status === 'graded') {
                         completedArchiveExams.push({
                             docId: examId,
-                            title: actualTitle,
-                            subTitle: '기출문제 보관소',
+                            title: meta.title,
+                            subTitle: '무료 기출',
                             date: myExamData[examId].submittedAt?.toDate ? myExamData[examId].submittedAt.toDate() : new Date(),
                             status: 'graded',
                             score: myExamData[examId].score
@@ -737,7 +736,15 @@
                     html += `<div class="mb-6">`;
                     pendingExams.forEach(examMeta => {
                         const rec = myExamData ? myExamData[examMeta.docId] : null;
-                        const examObj = { ...examMeta, status: rec ? rec.status : 'purchased', score: rec?.score, docId: examMeta.docId };
+                        
+                        let currentStatus = 'locked';
+                        if (!examMeta.isAuthRequired) {
+                            currentStatus = 'purchased';
+                        } else if (currentUserData?.hasAllPass || (examMeta.packageId && myPackagesData[examMeta.packageId]) || (rec && rec.adminGranted)) {
+                            currentStatus = 'purchased';
+                        }
+                        
+                        const examObj = { ...examMeta, status: currentStatus, score: rec?.score, docId: examMeta.docId };
                         html += createCard(examObj, false);
                     });
                     html += `</div>`;
@@ -913,11 +920,15 @@
                     </div>
                 `;
             } else if (exam.status === 'purchased') {
-                btn = `<button onclick="location.href='omr.html?id=${exam.docId}&title=${encodeURIComponent(exam.title)}'" class="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> OMR 진행 (정답 제출)</button>`;
+                if (exam.isContentVisible === false) {
+                    btn = `<button onclick="alert('본 모의고사는 오프라인 전용 교재입니다. OMR 성적 입력 화면으로 이동합니다.'); location.href='omr.html?id=${exam.docId}&title=${encodeURIComponent(exam.title)}'" class="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> OMR 진행 (정답 제출)</button>`;
+                } else {
+                    btn = `<button onclick="location.href='omr.html?id=${exam.docId}&title=${encodeURIComponent(exam.title)}'" class="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> 문제 풀이 및 OMR 진행</button>`;
+                }
             } else if (exam.status === 'pending') {
                 btn = `<button disabled class="w-full py-3 bg-yellow-50 text-yellow-600 rounded-xl text-sm font-bold border border-yellow-100 flex items-center justify-center gap-2 cursor-wait"><div class="animate-spin rounded-full h-3 w-3 border-2 border-yellow-600 border-t-transparent"></div>배송 및 승인 대기 중</button>`;
             } else {
-                btn = `<button disabled class="w-full py-3 bg-gray-100 text-gray-400 rounded-xl text-sm font-bold border border-gray-200 flex items-center justify-center gap-2 cursor-not-allowed"><i data-lucide="lock" class="w-4 h-4"></i> 잠금 상태 (이용 불가)</button>`;
+                btn = `<button onclick="alert('결제 및 인증이 필요합니다. (추후 오픈 예정)');" class="w-full py-3 bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 rounded-xl text-sm font-bold border border-gray-200 flex items-center justify-center gap-2 transition-colors"><i data-lucide="lock" class="w-4 h-4"></i> 잠금 상태 (인증 필요)</button>`;
             }
 
             const style = isFeatured ? 'bg-white border-2 border-indigo-500 shadow-xl relative overflow-hidden' : 'bg-white border border-gray-100 shadow-sm';
@@ -926,7 +937,11 @@
             return `<div class="${style} rounded-2xl p-5 mb-4 relative">
                 ${bgDeco}
                 <div class="relative z-10 mb-4">
-                    <span class="text-[10px] font-bold ${isFeatured ? 'text-indigo-600' : 'text-gray-400'} block mb-1 uppercase tracking-wide">${exam.subTitle}</span>
+                    <span class="text-[10px] font-bold ${isFeatured ? 'text-indigo-600' : 'text-gray-400'} block mb-1 uppercase tracking-wide flex items-center gap-1">
+                        ${exam.serviceType === 'SEASON_MOCK' ? '<span class="bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded">시즌 모의고사</span>' : ''}
+                        ${exam.serviceType === 'WEEKLY_MAG' ? '<span class="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">주간지</span>' : ''}
+                        ${exam.subTitle || ''}
+                    </span>
                     <h4 class="text-lg font-black text-gray-900 leading-tight">${exam.title}</h4>
                     ${isFeatured ? '<p class="text-xs text-indigo-500 mt-2 font-medium">마감 임박 | 선착순 혜택 적용 중</p>' : `<span class="text-xs text-gray-400 block mt-1">${dateStr} 시행</span>`}
                 </div>

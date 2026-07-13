@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 
-exports.processExamSubmission = onDocumentCreated(
+exports.processExamSubmissionV2 = onDocumentCreated(
     "exam_submissions_queue/{docId}",
     async (event) => {
         const snap = event.data;
@@ -20,54 +20,33 @@ exports.processExamSubmission = onDocumentCreated(
         const examRef = db.collection('exams').doc(examId);
 
         try {
-            const batch = db.batch();
+            await db.runTransaction(async (t) => {
+                const doc = await t.get(examRef);
+                let participantCount = 0;
+                let totalScoreSum = 0;
+                let totalScoreSqSum = 0;
 
-            // 1. 모의고사 전체 통계 병합 (트랜잭션 없이 increment 연산으로 성능 극대화)
-            batch.set(examRef, {
-                participantCount: admin.firestore.FieldValue.increment(1),
-                totalScoreSum: admin.firestore.FieldValue.increment(rawScore),
-                totalScoreSqSum: admin.firestore.FieldValue.increment(rawScore * rawScore),
-                lastUpdated: admin.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-
-            // 2. 개별 문항 통계 병합 (문항당 정답률, 선지별 통계)
-            const evaluatedAnswers = data.evaluatedAnswers || [];
-            evaluatedAnswers.forEach(ans => {
-                if (ans.qId) {
-                    const qRef = db.collection('questions').doc(ans.qId);
-                    const isCorrect = ans.isCorrect;
-                    const studentMark = ans.studentMark.toString();
-                    
-                    const statsUpdates = {
-                        totalAttempts: admin.firestore.FieldValue.increment(1)
-                    };
-                    if (isCorrect) {
-                        statsUpdates.correctCount = admin.firestore.FieldValue.increment(1);
-                    }
-                    
-                    const distractorUpdates = {};
-                    if (studentMark >= "1" && studentMark <= "5") {
-                        distractorUpdates[studentMark] = admin.firestore.FieldValue.increment(1);
-                    }
-                    
-                    const updates = { stats: statsUpdates };
-                    if (Object.keys(distractorUpdates).length > 0) {
-                        updates.distractorStats = distractorUpdates;
-                    }
-                    
-                    batch.set(qRef, updates, { merge: true });
+                if (doc.exists) {
+                    const currentData = doc.data();
+                    participantCount = currentData.participantCount || 0;
+                    totalScoreSum = currentData.totalScoreSum || 0;
+                    totalScoreSqSum = currentData.totalScoreSqSum || 0;
                 }
+
+                t.set(examRef, {
+                    participantCount: participantCount + 1,
+                    totalScoreSum: totalScoreSum + rawScore,
+                    totalScoreSqSum: totalScoreSqSum + (rawScore * rawScore),
+                    lastUpdated: admin.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
             });
 
-            // 3. 큐 상태 업데이트
-            batch.update(snap.ref, { 
+            await snap.ref.update({ 
                 status: 'processed', 
                 processedAt: admin.firestore.FieldValue.serverTimestamp() 
             });
-
-            await batch.commit();
             
-            console.log(`[${examId}] 점수(${rawScore}점) 및 문항 통계 안전하게 집계 완료.`);
+            console.log(`[${examId}] 점수(${rawScore}점) 안전하게 통계 집계 완료.`);
             
         } catch (error) {
             console.error("서버 트랜잭션 에러:", error);
@@ -76,9 +55,9 @@ exports.processExamSubmission = onDocumentCreated(
 );
 
 // 선생님의 Gemini API 키가 안전하게 삽입되었습니다.
-const GEMINI_API_KEY = "AIzaSyAWXnF3qQgYeIK2vhEuxN0M54lxHUFt7oE";
+const GEMINI_API_KEY = "AIzaSyCo5JomXHpiW-zW1EEBbPsI_iBWU67SXXo";
 
-exports.processAiTutorQueue = onDocumentCreated(
+exports.processAiTutorQueueV2 = onDocumentCreated(
     "ai_tutor_queue/{docId}",
     async (event) => {
         const snap = event.data;

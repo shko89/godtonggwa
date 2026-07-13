@@ -1,0 +1,613 @@
+{
+    "q_2028_s0_01_01": {
+        "id": "q_2028_s0_01_01",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 1,
+        "imageFile": "2028_s0_01_q01.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 1,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "생태계 평형"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "지구 온난화",
+            "생태계"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.387954Z"
+    },
+    "q_2028_s0_01_02": {
+        "id": "q_2028_s0_01_02",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 2,
+        "imageFile": "2028_s0_01_q02.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정 표준",
+            "기본량"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.408283Z"
+    },
+    "q_2028_s0_01_03": {
+        "id": "q_2028_s0_01_03",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 3,
+        "imageFile": "2028_s0_01_q03.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "밀도",
+            "비중"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.429336Z"
+    },
+    "q_2028_s0_01_04": {
+        "id": "q_2028_s0_01_04",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 4,
+        "imageFile": "2028_s0_01_q04.png",
+        "correctAnswer": "1",
+        "score": 2.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "지각과 생명체 구성 물질의 규칙성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규산염 광물"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.444318Z"
+    },
+    "q_2028_s0_01_05": {
+        "id": "q_2028_s0_01_05",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 5,
+        "imageFile": "2028_s0_01_q05.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 1,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "생태계 구성 요소"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "생태계",
+            "생물 요소"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.466987Z"
+    },
+    "q_2028_s0_01_06": {
+        "id": "q_2028_s0_01_06",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 6,
+        "imageFile": "2028_s0_01_q06.png",
+        "correctAnswer": "4",
+        "score": 2.0,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "물질 변화에서 에너지 출입"
+        },
+        "behavioralDomain": "의사소통",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "에너지 출입"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.531065Z"
+    },
+    "q_2028_s0_01_07": {
+        "id": "q_2028_s0_01_07",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 7,
+        "imageFile": "2028_s0_01_q07.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "인공지능과 과학 탐구"
+        },
+        "behavioralDomain": "자료 변환 및 해석",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "빅데이터",
+            "대기 오염"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.601228Z"
+    },
+    "q_2028_s0_01_08": {
+        "id": "q_2028_s0_01_08",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 8,
+        "imageFile": "2028_s0_01_q08.png",
+        "correctAnswer": "1",
+        "score": 2.0,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "에너지 전환과 효율"
+        },
+        "behavioralDomain": "적용",
+        "qType": "계산형",
+        "tags": [
+            "빅데이터",
+            "대기 오염"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.616392Z"
+    },
+    "q_2028_s0_01_09": {
+        "id": "q_2028_s0_01_09",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 9,
+        "imageFile": "2028_s0_01_q09.png",
+        "correctAnswer": "5",
+        "score": 2.0,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "자연선택"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "핀치새",
+            "자연 선택"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.676290Z"
+    },
+    "q_2028_s0_01_10": {
+        "id": "q_2028_s0_01_10",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 10,
+        "imageFile": "2028_s0_01_q10.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "별의 내부 구조"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.713829Z"
+    },
+    "q_2028_s0_01_11": {
+        "id": "q_2028_s0_01_11",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 11,
+        "imageFile": "2028_s0_01_q11.png",
+        "correctAnswer": "2",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "감염병과 병원체"
+        },
+        "behavioralDomain": "결론 도출 및 일반화",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "병원체"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.764308Z"
+    },
+    "q_2028_s0_01_12": {
+        "id": "q_2028_s0_01_12",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 12,
+        "imageFile": "2028_s0_01_q12.png",
+        "correctAnswer": "4",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "산화와 환원"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "이온 모형"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.789193Z"
+    },
+    "q_2028_s0_01_13": {
+        "id": "q_2028_s0_01_13",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 13,
+        "imageFile": "2028_s0_01_q13.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.868075Z"
+    },
+    "q_2028_s0_01_14": {
+        "id": "q_2028_s0_01_14",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 14,
+        "imageFile": "2028_s0_01_q14.png",
+        "correctAnswer": "1",
+        "score": 2.0,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "지구시스템의 구성과 상호작용"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "탄소 순환",
+            "지구 시스템"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.900412Z"
+    },
+    "q_2028_s0_01_15": {
+        "id": "q_2028_s0_01_15",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 15,
+        "imageFile": "2028_s0_01_q15.png",
+        "correctAnswer": "2",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자 배치"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.922090Z"
+    },
+    "q_2028_s0_01_16": {
+        "id": "q_2028_s0_01_16",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 16,
+        "imageFile": "2028_s0_01_q16.png",
+        "correctAnswer": "3",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "발전"
+        },
+        "behavioralDomain": "탐구 설계",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자기 유도"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.952624Z"
+    },
+    "q_2028_s0_01_17": {
+        "id": "q_2028_s0_01_17",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 17,
+        "imageFile": "2028_s0_01_q17.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "지질시대 환경 변화와 대멸종"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "수륙 분포"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:48.990968Z"
+    },
+    "q_2028_s0_01_18": {
+        "id": "q_2028_s0_01_18",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 18,
+        "imageFile": "2028_s0_01_q18.png",
+        "correctAnswer": "2",
+        "score": 2.0,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "화학 결합"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "화학 결합",
+            "전자 배치"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.013002Z"
+    },
+    "q_2028_s0_01_19": {
+        "id": "q_2028_s0_01_19",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 19,
+        "imageFile": "2028_s0_01_q19.png",
+        "correctAnswer": "3",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "중력장 내의 운동"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "수평 운동"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.049102Z"
+    },
+    "q_2028_s0_01_20": {
+        "id": "q_2028_s0_01_20",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 20,
+        "imageFile": "2028_s0_01_q20.png",
+        "correctAnswer": "4",
+        "score": 2.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "지각과 생명체 구성 물질의 규칙성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "DNA 모형"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.074483Z"
+    },
+    "q_2028_s0_01_21": {
+        "id": "q_2028_s0_01_21",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 21,
+        "imageFile": "2028_s0_01_q21.png",
+        "correctAnswer": "2",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "판구조론과 지각 변동"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "판의 이동"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.103273Z"
+    },
+    "q_2028_s0_01_22": {
+        "id": "q_2028_s0_01_22",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 22,
+        "imageFile": "2028_s0_01_q22.png",
+        "correctAnswer": "3",
+        "score": 2.5,
+        "difficulty": 5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "중화 반응"
+        },
+        "behavioralDomain": "적용",
+        "qType": "계산형",
+        "tags": [
+            "이온 수 비율"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.119676Z"
+    },
+    "q_2028_s0_01_23": {
+        "id": "q_2028_s0_01_23",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 23,
+        "imageFile": "2028_s0_01_q23.png",
+        "correctAnswer": "4",
+        "score": 2.5,
+        "difficulty": 5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "충격량과 운동량"
+        },
+        "behavioralDomain": "적용",
+        "qType": "계산형",
+        "tags": [
+            "충돌"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.159109Z"
+    },
+    "q_2028_s0_01_24": {
+        "id": "q_2028_s0_01_24",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 24,
+        "imageFile": "2028_s0_01_q24.png",
+        "correctAnswer": "3",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "유전자와 단백질"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "효소",
+            "돌연변이"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.181562Z"
+    },
+    "q_2028_s0_01_25": {
+        "id": "q_2028_s0_01_25",
+        "sourceExamId": "2028_s0_01",
+        "examQNum": 25,
+        "imageFile": "2028_s0_01_q25.png",
+        "correctAnswer": "1",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "대기와 해양의 상호작용"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "엘리뇨",
+            "기압 편차"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-06T07:20:49.212168Z"
+    }
+}

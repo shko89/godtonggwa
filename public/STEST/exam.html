@@ -920,7 +920,12 @@
                     </div>
                 `;
             } else if (exam.status === 'purchased') {
-                if (exam.isContentVisible === false) {
+                if (exam.serviceType === 'WEEKLY_MAG') {
+                    btn = `<div class="flex gap-2">
+                        <button onclick="location.href='weekly/ebook/week_2028_02_final.html?id=${exam.docId}'" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-500 text-white py-3 rounded-xl font-bold text-xs shadow-md hover:from-indigo-600 hover:to-blue-600 transition-colors flex justify-center items-center gap-1.5"><i data-lucide="book-open" class="w-4 h-4"></i> WEEKLY 전자책</button>
+                        <button onclick="location.href='weekly/timeattack/index.html?id=${exam.docId}'" class="flex-1 bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-3 rounded-xl font-bold text-xs shadow-md hover:from-teal-600 hover:to-cyan-600 transition-colors flex justify-center items-center gap-1.5"><i data-lucide="play-circle" class="w-4 h-4"></i> Fit 20 모의고사</button>
+                    </div>`;
+                } else if (exam.isContentVisible === false) {
                     btn = `<button onclick="alert('본 모의고사는 오프라인 전용 교재입니다. OMR 성적 입력 화면으로 이동합니다.'); location.href='omr.html?id=${exam.docId}&title=${encodeURIComponent(exam.title)}'" class="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> OMR 진행 (정답 제출)</button>`;
                 } else {
                     btn = `<button onclick="location.href='omr.html?id=${exam.docId}&title=${encodeURIComponent(exam.title)}'" class="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> 문제 풀이 및 OMR 진행</button>`;

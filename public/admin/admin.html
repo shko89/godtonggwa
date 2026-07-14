@@ -1404,11 +1404,38 @@
                     const snap = await getDoc(doc(db,"questions",docId));
                     if(snap.exists()) { 
                         const d = snap.data(), tax = d.taxonomy||{}; 
+                        
+                        let taxChapter = tax.chapter || '';
+                        let taxDomain = tax.domain || '';
+                        let taxTopic = tax.topic || '';
+
+                        if (taxTopic && !taxChapter) {
+                            for (const [chap, topics] of Object.entries(TOPIC_MAP)) {
+                                if (topics.includes(taxTopic)) {
+                                    taxChapter = chap;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        const DOMAIN_MAP = {
+                            "과학의 기초": "통합과학1",
+                            "물질과 규칙성": "통합과학1",
+                            "시스템과 상호작용": "통합과학1",
+                            "변화와 다양성": "통합과학2",
+                            "환경과 에너지": "통합과학2",
+                            "과학과 미래 사회": "통합과학2"
+                        };
+                        
+                        if (taxChapter && !taxDomain) {
+                            taxDomain = DOMAIN_MAP[taxChapter] || '';
+                        }
+
                         safeSetValue('q-id', docId); 
                         safeSetValue('q-source-exam-id', d.sourceExamId || ''); 
-                        safeSetValue('q-domain', tax.domain||''); 
-                        safeSetValue('q-chapter', tax.chapter||''); 
-                        window.updateTopicOptions(tax.chapter, tax.topic); 
+                        safeSetValue('q-domain', taxDomain); 
+                        safeSetValue('q-chapter', taxChapter); 
+                        window.updateTopicOptions(taxChapter, taxTopic);
                         
                         let diffNum = parseFloat(d.score || (d.difficulty > 3 ? 2.5 : (d.difficulty < 2 ? 1.5 : 2.0)));
                         safeSetValue('q-difficulty', diffNum.toFixed(1)); 

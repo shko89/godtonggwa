@@ -1,387 +1,9 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>갓통과 - 프리미엄 OMR 센터</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-window.addEventListener('error', function(event) {
-    alert('Global Error: ' + event.message + '\nFile: ' + event.filename + '\nLine: ' + event.lineno + ':' + event.colno);
-});
-window.addEventListener('unhandledrejection', function(event) {
-    alert('Promise Error: ' + (event.reason && event.reason.stack ? event.reason.stack : event.reason));
-});
-</script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid rgba(255,255,255,0.3); }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05); border: 1px solid rgba(255,255,255,0.4); }
-        .hover-lift { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(79, 70, 229, 0.12); }
-        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; border-radius: 8px; }
-        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .gradient-text { background: linear-gradient(135deg, #4f46e5, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .gradient-bg { background: linear-gradient(135deg, #4f46e5, #7c3aed); }
-        .float-anim { animation: float 6s ease-in-out infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        
-        .app-layout {
-            max-width: 480px; margin: 0 auto; min-height: 100vh;
-            background-color: #F9FAFB; position: relative;
-            display: flex; flex-direction: column;
-        }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .chart-container { position: relative; width: 100%; height: 250px; }
-        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #4f46e5; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* New/Badge Styles */
-        .badge-pulse { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
-        @keyframes pulse-ring { 0% { transform: scale(.33); } 80%, 100% { opacity: 0; } }
-    </style>
-</head>
-<body class="bg-gray-100 text-gray-800">
 
-    <div class="app-layout shadow-2xl overflow-hidden">
-        
-        <div id="global-loading" class="absolute inset-0 z-[100] bg-white/80 backdrop-blur-md flex flex-col items-center justify-center fade-in">
-            <div class="relative w-16 h-16 mb-4">
-                <div class="absolute inset-0 rounded-full border-4 border-indigo-100"></div>
-                <div class="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin"></div>
-            </div>
-            <p id="loading-text" class="text-sm font-bold gradient-text tracking-wide">데이터 동기화 중...</p>
-        </div>
 
-        <div id="auth-container" class="hidden flex-1 flex flex-col bg-white fade-in z-50 absolute inset-0 overflow-y-auto no-scrollbar">
-            <header class="gradient-bg text-white rounded-b-[2.5rem] px-6 pt-10 pb-12 shadow-[0_10px_40px_rgba(79,70,229,0.3)] relative overflow-hidden shrink-0">
-                <div class="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
-                     <i data-lucide="atom" class="w-48 h-48 float-anim"></i>
-                </div>
-                <div class="relative z-10">
-                    <div class="mb-2">
-                        <span class="bg-indigo-500/50 border border-indigo-400/30 text-indigo-100 text-[10px] font-bold px-2 py-1 rounded-full backdrop-blur-sm">Premium Service</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <h1 class="text-2xl font-extrabold tracking-tight">갓통과</h1>
-                        <h2 class="text-lg font-bold text-indigo-200">프리미엄 모의고사 센터</h2>
-                    </div>
-                    <p class="text-indigo-100/80 text-xs mt-2 font-medium">로그인 후 모든 서비스를 이용해보세요.</p>
-                </div>
-            </header>
 
-            <div class="flex-1 px-6 py-6 flex flex-col justify-center">
-                <div id="login-view" class="fade-in w-full">
-                    <form id="login-form" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">이메일</label>
-                            <input type="email" id="login-email" class="w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 outline-none bg-gray-50 text-sm" placeholder="example@email.com" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">비밀번호</label>
-                            <input type="password" id="login-pw" class="w-full pl-4 pr-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 outline-none bg-gray-50 text-sm" placeholder="••••••••" required>
-                        </div>
-                        
-                        <div class="flex justify-between items-center mt-3 mb-1 px-1">
-                            <label class="flex items-center gap-1.5 cursor-pointer group">
-                                <input type="checkbox" id="auto-login" class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 transition cursor-pointer" checked>
-                                <span class="text-xs text-gray-500 font-medium group-hover:text-indigo-600 transition-colors">자동 로그인</span>
-                            </label>
 
-                            <div class="flex items-center gap-2 text-xs text-gray-400">
-                                <button type="button" onclick="findUserEmail()" class="hover:text-indigo-600 transition-colors">이메일 찾기</button>
-                                <span class="text-gray-300">|</span>
-                                <button type="button" onclick="resetUserPassword()" class="hover:text-indigo-600 transition-colors">비밀번호 찾기</button>
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full gradient-bg text-white font-bold py-4 rounded-xl shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5 transition-all duration-300 mt-2 flex justify-center items-center gap-2 text-base">
-                            로그인하기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </button>
-                    </form>
-                    <div class="text-center mt-6">
-                        <button onclick="toggleAuthMode('signup')" class="w-full py-3 border border-indigo-100 text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-colors text-sm">이메일로 회원가입</button>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100 text-center">
-                        <button onclick="location.href='../index.html'" class="text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1 mx-auto py-2 px-4 rounded-full hover:bg-gray-100 transition">
-                            <i data-lucide="arrow-left" class="w-3 h-3"></i> 메인으로 돌아가기
-                        </button>
-                    </div>
-                </div>
 
-                <div id="signup-view" class="hidden fade-in w-full">
-                    <form id="signup-form" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">이름</label>
-                            <input type="text" id="signup-name" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm" placeholder="홍길동" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">이메일</label>
-                            <input type="email" id="signup-email" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm" placeholder="example@email.com" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">비밀번호</label>
-                            <input type="password" id="signup-pw" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm" placeholder="6자 이상" minlength="6" required>
-                        </div>
-                        <div class="space-y-2 mt-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                            <div class="flex items-start gap-2">
-                                <input type="checkbox" id="agree-terms" required class="mt-0.5 w-4 h-4 text-indigo-600 rounded border-gray-300">
-                                <div class="flex-1 flex justify-between items-center">
-                                    <label for="agree-terms" class="text-xs font-bold text-gray-700 cursor-pointer">[필수] 서비스 이용약관 동의</label>
-                                    <button type="button" onclick="window.open('../policy/terms.html', '_blank')" class="text-[10px] text-gray-500 underline">[보기]</button>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <input type="checkbox" id="agree-privacy" required class="mt-0.5 w-4 h-4 text-indigo-600 rounded border-gray-300">
-                                <div class="flex-1 flex justify-between items-center">
-                                    <label for="agree-privacy" class="text-xs font-bold text-gray-700 cursor-pointer">[필수] 개인정보 수집/이용 동의</label>
-                                    <button type="button" onclick="window.open('../policy/privacy.html', '_blank')" class="text-[10px] text-gray-500 underline">[보기]</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg mt-4 text-base">가입 완료</button>
-                    </form>
-                    <div class="text-center mt-4">
-                        <button onclick="toggleAuthMode('login')" class="text-xs font-bold text-indigo-600 ml-1 hover:underline">로그인</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div id="app-content" class="hidden flex-1 flex flex-col min-h-screen pb-20 fade-in">
-            <div class="bg-white sticky top-0 z-30 border-b border-gray-100 shadow-sm">
-                <div class="px-6 py-4 flex justify-between items-center">
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800">갓통과 Analytics</h2>
-                        <p class="text-[11px] text-gray-500 font-medium">패키지 주문 및 OMR 제출</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span id="user-badge" class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full border border-gray-200">GUEST</span>
-                        <button onclick="logout()" class="text-[10px] text-gray-400 underline hover:text-gray-600">로그아웃</button>
-                    </div>
-                </div>
-                <div class="flex px-6 space-x-6 overflow-x-auto no-scrollbar">
-                    <button onclick="switchTab('all')" id="tab-all" class="pb-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap transition-colors">접수/구매</button>
-                    <button onclick="switchTab('my')" id="tab-my" class="pb-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap transition-colors">내 시험지</button>
-                    <button onclick="switchTab('report')" id="tab-report" class="pb-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap transition-colors">성적 리포트</button>
-                </div>
-            </div>
-
-            <div id="exam-content" class="p-6 space-y-4 flex-1 overflow-y-auto"></div>
-
-            <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
-            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="home" class="w-6 h-6"></i>
-                <span class="text-[11px] font-bold tracking-tight">홈</span>
-            </button>
-            
-            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-indigo-600 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="file-text" class="w-6 h-6"></i>
-                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
-            </button>
-            
-            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
-                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
-                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
-                </div>
-                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
-            </button>
-            
-            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="book-open" class="w-6 h-6"></i>
-                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
-            </button>
-            
-            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
-                <i data-lucide="user" class="w-6 h-6"></i>
-                <span class="text-[11px] font-bold tracking-tight">마이</span>
-            </button>
-        </nav>
-        </div>
-    </div>
-
-    <div id="packageOrderModal" class="fixed inset-0 z-[60] hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePackageOrderModal()"></div>
-        <div class="absolute bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl p-6 transition-transform duration-300 transform translate-y-full shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1">프리미엄 패키지 신청</h3>
-            <p class="text-sm text-gray-500 mb-6">실물 시험지와 OMR 제출 권한이 제공됩니다.</p>
-            
-            <div class="bg-indigo-50 p-5 rounded-2xl mb-6 border border-indigo-100">
-                <div class="flex items-start gap-3 mb-2">
-                    <i data-lucide="package" class="w-5 h-5 text-indigo-600 mt-0.5"></i>
-                    <div>
-                        <span id="orderPackageTitle" class="font-bold text-indigo-900 text-sm"></span>
-                        <p id="orderPackageDesc" class="text-xs text-indigo-700 mt-1"></p>
-                    </div>
-                </div>
-                <div class="flex justify-end items-center mt-2 pt-3 border-t border-indigo-100/50">
-                    <span id="orderPackagePrice" class="font-black text-xl text-indigo-600"></span>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-3 p-4 border border-gray-100 bg-gray-50 rounded-xl mb-6">
-                <div class="bg-white p-2 rounded-full shadow-sm"><i data-lucide="credit-card" class="w-5 h-5 text-gray-600"></i></div>
-                <div class="flex-1">
-                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">입금 계좌</p>
-                    <p class="font-bold text-gray-800 text-sm">국민은행 3333-01-0000000 (예금주: 갓통과)</p>
-                </div>
-                <button onclick="copyToClipboard('3333-01-0000000')" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg hover:bg-indigo-100">복사</button>
-            </div>
-
-            <form id="orderForm" onsubmit="submitPackageOrder(event)">
-                <div class="space-y-4 mb-6">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">입금자명</label>
-                        <input type="text" id="orderDepositor" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="입금자 성함을 입력하세요">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">수령인 이름 (실명)</label>
-                        <input type="text" id="orderName" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="택배를 받을 실명을 입력하세요">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">연락처 (휴대폰)</label>
-                        <input type="tel" id="orderPhone" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="010-0000-0000">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">배송지 주소</label>
-                        <div class="flex gap-2 mb-2">
-                            <input type="text" id="orderZonecode" readonly class="w-24 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none cursor-pointer" placeholder="우편번호" onclick="execDaumPostcode()">
-                            <button type="button" onclick="execDaumPostcode()" class="flex-1 bg-gray-800 text-white font-bold text-xs rounded-xl hover:bg-gray-700 transition-colors">주소 검색</button>
-                        </div>
-                        <input type="text" id="orderAddress" readonly class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none mb-2 cursor-pointer" placeholder="기본 주소 (버튼을 눌러 검색)" onclick="execDaumPostcode()">
-                        <input type="text" id="orderAddressDetail" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="상세 주소를 입력하세요 (동/호수)">
-                    </div>
-                </div>
-                
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4 mt-2">
-                    <div class="flex items-start gap-2">
-                        <input type="checkbox" id="pkgRefundAgree" required class="mt-1 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                        <div class="flex-1">
-                            <label for="pkgRefundAgree" class="text-xs font-bold text-gray-800 block cursor-pointer">갓통과 환불 규정에 동의합니다. (필수)</label>
-                            <button type="button" onclick="togglePkgRefundPolicy()" class="text-[10px] text-gray-500 underline mt-0.5 outline-none">[규정 전문 보기]</button>
-                        </div>
-                    </div>
-                    <div id="pkgRefundPolicyContent" class="hidden mt-3 text-[10px] text-gray-600 space-y-1.5 border-t border-gray-200 pt-3">
-                        <p class="font-bold text-gray-700">[단과 패키지 (시즌 0~4)]</p>
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li><strong>배송 전 (결제 당일):</strong> 100% 전액 환불</li>
-                            <li><strong>배송 후:</strong> 상품 수령일로부터 7일 이내, <strong>미개봉 상태</strong>에 한해 반품 확인 후 환불 (왕복 택배비 구매자 부담)</li>
-                            <li><strong>환불 불가 조건:</strong> 시험지 포장(비닐) 훼손, 문제지 훼손, 앱 내 OMR 응시 이력이 있는 경우 상품 가치 훼손으로 환불 불가</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-indigo-600 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">주문서 제출하기</button>
-            </form>
-            <p class="text-[10px] text-center text-gray-400 mt-4">입금 확인 후 관리자가 승인하면 권한이 활성화됩니다.</p>
-        </div>
-    </div>
-
-    <div id="allPassModal" class="fixed inset-0 z-[60] hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeAllPassModal()"></div>
-        <div class="absolute bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white rounded-t-3xl p-6 transition-transform duration-300 transform translate-y-full shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <h3 class="text-xl font-bold text-gray-900 mb-1">🔥 All-Pass 사전 예약</h3>
-            <p class="text-sm text-gray-500 mb-6">얼리버드 결제 시 20% 할인 및 시즌 0 즉시 제공!</p>
-            
-            <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-5 rounded-2xl mb-6 border border-amber-200">
-                <div class="flex items-start gap-3 mb-2">
-                    <i data-lucide="crown" class="w-5 h-5 text-amber-600 mt-0.5"></i>
-                    <div>
-                        <span class="font-bold text-amber-900 text-sm">2028 수능 All-Pass 정기구독권</span>
-                        <p class="text-xs text-amber-700 mt-1">시즌 1 ~ 4 (총 20회분) + <span class="font-bold text-rose-500">시즌 0 무료</span></p>
-                    </div>
-                </div>
-                <div class="flex flex-col items-end mt-2 pt-3 border-t border-amber-200/50">
-                    <span class="text-xs text-gray-400 line-through">195,000원</span>
-                    <span class="font-black text-xl text-amber-600">186,000원 <span class="text-sm font-medium">(20% OFF)</span></span>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-3 p-4 border border-gray-100 bg-gray-50 rounded-xl mb-6">
-                <div class="bg-white p-2 rounded-full shadow-sm"><i data-lucide="credit-card" class="w-5 h-5 text-gray-600"></i></div>
-                <div class="flex-1">
-                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">입금 계좌</p>
-                    <p class="font-bold text-gray-800 text-sm">국민은행 3333-01-0000000 (예금주: 갓통과)</p>
-                </div>
-                <button onclick="copyToClipboard('3333-01-0000000')" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg hover:bg-indigo-100">복사</button>
-            </div>
-
-            <form id="allPassOrderForm" onsubmit="submitAllPassOrder(event)">
-                <div class="space-y-4 mb-6">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">입금자명</label>
-                        <input type="text" id="apOrderDepositor" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-amber-500 outline-none" placeholder="입금자 성함을 입력하세요">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">수령인 이름</label>
-                        <input type="text" id="apOrderName" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-amber-500 outline-none" placeholder="수령인 이름을 입력하세요">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">연락처 (휴대폰)</label>
-                        <input type="tel" id="apOrderPhone" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-amber-500 outline-none" placeholder="010-0000-0000">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">배송지 주소</label>
-                        <div class="flex gap-2 mb-2">
-                            <input type="text" id="apOrderZonecode" readonly class="w-24 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none cursor-pointer" placeholder="우편번호" onclick="execApDaumPostcode()">
-                            <button type="button" onclick="execApDaumPostcode()" class="flex-1 bg-gray-800 text-white font-bold text-xs rounded-xl hover:bg-gray-700 transition-colors">주소 검색</button>
-                        </div>
-                        <input type="text" id="apOrderAddress" readonly class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none mb-2 cursor-pointer" placeholder="기본 주소 (버튼을 눌러 검색)" onclick="execApDaumPostcode()">
-                        <input type="text" id="apOrderAddressDetail" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-amber-500 outline-none" placeholder="상세 주소를 입력하세요 (동/호수)">
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4 mt-2">
-                    <div class="flex items-start gap-2">
-                        <input type="checkbox" id="apRefundAgree" required class="mt-1 w-4 h-4 text-amber-500 rounded border-gray-300 focus:ring-amber-500">
-                        <div class="flex-1">
-                            <label for="apRefundAgree" class="text-xs font-bold text-gray-800 block cursor-pointer">갓통과 환불 규정에 동의합니다. (필수)</label>
-                            <button type="button" onclick="toggleApRefundPolicy()" class="text-[10px] text-gray-500 underline mt-0.5 outline-none">[규정 전문 보기]</button>
-                        </div>
-                    </div>
-                    <div id="apRefundPolicyContent" class="hidden mt-3 text-[10px] text-gray-600 space-y-1.5 border-t border-gray-200 pt-3">
-                        <p class="font-bold text-gray-700">[인피니티 올패스 (정기구독)]</p>
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li><strong>전액 환불:</strong> 결제일로부터 7일 이내 & 실물 배송 전 & OMR 미응시인 경우 100% 환불</li>
-                            <li><strong>부분 환불:</strong> 이미 배송이 시작되었거나 일부 시즌을 이용한 경우, <strong>[결제 금액 - (기 배송된 시즌의 단과 정가 + 환불 위약금 10%)]</strong>로 계산하여 잔액 환불</li>
-                            <li><strong>특약:</strong> 무료 제공된 '시즌 0'의 포장을 개봉한 경우, 부분 환불 시 시즌 0의 단과 정가(39,000원)가 공제 금액에 포함됨</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-amber-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-amber-200 hover:bg-amber-600 transition-colors">얼리버드 혜택 신청하기</button>
-            </form>
-            <p class="text-[10px] text-center text-gray-400 mt-4">입금 확인 시 얼리버드 혜택으로 시즌 0 권한이 즉시 활성화됩니다.</p>
-        </div>
-    </div>
-
-    <div id="scoreModal" class="fixed inset-0 z-[60] hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeScoreModal()"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[360px] bg-white rounded-3xl p-8 shadow-2xl text-center">
-            <h3 class="text-xl font-bold text-gray-900 mb-2">성적 입력</h3>
-            <div class="relative inline-block mb-8">
-                <input type="number" id="scoreInput" class="w-32 text-center text-5xl font-black border-b-4 border-indigo-100 focus:border-indigo-600 outline-none pb-2 text-indigo-600 placeholder-indigo-100 transition-colors" placeholder="0">
-                <span class="absolute bottom-4 -right-6 text-gray-400 font-bold text-lg">점</span>
-            </div>
-            <button onclick="submitScore()" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-transform active:scale-[0.98]">제출하기</button>
-        </div>
-    </div>
-
-    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { 
             getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
@@ -625,16 +247,7 @@ window.addEventListener('unhandledrejection', function(event) {
                     myExamResults = {};
                     snapshot.forEach(doc => {
                         const d = doc.data();
-                        if (d.standardScore === undefined && d.maxScore !== undefined) {
-                            // TimeAttack 에서는 percentile 필드에 오답률을 저장하고 9등급제를 적용하는 버그가 있음. 절대평가(5등급제)로 덮어쓰기.
-                            d.percentile = '-'; 
-                            const ratio = d.score / d.maxScore;
-                            if (ratio >= 0.90) d.grade = 1;
-                            else if (ratio >= 0.66) d.grade = 2;
-                            else if (ratio >= 0.34) d.grade = 3;
-                            else if (ratio >= 0.10) d.grade = 4;
-                            else d.grade = 5;
-                        } else if (typeof d.percentile === 'number') {
+                        if (d.percentile !== undefined) {
                             const rank = 100 - d.percentile;
                             if (rank <= 10) d.grade = 1;
                             else if (rank <= 34) d.grade = 2;
@@ -1148,13 +761,6 @@ html += `<div class="mb-8">`;
                 color: "indigo"
             };
 
-            let isWeekly = false;
-            let maxScore = 50;
-            if (data.answers && data.answers.length === 20) {
-                isWeekly = true;
-                maxScore = data.answers.reduce((sum, ans) => sum + (Number(ans.score) || 2.5), 0);
-            }
-
             const grade = data.grade;
             if (grade === 1) {
                 feedback.message = "최상위권 실력입니다! 🏆 실수만 줄이면 만점도 가능해요.";
@@ -1197,11 +803,6 @@ html += `<div class="mb-8">`;
                             </div>
                         </div>
 
-                        ${(data.percentile === '-' || data.percentile === null || data.percentile === undefined) ? `
-                        <div class="bg-indigo-900/40 border border-indigo-400/30 rounded-xl p-3 mb-4 text-xs text-indigo-200">
-                            💡 아직 표본이 부족하여 원점수 기준 <b>임시 절대등급</b>이 제공됩니다. (표본 누적 시 실제 등급으로 업데이트)
-                        </div>
-                        ` : ''}
                         <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden mb-4">
                             <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl -mr-10 -mt-10"></div>
                             <div class="relative z-10">
@@ -1211,17 +812,17 @@ html += `<div class="mb-8">`;
                                 </div>
                                 <div class="flex items-baseline gap-2 mb-6">
                                     <h2 class="text-5xl font-black tracking-tighter">${data.score}</h2>
-                                    <span class="text-lg font-medium text-gray-400 mb-1">/ ${maxScore}점</span>
+                                    <span class="text-lg font-medium text-gray-400 mb-1">/ 50점</span>
                                 </div>
                                 <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-4 text-center">
                                     <div><p class="text-[10px] text-gray-400 mb-0.5">등급</p><p class="text-xl font-bold">${data.grade || '-'}</p></div>
                                     <div class="border-l border-white/10 border-r"><p class="text-[10px] text-gray-400 mb-0.5">표준점수</p><p class="text-xl font-bold">${data.standardScore !== undefined ? data.standardScore : '-'}</p></div>
-                                    <div><p class="text-[10px] text-gray-400 mb-0.5">상위</p><p class="text-xl font-bold">${typeof data.percentile === 'number' ? 100 - data.percentile : '-'}<span class="text-sm font-normal ml-0.5">${typeof data.percentile === 'number' ? '%' : ''}</span></p></div>
+                                    <div><p class="text-[10px] text-gray-400 mb-0.5">상위</p><p class="text-xl font-bold">${data.percentile !== undefined ? 100 - data.percentile : '-'}<span class="text-sm font-normal ml-0.5">%</span></p></div>
                                 </div>
                             </div>
                         </div>
 
-                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-4" ${isWeekly ? 'style="display:none;"' : ''}>
+                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-4">
                             <div class="text-center mb-4">
                                 <h3 class="text-sm font-bold text-gray-900 flex items-center justify-center gap-1">
                                     <i data-lucide="radar" class="w-4 h-4 text-indigo-500"></i> 단원별 성취도 밸런스
@@ -1232,7 +833,7 @@ html += `<div class="mb-8">`;
                             </div>
                         </section>
 
-                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 border-t-4 border-t-red-400 mb-4" ${isWeekly ? 'style="display:none;"' : ''}>
+                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 border-t-4 border-t-red-400 mb-4">
                             <div class="flex items-center mb-3">
                                 <span class="text-xl mr-2">🚨</span>
                                 <h3 class="text-sm font-bold text-gray-900">단원별 취약점 진단</h3>
@@ -1772,7 +1373,7 @@ html += `<div class="mb-8">`;
                         });
                     }
                 } catch(e) { console.error(e); }
-
+\n
                 let tableHtml = '';
                 if (wrongAnswers.length > 0) {
                     wrongAnswers.sort((a,b) => {
@@ -1780,8 +1381,7 @@ html += `<div class="mb-8">`;
                         const noB = b.qId ? parseInt((String(b.qId).match(/\d+$/) || [0])[0]) : 0;
                         return noA - noB;
                     }).forEach((ans, index) => {
-                        const originalQNum = ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [index + 1])[0]) : index + 1;
-                        const qNum = originalQNum;
+                        const qNum = index + 1;
                         const topicText = ans.topic || '-';
                         const explanationUrl = `explanation.html?id=${data.examId}&qId=${ans.qId}`;
 
@@ -1927,7 +1527,5 @@ html += `<div class="mb-8">`;
         };
 
         lucide.createIcons();
-    </script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-</body>
-</html>
+    
+

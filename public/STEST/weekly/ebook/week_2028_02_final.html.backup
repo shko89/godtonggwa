@@ -712,8 +712,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         }
     </script>
 <!-- Page 3 -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('bridge-page', 'Bridge')">📥 [13페이지] CONCEPT BRIDGE 다운로드</button>
+<div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page bridge-page" id="bridge-page">
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px;">
 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
@@ -746,7 +746,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 <div class="node leaf" style="top: 190px; left: 0px; width: 100px;">
 <div class="font-bold">원소의 지문, 스펙트럼</div>
-<div class="desc">스펙트럼의 종류를 구분하고, 선의 위치로 원소를 파악</div>
+<div class="desc">선의 위치로 원소를 식별하고, 굵기로 질량비 파악</div>
 </div>
 <div class="node leaf" style="top: 190px; left: 105px; width: 100px;">
 <div class="font-bold">빅뱅 원소 형성</div>
@@ -757,22 +757,20 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="desc">초신성 폭발로 무거운 원소 생성. 지구와 생명체의 기원! <b>필수 출제!</b></div>
 </div>
 <div class="node leaf" style="top: 190px; left: 220px; width: 100px;">
-<div class="font-bold">원자모형과 주기율표</div>
+<div class="font-bold">전자껍질과 주기율표</div>
 <div class="desc">주기(껍질 수)와 족(원자가 전자 수)의 관계</div>
 </div>
 <div class="node leaf" style="top: 190px; left: 325px; width: 100px;">
 <div class="font-bold">알칼리와 할로젠</div>
-<div class="desc">1족과 17족의 반응성 경향과 성질 비교</div>
+<div class="desc">1족과 17족의 반응성 경향과 동족 원소 비교</div>
 </div>
 </div>
 <div class="insight-box">
 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-
 <span style="background-color: #3b82f6; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">출제자의 시선</span>
-
 <span style="font-weight: 700; font-size: 13px;">왜 이것을 배울까?</span>
 </div>
-<p style="font-size: 10px; color: #cbd5e1; line-height: 1.45; margin: 0; text-align: justify; word-break: keep-all;">
+<p style="font-size: 11px; color: #cbd5e1; line-height: 1.45; margin: 0; text-align: justify; word-break: keep-all;">
                     이 단원은 우주의 시작부터 생명체의 탄생까지 이어지는 <b>'원소의 빅 히스토리'</b>를 다룹니다. 특히 질량에 따른 별의 진화 경로와 그에 따라 생성되는 원소의 차이를 구분하는 문제, 그리고 주기율표에서 위치(주기, 족)에 따른 화학적 성질을 묻는 <b>자료 분석형 문항</b>이 2028 수능 통합과학에서 반드시 출제될 핵심 포인트입니다.
                 </p>
 </div>
@@ -781,13 +779,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 <!-- New Page 3.5 (from 3p.html) -->
 <style>
-    @font-face {
-    font-family: 'BareHippie';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Bareun_hipi.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-    
 .bridge-page-new .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -855,8 +846,9 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             padding: 1px 6px;
         }
 .bridge-page-new .handwriting {
-            font-size: 9.5px; /* 글꼴 크기 소폭 축소 */
-            line-height: 1.5; /* 줄간격 타이트하게 조절 */
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 13px; /* 글꼴 크기 소폭 축소 */
+            line-height: 1.25; /* 줄간격 타이트하게 조절 */
             color: #1e3a8a;
             margin: 0;
             letter-spacing: 0.5px;
@@ -892,8 +884,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 .bridge-page-new .svg-text-ko { font-family: 'Noto Sans KR', sans-serif; font-size: 9px; fill: #0f172a; font-weight: 700; }
 .bridge-page-new { padding: 28px 25px !important; background-color: #ffffff; }
 </style>
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('bridge-page-new', 'Bridge_Map')">📸 [14페이지] 과학의 기초 마스터 맵 다운로드</button>
+<div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page bridge-page-new" id="bridge-page-new">
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px;">
 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
@@ -999,22 +991,21 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <defs>
 <marker id="arrow-dark" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#0f172a"></path></marker>
 </defs>
-<g>
-<!-- Centered Periodic Table Box (Enlarged) -->
-<path d="M 40 20 L 60 20 L 60 40 L 80 40 L 80 60 L 240 60 L 240 40 L 280 40 L 280 20 L 300 20 L 300 100 L 40 100 Z" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"></path>
-<rect fill="#fecaca" height="60" stroke="#ef4444" stroke-width="1.5" width="20" x="40" y="40"></rect>
-<text fill="#b91c1c" font-size="8px" font-weight="900" text-anchor="middle" x="50" y="65">1족</text>
-<text fill="#b91c1c" font-size="7px" font-weight="900" text-anchor="middle" x="50" y="75">알칼리</text>
-<rect fill="#bfdbfe" height="80" stroke="#3b82f6" stroke-width="1.5" width="20" x="280" y="20"></rect>
-<text fill="#1d4ed8" font-size="8px" font-weight="900" text-anchor="middle" x="290" y="65">17족</text>
-<text fill="#1d4ed8" font-size="7px" font-weight="900" text-anchor="middle" x="290" y="75">할로젠</text>
-<!-- Arrows (Shortened) -->
-<line marker-end="url(#arrow-dark)" stroke="#0f172a" stroke-width="2" x1="50" x2="50" y1="12" y2="25"></line>
-<text fill="#0f172a" font-family="Noto Sans KR" font-size="8px" font-weight="900" text-anchor="middle" x="50" y="9">족 (세로줄)</text>
-<line marker-end="url(#arrow-dark)" stroke="#0f172a" stroke-width="2" x1="12" x2="32" y1="50" y2="50"></line>
-<text fill="#0f172a" font-family="Noto Sans KR" font-size="8px" font-weight="900" text-anchor="middle" x="22" y="46">주기 (가로줄)</text>
-<!-- Title -->
-<text fill="#0f172a" font-family="Noto Sans KR" font-size="10px" font-weight="900" text-anchor="middle" x="170" y="115">주기율표 구조와 주요 족</text>
+<g transform="translate(30, 0)">
+<!-- Centered Periodic Table Box -->
+<path d="M 115 30 L 130 30 L 130 45 L 145 45 L 145 60 L 250 60 L 250 45 L 280 45 L 280 30 L 295 30 L 295 90 L 115 90 Z" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"></path>
+<rect fill="#fecaca" height="45" stroke="#ef4444" stroke-width="1.5" width="15" x="115" y="45"></rect>
+<text fill="#b91c1c" font-size="9px" font-weight="900" text-anchor="middle" x="122.5" y="65">1족</text>
+<text fill="#b91c1c" font-size="8px" font-weight="900" text-anchor="middle" x="122.5" y="75">알칼리</text>
+<rect fill="#bfdbfe" height="45" stroke="#3b82f6" stroke-width="1.5" width="15" x="280" y="45"></rect>
+<text fill="#1d4ed8" font-size="9px" font-weight="900" text-anchor="middle" x="287.5" y="65">17족</text>
+<text fill="#1d4ed8" font-size="8px" font-weight="900" text-anchor="middle" x="287.5" y="75">할로젠</text>
+<!-- Arrows -->
+<line marker-end="url(#arrow-dark)" stroke="#0f172a" stroke-width="2" x1="122.5" x2="122.5" y1="10" y2="40"></line>
+<text fill="#0f172a" font-family="Noto Sans KR" font-size="11px" font-weight="900" text-anchor="middle" x="122.5" y="8">족 (세로줄)</text>
+<line marker-end="url(#arrow-dark)" stroke="#0f172a" stroke-width="2" x1="65" x2="105" y1="52.5" y2="52.5"></line>
+<text fill="#0f172a" font-family="Noto Sans KR" font-size="11px" font-weight="900" text-anchor="end" x="60" y="55">주기 (가로줄)</text>
+<text fill="#0f172a" font-family="Noto Sans KR" font-size="12px" font-weight="900" text-anchor="middle" x="170" y="110">주기율표 구조와 주요 족</text>
 </g>
 </svg>
 </div>
@@ -1024,8 +1015,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 </div>
 <!-- Concept Spread 1 -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" id="concept-spread-draft" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+<div class="page-wrapper" style="margin-top: 40px;">
+<div class="concept-spread" id="concept-spread-draft" style="display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 좌측 페이지 (데이터) ================= -->
 <div class="concept-page page-left">
 <div class="data-header">
@@ -1072,13 +1063,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#0f172a" font-family="Noto Sans KR" font-size="9px" font-weight="bold" text-anchor="middle" x="200" y="122">③ 방출 스펙트럼 (밝은 선)</text>
 </svg>
 </div>
-<div style="margin-top: 15px; padding: 12px 15px; background-color: #f8fafc; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 10px; color: #334155; line-height: 1.5; text-align: justify; word-break: keep-all;">
-    <ul style="margin: 0; padding-left: 20px;">
-        <li style="margin-bottom: 5px;"><strong>연속 스펙트럼:</strong> 고온의 물체(광원)에서 방출된 빛이 분광기를 통과할 때 나타나는 끊어짐 없는 무지개색 띠입니다.</li>
-        <li style="margin-bottom: 5px;"><strong>흡수 스펙트럼:</strong> 고온의 광원에서 나온 빛이 상대적으로 <strong>저온의 기체</strong>를 통과할 때, 기체가 특정 파장의 빛을 흡수하여 연속 스펙트럼 바탕에 <strong>검은 선</strong>으로 나타납니다.</li>
-        <li><strong>방출 스펙트럼:</strong> 에너지를 흡수하여 가열된 <strong>고온의 기체</strong>가 원래 상태로 돌아오면서 스스로 특정 파장의 빛을 방출하여 검은 바탕에 <strong>밝은 선</strong>으로 나타납니다.</li>
-    </ul>
-</div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 2] 스펙트럼 분석의 원리</div>
@@ -1099,16 +1083,10 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 <div class="page-num">- 06 -</div>
 </div>
-</div>
-</div>
-<!-- Concept Spread 1 - Page 7 -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 우측 페이지 (강사 도식/암기장) ================= -->
 <div class="concept-page page-right">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 8px; margin-top: 10px;">
-
 <span style="color:#b91c1c; font-weight:bold;">1. 우주를 구성하는 원소의 질량비</span><br/>
                     우주 전역에서 수소(H)와 헬륨(He)의 질량비는 일정하게 관측되며, 이는 빅뱅 우주론의 결정적 증거야!
                 </div>
@@ -1129,7 +1107,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </svg>
 </div>
 <div class="handwriting" style="margin-bottom: 5px;">
-
 <span style="color:#b91c1c; font-weight:bold;">2. 스펙트럼 특징 한눈에 정리</span>
 </div>
 <table class="hw-table">
@@ -1146,69 +1123,12 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <td>방출 스펙트럼</td><td style="text-align: left; padding-left: 10px;"><span style="color:#dc2626; font-weight:bold;">고온 기체</span>가 스스로 빛 방출</td><td style="color:#475569;">검은 바탕에 <b>밝은 선</b></td>
 </tr>
 </table>
-<div style="margin-top: 15px;">
-    <div class="handwriting" style="margin-bottom: 5px;">
-        <span style="color:#b91c1c; font-weight:bold;">3. 원소 분석 (스펙트럼 비교)</span>
-    </div>
-    <div style="border: 1px dashed #cbd5e1; border-radius: 6px; padding: 10px 15px; background: #f8fafc; display: flex; flex-direction: column; align-items: center;">
-        <svg width="100%" height="100" viewBox="0 0 350 100">
-            <defs>
-                <linearGradient id="rainbow3" x1="0" x2="1">
-                    <stop offset="0%" stop-color="#ef4444" />
-                    <stop offset="20%" stop-color="#f59e0b" />
-                    <stop offset="40%" stop-color="#eab308" />
-                    <stop offset="60%" stop-color="#22c55e" />
-                    <stop offset="80%" stop-color="#3b82f6" />
-                    <stop offset="100%" stop-color="#a855f7" />
-                </linearGradient>
-            </defs>
-            
-            <!-- 별의 흡수 스펙트럼 -->
-            <text x="5" y="15" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">별 (흡수)</text>
-            <rect x="70" y="5" width="270" height="20" fill="url(#rainbow3)" />
-            <line x1="100" y1="5" x2="100" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="150" y1="5" x2="150" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="210" y1="5" x2="210" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="260" y1="5" x2="260" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="300" y1="5" x2="300" y2="25" stroke="#000" stroke-width="2" />
-            
-            <!-- 원소 A 방출 스펙트럼 -->
-            <text x="5" y="40" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 A</text>
-            <rect x="70" y="30" width="270" height="15" fill="#000" />
-            <line x1="100" y1="30" x2="100" y2="45" stroke="#f59e0b" stroke-width="2" />
-            <line x1="210" y1="30" x2="210" y2="45" stroke="#3b82f6" stroke-width="2" />
-            <line x1="260" y1="30" x2="260" y2="45" stroke="#a855f7" stroke-width="2" />
-            
-            <!-- 원소 B 방출 스펙트럼 -->
-            <text x="5" y="60" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 B</text>
-            <rect x="70" y="50" width="270" height="15" fill="#000" />
-            <line x1="150" y1="50" x2="150" y2="65" stroke="#eab308" stroke-width="2" />
-            <line x1="300" y1="50" x2="300" y2="65" stroke="#a855f7" stroke-width="2" />
-
-            <!-- 원소 C 방출 스펙트럼 -->
-            <text x="5" y="80" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 C</text>
-            <rect x="70" y="70" width="270" height="15" fill="#000" />
-            <line x1="130" y1="70" x2="130" y2="85" stroke="#22c55e" stroke-width="2" />
-            <line x1="240" y1="70" x2="240" y2="85" stroke="#8b5cf6" stroke-width="2" />
-
-            <!-- 연결선 -->
-            <line x1="100" y1="25" x2="100" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="150" y1="25" x2="150" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="210" y1="25" x2="210" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="260" y1="25" x2="260" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="300" y1="25" x2="300" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-        </svg>
-        <div style="font-size: 10px; color: #1e293b; text-align: justify; word-break: keep-all; line-height: 1.5; margin-top: 10px; width: 100%;">
-            👉 별의 흡수 스펙트럼 선과 <strong>원소 A, B</strong>의 방출 스펙트럼 선의 파장(위치)이 <strong>모두 일치</strong>합니다. 따라서 이 별의 대기에는 원소 A와 B가 <strong>포함</strong>되어 있습니다. 반면, <strong>원소 C</strong>의 스펙트럼 선은 일치하지 않으므로 별에는 C가 <strong>존재하지 않습니다.</strong>
-        </div>
-    </div>
-</div>
 <!-- 포스트잇 팁 -->
-<div class="tip-sticky" style="margin-top: 12px;">
+<div class="tip-sticky" style="margin-top: 25px;">
                     📌 <strong>갓쌤의 출제 포인트!</strong><br/>
-                    별빛의 스펙트럼은 별을 둘러싼 대기를 통과하므로
+                    별빛의 스펙트럼은 별을 둘러싼 대기를 통과하므로<br/>
                     주로 <span style="color:#2563eb; font-weight:bold;">흡수 스펙트럼</span> 형태로 나타나!<br/>
-                    원소마다 선의 <span style="color:#b91c1c; font-weight:bold;">위치(파장)</span>가 다르다는 점을
+                    원소마다 선의 <span style="color:#b91c1c; font-weight:bold;">위치(파장)</span>가 다르다는 점을<br/>
                     자료 분석 문제로 꼭 물어보니 주의하자!
                 </div>
 <div class="page-num">- 07 -</div>
@@ -1216,12 +1136,12 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 </div>
 <!-- Concept Spread 2 -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
 <div class="compass-box">
 <div class="compass-title">🧭 수능의 나침반 : 원소 형성</div>
-<p class="compass-desc">이 문항은 한국교육과정평가원에서 발표한 2028학년도 수능 통합과학 예시문항입니다. 별의 진화와 내부 구조를 묻는 이 문항을 통해, 앞으로 수능에서 이 단원이 어떤 난이도와 유형으로 출제될지 출제 원리를 분석하고 우리의 학습 방향을 명확히 짚어봅시다.</p>
+<p class="compass-desc">2028 수능 예시문항 분석을 통해 이 단원에서 수능이 무엇을 묻고자 하는지, 우리의 학습 방향을 어떻게 설정해야 하는지 명확히 짚어봅시다.</p>
 </div>
 <div class="prob-header">
 <div class="prob-brand">2028 수능 예시문항 분석</div>
@@ -1246,33 +1166,28 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div> <!-- end full-page-content -->
 <div class="page-num">- 08 -</div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">①</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
-
 <strong style="color: #0f172a;">원소 형성</strong><br/>
                         우주의 수소와 헬륨의 질량비는 약 3:1이며, 빅뱅 약 38만 년 후 우주의 온도가 3000K로 낮아질 때 원자핵과 전자가 결합하여 중성 원자가 형성되었습니다.
                     </div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
@@ -1297,8 +1212,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
-<div class="learning-title" style="font-size: 12px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
+<div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         우주에 존재하는 헬륨의 '대부분'은 빅뱅 초기에 만들어졌습니다. 별 내부에서 생성되는 헬륨의 양은 전체 우주 헬륨량에 비하면 매우 적다는 점을 주의하세요.
                     </p>
 </div>
@@ -1306,8 +1221,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
-<button class="btn-download" onclick="downloadImage('page-18', 'Page18')">📸 [18페이지] 실전 체화(디자인 시안) 다운로드</button>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box">
@@ -1317,30 +1232,30 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="practice-columns" style="display: flex; gap: 24px; margin-top: 5px; margin-bottom: 35px; flex: 1;">
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
-<div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
+<div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q01.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '저온의 기체' 아래에 있는 C를 보고 기체가 저온이니까 무조건 흡수 스펙트럼이라고 착각하기 쉬워! 기체가 에너지를 얻어 방출하는 빛을 보는 것이므로 C는 '방출 스펙트럼'이라는 점에 주의해야 해.</div>
+<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '저온의 기체' 아래에 있는 C를 보고 기체가 저온이니까 무조건 흡수 스펙트럼이라고 착각하기 쉬워! 기체가 에너지를 얻어 방출하는 빛을 보는 것이므로 C는 '방출 스펙트럼'이라는 점에 주의해야 해.</div>
 </div>
 </div>
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
-<div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
+<div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q02.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">저온의 기체를 통과할 때는 '흡수 스펙트럼'이, 고온의 기체가 직접 빛을 방출할 때는 '방출 스펙트럼'이 나타납니다. 시험에서 두 조건의 명칭을 교묘하게 바꾸어 출제하므로 확실히 구분해야 합니다!</div>
+<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">저온의 기체를 통과할 때는 '흡수 스펙트럼'이, 고온의 기체가 직접 빛을 방출할 때는 '방출 스펙트럼'이 나타납니다. 시험에서 두 조건의 명칭을 교묘하게 바꾸어 출제하므로 확실히 구분해야 합니다!</div>
 </div>
 </div>
 </div>
 <div class="page-num">- 10 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -1358,28 +1273,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">4</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
-<div class="exp-text" style="font-size: 9.0px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">광원과 저온의 기체를 지나는 빛의 경로에 따라 연속 스펙트럼, 흡수 스펙트럼, 방출 스펙트럼이 나타나는 원리를 이해하는 문항입니다.</div>
+<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">광원과 저온의 기체를 지나는 빛의 경로에 따라 연속 스펙트럼, 흡수 스펙트럼, 방출 스펙트럼이 나타나는 원리를 이해하는 문항입니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
-<div class="exp-detail" style="font-size: 9.0px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;"></p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A는 고온의 별에서 나오는 빛을 직접 관측하므로 모든 파장의 빛이 연속적으로 나타나는 연속 스펙트럼을 관측하는 것이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">C는 기체가 에너지를 흡수했다가 바닥 상태로 떨어지며 방출하는 빛을 관측하므로 흡수 스펙트럼이 아닌 '방출 스펙트럼'을 관측합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">동일한 원소(저온의 기체)가 흡수하고 방출하는 에너지 준위 차이는 같으므로, B가 관측한 흡수선의 위치와 C가 관측한 방출선의 위치는 정확히 일치합니다.</div></div></div>
+<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">관측자 A는 고온의 별빛을 직접 보므로 무지개색의 연속 스펙트럼을 관측합니다. 관측자 B는 별빛이 저온의 기체를 통과하면서 특정 파장이 흡수된 흡수 스펙트럼을 보게 됩니다. 한편, 관측자 C는 기체가 흡수한 에너지를 다시 사방으로 방출하는 빛을 보므로 방출 스펙트럼을 관측합니다. 이때 기체의 원소 종류가 같기 때문에 B의 흡수선과 C의 방출선 위치는 동일합니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A는 고온의 별에서 나오는 빛을 직접 관측하므로 모든 파장의 빛이 연속적으로 나타나는 연속 스펙트럼을 관측하는 것이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">C는 기체가 에너지를 흡수했다가 바닥 상태로 떨어지며 방출하는 빛을 관측하므로 흡수 스펙트럼이 아닌 '방출 스펙트럼'을 관측합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">동일한 원소(저온의 기체)가 흡수하고 방출하는 에너지 준위 차이는 같으므로, B가 관측한 흡수선의 위치와 C가 관측한 방출선의 위치는 정확히 일치합니다.</div></div></div>
 </div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
+<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 스펙트럼 문제는 시험에 100% 나오는 정말 중요한 단골 주제야. 빛이 어디서 출발해서 무엇을 거쳐 우리 눈에 들어오는지 그 '경로'만 잘 따라가면 절대 틀릴 일 없으니 쌤이랑 같이 완벽하게 정리해 보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 스펙트럼 문제는 시험에 100% 나오는 정말 중요한 단골 주제야. 빛이 어디서 출발해서 무엇을 거쳐 우리 눈에 들어오는지 그 '경로'만 잘 따라가면 절대 틀릴 일 없으니 쌤이랑 같이 완벽하게 정리해 보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -1388,28 +1299,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">원소 종류에 따른 스펙트럼 선의 위치(에너지 준위 차이) 분석 및 흡수/방출 스펙트럼의 형성 원리 이해</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;"></p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄱ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별의 대기에는 원소 X의 방출선 위치만 흡수선과 일치하므로 원소 X는 포함되어 있지만, 원소 Y의 방출선은 일치하지 않아 원소 Y는 포함되어 있지 않습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">빛이 우주 공간의 저온 기체를 통과할 때 형성되는 것은 '흡수 스펙트럼'입니다. 원소 Z의 방출 스펙트럼은 고온의 기체가 방출하는 빛에 의해 형성됩니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">동일한 원소의 경우 전자의 에너지 준위 차이가 같으므로, 빛을 흡수할 때(흡수 스펙트럼)와 방출할 때(방출 스펙트럼) 선의 위치가 정확히 일치합니다.</div></div></div>
+<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">미지의 별의 흡수 스펙트럼 선(세로 점선)의 위치는 원소 X의 방출선 위치와 모두 일치하지만, 원소 Y의 방출선 위치와는 일치하지 않습니다. 따라서 이 별의 대기에는 원소 X가 포함되어 있고 Y는 없습니다. 또한, 저온의 기체를 통과할 때는 흡수 스펙트럼이 나타나며, 동일 원소라면 전자의 에너지 준위 차이가 같아 흡수선과 방출선의 위치가 완벽히 일치합니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄱ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별의 대기에는 원소 X의 방출선 위치만 흡수선과 일치하므로 원소 X는 포함되어 있지만, 원소 Y의 방출선은 일치하지 않아 원소 Y는 포함되어 있지 않습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">빛이 우주 공간의 저온 기체를 통과할 때 형성되는 것은 '흡수 스펙트럼'입니다. 원소 Z의 방출 스펙트럼은 고온의 기체가 방출하는 빛에 의해 형성됩니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">동일한 원소의 경우 전자의 에너지 준위 차이가 같으므로, 빛을 흡수할 때(흡수 스펙트럼)와 방출할 때(방출 스펙트럼) 선의 위치가 정확히 일치합니다.</div></div></div>
 </div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
+<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 친구들! 스펙트럼 문제는 선의 위치만 자 대고 똑바로 비교해도 거저먹는 보너스 문제야! 갓쌤과 함께 선 맞추기 놀이하듯 아주 쉽고 빠르게 해결해 보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 친구들! 스펙트럼 문제는 선의 위치만 자 대고 똑바로 비교해도 거저먹는 보너스 문제야! 갓쌤과 함께 선 맞추기 놀이하듯 아주 쉽고 빠르게 해결해 보자!</p>
 </div>
 </div>
 </div>
@@ -1417,7 +1324,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="page-num">- 11 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="concept-spread" id="concept-spread-draft2" style="display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 좌측 페이지 (데이터) ================= -->
 <div class="concept-page page-left">
@@ -1509,16 +1416,10 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 <div class="page-num">- 12 -</div>
 </div>
-</div>
-</div>
-<!-- Concept Spread Split -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 우측 페이지 (강사 도식/암기장) ================= -->
 <div class="concept-page page-right">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
-
 <span style="color:#b91c1c; font-weight:bold;">1. 7:1 개수비가 3:1 질량비가 되는 마법</span><br/>
                     양성자 14개, 중성자 2개(7:1)가 있을 때, 헬륨 원자핵 1개가 만들어지면 남은 건 수소 원자핵 12개야. 질량비는 무조건 외워!
                 </div>
@@ -1573,14 +1474,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </g>
 </svg>
 </div>
-<div class="concept-box" style="background-color: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px; margin: 12px 0; border-radius: 0 4px 4px 0;">
-    <div style="font-weight: 900; color: #b45309; font-size: 11px; margin-bottom: 4px;">📌 원자 생성과 우주 배경 복사</div>
-    <div style="font-size: 10px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">
-        우주 탄생 후 약 <strong>38만 년</strong>이 지나 온도가 약 <strong>3000 K</strong>로 낮아졌을 때, 전자가 원자핵에 붙잡혀 <strong>원자가 생성</strong>되었습니다. 원자 생성 이전에는 빛이 전자 등에 부딪혀 흩어졌지만, 원자가 생성되면서 빛이 물질과 분리되어 우주 공간으로 <strong>직진</strong>할 수 있게 되었습니다. 이때 방출된 빛이 바로 <strong>우주 배경 복사</strong>이며, 우주가 팽창함에 따라 파장이 점차 길어져 오늘날에는 우주 전역에서 약 2.7 K의 <strong>마이크로파</strong>(전파) 형태로 검출됩니다.
-    </div>
-</div>
 <div class="handwriting" style="margin-bottom: 5px;">
-
 <span style="color:#b91c1c; font-weight:bold;">2. 헷갈림 방지! 시간별 주요 사건 대조표</span>
 </div>
 <table class="hw-table">
@@ -1598,7 +1492,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </tr>
 </table>
 <!-- 포스트잇 팁 -->
-<div class="tip-sticky" style="margin-top: 12px;">
+<div class="tip-sticky" style="margin-top: 25px;">
                     📌 <strong>갓쌤의 출제 포인트!</strong><br/>
                     시험에 무조건 나오는 오답 선지!<br/>
                     "빅뱅 후 3분에 원자가 만들어졌다." ➔ <span style="color:#dc2626; font-weight:bold;">(X) 38만 년!</span><br/>
@@ -1648,24 +1542,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             });
         }
     </script>
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
 <div class="compass-box">
-<div class="compass-title">🧭 수능의 나침반 : 빅뱅과 우주 초기의 진화</div>
-<p class="compass-desc">이 문항은 한국교육과정평가원에서 발표한 2028학년도 수능 통합과학 예시문항입니다. 별의 진화와 내부 구조를 묻는 이 문항을 통해, 앞으로 수능에서 이 단원이 어떤 난이도와 유형으로 출제될지 출제 원리를 분석하고 우리의 학습 방향을 명확히 짚어봅시다.</p>
+<div class="compass-title">🧭 수능의 나침반 : 기본량과 유도량</div>
+<p class="compass-desc">2028 수능 예시문항 분석을 통해 이 단원에서 수능이 무엇을 묻고자 하는지, 우리의 학습 방향을 어떻게 설정해야 하는지 명확히 짚어봅시다.</p>
 </div>
 <div class="prob-header">
-<div class="prob-brand">실전 대비 핵심 문항 분석</div>
+<div class="prob-brand">2028 수능 예시문항 분석</div>
 </div>
-<div class="behavior-tag" style="margin-bottom: 10px; display: inline-block; background: #0284c7; color: white; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;">이해</div>
-<div class="source-text" style="font-size: 11px; color: #64748b; margin-bottom: 0px;">[출처] 갓통과 자체 제작 문항</div>
+<div class="behavior-tag" style="margin-bottom: 10px; display: inline-block; background: #0284c7; color: white; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;">적용</div>
+<div class="source-text" style="font-size: 11px; color: #64748b; margin-bottom: 0px;">[출처] 2028학년도 수능 통합과학 예시문항 3번</div>
 <div class="prob-split" style="display: flex; gap: 20px; margin-top: 5px;">
 <div class="prob-split-left" style="flex: 0 0 100px;">
 <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px;">
 <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 6px;">💡 갓쌤의 접근법</div>
 <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all; ">
-                                문제에 제시된 물질 생성 단계 (A)~(D)의 흐름을 파악하세요. 우주가 팽창하면서 온도가 어떻게 변하는지, 그리고 각 온도 단계에서 어떤 입자가 만들어졌는지(기본 입자 → 양성자/중성자 → 헬륨 원자핵 → 원자) 순서를 떠올려 보는 것이 핵심입니다!
+                                문제에 주어진 ㉠, ㉡, ㉢이 각각 어떤 물리량인지 먼저 파악하세요. 부피는 기본량일까요, 유도량일까요? 단위를 변환할 때 10의 몇 제곱을 곱해야 하는지 주의 깊게 살펴보세요.
                             </div>
 </div>
 </div>
@@ -1678,41 +1572,37 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div> <!-- end full-page-content -->
 <div class="page-num">- 14 -</div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">5</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">빅뱅 우주론에 따른 물질의 생성 순서(기본 입자 → 양성자/중성자 → 원자핵 → 원자)와 온도 변화 이해하기.</div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
-<div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all;">우주가 팽창하면서 온도가 낮아짐에 따라 쿼크가 결합해 양성자(㉠)를 만들고, 이후 헬륨 원자핵이 형성된 뒤, 약 38만 년이 지나 온도가 3000 K가 되었을 때 마지막으로 원자핵이 전자와 결합하여 중성 원자(㉡)를 형성합니다. 따라서 ㉠은 양성자, ㉡은 원자입니다. 이 전 과정에서 우주의 온도는 계속 감소하였고, 원자가 형성되며 빛이 물질과 분리되어 우주가 투명해졌습니다.</p><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all;">우주는 계속 팽창하며 온도가 낮아지므로, 초기 단계인 A 시기가 후기인 D 시기보다 온도가 높습니다.</div></div><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all;">㉠은 양성자입니다. 양성자는 3개의 쿼크(위 쿼크 2개, 아래 쿼크 1개)가 결합하여 만들어진 입자가 맞습니다.</div></div><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all;">D 시기에 원자(㉡)가 형성되면서 빛을 산란시키던 자유 전자가 원자핵에 붙잡혔고, 이로 인해 빛이 직진할 수 있게 되어 우주가 투명해졌습니다.</div></div></div>
+<div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all;">우주가 팽창하면서 온도가 낮아짐에 따라 쿼크가 결합해 양성자(㉠)를 만들고, 이후 헬륨 원자핵이 형성된 뒤 마지막으로 전자와 결합하여 원자(㉡)를 형성합니다. 따라서 ㉠은 양성자, ㉡은 원자입니다. 이 과정에서 우주의 온도는 계속 감소하였고, 원자가 형성되면서 우주가 투명해졌습니다.</p><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all;">우주는 계속 팽창하며 온도가 낮아지므로, 초기 단계인 A 시기가 후기인 D 시기보다 온도가 높습니다.</div></div><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all;">㉠은 양성자입니다. 양성자는 3개의 쿼크(위 쿼크 2개, 아래 쿼크 1개)가 결합하여 만들어진 입자가 맞습니다.</div></div><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all;">D 시기에 원자(㉡)가 형성되면서 빛을 산란시키던 자유 전자가 원자핵에 붙잡혔고, 이로 인해 빛이 직진할 수 있게 되어 우주가 투명해졌습니다.</div></div></div>
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">얘들아 안녕! 빅뱅 이후 기본 입자부터 원자까지 만들어지는 순서는 내신과 모의고사 단골 출제 주제야! 우주가 팽창하면서 '온도가 낮아지고' '더 무거운 입자가 생성된다'는 이 핵심 흐름만 잡고 가자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">얘들아 안녕! 빅뱅 이후 기본 입자부터 원자까지 만들어지는 순서는 내신과 모의고사 단골 출제 주제야! 우주가 팽창하면서 '온도가 낮아지고' '더 무거운 입자가 생성된다'는 이 핵심 흐름만 잡고 가자!</p>
 </div>
 <div class="page-num">- 15 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box">
@@ -1722,30 +1612,30 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="practice-columns" style="display: flex; gap: 24px; margin-top: 5px; margin-bottom: 35px; flex: 1;">
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
-<div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
+<div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q03.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '우주가 팽창하니까 에너지가 많아져서 온도가 올라가지 않을까?'라는 엉뚱한 생각을 해. 팽창하면 온도는 무조건 내려간다는 사실을 잊지 마!</div>
+<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '우주가 팽창하니까 에너지가 많아져서 온도가 올라가지 않을까?'라는 엉뚱한 생각을 해. 팽창하면 온도는 무조건 내려간다는 사실을 잊지 마!</div>
 </div>
 </div>
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
-<div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
+<div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q04.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">학생들이 가장 많이 낚이는 부분이 바로 '원자핵 형성(빅뱅 후 3분)'과 '중성 원자 형성(빅뱅 후 38만 년)'의 혼동이야!</div>
+<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">학생들이 가장 많이 낚이는 부분이 바로 '원자핵 형성(빅뱅 후 3분)'과 '중성 원자 형성(빅뱅 후 38만 년)'의 혼동이야! $t_1$은 약 3분 시점으로 원자핵이 만들어진 때라는 것을 반드시 기억해야 해!</div>
 </div>
 </div>
 </div>
 <div class="page-num">- 16 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -1763,28 +1653,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">4</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">우주가 팽창하면서 온도는 점차 낮아지고, 이에 따라 기본 입자로부터 양성자/중성자, 원자핵, 원자가 순서대로 생성됩니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">빅뱅 우주론에 따르면 우주는 끊임없이 팽창하며 온도와 밀도가 감소했습니다. (가) 시기에는 쿼크와 전자 같은 기본 입자가 생성되었고, (나)~(다) 과정을 거쳐 양성자와 중성자, 헬륨 원자핵이 만들어졌습니다. 마지막으로 (라) 시기에는 전자가 원자핵과 결합하여 중성 원자가 형성되었고, 이때 퍼져 나간 빛이 오늘날의 우주 배경 복사입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">전자는 쿼크와 더불어 (가) 시기에 생성된 대표적인 기본 입자가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">우주는 계속해서 팽창하고 있으므로 (나)에서 (다) 과정으로 갈 때 우주의 온도는 상승하는 것이 아니라 지속적으로 하강하였습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">빅뱅 후 약 38만 년(라) 시기에 중성 원자가 형성되면서 우주 공간으로 퍼져나간 빛이 오늘날 약 3K의 우주 배경 복사로 관측되는 것이 맞습니다.</div></div></div>
 </div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
+<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 빅뱅 우주론은 시간 순서대로 입자가 어떻게 탄생했는지 그 흐름만 잡으면 절대 틀릴 수가 없어. 갓쌤과 함께 핵심 타임라인을 머릿속에 쏙쏙 집어넣어 보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 빅뱅 우주론은 시간 순서대로 입자가 어떻게 탄생했는지 그 흐름만 잡으면 절대 틀릴 수가 없어. 갓쌤과 함께 핵심 타임라인을 머릿속에 쏙쏙 집어넣어 보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -1793,28 +1679,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">1</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">빅뱅 초기 양성자(㉠)와 중성자(㉢)의 비율 변화 및 약 3분($t_1$) 시점의 헬륨 원자핵(㉡) 합성 과정 이해</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">초기 우주에서 양성자(㉠)와 중성자(㉢)의 개수비가 7:1이 되었을 때, 빅뱅 후 약 3분($t_1$)이 되며 헬륨 원자핵(㉡)이 합성되었습니다. 이로 인해 수소 원자핵(양성자)과 헬륨 원자핵의 질량비는 약 3:1(75%:25%)로 고정됩니다. 이때는 전자가 결합하지 않은 원자핵 상태만 존재했습니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">양성자(㉠)와 양방향 반응을 하다 온도가 낮아지며 양성자로 우세하게 변환되어 비율이 감소한 ㉢은 중성자가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">$t_1$은 헬륨 원자핵이 폭발적으로 합성된 시기이므로, 빅뱅 후 약 38만 년이 아니라 '약 3분'이 지난 시기입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">$t_1$ 시점 직후에는 '헬륨 원자핵'이 형성된 것이며, 전자가 결합한 '안정된 중성 원자'는 빅뱅 후 약 38만 년(우주 온도 약 3000 K)이 되었을 때 형성되기 시작했습니다.</div></div></div>
 </div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
+<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 얘들아, 갓쌤이야! 빅뱅 우주론에서 무조건 나오는 단골 주제인 '양성자와 중성자의 비율 변화'와 '원소 생성' 문제구나! 그래프에서 각 물질이 무엇인지 파악하고 핵심 시간대만 머릿속에 정리해두면 아주 쉽게 풀 수 있어. 쌤이랑 같이 완벽하게 격파해보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 얘들아, 갓쌤이야! 빅뱅 우주론에서 무조건 나오는 단골 주제인 '양성자와 중성자의 비율 변화'와 '원소 생성' 문제구나! 그래프에서 각 물질이 무엇인지 파악하고 핵심 시간대만 머릿속에 정리해두면 아주 쉽게 풀 수 있어. 쌤이랑 같이 완벽하게 격파해보자!</p>
 </div>
 </div>
 </div>
@@ -1822,7 +1704,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="page-num">- 17 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="concept-spread" id="concept-spread-draft4" style="display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 8 (Left) ================= -->
 <div class="concept-page page-left">
@@ -1858,9 +1740,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#dc2626" font-size="7px" font-weight="bold" text-anchor="middle" x="265" y="115">(1000만 K 도달)</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>성운이 중력 수축하여 온도가 상승하고 원시별이 됩니다. 이후 중심부 온도가 1000만 K에 도달하면 수소 핵융합 반응이 시작되어 비로소 스스로 빛을 내는 주계열성이 탄생합니다.
-</div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 2] 주계열성의 크기 평형 유지</div>
@@ -1891,17 +1770,9 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#0f172a" font-size="9px" font-weight="bold" text-anchor="middle" x="170" y="125">중력 = 내부 압력 (크기 일정)</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>주계열성은 중심부의 수소 핵융합 반응으로 인해 밖으로 팽창하려는 내부 압력과, 별 자체의 질량으로 인해 안으로 수축하려는 중력이 평형(정역학 평형)을 이루어 별의 크기가 일정하게 유지됩니다.
-</div>
 </div>
 <div class="page-num">- 18 -</div>
 </div>
-</div>
-</div>
-<!-- Concept Spread Split -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 9 (Right) ================= -->
 <div class="concept-page page-right" style="background-image: none;">
 <div class="info-box" style="margin-top: 15px;">
@@ -1936,9 +1807,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#0f172a" font-size="8px" font-weight="bold" x="270" y="118">블랙홀</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>별은 질량에 따라 진화 경로가 달라집니다. 태양 정도 질량의 별은 적색 거성을 거쳐 행성상 성운과 백색 왜성으로 진화하고, 태양보다 훨씬 무거운 별은 초거성을 거쳐 초신성 폭발 후 중성자별이나 블랙홀이 됩니다. 별의 질량이 클수록 수명은 짧습니다.
-</div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 4] 질량이 태양 정도인 별 (적색 거성 중심부)</div>
@@ -1958,16 +1826,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#0f172a" font-size="8px" font-weight="bold" text-anchor="middle" x="282" y="47">탄소, 산소까지만 생성!</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>질량이 태양 정도인 별은 적색 거성 단계에서 중심부 온도가 약 1억 K에 도달하면 헬륨 핵융합 반응이 일어납니다. 헬륨 핵융합이 끝나면 탄소(C)와 산소(O) 중심핵이 형성되며 더 이상의 핵융합은 일어나지 않습니다.
-</div>
 </div>
 <div class="page-num">- 19 -</div>
 </div>
 </div>
 </div>
 <!-- Concept Spread 5 (Pages 10-11) -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper" style="margin-top: 40px;">
 <div class="concept-spread" id="concept-spread-draft5" style="display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 10 (Left) ================= -->
 <div class="concept-page page-left">
@@ -1992,9 +1857,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#0f172a" font-size="8px" font-weight="bold" text-anchor="middle" x="280" y="37">철(Fe)은 가장 안정하여</text>
 <text fill="#0f172a" font-size="8px" font-weight="bold" text-anchor="middle" x="280" y="47">더 이상 핵융합 불가!</text>
 </svg>
-</div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>질량이 태양보다 훨씬 무거운 별은 중심부 온도가 계속 상승하여 탄소, 산소, 규소 등의 핵융합 반응이 연속적으로 일어납니다. 철(Fe)은 원자핵이 가장 안정하므로 중심부에 철이 만들어지면 핵융합 반응이 멈추게 됩니다.
 </div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
@@ -2027,17 +1889,9 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#b91c1c" font-size="9px" font-weight="bold" text-anchor="middle" x="170" y="150">초신성 폭발이 없었다면? 지구와 생명체를 이루는 무거운 원소들은 존재하지 못함!</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>우리 은하 나선팔에 있던 거대한 성운이 근처 초신성 폭발의 충격으로 수축하며 회전하기 시작했고, 원반의 중심부에서는 원시 태양이, 회전 원반에서는 미행성체들이 충돌하고 뭉치면서 지구를 비롯한 태양계 행성들이 형성되었습니다.
-</div>
 </div>
 <div class="page-num">- 20 -</div>
 </div>
-</div>
-</div>
-<!-- Concept Spread Split -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 11 (Right) ================= -->
 <div class="concept-page page-right" style="background-image: none;">
 <div class="info-box" style="margin-top: 15px;">
@@ -2076,9 +1930,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#065f46" font-size="10px" font-weight="900" text-anchor="middle" x="270" y="158">바다에서 생명체 탄생</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>원시 지구는 미행성체들의 지속적인 충돌로 발생한 열에 의해 표면이 녹아있는 마그마의 바다 상태였습니다. 이후 철, 니켈 등 무거운 물질은 가라앉아 핵이 되고 가벼운 물질은 맨틀이 되었으며, 온도가 식으면서 지각과 원시 바다가 형성되어 마침내 생명체가 탄생하게 되었습니다.
-</div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 8] 우주, 지구, 생명체의 주요 원소 비율</div>
@@ -2106,27 +1957,23 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#991b1b" font-size="8px" font-weight="bold" text-anchor="middle" x="255" y="89">2위: 탄소 (C)</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-    <strong style="color: #b45309;">💡 그림 해석: </strong>우주는 빅뱅 때 생성된 수소와 헬륨이 대부분을 차지하지만, 지구는 무거운 핵을 이루는 철(Fe)이 가장 많고 그다음이 산소입니다. 반면 생명체는 물과 유기물의 핵심 성분인 산소(O)와 탄소(C)의 비율이 가장 높습니다.
-</div>
 </div>
 <div class="page-num">- 21 -</div>
 </div>
 </div>
 </div>
 <!-- Concept Spread 6 (Pages 12-13) -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper" style="margin-top: 40px;">
 <div class="concept-spread" id="concept-spread-draft6" style="display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 12 (Left) ================= -->
 <div class="concept-page page-left" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (1)</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
-
 <span style="color:#b91c1c; font-weight:bold;">1. 질량에 따른 별의 진화 특징 대조표</span>
 </div>
-<table class="hw-table" style="font-size: 9px;">
+<table class="hw-table">
 <tr>
-<th style="font-size: 10px;">구분</th><th style="font-size: 10px;">질량이 태양 정도인 별</th><th style="font-size: 10px;">질량이 태양보다 매우 큰 별</th>
+<th>구분</th><th>질량이 태양 정도인 별</th><th>질량이 태양보다 매우 큰 별</th>
 </tr>
 <tr>
 <td>최종 진화 단계</td><td style="color:#475569;">행성상 성운 / 백색 왜성</td><td style="color:#dc2626; font-weight:bold;">초신성 폭발 ➔ 블랙홀/중성자별</td>
@@ -2137,35 +1984,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <tr>
 <td>무거운 원소</td><td style="color:#94a3b8;">생성 불가</td><td style="color:#2563eb; font-weight:bold;">초신성 폭발 시 생성 (금, 납 등)</td>
 </tr>
-<tr>
-<td>별의 수명</td><td style="color:#475569;">상대적으로 <b>길다</b> (진화 속도 느림)</td><td style="color:#dc2626; font-weight:bold;">상대적으로 짧다 (진화 속도 빠름)</td>
-</tr>
 </table>
-<div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
-
-<span style="color:#b91c1c; font-weight:bold;">2. 지구형 행성과 목성형 행성 핵심 대조표</span>
+<div class="handwriting" style="margin-bottom: 5px; margin-top: 25px;">
+<span style="color:#b91c1c; font-weight:bold;">2. 지구 형성 단계별 핵심 암기표</span>
 </div>
-<table class="hw-table" style="font-size: 9px;">
+<table class="hw-table">
 <tr>
-<th style="font-size: 10px;">구분</th><th style="font-size: 10px;">지구형 행성 (수·금·지·화)</th><th style="font-size: 10px;">목성형 행성 (목·토·천·해)</th>
-</tr>
-<tr>
-<td>구성 물질</td><td style="color:#2563eb; font-weight:bold;">철, 규소 등 무거운 원소 (암석)</td><td style="color:#d97706; font-weight:bold;">수소, 헬륨 등 가벼운 원소 (기체)</td>
-</tr>
-<tr>
-<td>질량 / 반지름</td><td style="color:#475569;">작다</td><td style="color:#dc2626; font-weight:bold;">크다</td>
-</tr>
-<tr>
-<td>평균 밀도</td><td style="color:#dc2626; font-weight:bold;">크다</td><td style="color:#475569;">작다</td>
-</tr>
-</table>
-<div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
-
-<span style="color:#b91c1c; font-weight:bold;">3. 지구 형성 단계별 핵심 암기표</span>
-</div>
-<table class="hw-table" style="font-size: 9px;">
-<tr>
-<th style="font-size: 10px;">단계</th><th style="font-size: 10px;">핵심 사건 (키워드)</th>
+<th>단계</th><th>핵심 사건 (키워드)</th>
 </tr>
 <tr>
 <td style="font-weight:bold;">마그마의 바다</td><td style="text-align: left; padding-left: 10px; color:#dc2626;">미행성체 충돌열과 온실효과로 <b>지구 전체 용융</b></td>
@@ -2177,24 +2002,18 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <td style="font-weight:bold;">원시 지각과 바다</td><td style="text-align: left; padding-left: 10px; color:#2563eb;">온도 하강, 수증기가 비가 되어 <b>원시 바다</b> 형성</td>
 </tr>
 </table>
-<div class="tip-sticky" style="margin-top: 15px;">
+<div class="tip-sticky" style="margin-top: 30px;">
                     📌 <strong>핵과 맨틀의 형성 원리는?</strong><br/>
                     마그마의 바다 상태(액체)였기 때문에 무거운 철(Fe)이 중력에 의해 가라앉을 수 있었어!<br/>
                     만약 계속 고체 상태였다면 핵과 맨틀이 분리되지 못했겠지?
                 </div>
 <div class="page-num">- 22 -</div>
 </div>
-</div>
-</div>
-<!-- Concept Spread Split -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 13 (Right) ================= -->
 <div class="concept-page page-right">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (2)</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 20px;">
-
-<span style="color:#b91c1c; font-weight:bold;">4. 출제자가 파놓은 치명적 함정 4가지</span><br/><br/>
+<span style="color:#b91c1c; font-weight:bold;">3. 출제자가 파놓은 치명적 함정 4가지</span><br/><br/>
                     ① <strong>헬륨의 기원을 구별하라!</strong><br/>우주에 있는 대부분의 헬륨은 '빅뱅' 때 만들어졌지만, 별 내부의 '수소 핵융합'으로도 헬륨이 추가로 만들어지고 있어. 둘 다 맞는 말이야!<br/><br/>
                     ② <strong>철(Fe)과 우라늄(U)을 구별하라!</strong><br/>별의 중심부 핵융합으로는 <strong>철(Fe)</strong>까지만 생성돼. 그보다 무거운 금, 은, 납, 우라늄은 무조건 <strong>초신성 폭발</strong> 키워드를 찾아야 해!<br/><br/>
                     ③ <strong>지구 1등 vs 생명체 1등!</strong><br/>지구 전체에 가장 많은 건 핵을 이루는 무거운 <strong>철(Fe)</strong>, 우리 몸(생명체)에 가장 많은 건 물을 구성하는 <strong>산소(O)</strong>야! 우주는 무조건 수소(H)!<br/><br/>
@@ -2209,17 +2028,17 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 </div>
 </div>
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
 <div class="compass-box">
 <div class="compass-title">🧭 수능의 나침반 : 별의 진화</div>
-<p class="compass-desc">이 문항은 한국교육과정평가원에서 발표한 2028학년도 수능 통합과학 예시문항입니다. 별의 진화와 내부 구조를 묻는 이 문항을 통해, 앞으로 수능에서 이 단원이 어떤 난이도와 유형으로 출제될지 출제 원리를 분석하고 우리의 학습 방향을 명확히 짚어봅시다.</p>
+<p class="compass-desc">2028 수능 예시문항 분석을 통해 이 단원에서 수능이 무엇을 묻고자 하는지, 우리의 학습 방향을 어떻게 설정해야 하는지 명확히 짚어봅시다.</p>
 </div>
 <div class="prob-header">
 <div class="prob-brand">2028 수능 예시문항 분석</div>
 </div>
-<div class="behavior-tag" style="margin-bottom: 10px; display: inline-block; background: #0284c7; color: white; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;">이해</div>
+<div class="behavior-tag" style="margin-bottom: 10px; display: inline-block; background: #0284c7; color: white; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px;">자료 변환 및 해석</div>
 <div class="source-text" style="font-size: 11px; color: #64748b; margin-bottom: 0px;">[출처] 2028학년도 수능 통합과학 예시문항 11번</div>
 <div class="prob-split" style="display: flex; gap: 20px; margin-top: 5px;">
 <div class="prob-split-left" style="flex: 0 0 100px;">
@@ -2239,33 +2058,28 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div> <!-- end full-page-content -->
 <div class="page-num">- 24 -</div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">③</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
-
 <strong style="color: #0f172a;">별의 진화</strong><br/>
                         질량이 태양보다 10배 이상 큰 별은 중심부에서 철(Fe)까지 핵융합 반응이 일어납니다. 별의 바깥쪽부터 수소, 헬륨, 탄소, 산소, 규소, 철 순으로 배열됩니다.
                     </div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
@@ -2291,7 +2105,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" contenteditable="true" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         지구와 지각의 주요 구성 원소 질량비 순서는 헷갈리기 쉬우므로 확실히 암기해 두어야 합니다. (지구: Fe, O, Si, Mg / 지각: O, Si, Al, Fe)
                     </p>
 </div>
@@ -2299,8 +2113,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
-<button class="btn-download" onclick="downloadImage('page-18', 'Page18')">📸 [18페이지] 실전 체화(디자인 시안) 다운로드</button>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box">
@@ -2314,8 +2128,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q05.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">중심부 온도가 상승하는 원인은 팽창이 아니라 '중력 수축' 때문이야! 수축해야 역학적 에너지가 열에너지로 바뀌며 온도가 올라간다는 기본 물리 법칙을 꼭 기억해!</div>
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">중심부 온도가 상승하는 원인은 팽창이 아니라 '중력 수축' 때문이야! 수축해야 역학적 에너지가 열에너지로 바뀌며 온도가 올라간다는 기본 물리 법칙을 꼭 기억해!</div>
 </div>
 </div>
 <!-- Right Column -->
@@ -2324,16 +2138,16 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q06.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '지구의 원소들이 태양 핵융합으로 만들어졌다'는 함정에 빠지곤 해! 현재 태양은 주계열성으로 수소 핵융합만 하고 있으며, 산소나 규소처럼 무거운 원소는 태양이 생기기 훨씬 전 초신성 폭발로 만들어진 것이 성운에 섞여 있던 거란다.</div>
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '지구의 원소들이 태양 핵융합으로 만들어졌다'는 함정에 빠지곤 해! 현재 태양은 주계열성으로 수소 핵융합만 하고 있으며, 산소나 규소처럼 무거운 원소는 태양이 생기기 훨씬 전 초신성 폭발로 만들어진 것이 성운에 섞여 있던 거란다.</div>
 </div>
 </div>
 </div>
 <div class="page-num">- 26 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -2351,28 +2165,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">1</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
-<div class="exp-text" style="font-size: 9.0px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">별의 질량이 클수록 중심부 온도가 더 높아져 더 무거운 원소까지 핵융합으로 만들 수 있습니다.</div>
+<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">별의 질량이 클수록 중심부 온도가 더 높아져 더 무거운 원소까지 핵융합으로 만들 수 있습니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
-<div class="exp-detail" style="font-size: 9.0px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">그래프에서 별 A는 최고 온도가 $10^8$ K 수준에 그쳐 탄소까지만 만드는 질량이 작은 별(태양 정도)입니다. 반면 별 B는 중심부 온도가 $3 \times 10^9$ K 부근까지 계단식으로 상승해 철(Fe)까지 만드는 질량이 매우 큰 별입니다. 온도가 급격히 상승하는 구간은 핵연료가 고갈된 후 중심부가 중력 수축하며 온도가 높아지는 단계입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별 B는 A보다 중심부 온도가 훨씬 높이 올라가며 진화하므로, 주계열성일 때 질량은 B가 A보다 큽니다. 따라서 A가 B보다 작다는 옳은 설명입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별 A의 중심부 최종 핵융합 산물은 탄소(C)나 산소(O)이지만, 질량이 큰 별 B는 철(Fe)까지 생성하므로 최종 원소는 B가 A보다 더 무겁습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">중심부 온도가 상승하는 주된 원인은 팽창에 의한 에너지 방출이 아니라, 중심부의 '중력 수축'에 의한 위치 에너지의 열에너지 전환 때문입니다.</div></div></div>
+<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">그래프에서 별 A는 최고 온도가 $10^8$ K 수준에 그쳐 탄소까지만 만드는 질량이 작은 별(태양 정도)입니다. 반면 별 B는 중심부 온도가 $3 \times 10^9$ K 부근까지 계단식으로 상승해 철(Fe)까지 만드는 질량이 매우 큰 별입니다. 온도가 급격히 상승하는 구간은 핵연료가 고갈된 후 중심부가 중력 수축하며 온도가 높아지는 단계입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별 B는 A보다 중심부 온도가 훨씬 높이 올라가며 진화하므로, 주계열성일 때 질량은 B가 A보다 큽니다. 따라서 A가 B보다 작다는 옳은 설명입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별 A의 중심부 최종 핵융합 산물은 탄소(C)나 산소(O)이지만, 질량이 큰 별 B는 철(Fe)까지 생성하므로 최종 원소는 B가 A보다 더 무겁습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">중심부 온도가 상승하는 주된 원인은 팽창에 의한 에너지 방출이 아니라, 중심부의 '중력 수축'에 의한 위치 에너지의 열에너지 전환 때문입니다.</div></div></div>
 </div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
+<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 갓쌤이야~ 별의 진화 문제는 그래프만 제대로 해석하면 거저먹는 보너스 문제나 다름없어! 별의 질량이 인생을 어떻게 바꾸는지 쌤이랑 핵심만 콕 짚어보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 갓쌤이야~ 별의 진화 문제는 그래프만 제대로 해석하면 거저먹는 보너스 문제나 다름없어! 별의 질량이 인생을 어떻게 바꾸는지 쌤이랑 핵심만 콕 짚어보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -2381,28 +2191,24 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
-<div class="exp-text" style="font-size: 9.0px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">태양계 성운의 형성 과정(성운설)과 지구를 구성하는 원소들의 우주적 기원</div>
+<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">태양계 성운의 형성 과정(성운설)과 지구를 구성하는 원소들의 우주적 기원</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
-<div class="exp-detail" style="font-size: 9.0px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">그림은 성운이 수축하면서 회전 원반을 만들고, 원시 태양과 미행성체들이 형성되는 성운설의 단계를 보여줍니다. 태양에 가까운 영역은 온도가 높아 녹는점이 높은 금속과 암석 성분의 지구형 행성이 되었고, 먼 영역은 가벼운 기체와 얼음 성분의 목성형 행성이 되었습니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">태양계 성운(가)은 과거 우주에서 수명을 다한 무거운 별들이 초신성 폭발을 일으키며 방출한 다양한 원소들을 포함하여 형성되었습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">태양에서 멀리 떨어진 곳은 온도가 낮아 물, 메테인 등의 얼음 성분과 가벼운 수소, 헬륨 기체 등이 뭉쳐 목성형 행성을 이룰 수 있었습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">지각을 구성하는 산소와 규소는 태양이 태어나기 전 이미 성운에 존재하던 물질입니다. 원시 태양 내부의 핵융합 반응으로는 현재 수소 핵융합(헬륨 생성)만 일어나며, 산소나 규소 같은 무거운 원소를 만들 수 없습니다.</div></div></div>
+<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">그림은 성운이 수축하면서 회전 원반을 만들고, 원시 태양과 미행성체들이 형성되는 성운설의 단계를 보여줍니다. 태양에 가까운 영역은 온도가 높아 녹는점이 높은 금속과 암석 성분의 지구형 행성이 되었고, 먼 영역은 가벼운 기체와 얼음 성분의 목성형 행성이 되었습니다. 지구를 구성하는 산소, 규소, 철 등의 무거운 원소들은 태양이 생겨나기 전, 이전 세대의 무거운 별들이 진화하고 초신성 폭발을 거치며 방출된 물질들입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">태양계 성운(가)은 과거 우주에서 수명을 다한 무거운 별들이 초신성 폭발을 일으키며 방출한 다양한 원소들을 포함하여 형성되었습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">태양에서 멀리 떨어진 곳은 온도가 낮아 물, 메테인 등의 얼음 성분과 가벼운 수소, 헬륨 기체 등이 뭉쳐 목성형 행성을 이룰 수 있었습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">지각을 구성하는 산소와 규소는 태양이 태어나기 전 이미 성운에 존재하던 물질입니다. 원시 태양 내부의 핵융합 반응으로는 현재 수소 핵융합(헬륨 생성)만 일어나며, 산소나 규소 같은 무거운 원소를 만들 수 없습니다.</div></div></div>
 </div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
+<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 태양계와 지구의 기원을 묻는 아주 대표적인 문제야. 성운설의 각 단계별 특징과 원소의 기원만 머릿속에 잘 정리해 두면 아주 쉽게 풀 수 있어!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 태양계와 지구의 기원을 묻는 아주 대표적인 문제야. 성운설의 각 단계별 특징과 원소의 기원만 머릿속에 잘 정리해 두면 아주 쉽게 풀 수 있으니, 쌤이랑 핵심만 콕콕 짚어보자!</p>
 </div>
 </div>
 </div>
@@ -2419,7 +2225,50 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <h2 class="data-title">원소의 주기성</h2>
 </div>
 <div class="info-box" style="margin-top: 10px;">
-<div class="info-box-title">■ [자료 1] 주기율표의 구조 (주기와 족)</div>
+<div class="info-box-title">■ [자료 1] 전자껍질 모형과 옥텟 규칙</div>
+<div style="height: 250px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; position: relative;">
+<svg height="100%" viewbox="0 0 400 250" width="100%">
+<defs>
+<marker id="arrow-blue" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#2563eb"></path></marker>
+<marker id="arrow-red" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#dc2626"></path></marker>
+</defs>
+<!-- 나트륨(Na) 원자 모형 확대 -->
+<circle cx="150" cy="120" fill="#fca5a5" r="15"></circle>
+<text fill="#7f1d1d" font-size="10px" font-weight="bold" text-anchor="middle" x="150" y="123">+11</text>
+<!-- K 껍질 -->
+<circle cx="150" cy="120" fill="none" r="35" stroke="#94a3b8" stroke-dasharray="4 2" stroke-width="1.5"></circle>
+<circle cx="150" cy="85" fill="#38bdf8" r="4"></circle>
+<circle cx="150" cy="155" fill="#38bdf8" r="4"></circle>
+<text fill="#0f172a" font-size="9px" font-weight="bold" x="175" y="100">K껍질 (최대 2개)</text>
+<!-- L 껍질 -->
+<circle cx="150" cy="120" fill="none" r="65" stroke="#94a3b8" stroke-dasharray="4 2" stroke-width="1.5"></circle>
+<circle cx="150" cy="55" fill="#38bdf8" r="4"></circle>
+<circle cx="150" cy="185" fill="#38bdf8" r="4"></circle>
+<circle cx="85" cy="120" fill="#38bdf8" r="4"></circle>
+<circle cx="215" cy="120" fill="#38bdf8" r="4"></circle>
+<circle cx="105" cy="75" fill="#38bdf8" r="4"></circle>
+<circle cx="195" cy="165" fill="#38bdf8" r="4"></circle>
+<circle cx="195" cy="75" fill="#38bdf8" r="4"></circle>
+<circle cx="105" cy="165" fill="#38bdf8" r="4"></circle>
+<text fill="#0f172a" font-size="9px" font-weight="bold" x="215" y="80">L껍질 (최대 8개)</text>
+<!-- M 껍질 -->
+<circle cx="150" cy="120" fill="none" r="95" stroke="#64748b" stroke-width="2"></circle>
+<circle cx="150" cy="25" fill="#ef4444" r="6"></circle> <!-- 원자가 전자 -->
+<text fill="#0f172a" font-size="9px" font-weight="bold" x="235" y="45">M껍질</text>
+<path d="M 150 20 L 150 -5" fill="none" marker-end="url(#arrow-red)" stroke="#dc2626" stroke-width="2"></path>
+<text fill="#dc2626" font-size="14px" font-weight="900" x="250" y="20">원자가 전자</text>
+<rect fill="#fef08a" height="35" rx="4" width="350" x="25" y="205"></rect>
+<text fill="#b91c1c" font-size="11px" font-weight="bold" text-anchor="middle" x="200" y="220">옥텟 규칙: 가장 바깥 전자껍질에 전자를 8개 채우려는 성질!</text>
+<text fill="#0f172a" font-size="10px" font-weight="bold" text-anchor="middle" x="200" y="233">나트륨(Na)은 전자 1개를 버리고 +1가 양이온(Na⁺)이 되어 안정해진다.</text>
+</svg>
+</div>
+</div>
+<div class="page-num">- 28 -</div>
+</div>
+<!-- ================= Page 15 ================= -->
+<div class="concept-page page-right" style="background-color: #fff; background-image: none;">
+<div class="info-box" style="margin-top: 10px;">
+<div class="info-box-title">■ [자료 2] 주기율표의 구조 (주기와 족)</div>
 <div style="height: 400px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
 <svg height="100%" viewbox="0 0 400 400" width="100%">
 <defs>
@@ -2490,170 +2339,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#475569" font-size="10px" x="140" y="330">➔ 원자가 전자 수가 같아 화학적 성질이 비슷한 동족 원소!</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[그림 해석]</strong> <br>
-<span style="display: inline-block; margin-top: 4px;">1족, 17족, 18족은 각각 <strong>원자가 전자 수가 같기 때문에 화학적으로 유사한 성질</strong>을 나타냅니다. 특히 <strong>18족 원소는 화학적으로 매우 안정</strong>하다는 특징을 가집니다.</span>
 </div>
-</div>
-<div class="page-num">- 28 -</div>
-</div>
-</div>
-</div>
-<!-- Concept Spread Split -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-<!-- ================= Page 15 ================= -->
-<div class="concept-page page-right" style="background-color: #fff; background-image: none;">
-
-<div class="info-box" style="margin-top: 10px;">
-<div class="info-box-title">■ [자료 2] 주기율표의 전자배치 모형</div>
-<div style="height: 400px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 400 400" width="100%">
-<text fill="#dc2626" font-size="12px" font-weight="bold" text-anchor="middle" x="70" y="30">1족</text>
-<text fill="#16a34a" font-size="12px" font-weight="bold" text-anchor="middle" x="230" y="30">17족</text>
-<text fill="#d97706" font-size="12px" font-weight="bold" text-anchor="middle" x="330" y="30">18족</text>
-<text fill="#2563eb" font-size="12px" font-weight="bold" text-anchor="middle" x="25" y="65">1주기</text>
-<text fill="#2563eb" font-size="12px" font-weight="bold" text-anchor="middle" x="25" y="155">2주기</text>
-<text fill="#2563eb" font-size="12px" font-weight="bold" text-anchor="middle" x="25" y="255">3주기</text>
-<text fill="#2563eb" font-size="12px" font-weight="bold" text-anchor="middle" x="25" y="355">4주기</text>
-<text fill="#94a3b8" font-size="20px" font-weight="bold" text-anchor="middle" x="150" y="250">...</text>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="69">H</text>
-<circle cx="70" cy="65" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="65" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="55.00" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="159">Li</text>
-<circle cx="70" cy="155" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="155" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="145.00" r="2" fill="#38bdf8"></circle>
-<circle cx="70.00" cy="165.00" r="2" fill="#38bdf8"></circle>
-<circle cx="70" cy="155" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="137.00" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="259">Na</text>
-<circle cx="70" cy="255" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="255" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="245.00" r="2" fill="#38bdf8"></circle>
-<circle cx="70.00" cy="265.00" r="2" fill="#38bdf8"></circle>
-<circle cx="70" cy="255" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="237.00" r="2" fill="#38bdf8"></circle>
-<circle cx="82.73" cy="242.27" r="2" fill="#38bdf8"></circle>
-<circle cx="88.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="82.73" cy="267.73" r="2" fill="#38bdf8"></circle>
-<circle cx="70.00" cy="273.00" r="2" fill="#38bdf8"></circle>
-<circle cx="57.27" cy="267.73" r="2" fill="#38bdf8"></circle>
-<circle cx="52.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="57.27" cy="242.27" r="2" fill="#38bdf8"></circle>
-<circle cx="70" cy="255" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="229.00" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="359">K</text>
-<circle cx="70" cy="355" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="355" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="345.00" r="2" fill="#38bdf8"></circle>
-<circle cx="70.00" cy="365.00" r="2" fill="#38bdf8"></circle>
-<circle cx="70" cy="355" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="337.00" r="2" fill="#38bdf8"></circle>
-<circle cx="82.73" cy="342.27" r="2" fill="#38bdf8"></circle>
-<circle cx="88.00" cy="355.00" r="2" fill="#38bdf8"></circle>
-<circle cx="82.73" cy="367.73" r="2" fill="#38bdf8"></circle>
-<circle cx="70.00" cy="373.00" r="2" fill="#38bdf8"></circle>
-<circle cx="57.27" cy="367.73" r="2" fill="#38bdf8"></circle>
-<circle cx="52.00" cy="355.00" r="2" fill="#38bdf8"></circle>
-<circle cx="57.27" cy="342.27" r="2" fill="#38bdf8"></circle>
-<circle cx="70" cy="355" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="329.00" r="2" fill="#38bdf8"></circle>
-<circle cx="88.38" cy="336.62" r="2" fill="#38bdf8"></circle>
-<circle cx="96.00" cy="355.00" r="2" fill="#38bdf8"></circle>
-<circle cx="88.38" cy="373.38" r="2" fill="#38bdf8"></circle>
-<circle cx="70.00" cy="381.00" r="2" fill="#38bdf8"></circle>
-<circle cx="51.62" cy="373.38" r="2" fill="#38bdf8"></circle>
-<circle cx="44.00" cy="355.00" r="2" fill="#38bdf8"></circle>
-<circle cx="51.62" cy="336.62" r="2" fill="#38bdf8"></circle>
-<circle cx="70" cy="355" r="34" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="321.00" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="272" y="159">F</text>
-<circle cx="230" cy="155" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="230" cy="155" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="145.00" r="2" fill="#38bdf8"></circle>
-<circle cx="230.00" cy="165.00" r="2" fill="#38bdf8"></circle>
-<circle cx="230" cy="155" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="137.00" r="2" fill="#38bdf8"></circle>
-<circle cx="244.07" cy="143.78" r="2" fill="#38bdf8"></circle>
-<circle cx="247.55" cy="159.01" r="2" fill="#38bdf8"></circle>
-<circle cx="237.81" cy="171.22" r="2" fill="#38bdf8"></circle>
-<circle cx="222.19" cy="171.22" r="2" fill="#38bdf8"></circle>
-<circle cx="212.45" cy="159.01" r="2" fill="#38bdf8"></circle>
-<circle cx="215.93" cy="143.78" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="272" y="259">Cl</text>
-<circle cx="230" cy="255" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="230" cy="255" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="245.00" r="2" fill="#38bdf8"></circle>
-<circle cx="230.00" cy="265.00" r="2" fill="#38bdf8"></circle>
-<circle cx="230" cy="255" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="237.00" r="2" fill="#38bdf8"></circle>
-<circle cx="242.73" cy="242.27" r="2" fill="#38bdf8"></circle>
-<circle cx="248.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="242.73" cy="267.73" r="2" fill="#38bdf8"></circle>
-<circle cx="230.00" cy="273.00" r="2" fill="#38bdf8"></circle>
-<circle cx="217.27" cy="267.73" r="2" fill="#38bdf8"></circle>
-<circle cx="212.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="217.27" cy="242.27" r="2" fill="#38bdf8"></circle>
-<circle cx="230" cy="255" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="229.00" r="2" fill="#38bdf8"></circle>
-<circle cx="250.33" cy="238.79" r="2" fill="#38bdf8"></circle>
-<circle cx="255.35" cy="260.79" r="2" fill="#38bdf8"></circle>
-<circle cx="241.28" cy="278.43" r="2" fill="#38bdf8"></circle>
-<circle cx="218.72" cy="278.43" r="2" fill="#38bdf8"></circle>
-<circle cx="204.65" cy="260.79" r="2" fill="#38bdf8"></circle>
-<circle cx="209.67" cy="238.79" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="372" y="69">He</text>
-<circle cx="330" cy="65" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="330" cy="65" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="55.00" r="2" fill="#38bdf8"></circle>
-<circle cx="330.00" cy="75.00" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="372" y="159">Ne</text>
-<circle cx="330" cy="155" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="330" cy="155" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="145.00" r="2" fill="#38bdf8"></circle>
-<circle cx="330.00" cy="165.00" r="2" fill="#38bdf8"></circle>
-<circle cx="330" cy="155" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="137.00" r="2" fill="#38bdf8"></circle>
-<circle cx="342.73" cy="142.27" r="2" fill="#38bdf8"></circle>
-<circle cx="348.00" cy="155.00" r="2" fill="#38bdf8"></circle>
-<circle cx="342.73" cy="167.73" r="2" fill="#38bdf8"></circle>
-<circle cx="330.00" cy="173.00" r="2" fill="#38bdf8"></circle>
-<circle cx="317.27" cy="167.73" r="2" fill="#38bdf8"></circle>
-<circle cx="312.00" cy="155.00" r="2" fill="#38bdf8"></circle>
-<circle cx="317.27" cy="142.27" r="2" fill="#38bdf8"></circle>
-<text fill="#0f172a" font-size="13px" font-weight="bold" x="372" y="259">Ar</text>
-<circle cx="330" cy="255" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="330" cy="255" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="245.00" r="2" fill="#38bdf8"></circle>
-<circle cx="330.00" cy="265.00" r="2" fill="#38bdf8"></circle>
-<circle cx="330" cy="255" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="237.00" r="2" fill="#38bdf8"></circle>
-<circle cx="342.73" cy="242.27" r="2" fill="#38bdf8"></circle>
-<circle cx="348.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="342.73" cy="267.73" r="2" fill="#38bdf8"></circle>
-<circle cx="330.00" cy="273.00" r="2" fill="#38bdf8"></circle>
-<circle cx="317.27" cy="267.73" r="2" fill="#38bdf8"></circle>
-<circle cx="312.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="317.27" cy="242.27" r="2" fill="#38bdf8"></circle>
-<circle cx="330" cy="255" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="229.00" r="2" fill="#38bdf8"></circle>
-<circle cx="348.38" cy="236.62" r="2" fill="#38bdf8"></circle>
-<circle cx="356.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="348.38" cy="273.38" r="2" fill="#38bdf8"></circle>
-<circle cx="330.00" cy="281.00" r="2" fill="#38bdf8"></circle>
-<circle cx="311.62" cy="273.38" r="2" fill="#38bdf8"></circle>
-<circle cx="304.00" cy="255.00" r="2" fill="#38bdf8"></circle>
-<circle cx="311.62" cy="236.62" r="2" fill="#38bdf8"></circle>
-</svg>
-</div>
-<div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[그림 해석]</strong> <br>
-<span style="display: inline-block; margin-top: 4px;">1족 원소인 Li, Na, K은 원자가 전자 수가 1로 같아 화학적 성질이 유사하고, 17족 원소인 F, Cl은 7로 같아서, 18족 원소인 He, Ne, Ar은 8개가 다 채워져 있어 유사함을 보입니다.</span>
-</div>
-</div>
-
 <div class="page-num">- 29 -</div>
 </div>
 </div>
@@ -2665,8 +2351,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="concept-page page-left" style="background-color: #fff; background-image: none;">
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 3] 1족 알칼리 금속의 특징과 물 반응 실험</div>
-<div style="height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 20px;">
-<svg height="100%" viewbox="0 0 400 260" width="100%">
+<div style="height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 20px;">
+<svg height="100%" viewbox="0 0 400 340" width="100%">
 <!-- 리튬 -->
 <text fill="#0f172a" font-size="14px" font-weight="900" text-anchor="middle" x="70" y="20">리튬 (Li)</text>
 <text fill="#475569" font-size="10px" text-anchor="middle" x="70" y="35">비교적 약한 반응</text>
@@ -2679,8 +2365,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <!-- Bubbles -->
 <circle cx="68" cy="70" fill="#fff" r="2" stroke="#94a3b8"></circle>
 <circle cx="75" cy="65" fill="#fff" r="2" stroke="#94a3b8"></circle>
-<text font-size="9px" font-weight="bold" x="120" y="90">페놀프탈레인 용액</text>
-<text font-size="9px" font-weight="bold" x="120" y="105">붉은색 변화 (염기성)</text>
+<text fill="#db2777" font-size="9px" font-weight="bold" x="120" y="90">페놀프탈레인 용액</text>
+<text fill="#db2777" font-size="9px" font-weight="bold" x="120" y="105">붉은색 변화 (염기성)</text>
 <!-- 나트륨 -->
 <text fill="#0f172a" font-size="14px" font-weight="900" text-anchor="middle" x="200" y="20">나트륨 (Na)</text>
 <text fill="#475569" font-size="10px" text-anchor="middle" x="200" y="35">물 위를 돌며 격렬히 반응</text>
@@ -2722,24 +2408,15 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#dc2626" font-size="10px" font-weight="900" text-anchor="middle" x="200" y="243">액체 석유나 파라핀 속에 넣어서 보관!</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[알칼리 금속의 성질]</strong> <br>
-<span style="display: inline-block; margin-top: 4px;">알칼리 금속(Li, Na, K 등)은 반응성이 매우 커서 산소나 물과 격렬하게 반응하며, 물과 반응할 때 수소 기체를 발생시키고 용액을 염기성으로 만듭니다. 주기율표에서 아래로 갈수록(원자 번호가 커질수록) 반응성이 더 커지는 특징이 있습니다. 칼로 자를 수 있을 만큼 무르고 밀도가 작습니다.</span>
-</div>
 </div>
 <div class="page-num">- 30 -</div>
 </div>
-</div>
-</div>
-<!-- Concept Spread Split -->
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 17 ================= -->
 <div class="concept-page page-right" style="background-color: #fff; background-image: none;">
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 4] 17족 할로젠 원소의 특징과 상태</div>
-<div style="height: 290px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 20px;">
-<svg height="100%" viewbox="0 0 400 290" width="100%">
+<div style="height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 20px;">
+<svg height="100%" viewbox="0 0 400 340" width="100%">
 <!-- 플루오린 -->
 <text fill="#0f172a" font-size="14px" font-weight="900" text-anchor="middle" x="80" y="30">플루오린 (F₂)</text>
 <text fill="#475569" font-size="10px" text-anchor="middle" x="80" y="45">담황색 기체</text>
@@ -2788,10 +2465,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <text fill="#475569" font-size="10px" x="55" y="270">알칼리 금속과 만나면 염을 생성 (예: NaCl - 소금)</text>
 </svg>
 </div>
-<div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[할로젠 원소의 성질]</strong> <br>
-<span style="display: inline-block; margin-top: 4px;">할로젠 원소(F, Cl, Br, I 등)는 반응성이 커서 금속이나 수소와 잘 반응하며, 특유의 색깔을 띠는 이원자 분자(F<sub>2</sub>, Cl<sub>2</sub> 등) 상태로 존재합니다. 알칼리 금속과 반대로, 주기율표에서 위로 갈수록(원자 번호가 작을수록) 반응성이 더 커지는 특징이 있습니다.</span>
-</div>
 </div>
 <div class="page-num">- 31 -</div>
 </div>
@@ -2802,14 +2475,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="concept-spread">
 <!-- ================= Page 18 ================= -->
 <div class="concept-page page-left" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
-<h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
+<h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (1)</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
-
 <span style="color:#b91c1c; font-weight:bold;">1. 원자의 전자배치와 주기/족의 완벽 이해</span>
 </div>
-<table class="hw-table" style="font-size: 9px;">
+<table class="hw-table">
 <tr>
-<th width="30%" style="font-size: 10px;">구분</th><th style="font-size: 10px;">가로줄 (주기)</th><th style="font-size: 10px;">세로줄 (족)</th>
+<th width="30%">구분</th><th>가로줄 (주기)</th><th>세로줄 (족)</th>
 </tr>
 <tr>
 <td style="font-weight:bold;">의미하는 바</td><td style="color:#2563eb; font-weight:bold;">전자껍질 수</td><td style="color:#dc2626; font-weight:bold;">원자가 전자 수</td>
@@ -2828,57 +2500,60 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     ➔ 1~17족까지는 둘의 개수가 같지만, <strong>18족 비활성 기체의 원자가 전자는 '0개'</strong>야! 이미 꽉 차 있어서 다른 애들이랑 결합할 필요가 없거든. 완전 귀족 원소지!
                 </div>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
-
 <span style="color:#b91c1c; font-weight:bold;">2. 교과서 핵심! 18족 비활성 기체</span><br/>
                     - 헬륨(He), 네온(Ne), 아르곤(Ar)<br/>
                     - 가장 바깥쪽 전자껍질에 전자가 <strong>8개(He는 2개)</strong> 채워져 있어 매우 안정적이야.<br/>
                     - 그래서 다른 원소와 화합물을 형성하지 않고 단일 원자 형태로 존재해.<br/>
                     ➔ 결국 모든 화학 결합(이온결합, 공유결합)은 <strong>얘네들처럼 전자 배치를 똑같이 흉내 내기 위해</strong> 일어난다는 게 자연의 법칙!
                 </div>
-<div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
-<span style="color:#b91c1c; font-weight:bold;">3. 알칼리 금속 vs 할로젠 원소 비교표</span>
+<div class="page-num">- 32 -</div>
 </div>
-<table class="hw-table" style="font-size: 9px;">
+<!-- ================= Page 19 ================= -->
+<div class="concept-page page-right" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
+<h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (2)</h3>
+<div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+<span style="color:#b91c1c; font-weight:bold;">3. 알칼리 금속 vs 할로젠 원소 대조표</span>
+</div>
+<table class="hw-table">
 <tr>
-<th width="20%" style="font-size: 10px;">특징</th><th width="40%" style="font-size: 10px;">알칼리 금속 (1족)</th><th width="40%" style="font-size: 10px;">할로젠 원소 (17족)</th>
+<th width="20%">특징</th><th width="40%">알칼리 금속 (1족)</th><th width="40%">할로젠 원소 (17족)</th>
 </tr>
 <tr>
 <td style="font-weight:bold;">원자가 전자</td><td>1개</td><td>7개</td>
 </tr>
 <tr>
-<td style="font-weight:bold;">이온 생성</td><td style="color:#2563eb;">전자 1개 잃고 +1가 <strong>양이온</strong></td><td style="color:#dc2626;">전자 1개 얻어 -1가 <strong>음이온</strong></td>
+<td style="font-weight:bold;">이온 형성</td><td style="color:#2563eb;">전자 1개를 잃고 +1가 <strong>양이온</strong></td><td style="color:#dc2626;">전자 1개를 얻고 -1가 <strong>음이온</strong></td>
 </tr>
 <tr>
-<td style="font-weight:bold;">반응성</td><td style="font-weight:bold;">원자 번호 <strong>클수록 (아래로)</strong></td><td style="font-weight:bold;">원자 번호 <strong>작을수록 (위로)</strong></td>
+<td style="font-weight:bold;">반응성 방향</td><td style="font-weight:bold;">원자 번호 <strong>클수록 (↓)</strong></td><td style="font-weight:bold;">원자 번호 <strong>작을수록 (↑)</strong></td>
 </tr>
 <tr>
-<td style="font-weight:bold;">상태 (상온)</td><td>물에 뜨는 무른 고체</td><td>이원자 분자 (기체, 액체, 고체 다양)</td>
+<td style="font-weight:bold;">상태 (실온)</td><td>무르고 밀도가 작은 고체</td><td>이원자 분자 (기체, 액체, 고체 다양)</td>
 </tr>
 <tr>
-<td style="font-weight:bold;">특이 사항</td><td>물과 격렬히 반응(H₂ 발생) 및 <strong>염기성</strong> 수용액</td><td>알칼리 금속, 수소 등 금속/비금속과 잘 반응</td>
+<td style="font-weight:bold;">특이 반응</td><td>물과 반응해 수소(H₂) 발생 및 <strong>염기성</strong> 수용액 형성</td><td>알칼리 금속, 수소 등 금속/비금속과 모두 잘 반응</td>
 </tr>
 </table>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
-<span style="color:#b91c1c; font-weight:bold;">4. 자주 나오는 함정 선지 O/X 3제</span><br/>
+<span style="color:#b91c1c; font-weight:bold;">4. 출제자가 파놓은 치명적 함정 3가지</span><br/>
                     ① <strong>"수소는 알칼리 금속이다?" ➔ (X) 틀렸어!</strong><br/>
-                    수소(H)는 주기율표상 1족의 가장 맨 위에 있지만 예외적으로 비금속 원소야. 알칼리 금속은 리튬(Li)부터 시작한다는 점, 시험에 100% 나온다!<br/>
-                    <br/>
-                    ② <strong>두 원소의 화합물은 어느 방향일까?</strong><br/>
-                    반응성 큰 알칼리 금속은 가장 바깥 전자껍질의 전자를 버리려(아래로 갈수록) 하고, 반응성 큰 할로젠은 다른 애 전자를 뺏어오려(위로 갈수록) 해. <strong>이 둘이 만나면 찰떡궁합!</strong><br/>
-                    <br/>
-                    ③ <strong>칼륨(K)은 물에 넣으면 가라앉는다? ➔ (X)</strong><br/>
-                    알칼리 금속은 밀도가 물보다 작아서 <strong>물 위에 떠서</strong> 반응한다고 했지!
+                    수소(H)는 주기율표상 1족 맨 위에 있지만 비금속 원소야. 알칼리 금속은 리튬(Li)부터 시작이라는 점, 시험에 100% 나온다!<br/>
+                    
+                    ② <strong>반응성 화살표의 방향을 헷갈리지 마라!</strong><br/>
+                    금속인 알칼리는 껍질이 많아져 전자를 버리기 쉬울수록(아래로 갈수록) 강해지고, 비금속인 할로젠은 핵과 껍질이 가까워 전자를 뺏기 쉬울수록(위로 갈수록) 강해져. <strong>완전 반대 방향!</strong><br/>
+                    
+                    ③ <strong>칼륨(K)은 물과 반응하면 가라앉는다? ➔ (X)</strong><br/>
+                    알칼리 금속은 밀도가 물보다 작아서 <strong>물 위에 떠서</strong> 격렬하게 반응해!
                 </div>
-<div class="page-num">- 32 -</div>
+<div class="page-num">- 33 -</div>
 </div>
 </div>
-</div>
-<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
 <div class="compass-box">
 <div class="compass-title">🧭 수능의 나침반 : 원소의 주기성</div>
-<p class="compass-desc">이 문항은 한국교육과정평가원에서 발표한 2028학년도 수능 통합과학 예시문항입니다. 별의 진화와 내부 구조를 묻는 이 문항을 통해, 앞으로 수능에서 이 단원이 어떤 난이도와 유형으로 출제될지 출제 원리를 분석하고 우리의 학습 방향을 명확히 짚어봅시다.</p>
+<p class="compass-desc">2028 수능 예시문항 분석을 통해 이 단원에서 수능이 무엇을 묻고자 하는지, 우리의 학습 방향을 어떻게 설정해야 하는지 명확히 짚어봅시다.</p>
 </div>
 <div class="prob-header">
 <div class="prob-brand">2028 수능 예시문항 분석</div>
@@ -2901,35 +2576,30 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
 </div> <!-- end full-page-content -->
-<div class="page-num">- 33 -</div>
+<div class="page-num">- 34 -</div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+</div><div class="page-wrapper" style="margin-top: 40px;">
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
-
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">①</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
-
 <strong style="color: #0f172a;">원소의 주기성</strong><br/>
                         인체에서 가장 질량비가 큰 원소는 산소와 탄소 순서입니다. 같은 족 원소는 원자가 전자 수가 같아 화학적 성질이 유사합니다.
                     </div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
-
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
@@ -2948,23 +2618,23 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 0;">
 <div class="bogi-mark" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄷ. (X)</div>
 <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
-                                광합성에 쓰이는 물질은 이산화탄소(CO<sub>2</sub>)이며 이는 XZ<sub>2</sub>입니다. YZ<sub>2</sub>는 이산화규소(SiO<sub>2</sub>)를 의미하므로 틀렸습니다.
+                                광합성에 쓰이는 물질은 이산화탄소(CO2)이며 이는 XZ2입니다. YZ2는 이산화규소(SiO2)를 의미하므로 틀렸습니다.
                             </div>
 </div>
 </div>
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" contenteditable="true" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         비율 조건이 주어졌을 때 가능한 실제 값의 후보군을 먼저 나열하는 연습을 하세요. 인체 질량비와 같은 주요 암기 사항을 숙지해야 합니다.
                     </p>
 </div>
-<div class="page-num">- 34 -</div>
+<div class="page-num">- 35 -</div>
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
-<button class="btn-download" onclick="downloadImage('page-18', 'Page18')">📸 [18페이지] 실전 체화(디자인 시안) 다운로드</button>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+
+</div><div class="page-wrapper" style="margin-top: 40px;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box">
@@ -2978,8 +2648,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q07.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">18족 비활성 기체인 A(Ne)의 원자가 전자 수는 가장 바깥 껍질에 전자가 8개 채워져 있더라도 화학 반응에 참여하는 전자가 없으므로 '0개'로 취급해야 한다는 점을 절대 잊지 마!</div>
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">18족 비활성 기체인 A(Ne)의 원자가 전자 수는 가장 바깥 껍질에 전자가 8개 채워져 있더라도 화학 반응에 참여하는 전자가 없으므로 '0개'로 취급해야 한다는 점을 절대 잊지 마!</div>
 </div>
 </div>
 <!-- Right Column -->
@@ -2988,86 +2658,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 <img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q08.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
-<div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">S*V 식만 보고 계산에 매몰되면 시간 조절에 실패하기 쉽습니다! Z-V가 의미하는 '안쪽 껍질 전자 수'가 주기율표에서 2주기는 2, 3주기는 10으로 고정된다는 직관을 먼저 발휘해야 합니다.</div>
-</div>
-</div>
-</div>
-<div class="page-num">- 35 -</div>
-</div>
-</div>
-</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
-<div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
-<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
-<div class="header">
-<div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
-<div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 8px 24px; border-radius: 50px; font-weight: 900; font-size: 15px; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); letter-spacing: -0.5px; border: 2px solid #eff6ff;">
-                            ✨ 실전 체화 문항 - 정답 및 해설
-                        </div>
-</div>
-</div>
-<div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
-<div class="practice-columns" style="display: flex; gap: 24px; height: 100%;">
-<!-- Left Column -->
-<div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 15px; display: flex; flex-direction: column;">
-<div class="prob-header" style="margin-bottom: 6px;">
-<div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
-</div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
-<span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
-<span style="font-size: 18px; font-weight: 900; color: #2563eb;">5</span>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
-<span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
-                                </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">전자 껍질 수(주기)와 가장 바깥 껍질의 전자 수(원자가 전자 수)를 파악하여 원소의 주기적 성질을 이해하는 문항입니다.</div>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
-<span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
-                                </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">원자의 전자 배치 모형을 통해 A는 2주기 18족(Ne, 전자 10개), B는 2주기 17족(F, 전자 9개), C는 3주기 1족(Na, 전자 11개)임을 알 수 있습니다. A와 B는 전자 껍질 수가 2개로 같아 같은 주기에 속합니다. 원자가 전자 수는 B(7개)가 가장 크며, B는 전자 1개를 얻어 안정한 음이온이 되기 쉽습니다. 따라서 옳은 설명은 ㄱ뿐입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A와 B는 모두 전자 껍질 수가 2개이므로 같은 주기(2주기)에 속하는 원소가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">원자가 전자 수는 A(Ne) 0개, B(F) 7개, C(Na) 1개이므로, 원자가 전자 수가 가장 큰 원소는 B입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B(F)는 전자를 1개 '얻어서' 비활성 기체와 같은 안정한 전자 배치를 갖는 '음이온'이 되기 쉽습니다.</div></div></div>
-</div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
-<div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자 껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
-</div>
-</div>
-<!-- Right Column -->
-<div class="practice-col" style="flex: 1; padding-left: 10px; display: flex; flex-direction: column;">
-<div class="prob-header" style="margin-bottom: 6px;">
-<div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
-</div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-
-<span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-
-<span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
-<span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
-                                </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">원자 번호(Z)에서 원자가 전자 수(V)를 뺀 값은 '안쪽 껍질의 전자 수'로, 주기에 따라 일정함을 이해하는 것이 핵심입니다.</div>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-
-<span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
-                                </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">Z-V가 2인 A, B는 2주기(S=2) 원소이고, Z-V가 10인 C, D, E는 3주기(S=3) 원소입니다. S*V 값을 통해 각 원소의 원자가 전자 수(V)를 구하면 A는 Li(V=1), B는 F(V=7), C는 Na(V=1), D는 S(V=6), E는 Mg(V=2)가 됩니다. 따라서 ㉠에 해당하는 E는 금속 원소인 Mg입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">E는 S=3, S*V=6에서 원자가 전자 수 V=2인 3주기 2족 원소 Mg(마그네슘)이므로 금속 원소입니다. 따라서 ㉠은 '금속'이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A(Li)와 C(Na)는 모두 원자가 전자 수(V)가 1로 같은 1족 원소(알칼리 금속)이므로 화학적 성질이 유사합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B는 S=2인 2주기 원소이고, E는 S=3인 3주기 원소이므로 서로 다른 주기 원소입니다.</div></div></div>
-</div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
-<div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아~ 화학에서 이 표 문제는 겉보기엔 복잡해 보이지만, 조건식의 숨은 의미만 찾아내면 30초 만에 끝나는 보물 같은 문제야! Z-V가 바로 '안쪽 껍질 전자 수'라는 갓쌤의 치트키를 기억해봐!</p>
-</div>
+<div style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
+<div style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">S*V 식만 보고 계산에 매몰되면 시간 조절에 실패하기 쉽습니다! Z-V가 의미하는 '안쪽 껍질 전자 수'가 주기율표에서 2주기는 2, 3주기는 10으로 고정된다는 직관을 먼저 발휘해야 합니다.</div>
 </div>
 </div>
 </div>

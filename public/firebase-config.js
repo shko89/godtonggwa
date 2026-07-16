@@ -5,7 +5,7 @@ import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10
 
 // TODO: 아래 내용을 본인의 Firebase 설정으로 바꿔치기 하세요!
 const firebaseConfig = {
-  apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+  apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
   authDomain: "godtonggwa.firebaseapp.com",
   projectId: "godtonggwa",
   storageBucket: "godtonggwa.firebasestorage.app",

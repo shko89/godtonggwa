@@ -12,7 +12,7 @@
         import { getFirestore, collection, getDocs, doc, setDoc, getDoc, addDoc, onSnapshot, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
             authDomain: "godtonggwa.firebaseapp.com",
             projectId: "godtonggwa",
             storageBucket: "godtonggwa.firebasestorage.app",

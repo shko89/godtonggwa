@@ -16,7 +16,7 @@
 
         const firebaseConfig = {
 
-            apiKey: "AIzaSyD5axOHuQQ9Y5VmIqvN1AeuVyAVivQlTXs",
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
 
             authDomain: "godtonggwa.firebaseapp.com",
 

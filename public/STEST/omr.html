@@ -21,8 +21,23 @@
         /* 5문제마다 구분선 (시각적 편의) */
         .omr-row:nth-child(5n) { border-bottom: 2px solid #e5e7eb; } 
     </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
 </head>
-<body class="bg-gray-50 h-screen flex flex-col overflow-hidden"> 
+<body class="bg-gray-50 h-[100dvh] flex flex-col overflow-hidden"> 
 
     <!-- 헤더 -->
     <header class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shrink-0 h-14 shadow-sm z-10">
@@ -71,7 +86,7 @@
                 </div>
 
                 <!-- 문항 그리드 -->
-                <div id="omr-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-2 relative z-10 hidden">
+                <div id="omr-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 relative z-10 hidden">
                     <!-- JS로 문항 생성됨 -->
                 </div>
             </div>
@@ -153,7 +168,7 @@
                     const myExamSnap = await getDoc(doc(db, "users", user.uid, "my_exams", EXAM_ID));
                     if (myExamSnap.exists() && myExamSnap.data().status === 'graded') {
                         alert("이미 성적 처리가 완료된 시험입니다.\n내 시험지에서 성적표와 오답 노트를 확인해 주세요.\n(정확한 백분위 통계를 위해 재제출은 차단됩니다.)");
-                        window.safeNavigate('exam.html');
+                        window.safeNavigate('exam.html?view=report&id=' + EXAM_ID);
                         return;
                     }
                 }
@@ -168,8 +183,8 @@
                 const examSnap = await getDoc(examDocRef);
 
                 if (!examSnap.exists()) {
-                    console.warn("시험 데이터가 DB에 없습니다. (기본값 사용 불가 - 관리자 문의)");
-                    useFallbackData();
+                    console.warn("시험 데이터가 DB에 없습니다. JS 파일에서 데이터 로딩을 시도합니다.");
+                    await loadFallbackData();
                 } else {
                     const data = examSnap.data();
                     
@@ -180,8 +195,8 @@
                         if (data.title) EXAM_TITLE = data.title;
                         if (data.questions) EXAM_QUESTIONS = data.questions; // 원본 문제 메타데이터 보관
                     } else {
-                        console.warn("정답/배점 필드가 비어있습니다.");
-                        useFallbackData();
+                        console.warn("정답/배점 필드가 비어있습니다. JS 파일에서 데이터 로딩을 시도합니다.");
+                        await loadFallbackData();
                     }
                 }
 
@@ -203,7 +218,40 @@
             }
         }
 
-        function useFallbackData() {
+        async function loadFallbackData() {
+            return new Promise((resolve) => {
+                let scriptPath = '';
+                if (EXAM_ID === '2028_pretest' || EXAM_ID === 'past_예비문항') {
+                    scriptPath = `../archive/kice_2028/2028_pretest.js`;
+                } else if (EXAM_ID.includes('week_2028')) {
+                    scriptPath = `../weekly/2028/${EXAM_ID}.js`;
+                } else {
+                    scriptPath = `../data/${EXAM_ID}.js`;
+                }
+
+                const script = document.createElement('script');
+                script.src = scriptPath + `?v=${Date.now()}`;
+                script.onload = () => {
+                    if (window.globalExamData && window.globalExamData.answers) {
+                        CORRECT_ANSWERS = window.globalExamData.answers;
+                        SCORE_MAP = window.globalExamData.scores || Array(CORRECT_ANSWERS.length).fill(4);
+                        TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
+                        if (window.globalExamData.title) EXAM_TITLE = window.globalExamData.title;
+                        resolve(true);
+                    } else {
+                        useHardcodedFallback();
+                        resolve(false);
+                    }
+                };
+                script.onerror = () => {
+                    useHardcodedFallback();
+                    resolve(false);
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        function useHardcodedFallback() {
             TOTAL_QUESTIONS = 25;
             SCORE_MAP = [];
             for(let i = 1; i <= TOTAL_QUESTIONS; i++) {
@@ -223,7 +271,7 @@
             grid.innerHTML = "";
             for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
                 const row = document.createElement('div');
-                row.className = "omr-row flex items-center justify-between py-2 border-b border-gray-100 hover:bg-gray-50 transition-colors px-2 rounded-lg";
+                row.className = "omr-row flex items-center justify-center gap-3 py-2 sm:py-1.5 border-b border-gray-100 hover:bg-gray-50 transition-colors px-1 rounded-lg w-full";
                 
                 const score = SCORE_MAP[i-1];
                 
@@ -232,15 +280,15 @@
                     optionsHtml += `
                         <label class="omr-radio cursor-pointer relative block group">
                             <input type="radio" name="q${i}" value="${opt}" class="peer sr-only" onchange="updateCount()">
-                            <span class="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-400 bg-white group-hover:border-indigo-300 transition-all text-xs font-bold shadow-sm peer-checked:scale-110">${opt}</span>
+                            <span class="w-8 h-8 sm:w-6 sm:h-6 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 bg-white group-hover:border-indigo-300 transition-all text-xs sm:text-[11px] font-bold shadow-sm peer-checked:scale-110">${opt}</span>
                         </label>`;
                 }
                 
                 row.innerHTML = `
-                    <div class="flex flex-col items-center mr-2 w-6" title="배점: ${score}점">
-                        <span class="font-black text-gray-700 font-mono text-sm">${String(i).padStart(2,'0')}.</span>
+                    <div class="flex items-center justify-end w-8 shrink-0" title="배점: ${score}점">
+                        <span class="font-black text-gray-700 font-mono text-sm tracking-tighter">${String(i).padStart(2,'0')}.</span>
                     </div>
-                    <div class="flex gap-1.5 justify-end w-full">${optionsHtml}</div>
+                    <div class="flex gap-2 sm:gap-1 justify-center">${optionsHtml}</div>
                 `;
                 grid.appendChild(row);
             }
@@ -462,7 +510,7 @@
                 
                 alert(`[비동기 제출 완료]\n\n등급: ${result.grade}등급 (가채점)\n표준점수: ${result.standardScore}\n원점수: ${result.rawScore} / ${maxScore}점\n\n${isAbsoluteGrade ? '💡 응시자가 부족하여 임시 절대평가 기준이 적용되었습니다.\n\n' : ''}전체 통계는 서버에서 1~2분 뒤 안전하게 일괄 합산됩니다.`);
                 
-                window.safeNavigate('exam.html'); 
+                window.safeNavigate('exam.html?view=report&id=' + EXAM_ID); 
 
             } catch (e) {
                 console.error(e);

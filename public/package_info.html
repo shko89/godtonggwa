@@ -14,6 +14,21 @@
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="app-container">
@@ -122,15 +137,6 @@
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-3 p-4 border border-gray-100 bg-gray-50 rounded-xl mb-6">
-                    <div class="bg-white p-2 rounded-full shadow-sm"><i data-lucide="credit-card" class="w-5 h-5 text-gray-600"></i></div>
-                    <div class="flex-1">
-                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">입금 계좌</p>
-                        <p class="font-bold text-gray-800 text-sm">국민 3333-01-0000000 (예금주: 신승원)</p>
-                    </div>
-                    <button onclick="copyToClipboard('3333-01-0000000')" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg hover:bg-indigo-100">복사</button>
-                </div>
-
                 <form id="orderForm" onsubmit="submitPackageOrder(event)">
                     <div class="space-y-4 mb-6">
                         <div>
@@ -174,9 +180,9 @@
                         </div>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">결제 신청하기</button>
+                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-black text-lg py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">39,000원 결제하기</button>
                 </form>
-                <p class="text-[10px] text-center text-gray-400 mt-4">입금 확인 후 관리자가 승인하면 서비스가 활성화됩니다.</p>
+                <p class="text-[10px] text-center text-gray-400 mt-4">결제 완료 시 실물 모의고사가 배송되며 앱 서비스가 활성화됩니다.</p>
             </div>
         </div>
     </div>
@@ -184,7 +190,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
         const app = initializeApp(firebaseConfig); 
@@ -193,40 +199,6 @@
         
         let isUserLoggedIn = false;
         let currentUser = null;
-        let allPackages = [];
-
-        async function fetchAllPackages() {
-            try {
-                const q = query(collection(db, 'packages'), where('status', '==', 'active'));
-                const snap = await getDocs(q);
-                const select = document.getElementById('orderPackageSelect');
-                select.innerHTML = '';
-                snap.forEach(doc => {
-                    const data = doc.data();
-                    allPackages.push({ id: doc.id, ...data });
-                    const option = document.createElement('option');
-                    option.value = doc.id;
-                    option.innerText = `${data.title} - ${(data.price||0).toLocaleString()}원`;
-                    select.appendChild(option);
-                });
-                
-                // Set default based on hash
-                const hash = window.location.hash.replace('#', '');
-                if (hash && allPackages.some(p => p.id === hash)) {
-                    select.value = hash;
-                }
-                updatePackagePrice();
-            } catch (e) { console.error(e); }
-        }
-        fetchAllPackages();
-        
-        window.updatePackagePrice = () => {
-            const select = document.getElementById('orderPackageSelect');
-            const pkg = allPackages.find(p => p.id === select.value);
-            if (pkg) {
-                document.getElementById('orderPackagePrice').innerText = (pkg.price||0).toLocaleString() + '원';
-            }
-        };
 
         onAuthStateChanged(auth, (user) => {
             isUserLoggedIn = !!user;
@@ -237,19 +209,11 @@
             navigator.clipboard.writeText(text).then(() => alert('계좌번호가 복사되었습니다.')).catch(() => alert('복사 실패'));
         };
 
-        window.handleApply = (targetPkgId = null) => {
+        window.handleApply = () => {
             if (!isUserLoggedIn) {
                 alert("로그인이 필요합니다. 로그인 후 신청해주세요.");
                 window.location.href = 'STEST/exam.html';
                 return;
-            }
-            
-            if (targetPkgId) {
-                const select = document.getElementById('orderPackageSelect');
-                if (allPackages.some(p => p.id === targetPkgId)) {
-                    select.value = targetPkgId;
-                    updatePackagePrice();
-                }
             }
 
             const modal = document.getElementById('packageOrderModal');
@@ -291,51 +255,50 @@
             const address = `(${zonecode}) ${baseAddress} ${detailAddress}`;
             
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "처리 중...";
+            btn.innerText = "결제창 불러오는 중...";
             btn.disabled = true;
             
             try {
-                const select = document.getElementById('orderPackageSelect');
-                const pkg = allPackages.find(p => p.id === select.value);
-                if (!pkg) { alert("패키지를 선택해주세요."); btn.innerText="결제 신청하기"; btn.disabled=false; return; }
-                const orderPkgId = pkg.id;
-                const orderPkgTitle = pkg.title;
-                const orderPkgPrice = pkg.price;
+                const packageId = "mock_2028_s0";
+                const orderPkgTitle = "2028 통합과학 예시문항 완벽 분석 모의고사";
+                const orderPkgPrice = 39000;
+                
+                const orderId = packageId + "__" + new Date().getTime();
 
-                await addDoc(collection(db, "orders"), {
+                await setDoc(doc(db, "orders", orderId), {
                     uid: currentUser.uid,
                     email: currentUser.email,
                     depositor: depositor,
                     name: name,
                     phone: phone,
                     address: address,
-                    packageId: orderPkgId,
+                    packageId: packageId,
                     packageName: orderPkgTitle,
                     price: orderPkgPrice,
                     status: 'pending',
                     createdAt: new Date().toISOString()
                 });
 
-                const botToken = "8418122948:AAGLh95SYa2Dj0HPQvFOe3zlHAAHj18b9ow";
-                const chatId = "7703628247";
-                const text = `[새 패키지 주문 - 단과]
-패키지명: ${orderPkgTitle}
-입금자: ${depositor}\n수령인: ${name}\n전화: ${phone}\n주소: ${address}\n이메일: ${currentUser.email}`;
-                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({chat_id: chatId, text: text})
-                }).catch(err => console.error("Telegram error:", err));
+                // Toss Payments 연동
+                const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
+                
+                await tossPayments.requestPayment('카드', {
+                    amount: orderPkgPrice,
+                    orderId: orderId,
+                    orderName: orderPkgTitle,
+                    customerName: currentUser.displayName || name || currentUser.email || '고객',
+                    successUrl: window.location.origin + '/STEST/payment_success.html',
+                    failUrl: window.location.origin + '/STEST/payment_fail.html',
+                });
 
-                alert("패키지 신청이 완료되었습니다! 입금 확인 후 승인 처리됩니다.");
                 closePackageOrderModal();
                 
-                window.location.href = 'index.html?view=my';
             } catch (error) {
                 console.error(error);
-                alert("주문 처리 중 오류가 발생했습니다.");
-            } finally {
-                btn.innerText = "결제 신청하기";
+                if (error.code !== 'USER_CANCEL') {
+                    alert("결제창 호출 중 오류가 발생했습니다: " + error.message);
+                }
+                btn.innerText = "39,000원 결제하기";
                 btn.disabled = false;
             }
         };
@@ -359,6 +322,7 @@
             if(window.lucide) lucide.createIcons();
         });
     </script>
+    <script src="https://js.tosspayments.com/v1"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

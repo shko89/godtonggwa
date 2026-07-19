@@ -1,4 +1,5 @@
 const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+const { onRequest } = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
@@ -123,3 +124,88 @@ exports.processAiTutorQueueV2 = onDocumentCreated(
         }
     }
 );
+
+exports.confirmTossPayment = onRequest({ cors: true, invoker: 'public' }, async (req, res) => {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const idToken = authHeader.split('Bearer ')[1];
+    let decodedToken;
+    try {
+        decodedToken = await admin.auth().verifyIdToken(idToken);
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+
+    const uid = decodedToken.uid;
+    const { paymentKey, orderId, amount, packageId } = req.body;
+
+    if (!paymentKey || !orderId || !amount || !packageId) {
+        return res.status(400).json({ success: false, message: 'Missing parameters' });
+    }
+
+    try {
+        // Toss Payments API 호출
+        const secretKey = "test_sk_Z1aOwX7K8m2K56L222R78yQxzvNP";
+        const basicToken = Buffer.from(secretKey + ":").toString("base64");
+
+        const tossResponse = await fetch("https://api.tosspayments.com/v1/payments/confirm", {
+            method: "POST",
+            headers: {
+                "Authorization": `Basic ${basicToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                paymentKey,
+                orderId,
+                amount: Number(amount)
+            })
+        });
+
+        const tossResult = await tossResponse.json();
+
+        if (!tossResponse.ok) {
+            console.error("Toss Error:", tossResult);
+            return res.status(400).json({ success: false, message: tossResult.message || 'Payment confirmation failed' });
+        }
+
+        // Firestore 권한 부여 (개별 패키지)
+        await db.collection("users").doc(uid).collection("my_packages").doc(packageId).set({
+            status: "active",
+            purchasedAt: admin.firestore.FieldValue.serverTimestamp(),
+            orderId: orderId,
+            paymentKey: paymentKey,
+            amount: Number(amount)
+        }, { merge: true });
+
+        // 주문 내역 상태 업데이트
+        try {
+            await db.collection("orders").doc(orderId).update({
+                status: "paid",
+                paidAt: admin.firestore.FieldValue.serverTimestamp()
+            });
+        } catch (e) {
+            console.error("Order status update failed (might not exist):", e);
+        }
+
+        // 인피니티 정기구독권(All-Pass)인 경우 전역 권한 부여
+        if (packageId === "infinity_2028") {
+            await db.collection("users").doc(uid).set({
+                hasAllPass: true
+            }, { merge: true });
+            console.log(`[All-Pass Granted] User: ${uid}`);
+        }
+
+        return res.status(200).json({ success: true, message: 'Payment confirmed and access granted' });
+
+    } catch (error) {
+        console.error("Internal Server Error:", error);
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});

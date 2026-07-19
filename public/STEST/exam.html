@@ -36,7 +36,7 @@ window.addEventListener('unhandledrejection', function(event) {
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         
         .app-layout {
-            max-width: 480px; margin: 0 auto; min-height: 100vh;
+            max-width: 480px; margin: 0 auto; height: 100vh; height: 100dvh;
             background-color: #F9FAFB; position: relative;
             display: flex; flex-direction: column;
         }
@@ -53,6 +53,21 @@ window.addEventListener('unhandledrejection', function(event) {
         .badge-pulse { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
         @keyframes pulse-ring { 0% { transform: scale(.33); } 80%, 100% { opacity: 0; } }
     </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
@@ -160,8 +175,8 @@ window.addEventListener('unhandledrejection', function(event) {
             </div>
         </div>
 
-        <div id="app-content" class="hidden flex-1 flex flex-col min-h-screen pb-20 fade-in">
-            <div class="bg-white sticky top-0 z-30 border-b border-gray-100 shadow-sm">
+        <div id="app-content" class="hidden flex-1 flex flex-col min-h-0 fade-in relative">
+            <div class="bg-white/90 backdrop-blur-md shrink-0 z-30 border-b border-gray-200 shadow-sm">
                 <div class="px-6 py-4 flex justify-between items-center">
                     <div>
                         <h2 class="text-xl font-bold text-gray-800">갓통과 Analytics</h2>
@@ -179,7 +194,7 @@ window.addEventListener('unhandledrejection', function(event) {
                 </div>
             </div>
 
-            <div id="exam-content" class="p-6 space-y-4 flex-1 overflow-y-auto"></div>
+            <div id="exam-content" class="p-6 pb-28 space-y-4 flex-1 overflow-y-auto no-scrollbar min-h-0"></div>
 
             <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
             <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
@@ -382,6 +397,13 @@ window.addEventListener('unhandledrejection', function(event) {
     </div>
 
     <script type="module">
+
+        window.refreshCurrentTab = function() {
+            const activeTab = document.querySelector('button[id^="tab-"].text-indigo-600');
+            if (activeTab) {
+                switchTab(activeTab.id.replace('tab-', ''));
+            }
+        };
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { 
             getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
@@ -694,10 +716,15 @@ window.addEventListener('unhandledrejection', function(event) {
             const contentDiv = document.getElementById('exam-content');
             
             if (window.currentTab === 'report') {
-                // [수정] 보고서 진입 시 누적 분석(cumulative)을 기본값으로 사용
-                const targetId = window.pendingReportId || 'cumulative';
+                // [수정] 보고서 진입 시 최신 개별 리포트를 기본값으로 사용
+                const targetId = window.pendingReportId || null;
                 renderReportPage(contentDiv, targetId);
-                window.pendingReportId = null;
+                // 데이터 로드가 완료되어 결과 목록에 존재할 때만 pendingReportId를 초기화합니다.
+                if (targetId && Object.values(myExamResults).some(r => r.examId === targetId)) {
+                    window.pendingReportId = null;
+                } else if (!targetId) {
+                    window.pendingReportId = null;
+                }
             } else {
                 renderExamList(contentDiv, window.currentTab);
             }
@@ -708,6 +735,17 @@ window.addEventListener('unhandledrejection', function(event) {
             let html = '';
             
             if (filterType === 'my') {
+                const subFilter = window.mySubFilter || 'ALL';
+                
+                html += `
+                <div class="flex gap-2 mb-6 bg-gray-100 p-1 rounded-xl sticky top-0 z-20 shadow-sm">
+                    <button onclick="window.mySubFilter='ALL'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='ALL' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">전체</button>
+                    <button onclick="window.mySubFilter='WEEKLY'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='WEEKLY' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">주간지</button>
+                    <button onclick="window.mySubFilter='MOCK'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='MOCK' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">모의고사</button>
+                    <button onclick="window.mySubFilter='PREP'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='PREP' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">기출문제</button>
+                </div>
+                `;
+
                 // 시즌 모의고사 및 주간지 리스트업
                 
                 const weeklyExams = masterExams.filter(e => e.serviceType === 'WEEKLY_MAG');
@@ -753,7 +791,7 @@ window.addEventListener('unhandledrejection', function(event) {
 
                 
                 // --- WEEKLY_MAG ROADMAP ---
-                if (weeklyExams.length > 0) {
+                if ((subFilter === 'ALL' || subFilter === 'WEEKLY') && weeklyExams.length > 0) {
                     const resolvedWeekly = weeklyExams.map(examMeta => {
                         const rec = myExamData ? myExamData[examMeta.docId] : null;
                         let status = 'locked';
@@ -773,13 +811,13 @@ window.addEventListener('unhandledrejection', function(event) {
                     });
                     
                     const completedCount = resolvedWeekly.filter(e => e.status === 'graded').length;
-                    const totalWeekly = 12;
+                    const totalWeekly = 10;
                     const progressPercent = Math.min(Math.round((completedCount / totalWeekly) * 100), 100);
 
                     html += `
                     <div class="mb-10">
                         <h3 class="text-xl font-black text-gray-900 mb-4 flex items-center gap-2">
-                            <i data-lucide="map" class="w-5 h-5 text-indigo-500"></i> 주간지 12주 완강 로드맵
+                            <i data-lucide="map" class="w-5 h-5 text-indigo-500"></i> 갓통과 WEEKLY 10주 완강 로드맵
                         </h3>
                         
                         <!-- Progress Bar -->
@@ -798,20 +836,20 @@ window.addEventListener('unhandledrejection', function(event) {
                         </div>
 
                         <!-- Timeline Grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 gap-4">
                     `;
                     
-                    for(let i = 1; i <= 12; i++) {
+                    for(let i = 1; i <= 10; i++) {
                         const weekData = resolvedWeekly.find(e => e.subTitle && e.subTitle.includes(`${i}주차`)) 
                                          || resolvedWeekly[i-1] 
-                                         || { title: `주간지 ${i}주차 (오픈 예정)`, status: 'locked' };
+                                         || { title: `갓통과 WEEKLY ${i < 10 ? '0'+i : i}`, status: 'locked' };
                                          
                         let titleToDisplay = weekData.title;
                         
                         let nodeHtml = '';
                         if (weekData.status === 'graded') {
                             const paddedNum = i < 10 ? '0' + i : i;
-                            titleToDisplay = `${weekData.title} ${paddedNum}`;
+                            titleToDisplay = weekData.title.includes(paddedNum) ? weekData.title : `${weekData.title} ${paddedNum}`;
                             
                             nodeHtml = `
                             <div class="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden">
@@ -866,8 +904,10 @@ window.addEventListener('unhandledrejection', function(event) {
 
 html += `<div class="mb-8">`;
                 
+                if (subFilter === 'ALL' || subFilter === 'MOCK' || subFilter === 'PREP') {
                 // 1. 진행 중인 모의고사
-                html += `<h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2"><i data-lucide="edit-3" class="w-4 h-4 text-indigo-500"></i> 진행 중인 모의고사 (OMR 입력 대기)</h3>`;
+                if (subFilter === 'ALL' || subFilter === 'MOCK') {
+                    html += `<h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2"><i data-lucide="edit-3" class="w-4 h-4 text-indigo-500"></i> 진행 중인 모의고사 (OMR 입력 대기)</h3>`;
                 if (pendingExams.length === 0) {
                     html += `<div class="text-center py-10 bg-gray-50 rounded-2xl border border-gray-100 text-gray-400 text-xs mb-6">진행 대기 중인 모의고사가 없습니다.</div>`;
                 } else {
@@ -888,6 +928,7 @@ html += `<div class="mb-8">`;
                     html += `</div>`;
                 }
 
+                }
                 // 2. 성적 처리 완료
                 html += `<h3 class="text-sm font-bold text-gray-800 mb-3 mt-8 flex items-center gap-2"><i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i> 성적 처리 완료</h3>`;
                 
@@ -895,7 +936,7 @@ html += `<div class="mb-8">`;
                     html += `<div class="text-center py-10 bg-gray-50 rounded-2xl border border-gray-100 text-gray-400 text-xs">완료된 모의고사가 없습니다.</div>`;
                 } else {
                     // 프리미엄 결과
-                    if (completedPremiumExams.length > 0) {
+                    if ((subFilter === 'ALL' || subFilter === 'MOCK') && completedPremiumExams.length > 0) {
                         html += `<div class="mb-4"><span class="text-[10px] font-bold text-indigo-600 block mb-2 tracking-wide uppercase">갓통과 프리미엄 모의고사</span>`;
                         completedPremiumExams.forEach(examMeta => {
                             const rec = myExamData ? myExamData[examMeta.docId] : null;
@@ -906,7 +947,7 @@ html += `<div class="mb-8">`;
                     }
                     
                     // 기출문제 결과
-                    if (completedArchiveExams.length > 0) {
+                    if ((subFilter === 'ALL' || subFilter === 'PREP') && completedArchiveExams.length > 0) {
                         html += `<div class="mb-4 mt-6"><span class="text-[10px] font-bold text-gray-500 block mb-2 tracking-wide uppercase">교육청/평가원 기출 모의고사</span>`;
                         completedArchiveExams.forEach(examObj => {
                             html += createCard(examObj, false);
@@ -914,6 +955,7 @@ html += `<div class="mb-8">`;
                         html += `</div>`;
                     }
                 }
+                } // end wrapper 
                 
                 html += `</div>`;
                 container.innerHTML = html;
@@ -921,119 +963,54 @@ html += `<div class="mb-8">`;
             }
 
             if (filterType === 'all') {
-                const allPkgs = masterPackages.filter(p => p.status === 'active');
+            html += `
+            <div class="mb-4">
+                <h3 class="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2"><i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-500"></i> 상품 안내 및 신청</h3>
                 
-                if (allPkgs.length === 0) {
-                    html += `<div class="text-center py-20 text-gray-400">현재 수강 가능한 커리큘럼이 없습니다.</div>`;
-                } else {
-                    html += `<div class="mb-4"><h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2"><i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-500"></i> 단과 패키지 신청</h3>`;
-                    allPkgs.forEach(pkg => {
-                        const isPurchased = myPackagesData[pkg.id] || currentUserData?.hasAllPass;
-                        const isPending = myPackagesData[pkg.id]?.status === 'pending';
-                        
-                        let btnHtml = '';
-                        if (isPending) {
-                            btnHtml = `<button disabled class="w-full py-3.5 rounded-xl text-sm font-bold flex justify-center items-center gap-2 bg-yellow-50 text-yellow-600 border border-yellow-100 cursor-wait"><div class="animate-spin rounded-full h-3 w-3 border-2 border-yellow-600 border-t-transparent"></div> 입금 및 승인 대기 중</button>`;
-                        } else if (isPurchased) {
-                            btnHtml = `<button disabled class="w-full py-3.5 rounded-xl text-sm font-bold flex justify-center items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100"><i data-lucide="check-circle" class="w-4 h-4 text-indigo-500"></i> 이용 중인 서비스</button>`;
-                        } else {
-                            btnHtml = `<button onclick="location.href='../package_info.html#${pkg.id}\'" class="w-full py-4 rounded-xl text-sm font-bold flex justify-center items-center gap-2 bg-gradient-to-r from-gray-900 to-gray-800 hover:from-black hover:to-gray-900 text-white shadow-lg shadow-gray-900/20 hover:-translate-y-0.5 transition-all duration-300"><i data-lucide="package" class="w-4 h-4 opacity-70"></i> 실물 패키지 신청 (${(pkg.price || 0).toLocaleString()}원)</button>`;
-                        }
-
-                        html += `
-                        <div class="bg-white border border-gray-100 shadow-sm rounded-2xl p-5 mb-4 relative ${isPurchased ? 'border-indigo-100 bg-indigo-50/20' : ''}">
-                            <div class="relative z-10 mb-4">
-                                <span class="text-[10px] font-bold ${isPurchased ? 'text-indigo-600' : 'text-gray-400'} block mb-1 uppercase tracking-wide">시즌 패키지</span>
-                                <h4 class="text-lg font-black text-gray-900 leading-tight">${pkg.title}</h4>
-                                <p class="text-xs text-gray-500 mt-2 font-medium">${pkg.description || `${pkg.exams?.length || 0}회분 모의고사 포함`}</p>
-                            </div>
-                            <div class="relative z-10">
-                                ${btnHtml}
-                            </div>
-                        </div>
-                        `;
-                    });
-                    html += `</div>`;
-                }
-
-                // --- 2028 수능 통합과학 연간 커리큘럼 UI 추가 ---
-                html += `
-                <div class="mt-10 pt-8 border-t border-gray-100">
-                    <div class="mb-6">
-                        <span class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-black rounded-full mb-2 tracking-widest">ROADMAP</span>
-                        <h3 class="text-xl font-black text-gray-900 tracking-tight">2028 수능 통합과학 <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">연간 커리큘럼</span></h3>
-                        <p class="text-xs text-gray-500 mt-2">평가원 완벽 분석부터 수능 파이널까지, 1등급을 향한 완벽한 여정</p>
+                <!-- 1. 예시문항 패키지 -->
+                <div class="bg-gradient-to-br from-indigo-500 to-blue-600 rounded-3xl p-6 text-white shadow-lg mb-6 relative overflow-hidden cursor-pointer hover:shadow-xl transition-all" onclick="location.href='../package_info.html'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                    <div class="relative z-10">
+                        <span class="bg-indigo-700/50 text-indigo-100 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide mb-2 inline-block">시즌 0 출시</span>
+                        <h4 class="text-xl font-black mb-1">2028 통합과학<br>예시문항 완벽 분석 패키지</h4>
+                        <p class="text-xs text-indigo-100 mb-4">첫 수능의 나침반 평가원 예시문항 완전 해부 4회분 실전 모의고사</p>
+                        <button class="bg-white text-indigo-600 px-4 py-2 rounded-lg text-xs font-bold shadow-sm">패키지 자세히 보기</button>
                     </div>
+                </div>
 
-                    <div class="space-y-4 pb-10">
-                        <!-- All Pass Hook -->
-                        <div class="bg-gradient-to-br from-gray-900 to-indigo-950 rounded-2xl p-6 relative overflow-hidden shadow-xl">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-                            <div class="relative z-10">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-indigo-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide">Premium</span>
-                                    <span class="text-indigo-200 text-xs font-medium">시즌 1~4 (총 24회분)</span>
-                                </div>
-                                <h4 class="text-lg font-black text-white mb-2">[All-Pass] 2028 인피니티(Infinity) 정기구독권</h4>
-                                <p class="text-sm text-indigo-100 leading-relaxed mb-4">
-                                    <strong class="text-yellow-400">🚨 얼리버드 특별 혜택:</strong> 지금 구독 시 확정된 <strong class="text-white bg-indigo-900/50 px-1 rounded">[Season 0: 예시문항 완벽 분석 패키지 4회분] 즉시 무료 오픈!</strong><br>
-                                    <span class="text-xs text-indigo-200 mt-1.5 block flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i> 6월 평가원 모의고사 직후 시즌 1, 2 단독 판매 영구 종료 (시즌 록인)</span>
-                                </p>
-                                ${currentUserData?.hasAllPass 
-                                    ? `<button disabled class="w-full py-3.5 rounded-xl text-sm font-bold flex justify-center items-center gap-2 bg-indigo-500/20 text-indigo-100 border border-indigo-400/30 mt-2"><i data-lucide="check-circle" class="w-4 h-4"></i> 정기구독 이용 중</button>`
-                                    : `<button onclick="location.href='../allpass_info.html\'" class="w-full py-4 rounded-xl text-sm font-bold flex justify-center items-center gap-2 active:scale-[0.98] transition-all duration-300 bg-gradient-to-r from-amber-100 to-amber-50 text-amber-900 shadow-lg shadow-amber-200/40 hover:shadow-amber-200/60 mt-2 hover:-translate-y-0.5 border border-amber-200"><i data-lucide="zap" class="w-4 h-4 text-amber-500 fill-amber-500"></i> 얼리버드 혜택 및 상세 보기 (186,000원)</button>`
-                                }
+                <!-- 2. 인피니티 정기구독권 -->
+                <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl p-6 text-white shadow-lg mb-6 relative overflow-hidden cursor-pointer hover:shadow-xl transition-all border border-gray-700/50" onclick="location.href='../allpass_info.html'">
+                    <div class="absolute right-0 bottom-0 opacity-20 mb-2 mr-2"><i data-lucide="infinity" class="w-32 h-32 text-amber-500"></i></div>
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 text-[10px] font-black px-2.5 py-1 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.3)]">얼리버드 20% 할인 + 시즌 0 무료</span>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
                             </div>
+                            <h4 class="text-[20px] tracking-tight font-black leading-tight text-white mb-2">[All-Pass] 2028 인피니티<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400">(Infinity) 정기구독권</span></h4>
+                            <p class="text-gray-300 text-[11px] font-bold flex items-center gap-1 mb-4"><i data-lucide="truck" class="w-3.5 h-3.5 text-orange-400"></i> 시즌 1~4 (총 24회차) 자동 배송</p>
                         </div>
-
-                        <!-- Season 0 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:border-indigo-100 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-200 group-hover:bg-indigo-500 transition-colors"></div>
-                            <span class="text-[10px] font-bold text-gray-400 block mb-1 uppercase tracking-wide group-hover:text-indigo-500 transition-colors">Season 0</span>
-                            <h4 class="text-md font-bold text-gray-900 mb-1">2028 프리퀄(Prequel) : 예시문항 완전 해부 <span class="text-xs font-normal text-gray-400 ml-1">(4회분)</span></h4>
-                            <p class="text-xs text-gray-500">2028 수능의 첫 번째 나침반. 교육과정 개편 후 유일한 평가원 공식 데이터 완벽 분석.</p>
-                        </div>
-
-                        <!-- Season 1 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:border-indigo-100 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-200 group-hover:bg-indigo-500 transition-colors"></div>
-                            <span class="text-[10px] font-bold text-gray-400 block mb-1 uppercase tracking-wide group-hover:text-indigo-500 transition-colors">Season 1</span>
-                            <h4 class="text-md font-bold text-gray-900 mb-1">파운데이션(Foundation) : 무너지지 않는 1등급 코어 <span class="text-xs font-normal text-gray-400 ml-1">(4회분)</span></h4>
-                            <p class="text-xs text-gray-500">낯선 통합과학의 뼈대를 단단하게 세우는 필수 개념 완벽 적용 훈련.</p>
-                        </div>
-
-                        <!-- Season 2 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:border-indigo-100 transition-colors">
-                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-200 group-hover:bg-indigo-500 transition-colors"></div>
-                            <div class="absolute right-4 top-4">
-                                <span class="bg-red-50 text-red-600 text-[9px] font-black px-2 py-1 rounded border border-red-100">6평 직후 단종</span>
-                            </div>
-                            <span class="text-[10px] font-bold text-gray-400 block mb-1 uppercase tracking-wide group-hover:text-indigo-500 transition-colors">Season 2</span>
-                            <h4 class="text-md font-bold text-gray-900 mb-1">6평 리허설(Rehearsal) : 첫 평가원 완벽 타겟팅 <span class="text-xs font-normal text-gray-400 ml-1">(4회분)</span></h4>
-                            <p class="text-xs text-gray-500">수능 출제 위원의 시선으로 미리 보는 6월 평가원. 약점을 찌르는 날카로운 문항들.</p>
-                        </div>
-
-                        <!-- Season 3 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:border-indigo-100 transition-colors opacity-75">
-                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-100 group-hover:bg-indigo-300 transition-colors"></div>
-                            <span class="text-[10px] font-bold text-gray-400 block mb-1 uppercase tracking-wide">Season 3 <span class="text-gray-300 font-normal ml-1">· 예정</span></span>
-                            <h4 class="text-md font-bold text-gray-800 mb-1">도미넌스(Dominance) : 9평 압살 고난도 융합 <span class="text-xs font-normal text-gray-400 ml-1">(4회분)</span></h4>
-                            <p class="text-xs text-gray-500">킬러 문항과 낯선 자료 해석에 당황하지 않도록. 1등급을 굳히는 실전 융합 훈련.</p>
-                        </div>
-
-                        <!-- Season 4 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm relative overflow-hidden group hover:border-indigo-100 transition-colors opacity-75">
-                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-100 group-hover:bg-indigo-300 transition-colors"></div>
-                            <span class="text-[10px] font-bold text-gray-400 block mb-1 uppercase tracking-wide">Season 4 <span class="text-gray-300 font-normal ml-1">· 예정</span></span>
-                            <h4 class="text-md font-bold text-gray-800 mb-1">피날레(Finale) : 2028 수능 절대 적중 <span class="text-xs font-normal text-gray-400 ml-1">(8회분)</span></h4>
-                            <p class="text-xs text-gray-500">수능 전 마지막 담금질. 올해의 출제 트렌드가 모두 담긴 극비 모의고사로 완벽한 마무리.</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <button class="bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 px-4 py-2 rounded-lg text-xs font-black shadow-sm">구독 자세히 보기</button>
+                            <span class="font-black text-xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400">186,000원</span>
                         </div>
                     </div>
                 </div>
-                `;
-                
-                container.innerHTML = html;
-            }
+
+                <!-- 3. 주간지 구독 -->
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-500 rounded-3xl p-6 text-white shadow-lg mb-6 relative overflow-hidden cursor-pointer hover:shadow-xl transition-all" onclick="location.href='../weekly_info.html'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                    <div class="relative z-10">
+                        <span class="bg-emerald-700/50 text-emerald-100 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide mb-2 inline-block">WEEKLY</span>
+                        <h4 class="text-xl font-black mb-1 leading-tight">갓통과 WEEKLY<br><span class="text-emerald-200 text-lg">모바일 전자책 & 핏(Fit) 20</span></h4>
+                        <p class="text-xs text-emerald-100 mb-4">매주 배달되는 핵심 문항 및 완벽 해설 (10주)</p>
+                        <button class="bg-white text-emerald-600 px-4 py-2 rounded-lg text-xs font-bold shadow-sm">구독 신청하기</button>
+                    </div>
+                </div>
+            </div>`;
+            container.innerHTML = html;
+            return;
+        }
         }
 
         function createCard(exam, isFeatured) {
@@ -1089,7 +1066,7 @@ html += `<div class="mb-8">`;
         // ==========================================
         // 성적 분석 리포트 화면 렌더링 라우터
         // ==========================================
-        async function renderReportPage(container, selectedId = 'cumulative') {
+        async function renderReportPage(container, selectedId = null) {
             const allResults = Object.values(myExamResults).sort((a,b) => b.submittedAt?.seconds - a.submittedAt?.seconds);
             const latestResultsMap = {};
             allResults.forEach(r => {
@@ -1101,18 +1078,75 @@ html += `<div class="mb-8">`;
                     latestResultsMap[baseId] = r;
                 }
             });
-            const results = Object.values(latestResultsMap);
+            let results = Object.values(latestResultsMap);
+
+            // --- FILTER INJECTION ---
+            let subFilter = window.myReportSubFilter;
+            
+            // 데이터의 서비스 종류 판별 함수 (누락된 주간지 아이디 패턴도 인식)
+            const getSvc = (r) => {
+                let svc = r.serviceType || masterExams.find(e => e.docId === r.examId)?.serviceType;
+                if (!svc && r.examId && (r.examId.toLowerCase().includes('week') || r.examId.startsWith('W'))) {
+                    svc = 'WEEKLY_MAG';
+                }
+                return svc;
+            };
+
+            if (selectedId && selectedId !== 'cumulative') {
+                const targetExam = results.find(r => r.examId === selectedId);
+                if (targetExam) {
+                    const targetSvc = getSvc(targetExam);
+                    if (targetSvc === 'WEEKLY_MAG') subFilter = 'WEEKLY';
+                    else if (targetSvc === 'FREE_ARCHIVE') subFilter = 'PREP';
+                    else subFilter = 'MOCK';
+                    window.myReportSubFilter = subFilter;
+                }
+            } else if (!subFilter) {
+                // 초기 진입 시, 가장 최근에 친 시험 데이터의 분류로 자동 선택
+                if (results.length > 0) {
+                    const svc = getSvc(results[0]);
+                    if (svc === 'WEEKLY_MAG') subFilter = 'WEEKLY';
+                    else if (svc === 'FREE_ARCHIVE') subFilter = 'PREP';
+                    else subFilter = 'MOCK';
+                } else {
+                    subFilter = 'MOCK';
+                }
+                window.myReportSubFilter = subFilter;
+            }
+
+            if (subFilter === 'WEEKLY') {
+                results = results.filter(r => getSvc(r) === 'WEEKLY_MAG');
+            } else if (subFilter === 'MOCK') {
+                results = results.filter(r => getSvc(r) !== 'WEEKLY_MAG' && getSvc(r) !== 'FREE_ARCHIVE');
+            } else if (subFilter === 'PREP') {
+                results = results.filter(r => getSvc(r) === 'FREE_ARCHIVE');
+            }
+
+            window.reportFilterHtml = `
+                <div class="flex gap-2 mb-4 bg-gray-100 p-1.5 rounded-xl sticky top-0 z-20 shadow-sm">
+                    <button onclick="window.myReportSubFilter='WEEKLY'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='WEEKLY' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">주간지</button>
+                    <button onclick="window.myReportSubFilter='MOCK'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='MOCK' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">모의고사</button>
+                    <button onclick="window.myReportSubFilter='PREP'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='PREP' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">기출문제</button>
+                </div>
+            `;
+
             
             if (results.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-gray-400">
+                container.innerHTML = window.reportFilterHtml + `<div class="text-center py-20 text-gray-400">
                     <i data-lucide="bar-chart-2" class="w-12 h-12 mx-auto mb-3 opacity-50"></i>
                     <p>아직 채점된 성적이 없습니다.</p>
                 </div>`;
                 return;
             }
 
-            // [추가] 선택값이 누적 분석이거나, 기본값이면서 결과가 1개 이상일 때 누적 뷰 호출
-            if (selectedId === 'cumulative' || (!selectedId && results.length > 0)) {
+
+            // 기본값일 경우 가장 최근 개별 모의고사를 보여줌
+            if (!selectedId && results.length > 0) {
+                selectedId = results[0].examId;
+            }
+
+            // 누적 뷰가 명시적으로 선택되었을 때만 호출
+            if (selectedId === 'cumulative') {
                 await renderCumulativeReportPage(container, results);
                 return;
             }
@@ -1176,6 +1210,7 @@ html += `<div class="mb-8">`;
             }
 
             container.innerHTML = `
+                ${window.reportFilterHtml}
                 <div class="space-y-6 animate-fade-in">
                     ${results.length > 0 ? `
                         <div class="flex justify-end">
@@ -1202,6 +1237,21 @@ html += `<div class="mb-8">`;
                             💡 아직 표본이 부족하여 원점수 기준 <b>임시 절대등급</b>이 제공됩니다. (표본 누적 시 실제 등급으로 업데이트)
                         </div>
                         ` : ''}
+                        
+                        ${(data.examId === 'week_2028_01' && (!myPackagesData['weekly_winter_2028'] || myPackagesData['weekly_winter_2028'].status !== 'active')) ? `
+                        <div class="bg-gradient-to-r from-blue-600 to-teal-500 rounded-2xl p-4 mb-4 text-white shadow-lg shadow-teal-500/20 cursor-pointer hover:-translate-y-1 transition-transform" onclick="location.href='../weekly_info.html'">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-white/20 p-2 rounded-full shrink-0">
+                                    <i data-lucide="unlock" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-sm mb-0.5 leading-tight">1주차 무료 체험, 어떠셨나요?</h4>
+                                    <p class="text-[11px] text-blue-100 font-medium mt-1 leading-tight">갓통과 프리미엄 10주 패키지 구독하고 완벽한 약점 분석을 받아보세요! 👉</p>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+
                         <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden mb-4">
                             <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl -mr-10 -mt-10"></div>
                             <div class="relative z-10">
@@ -1362,7 +1412,7 @@ html += `<div class="mb-8">`;
 
             if (sortedAnswers.length > 0) {
                 sortedAnswers.forEach(ans => {
-                    const explanationUrl = `explanation.html?id=${ans.examId}&qId=${ans.qId}`;
+                    const explanationUrl = `explanation.html?id=${ans.examId}&qNum=${ans.no}`;
                     const displayExamId = ans.examId ? ans.examId.replace('exam_', '') : '-';
                     
                     let rateHtml = '';
@@ -1396,6 +1446,7 @@ html += `<div class="mb-8">`;
 
             // 렌더링
             container.innerHTML = `
+                ${window.reportFilterHtml}
                 <div class="space-y-6 animate-fade-in">
                     <div class="flex justify-end">
                         <select id="report-selector" onchange="changeReport(this.value)" class="text-xs border border-indigo-300 rounded-lg px-2 py-1 bg-indigo-50 text-indigo-700 font-bold outline-none shadow-sm">
@@ -1711,9 +1762,10 @@ html += `<div class="mb-8">`;
                 // [수정] timeattack 등에서 answers 데이터가 문서 내에 포함되어 있는 경우 이를 활용하여 studentMark, correctAnswer 누락 방지
                 if (data.answers && data.answers.length > 0) {
                     const extractedWrong = data.answers.filter(ans => ans.isCorrect === false || ans.isCorrect === 'false').map(ans => ({
+                        no: ans.no,
                         qId: ans.qId || ans.id,
                         examId: data.examId,
-                        topic: (ans.taxonomy && ans.taxonomy.chapter) ? ans.taxonomy.chapter : (ans.topic || '-'),
+                        topic: ans.taxonomy?.topic || ans.taxonomy?.chapter || ans.topic || '-',
                         studentMark: ans.studentMark || ans.userAnswer || '-',
                         correctAnswer: ans.correctAnswer || ans.answer || '?'
                     }));
@@ -1776,14 +1828,14 @@ html += `<div class="mb-8">`;
                 let tableHtml = '';
                 if (wrongAnswers.length > 0) {
                     wrongAnswers.sort((a,b) => {
-                        const noA = a.qId ? parseInt((String(a.qId).match(/\d+$/) || [0])[0]) : 0;
-                        const noB = b.qId ? parseInt((String(b.qId).match(/\d+$/) || [0])[0]) : 0;
+                        const noA = a.no || (a.qId ? parseInt((String(a.qId).match(/\d+$/) || [0])[0]) : 0);
+                        const noB = b.no || (b.qId ? parseInt((String(b.qId).match(/\d+$/) || [0])[0]) : 0);
                         return noA - noB;
                     }).forEach((ans, index) => {
-                        const originalQNum = ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [index + 1])[0]) : index + 1;
+                        const originalQNum = ans.no || (ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [index + 1])[0]) : index + 1);
                         const qNum = originalQNum;
-                        const topicText = ans.topic || '-';
-                        const explanationUrl = `explanation.html?id=${data.examId}&qId=${ans.qId}`;
+                        const topicText = ans.taxonomy?.topic || ans.topic || '-';
+                        const explanationUrl = `explanation.html?id=${data.examId}&qNum=${ans.no}`;
 
                         let rateHtml = '';
                         if (statsMap[ans.qId] !== undefined) {

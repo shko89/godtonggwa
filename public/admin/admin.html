@@ -18,6 +18,21 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b7280; }
     </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
 
@@ -92,6 +107,7 @@
 
         <div class="flex space-x-1 bg-gray-900 p-1 rounded-xl overflow-x-auto no-scrollbar">
             <button onclick="switchAdminTab('exam')" id="btn-tab-exam" class="flex-1 py-2 rounded-lg text-sm font-bold bg-gray-700 text-white shadow transition-all whitespace-nowrap px-4">모의고사 관리</button>
+            <button onclick="switchAdminTab('package')" id="btn-tab-package" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">패키지 관리</button>
             <button onclick="switchAdminTab('question')" id="btn-tab-question" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">문항 은행</button>
             <button onclick="switchAdminTab('user')" id="btn-tab-user" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">사용자 관리</button>
             <button onclick="switchAdminTab('v2')" id="btn-tab-v2" class="flex-1 py-2 rounded-lg text-sm font-bold text-amber-400 hover:text-amber-300 transition-all whitespace-nowrap px-4 border border-amber-500/30">V2 퀴즈DB</button>
@@ -118,6 +134,25 @@
                 </div>
 
                 <div id="exam-list-container" class="space-y-3 max-h-[500px] overflow-y-auto hide-scrollbar mb-4">
+                    <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.5. 패키지 관리 섹션 -->
+        <div id="section-package" class="admin-section hidden">
+            <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700 space-y-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="package" class="w-4 h-4 text-blue-400"></i> 패키지(상품) 목록 (packages)</h2>
+                    <div class="flex gap-2">
+                        <button onclick="openPackageEditModal()" class="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1">
+                            <i data-lucide="plus" class="w-3 h-3"></i> 새 패키지 생성
+                        </button>
+                        <button onclick="loadPackageList()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg border border-gray-600 transition-colors">새로고침</button>
+                    </div>
+                </div>
+
+                <div id="package-list-container" class="space-y-3 max-h-[500px] overflow-y-auto hide-scrollbar mb-4">
                     <p class="text-center text-gray-500 text-sm py-4">데이터를 불러오는 중...</p>
                 </div>
             </div>
@@ -285,9 +320,39 @@
         </div>
     </div>
 
+    <!-- 모달: 패키지 정보 수정 -->
+    <div id="package-edit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[70] hidden p-4">
+        <div class="bg-gray-800 w-full max-w-sm rounded-2xl p-6 border border-gray-600 shadow-2xl">
+            <h3 class="text-lg font-bold text-white mb-4">패키지(상품) 정보 수정</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">패키지 고유 ID (예: weekly_winter_2028)</label>
+                    <input type="text" id="pkg-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">패키지 이름 (Title)</label>
+                    <input type="text" id="pkg-title" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none" placeholder="예: 주간지 10주 패스권">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">가격 (원)</label>
+                    <input type="number" id="pkg-price" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none" placeholder="예: 50000">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">설명 (선택)</label>
+                    <textarea id="pkg-desc" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none h-20"></textarea>
+                </div>
+            </div>
+            
+            <div class="flex gap-2 mt-6">
+                <button onclick="closePackageEditModal()" class="flex-1 py-2 bg-gray-700 text-gray-300 rounded-lg text-sm hover:bg-gray-600">취소</button>
+                <button onclick="savePackageData()" class="flex-1 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-500">저장</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 모달: 시험 정보 수정 -->
     <div id="edit-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[70] hidden p-4">
-        <div class="bg-gray-800 w-full max-w-sm rounded-2xl p-6 border border-gray-600 shadow-2xl">
+        <div class="bg-gray-800 w-full max-w-sm rounded-2xl p-6 border border-gray-600 shadow-2xl max-h-[90vh] overflow-y-auto hide-scrollbar">
             <h3 class="text-lg font-bold text-white mb-4">시험 정보 수정</h3>
             <input type="hidden" id="edit-doc-id">
             <div class="space-y-3">
@@ -323,6 +388,10 @@
                         <option value="SEASON_MOCK">시즌 모의고사 (SEASON_MOCK)</option>
                         <option value="WEEKLY_MAG">주간지 (WEEKLY_MAG)</option>
                     </select>
+                </div>
+                <div>
+                    <label class="text-xs text-emerald-400 block mb-1">연결된 패키지 ID (결제 연동용)</label>
+                    <input type="text" id="edit-package-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: weekly_winter_2028 (선택)">
                 </div>
                 <div class="flex items-center gap-2 mt-2">
                     <input type="checkbox" id="edit-auth-required" class="w-4 h-4 rounded bg-gray-900 border-gray-600 text-emerald-500 focus:ring-emerald-500">
@@ -680,7 +749,7 @@
         window.switchAdminTab = (tabName) => {
             document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`section-${tabName}`).classList.remove('hidden');
-            ['exam', 'user', 'question', 'v2'].forEach(t => {
+            ['exam', 'user', 'question', 'package', 'v2'].forEach(t => {
                 const btn = document.getElementById(`btn-tab-${t}`);
                 if (!btn) return;
                 if (t === tabName) {
@@ -691,6 +760,7 @@
                         btn.className = "flex-1 py-2 px-4 rounded-lg text-sm font-bold bg-gray-700 text-white shadow whitespace-nowrap";
                     }
                     if(t === 'exam') window.loadExamList();
+                    if(t === 'package') window.loadPackageList();
                     if(t === 'question') window.loadQuestionsList();
                 } else {
                     if (t === 'v2') {
@@ -946,9 +1016,9 @@
 
             const groups = new Set();
             allQuestionsData.forEach(d => {
-                const parts = d.id.split('_');
-                if (parts.length >= 3) {
-                    const groupKey = parts.slice(0, 3).join('_');
+                const lastIndex = d.id.lastIndexOf('_');
+                if (lastIndex > 0) {
+                    const groupKey = d.id.substring(0, lastIndex);
                     groups.add(groupKey);
                 } else {
                     groups.add('etc'); 
@@ -1536,6 +1606,127 @@
         window.closeImagePreview = () => {
             document.getElementById('image-preview-modal').classList.add('hidden');
             document.getElementById('preview-img-full').src = '';
+        };
+        // --- 패키지(상품) 관리 로직 ---
+        window.loadPackageList = async () => {
+            const container = document.getElementById('package-list-container');
+            container.innerHTML = '<p class="text-center text-gray-500 text-sm py-4">불러오는 중...</p>';
+            try {
+                const q = query(collection(db, "packages"), orderBy("price", "asc"));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<p class="text-center text-gray-500 text-sm py-4">등록된 패키지가 없습니다.</p>';
+                    return;
+                }
+                
+                let html = '';
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    html += `
+                        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex justify-between items-center hover:border-blue-500/50 transition-colors">
+                            <div>
+                                <p class="text-xs text-blue-400 font-bold mb-1">ID: ${docSnap.id}</p>
+                                <h3 class="text-lg font-bold text-white">${data.title}</h3>
+                                <p class="text-sm text-gray-400 mt-1">${data.price.toLocaleString()}원</p>
+                                ${data.description ? `<p class="text-xs text-gray-500 mt-1">${data.description}</p>` : ''}
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <button onclick="openPackageEditModal('${docSnap.id}')" class="text-xs bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-white transition-colors">수정</button>
+                                <button onclick="deletePackageData('${docSnap.id}')" class="text-xs bg-red-900/50 hover:bg-red-900 border border-red-800 text-red-200 px-4 py-2 rounded-lg transition-colors">삭제</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } catch (error) {
+                console.error("패키지 목록 로딩 실패:", error);
+                container.innerHTML = '<p class="text-center text-red-500 text-sm py-4">오류가 발생했습니다.</p>';
+            }
+        };
+
+        window.openPackageEditModal = async (docId = null) => {
+            const modal = document.getElementById('package-edit-modal');
+            const idInput = document.getElementById('pkg-id');
+            const titleInput = document.getElementById('pkg-title');
+            const priceInput = document.getElementById('pkg-price');
+            const descInput = document.getElementById('pkg-desc');
+            
+            if (docId) {
+                // 수정
+                idInput.value = docId;
+                idInput.readOnly = true;
+                idInput.classList.add('opacity-50', 'cursor-not-allowed');
+                
+                try {
+                    const docSnap = await getDoc(doc(db, "packages", docId));
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        titleInput.value = data.title || '';
+                        priceInput.value = data.price || 0;
+                        descInput.value = data.description || '';
+                    }
+                } catch (e) {
+                    console.error(e);
+                    await customAlert("데이터를 불러오는데 실패했습니다.");
+                    return;
+                }
+            } else {
+                // 생성
+                idInput.value = '';
+                idInput.readOnly = false;
+                idInput.classList.remove('opacity-50', 'cursor-not-allowed');
+                titleInput.value = '';
+                priceInput.value = '';
+                descInput.value = '';
+            }
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closePackageEditModal = () => {
+            document.getElementById('package-edit-modal').classList.add('hidden');
+        };
+
+        window.savePackageData = async () => {
+            const id = document.getElementById('pkg-id').value.trim();
+            const title = document.getElementById('pkg-title').value.trim();
+            const price = parseInt(document.getElementById('pkg-price').value.trim()) || 0;
+            const desc = document.getElementById('pkg-desc').value.trim();
+            
+            if (!id || !title) {
+                await customAlert("패키지 ID와 이름은 필수입니다.");
+                return;
+            }
+            
+            try {
+                await setDoc(doc(db, "packages", id), {
+                    title: title,
+                    price: price,
+                    description: desc,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+                
+                closePackageEditModal();
+                loadPackageList();
+                await customAlert("저장되었습니다.");
+            } catch (e) {
+                console.error(e);
+                await customAlert("저장 실패: " + e.message);
+            }
+        };
+
+        window.deletePackageData = async (docId) => {
+            const proceed = await customConfirm("정말 이 패키지를 삭제하시겠습니까?\n이 패키지를 구매한 유저의 연동에 문제가 생길 수 있습니다.");
+            if (!proceed) return;
+            
+            try {
+                await deleteDoc(doc(db, "packages", docId));
+                loadPackageList();
+            } catch (e) {
+                console.error(e);
+                await customAlert("삭제 실패: " + e.message);
+            }
         };
 
         lucide.createIcons();

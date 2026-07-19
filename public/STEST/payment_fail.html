@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 실패</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">결제 취소 또는 실패</h2>
+        <p id="error-msg" class="text-gray-600 text-sm mb-6">결제가 취소되었거나 처리 중 오류가 발생했습니다.</p>
+        
+        <div class="bg-gray-50 p-4 rounded-xl text-left text-xs text-gray-500 mb-6">
+            <p><strong>오류 코드:</strong> <span id="error-code"></span></p>
+        </div>
+
+        <button onclick="location.href='../weekly_info.html'" class="w-full py-3 bg-gray-800 text-white rounded-xl font-bold hover:bg-gray-700 transition-colors">돌아가기</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code") || "알 수 없음";
+        const message = urlParams.get("message") || "사용자가 결제를 취소했거나 오류가 발생했습니다.";
+        
+        document.getElementById('error-code').innerText = code;
+        document.getElementById('error-msg').innerText = message;
+    </script>
+</body>
+</html>

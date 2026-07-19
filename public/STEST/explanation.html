@@ -41,8 +41,14 @@
         
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+        /* 📝 예쁜 반투명 스크롤바 */
+        .custom-notebook-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-notebook-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-notebook-scroll::-webkit-scrollbar-thumb { 
+            background: rgba(0, 0, 0, 0.15); 
+            border-radius: 10px; 
+        }
+        .custom-notebook-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.3); }
         
         .btn-selected { 
             background-color: #4f46e5; 
@@ -51,7 +57,23 @@
             box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);
             border-color: #4f46e5;
         }
+        
     </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
 </head>
 <body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
 
@@ -106,7 +128,7 @@
                     </span>
                 </div>
 
-                <div class="flex-1 overflow-y-auto p-6 ml-2 custom-scrollbar relative" id="note-content-area">
+                <div class="flex-1 overflow-y-auto p-6 ml-2 custom-notebook-scroll relative" id="note-content-area">
                     <div class="handwriting flex flex-col items-center justify-center h-full text-gray-400 opacity-50 text-center">
                         <i data-lucide="hand-metal" class="w-12 h-12 mb-2"></i>
                         왼쪽에서 문항 번호를<br>콕! 눌러보세요.
@@ -157,13 +179,18 @@
 
         function loadExamDataScript(examId) {
             return new Promise((resolve) => {
-                // 1. 전달받은 긴 ID(주소창 ID)에서 앞의 3단어만 뽑아냅니다. (week_2028_02)
-                const parts = examId.split('_');
-                const year = parts[1]; // '2028'
-                const baseId = parts.slice(0, 3).join('_'); // 'week_2028_02'
-                
-                // 2. 정확한 상대 경로 조합: ./week/연도/파일명
-                const fileName = `./week/${year}/${baseId}.js?v=${new Date().getTime()}`;
+                let fileName = '';
+                if (examId === '2028_pretest' || examId === 'past_예비문항') {
+                    fileName = `../archive/kice_2028/2028_pretest.js`;
+                } else if (examId.includes('week_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1]; 
+                    const baseId = parts.slice(0, 3).join('_'); 
+                    fileName = `./weekly/${year}/${baseId}.js`;
+                } else {
+                    fileName = `./data/${examId}.js`;
+                }
+                fileName += `?v=${new Date().getTime()}`;
                 
                 console.log("파일을 찾으러 갑니다:", fileName); 
 
@@ -203,6 +230,17 @@
                 }
                 if (loadedAiData.status === 'fulfilled' && loadedAiData.value) aiExamData = loadedAiData.value;
                 renderQuestionGrid();
+                
+                // [신규 추가] URL에 qNum이 있으면 해당 문항 해설을 자동으로 띄우기
+                const preSelectNum = urlParams.get('qNum');
+                if (preSelectNum) {
+                    const no = parseInt(preSelectNum);
+                    const btns = document.querySelectorAll('#question-grid button');
+                    if (no > 0 && no <= btns.length) {
+                        btns[no - 1].click();
+                    }
+                }
+
                 lucide.createIcons();
             } catch (e) { console.error("초기화 오류:", e); }
         }
@@ -290,12 +328,12 @@
                             }
                             
                             statsHtml += `
-                                <div class="mb-6 p-5 rounded-2xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-2xl">📊</span>
-                                        <h3 class="font-bold text-lg">전체 응시자 정답률: ${correctRate}%</h3>
+                                <div class="mb-6 ml-[50px] mr-5 p-3 rounded-xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
+                                    <div class="flex items-center gap-1 mb-1">
+                                        <span class="text-sm">📊</span>
+                                        <h3 class="font-bold text-[10px]">전체 응시자 정답률: ${correctRate}%</h3>
                                     </div>
-                                    <p class="text-[15px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
+                                    <p class="text-[10px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
                             `;
                             
                             if (wData && qData.distractorStats) {
@@ -304,9 +342,9 @@
                                 const distRate = Math.round((distCount / totalAttempts) * 100);
                                 if (myMark > 0 && myMark !== wData.correctAnswer) {
                                     statsHtml += `
-                                        <div class="mt-4 pt-3 border-t border-black/10 flex items-start gap-2">
-                                            <span class="text-xl">🚨</span>
-                                            <p class="text-[15px]">
+                                        <div class="mt-2 pt-2 border-t border-black/10 flex items-start gap-1">
+                                            <span class="text-sm">🚨</span>
+                                            <p class="text-[10px]">
                                                 <b>매력적인 오답 경보:</b> 내가 고른 <b>${myMark}번</b> 선지는 전체 응시자의 <b>${distRate}%</b>가 낚인 함정이었습니다. 당신만 틀린 게 아니에요!
                                             </p>
                                         </div>

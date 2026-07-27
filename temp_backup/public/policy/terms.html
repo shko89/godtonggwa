@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 서비스 이용약관</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="max-w-[480px] mx-auto min-h-screen bg-white shadow-xl relative pb-10">
+        <header class="sticky top-0 bg-white/90 backdrop-blur-md border-b border-gray-100 p-4 flex items-center z-50">
+            <button onclick="history.back()" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
+                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+            </button>
+            <h1 class="text-lg font-bold ml-2">서비스 이용약관</h1>
+        </header>
+
+        <div class="p-6 space-y-6 text-sm leading-relaxed text-gray-600">
+            <section>
+                <h2 class="text-base font-bold text-gray-900 mb-2">제1조 (목적)</h2>
+                <p>본 약관은 갓통과(이하 "회사")가 제공하는 통합과학 모의고사 및 에듀테크 관련 제반 서비스의 이용과 관련하여 회사와 회원 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
+            </section>
+            
+            <section>
+                <h2 class="text-base font-bold text-gray-900 mb-2">제2조 (정의)</h2>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>"서비스"라 함은 구현되는 단말기(PC, 휴대형단말기 등의 각종 유무선 장치를 포함)와 상관없이 "회원"이 이용할 수 있는 갓통과 관련 제반 서비스를 의미합니다.</li>
+                    <li>"회원"이라 함은 회사의 "서비스"에 접속하여 이 약관에 따라 "회사"와 이용계약을 체결하고 "회사"가 제공하는 "서비스"를 이용하는 고객을 말합니다.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-base font-bold text-gray-900 mb-2">제3조 (회원의 의무 및 저작권 보호)</h2>
+                <p>회원은 다음 행위를 하여서는 안 되며, 적발 시 민형사상 책임을 질 수 있습니다.</p>
+                <ul class="list-decimal pl-5 space-y-1 mt-2 font-medium text-gray-700">
+                    <li>가입 신청 또는 정보 변경 시 허위내용 등록</li>
+                    <li>타인의 계정 도용 및 공유</li>
+                    <li class="text-rose-600 font-bold bg-rose-50 p-1 rounded">회사가 제공하는 모의고사 문항, 해설지 등 콘텐츠의 무단 복제, 캡처, 스크래핑 및 외부 배포</li>
+                    <li>서비스의 운영을 고의로 방해하는 행위</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-base font-bold text-gray-900 mb-2">제4조 (이용요금 및 환불)</h2>
+                <p>유료 서비스(프리미엄 패키지, 실물 시험지 배송 등)의 이용 요금 및 결제 방식은 서비스 내 별도 고지된 바에 따릅니다.</p>
+                <p class="mt-2">환불 규정은 『전자상거래 등에서의 소비자보호에 관한 법률』에 의거하며, 디지털 콘텐츠(PDF 해설지, 성적표 열람 등) 특성상 이미 다운로드하거나 열람한 이후에는 환불이 제한될 수 있습니다.</p>
+            </section>
+
+            <section>
+                <h2 class="text-base font-bold text-gray-900 mb-2">제5조 (면책 조항)</h2>
+                <p>회사는 천재지변 또는 이에 준하는 불가항력으로 인하여 서비스를 제공할 수 없는 경우에는 서비스 제공에 관한 책임이 면제됩니다. 또한 회원의 귀책사유로 인한 서비스 이용의 장애에 대하여는 책임을 지지 않습니다.</p>
+            </section>
+            
+            <p class="text-xs text-gray-400 pt-4 border-t border-gray-100">본 약관은 2026년 6월 26일부터 시행됩니다.</p>
+        </div>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

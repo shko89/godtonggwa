@@ -6,14 +6,7 @@
     <title>2028 통합과학 프리미엄 모의고사 패키지</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; }
-        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; }        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -29,6 +22,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="app-container">

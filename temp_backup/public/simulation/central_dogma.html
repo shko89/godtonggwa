@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>갓통과 - 센트럴 도그마 시뮬레이터</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; margin: 0; }
+        
+        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow-x: hidden; }
+        .premium-banner { background: linear-gradient(135deg, #F43F5E 0%, #E11D48 50%, #BE123C 100%); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .fade-out { animation: fadeOut 0.4s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-12px); } }
+        .hidden { display: none !important; }
+
+        /* Shared Base Styling */
+        .base {
+            width: 28px; height: 32px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 14px; color: white; border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; flex-shrink: 0; transition: all 0.3s;
+        }
+        .base.base-A { background-color: #EF4444; }
+        .base.base-T { background-color: #3B82F6; }
+        .base.base-G { background-color: #10B981; }
+        .base.base-C { background-color: #F59E0B; }
+        .base.base-U { background-color: #8B5CF6; }
+
+        .amino-acid {
+            width: 86px; height: 36px; display: flex; align-items: center; justify-content: center;
+            border-radius: 18px; font-weight: 800; font-size: 12px; color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; transition: all 0.4s;
+            margin: 0 2px; text-align: center; flex-shrink: 0; z-index: 10;
+        }
+        .amino-acid.Met { background-color: #10B981; border: 2px solid #059669; }
+        .amino-acid.Stop { background-color: #EF4444; border: 2px solid #B91C1C; }
+        .amino-acid.Normal { background-color: #6366F1; border: 2px solid #4338CA; }
+        .amino-acid.Mutated { background-color: #F97316; border: 2px solid #C2410C; animation: pulseError 1.5s infinite; }
+        
+        .peptide-bond { width: 14px; height: 4px; background-color: #94A3B8; margin: 0 -2px; z-index: 5; flex-shrink: 0; transition: all 0.3s; }
+
+        @keyframes pulseError { 0% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); } 70% { box-shadow: 0 0 0 10px rgba(249,115,22,0); } 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0); } }
+
+        /* Animation Engine Specific Styles */
+        .cinema-area { position: relative; width: 100%; height: 420px; background: #0F172A; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+        .scene { position: absolute; inset: 0; padding: 20px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; opacity: 0; pointer-events: none; }
+        .scene.active { opacity: 1; pointer-events: auto; }
+
+        /* Scene 1: Nucleotide Polymerization */
+        .nucleotide-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; position: relative; }
+        .phosphate { width: 36px; height: 36px; background-color: #F8FAFC; border: 2px solid #94A3B8; border-radius: 50%; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.1); position: absolute; left: -26px; top: -14px; z-index: 2; transition: opacity 1.5s; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: 900; color: #334155; }
+        .sugar { width: 50px; height: 50px; background-color: #334155; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); display: flex; align-items: center; justify-content: center; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.5); z-index: 1; transition: opacity 1.5s; font-size: 12px; font-weight: 900; color: #F8FAFC; padding-top: 10px; }
+        .bond-line { width: 3px; height: 20px; background-color: #64748B; margin-left: -26px; transition: opacity 1.5s; }
+        .sugar-base-bond { position: absolute; width: 16px; height: 3px; background-color: #64748B; left: 50px; top: 22px; z-index: 0; transition: opacity 1.5s; }
+        .base-block { position: absolute; left: 66px; top: 4px; width: 50px; height: 40px; font-weight: 900; font-size: 16px; color: white; display: flex; align-items: center; justify-content: center; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: all 1.5s; }
+
+        /* Scene 2 & 3 shared backgrounds */
+        .nucleus-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%); z-index: 0; }
+        .cytoplasm-bg { position: absolute; inset: 0; background: radial-gradient(circle at top, #1e1b4b 0%, #0F172A 100%); z-index: 0; }
+
+        /* Scene 2: Transcription */
+        .dna-track { position: relative; z-index: 10; display: flex; gap: 2px; align-items: center; justify-content: center; width: max-content; transition: transform 1s ease-in-out; }
+        .dna-strand-top { display: flex; gap: 2px; position: relative; transition: transform 0.5s; }
+        .dna-strand-bottom { display: flex; gap: 2px; position: relative; transition: transform 0.5s; }
+        .polymerase { position: absolute; width: 120px; height: 120px; background: rgba(59, 130, 246, 0.2); border: 2px solid rgba(59, 130, 246, 0.5); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; top: 50%; transform: translateY(-50%) translateX(-200px); z-index: 5; backdrop-filter: blur(2px); transition: left 0.5s linear, transform 0.5s linear; display: none; }
+        .mrna-track-anim { position: absolute; display: flex; gap: 2px; top: 50%; transform: translateY(-50%); z-index: 15; left: 0; }
+        .rna-base-anim { width: 28px; height: 32px; font-weight: 900; font-size: 14px; color: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; position: absolute; opacity: 0; transition: all 0.4s; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+        .rna-base-anim.base-U { background-color: #8B5CF6; }
+        .rna-base-anim.base-A { background-color: #EF4444; }
+        .rna-base-anim.base-G { background-color: #10B981; }
+        .rna-base-anim.base-C { background-color: #F59E0B; }
+        .nuclear-pore { position: absolute; bottom: 0; left: 0; right: 0; height: 20px; border-top: 4px dashed #475569; z-index: 20; display: flex; justify-content: center; }
+        .pore-hole { width: 80px; height: 20px; background: #0F172A; margin-top: -4px; border-radius: 40px 40px 0 0; border: 4px dashed #475569; border-bottom: none; display: flex; justify-content: center; align-items: center; color: #94A3B8; font-size: 10px; font-weight: bold; }
+
+        /* Scene 3: Translation */
+        .ribosome { position: absolute; width: 140px; height: 120px; background: rgba(245, 158, 11, 0.15); border: 2px solid rgba(245, 158, 11, 0.4); border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%; bottom: 40px; transform: translateX(-200px); z-index: 5; backdrop-filter: blur(2px); transition: transform 0.5s ease-in-out; display: none; }
+        .trna-anim { position: absolute; width: 40px; height: 60px; z-index: 20; display: flex; flex-direction: column; align-items: center; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; transform: translateY(-100px); }
+        .trna-body { width: 20px; height: 40px; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5); border-radius: 10px; position: relative; }
+        .trna-body::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 2px; height: 8px; background: white; }
+        .trna-aa { width: 50px; height: 24px; background: #6366F1; border: 2px solid #4338CA; border-radius: 12px; font-size: 9px; font-weight: bold; color: white; display: flex; justify-content: center; align-items: center; position: absolute; top: -12px; z-index: 25; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .trna-aa.Met { background: #10B981; border-color: #059669; }
+        .trna-anticodon { position: absolute; bottom: -20px; font-size: 10px; color: #FCD34D; font-weight: bold; letter-spacing: 2px; }
+        .protein-track-anim { position: absolute; top: 40px; left: 50px; display: flex; z-index: 30; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; width: 100%; max-width: 400px; border-radius: 24px; padding: 24px; max-height: 80vh; overflow-y: auto; }
+        .btn-press:active { transform: scale(0.96); transition: transform 0.1s; }
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="bg-white/95 backdrop-blur-md px-5 py-3 border-b border-gray-100 sticky top-0 z-50 flex items-center gap-3">
+            <button onclick="goBack()" class="p-1.5 hover:bg-gray-100 rounded-full transition-colors"><i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i></button>
+            <h1 class="text-base font-black text-gray-900 tracking-tight" id="header-title">센트럴 도그마 마스터</h1>
+        </header>
+
+        <main class="flex-1 p-4 overflow-y-auto hide-scrollbar pb-32">
+            
+            <!-- 메뉴 뷰 -->
+            <!-- 시네마틱 뷰 -->
+            <div id="cinema-view" class="space-y-4 fade-in pt-2 h-full flex flex-col">
+                <!-- 씬 네비게이터 -->
+                <div class="flex justify-between items-center px-2 mb-2">
+                    <span id="scene-indicator" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Page 1 / 3</span>
+                    <span id="scene-title" class="text-sm font-black text-gray-800">단위체와 고분자</span>
+                </div>
+
+                <div class="cinema-area flex-1" id="cinema-area" style="min-height: 480px;">
+                    <!-- Scene 1: Nucleotide -->
+                    <div id="scene-1" class="scene active">
+                        <div class="nucleus-bg"></div>
+                        <div id="polymer-container" class="relative w-full h-full flex flex-col items-center justify-start pt-10">
+                            <!-- JS injected monomers -->
+                        </div>
+                    </div>
+
+                    
+                    <!-- Scene 2: Central Dogma -->
+                    <div id="scene-2" class="scene !p-0 !block">
+                        <!-- Top Half: Nucleus -->
+                        <div class="h-1/2 relative w-full overflow-hidden border-b-2 border-dashed border-gray-600 bg-slate-900">
+                            <div class="nucleus-bg"></div>
+                            <div class="absolute top-4 left-4 text-white text-xs font-bold tracking-widest opacity-50 z-10 flex items-center gap-2"><i data-lucide="microscope" class="w-4 h-4"></i> NUCLEUS (핵 내부)</div>
+                            <div class="polymerase" id="polymerase"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-blue-300 text-[10px] font-bold whitespace-nowrap">RNA 중합효소</div></div>
+                            <div class="dna-track absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-90" id="dna-anim-track">
+                                <div class="flex flex-col gap-1 relative z-10" id="dna-anim-container">
+                                    <div class="dna-strand-top" id="dna-top-strand"></div>
+                                    <div class="mrna-track-anim" id="mrna-anim-track"></div>
+                                    <div class="dna-strand-bottom" id="dna-bottom-strand"></div>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-slate-900 border-2 border-b-0 border-dashed border-gray-500 rounded-t-xl flex items-center justify-center text-gray-400 text-[10px] font-bold z-20">핵 공</div>
+                        </div>
+
+                        <!-- Bottom Half: Cytoplasm -->
+                        <div class="h-1/2 relative w-full overflow-hidden bg-slate-800">
+                            <div class="cytoplasm-bg"></div>
+                            <div class="absolute top-4 left-4 text-white text-xs font-bold tracking-widest opacity-50 z-10 flex items-center gap-2"><i data-lucide="droplets" class="w-4 h-4"></i> CYTOPLASM (세포질)</div>
+                            
+                            <div class="protein-track-anim scale-90 absolute" id="protein-anim-track" style="top: 40px; left: 50%;"></div>
+                            <div class="ribosome scale-90" id="ribosome" style="bottom: auto; top: 60px;"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-amber-300 text-[10px] font-bold whitespace-nowrap">리보솜</div></div>
+                            <div class="dna-track absolute top-[110px] left-1/2 -translate-x-1/2 scale-90" id="mrna-translation-track">
+                                <div class="dna-strand-bottom" id="mrna-bottom-strand"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scene 3: Mutation -->
+                    <div id="scene-3" class="scene !p-0 !block overflow-y-auto hide-scrollbar bg-slate-50">
+                        <div class="p-4 space-y-6">
+                            <div class="bg-rose-50 p-4 rounded-2xl border border-rose-100 flex flex-col gap-3">
+                    <p class="text-xs font-bold text-rose-800 flex items-center gap-1"><i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> DNA 염기를 클릭하여 돌연변이를 발생시키세요.</p>
+                    <div class="flex gap-2">
+                        <button onclick="setMutationMode('SUBSTITUTE')" id="btn-sub" class="flex-1 bg-rose-600 text-white text-xs font-bold py-2 rounded-lg btn-press ring-2 ring-rose-200">염기 치환</button>
+                        <button onclick="setMutationMode('DELETE')" id="btn-del" class="flex-1 bg-white text-gray-600 text-xs font-bold py-2 rounded-lg border border-gray-200 btn-press">염기 결실</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-[24px] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-x-auto hide-scrollbar">
+                    <div class="mb-6 relative w-max">
+                        <div class="flex items-center gap-2 mb-2 sticky left-0 bg-white/90 backdrop-blur-sm z-10 w-fit pr-2"><span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">DNA 비주형 가닥</span></div>
+                        <div class="flex gap-1" id="mut-dna-coding"></div>
+                        <div class="h-[2px] bg-gray-200 w-full my-1.5 relative"><div class="absolute inset-0 bg-gray-300 animate-pulse opacity-50"></div></div>
+                        <div class="flex gap-1" id="mut-dna-template"></div>
+                        <div class="flex items-center gap-2 mt-2 sticky left-0 bg-white/90 backdrop-blur-sm z-10 w-fit pr-2"><span class="bg-indigo-100 text-indigo-600 text-[10px] font-bold px-2 py-0.5 rounded">DNA 주형 가닥</span></div>
+                    </div>
+
+                    <div class="mb-6 relative p-3 bg-indigo-50/50 rounded-xl border border-indigo-50 w-max min-w-full">
+                        <div class="flex items-center justify-between mb-3 sticky left-0"><span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1"><i data-lucide="move-down" class="w-3 h-3"></i> 전사 (Transcription)</span></div>
+                        <div class="flex gap-1" id="mut-mrna-strand"></div>
+                    </div>
+
+                    <div class="relative p-3 bg-amber-50/50 rounded-xl border border-amber-50 w-max min-w-full">
+                        <div class="flex items-center justify-between mb-4 sticky left-0"><span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1"><i data-lucide="move-down" class="w-3 h-3"></i> 번역 (Translation)</span></div>
+                        <div class="flex items-center" id="mut-protein-chain"></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center px-1">
+                    <button onclick="resetMutation()" class="text-xs text-gray-500 underline flex items-center gap-1"><i data-lucide="refresh-ccw" class="w-3 h-3"></i> 초기화</button>
+                    <button onclick="openCodonTable()" class="bg-gray-800 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-1 btn-press"><i data-lucide="table" class="w-4 h-4"></i> 코돈표</button>
+                </div>
+                <div id="explanation-box" class="hidden bg-rose-50 p-4 rounded-xl border border-rose-100 text-sm text-gray-800 break-keep leading-relaxed mt-4"></div>
+            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 자막 박스 -->
+                <div class="bg-gray-900 p-4 rounded-2xl flex flex-col gap-3 shadow-xl">
+                    <p id="cinema-caption" class="text-white text-sm font-bold break-keep leading-relaxed min-h-[40px]">시뮬레이션을 시작하려면 재생 버튼을 누르세요.</p>
+                    
+                    <!-- 컨트롤러 -->
+                    <div class="flex justify-between items-center border-t border-gray-800 pt-3">
+                        <button onclick="prevScene()" id="btn-prev" class="text-gray-400 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"><i data-lucide="skip-back" class="w-5 h-5"></i></button>
+                        
+                        <button onclick="togglePlay()" id="btn-play" class="bg-indigo-600 text-white w-12 h-12 rounded-full flex justify-center items-center shrink-0 btn-press ring-2 ring-indigo-400/50">
+                            <i data-lucide="play" class="w-6 h-6 ml-1" id="icon-cinema-play"></i>
+                        </button>
+                        
+                        <button onclick="nextScene()" id="btn-next" class="text-gray-400 hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"><i data-lucide="skip-forward" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="codon-modal" class="modal-overlay" onclick="closeCodonTable(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-4"><h3 class="font-black text-lg text-gray-900">표준 코돈표</h3><button onclick="closeCodonTable()" class="p-1 bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+            <div class="overflow-x-auto"><table class="w-full text-center border-collapse text-[10px] sm:text-xs"><tbody id="codon-tbody"></tbody></table></div>
+        </div>
+    </div>
+
+    <div id="sub-modal" class="modal-overlay" onclick="closeSubModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 class="font-black text-lg text-gray-900 mb-4 text-center">어떤 염기로 치환할까요?</h3>
+            <div class="grid grid-cols-4 gap-3">
+                <button onclick="applySub('A')" class="base base-A !w-full !h-12 !text-xl shadow-md btn-press">A</button>
+                <button onclick="applySub('T')" class="base base-T !w-full !h-12 !text-xl shadow-md btn-press">T</button>
+                <button onclick="applySub('G')" class="base base-G !w-full !h-12 !text-xl shadow-md btn-press">G</button>
+                <button onclick="applySub('C')" class="base base-C !w-full !h-12 !text-xl shadow-md btn-press">C</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CODON_DICT = { 'UUU': '페닐알라닌', 'UUC': '페닐알라닌', 'UUA': '류신', 'UUG': '류신', 'CUU': '류신', 'CUC': '류신', 'CUA': '류신', 'CUG': '류신', 'AUU': '이소류신', 'AUC': '이소류신', 'AUA': '이소류신', 'AUG': '메티오닌(개시)', 'GUU': '발린', 'GUC': '발린', 'GUA': '발린', 'GUG': '발린', 'UCU': '세린', 'UCC': '세린', 'UCA': '세린', 'UCG': '세린', 'CCU': '프롤린', 'CCC': '프롤린', 'CCA': '프롤린', 'CCG': '프롤린', 'ACU': '트레오닌', 'ACC': '트레오닌', 'ACA': '트레오닌', 'ACG': '트레오닌', 'GCU': '알라닌', 'GCC': '알라닌', 'GCA': '알라닌', 'GCG': '알라닌', 'UAU': '타이로신', 'UAC': '타이로신', 'UAA': '종결', 'UAG': '종결', 'CAU': '히스티딘', 'CAC': '히스티딘', 'CAA': '글루타민', 'CAG': '글루타민', 'AAU': '아스파라긴', 'AAC': '아스파라긴', 'AAA': '라이신', 'AAG': '라이신', 'GAU': '아스파트산', 'GAC': '아스파트산', 'GAA': '글루탐산', 'GAG': '글루탐산', 'UGU': '시스테인', 'UGC': '시스테인', 'UGA': '종결', 'UGG': '트립토판', 'CGU': '아르기닌', 'CGC': '아르기닌', 'CGA': '아르기닌', 'CGG': '아르기닌', 'AGU': '세린', 'AGC': '세린', 'AGA': '아르기닌', 'AGG': '아르기닌', 'GGU': '글라이신', 'GGC': '글라이신', 'GGA': '글라이신', 'GGG': '글라이신' };
+        const INITIAL_DNA = "ATGCCTAGCTACGTTTGA";
+        const BASE_PAIR = {'A':'T', 'T':'A', 'G':'C', 'C':'G'};
+        const TRANS_PAIR = {'A':'U', 'T':'A', 'G':'C', 'C':'G'};
+
+        let state = { mode: 'CINEMA', isPlaying: false, currentScene: 1, codingDNA: INITIAL_DNA, originalAA: [], mutMode: 'SUBSTITUTE', selectedIdx: -1 };
+        let activeAnimId = 0; // to cancel async animations
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+
+        /* --- 시네마틱 페이징 로직 --- */
+        function updatePlayButton(isPlaying) {
+            state.isPlaying = isPlaying;
+            document.getElementById('icon-cinema-play').setAttribute('data-lucide', isPlaying ? 'square' : 'play');
+            lucide.createIcons();
+        }
+
+        function loadScene(sceneNum) {
+            activeAnimId++; // Cancel running anims
+            state.isPlaying = false;
+            state.currentScene = sceneNum;
+            
+            document.querySelectorAll('.scene').forEach(el => el.classList.remove('active'));
+            document.getElementById(`scene-${sceneNum}`).classList.add('active');
+            
+            document.getElementById('scene-indicator').innerText = `Page ${sceneNum} / 3`;
+            const titles = ["뉴클레오타이드와 DNA", "유전 정보의 흐름 (전사 및 번역)", "유전자 이상과 단백질"];
+            document.getElementById('scene-title').innerText = titles[sceneNum-1];
+            
+            document.getElementById('btn-prev').disabled = (sceneNum === 1);
+            document.getElementById('btn-next').disabled = (sceneNum === 3);
+            
+            updatePlayButton(false);
+            resetSceneState(sceneNum);
+        }
+
+        function prevScene() { if(state.currentScene > 1) loadScene(state.currentScene - 1); }
+        function nextScene() { if(state.currentScene < 3) loadScene(state.currentScene + 1); }
+
+        function togglePlay() {
+            if(state.isPlaying) {
+                // Stop
+                updatePlayButton(false);
+                activeAnimId++; // Cancel sequence
+                document.getElementById('cinema-caption').innerText += " (중지됨)";
+            } else {
+                // Play
+                activeAnimId++; // Ensure new animation ID
+                resetSceneState(state.currentScene); // 매번 재생할 때마다 씬을 완전 초기화
+                updatePlayButton(true);
+                runCurrentSceneAnimation(activeAnimId);
+            }
+        }
+
+        function resetSceneState(sceneNum) {
+            if(sceneNum === 1) {
+                let container = document.getElementById('polymer-container');
+                container.innerHTML = '';
+                container.removeAttribute('style');
+                document.getElementById('cinema-caption').innerText = "재생 버튼을 눌러 DNA의 단위체 구조를 확인하세요.";
+            } else if(sceneNum === 2) {
+                initScene2DOM();
+                document.getElementById('cinema-caption').innerText = "재생 버튼을 눌러 센트럴 도그마 애니메이션을 시작하세요.";
+            } else if(sceneNum === 3) {
+                document.getElementById('cinema-caption').innerText = "아래 실험실에서 염기를 직접 조작하여 돌연변이의 결과를 관찰하세요.";
+            }
+        }
+
+        async function runCurrentSceneAnimation(animId) {
+            try {
+                if(state.currentScene === 1) await runScene1(animId);
+                else if(state.currentScene === 2) await runScene2(animId);
+                else if(state.currentScene === 3) await runScene3(animId);
+                
+                if(animId === activeAnimId) {
+                    updatePlayButton(false);
+                    document.getElementById('cinema-caption').innerText += "\n(완료되었습니다. 다음 페이지로 이동하세요.)";
+                }
+            } catch(e) {
+                if(e !== 'cancelled') console.error(e);
+            }
+        }
+
+        /* --- Scene 1: Nucleotide Animation --- */
+        async function runScene1(animId) {
+            const container = document.getElementById('polymer-container');
+            container.innerHTML = '';
+            
+            const setCaption = (text) => { if(animId===activeAnimId) document.getElementById('cinema-caption').innerText = text; }
+            const checkCancel = () => { if(animId !== activeAnimId) throw 'cancelled'; };
+
+            setCaption("DNA의 기본 단위는 인산, 당, 염기로 이루어진 '뉴클레오타이드'입니다.");
+            
+            // Draw 4 independent nucleotides dropping
+            let seq = ['A', 'T', 'G', 'C'];
+            let nodes = [];
+            for(let i=0; i<4; i++) {
+                let node = document.createElement('div');
+                node.className = 'nucleotide-container fade-in';
+                node.style.opacity = '0';
+                node.innerHTML = `
+                    <div class="phosphate">인산</div>
+                    <div class="sugar">당</div>
+                    <div class="sugar-base-bond"></div>
+                    <div class="base-block base-${seq[i]} shadow-lg">${seq[i]}</div>
+                `;
+                container.appendChild(node);
+                nodes.push(node);
+            }
+            
+            checkCancel(); await delay(1000);
+            nodes[0].style.opacity = '1';
+            checkCancel(); await delay(2500);
+
+            setCaption("염기의 종류에 따라 아데닌(A), 타이민(T), 구아닌(G), 사이토신(C) 4가지가 존재합니다.");
+            for(let i=1; i<4; i++) { nodes[i].style.opacity = '1'; checkCancel(); await delay(1000); }
+            
+            checkCancel(); await delay(2500);
+            setCaption("이 단위체들이 세로로 연속적으로 공유 결합하여 긴 고분자 사슬(DNA 가닥)을 형성합니다.");
+            
+            // Add backbone bonds
+            for(let i=0; i<3; i++) {
+                let bond = document.createElement('div');
+                bond.className = 'bond-line fade-in';
+                container.insertBefore(bond, nodes[i+1]);
+                checkCancel(); await delay(700);
+            }
+
+            checkCancel(); await delay(3000);
+            setCaption("공통된 '인산-당 골격'은 너무 복잡하므로, 유전 정보를 결정하는 핵심인 '염기 서열'만으로 DNA를 추상화합니다.");
+            
+            // Fade out backbone, rotate bases
+            document.querySelectorAll('.phosphate, .sugar, .bond-line, .sugar-base-bond').forEach(el => el.classList.add('fade-out'));
+            checkCancel(); await delay(1500);
+
+            // Re-align horizontally
+            container.style.flexDirection = 'row';
+            container.style.justifyContent = 'center';
+            container.style.alignItems = 'center';
+            container.style.gap = '8px';
+            document.querySelectorAll('.nucleotide-container').forEach(el => {
+                el.style.width = '44px'; el.style.height = '52px';
+            });
+            document.querySelectorAll('.base-block').forEach(el => {
+                el.style.left = '0'; el.style.top = '0';
+                el.style.width = '44px'; el.style.height = '52px';
+                el.style.fontSize = '24px'; el.style.borderRadius = '6px';
+            });
+            
+            checkCancel(); await delay(3000);
+            setCaption("이제부터 우리는 DNA를 이처럼 염기 서열(알파벳) 가닥으로 묘사합니다. 다음 페이지로 넘어가세요.");
+        }
+
+        
+        /* --- Scene 2: Central Dogma (Transcription + Translation) --- */
+        function initScene2DOM() {
+            const topStrand = document.getElementById('dna-top-strand');
+            const botStrand = document.getElementById('dna-bottom-strand');
+            const rnaTrack = document.getElementById('mrna-anim-track');
+            
+            topStrand.innerHTML = ''; botStrand.innerHTML = ''; rnaTrack.innerHTML = '';
+            
+            for(let i=0; i<INITIAL_DNA.length; i++) {
+                let c = INITIAL_DNA[i]; let t = BASE_PAIR[c];
+                let margin = ((i+1)%3===0 && i!==INITIAL_DNA.length-1) ? 'margin-right: 8px;' : '';
+                topStrand.innerHTML += `<div class="base base-${c}" style="${margin}" id="ctop-${i}">${c}</div>`;
+                botStrand.innerHTML += `<div class="base base-${t}" style="${margin}" id="cbot-${i}">${t}</div>`;
+            }
+            
+            document.getElementById('polymerase').style.display = 'none';
+            document.getElementById('polymerase').style.transform = 'translateY(-50%) translateX(-200px)';
+            document.getElementById('dna-anim-track').style.transform = 'translate(-50%, -50%) scale(0.9)';
+            rnaTrack.style.transform = 'translateY(-50%)'; rnaTrack.style.opacity = '1';
+            rnaTrack.style.transition = 'none';
+
+            // Translation DOM Init
+            const mrnaBot = document.getElementById('mrna-bottom-strand');
+            mrnaBot.innerHTML = '';
+            mrnaBot.style.opacity = '0';
+            const ribo = document.getElementById('ribosome');
+            ribo.style.display = 'none'; ribo.style.transform = 'translateX(-200px)'; ribo.style.opacity = '1';
+            const proteinTrack = document.getElementById('protein-anim-track');
+            proteinTrack.innerHTML = '';
+            proteinTrack.style.transform = 'none';
+        }
+
+        async function runScene2(animId) {
+            const setCaption = (text) => { if(animId===activeAnimId) document.getElementById('cinema-caption').innerHTML = text; }
+            const checkCancel = () => { if(animId !== activeAnimId) throw 'cancelled'; };
+
+            setCaption("DNA 이중 나선 구조입니다. <strong>A와 T, C와 G가 항상 짝을 이루는 '상보적 결합'</strong>을 하고 있습니다.");
+            
+            // Highlight pairs
+            for(let i=0; i<3; i++) {
+                checkCancel();
+                document.getElementById(`ctop-${i}`).style.boxShadow = '0 0 15px white';
+                document.getElementById(`cbot-${i}`).style.boxShadow = '0 0 15px white';
+            }
+            await delay(1500);
+            for(let i=0; i<3; i++) {
+                document.getElementById(`ctop-${i}`).style.boxShadow = '';
+                document.getElementById(`cbot-${i}`).style.boxShadow = '';
+            }
+
+            setCaption("핵 내부: 한 가닥의 DNA 주형을 바탕으로 RNA가 만들어지는 <strong>'전사'</strong> 과정이 시작됩니다.");
+            const poly = document.getElementById('polymerase');
+            const rnaTrack = document.getElementById('mrna-anim-track');
+            poly.style.display = 'block';
+            
+            checkCancel(); await delay(500);
+            poly.style.transform = 'translateY(-50%) translateX(20px)';
+            
+            const baseX = 30;
+            for(let i=0; i<INITIAL_DNA.length; i++) {
+                checkCancel();
+                let tBase = BASE_PAIR[INITIAL_DNA[i]];
+                let rBase = TRANS_PAIR[tBase];
+                
+                poly.style.transform = `translateY(-50%) translateX(${40 + i*baseX}px)`;
+                document.getElementById(`ctop-${i}`).style.transform = 'translateY(-20px)';
+                document.getElementById(`cbot-${i}`).style.transform = 'translateY(20px)';
+                
+                checkCancel(); await delay(300);
+                
+                let margin = ((i+1)%3===0 && i!==INITIAL_DNA.length-1) ? 'margin-right: 8px;' : '';
+                let rnaNode = document.createElement('div');
+                rnaNode.className = `rna-base-anim base-${rBase}`;
+                rnaNode.innerText = rBase;
+                rnaNode.style = `left: ${i*30 + (Math.floor(i/3)*8)}px; top: 30px; ${margin}`;
+                rnaNode.id = `crna-${i}`;
+                rnaTrack.appendChild(rnaNode);
+                
+                requestAnimationFrame(() => { rnaNode.style.opacity = '1'; rnaNode.style.top = '10px'; });
+                
+                // Show emphasis for T->U, C->G
+                setCaption(`전사 중: DNA의 <strong>${tBase}</strong>는 RNA의 <strong class="text-indigo-300">${rBase}</strong>(으)로 복사됩니다.`);
+                
+                checkCancel(); await delay(500);
+                if(i > 1) {
+                    document.getElementById(`ctop-${i-2}`).style.transform = 'translateY(0)';
+                    document.getElementById(`cbot-${i-2}`).style.transform = 'translateY(0)';
+                }
+            }
+            
+            checkCancel(); await delay(500);
+            for(let i=INITIAL_DNA.length-2; i<INITIAL_DNA.length; i++) {
+                document.getElementById(`ctop-${i}`).style.transform = 'translateY(0)';
+                document.getElementById(`cbot-${i}`).style.transform = 'translateY(0)';
+            }
+            poly.style.transform = `translateY(-50%) translateX(600px)`; 
+            
+            setCaption("전사가 완료되었습니다. 완성된 mRNA가 핵공을 통해 세포질로 빠져나갑니다.");
+            checkCancel(); await delay(1000);
+            
+            rnaTrack.style.transition = 'all 1.5s ease-in-out';
+            rnaTrack.style.transform = 'translateY(180px) scale(0.5)'; // Moves to cytoplasm
+            rnaTrack.style.opacity = '0';
+            
+            checkCancel(); await delay(1200);
+
+            // Hide Nucleus RNA, Show Cytoplasm RNA
+            const mrnaBot = document.getElementById('mrna-bottom-strand');
+            for(let i=0; i<INITIAL_DNA.length; i++) {
+                let rBase = TRANS_PAIR[BASE_PAIR[INITIAL_DNA[i]]];
+                let margin = ((i+1)%3===0 && i!==INITIAL_DNA.length-1) ? 'margin-right: 8px;' : '';
+                mrnaBot.innerHTML += `<div class="base base-${rBase}" style="${margin}">${rBase}</div>`;
+            }
+            mrnaBot.style.opacity = '1';
+            
+            setCaption("세포질: 거대한 리보솜이 핵을 빠져나온 mRNA에 결합합니다.");
+            const ribo = document.getElementById('ribosome');
+            ribo.style.display = 'block';
+            
+            checkCancel(); await delay(1000);
+            ribo.style.transform = 'translateX(30px)';
+            
+            const proteinTrack = document.getElementById('protein-anim-track');
+            let aaList = computeAA(INITIAL_DNA);
+            
+            // Adjust protein track pos
+            proteinTrack.style.left = '50%';
+            proteinTrack.style.transform = 'translateX(-50%)';
+
+            for(let c=0; c<aaList.length; c++) {
+                checkCancel();
+                setCaption(`코돈 번역: tRNA가 안티코돈을 맞추며 <strong>[${aaList[c].replace('(개시)','')}]</strong> 아미노산을 운반해옵니다.`);
+                
+                ribo.style.transform = `translateX(${30 + c*100}px)`;
+                checkCancel(); await delay(600);
+                
+                let trna = document.createElement('div');
+                trna.className = 'trna-anim';
+                trna.style.left = `calc(50% - 150px + ${c*98}px)`;
+                trna.style.top = '100px';
+                trna.innerHTML = `<div class="trna-aa ${aaList[c]==='메티오닌(개시)'?'Met':(aaList[c]==='종결'?'Stop':'')}">${aaList[c].replace('(개시)','')}</div><div class="trna-body"></div><div class="trna-anticodon"></div>`;
+                document.getElementById('scene-2').appendChild(trna);
+                
+                requestAnimationFrame(() => { trna.style.opacity = '1'; trna.style.transform = 'translateY(-10px)'; });
+                checkCancel(); await delay(800);
+                
+                if(aaList[c] !== '종결') {
+                    let pNode = document.createElement('div');
+                    pNode.className = `amino-acid ${aaList[c]==='메티오닌(개시)'?'Met':'Normal'}`;
+                    pNode.innerText = aaList[c].replace('(개시)','');
+                    proteinTrack.appendChild(pNode);
+                    if(c > 0) {
+                        let bond = document.createElement('div'); bond.className = 'peptide-bond';
+                        proteinTrack.insertBefore(bond, pNode);
+                    }
+                }
+                
+                trna.style.transform = 'translateY(-150px) translateX(50px) rotate(45deg)';
+                trna.style.opacity = '0';
+                setTimeout(() => { if(trna.parentNode) trna.remove() }, 1000);
+                
+                if(aaList[c] === '종결') break;
+            }
+            
+            checkCancel(); await delay(1000);
+            ribo.style.transform = `translateX(600px)`; ribo.style.opacity = '0';
+            
+            setCaption("지정된 아미노산들이 결합하여 단백질이 합성됩니다. 이 과정을 <strong>'번역'</strong>이라고 합니다.");
+            proteinTrack.style.transition = 'all 1s';
+            proteinTrack.style.transform = 'translateX(-50%) translateY(-20px) scale(1.1)';
+        }
+
+        async function runScene3(animId) {
+            // Nothing to auto-play. It's an interactive view.
+            if(state.originalAA.length === 0) resetMutation();
+            updatePlayButton(false);
+        }
+
+
+        /* --- 돌연변이 실험실 로직 유지 --- */
+        function computeAA(dnaStr) { let aaList = []; let rna = ""; for(let char of dnaStr) rna += TRANS_PAIR[BASE_PAIR[char]]; for(let i=0; i<rna.length; i+=3) { if(i+3 <= rna.length) { let codon = rna.substring(i, i+3); aaList.push(CODON_DICT[codon] || "?"); } } return aaList; }
+        function resetMutation() { state.codingDNA = INITIAL_DNA; state.originalAA = computeAA(INITIAL_DNA); document.getElementById('explanation-box').classList.add('hidden'); renderMutationEngine(); }
+        function setMutationMode(m) { state.mutMode = m; document.getElementById('btn-sub').className = m==='SUBSTITUTE' ? "flex-1 bg-rose-600 text-white text-xs font-bold py-2 rounded-lg btn-press ring-2 ring-rose-200" : "flex-1 bg-white text-gray-600 text-xs font-bold py-2 rounded-lg border border-gray-200 btn-press"; document.getElementById('btn-del').className = m==='DELETE' ? "flex-1 bg-rose-600 text-white text-xs font-bold py-2 rounded-lg btn-press ring-2 ring-rose-200" : "flex-1 bg-white text-gray-600 text-xs font-bold py-2 rounded-lg border border-gray-200 btn-press"; }
+        window.handleMutClick = function(idx) { state.selectedIdx = idx; if(state.mutMode === 'SUBSTITUTE') { document.getElementById('sub-modal').style.display = 'flex'; } else { applyDel(idx); } }
+        window.applySub = function(b) { let arr = state.codingDNA.split(''); arr[state.selectedIdx] = b; state.codingDNA = arr.join(''); closeSubModal(); renderMutationEngine(); analyzeMutation(); }
+        function applyDel(idx) { let arr = state.codingDNA.split(''); arr.splice(idx, 1); state.codingDNA = arr.join(''); renderMutationEngine(); analyzeMutation(); }
+        function analyzeMutation() {
+            const expBox = document.getElementById('explanation-box'); expBox.classList.remove('hidden'); const currentAA = computeAA(state.codingDNA);
+            if(state.mutMode === 'DELETE') { expBox.innerHTML = `<strong>결실(틀 이동 돌연변이) 발생!</strong><br>염기가 하나 빠지면서 코돈을 읽는 틀(Frame)이 한 칸씩 밀렸습니다. <strong>이후의 모든 아미노산 서열이 붕괴되어</strong> 단백질 기능이 상실됩니다.`; } else {
+                let isMissense = false; let isNonsense = false;
+                for(let i=0; i<Math.min(currentAA.length, state.originalAA.length); i++) { if(currentAA[i] === '종결' && state.originalAA[i] !== '종결') isNonsense = true; else if(currentAA[i] !== state.originalAA[i]) isMissense = true; }
+                if(isNonsense) expBox.innerHTML = `<strong>치환(넌센스 돌연변이) 발생!</strong><br>종결 코돈이 형성되어 단백질 합성이 비정상적으로 조기 종료되었습니다.`; else if(isMissense) expBox.innerHTML = `<strong>치환(미스센스 돌연변이) 발생!</strong><br>다른 아미노산이 지정되었습니다. 단백질 입체 구조가 변질될 위험이 있습니다.`; else expBox.innerHTML = `<strong>치환(침묵 돌연변이) 발생!</strong><br>동일한 아미노산을 지정하여 단백질 기능에 변화가 없습니다. 다행이네요!`;
+            }
+        }
+        function renderMutationEngine() {
+            let hCoding='', hTemplate='', hRna='';
+            for(let i=0; i<state.codingDNA.length; i++) {
+                let c = state.codingDNA[i]; let t = BASE_PAIR[c]; let r = TRANS_PAIR[t]; let cClass = (Math.floor(i/3)%2===0) ? 'ring-2 ring-gray-200 ring-offset-1' : ''; let rClass = (Math.floor(i/3)%2===0) ? 'ring-2 ring-purple-200 ring-offset-1' : '';
+                hCoding += `<div onclick="handleMutClick(${i})" class="base base-${c} ${cClass} hover:scale-110 cursor-pointer">${c}</div>`; hTemplate += `<div class="base base-${t}">${t}</div>`; hRna += `<div class="base base-${r} ${rClass}">${r}</div>`;
+                if((i+1)%3===0 && i!==state.codingDNA.length-1) { hCoding+='<div class="w-1"></div>'; hTemplate+='<div class="w-1"></div>'; hRna+='<div class="w-1"></div>'; }
+            }
+            document.getElementById('mut-dna-coding').innerHTML = hCoding; document.getElementById('mut-dna-template').innerHTML = hTemplate; document.getElementById('mut-mrna-strand').innerHTML = hRna;
+            let hProt = ''; const currAA = computeAA(state.codingDNA);
+            for(let i=0; i<currAA.length; i++) {
+                let aa = currAA[i]; let sClass = aa==='메티오닌(개시)'?'Met':(aa==='종결'?'Stop':(aa!==state.originalAA[i]?'Mutated':'Normal'));
+                hProt += `<div class="amino-acid ${sClass}">${aa.replace('(개시)','')}</div>`;
+                if(aa !== '종결' && i !== currAA.length-1 && currAA[i+1]) hProt += `<div class="peptide-bond"></div>`;
+                if(aa === '종결') break;
+            }
+            document.getElementById('mut-protein-chain').innerHTML = hProt;
+        }
+
+        window.openCodonTable = () => document.getElementById('codon-modal').style.display='flex';
+        window.closeCodonTable = (e) => { if(!e || e.target.id==='codon-modal') document.getElementById('codon-modal').style.display='none'; }
+        window.closeSubModal = (e) => { if(!e || e.target.id==='sub-modal') document.getElementById('sub-modal').style.display='none'; }
+
+        function renderCodonTable() {
+            const tbody = document.getElementById('codon-tbody'); const bases = ['U', 'C', 'A', 'G']; let html = '';
+            for(let i=0; i<4; i++) { html += `<tr><td class="border font-bold bg-gray-50">${bases[i]}</td>`; for(let j=0; j<4; j++) { html += `<td class="border p-0.5 align-top">`; for(let k=0; k<4; k++) { let codon = bases[i]+bases[j]+bases[k]; let aa = CODON_DICT[codon].replace('(개시)',''); let color = aa==='종결'?'text-red-500 font-bold':(aa==='메티오닌'?'text-green-600 font-bold':'text-gray-700'); html += `<div class="flex justify-between px-1 border-b last:border-b-0 border-gray-100"><span class="font-mono text-gray-500">${codon}</span> <span class="${color}">${aa}</span></div>`; } html += `</td>`; } html += `<td class="border font-bold bg-gray-50 flex flex-col justify-around h-full"><span class="flex-1 border-b border-gray-200">U</span><span class="flex-1 border-b border-gray-200">C</span><span class="flex-1 border-b border-gray-200">A</span><span class="flex-1">G</span></td></tr>`; }
+            tbody.innerHTML = html;
+        }
+        
+        lucide.createIcons(); renderCodonTable(); loadScene(1); resetMutation();
+    </script>
+</body>
+</html>

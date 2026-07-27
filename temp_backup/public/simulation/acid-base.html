@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 중화반응 시뮬레이터</title>
+    <!-- Tailwind CSS 및 Lucide 아이콘 라이브러리 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&display=swap');
+        
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; margin: 0; }
+        
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #FFFFFF;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .premium-banner { background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%); }
+
+        /* 이온 모형 비커 스타일 */
+        .beaker {
+            width: 145px;
+            height: 145px;
+            border: 4px solid #333;
+            border-top: none;
+            border-radius: 0 0 1.5rem 1.5rem;
+            background-color: rgba(236, 253, 245, 0.6);
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            margin: 5px auto;
+            box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+        
+        .beaker::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid #d1fae5;
+        }
+
+        .shape { width: 18px; height: 18px; margin: 2px; transition: all 0.3s; display: inline-block; position: relative; z-index: 5; border: 1.5px solid rgba(0,0,0,0.1); }
+        .shape.circle { border-radius: 50%; }
+        .shape.square { border-radius: 4px; }
+        .shape.triangle { 
+            width: 0; height: 0; 
+            border-left: 9px solid transparent; 
+            border-right: 9px solid transparent; 
+            border-bottom: 18px solid; 
+            background-color: transparent !important;
+            transform: translateY(-1px);
+        }
+        .shape.star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); border: none; }
+        
+        .graph-wrapper { background: white; border-radius: 20px; border: 1px solid #e2e8f0; padding: 12px; height: 230px; position: relative; }
+        canvas { width: 100%; height: 100%; }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hidden { display: none !important; }
+
+        .shape-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+        }
+        .shape-option.selected {
+            border-color: #10B981;
+            opacity: 1 !important;
+            transform: scale(1.1);
+            background-color: #ECFDF5;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .handwriting { font-family: 'Nanum Pen Script', cursive; font-size: 1.5rem; line-height: 1.2; color: #334155; }
+        
+        .compact-select {
+            padding: 4px 6px;
+            background-color: #fff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 900;
+            color: #059669;
+            outline: none;
+            text-align: center;
+        }
+
+        .input-num {
+            width: 45px;
+            height: 32px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 900;
+            color: #059669;
+            font-size: 14px;
+        }
+
+        /* 4단계 가설 검증 엔진 추가 스타일 */
+        .killer-step { border: 2px solid #e2e8f0; border-radius: 16px; padding: 15px; background: #fff; transition: all 0.3s; }
+        .killer-step.active { border-color: #10B981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1); }
+        .killer-step.disabled { opacity: 0.5; pointer-events: none; }
+        .balance-bar { height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; display: flex; }
+        .balance-cat { background: #3b82f6; transition: width 0.3s; }
+        .balance-an { background: #ef4444; transition: width 0.3s; }
+        .ion-badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 900; display: inline-flex; align-items: center; gap: 4px; }
+        .ion-badge.live { background: #dcfce7; color: #166534; border: 1px solid #166534; }
+        .ion-badge.dead { background: #f1f5f9; color: #94a3b8; border: 1px solid #cbd5e1; }
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header id="sub-header" class="bg-white/95 backdrop-blur-md px-5 py-3 border-b border-gray-100 sticky top-0 z-50 flex items-center gap-3">
+            <button id="back-btn" onclick="goBack()" class="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i>
+            </button>
+            <h1 class="text-base font-black text-gray-900 tracking-tight" id="header-title">중화반응 마스터</h1>
+        </header>
+
+        <main id="content" class="flex-1 p-4 overflow-y-auto hide-scrollbar pb-32">
+            
+            <div id="menu-view" class="fade-in space-y-6">
+                <div class="premium-banner rounded-[32px] p-7 text-white shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                    <div class="relative z-10 text-left">
+                        <div class="flex items-center gap-3 mb-3">
+                             <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-md border border-white/20"><i data-lucide="droplets" class="w-4.5 h-4.5 text-white"></i></div>
+                             <h2 class="text-xl font-black tracking-tight text-white leading-tight">중화반응 정복 시뮬레이션</h2>
+                        </div>
+                        <p class="text-emerald-50 text-[12px] font-medium leading-relaxed opacity-90">이온 수 변화부터 킬러 문항 해석까지,<br>22 개정 통합과학의 핵심 원리를 완벽히 정복하세요!</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="font-black text-gray-900 flex items-center gap-2 text-base px-1"><i data-lucide="layout-grid" class="w-4 h-4 text-emerald-600"></i>학습 단계 선택</h3>
+                    <button onclick="switchMode('STEP1')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="eye" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">1. 이온 수 변화 관찰</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">혼합 시 사라지고 나타나는 이온 추론</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+                    <button onclick="switchMode('STEP2')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">2. 단위 부피당 이온 수 해석</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">부피와 개수를 이용한 실제 개수 분석</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+                    <button onclick="switchMode('STEP3')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-amber-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="line-chart" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">3. 수능형 자료 해석 훈련</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">그림과 그래프를 통한 정량적 데이터 분석</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+                    <button onclick="switchMode('STEP4')" class="w-full bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 active:scale-[0.97] transition-all group">
+                        <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-purple-50 transition-transform group-hover:rotate-12">
+                            <i data-lucide="layers" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="font-black text-gray-900 text-base leading-tight">4. 3종 혼합 용액 실전 마스터</h4>
+                            <p class="text-[10px] text-gray-400 font-medium mt-0.5">다양한 액성의 혼합 용액 완전 정복</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 시뮬레이션 상세 뷰 -->
+            <div id="sim-view" class="hidden fade-in space-y-4">
+                <div id="problem-desc" class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100/50 text-[12px] text-emerald-800 font-medium leading-relaxed">
+                    실험을 준비 중입니다...
+                </div>
+                
+                <!-- 비커 시각화 구역 (1, 2단계용) -->
+                <div id="beaker-area" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex justify-around items-center gap-2">
+                    <div class="flex flex-col items-center flex-1">
+                        <span id="beaker-label-1" class="text-[9px] font-black text-gray-400 mb-1 px-1.5 bg-gray-100 rounded uppercase text-center">혼합 전</span>
+                        <div class="beaker" id="beaker-1"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span id="beaker-middle-text" class="text-[8px] font-black text-emerald-600 mb-1 whitespace-nowrap text-center">NaOH 첨가</span>
+                        <div id="beaker-arrow-icon" class="bg-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-100">
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center flex-1">
+                        <span id="beaker-label-2" class="text-[9px] font-black text-gray-400 mb-1 px-1.5 bg-gray-100 rounded uppercase text-center">혼합 후</span>
+                        <div class="beaker" id="beaker-mix"></div>
+                    </div>
+                </div>
+
+                <!-- 3단계 전용 테이블 및 그래프 구역 -->
+                <div id="step3-visual-area" class="hidden space-y-4">
+                    <div id="table-container" class="overflow-x-auto"></div>
+                    <div id="graph-area" class="hidden graph-wrapper shadow-xl">
+                        <canvas id="mainGraph"></canvas>
+                    </div>
+                </div>
+
+                <!-- 분석 및 입력 패널 -->
+                <div class="bg-white p-4 rounded-[28px] border border-gray-100 space-y-3 shadow-lg">
+                    <h4 class="text-[12px] font-black text-gray-900 mb-1" id="analysis-title">이온 분석 및 추론</h4>
+                    <div id="input-container" class="space-y-3"></div>
+                    <div class="pt-1">
+                        <div class="flex gap-2">
+                            <button onclick="checkAnswer()" class="flex-1 bg-emerald-600 text-white h-11 rounded-xl font-black shadow-lg shadow-emerald-100 active:scale-[0.98] transition-all">확인</button>
+                            <button onclick="showExplanation()" class="flex-1 bg-white text-emerald-600 border-2 border-emerald-600 h-11 rounded-xl font-black active:scale-[0.98] transition-all">해설</button>
+                        </div>
+                        <p id="feedback" class="text-center text-[11px] font-black min-h-[16px] mt-2"></p>
+                        <button id="next-btn" onclick="initProblem()" class="w-full bg-gray-50 text-gray-400 h-9 rounded-xl font-bold text-[10px] active:scale-[0.98] transition-all mt-1 uppercase tracking-tighter">새로운 실험 수행</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
+            </button>
+            
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+            </button>
+            
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+            </button>
+            
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+            </button>
+            
+            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
+            </button>
+        </nav>
+
+        <div id="explanation-modal" class="modal-overlay" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center mb-5">
+                    <h3 class="text-base font-black text-gray-900">비밀 노트 해설</h3>
+                    <button onclick="closeModal()" class="p-1.5 hover:bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div id="explanation-text" class="handwriting leading-relaxed space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'MENU';
+        const SHAPES = ['circle', 'square', 'triangle', 'star'];
+        const COLORS = ['#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6']; 
+        let scenario = {};
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('menu-view').classList.add('hidden');
+            document.getElementById('sim-view').classList.remove('hidden');
+            if(mode === 'MENU') {
+                document.getElementById('menu-view').classList.remove('hidden');
+                document.getElementById('sim-view').classList.add('hidden');
+                document.getElementById('header-title').innerText = "중화반응 마스터";
+            } else {
+                const titles = { 'STEP1': '이온 수 변화 관찰', 'STEP2': '단위 부피당 이온 수 해석', 'STEP3': '자료 해석 훈련', 'STEP4': '3종 혼합 용액 실전' };
+                document.getElementById('header-title').innerText = titles[mode];
+                initProblem();
+            }
+            lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBack() { if(currentMode === 'MENU') location.href = '../index.html'; else switchMode('MENU'); }
+        function closeModal() { document.getElementById('explanation-modal').style.display = 'none'; }
+
+        function initProblem() {
+            document.getElementById('feedback').innerText = '';
+            const inputContainer = document.getElementById('input-container');
+            const beakerArea = document.getElementById('beaker-area');
+            const step3VisualArea = document.getElementById('step3-visual-area');
+            const graphArea = document.getElementById('graph-area');
+            const middleText = document.getElementById('beaker-middle-text');
+            
+            inputContainer.innerHTML = '';
+            // 모든 시각화 요소를 기본적으로 숨김 처리
+            beakerArea.classList.add('hidden');
+            step3VisualArea.classList.add('hidden');
+            graphArea.classList.add('hidden');
+
+            if(currentMode === 'STEP1') {
+                beakerArea.classList.remove('hidden');
+                middleText.innerText = "NaOH 첨가";
+                generateStep1(inputContainer);
+            } else if(currentMode === 'STEP2') {
+                beakerArea.classList.remove('hidden');
+                generateStep2(inputContainer);
+            } else if(currentMode === 'STEP3') {
+                step3VisualArea.classList.remove('hidden');
+                generateStep3(inputContainer);
+            } else if(currentMode === 'STEP4') {
+                generateStep4(inputContainer);
+            }
+            lucide.createIcons();
+        }
+
+        function selectShape(ion, shape) {
+            const row = document.getElementById(`selector-${ion}`);
+            if(!row) return;
+            Array.from(row.children).forEach(c => c.classList.remove('selected', 'border-emerald-500', 'opacity-100'));
+            const target = Array.from(row.children).find(c => c.dataset.shape === shape);
+            if(target) target.classList.add('selected', 'border-emerald-500', 'opacity-100');
+        }
+
+        function getShapeColor(shapeName) {
+            const ion = Object.keys(scenario.shapes || {}).find(k => scenario.shapes[k].shape === shapeName);
+            return ion ? scenario.shapes[ion].color : '#ccc';
+        }
+
+        function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+        function gcd_list(arr) { let result = arr[0]; for(let i=1; i<arr.length; i++) result = gcd(result, arr[i]); return result; }
+
+        // --- STEP 1: 이온 수 변화 관찰 ---
+        function generateStep1(container) {
+            const acidityTypes = ['acid', 'neutral', 'base'];
+            const chosenAcidity = acidityTypes[Math.floor(Math.random() * acidityTypes.length)];
+            let nH, nOH;
+            if(chosenAcidity === 'acid') { nH = 4; nOH = 2; } else if(chosenAcidity === 'neutral') { nH = 3; nOH = 3; } else { nH = 2; nOH = 4; }
+            scenario = { nH, nOH, chosenAcidity, shapes: {} };
+            let availableShapes = ['circle', 'square', 'triangle', 'star'];
+            let indices = [0,1,2,3].sort(() => Math.random() - 0.5);
+            ['H', 'Cl', 'Na', 'OH'].forEach((ion, i) => { scenario.shapes[ion] = { shape: availableShapes[indices[i]], color: COLORS[indices[i]] }; });
+            
+            document.getElementById('problem-desc').innerHTML = `일정한 부피의 <b>염산(HCl)</b>에 <b>수산화 나트륨(NaOH)</b>을 가할 때의 입자 모형 변화입니다. 입자 매칭과 최종 용액의 액성을 추론하세요.`;
+            renderStep1Beakers();
+            
+            container.innerHTML = `
+                <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-3">
+                    <h5 class="text-[10px] font-black text-gray-400 mb-2 uppercase">1. 이온 종류 매칭</h5>
+                    <div class="space-y-2">
+                        ${['Na', 'Cl', 'H', 'OH'].map(ion => `<div class="flex items-center justify-between"><span class="text-[10px] font-bold text-gray-500 w-20 shrink-0">${ion === 'Na' ? 'Na<sup>+</sup>' : ion === 'Cl' ? 'Cl<sup>-</sup>' : ion === 'H' ? 'H<sup>+</sup>' : 'OH<sup>-</sup>'}</span><div id="selector-${ion}" class="flex gap-1.5 items-center flex-1 justify-center">${SHAPES.map(s => `<div class="shape-option border border-transparent opacity-30 cursor-pointer" onclick="selectShape('${ion}', '${s}')" data-shape="${s}"><div class="shape ${s}" style="${s === 'triangle' ? `border-bottom-color:${getShapeColor(s)}` : `background-color:${getShapeColor(s)}`}"></div></div>`).join('')}</div></div>`).join('')}
+                    </div>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100 flex items-center justify-between"><span class="text-[11px] font-bold text-emerald-700">2. 혼합 용액의 액성</span><select id="ans-ph-step1" class="compact-select"><option value="">선택</option><option value="acid">산성</option><option value="neutral">중성</option><option value="base">염기성</option></select></div>`;
+        }
+
+        function renderStep1Beakers() {
+            const draw = (id, ionList) => {
+                const beaker = document.getElementById(id); beaker.innerHTML = '';
+                let icons = []; ionList.forEach(item => { for(let i=0; i<item.count; i++) icons.push(scenario.shapes[item.type]); });
+                icons.sort(() => Math.random() - 0.5).forEach(s => {
+                    const el = document.createElement('div'); el.className = `shape ${s.shape}`;
+                    if(s.shape === 'triangle') el.style.borderBottomColor = s.color; else el.style.backgroundColor = s.color;
+                    beaker.appendChild(el);
+                });
+            };
+            draw('beaker-1', [{type:'H', count:scenario.nH}, {type:'Cl', count:scenario.nH}]);
+            const fH = Math.max(0, scenario.nH - scenario.nOH), fOH = Math.max(0, scenario.nOH - scenario.nH);
+            draw('beaker-mix', [{type:'Cl', count:scenario.nH}, {type:'Na', count:scenario.nOH}, {type:'H', count:fH}, {type:'OH', count:fOH}]);
+            document.getElementById('beaker-label-1').innerText = "염산 (HCl)"; document.getElementById('beaker-label-2').innerText = "혼합 후";
+        }
+
+        // --- STEP 2: 단위 부피당 이온 수 해석 ---
+        function generateStep2(container) {
+            const volPairs = [[10, 10], [20, 20], [30, 10], [10, 20], [20, 10]];
+            const pair = volPairs[Math.floor(Math.random() * volPairs.length)];
+            const vB = pair[0], vA = pair[1], vT = vB + vA;
+            const mB_unit = Math.floor(Math.random() * 2) + 2, mA_unit = Math.floor(Math.random() * 2) + 2; 
+            const nB_total = (mB_unit * vB) / 10, nA_total = (mA_unit * vA) / 10;
+            scenario = { vB, vA, vT, mB_unit, mA_unit, nB_total, nA_total, shapes: {} };
+            let availableShapes = ['circle', 'square', 'triangle', 'star'];
+            let indices = [0,1,2,3].sort(() => Math.random() - 0.5);
+            ['Na', 'OH', 'Cl', 'H'].forEach((ion, i) => { scenario.shapes[ion] = { shape: availableShapes[indices[i]], color: COLORS[indices[i]] }; });
+            
+            document.getElementById('beaker-middle-text').innerText = `HCl ${vA}mL 첨가`;
+            document.getElementById('problem-desc').innerHTML = `<b>수산화 나트륨 수용액 ${vB}mL</b>에 <b>염산 ${vA}mL</b>를 가할 때의 입자 모형입니다. 모형의 개수는 <b>단위 부피당 이온 수</b>를 나타냅니다.`;
+            
+            const drawModel = (id, ionList) => {
+                const beaker = document.getElementById(id); beaker.innerHTML = '';
+                ionList.forEach(item => { for(let i=0; i<item.mCount; i++) {
+                    const s = scenario.shapes[item.type];
+                    const el = document.createElement('div'); el.className = `shape ${s.shape}`;
+                    if(s.shape === 'triangle') el.style.borderBottomColor = s.color; else el.style.backgroundColor = s.color;
+                    beaker.appendChild(el);
+                }});
+            };
+            drawModel('beaker-1', [{type:'Na', mCount:mB_unit}, {type:'OH', mCount:mB_unit}]);
+            const k = vT / 10; const mNa = nB_total / k, mCl = nA_total / k, fH = Math.max(0, nA_total - nB_total), fOH = Math.max(0, nB_total - nA_total);
+            let mixList = [{type:'Na', mCount:mNa}, {type:'Cl', mCount:mCl}];
+            if(fH > 0) mixList.push({type:'H', mCount:fH/k}); if(fOH > 0) mixList.push({type:'OH', mCount:fOH/k});
+            drawModel('beaker-mix', mixList);
+            document.getElementById('beaker-label-1').innerText = `혼합 전 (${vB}mL)`;
+            document.getElementById('beaker-label-2').innerText = `혼합 후 (${vT}mL)`;
+            
+            container.innerHTML = `<div class="space-y-3"><div class="bg-gray-50 p-3 rounded-2xl border border-gray-100"><h5 class="text-[10px] font-black text-gray-400 mb-2 uppercase">1. 이온 종류 매칭</h5><div class="space-y-2">${['Na', 'OH', 'Cl', 'H'].map(ion => `<div class="flex items-center justify-between"><span class="text-[10px] font-bold text-gray-500">${ion === 'Na' ? 'Na<sup>+</sup>' : ion === 'OH' ? 'OH<sup>-</sup>' : ion === 'Cl' ? 'Cl<sup>-</sup>' : 'H<sup>+</sup>'}</span><div id="selector-${ion}" class="flex gap-1.5 items-center">${SHAPES.map(s => `<div class="shape-option border border-transparent opacity-30 cursor-pointer" onclick="selectShape('${ion}', '${s}')" data-shape="${s}"><div class="shape ${s}" style="${s === 'triangle' ? `border-bottom-color:${getShapeColor(s)}` : `background-color:${getShapeColor(s)}`}"></div></div>`).join('')}</div></div>`).join('')}</div></div><div class="bg-blue-50 p-3 rounded-2xl border border-blue-100 flex items-center justify-between"><span class="text-[11px] font-bold text-blue-700">2. 단위 부피당 이온 수 비 (HCl:NaOH)</span><div class="flex items-center gap-1"><input type="number" id="ans-a" class="input-num" placeholder="?"><span class="font-bold text-blue-700">:</span><input type="number" id="ans-b" class="input-num" placeholder="?"></div></div></div>`;
+        }
+
+        // --- STEP 3: 수능형 자료 해석 훈련 ---
+        function generateStep3(container) {
+            const subMode = Math.random() > 0.5 ? 'RATIO' : 'GRAPH';
+            const ratios = [[1, 1], [1, 2], [2, 1], [2, 3]];
+            const [cA, cB] = ratios[Math.floor(Math.random() * ratios.length)];
+            const exps = [{ name: '(다)', va: 20, vb: 10 }, { name: '(가)', va: 30, vb: 20 }, { name: '(나)', va: 20, vb: 40 }];
+            const dType = ['ALL', 'CATION', 'ANION'][Math.floor(Math.random() * 3)];
+            exps.forEach(ex => {
+                const nH = ex.va * cA, nCl = ex.va * cA, nNa = ex.vb * cB, nOH = ex.vb * cB;
+                const fH = Math.max(0, nH - nOH), fOH = Math.max(0, nOH - nH);
+                const ionCounts = [nNa, nCl, fH, fOH].filter(x => x > 0);
+                const common = gcd_list(ionCounts);
+                ex.ratioStr = ionCounts.sort((a,b)=>b-a).map(x => x/common).join(' : ');
+                ex.allSum = nNa + nCl + fH + fOH; ex.cationSum = nNa + fH; ex.anionSum = nCl + fOH;
+                ex.val = dType === 'ALL' ? ex.allSum : (dType === 'CATION' ? ex.cationSum : ex.anionSum);
+            });
+            scenario = { subMode, cA, cB, exps, dType };
+            
+            document.getElementById('problem-desc').innerHTML = subMode === 'RATIO' 
+                ? `실험 결과 표의 <b>이온 수 비</b>를 보고 농도 관계를 파악하세요.`
+                : `실험 결과 데이터와 <b>이온 수 상댓값 그래프</b>를 분석하여 농도 비를 구하세요.`;
+
+            let tableHtml = `<div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm mb-4"><table class="w-full text-[10px] text-center border-collapse"><thead><tr class="bg-gray-50 text-gray-500"><th class="p-2 border-b border-r">실험</th><th class="p-2 border-b border-r">HCl(mL)</th><th class="p-2 border-b border-r">NaOH(mL)</th><th class="p-2 border-b">${subMode === 'RATIO' ? '이온 수 비' : '상댓값'}</th></tr></thead><tbody>${exps.map(ex => `<tr><td class="p-2 border-b border-r font-bold">${ex.name}</td><td class="p-2 border-b border-r">${ex.va}</td><td class="p-2 border-b border-r">${ex.vb}</td><td class="p-2 border-b font-black text-blue-600">${subMode === 'RATIO' ? ex.ratioStr : ex.val}</td></tr>`).join('')}</tbody></table></div>`;
+            document.getElementById('table-container').innerHTML = tableHtml;
+            const gArea = document.getElementById('graph-area');
+            if(subMode === 'GRAPH') { gArea.classList.remove('hidden'); renderStep3InterpretationGraph(); } else gArea.classList.add('hidden');
+            
+            container.innerHTML = `<div class="space-y-4"><div class="bg-blue-50 p-3 rounded-2xl border border-blue-100"><h5 class="text-[10px] font-black text-blue-400 mb-2 uppercase text-center">단위 부피당 이온 수 비</h5><div class="flex items-center justify-center gap-2"><span class="text-[11px] font-bold text-blue-700">HCl : NaOH = </span><input type="number" id="ans-ratio-a" class="input-num" placeholder="?"><span class="font-bold text-blue-700">:</span><input type="number" id="ans-ratio-b" class="input-num" placeholder="?"></div></div><div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100 flex items-center justify-between"><span class="text-[11px] font-bold text-emerald-700">실험 (가)의 액성</span><select id="ans-ph-step3" class="compact-select"><option value="">선택</option><option value="acid">산성</option><option value="neutral">중성</option><option value="base">염기성</option></select></div></div>`;
+        }
+
+        function renderStep3InterpretationGraph() {
+            const canvas = document.getElementById('mainGraph'); const ctx = canvas.getContext('2d');
+            const w = canvas.width = canvas.parentElement.clientWidth; const h = canvas.height = canvas.parentElement.clientHeight;
+            ctx.clearRect(0,0,w,h); const padding = 45; const vals = scenario.exps.map(ex => ex.val); const maxVal = Math.max(...vals);
+            const mapY = (v) => h - padding - (v * (h - padding * 2) / (maxVal * 1.2)); const margin = (w - padding * 2) / 4;
+            const points = scenario.exps.map((ex, i) => ({ x: padding + margin * (i + 1), y: mapY(ex.val), name: ex.name }));
+            ctx.beginPath(); ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.5; ctx.moveTo(padding, 20); ctx.lineTo(padding, h-padding); ctx.lineTo(w-20, h-padding); ctx.stroke();
+            points.forEach(p => { 
+                ctx.fillStyle = 'white'; ctx.strokeStyle = '#10B981'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill(); ctx.stroke(); 
+                ctx.fillStyle = '#059669'; ctx.textAlign = 'center'; ctx.fillText(scenario.exps.find(ex=>ex.name===p.name).val, p.x, p.y - 10); 
+                ctx.fillStyle = '#64748b'; ctx.fillText(p.name, p.x, h - padding + 15); 
+            });
+            ctx.beginPath(); ctx.strokeStyle = '#10B981'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.moveTo(points[0].x, points[0].y); points.forEach(p => ctx.lineTo(p.x, p.y)); ctx.stroke();
+        }
+
+        // --- STEP 4: 킬러 로직 엔진 (3종 혼합) ---
+        function generateStep4(container) {
+            const a = Math.floor(Math.random() * 4) + 1; 
+            const b = Math.floor(Math.random() * 3) + 1; 
+            const c = Math.floor(Math.random() * 3) + 1; 
+            const vGa = [20, 10, 10], vNa = [10, 20, 30]; 
+            const nCl = a * vGa[0], nNa = b * vGa[1], nK = c * vGa[2];
+            const nH = Math.max(0, nCl - nNa - nK), nOH = Math.max(0, nNa + nK - nCl);
+            const ionCounts = [nNa, nK, nCl, nH, nOH].filter(v => v > 0).sort((x, y) => x - y);
+            const common = gcd_list(ionCounts);
+            const ratioStr = ionCounts.map(v => v / common).join(' : ');
+            const gaAcidity = nH > 0 ? 'acid' : (nOH > 0 ? 'base' : 'neutral');
+            scenario = { subStep: 1, a, b, c, vGa, vNa, nCl, nNa, nK, nH, nOH, ratioStr, gaAcidity, gaUserIons: { na:0, cl:0, k:0, h:0, oh:0 }, gaUserPh: '' };
+            
+            document.getElementById('problem-desc').innerHTML = `<b>3종 혼합 용액(HCl, NaOH, KOH)</b>의 킬러 자료입니다. 단위 부피당 이온 수가 각각 <b>a, b, c</b>인 용액의 혼합 결과로부터 미지수를 찾아내세요.`;
+            renderStep4Phase1(container);
+        }
+
+        function renderStep4Phase1(container) {
+            container.innerHTML = `
+                <div class="killer-step active space-y-4">
+                    <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100 text-[11px] font-medium leading-relaxed">
+                        <span class="text-indigo-600 font-bold block mb-1">상황 정보</span>
+                        (가) 혼합: HCl ${scenario.vGa[0]}mL + NaOH ${scenario.vGa[1]}mL + KOH ${scenario.vGa[2]}mL <br>
+                        👉 (가)에 존재하는 <b>모든 이온 수의 비</b>는 <b>${scenario.ratioStr}</b> 이다.
+                    </div>
+                    <div class="space-y-2"><label class="text-[11px] font-black text-gray-500 uppercase">1. (가)의 액성 가설 설정</label><select id="ga-hypo" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold focus:outline-none focus:border-emerald-500"><option value="">-- 액성 선택 --</option><option value="acid">산성 (H+ 존재)</option><option value="neutral">중성 (H+, OH- 모두 소멸)</option><option value="base">염기성 (OH- 존재)</option></select></div>
+                    <div class="space-y-2"><label class="text-[11px] font-black text-gray-500 uppercase">2. 이온 수 상댓값 대입</label><div class="grid grid-cols-5 gap-1.5">${['Cl', 'Na', 'K', 'H', 'OH'].map(ion => `<div class="flex flex-col gap-1"><span class="text-[9px] font-black text-center">${ion}${['Cl', 'OH'].includes(ion) ? '-' : '+'}</span><input type="number" id="ga-ion-${ion.toLowerCase()}" class="w-full p-1.5 border border-gray-200 rounded-lg text-center text-xs font-bold" value="0"></div>`).join('')}</div></div>
+                    <div class="bg-gray-50 p-2 rounded-xl" id="ga-balance-area"><div class="flex justify-between text-[9px] font-black mb-1"><span>Σ 양이온 전하</span><span>Σ 음이온 전하</span></div><div class="balance-bar" id="ga-balance-bar"></div></div>
+                </div>`;
+            ['cl', 'na', 'k', 'h', 'oh'].forEach(id => document.getElementById(`ga-ion-${id}`).addEventListener('input', updateStep4GaGauge));
+        }
+
+        function updateStep4GaGauge() {
+            const getVal = (id) => parseInt(document.getElementById(`ga-ion-${id}`).value) || 0;
+            const cats = getVal('na') + getVal('k') + getVal('h');
+            const anions = getVal('cl') + getVal('oh');
+            const total = Math.max(cats + anions, 1);
+            document.getElementById('ga-balance-bar').innerHTML = `<div class="balance-cat" style="width:${(cats/total)*100}%"></div><div class="balance-an" style="width:${(anions/total)*100}%"></div>`;
+        }
+
+        function renderStep4Phase2() {
+            document.getElementById('input-container').innerHTML = `
+                <div class="killer-step active space-y-4 fade-in">
+                    <div class="bg-blue-50 p-3 rounded-xl border border-blue-100 text-[11px]">
+                        <span class="text-blue-600 font-bold block mb-1">농도 역추적</span>
+                        (가)의 실제 이온 수: ${scenario.gaUserIons.cl}(Cl-), ${scenario.gaUserIons.na}(Na+), ${scenario.gaUserIons.k}(K+) <br>
+                        (가)의 혼합 부피: HCl ${scenario.vGa[0]}mL, NaOH ${scenario.vGa[1]}mL, KOH ${scenario.vGa[2]}mL
+                    </div>
+                    <div class="flex items-center justify-around gap-2 bg-gray-50 p-3 rounded-2xl">
+                        <div class="text-center"><label class="text-[9px] font-black text-gray-400 block mb-1">a (HCl)</label><input type="number" id="step4-ra" class="input-num"></div>
+                        <div class="text-xl font-bold text-gray-200">:</div>
+                        <div class="text-center"><label class="text-[9px] font-black text-gray-400 block mb-1">b (NaOH)</label><input type="number" id="step4-rb" class="input-num"></div>
+                        <div class="text-xl font-bold text-gray-200">:</div>
+                        <div class="text-center"><label class="text-[9px] font-black text-gray-400 block mb-1">c (KOH)</label><input type="number" id="step4-rc" class="input-num"></div>
+                    </div>
+                </div>`;
+        }
+
+        function renderStep4Phase3() {
+            document.getElementById('input-container').innerHTML = `
+                <div class="killer-step active space-y-4 fade-in">
+                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-100 text-[11px]">
+                        <span class="text-purple-600 font-bold block mb-1">최종 미션: (나) 예측</span>
+                        (나) 혼합: HCl ${scenario.vNa[0]}mL + NaOH ${scenario.vNa[1]}mL + KOH ${scenario.vNa[2]}mL <br>
+                        앞서 구한 농도 비 <b>${scenario.a}:${scenario.b}:${scenario.c}</b>를 적용하세요.
+                    </div>
+                    <div class="space-y-2"><label class="text-[11px] font-black text-gray-500 uppercase">실험 (나) 용액의 액성</label><select id="na-hypo" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold"><option value="">-- 액성 선택 --</option><option value="acid">산성</option><option value="neutral">중성</option><option value="base">염기성</option></select></div>
+                </div>`;
+        }
+
+        // --- 정답 확인 및 해설 ---
+        function checkAnswer() {
+            const feedback = document.getElementById('feedback');
+            if(currentMode === 'STEP4') {
+                if(scenario.subStep === 1) {
+                    const h = document.getElementById('ga-hypo').value;
+                    const getVal = (id) => parseInt(document.getElementById(`ga-ion-${id}`).value) || 0;
+                    const uI = { cl: getVal('cl'), na: getVal('na'), k: getVal('k'), h: getVal('h'), oh: getVal('oh') };
+                    if(uI.cl + uI.oh !== uI.na + uI.k + uI.h) { feedback.innerHTML = `<span class="text-rose-500">전하 불균형!</span>`; return; }
+                    const sortedUser = Object.values(uI).filter(v => v > 0).sort((a,b)=>a-b);
+                    const common = gcd_list(sortedUser);
+                    const userRatio = sortedUser.map(v => v/common).join(' : ');
+                    if(h === scenario.gaAcidity && userRatio.replace(/\s/g, '') === scenario.ratioStr.replace(/\s/g, '')) {
+                        feedback.innerHTML = `<span class="text-emerald-500">가설 적중!</span>`;
+                        scenario.gaUserIons = uI; scenario.subStep = 2; renderStep4Phase2();
+                    } else feedback.innerHTML = `<span class="text-rose-500">가설 오류!</span>`;
+                } else if(scenario.subStep === 2) {
+                    const ra = parseInt(document.getElementById('step4-ra').value), rb = parseInt(document.getElementById('step4-rb').value), rc = parseInt(document.getElementById('step4-rc').value);
+                    if(ra === scenario.a && rb === scenario.b && rc === scenario.c) { feedback.innerHTML = `<span class="text-emerald-500">농도 확정!</span>`; scenario.subStep = 3; renderStep4Phase3(); }
+                    else feedback.innerHTML = `<span class="text-rose-500">농도 오류!</span>`;
+                } else {
+                    const h = document.getElementById('na-hypo').value;
+                    const nCl_na = scenario.a * scenario.vNa[0], nNa_na = scenario.b * scenario.vNa[1], nK_na = scenario.c * scenario.vNa[2];
+                    const realPh_na = (nCl_na > nNa_na + nK_na) ? 'acid' : (nCl_na < nNa_na + nK_na ? 'base' : 'neutral');
+                    if(h === realPh_na) feedback.innerHTML = `<span class="text-emerald-500">최종 클리어! 🏆</span>`;
+                    else feedback.innerHTML = `<span class="text-rose-500">액성 오류!</span>`;
+                }
+                return;
+            }
+            
+            let isCorrect = false;
+            if(currentMode === 'STEP1') {
+                const getSel = (id) => document.querySelector(`#selector-${id} .selected`)?.dataset.shape;
+                isCorrect = (getSel('H') === scenario.shapes.H.shape && getSel('Na') === scenario.shapes.Na.shape && document.getElementById('ans-ph-step1').value === scenario.chosenAcidity);
+            } else if(currentMode === 'STEP2') {
+                const a = parseInt(document.getElementById('ans-a').value), b = parseInt(document.getElementById('ans-b').value);
+                isCorrect = (Math.abs((scenario.mA_unit/scenario.mB_unit) - (a/b)) < 0.1);
+            } else if(currentMode === 'STEP3') {
+                const a = parseInt(document.getElementById('ans-ratio-a').value), b = parseInt(document.getElementById('ans-ratio-b').value);
+                const targetExp = scenario.exps.find(ex => ex.name === '(가)');
+                const realPh = (targetExp.va * scenario.cA > targetExp.vb * scenario.cB) ? 'acid' : (targetExp.va * scenario.cA < targetExp.vb * scenario.cB ? 'base' : 'neutral');
+                isCorrect = (Math.abs((scenario.cA/scenario.cB) - (a/b)) < 0.1 && document.getElementById('ans-ph-step3').value === realPh);
+            }
+            if(isCorrect) feedback.innerHTML = `<span class="text-emerald-500">정답입니다! 🎯</span>`;
+            else feedback.innerHTML = `<span class="text-rose-500">오답입니다. 다시 한번 자료를 분석해 보세요.</span>`;
+        }
+
+        function showExplanation() {
+            const modal = document.getElementById('explanation-modal'); const text = document.getElementById('explanation-text'); let html = "";
+            if(currentMode === 'STEP4') {
+                html = `<p><strong>3종 혼합 킬러 해설</strong></p><p>1. 이온 수 비 ${scenario.ratioStr}에서 가장 큰 값은 구경꾼 이온입니다.<br>2. (가)의 이온 수와 부피를 이용해 단위 부피당 이온 수(a,b,c)를 찾습니다.<br>3. 구해진 농도비를 (나)에 적용해 액성을 결정합니다.</p>`;
+            } else if(currentMode === 'STEP1') {
+                html = `<p><strong>액성 판단 (1/2 원리)</strong></p><p>혼합 용액에서 전체 이온 수의 <b>절반(1/2)</b>을 차지하는 이온은 구경꾼 이온입니다. 이 이온이 산의 것이면 산성, 염기의 것이면 염기성입니다.</p>`;
+            } else if(currentMode === 'STEP2') {
+                html = `<p><strong>단위 부피당 이온 수</strong></p><p>실제 이온 수 = (단위 부피당 이온 수) &times; 부피 공식을 활용하여 농도 비를 구합니다.</p>`;
+            } else if(currentMode === 'STEP3') {
+                html = `<p><strong>자료 해석 해설</strong></p><p>표의 이온 수 비를 통해 각 용액의 농도를 역산할 수 있습니다. 정답 농도비는 HCl(${scenario.cA}) : NaOH(${scenario.cB}) 입니다.</p>`;
+            }
+            text.innerHTML = html; modal.style.display = 'flex';
+        }
+
+        window.onload = () => { lucide.createIcons(); switchMode('MENU'); };
+    </script>
+</body>
+</html>

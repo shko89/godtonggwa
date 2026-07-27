@@ -1,0 +1,684 @@
+async function renderReportPage(container, selectedId = null) {
+            const allResults = Object.values(myExamResults).sort((a,b) => b.submittedAt?.seconds - a.submittedAt?.seconds);
+            const latestResultsMap = {};
+            allResults.forEach(r => {
+                let baseId = r.examId;
+                if (r.examId && r.examId.includes('_') && r.examId.match(/_\d{13}$/)) {
+                    baseId = r.examId.replace(/_\d{13}$/, '');
+                }
+                if (!latestResultsMap[baseId]) {
+                    latestResultsMap[baseId] = r;
+                }
+            });
+            let results = Object.values(latestResultsMap).filter(r => r.examId && r.examId !== 'undefined' && r.examId !== 'null');
+            results.forEach(r => {
+                let searchId = r.examId;
+                if (searchId && searchId.includes('_') && searchId.match(/_\d{13}$/)) {
+                    searchId = searchId.replace(/_\d{13}$/, '');
+                }
+                if (!r.title || r.title === 'undefined' || r.title === 'null') {
+                    const meta = masterExams.find(e => e.docId === searchId);
+                    r.title = (meta && meta.title && meta.title !== 'undefined') ? meta.title : searchId;
+                }
+                if ((r.score == null || r.score === 0) && Array.isArray(r.answers)) {
+                    r.score = r.answers.reduce((sum, ans) => sum + (ans.isCorrect ? (Number(ans.score) || (r.answers.length===20 ? 2.5 : (50/r.answers.length))) : 0), 0);
+                }
+            });
+
+            // --- FILTER INJECTION ---
+            let subFilter = window.myReportSubFilter;
+            
+            // 데이터의 서비스 종류 판별 함수 (누락된 주간지 아이디 패턴도 인식)
+            const getSvc = (r) => {
+                let svc = r.serviceType || masterExams.find(e => e.docId === r.examId)?.serviceType;
+                if (!svc && r.examId && (r.examId.toLowerCase().includes('week') || r.examId.startsWith('W'))) {
+                    svc = 'WEEKLY_MAG';
+                }
+                return svc;
+            };
+
+            if (selectedId && selectedId !== 'cumulative') {
+                const getBaseLocal = (id) => (id && id.includes('_') && id.match(/_\d{13}$/)) ? id.replace(/_\d{13}$/, '') : id;
+                const targetExam = results.find(r => getBaseLocal(r.examId) === selectedId || r.examId === selectedId);
+                if (targetExam) {
+                    const targetSvc = getSvc(targetExam);
+                    if (targetSvc === 'WEEKLY_MAG') subFilter = 'WEEKLY';
+                    else if (targetSvc === 'FREE_ARCHIVE') subFilter = 'PREP';
+                    else subFilter = 'MOCK';
+                    window.myReportSubFilter = subFilter;
+                }
+            } else if (!subFilter) {
+                // 초기 진입 시, 가장 최근에 친 시험 데이터의 분류로 자동 선택
+                if (results.length > 0) {
+                    const svc = getSvc(results[0]);
+                    if (svc === 'WEEKLY_MAG') subFilter = 'WEEKLY';
+                    else if (svc === 'FREE_ARCHIVE') subFilter = 'PREP';
+                    else subFilter = 'MOCK';
+                } else {
+                    subFilter = 'MOCK';
+                }
+                window.myReportSubFilter = subFilter;
+            }
+
+            if (subFilter === 'WEEKLY') {
+                results = results.filter(r => getSvc(r) === 'WEEKLY_MAG');
+            } else if (subFilter === 'MOCK') {
+                results = results.filter(r => getSvc(r) !== 'WEEKLY_MAG' && getSvc(r) !== 'FREE_ARCHIVE');
+            } else if (subFilter === 'PREP') {
+                results = results.filter(r => getSvc(r) === 'FREE_ARCHIVE');
+            }
+
+            window.reportFilterHtml = `
+                <div class="flex gap-2 mb-4 bg-gray-100 p-1.5 rounded-xl sticky top-0 z-20 shadow-sm">
+                    <button onclick="window.myReportSubFilter='WEEKLY'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='WEEKLY' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">주간지</button>
+                    <button onclick="window.myReportSubFilter='MOCK'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='MOCK' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">모의고사</button>
+                    <button onclick="window.myReportSubFilter='PREP'; refreshCurrentTab()" class="flex-1 py-1.5 text-[11px] font-bold rounded-lg transition-all ${subFilter==='PREP' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}">기출문제</button>
+                </div>
+            `;
+
+            
+            if (results.length === 0) {
+                container.innerHTML = window.reportFilterHtml + `<div class="text-center py-20 text-gray-400">
+                    <i data-lucide="bar-chart-2" class="w-12 h-12 mx-auto mb-3 opacity-50"></i>
+                    <p>아직 채점된 성적이 없습니다.</p>
+                </div>`;
+                return;
+            }
+
+
+            // 기본값일 경우 가장 최근 개별 모의고사를 보여줌
+            if (!selectedId && results.length > 0) {
+                selectedId = results[0].examId;
+            }
+
+            // 누적 뷰가 명시적으로 선택되었을 때만 호출
+            if (selectedId === 'cumulative') {
+                await renderCumulativeReportPage(container, results);
+                return;
+            }
+
+            // --- 단일 모의고사 리포트 로직 (기존 유지) ---
+            const getBase = (id) => (id && id.includes('_') && id.match(/_\d{13}$/)) ? id.replace(/_\d{13}$/, '') : id;
+            let originalData = results.find(r => getBase(r.examId) === selectedId || r.examId === selectedId) || results[0];
+            let data = JSON.parse(JSON.stringify(originalData));
+
+            if (!data.answers || data.answers.length === 0) {
+                if (data.myAnswers && data.myAnswers.length > 0) {
+                    try {
+                        const restoredData = await hydrateMissingData(getBase(data.examId), data.myAnswers);
+                        if (restoredData) {
+                            data.answers = restoredData;
+                        } else {
+                            data.answers = data.myAnswers.map((mark, i) => ({
+                                no: i + 1, studentMark: mark, correctAnswer: '?', isCorrect: false, score: 0, taxonomy: { topic: `문항 ${i+1}` }
+                            }));
+                        }
+                    } catch (e) {
+                        console.warn("데이터 복구 실패:", e);
+                    }
+                }
+            }
+
+            if (data.answers && data.answers.length > 0) {
+                data.analysis = analyzeRestoredData(data.answers);
+            }
+
+            let feedback = {
+                title: "학습 분석 리포트",
+                message: "전반적으로 훌륭한 성적입니다!",
+                color: "indigo"
+            };
+
+            let isWeekly = false;
+            let maxScore = 50;
+            if (data.answers && data.answers.length === 20) {
+                isWeekly = true;
+                maxScore = data.answers.reduce((sum, ans) => sum + (Number(ans.score) || 2.5), 0);
+            }
+
+            if (data.score == null || data.score === 0) {
+                if (data.answers && data.answers.length > 0) {
+                    data.score = data.answers.reduce((sum, ans) => sum + (ans.isCorrect ? (Number(ans.score) || (isWeekly ? 2.5 : (50/data.answers.length))) : 0), 0);
+                    if (originalData) originalData.score = data.score;
+                }
+            }
+            
+            let grade = data.grade;
+            if (!grade) {
+                const ratio = data.score / (maxScore || 50);
+                if (ratio >= 0.9) grade = 1;
+                else if (ratio >= 0.8) grade = 2;
+                else if (ratio >= 0.7) grade = 3;
+                else if (ratio >= 0.6) grade = 4;
+                else grade = 5;
+                data.grade = grade;
+                if (originalData) originalData.grade = grade;
+            }
+            
+            if (grade === 1) {
+                feedback.message = "최상위권 실력입니다! 🏆 실수만 줄이면 만점도 가능해요.";
+                feedback.color = "emerald";
+            } else if (grade === 2) {
+                feedback.message = "상위권 도약이 눈앞입니다. 취약 단원을 집중 공략해보세요.";
+                feedback.color = "indigo";
+            } else if (grade === 3) {
+                feedback.message = "기초 개념을 다시 한 번 점검하면 점수가 크게 오를 거예요.";
+                feedback.color = "blue";
+            } else {
+                feedback.message = "포기하지 마세요! 교과서 핵심 개념부터 차근차근 시작해봐요.";
+                feedback.color = "orange";
+            }
+
+            const weaknesses = data.analysis?.weakness || [];
+            if (weaknesses.length > 0) {
+                feedback.message += `<br><span class="font-bold text-white/90">Tip: '${weaknesses[0]}' 파트를 복습하는 걸 추천해요.</span>`;
+            }
+
+            container.innerHTML = `
+                ${window.reportFilterHtml}
+                <div class="space-y-6 animate-fade-in">
+                    ${results.length > 0 ? `
+                        <div class="flex justify-end">
+                            <select id="report-selector" onchange="changeReport(this.value)" class="text-xs border border-gray-200 rounded-lg px-2 py-1 bg-white text-gray-600 outline-none shadow-sm font-bold max-w-[240px] truncate">
+                                <option value="cumulative">📊 누적 종합 분석 (오답노트)</option>
+                                ${results.map(r => `<option value="${r.examId}" ${r.examId === data.examId ? 'selected' : ''}>${r.title} (${r.score}점)</option>`).join('')}
+                            </select>
+                        </div>
+                    ` : ''}
+
+                    <div id="report-detail-view">
+                        <div class="bg-${feedback.color}-600 rounded-2xl p-4 text-white shadow-lg mb-4 flex items-start gap-3">
+                            <div class="bg-white/20 p-2 rounded-lg shrink-0">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm mb-1">${feedback.title}</h4>
+                                <p class="text-xs opacity-90 leading-relaxed">${feedback.message}</p>
+                            </div>
+                        </div>
+
+                        ${(data.percentile === '-' || data.percentile === null || data.percentile === undefined) ? `
+                        <div class="bg-indigo-900/40 border border-indigo-400/30 rounded-xl p-3 mb-4 text-xs text-indigo-200">
+                            💡 아직 표본이 부족하여 원점수 기준 <b>임시 절대등급</b>이 제공됩니다. (표본 누적 시 실제 등급으로 업데이트)
+                        </div>
+                        ` : ''}
+                        
+                        ${(data.examId === 'week_2028_01' && (!myPackagesData['weekly_winter_2028'] || myPackagesData['weekly_winter_2028'].status !== 'active')) ? `
+                        <div class="bg-gradient-to-r from-blue-600 to-teal-500 rounded-2xl p-4 mb-4 text-white shadow-lg shadow-teal-500/20 cursor-pointer hover:-translate-y-1 transition-transform" onclick="location.href='../weekly_info.html'">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-white/20 p-2 rounded-full shrink-0">
+                                    <i data-lucide="unlock" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-sm mb-0.5 leading-tight">1주차 무료 체험, 어떠셨나요?</h4>
+                                    <p class="text-[11px] text-blue-100 font-medium mt-1 leading-tight">갓통과 프리미엄 10주 패키지 구독하고 완벽한 약점 분석을 받아보세요! 👉</p>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden mb-4">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-1">
+                                    <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Score</p>
+                                    <span class="bg-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm">${data.grade}등급</span>
+                                </div>
+                                <div class="flex items-baseline gap-2 mb-6">
+                                    <h2 class="text-5xl font-black tracking-tighter">${data.score}</h2>
+                                    <span class="text-lg font-medium text-gray-400 mb-1">/ ${maxScore}점</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-4 text-center">
+                                    <div><p class="text-[10px] text-gray-400 mb-0.5">등급</p><p class="text-xl font-bold">${data.grade || '-'}</p></div>
+                                    <div class="border-l border-white/10 border-r"><p class="text-[10px] text-gray-400 mb-0.5">표준점수</p><p class="text-xl font-bold">${data.standardScore !== undefined ? data.standardScore : '-'}</p></div>
+                                    <div><p class="text-[10px] text-gray-400 mb-0.5">상위</p><p class="text-xl font-bold">${typeof data.percentile === 'number' ? 100 - data.percentile : '-'}<span class="text-sm font-normal ml-0.5">${typeof data.percentile === 'number' ? '%' : ''}</span></p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-4" ${isWeekly ? 'style="display:none;"' : ''}>
+                            <div class="text-center mb-4">
+                                <h3 class="text-sm font-bold text-gray-900 flex items-center justify-center gap-1">
+                                    <i data-lucide="radar" class="w-4 h-4 text-indigo-500"></i> 단원별 성취도 밸런스
+                                </h3>
+                            </div>
+                            <div class="relative h-64 w-full">
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                        </section>
+
+                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 border-t-4 border-t-red-400 mb-4" ${isWeekly ? 'style="display:none;"' : ''}>
+                            <div class="flex items-center mb-3">
+                                <span class="text-xl mr-2">🚨</span>
+                                <h3 class="text-sm font-bold text-gray-900">단원별 취약점 진단</h3>
+                            </div>
+                            <p class="text-[11px] text-gray-500 mb-4">오답률이 가장 높은 취약 소단원입니다. 개념 보완이 시급해요!</p>
+                            
+                            <div id="weakness-list" class="space-y-3">
+                                <!-- Javascript로 렌더링 됨 -->
+                            </div>
+                        </section>
+
+                        <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 border-t-4 border-t-blue-500 mb-4">
+                            <div class="flex items-center mb-3">
+                                <span class="text-xl mr-2">📝</span>
+                                <h3 class="text-sm font-bold text-gray-900">해당 회차 오답 노트</h3>
+                            </div>
+                            <p class="text-[11px] text-gray-500 mb-4">틀린 문항을 복습하고 1타 강사의 해설을 확인하세요.<br><span class="text-indigo-500 font-bold">💡 정답률 배지의 색상(🔴어려움, 🟡보통, 🟢쉬움)으로 난이도를 한눈에 확인할 수 있습니다.</span></p>
+                            
+                            <div class="overflow-hidden rounded-xl border border-gray-200">
+                                <table class="w-full text-left border-collapse table-fixed">
+                                    <thead class="bg-gray-50 text-gray-500 text-[10px] uppercase text-center">
+                                        <tr>
+                                            <th class="px-2 py-2 font-medium w-10 whitespace-nowrap">문항</th>
+                                            <th class="px-2 py-2 font-medium text-left">단원</th>
+                                            <th class="px-2 py-2 font-medium w-16 text-center whitespace-nowrap">정답률</th>
+                                            <th class="px-2 py-2 font-medium w-20 text-center whitespace-nowrap">마킹/정답</th>
+                                            <th class="px-2 py-2 font-medium w-16 whitespace-nowrap text-center">학습</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="wrong-answers-list" class="divide-y divide-gray-200 text-xs">
+                                        <!-- Javascript로 렌더링 됨 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        ${data.examId && data.examId.startsWith('past_') ? `
+                        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-5 shadow-lg mb-4 text-white cursor-pointer hover:shadow-xl transition-all" onclick="switchTab('all')">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-black mb-1 flex items-center gap-1"><i data-lucide="crown" class="w-4 h-4 text-yellow-300"></i> 갓통과 프리미엄 모의고사로 더 깊이 있는 학습을 해보세요!</h3>
+                                    <p class="text-xs opacity-90 leading-relaxed">무료 기출 분석 완료! 더 완벽한 대비를 원한다면 유료 프리미엄 모의고사에 도전해보세요.</p>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-6 h-6 shrink-0 opacity-70"></i>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                    </div>
+                </div>
+            `;
+
+            setTimeout(async () => {
+                await renderChartsAndLists(data);
+            }, 0);
+        }
+
+        // ==========================================
+        // [신규 추가] 누적 종합 분석 (Cumulative View) 렌더링
+        // ==========================================
+        async function renderCumulativeReportPage(container, results) {
+            const totalExams = results.length;
+            const avgScore = (results.reduce((sum, r) => sum + r.score, 0) / totalExams).toFixed(1);
+            const avgGrade = Math.round(results.reduce((sum, r) => sum + r.grade, 0) / totalExams);
+            const bestScore = Math.max(...results.map(r => r.score));
+
+            // 오답노트(myWrongAnswers) 데이터를 활용한 취약 단원 분석
+            const topicStats = {};
+            myWrongAnswers.forEach(wa => {
+                const t = wa.topic || '기타';
+                if(!topicStats[t]) topicStats[t] = 0;
+                topicStats[t] += (wa.wrongCount || 1);
+            });
+            const weaknesses = Object.entries(topicStats).sort((a,b) => b[1] - a[1]).slice(0, 3); // 상위 3개
+
+            // 차트 데이터 준비 (최근 5회차 데이터, 시간순(과거->현재) 정렬)
+            const trendResults = [...results].reverse().slice(-5);
+            const trendLabels = trendResults.map(r => r.title.length > 8 ? r.title.substring(0, 8) + '...' : r.title);
+            const trendScores = trendResults.map(r => r.score);
+
+            // 취약 단원 HTML 생성
+            let wHtml = '';
+            if (weaknesses.length > 0) {
+                weaknesses.forEach((item, index) => {
+                    const topic = item[0];
+                    const count = item[1];
+                    const aiPromptTitle = encodeURIComponent(`[${topic}] 단원 개념 학습법 질문합니다.`);
+                    const aiPromptBody = encodeURIComponent(`이번 모의고사 누적 분석 결과, 제가 '${topic}' 단원 관련 문제를 총 ${count}번 틀렸습니다. 핵심 개념과 추천 학습법을 알려주세요.`);
+                    const communityUrl = `../Board/board.html?view=write&category=qna&title=${aiPromptTitle}&body=${aiPromptBody}`;
+
+                    wHtml += `
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-red-50 rounded-xl border border-red-100 gap-3 mb-2 shadow-sm">
+                            <div>
+                                <span class="inline-block px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded mb-1 border border-red-200">오답 누적 ${count}회</span>
+                                <h4 class="text-sm font-bold text-gray-900">${topic}</h4>
+                            </div>
+                            <a href="${communityUrl}" class="flex items-center justify-center gap-1 bg-white text-red-600 border border-red-200 hover:bg-red-50 px-3 py-2 rounded-lg text-[11px] font-bold shadow-sm transition shrink-0">
+                                🤖 AI 맞춤 처방받기
+                            </a>
+                        </div>
+                    `;
+                });
+            } else {
+                wHtml = '<p class="text-center text-emerald-600 text-xs py-4 font-bold">누적된 약점이 없습니다! 🎉</p>';
+            }
+
+            // 오답 노트 리스트 HTML 생성
+            let tableHtml = '';
+            const sortedAnswers = [...myWrongAnswers].sort((a,b) => (b.wrongCount || 1) - (a.wrongCount || 1));
+            
+            // [신규 추가] 통계 데이터 일괄 조회
+            const statsMap = {};
+            if (sortedAnswers.length > 0) {
+                try {
+                    const statsPromises = sortedAnswers.map(ans => getDoc(doc(db, "questions", ans.qId)));
+                    const snaps = await Promise.all(statsPromises);
+                    snaps.forEach((snap, idx) => {
+                        if(snap.exists()) {
+                            const qData = snap.data();
+                            if(qData.stats && qData.stats.totalAttempts > 0) {
+                                statsMap[sortedAnswers[idx].qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
+                            }
+                        }
+                    });
+                } catch(e) { console.error(e); }
+            }
+
+            if (sortedAnswers.length > 0) {
+                sortedAnswers.forEach(ans => {
+                    const explanationUrl = `explanation.html?id=${ans.examId}&qNum=${ans.no}`;
+                    const displayExamId = ans.examId ? ans.examId.replace('exam_', '') : '-';
+                    
+                    let rateHtml = '';
+                    if (statsMap[ans.qId] !== undefined) {
+                        const r = statsMap[ans.qId];
+                        let color = r >= 70 ? 'bg-green-100 text-green-700' : r >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700';
+                        rateHtml = `<span class="${color} text-[10px] px-1.5 py-0.5 rounded font-bold ml-1">${r}%</span>`;
+                    } else {
+                        rateHtml = `<span class="bg-gray-100 text-gray-500 text-[10px] px-1.5 py-0.5 rounded font-bold ml-1">집계 중</span>`;
+                    }
+
+                    tableHtml += `
+                        <tr class="hover:bg-gray-50 transition border-b border-gray-100 last:border-0">
+                            <td class="px-2 py-3 text-center">
+                                <span class="bg-red-100 text-red-600 text-[10px] px-1.5 py-0.5 rounded font-bold">${ans.wrongCount || 1}회</span>
+                            </td>
+                            <td class="px-2 py-3 text-gray-600 text-[11px] truncate max-w-[120px]" title="${ans.topic}">${ans.topic}</td>
+                            <td class="px-2 py-3 text-center">${rateHtml}</td>
+                            <td class="px-2 py-3 text-center text-[10px] text-gray-400 font-mono">${displayExamId}회차</td>
+                            <td class="px-2 py-3 text-center">
+                                <a href="${explanationUrl}" class="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1.5 rounded-md text-[10px] font-bold shadow-sm transition whitespace-nowrap">
+                                    복습하기
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tableHtml = '<tr><td colspan="5" class="text-center py-6 text-gray-400 text-xs">기록된 오답이 없습니다.</td></tr>';
+            }
+
+            // 렌더링
+            container.innerHTML = `
+                ${window.reportFilterHtml}
+                <div class="space-y-6 animate-fade-in">
+                    <div class="flex justify-end">
+                        <select id="report-selector" onchange="changeReport(this.value)" class="text-xs border border-indigo-300 rounded-lg px-2 py-1 bg-indigo-50 text-indigo-700 font-bold outline-none shadow-sm max-w-[240px] truncate">
+                            <option value="cumulative" selected>📊 누적 종합 분석 (오답노트)</option>
+                            ${results.map(r => `<option value="${r.examId}">${r.title} (${r.score}점)</option>`).join('')}
+                        </select>
+                    </div>
+
+                    <div class="bg-indigo-600 rounded-2xl p-4 text-white shadow-lg mb-4 flex items-start gap-3">
+                        <div class="bg-white/20 p-2 rounded-lg shrink-0">
+                            <i data-lucide="database" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm mb-1">데이터 기반 종합 분석</h4>
+                            <p class="text-xs opacity-90 leading-relaxed">총 ${totalExams}회의 모의고사 빅데이터를 바탕으로 도출된 취약점과 맞춤형 오답 노트입니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 mb-4">
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 text-center">
+                            <p class="text-[10px] text-gray-400 font-bold mb-1">평균 점수</p>
+                            <p class="text-xl font-black text-gray-900">${avgScore}<span class="text-xs font-normal ml-0.5">점</span></p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 text-center">
+                            <p class="text-[10px] text-gray-400 font-bold mb-1">평균 등급</p>
+                            <p class="text-xl font-black text-indigo-600">${avgGrade}<span class="text-xs font-normal ml-0.5">등급</span></p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 text-center">
+                            <p class="text-[10px] text-gray-400 font-bold mb-1">최고 점수</p>
+                            <p class="text-xl font-black text-gray-900">${bestScore}<span class="text-xs font-normal ml-0.5">점</span></p>
+                        </div>
+                    </div>
+
+                    <!-- [신규 추가] 누적 성적 추이 라인 차트 -->
+                    <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-4">
+                        <div class="flex items-center mb-4">
+                            <span class="text-xl mr-2">📈</span>
+                            <h3 class="text-sm font-bold text-gray-900">최근 5회 성적 추이</h3>
+                        </div>
+                        <div class="relative h-48 w-full">
+                            <canvas id="trendLineChart"></canvas>
+                        </div>
+                    </section>
+
+                    <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 border-t-4 border-t-red-500 mb-4">
+                        <div class="flex items-center mb-3">
+                            <span class="text-xl mr-2">🔥</span>
+                            <h3 class="text-sm font-bold text-gray-900">누적 취약 단원 TOP 3</h3>
+                        </div>
+                        <p class="text-[11px] text-gray-500 mb-4">모든 회차를 통틀어 가장 많이 틀린 단원입니다.</p>
+                        <div class="space-y-1">
+                            ${wHtml}
+                        </div>
+                    </section>
+
+                    <section class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 border-t-4 border-t-indigo-500 mb-4">
+                        <div class="flex items-center mb-3">
+                            <span class="text-xl mr-2">📚</span>
+                            <h3 class="text-sm font-bold text-gray-900">오답 집중 훈련</h3>
+                        </div>
+                        <p class="text-[11px] text-gray-500 mb-4">다시 틀리지 않도록 해설을 복습하세요.<br><span class="text-indigo-500 font-bold">💡 정답률 배지의 색상(🔴어려움, 🟡보통, 🟢쉬움)으로 난이도를 한눈에 확인할 수 있습니다.</span></p>
+                        
+                        <div class="overflow-hidden rounded-xl border border-gray-200">
+                            <table class="w-full text-left border-collapse table-fixed">
+                                <thead class="bg-gray-50 text-gray-500 text-[10px] uppercase text-center">
+                                    <tr>
+                                        <th class="px-2 py-2 font-medium w-12">누적</th>
+                                        <th class="px-2 py-2 font-medium text-left">단원 / 개념</th>
+                                        <th class="px-2 py-2 font-medium w-16 text-center">정답률</th>
+                                        <th class="px-2 py-2 font-medium w-16">출처</th>
+                                        <th class="px-2 py-2 font-medium w-20 whitespace-nowrap">복습</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 text-xs">
+                                    ${tableHtml}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            `;
+            lucide.createIcons();
+
+            // 차트 렌더링 실행 (DOM 업데이트 후 안전하게 처리)
+            setTimeout(() => {
+                const ctxTrend = document.getElementById('trendLineChart');
+                if (ctxTrend) {
+                    if (window.myTrendChart) window.myTrendChart.destroy();
+                    
+                    window.myTrendChart = new Chart(ctxTrend.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: trendLabels,
+                            datasets: [{
+                                label: '총점',
+                                data: trendScores,
+                                borderColor: '#4F46E5', // indigo-600
+                                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                                borderWidth: 2,
+                                pointBackgroundColor: '#fff',
+                                pointBorderColor: '#4F46E5',
+                                pointBorderWidth: 2,
+                                pointRadius: 4,
+                                fill: true,
+                                tension: 0.3 // 부드러운 곡선 적용
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    min: 0,
+                                    max: 50, // 과학 탐구 영역 50점 만점 기준
+                                    ticks: { stepSize: 10, font: { size: 10, family: 'Noto Sans KR' } }
+                                },
+                                x: {
+                                    ticks: { font: { size: 10, family: 'Noto Sans KR' } }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false }
+                            }
+                        }
+                    });
+                }
+            }, 0);
+        }
+
+        async function hydrateMissingData(examId, myAnswers) {
+            try {
+                const examDocRef = doc(db, "exams", examId);
+                const examSnap = await getDoc(examDocRef);
+                
+                if (!examSnap.exists()) return null;
+                const examData = examSnap.data();
+
+                let questions = [];
+                if (examData.questions && Array.isArray(examData.questions)) {
+                    questions = examData.questions;
+                } 
+                else if (examData.score_map) {
+                    questions = examData.score_map.map((s, i) => ({
+                        no: i + 1, score: s, correctAnswer: examData.answer_key[i], qId: null
+                    }));
+                }
+
+                const promises = questions.map(async (q, i) => {
+                    const studentMark = myAnswers[i];
+                    const isCorrect = String(studentMark).trim() === String(q.correctAnswer).trim();
+                    let taxonomy = {};
+
+                    if (q.qId) {
+                        try {
+                            const qSnap = await getDoc(doc(db, "questions", q.qId));
+                            if (qSnap.exists()) {
+                                taxonomy = qSnap.data().taxonomy || {};
+                            }
+                        } catch(e) { console.warn("Question fetch error:", e); }
+                    }
+
+                    return {
+                        no: i + 1,
+                        studentMark: studentMark,
+                        correctAnswer: q.correctAnswer,
+                        isCorrect: isCorrect,
+                        score: q.score,
+                        taxonomy: taxonomy
+                    };
+                });
+
+                return await Promise.all(promises);
+            } catch(e) {
+                console.error("Hydration Failed:", e);
+                return null;
+            }
+        }
+        
+        function analyzeRestoredData(answers) {
+            const domainStats = {
+                '과학의 기초': { total: 0, earned: 0 },
+                '물질과 규칙성': { total: 0, earned: 0 },
+                '시스템과 상호작용': { total: 0, earned: 0 },
+                '변화와 다양성': { total: 0, earned: 0 },
+                '환경과 에너지': { total: 0, earned: 0 }
+            };
+            const topicStats = {};
+
+            answers.forEach(ans => {
+                const tax = ans.taxonomy || {};
+                let domain = tax.chapter || '과학의 기초';
+
+                if (!domainStats[domain]) {
+                    const legacyMap = {
+                        '물리': '시스템과 상호작용',
+                        '화학': '물질과 규칙성',
+                        '생명과학': '변화와 다양성',
+                        '지구과학': '환경과 에너지'
+                    };
+                    domain = legacyMap[tax.domain] || '과학의 기초';
+                }
+                
+                const score = ans.score || 2; 
+                domainStats[domain].total += score;
+                if (ans.isCorrect) domainStats[domain].earned += score;
+
+                const topic = tax.topic || tax.chapter || domain;
+                if (!topicStats[topic]) topicStats[topic] = { count: 0, wrong: 0 };
+                topicStats[topic].count++;
+                if (!ans.isCorrect) topicStats[topic].wrong++;
+            });
+
+            const domainScores = {};
+            const defaultDomains = ['과학의 기초', '물질과 규칙성', '시스템과 상호작용', '변화와 다양성', '환경과 에너지'];
+            defaultDomains.forEach(key => {
+                domainScores[key] = domainStats[key].total > 0 ? Math.round((domainStats[key].earned / domainStats[key].total) * 100) : 0;
+            });
+
+            const weakness = Object.entries(topicStats)
+                .filter(([_, val]) => val.wrong > 0)
+                .sort((a, b) => {
+                    const rateDiff = (b[1].wrong / b[1].count) - (a[1].wrong / a[1].count);
+                    if (rateDiff === 0) {
+                        return b[1].wrong - a[1].wrong; 
+                    }
+                    return rateDiff;
+                })
+                .slice(0, 2)
+                .map(([key, _]) => key);
+
+            return { domainScores, weakness };
+        }
+
+        function loadExamDataScript(examId) {
+            return new Promise((resolve) => {
+                let fileName = '';
+                if (examId === '2028_pretest' || examId === 'past_예비문항') {
+                    fileName = `../archive/kice_2028/2028_pretest.js`;
+                } else if (examId.includes('week_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1]; 
+                    const baseId = parts.slice(0, 3).join('_'); 
+                    fileName = `./weekly/${year}/${baseId}.js`;
+                } else if (examId.includes('mock_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1];
+                    const folderName = parts.slice(0, 3).join('_'); // mock_2028_s0
+                    fileName = `./mock/${year}/${folderName}/${examId}.js`;
+                } else {
+                    fileName = `./data/${examId}.js`;
+                }
+                fileName += `?v=${new Date().getTime()}`;
+                
+                const script = document.createElement('script');
+                script.src = fileName;
+                
+                script.onload = () => {
+                    if (window.globalExamData) resolve(window.globalExamData);
+                    else resolve(null);
+                };
+                
+                script.onerror = () => {
+                    resolve(null);
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+
+        

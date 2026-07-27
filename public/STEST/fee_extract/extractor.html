@@ -7,20 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #020617; color: white; }
-        #viewer-pane { scroll-behavior: auto; background-color: #020617; image-rendering: -webkit-optimize-contrast; }
-        #pdf-render-container { position: relative; display: inline-block; cursor: crosshair; user-select: none; text-align: left; margin: 60px auto 150px auto; box-shadow: 0 0 80px rgba(0,0,0,0.9); background-color: white; }
-        #pdf-canvas { display: block; }
-        #selection-rect { position: absolute; border: 2px solid #6366f1; background-color: rgba(99, 102, 241, 0.2); pointer-events: none; display: none; z-index: 100; }
-        .captured-rect { position: absolute; border: 1.5px solid #10b981; background-color: rgba(16, 185, 129, 0.1); pointer-events: none; z-index: 50; transition: all 0.2s; }
-        .captured-rect.active { border: 3px solid #f43f5e; background-color: rgba(244, 63, 94, 0.2); z-index: 60; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        .edit-mode-active { border: 2px solid #f43f5e !important; background-color: #2d0a11 !important; }
-    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; background-color: #020617; color: white; }        #viewer-pane { scroll-behavior: auto; background-color: #020617; image-rendering: -webkit-optimize-contrast; }        #pdf-render-container { position: relative; display: inline-block; cursor: crosshair; user-select: none; text-align: left; margin: 60px auto 150px auto; box-shadow: 0 0 80px rgba(0,0,0,0.9); background-color: white; }        #pdf-canvas { display: block; }        #selection-rect { position: absolute; border: 2px solid #6366f1; background-color: rgba(99, 102, 241, 0.2); pointer-events: none; display: none; z-index: 100; }        .captured-rect { position: absolute; border: 1.5px solid #10b981; background-color: rgba(16, 185, 129, 0.1); pointer-events: none; z-index: 50; transition: all 0.2s; }        .captured-rect.active { border: 3px solid #f43f5e; background-color: rgba(244, 63, 94, 0.2); z-index: 60; }        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }        .edit-mode-active { border: 2px solid #f43f5e !important; background-color: #2d0a11 !important; }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -36,6 +23,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 

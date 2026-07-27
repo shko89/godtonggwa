@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>갓통과 - 기출 해설 아카이브</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            chtml: {
+                matchFontHeight: true
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
+        
+        /* 공통 개념 박스 스타일 */
+        .concept-box { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; 
+            background: linear-gradient(135deg, rgba(220, 252, 231, 0.85), rgba(240, 253, 244, 0.95)); 
+            border-left: 5px solid #22c55e; 
+            padding: 16px 20px; 
+            margin-top: 14px; 
+            margin-bottom: 24px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15), inset 0 0 0 1px rgba(255,255,255,0.5); 
+            line-height: normal;
+            position: relative;
+            z-index: 10;
+        }
+        .concept-title { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: #14532d; 
+            font-size: 13px; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            letter-spacing: -0.5px; 
+            font-weight: 900; 
+            margin: 0;
+        }
+        .concept-content { 
+            display: block; 
+            color: #166534; 
+            font-size: 10.5px; 
+            line-height: 1.6; 
+            word-break: keep-all; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            font-weight: 500;
+            margin: 0;
+        }
+
+        
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; overflow-x: hidden; }
+        
+        .app-container { 
+            max-width: 480px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+            background-color: #FFFFFF; 
+            position: relative; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-direction: column;
+            transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .app-container.wide-mode { max-width: 1024px; }
+        
+        .notebook-paper {
+            background-color: #fffef0;
+            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px);
+            background-size: 100% 30px;
+            line-height: 30px;
+            position: relative;
+        }
+        .notebook-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 40px;
+            width: 2px;
+            background-color: #ff9999;
+            opacity: 0.4;
+        }
+        .handwriting {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 1.7rem;
+            color: #1e293b;
+            padding-left: 50px;
+            padding-right: 20px;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .num-btn { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 18px; font-weight: 800; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid #F1F5F9; background-color: #F8FAFC; color: #64748B; font-size: 1.1rem; }
+        .num-btn:active { transform: scale(0.9); background-color: #EEF2FF; color: #4F46E5; }
+        .num-btn.active { background-color: #4F46E5; color: white; border-color: #4F46E5; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+        
+        .question-canvas { width: 100%; height: auto; display: block; border-radius: 12px; image-rendering: -webkit-optimize-contrast; cursor: zoom-in; }
+        .premium-banner { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%); }
+        
+        #zoom-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: #000; flex-direction: column; overflow: hidden; touch-action: none; }
+        .zoom-header { padding: 16px; display: flex; justify-content: space-between; items-center: center; color: white; background: rgba(0,0,0,0.7); z-index: 10; }
+        .zoom-content { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        #zoom-canvas-container { position: absolute; transform-origin: center center; will-change: transform; display: flex; align-items: center; justify-content: center; }
+        #zoom-canvas { background: white; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: block; max-width: none; }
+        .zoom-footer { padding: 24px; display: flex; justify-content: center; gap: 16px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 10; padding-bottom: 40px; }
+
+        /* 전체 화면 확대 최적화 */
+        #solve-zoom-wrapper { 
+            transform-origin: top center; 
+            transition: transform 0.05s linear;
+            will-change: transform; 
+            touch-action: pan-y; 
+        }
+        #solve-zoom-wrapper.zoomed {
+            touch-action: none;
+        }
+        .zoom-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(79, 70, 229, 0.9);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            z-index: 100;
+            pointer-events: none;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .highlight-yellow { background-color: #fef08a; padding: 2px 4px; border-radius: 4px; font-weight: bold; color: #854d0e; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .red-pen { color: #ef4444; text-decoration: underline; font-weight: bold; }
+        
+        /* [추가] 정답 및 해설 가리기 스타일 */
+        .ans-blurred { filter: blur(8px); opacity: 0.5; transition: all 0.3s; }
+        .ans-revealed { filter: blur(0); opacity: 1; }
+        .btn-exp-view { 
+            background: #4F46E5; 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            font-weight: 900; 
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .btn-exp-view:active { transform: scale(0.95); }
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body>
+
+    <div class="app-container" id="main-app-container">
+        <!-- 상단 헤더 -->
+        <header id="app-header" class="hidden bg-white/95 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100">
+            <button onclick="handleBack()" class="mr-3 p-1.5 hover:bg-gray-100 rounded-full transition-colors"><i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i></button>
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-100"><i data-lucide="scroll-text" class="w-4.5 h-4.5 text-white"></i></div>
+                <h1 class="text-lg font-black text-gray-900 tracking-tight" id="header-title">기출 해설 아카이브</h1>
+            </div>
+            <button id="solve-zoom-reset" onclick="resetStageZoom()" class="ml-auto hidden bg-indigo-600 text-white px-3 py-1.5 rounded-full text-[10px] font-black border border-indigo-700 shadow-lg animate-pulse">줌 리셋</button>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto hide-scrollbar overflow-x-hidden">
+            
+            <!-- [View 1] 시험지 목록 화면 -->
+            <div id="view-exam-list" class="fade-in p-5 space-y-7">
+                <div class="bg-gradient-to-br from-indigo-900 to-indigo-700 rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden mt-2 border border-indigo-500/30">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 opacity-20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                    
+                    <div class="relative z-10 text-left">
+                        <div class="flex items-center gap-3 mb-6">
+                             <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/20 shadow-inner"><i data-lucide="award" class="w-5 h-5 text-amber-400"></i></div>
+                             <h2 class="text-2xl font-black tracking-tight text-white leading-tight">기출분석 & OMR 리포트</h2>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3 bg-indigo-900/40 p-4 rounded-2xl border border-indigo-400/20 backdrop-blur-sm shadow-inner">
+                                <div class="bg-indigo-500/30 p-2 rounded-lg mt-0.5"><i data-lucide="timer" class="w-4 h-4 text-white"></i></div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white mb-1 tracking-tight">실전 타임어택 (필기 지원)</h4>
+                                    <p class="text-indigo-100 text-xs font-medium leading-relaxed opacity-90 break-keep">화면에 직접 <strong class="text-amber-300">펜으로 필기하며</strong> 실제 시험처럼 시간을 재고 푸는 프리미엄 모의고사 기능입니다. 제출 시 정밀 성적 리포트를 제공합니다.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 bg-indigo-900/40 p-4 rounded-2xl border border-indigo-400/20 backdrop-blur-sm shadow-inner">
+                                <div class="bg-indigo-500/30 p-2 rounded-lg mt-0.5"><i data-lucide="book-open" class="w-4 h-4 text-white"></i></div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white mb-1 tracking-tight">스마트 기출 해설 (선택 학습)</h4>
+                                    <p class="text-indigo-100 text-xs font-medium leading-relaxed opacity-90 break-keep">원하는 문항 번호만 선택하여 1타 강사의 비밀노트 해설을 즉시 확인하고 자투리 시간에 스마트하게 학습하세요!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex items-center gap-2 text-[11px] font-black bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 w-fit px-4 py-2.5 rounded-full shadow-lg">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-amber-900"></i> <span>2028 통합과학 예시문항 OMR 진행 중</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="font-black text-gray-900 flex items-center gap-2 text-lg px-1"><i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>학년도별 기출 분석</h3>
+                    <div id="exam-list-container" class="grid grid-cols-1 gap-4 pb-20"></div>
+                </div>
+            </div>
+
+            <!-- [View 2] 문항 선택 그리드 -->
+            <div id="view-num-grid" class="hidden fade-in p-6 pb-32">
+                <div class="bg-indigo-50/50 rounded-[32px] p-7 border border-indigo-100/50 mb-7 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-indigo-500 opacity-5 rounded-full -mr-10 -mt-10 blur-xl pointer-events-none"></div>
+                    <div class="flex items-center gap-2 mb-1 relative z-10">
+                        <span class="bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">Exam Board</span>
+                        <h3 id="grid-title" class="text-xl font-black text-gray-900 tracking-tight leading-tight">-</h3>
+                    </div>
+                    <p class="text-[13px] text-gray-500 font-medium relative z-10 mb-5">학습을 원하는 문항 번호를 선택해 주세요.</p>
+                    
+                    <!-- [수정] 타임어택 진입 버튼 -->
+                    <button onclick="startTimeAttackMode()" id="btn-archive-omr" class="relative z-10 w-full bg-gradient-to-r from-gray-900 to-gray-800 text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-all border border-gray-700">
+                        <i data-lucide="timer" class="w-5 h-5 text-indigo-300"></i>
+                        <span class="tracking-tight text-[13px]">⏰ 실전 모의고사 타임어택 (40분)</span>
+                    </button>
+                </div>
+                <div id="num-grid" class="grid grid-cols-5 gap-4 pb-24"></div>
+            </div>
+
+            <!-- [View 3] 상세 풀이 화면 -->
+            <div id="view-solve" class="hidden fade-in px-4 pt-4 pb-32">
+                <div id="solve-zoom-wrapper">
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <div class="w-full lg:w-1/2 space-y-4">
+                            <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-4 overflow-hidden relative">
+                                <div class="flex justify-between items-center px-3 py-3 border-b border-gray-50 mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <span id="solve-q-label" class="text-indigo-600 font-black text-xl tracking-tighter">Q 01</span>
+                                        <span class="text-gray-200 font-thin text-xl">|</span>
+                                        <span id="solve-q-score" class="text-amber-500 text-xs font-black uppercase">2.0 Points</span>
+                                    </div>
+                                    <div class="flex gap-1">
+                                        <button onclick="openZoom()" class="p-2 hover:bg-indigo-50 rounded-full text-indigo-600 transition-colors"><i data-lucide="maximize-2" class="w-5 h-5"></i></button>
+                                        <button onclick="showStep(2)" class="p-2 hover:bg-gray-50 rounded-full text-gray-400 transition-colors"><i data-lucide="grid" class="w-5 h-5"></i></button>
+                                    </div>
+                                </div>
+                                <div id="solve-canvas-parent">
+                                    <div id="canvas-wrapper" class="flex items-center justify-center relative group w-full cursor-zoom-in">
+                                        <canvas id="q-canvas" class="question-canvas"></canvas>
+                                        <canvas id="draw-canvas" class="absolute inset-0 w-full h-full touch-auto z-10" style="pointer-events: none;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- [수정] 정답 영역: 블러 처리 및 클릭 인터랙션 -->
+                            <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-2xl flex items-center justify-between cursor-pointer group" onclick="revealCorrectAns()">
+                                <div class="text-left pl-2">
+                                    <h4 class="text-emerald-700 font-black text-[9px] uppercase tracking-widest">Answer</h4>
+                                    <div id="ans-mask" class="flex items-center gap-2 py-1">
+                                        <p id="correct-ans" class="text-3xl font-black text-emerald-600 ans-blurred">③</p>
+                                        <span id="ans-click-tip" class="text-[10px] text-emerald-400 font-bold bg-emerald-100/50 px-2 py-0.5 rounded animate-pulse">탭하여 정답 확인</span>
+                                    </div>
+                                </div>
+                                <div class="text-right pr-2">
+                                    <span id="solve-q-topic" class="text-emerald-600 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-emerald-100 shadow-sm block mb-1">단원 정보</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full lg:w-1/2">
+                            <!-- [수정] 비밀노트 영역: 해설 가리기 버튼 및 인터랙션 -->
+                            <div class="h-full min-h-[600px] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper fade-in">
+                                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-4 ml-8 bg-indigo-50/30">
+                                    <i data-lucide="pen-tool" class="w-5 h-5 text-indigo-600 mr-2"></i>
+                                    <span id="note-topic-text" class="text-xl font-bold text-gray-700 handwriting" style="padding:0;">비밀노트 로딩 중...</span>
+                                </div>
+                                <div class="flex-1 px-6 pb-6 pt-0 ml-2 relative text-left">
+                                    <!-- 해설 보기 버튼 오버레이 -->
+                                    <div id="exp-lock-overlay" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/10 backdrop-blur-[2px]">
+                                        <button onclick="revealExplanation()" class="btn-exp-view flex items-center gap-2">
+                                            <i data-lucide="eye" class="w-5 h-5"></i>
+                                            <span>해설 보기</span>
+                                        </button>
+                                        <p class="mt-4 text-[13px] font-bold text-gray-500">문제를 충분히 고민한 후 확인하세요!</p>
+                                    </div>
+                                    <!-- 해설 본문 (초기 hidden) -->
+                                    <div id="exp-text-main" class="handwriting leading-[30px] pt-2 pb-16 text-left opacity-0 transition-opacity duration-500">해설을 로드하고 있습니다...</div>
+                                    
+                                    <div class="absolute bottom-10 right-6 transform rotate-[-10deg] opacity-60">
+                                        <span class="bg-rose-100 text-rose-600 px-4 py-1.5 text-xl font-black shadow-lg border-2 border-rose-300 rounded-sm">Very Good! 👍</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-10"></div>
+            </div>
+
+            <!-- [View 4] 타임어택 모드 -->
+            <div id="view-timeattack" class="hidden fade-in px-4 pt-4 pb-40 flex flex-col min-h-screen">
+                <!-- 타이머 및 헤더 -->
+                <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-gray-100 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span id="ta-q-label" class="bg-indigo-600 text-white px-2 py-1 rounded-md font-black text-sm">Q 01</span>
+                        <span id="ta-q-score" class="text-xs font-bold text-gray-500">2.0점</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-rose-50 px-3 py-1.5 rounded-full border border-rose-100 cursor-pointer hover:bg-rose-100 transition-colors active:scale-95" onclick="submitTimeAttack()">
+                        <i data-lucide="timer" class="w-4 h-4 text-rose-500"></i>
+                        <span id="ta-timer" class="text-rose-600 font-mono font-black text-sm">40:00</span>
+                        <span class="text-rose-600 font-black text-xs ml-2 border-l border-rose-200 pl-2">제출하기</span>
+                    </div>
+                </div>
+
+                <!-- 툴바 -->
+                <div class="flex items-center justify-between mb-3 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto hide-scrollbar">
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button id="ta-tool-zoom" onclick="setTaTool('zoom')" class="p-2.5 rounded-lg bg-indigo-100 text-indigo-700 shadow-sm transition-all"><i data-lucide="move" class="w-6 h-6"></i></button>
+                        <div class="w-px h-6 bg-slate-200 mx-1"></div>
+                        <button id="ta-tool-pen" onclick="setTaTool('pen')" class="p-2.5 rounded-lg bg-white text-gray-400 hover:text-gray-600 transition-all"><i data-lucide="pen-tool" class="w-6 h-6"></i></button>
+                        
+                        <div id="ta-pen-options" class="hidden items-center gap-3 ml-1 mr-1 px-3 border-l border-slate-200 shrink-0">
+                            <!-- Colors -->
+                            <div class="flex items-center gap-2">
+                                <button onclick="setTaPenColor('#ef4444')" class="w-5 h-5 rounded-full bg-red-500 ring-2 ring-indigo-400 ring-offset-1 transition-all opacity-100" id="ta-color-red"></button>
+                                <button onclick="setTaPenColor('#3b82f6')" class="w-5 h-5 rounded-full bg-blue-500 opacity-40 hover:opacity-100 transition-all" id="ta-color-blue"></button>
+                                <button onclick="setTaPenColor('#1e293b')" class="w-5 h-5 rounded-full bg-slate-800 opacity-40 hover:opacity-100 transition-all" id="ta-color-black"></button>
+                            </div>
+                            <div class="w-px h-4 bg-slate-200 mx-1"></div>
+                            <!-- Thickness -->
+                            <div class="flex items-center gap-3">
+                                <button onclick="setTaPenWidth(2)" class="w-4 h-4 rounded-full bg-gray-500 opacity-40 hover:opacity-100 transition-all" id="ta-width-2"></button>
+                                <button onclick="setTaPenWidth(4)" class="w-5 h-5 rounded-full bg-gray-500 ring-2 ring-indigo-400 ring-offset-1 transition-all opacity-100" id="ta-width-4"></button>
+                                <button onclick="setTaPenWidth(6)" class="w-6 h-6 rounded-full bg-gray-500 opacity-40 hover:opacity-100 transition-all" id="ta-width-6"></button>
+                            </div>
+                        </div>
+
+                        <button id="ta-tool-eraser" onclick="setTaTool('eraser')" class="p-2.5 rounded-lg bg-white text-gray-400 hover:text-gray-600 transition-all"><i data-lucide="eraser" class="w-6 h-6"></i></button>
+                    </div>
+                    <button onclick="clearTaCanvas()" class="shrink-0 px-3 py-2.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 border border-red-100 transition-all active:scale-95 flex items-center gap-1.5 font-bold text-sm ml-2">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i> 모두 지우기
+                    </button>
+                </div>
+
+                <!-- 문제 캔버스 영역 (캔버스가 여기로 이동됨) -->
+                <div id="ta-canvas-host" class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden relative flex-1 w-full min-h-[400px]">
+                </div>
+
+                <!-- 하단 OMR 고정바 -->
+                <div id="ta-bottom-bar" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white border-t border-gray-200 p-4 pb-8 z-40 flex flex-col gap-3 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+                    <div class="flex justify-between gap-2" id="ta-omr-buttons">
+                        <!-- OMR Buttons 1~5 -->
+                    </div>
+                    <div class="flex justify-between items-center gap-2 mt-1">
+                        <button onclick="taNav(-1)" id="ta-btn-prev" class="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-bold flex items-center justify-center gap-1 active:scale-95 transition-all disabled:opacity-50"><i data-lucide="chevron-left" class="w-5 h-5"></i>이전</button>
+                        <button onclick="submitTimeAttack()" id="ta-btn-submit" class="hidden flex-[2] py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black shadow-lg active:scale-95 transition-all">답안 제출하기</button>
+                        <button onclick="taNav(1)" id="ta-btn-next" class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-bold flex items-center justify-center gap-1 active:scale-95 transition-all">다음<i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
+            </button>
+            
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+            </button>
+            
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+            </button>
+            
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-indigo-600 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+            </button>
+            
+            <button onclick="location.href='../index.html?view=my'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- UHD 확대 모달 등 기타 요소 생략 (기존과 동일) -->
+    <div id="solve-zoom-info" class="zoom-indicator">ZOOM x1.0</div>
+    <div id="zoom-modal">
+        <div class="zoom-header">
+            <div class="flex items-center gap-2"><span class="bg-indigo-600 p-1 rounded shadow-lg shadow-indigo-500/20"><i data-lucide="search" class="w-4 h-4 text-white"></i></span><div class="flex flex-col"><span class="text-[9px] font-black uppercase text-indigo-400 leading-none tracking-widest">UHD Display</span><span class="text-[11px] font-bold text-white mt-1" id="zoom-status">100%</span></div></div>
+            <button onclick="closeZoom()" class="p-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors active:scale-90"><i data-lucide="x" class="w-6 h-6 text-white"></i></button>
+        </div>
+        <div class="zoom-content" id="zoom-viewport"><div id="zoom-canvas-container"><canvas id="zoom-canvas"></canvas></div></div>
+        <div class="zoom-footer">
+            <button onclick="adjustZoomBtn(-0.2)" class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center text-white active:scale-90 border border-white/5"><i data-lucide="minus" class="w-6 h-6"></i></button>
+            <button onclick="resetZoomToFit()" class="px-8 h-14 bg-indigo-600 hover:bg-indigo-500 rounded-full text-white text-xs font-black active:scale-95 transition-all shadow-xl">RESET FIT</button>
+            <button onclick="adjustZoomBtn(0.2)" class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center text-white active:scale-90 border border-white/5"><i data-lucide="plus" class="w-6 h-6"></i></button>
+        </div>
+    </div>
+
+    <div id="loading" class="hidden fixed inset-0 bg-white/95 z-[100] flex flex-col items-center justify-center text-indigo-600 backdrop-blur-sm">
+        <div class="w-14 h-14 border-[5px] border-indigo-600 border-t-transparent rounded-full animate-spin mb-6"></div>
+        <p class="font-black text-sm text-gray-900 tracking-tight">데이터 동기화 중...</p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+        const appId = 'godtonggwa_v1';
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const RENDERING_QUALITY = 3.5;
+        let EXAM_META = {};
+
+        let currentExamId = null, currentQNum = 0, pdfDoc = null, examCoords = {}, currentStep = 1, aiExamData = null; 
+        let scale = 1, fitScale = 1, translateX = 0, translateY = 0, lastX = 0, lastY = 0, initialDist = 0;
+        let stageScale = 1, stageX = 0, stageY = 0, stageLastX = 0, stageLastY = 0, stageInitialDist = 0;
+        
+        const stageWrapper = document.getElementById('solve-zoom-wrapper');
+        const mainContent = document.getElementById('main-content');
+        const zoomInfo = document.getElementById('solve-zoom-info');
+        const zoomResetBtn = document.getElementById('solve-zoom-reset');
+
+        let authInitialized = false;
+        onAuthStateChanged(auth, (user) => {
+            if (!authInitialized) {
+                authInitialized = true;
+                if (!user) {
+                    signInAnonymously(auth).then(() => renderExamList());
+                } else {
+                    renderExamList();
+                }
+            }
+        });
+
+        function loadExamDataScript(examId) {
+            return new Promise((resolve) => {
+                const pathPrefix = (examId === '2028_pretest') ? './kice_2028/' : './';
+                const fileName = `${pathPrefix}${examId}.js?v=${new Date().getTime()}`; 
+                console.log("현재 폴더에서 파일을 찾습니다:", fileName);
+                const script = document.createElement('script'); script.src = fileName;
+                script.onload = () => resolve(window.globalExamData || null); script.onerror = () => resolve(null);
+                document.head.appendChild(script);
+            });
+        }
+
+        async function renderExamList() {
+            const container = document.getElementById('exam-list-container');
+            container.innerHTML = '<div class="text-center text-sm text-gray-500 py-10">기출문제를 불러오는 중입니다...</div>';
+            
+            try {
+                const q = query(collection(db, "public_exams"), where("type", "==", "past"));
+                const snap = await getDocs(q);
+                
+                let fetchedExams = [];
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    let artifactId = doc.id;
+                    if (doc.id === 'past_예비문항') artifactId = '2028_pretest';
+                    
+                    fetchedExams.push({
+                        id: doc.id,
+                        orderId: data.id || 0,
+                        title: data.title || doc.id,
+                        pdfFile: (artifactId === '2028_pretest' ? 'kice_2028/' : '') + artifactId + ".pdf",
+                        artifactId: artifactId
+                    });
+                });
+                
+                fetchedExams.sort((a, b) => a.orderId - b.orderId);
+                
+                EXAM_META = {};
+                fetchedExams.forEach(exam => {
+                    EXAM_META[exam.id] = { title: exam.title, pdfFile: exam.pdfFile, artifactId: exam.artifactId };
+                });
+                
+                if (Object.keys(EXAM_META).length === 0) {
+                    EXAM_META = { "2028_pretest": { title: "2028 예비문항", pdfFile: "kice_2028/2028_pretest.pdf" }, "2024_11": { title: "2024학년도 수능", pdfFile: "2024_11.pdf" } };
+                }
+
+                container.innerHTML = '';
+                Object.keys(EXAM_META).forEach(id => {
+                    const exam = EXAM_META[id];
+                    const btn = document.createElement('button');
+                    btn.className = "bg-white border border-gray-100 p-6 rounded-[28px] text-left hover:border-indigo-400 shadow-sm active:scale-[0.97] group mb-2 w-full transition-all";
+                    btn.innerHTML = `<div class="flex justify-between items-center mb-1"><span class="text-[10px] font-black text-indigo-500 tracking-widest uppercase opacity-60">High Performance</span><i data-lucide="chevron-right" class="w-5 h-5 text-gray-300"></i></div><h4 class="font-black text-gray-900 text-xl tracking-tight leading-tight">${exam.title}</h4>`;
+                    btn.onclick = () => selectExam(id); container.appendChild(btn);
+                });
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Failed to fetch past exams:", err);
+                container.innerHTML = '<div class="text-center text-sm text-red-400 py-10">데이터를 불러오지 못했습니다. (' + err.message + ')</div>';
+            }
+        }
+
+        window.handleArchiveOMRClick = () => {
+            const user = auth.currentUser;
+            if(!user || user.isAnonymous) {
+                alert("로그인이 필요한 서비스입니다. OMR을 제출하고 성적을 분석하려면 로그인해 주세요.");
+                location.href = '../index.html';
+                return;
+            }
+            location.href = '../STEST/omr.html?id=' + currentExamId;
+        };
+
+        window.selectExam = async (id) => {
+            document.getElementById('loading').classList.remove('hidden');
+            currentExamId = id;
+            try {
+                const artifactId = EXAM_META[id].artifactId || id;
+                const [docSnap, loadedAiData] = await Promise.all([getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', artifactId)), loadExamDataScript(artifactId)]);
+                if (!docSnap.exists()) throw new Error("좌표 데이터가 없습니다.");
+                examCoords = docSnap.data().coords; aiExamData = loadedAiData;
+                pdfDoc = await pdfjsLib.getDocument(EXAM_META[id].pdfFile).promise;
+                const keys = Object.keys(examCoords).map(Number).filter(n => !isNaN(n));
+                let maxQ = keys.length > 0 ? Math.max(...keys) : 25;
+                if (aiExamData && aiExamData.answers) maxQ = Math.max(maxQ, aiExamData.answers.length);
+                initNumGrid(maxQ); showStep(2);
+            } catch(e) { alert(e.message); } finally { document.getElementById('loading').classList.add('hidden'); }
+        };
+
+        function initNumGrid(count) {
+            const container = document.getElementById('num-grid'); container.innerHTML = '';
+            for(let i=1; i<=count; i++) {
+                const btn = document.createElement('button'); btn.className = "num-btn shadow-sm"; btn.innerText = i;
+                btn.onclick = () => loadQuestion(i); container.appendChild(btn);
+            }
+        }
+
+        window.loadQuestion = async (num) => {
+            currentQNum = num; const qData = examCoords[num];
+            const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === num) : null;
+            const dbTopic = qData.topic || "통합과학";
+            
+            // 상태 초기화 (정답 및 해설 가리기)
+            document.getElementById('correct-ans').classList.add('ans-blurred');
+            document.getElementById('ans-click-tip').classList.remove('hidden');
+            document.getElementById('exp-lock-overlay').classList.remove('hidden');
+            document.getElementById('exp-text-main').classList.add('opacity-0');
+
+            document.getElementById('solve-q-label').innerText = `Q ${String(num).padStart(2, '0')}`;
+            document.getElementById('solve-q-score').innerText = `${qData.score || 2.0} Points`;
+            document.getElementById('solve-q-topic').innerText = dbTopic;
+            document.getElementById('correct-ans').innerText = qData.ans || "?";
+            document.getElementById('note-topic-text').innerText = `Q${num}. ${dbTopic}`;
+            document.getElementById('exp-text-main').innerHTML = aiQ?.content || "해설 준비 중입니다.";
+            
+            if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                MathJax.typesetPromise([document.getElementById('exp-text-main')]).catch((err) => console.log(err.message));
+            }
+
+            await renderQuestionCrop(qData); showStep(3); lucide.createIcons();
+        };
+
+        // [추가] 정답 및 해설 공개 함수
+        window.revealCorrectAns = () => {
+            document.getElementById('correct-ans').classList.remove('ans-blurred');
+            document.getElementById('ans-click-tip').classList.add('hidden');
+        };
+
+        window.revealExplanation = () => {
+            document.getElementById('exp-lock-overlay').classList.add('hidden');
+            document.getElementById('exp-text-main').classList.remove('opacity-0');
+        };
+
+        async function renderQuestionCrop(qData) {
+            const canvas = document.getElementById('q-canvas'), ctx = canvas.getContext('2d');
+            const page = await pdfDoc.getPage(qData.p);
+            const dpr = window.devicePixelRatio || 1;
+            const vp = page.getViewport({ scale: RENDERING_QUALITY * dpr });
+            const temp = document.createElement('canvas'); temp.width = vp.width; temp.height = vp.height;
+            await page.render({ canvasContext: temp.getContext('2d'), viewport: vp }).promise;
+            const [rx, ry, rw, rh] = qData.rect;
+            canvas.width = rw * vp.width; canvas.height = rh * vp.height;
+            ctx.drawImage(temp, rx * vp.width, ry * vp.height, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+        }
+
+        function updateStageTransform() {
+            window.requestAnimationFrame(() => {
+                stageWrapper.style.transform = `translate(${stageX}px, ${stageY}px) scale(${stageScale})`;
+                if (stageScale > 1.02) {
+                    zoomInfo.style.display = 'block'; zoomInfo.innerText = `ZOOM x${stageScale.toFixed(1)}`;
+                    zoomResetBtn.classList.remove('hidden');
+                    stageWrapper.classList.add('zoomed');
+                } else {
+                    zoomInfo.style.display = 'none'; zoomResetBtn.classList.add('hidden');
+                    stageWrapper.classList.remove('zoomed');
+                }
+            });
+        }
+
+        window.resetStageZoom = () => {
+            stageScale = 1; stageX = 0; stageY = 0;
+            updateStageTransform();
+        };
+
+        mainContent.addEventListener('touchstart', (e) => {
+            if (currentStep !== 3) return;
+            if (e.touches.length === 1) {
+                stageLastX = e.touches[0].clientX; stageLastY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                stageInitialDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            }
+        }, { passive: true });
+
+        mainContent.addEventListener('touchmove', (e) => {
+            if (currentStep !== 3) return;
+            if (e.touches.length === 2) {
+                if (e.cancelable) e.preventDefault();
+                const currentDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                if (stageInitialDist > 0) {
+                    const factor = currentDist / stageInitialDist;
+                    stageScale = Math.max(1, Math.min(4, stageScale * factor));
+                }
+                stageInitialDist = currentDist;
+                updateStageTransform();
+            } else if (stageScale > 1.02 && e.touches.length === 1) {
+                if (e.cancelable) e.preventDefault();
+                stageX += (e.touches[0].clientX - stageLastX);
+                stageY += (e.touches[0].clientY - stageLastY);
+                stageLastX = e.touches[0].clientX;
+                stageLastY = e.touches[0].clientY;
+                updateStageTransform();
+            }
+        }, { passive: false });
+
+        const zViewport = document.getElementById('zoom-viewport'), zContainer = document.getElementById('zoom-canvas-container'), zCanvas = document.getElementById('zoom-canvas');
+        window.openZoom = () => {
+            const src = document.getElementById('q-canvas'); document.getElementById('zoom-modal').style.display = 'flex';
+            zCanvas.width = src.width; zCanvas.height = src.height; zCanvas.getContext('2d').drawImage(src, 0, 0);
+            const dpr = window.devicePixelRatio || 1; const logicalW = zCanvas.width / (dpr * RENDERING_QUALITY);
+            zCanvas.style.width = logicalW + 'px'; zCanvas.style.height = (zCanvas.height / (dpr * RENDERING_QUALITY)) + 'px';
+            fitScale = (zViewport.clientWidth * 0.94) / logicalW; scale = window.innerWidth > 480 ? fitScale * 0.4 : fitScale;
+            translateX = 0; translateY = 0; updateZ(); lucide.createIcons();
+        };
+        window.closeZoom = () => { document.getElementById('zoom-modal').style.display = 'none'; scale = 1; translateX = 0; translateY = 0; };
+        window.adjustZoomBtn = (delta) => { scale = Math.max(0.1, Math.min(8, scale + delta)); updateZ(); };
+        window.resetZoomToFit = () => { scale = window.innerWidth > 480 ? fitScale * 0.4 : fitScale; translateX = 0; translateY = 0; updateZ(); };
+        function updateZ() { zContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; document.getElementById('zoom-status').innerText = `View: ${Math.round((scale/fitScale)*100)}%`; }
+
+        zViewport.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) { lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; } 
+            else if (e.touches.length === 2) initialDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        }, { passive: false });
+        zViewport.addEventListener('touchmove', e => {
+            if (document.getElementById('zoom-modal').style.display !== 'flex') return; e.preventDefault();
+            if (e.touches.length === 1) { translateX += (e.touches[0].clientX - lastX); translateY += (e.touches[0].clientY - lastY); lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; } 
+            else if (e.touches.length === 2) {
+                const currentDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                if (initialDist > 0) scale = Math.max(0.1, Math.min(8, scale * (currentDist / initialDist)));
+                initialDist = currentDist;
+            }
+            updateZ();
+        }, { passive: false });
+
+        window.handleBack = () => { 
+            if(currentStep === 4) {
+                if(confirm("타임어택을 종료하시겠습니까? 기록이 저장되지 않습니다.")) showStep(2);
+            } else if(currentStep === 3) showStep(2); 
+            else if(currentStep === 2) showStep(1); 
+        };
+        window.showStep = (step) => {
+            resetStageZoom(); currentStep = step; 
+            const container = document.getElementById('main-app-container');
+            const header = document.getElementById('app-header');
+            const nav = document.getElementById('bottom-nav');
+            const views = [document.getElementById('view-exam-list'), document.getElementById('view-num-grid'), document.getElementById('view-solve'), document.getElementById('view-timeattack')];
+            views.forEach(v => v?.classList.add('hidden'));
+            
+            // 캔버스 위치 복구
+            if(step !== 4 && document.getElementById('solve-canvas-parent') && document.getElementById('canvas-wrapper').parentNode.id === 'ta-canvas-host') {
+                document.getElementById('solve-canvas-parent').appendChild(document.getElementById('canvas-wrapper'));
+            }
+
+            if(step === 1) { container.classList.remove('wide-mode'); header.classList.add('hidden'); views[0].classList.remove('hidden'); }
+            else if(step === 2) { container.classList.remove('wide-mode'); header.classList.remove('hidden'); views[1].classList.remove('hidden'); document.getElementById('grid-title').innerText = EXAM_META[currentExamId].title; }
+            else if(step === 3) { container.classList.add('wide-mode'); header.classList.remove('hidden'); views[2].classList.remove('hidden'); }
+            else if(step === 4) { 
+                container.classList.remove('wide-mode'); header.classList.add('hidden'); views[3].classList.remove('hidden'); 
+                document.getElementById('ta-canvas-host').appendChild(document.getElementById('canvas-wrapper'));
+            }
+            lucide.createIcons(); window.scrollTo({ top: 0 });
+        };
+
+        // --- 타임어택 & 필기 (Drawing) 로직 ---
+        let taAnswers = {};
+        let taTimerInterval = null;
+        let taTimeLeft = 40 * 60; // 40분
+        let totalQCount = 25;
+        let currentTool = 'zoom';
+        let isDrawing = false;
+        let lastDrawX = 0, lastDrawY = 0;
+        const drawCanvas = document.getElementById('draw-canvas');
+        const drawCtx = drawCanvas.getContext('2d');
+        const canvasWrapper = document.getElementById('canvas-wrapper');
+
+        window.startTimeAttackMode = () => {
+            const user = auth.currentUser;
+            if(!user || user.isAnonymous) {
+                alert("로그인이 필요한 서비스입니다. OMR을 제출하고 성적을 분석하려면 로그인해 주세요.");
+                return;
+            }
+            if(!confirm("40분 타이머와 함께 실전 모의고사를 시작하시겠습니까?")) return;
+            
+            const keys = Object.keys(examCoords).map(Number).filter(n => !isNaN(n));
+            let maxKey = keys.length > 0 ? Math.max(...keys) : 25;
+            if (aiExamData && aiExamData.answers) maxKey = Math.max(maxKey, aiExamData.answers.length);
+            totalQCount = maxKey;
+            taAnswers = {};
+            taTimeLeft = 40 * 60;
+            clearInterval(taTimerInterval);
+            taTimerInterval = setInterval(updateTaTimer, 1000);
+            updateTaTimer();
+            
+            initTaOmrButtons();
+            setTaTool('zoom'); // 기본은 확대/이동 모드
+            loadTaQuestion(1);
+        };
+
+        function updateTaTimer() {
+            if(taTimeLeft <= 0) {
+                clearInterval(taTimerInterval);
+                alert("시험 시간이 종료되었습니다! 자동으로 제출됩니다.");
+                submitTimeAttack();
+                return;
+            }
+            taTimeLeft--;
+            const m = String(Math.floor(taTimeLeft / 60)).padStart(2, '0');
+            const s = String(taTimeLeft % 60).padStart(2, '0');
+            document.getElementById('ta-timer').innerText = `${m}:${s}`;
+        }
+
+        function initTaOmrButtons() {
+            const container = document.getElementById('ta-omr-buttons');
+            container.innerHTML = '';
+            for(let i=1; i<=5; i++) {
+                const btn = document.createElement('button');
+                btn.className = `ta-ans-btn flex-1 py-3 rounded-xl border-2 font-black text-lg transition-all active:scale-90`;
+                btn.id = `ta-ans-${i}`;
+                btn.innerText = i;
+                btn.onclick = () => markTaAnswer(i);
+                container.appendChild(btn);
+            }
+        }
+
+        function updateTaOmrUI() {
+            const currentAns = taAnswers[currentQNum];
+            for(let i=1; i<=5; i++) {
+                const btn = document.getElementById(`ta-ans-${i}`);
+                if(i === currentAns) {
+                    btn.className = `ta-ans-btn flex-1 py-3 rounded-xl border-2 font-black text-lg transition-all active:scale-90 bg-indigo-600 border-indigo-600 text-white shadow-lg`;
+                } else {
+                    btn.className = `ta-ans-btn flex-1 py-3 rounded-xl border-2 font-black text-lg transition-all active:scale-90 bg-white border-gray-200 text-gray-500 hover:border-indigo-300 hover:text-indigo-500`;
+                }
+            }
+            
+            document.getElementById('ta-btn-prev').disabled = (currentQNum === 1);
+            if(currentQNum === totalQCount) {
+                document.getElementById('ta-btn-next').classList.add('hidden');
+                document.getElementById('ta-btn-submit').classList.remove('hidden');
+            } else {
+                document.getElementById('ta-btn-next').classList.remove('hidden');
+                document.getElementById('ta-btn-submit').classList.add('hidden');
+            }
+        }
+
+        window.markTaAnswer = (ans) => {
+            taAnswers[currentQNum] = ans;
+            updateTaOmrUI();
+            // Auto Next
+            if(currentQNum < totalQCount) {
+                setTimeout(() => taNav(1), 200);
+            }
+        };
+
+        window.taNav = (delta) => {
+            const target = currentQNum + delta;
+            if(target >= 1 && target <= totalQCount) {
+                loadTaQuestion(target);
+            }
+        };
+
+        window.loadTaQuestion = async (num) => {
+            currentQNum = num;
+            const qData = examCoords[num];
+            document.getElementById('ta-q-label').innerText = `Q ${String(num).padStart(2, '0')} / ${totalQCount}`;
+            document.getElementById('ta-q-score').innerText = `${qData.score || 2.0}점`;
+            
+            clearTaCanvas(); // 문제 넘어갈 때 필기 초기화
+            
+            // 캔버스 사이즈 맞추기 위해 renderQuestionCrop 사용
+            await renderQuestionCrop(qData);
+            
+            // draw-canvas 사이즈 동기화
+            const qCanvas = document.getElementById('q-canvas');
+            drawCanvas.width = qCanvas.width;
+            drawCanvas.height = qCanvas.height;
+            drawCtx.lineCap = 'round';
+            drawCtx.lineJoin = 'round';
+            
+            updateTaOmrUI();
+            showStep(4);
+        };
+
+        // --- Drawing Logic ---
+        let taPenColor = '#ef4444';
+        let taPenWidth = 4;
+
+        window.setTaPenColor = (color) => {
+            taPenColor = color;
+            document.getElementById('ta-color-red').className = `w-5 h-5 rounded-full bg-red-500 transition-all ${color === '#ef4444' ? 'ring-2 ring-indigo-400 ring-offset-1 opacity-100' : 'opacity-40 hover:opacity-100'}`;
+            document.getElementById('ta-color-blue').className = `w-5 h-5 rounded-full bg-blue-500 transition-all ${color === '#3b82f6' ? 'ring-2 ring-indigo-400 ring-offset-1 opacity-100' : 'opacity-40 hover:opacity-100'}`;
+            document.getElementById('ta-color-black').className = `w-5 h-5 rounded-full bg-slate-800 transition-all ${color === '#1e293b' ? 'ring-2 ring-indigo-400 ring-offset-1 opacity-100' : 'opacity-40 hover:opacity-100'}`;
+        };
+
+        window.setTaPenWidth = (width) => {
+            taPenWidth = width;
+            document.getElementById('ta-width-2').className = `w-4 h-4 rounded-full bg-gray-500 transition-all ${width === 2 ? 'ring-2 ring-indigo-400 ring-offset-1 opacity-100' : 'opacity-40 hover:opacity-100'}`;
+            document.getElementById('ta-width-4').className = `w-5 h-5 rounded-full bg-gray-500 transition-all ${width === 4 ? 'ring-2 ring-indigo-400 ring-offset-1 opacity-100' : 'opacity-40 hover:opacity-100'}`;
+            document.getElementById('ta-width-6').className = `w-6 h-6 rounded-full bg-gray-500 transition-all ${width === 6 ? 'ring-2 ring-indigo-400 ring-offset-1 opacity-100' : 'opacity-40 hover:opacity-100'}`;
+        };
+
+        window.setTaTool = (tool) => {
+            currentTool = tool;
+            ['zoom', 'pen', 'eraser'].forEach(t => {
+                const btn = document.getElementById(`ta-tool-${t}`);
+                if(t === tool) {
+                    btn.className = "p-2.5 rounded-lg bg-indigo-100 text-indigo-700 shadow-sm transition-all";
+                } else {
+                    btn.className = "p-2.5 rounded-lg bg-white text-gray-400 hover:text-gray-600 transition-all";
+                }
+            });
+
+            const penOpts = document.getElementById('ta-pen-options');
+            if (tool === 'pen') {
+                penOpts.classList.remove('hidden');
+                penOpts.classList.add('flex');
+            } else {
+                penOpts.classList.add('hidden');
+                penOpts.classList.remove('flex');
+            }
+
+            if(tool === 'zoom') {
+                drawCanvas.style.pointerEvents = 'none'; // 터치 통과 (확대/이동 가능)
+                canvasWrapper.classList.add('cursor-zoom-in');
+                canvasWrapper.setAttribute('onclick', 'openZoom()');
+            } else {
+                drawCanvas.style.pointerEvents = 'auto'; // 드로잉 이벤트 캐치
+                canvasWrapper.classList.remove('cursor-zoom-in');
+                canvasWrapper.removeAttribute('onclick');
+            }
+        };
+
+        window.clearTaCanvas = () => {
+            drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+        };
+
+        function getDrawPos(e) {
+            const rect = drawCanvas.getBoundingClientRect();
+            // 화면 캔버스가 css로 축소되어 있을 수 있으므로 비율 계산
+            const scaleX = drawCanvas.width / rect.width;
+            const scaleY = drawCanvas.height / rect.height;
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        let lastPenDownTime = 0;
+        let isStylusActive = false;
+        let activeStrokeId = null;
+
+        function handlePointerDown(e) {
+            if (currentTool === 'zoom') return;
+            if (!e.isPrimary) return;
+            if (e.pointerType === 'touch') return;
+
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+
+            if (e.pointerType === 'pen' || e.pointerType === 'mouse') {
+                lastPenDownTime = Date.now();
+            }
+
+            isDrawing = true;
+            activeStrokeId = e.pointerId;
+            try { drawCanvas.setPointerCapture(e.pointerId); } catch (err) {}
+
+            const pos = getDrawPos(e);
+            lastDrawX = pos.x;
+            lastDrawY = pos.y;
+
+            drawCtx.beginPath();
+            drawCtx.moveTo(lastDrawX, lastDrawY);
+            drawCtx.lineTo(pos.x + 0.01, pos.y);
+            drawCtx.lineCap = 'round';
+            drawCtx.lineJoin = 'round';
+            
+            if (currentTool === 'pen') {
+                drawCtx.globalCompositeOperation = "source-over";
+                drawCtx.strokeStyle = taPenColor;
+                drawCtx.lineWidth = taPenWidth;
+            } else if (currentTool === 'eraser') {
+                drawCtx.globalCompositeOperation = "destination-out";
+                drawCtx.lineWidth = 30;
+            }
+            drawCtx.stroke();
+        }
+
+        function handlePointerMove(e) {
+            if (!isDrawing || currentTool === 'zoom') return;
+            if (!e.isPrimary) return;
+            if (e.pointerType === 'touch') {
+                isDrawing = false;
+                return;
+            }
+            if (e.pointerId !== activeStrokeId) return;
+
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+
+            const pos = getDrawPos(e);
+            drawCtx.lineTo(pos.x, pos.y);
+            drawCtx.stroke();
+            lastDrawX = pos.x;
+            lastDrawY = pos.y;
+        }
+
+        function handlePointerUp(e) {
+            if (currentTool === 'zoom') return;
+            if (e.pointerType === 'touch') return;
+            
+            if (isDrawing) {
+                isDrawing = false;
+                activeStrokeId = null;
+                try { drawCanvas.releasePointerCapture(e.pointerId); } catch (err) {}
+            }
+            e.stopPropagation();
+        }
+
+        function handleTouchStart(e) {
+            if (currentTool === 'zoom') return;
+            
+            let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
+            let isWinStylus = (Date.now() - lastPenDownTime) < 100;
+            
+            if (isIOSStylus || isWinStylus) {
+                isStylusActive = true;
+                e.stopPropagation();
+                if (e.cancelable) e.preventDefault();
+            } else {
+                isStylusActive = false;
+            }
+        }
+
+        function blockStylusTouch(e) {
+            if (currentTool === 'zoom') return;
+            if (isStylusActive) {
+                e.stopPropagation();
+                if (e.cancelable && e.type === 'touchmove') e.preventDefault();
+            }
+        }
+
+        function blockMouse(e) {
+            if (currentTool !== 'zoom') e.stopPropagation();
+        }
+
+        // 기존 마우스, 터치 이벤트 리스너 모두 교체
+        drawCanvas.addEventListener('pointerdown', handlePointerDown, {passive: false});
+        drawCanvas.addEventListener('pointermove', handlePointerMove, {passive: false});
+        drawCanvas.addEventListener('pointerup', handlePointerUp);
+        drawCanvas.addEventListener('pointercancel', handlePointerUp);
+
+        drawCanvas.addEventListener('touchstart', handleTouchStart, {passive: false});
+        drawCanvas.addEventListener('touchmove', blockStylusTouch, {passive: false});
+        drawCanvas.addEventListener('touchend', blockStylusTouch);
+        drawCanvas.addEventListener('touchcancel', blockStylusTouch);
+
+        drawCanvas.addEventListener('mousedown', blockMouse);
+        drawCanvas.addEventListener('mousemove', blockMouse);
+        drawCanvas.addEventListener('mouseup', blockMouse);
+        drawCanvas.addEventListener('click', blockMouse);
+
+
+        // --- Submit Logic ---
+        
+        window.submitTimeAttack = async () => {
+            const user = auth.currentUser;
+            if(!user || user.isAnonymous) {
+                alert("로그인 후 제출할 수 있습니다.");
+                location.href = '../index.html';
+                return;
+            }
+            
+            if(Object.keys(taAnswers).length < totalQCount) {
+                if(!confirm(`아직 풀지 않은 문제가 ${totalQCount - Object.keys(taAnswers).length}개 있습니다. 이대로 제출하시겠습니까?`)) return;
+            } else {
+                if(!confirm("답안을 최종 제출하시겠습니까?")) return;
+            }
+
+            document.getElementById('loading').classList.remove('hidden');
+            clearInterval(taTimerInterval);
+
+            try {
+                let score = 0;
+                let myAnswers = [];
+                let evaluatedAnswers = [];
+                const timeTaken = (40 * 60) - taTimeLeft;
+
+                for(let i=1; i<=totalQCount; i++) {
+                    const myAns = taAnswers[i] || 0;
+                    myAnswers.push(myAns);
+                    
+                    let correct = '?';
+                    let sc = 2.0;
+
+                    if(aiExamData && aiExamData.answers) {
+                        correct = aiExamData.answers[i-1];
+                        sc = (aiExamData.scores && aiExamData.scores[i-1]) ? parseFloat(aiExamData.scores[i-1]) : 2.0;
+                    }
+                    
+                    let isCorrect = (myAns === correct);
+                    let topic = `문항 ${i}`;
+
+                    if(isCorrect) {
+                        score += sc;
+                    }
+
+                    if(aiExamData && aiExamData.explanations && aiExamData.explanations[i-1]) {
+                        topic = aiExamData.explanations[i-1].topic || topic;
+                    }
+
+                    let qIdStr = currentExamId === '2028_pretest' ? `kice_2028_pretest_${String(i).padStart(2, '0')}` : null;
+
+                    let chapter = '과학의 기초';
+                    if (aiExamData && aiExamData.explanations && aiExamData.explanations[i-1] && aiExamData.explanations[i-1].chapter) {
+                        chapter = aiExamData.explanations[i-1].chapter;
+                    }
+                    evaluatedAnswers.push({
+                        no: i,
+                        qId: qIdStr,
+                        isCorrect: isCorrect,
+                        studentMark: myAns,
+                        correctAnswer: correct,
+                        score: sc,
+                        taxonomy: { chapter: chapter, topic: topic }
+                    });
+                }
+
+                // 가채점 절대등급 계산 (50점 만점 기준)
+                let grade = 9;
+                if(score >= 45) grade = 1;
+                else if(score >= 40) grade = 2;
+                else if(score >= 35) grade = 3;
+                else if(score >= 30) grade = 4;
+                else if(score >= 25) grade = 5;
+                else if(score >= 20) grade = 6;
+                else if(score >= 15) grade = 7;
+                else if(score >= 10) grade = 8;
+
+                const submitData = {
+                    examId: currentExamId,
+                    uid: user.uid,
+                    submittedAt: serverTimestamp(),
+                    timeTaken: timeTaken,
+                    myAnswers: myAnswers,
+                    answers: evaluatedAnswers,
+                    score: score,
+                    grade: grade,
+                    standardScore: Math.round(score * 2.6),
+                    percentile: Math.max(1, 100 - (grade * 11)),
+                    title: EXAM_META[currentExamId]?.title || "기출 타임어택",
+                    type: "past"
+                };
+
+                // 1. DB에 결과 저장 (이전 omr.html과 호환되는 구조)
+                await setDoc(doc(db, "users", user.uid, "exam_results", currentExamId), submitData);
+
+                // 2. exam.html 리포트 화면으로 이동
+                location.href = `../STEST/exam.html?view=report&id=${currentExamId}`;
+            } catch(e) {
+                console.error("제출 에러:", e);
+                alert("제출 중 오류가 발생했습니다. 다시 시도해 주세요.");
+                document.getElementById('loading').classList.add('hidden');
+            }
+        };
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

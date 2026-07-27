@@ -1,15 +1,71 @@
-<!DOCTYPE html>
+<html lang="ko"><head>
 
-<html lang="ko">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=540, user-scalable=yes" name="viewport"/>
+
+
+
+
+
+
+
+
+<style id="commercial-reader-style">    #flipbook-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #cbd5e1;
+        z-index: 10000;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+    }
+    #zoom-wrapper {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+    #scale-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transform-origin: center center;
+        width: 1000px;
+        height: 707px;
+    }
+    #flipbook {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin: 0;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <link rel="stylesheet" href="/css/common.css">
+</head><body>﻿
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>갓통과 주간지 통합 뷰어 (표지 &amp; 목차)</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Roboto:wght@300;400;700;900&amp;family=Nanum+Pen+Script&amp;display=swap" rel="stylesheet"/>
-<style>
+
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Roboto:wght@300;400;700;900&amp;family=Nanum+Pen+Script&amp;display=swap" rel="stylesheet">
+<style>    @font-face {
+    font-family: 'BareHippie';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Bareun_hipi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
         html, body {
             width: 100%;
             min-width: 100%;
@@ -22,16 +78,14 @@
             background-color: #cbd5e1;
             font-family: 'Noto Sans KR', sans-serif;
             padding: 40px 0;
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
             gap: 40px;
         }
-
         .header-title { text-align: center; color: #0f172a; }
         .header-title h1 { font-size: 32px; margin: 0 0 10px 0; font-weight: 900; }
         .header-title p { font-size: 16px; color: #475569; margin: 0; }
-
         .btn-download {
             background-color: #0f172a;
             color: white;
@@ -46,7 +100,6 @@
             margin: 10px 0;
         }
         .btn-download:hover { background-color: #1e293b; }
-
         .editable {
             outline: 1px dashed transparent;
             cursor: text;
@@ -59,7 +112,6 @@
             outline: 2px dashed #0ea5e9;
             background-color: rgba(14, 165, 233, 0.1);
         }
-
         .page-wrapper {
             margin: 0 auto;
             display: flex;
@@ -67,16 +119,13 @@
             align-items: center;
             gap: 15px;
         }
-
         .a4-page {
             width: 500px;
             height: 707px; /* A4 비율 */
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
             position: relative;
-            
             box-sizing: border-box;
         }
-
         .cover-page {
             background-color: #ffffff;
             color: #0f172a;
@@ -97,7 +146,6 @@
         .cover-page .title { font-size: 64px; font-weight: 900; margin: 15px 0 0 0; line-height: 1.1; letter-spacing: -2px; color: #0f172a; }
         .cover-page .subtitle { font-size: 20px; font-weight: 600; color: #475569; margin-top: 10px; }
         .cover-page .mid-section { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 0 40px; }
-        
         .cover-page .bottom-section { 
             background-color: #0f172a;
             padding: 35px 40px; 
@@ -108,7 +156,6 @@
         }
         .cover-page .week-num { font-family: 'Roboto', sans-serif; font-size: 70px; font-weight: 900; line-height: 0.9; color: #38bdf8; }
         .cover-page .week-theme { text-align: right; font-size: 18px; color: #f8fafc; line-height: 1.5; }
-
         .toc-page {
             background-color: #ffffff;
             color: #0f172a;
@@ -121,8 +168,8 @@
         .toc-page .header-vol { font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a; }
         .toc-page .title-section { margin-bottom: 20px; }
         .toc-page .index-title { font-family: 'Roboto'; font-weight: 900; font-size: 30px; letter-spacing: -1px; margin: 0; line-height: 1; }
-        .toc-page .week-sub { font-size: 13px; font-weight: 700; color: #0284c7; margin-top: 5px; }
-        .toc-page .toc-list { display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }
+        .toc-page .week-sub { font-size: 12px; font-weight: 700; color: #0284c7; margin-top: 5px; }
+        .toc-page .toc-list { display: flex; flex-direction: column; gap: 10px; }
         .toc-page .toc-item { display: flex; align-items: flex-start; justify-content: space-between; }
         .toc-page .item-left { display: flex; gap: 18px; }
         .toc-page .item-num { font-family: 'Roboto'; font-weight: 900; font-size: 16px; color: #0284c7; width: 25px; }
@@ -130,11 +177,10 @@
         .toc-page .item-text p { font-size: 11px; font-weight: 400; color: #64748b; margin: 0; line-height: 1.4; }
         .toc-page .item-page { font-family: 'Roboto'; font-weight: 700; font-size: 16px; color: #0f172a; }
         .toc-page .dots { flex-grow: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 15px; position: relative; top: -6px; }
-        .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; margin-top: auto; }
-        .toc-page .guide-title { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; position: absolute; bottom: 75px; left: 40px; width: 420px; box-sizing: border-box; }
+        .toc-page .guide-title { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
         .toc-page .guide-desc { font-size: 10px; color: #475569; margin: 0; line-height: 1.5; }
         .toc-page .page-footer { text-align: center; font-size: 11px; font-family: 'Roboto'; color: #94a3b8; margin-top: 15px; }
-    
         /* Page 3 Concept Map Styles */
         .bridge-page { padding: 30px 40px 50px 40px; background-color: #ffffff; display: flex; flex-direction: column; }
         .bridge-title { font-family: 'Roboto'; font-weight: 900; font-size: 32px; letter-spacing: -1px; color: #0284c7; margin: 0; line-height: 1; }
@@ -153,7 +199,6 @@
         .leaf.red .desc { color: #475569; }
         .lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .insight-box { width: 100%; box-sizing: border-box; background-color: #1e293b; border-radius: 12px; padding: 16px; color: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-top: auto; z-index: 20; position: relative; transform: translateY(-20px); }
-        
         /* Page 4-7 Spread Styles */
         .spread-page { background-color: #ffffff; color: #0f172a; display: flex; flex-direction: column; }
         .content-area { display: flex; flex-grow: 1; height: 100%; }
@@ -161,48 +206,39 @@
         .lp-wide { width: 370px; padding: 30px 25px; display: flex; flex-direction: column; }
         .rp-wide { width: 370px; padding: 30px 25px; display: flex; flex-direction: column; }
         .rp-narrow { width: 130px; background-color: #f8fafc; border-left: 2px solid #e2e8f0; padding: 30px 15px; display: flex; flex-direction: column; }
-        
         .dark-side-title { font-size: 11px; font-weight: 900; color: #38bdf8; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 5px; }
         .dark-side-text { font-size: 11px; color: #cbd5e1; line-height: 1.6; }
         .light-side-title { font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 10px; border-bottom: 2px solid #0f172a; padding-bottom: 5px; }
         .light-side-text { font-size: 11px; color: #475569; line-height: 1.6; }
         .memo-lines { flex-grow: 1; border-top: 1px solid #cbd5e1; background-image: linear-gradient(#e2e8f0 1px, transparent 1px); background-size: 100% 22px; margin-top: 15px; }
-        
         .behavior-tag { display: inline-block; font-size: 10px; font-weight: 900; background-color: #0284c7; color: white; padding: 3px 8px; border-radius: 4px; margin-bottom: 6px; }
         .source-text { font-size: 10px; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }
         .question-number { font-family: 'Roboto'; font-size: 22px; font-weight: 900; color: #0284c7; margin-right: 6px; }
-        .question-text { font-size: 13px; font-weight: 700; line-height: 1.5; color: #0f172a; }
-        
+        .question-text { font-size: 12px; font-weight: 700; line-height: 1.5; color: #0f172a; }
         .box-content { border: 2px solid #e2e8f0; padding: 12px; margin: 12px 0; font-size: 12px; line-height: 1.6; color: #1e293b; border-radius: 8px; background-color: #f8fafc; }
         .box-content table { width: 100%; border-collapse: collapse; margin-top: 8px; text-align: center; }
         .box-content th, .box-content td { border: 1px solid #cbd5e1; padding: 6px; font-size: 11px; }
         .box-content th { background-color: #e2e8f0; font-weight: 700; }
-        
         .img-placeholder { width: 100%; height: 90px; background-color: white; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; margin: 8px 0; border-radius: 4px; }
         .bogi-box { border: 1px solid #0f172a; padding: 12px; margin: 12px 0; font-size: 12px; line-height: 1.8; color: #0f172a; border-radius: 4px; }
-        .options { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-top: 15px; color: #0f172a; }
-        
+        .options { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-top: 15px; color: #0f172a; }
         .rp-wide .section-title { font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 10px; margin-top: 20px; display: flex; align-items: center; gap: 5px; }
         .rp-wide .section-title::before { content: ''; display: inline-block; width: 4px; height: 14px; background-color: #0284c7; }
         .rp-wide .section-title:first-child { margin-top: 0; }
-        
         .concept-block { font-size: 12px; color: #334155; line-height: 1.6; padding-left: 10px; border-left: 2px solid #e2e8f0; }
         .solution-list { font-size: 12px; color: #334155; line-height: 1.6; padding: 0; margin: 0; list-style: none; }
         .solution-list li { margin-bottom: 12px; background-color: #f8fafc; padding: 8px 12px; border-radius: 6px; }
         .ox-mark { font-weight: 900; margin-right: 5px; font-size: 14px; }
         .ox-o { color: #0284c7; }
         .ox-x { color: #dc2626; }
-        
         .learning-method { background: #0f172a; padding: 15px; margin-top: auto; border-radius: 8px; color: white; }
-        .learning-title { font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 6px; }
+        .learning-title { font-size: 12px; font-weight: 900; color: #38bdf8; margin-bottom: 6px; }
         .learning-desc { font-size: 10px; font-weight: 400; line-height: 1.6; color: #cbd5e1; }
         .spread-footer { text-align: right; font-size: 12px; font-family: 'Roboto'; font-weight: 900; color: #94a3b8; margin-top: 20px; }
-
         /* --- CONCEPT PAGES CSS --- */
 body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
         .concept-spread { display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
         /* -----------------------------------------
            Left Page: Data Area
            ----------------------------------------- */
@@ -210,16 +246,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 10px; margin-bottom: 20px; }
         .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
         .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
         .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 10px; margin-top: 12px; border-radius: 4px; }
         .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 10px; }
-        
         .scale-bar-container { position: relative; margin-top: 15px; padding-top: 10px; padding-bottom: 20px; }
         .scale-line { height: 4px; background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc); width: 100%; position: relative; border-radius: 2px; }
         .scale-tick { position: absolute; top: -5px; width: 2px; height: 14px; background-color: #0f172a; }
         .scale-label { position: absolute; bottom: 12px; transform: translateX(-50%); font-family: 'Roboto'; font-size: 11px; font-weight: 700; color: #475569; }
         .scale-item { position: absolute; top: 12px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; text-align: center; line-height: 1.2; }
-        
         /* -----------------------------------------
            Right Page: Memorization Sheet (Tutor's Notes)
            ----------------------------------------- */
@@ -229,23 +262,17 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             background-size: 20px 20px;
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
 /* ======= */
 body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
         .concept-spread { display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
         /* -----------------------------------------
            Left Page: Data Area
            ----------------------------------------- */
@@ -253,23 +280,19 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }
         .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
         .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
         .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }
         .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }
-        
         /* Table styles for left page */
         .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 2px; text-align: center; }
         .data-table th { background-color: #e0f2fe; color: #0369a1; padding: 4px; border: 1px solid #bae6fd; font-weight: 700; }
         .data-table td { padding: 3px; border: 1px solid #bae6fd; color: #334155; font-weight: 500; }
         .data-table .highlight { background-color: #fef08a; font-weight: 700; color: #b45309; }
-
         /* Infographic diagram styles */
         .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
         .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
         .diagram-desc { font-size: 10px; color: #475569; }
         .diagram-arrow { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }
-        
         /* -----------------------------------------
            Right Page: Memorization Sheet (Tutor's Notes)
            ----------------------------------------- */
@@ -279,23 +302,17 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             background-size: 20px 20px;
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
 /* ======= */
 body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
         .concept-spread { display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
         /* -----------------------------------------
            Left Page: Data Area
            ----------------------------------------- */
@@ -303,21 +320,17 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }
         .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
         .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
         .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }
         .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }
-        
         /* Infographic diagram styles */
         .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
         .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
         .diagram-desc { font-size: 10px; color: #475569; }
         .diagram-arrow { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }
-        
         .fermi-box { background: #fff; border: 1px dashed #0284c7; border-radius: 6px; padding: 6px; width: 85%; margin: 3px auto 0; font-size: 11px; }
         .fermi-step { margin-bottom: 1px; display: flex; align-items: flex-start; }
         .fermi-num { font-weight: 900; color: #0284c7; margin-right: 8px; font-family: 'Roboto'; }
-
         /* -----------------------------------------
            Right Page: Memorization Sheet (Tutor's Notes)
            ----------------------------------------- */
@@ -327,23 +340,17 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             background-size: 20px 20px;
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
 /* ======= */
 body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
         .concept-spread { display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
         /* -----------------------------------------
            Left Page: Data Area
            ----------------------------------------- */
@@ -351,23 +358,19 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }
         .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
         .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
         .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }
         .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }
-        
         /* Signal graphs */
         .signal-container { display: flex; justify-content: space-around; margin-top: 5px; }
         .signal-box { background: #fff; border: 1px solid #94a3b8; padding: 10px; border-radius: 4px; width: 45%; text-align: center; }
         .signal-title { font-weight: 700; font-size: 12px; color: #0f172a; margin-bottom: 5px; }
         .signal-svg { width: 100%; height: 50px; background-color: #f8fafc; border: 1px solid #e2e8f0; }
-
         /* Infographic diagram styles */
         .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
         .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
         .diagram-desc { font-size: 10px; color: #475569; }
         .diagram-arrow { color: #0284c7; font-size: 16px; font-weight: 900; margin: 2px 0; }
-
         /* -----------------------------------------
            Right Page: Memorization Sheet (Tutor's Notes)
            ----------------------------------------- */
@@ -377,19 +380,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             background-size: 20px 20px;
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
-    
         /* 1 Column Layout CSS for Print */
         .full-page-content { padding: 45px 40px 60px 40px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
         .compass-box { background-color: #f0f9ff; border: 2px solid #0284c7; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; }
@@ -397,14 +394,10 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         .compass-desc { font-size: 12px; color: #1e293b; line-height: 1.4; font-weight: 500; margin: 0; word-break: keep-all; }
         .prob-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0284c7; padding-bottom: 6px; margin-bottom: 15px; }
         .prob-brand { color: #0284c7; font-family:'Roboto'; font-weight:900; font-size:14px; }
-
-    
         /* Typography Justification */
         p, .body-text, .q-text, .bogi-items, .compass-desc, .learning-desc, .concept-block, .intro-section p, .solution-list li span {
             text-justify: inter-word;
         }
-
-
         /* CSAT Problem Styles */
         .csat-prob { font-family: 'Batang', 'KoPubBatang', serif; font-size: 9px; line-height: 1.4; color: #000; margin-bottom: 10px; }
         .csat-qnum { font-weight: bold; font-size: 11px; margin-right: 4px; }
@@ -415,7 +408,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         .csat-bogi-title { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 5px; font-weight: normal; font-size: 11px; }
         .csat-options { display: flex; justify-content: flex-start; gap: 20px; font-size: 10px; margin-top: 10px; padding: 0 5px; }
         .csat-score { float: right; margin-left: 5px; font-size: 9px; }
-
         @media print {
             /* 인쇄 시 플립북 UI 숨기기 */
             #flipbook-container, 
@@ -424,7 +416,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             div[style*="position: fixed"] {
                 display: none !important;
             }
-
             /* 인쇄를 위한 기본 구조 복구 */
             body {
                 display: block !important;
@@ -433,7 +424,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 margin: 0 !important;
                 padding: 0 !important;
             }
-
             .page-wrapper {
                 display: block !important;
                 margin: 0 !important;
@@ -442,7 +432,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 box-shadow: none !important;
                 page-break-inside: auto !important;
             }
-            
             /* 가로로 묶인 양면 페이지(concept-spread) 강제 분리 및 내부 분할 허용 */
             .concept-spread {
                 display: block !important;
@@ -450,7 +439,6 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 box-shadow: none !important;
                 page-break-inside: auto !important;
             }
-
             /* 1페이지씩 딱 맞게 분할 (비정상 높이 교정 포함) */
             .a4-page, .concept-page {
                 height: 707px !important; /* blank-page의 1122px 등 강제 교정 */
@@ -465,119 +453,42 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             }
         }
 </style>
-<div id="flipbook-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 1000; overflow: auto; align-items: center; justify-content: center; flex-direction: column;">
-<div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
-<button onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
-<button onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
+<div id="flipbook-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 1000; overflow: hidden; align-items: center; justify-content: center; flex-direction: column;">
+<button id="close-flipbook-btn" onclick="event.stopPropagation(); toggleFlipbook();" ontouchstart="event.stopPropagation();" style="position: absolute; top: 20px; right: 20px; padding: 10px 15px; font-size: 16px; background-color: #ef4444; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1100;">✖ 닫기</button>
+
+<div id="zoom-wrapper">
+    <div id="scale-wrapper">
+        <div id="flipbook"></div>
+    </div>
 </div>
-<div id="zoom-wrapper" style="position: relative;">
-<div id="flipbook" style="width: 1000px; height: 707px; transform-origin: top left;"></div>
 </div>
 </div>
-<script>
-    MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\(', '\)']] }
-    };
-</script>
-<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-            authDomain: "godtonggwa.firebaseapp.com",
-            projectId: "godtonggwa",
-            storageBucket: "godtonggwa.firebasestorage.app",
-            messagingSenderId: "1087434066468",
-            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        onAuthStateChanged(auth, (user) => {
-            if (!user || user.isAnonymous) {
-                alert("로그인이 필요하거나 접근 권한이 없습니다.");
-                window.location.href = "../../exam.html";
-            } else {
-                document.body.style.display = 'flex';
-            }
-        });
-
-        // Anti-copy measures
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('keydown', event => {
-            if (event.ctrlKey && (event.key === 's' || event.key === 'c' || event.key === 'u' || event.key === 'a')) {
-                event.preventDefault();
-            }
-            if (event.key === 'F12') {
-                event.preventDefault();
-            }
-        });
-
-        // Auto-start Flipbook mode
-        window.addEventListener('load', () => {
-            if(typeof toggleFlipbook === 'function') {
-                const fbContainer = document.getElementById('flipbook-container');
-                if (fbContainer && fbContainer.style.display === "none") {
-                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    if (!isMobile && window.innerWidth > 768) {
-                        toggleFlipbook();
-                    } else {
-                        // On mobile, show vertical scroll mode by making body flex to keep centering
-                        document.body.style.display = 'flex'; 
-                    }
-                }
-            }
-        });
-    </script>
-<style>
-        body {
-            user-select: none;
-            -webkit-user-select: none;
-            display: none;
-            padding-top: 60px !important; /* 모바일에서 X버튼에 가리지 않도록 여백 추가 */
-        }
-        img {
-            pointer-events: none;
-        }
-    </style>
-
-<script>
-// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
-// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
-window.addEventListener('wheel', (e) => {
-    if (!e.target.closest('.overflow-y-auto')) {
-        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
-        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
-        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
-        if (activeContainer) {
-            activeContainer.scrollTop += e.deltaY;
-        }
-    }
-}, { passive: true });
-</script>
-</head>
-<body>
-<div style="position: fixed; top: 15px; right: 20px; z-index: 9999;">
-<button onclick="window.history.back()" style="background-color: #0f172a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0.9;">✕</button>
+</div>
+    </div>
 </div>
 
 
 
+
+
+
+<div class="header-title">
+<h1>갓통과 주간지 템플릿 통합 뷰어</h1>
+<p>글자를 클릭하여 직접 수정한 후, 각 페이지의 버튼을 눌러 저장하세요.</p>
+</div>
+<div style="display: flex; gap: 10px; margin-bottom: 20px;">
+
+</div>
 <div class="page-wrapper">
 
 <div class="a4-page cover-page" id="cover-page">
 <div class="top-section">
 <div class="brand">GOTONGGWA</div>
-<h1 class="title">갓통과<br/>WEEKLY</h1>
+<h1 class="title">갓통과<br>WEEKLY</h1>
 <div class="subtitle">2028 통합과학 완전 정복</div>
 </div>
 <div class="mid-section">
-<svg style="width: 100%; height: 250px;" viewbox="0 0 300 200">
+<svg style="width: 100%; height: 250px;" viewBox="0 0 300 200">
 <line stroke="#475569" stroke-width="2" x1="30" x2="270" y1="170" y2="170"></line>
 <line stroke="#475569" stroke-width="2" x1="30" x2="30" y1="170" y2="30"></line>
 <polygon fill="#475569" points="270,166 278,170 270,174"></polygon>
@@ -594,38 +505,41 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="bottom-section">
-<div class="week-num editable cover-week-val" contenteditable="true">02</div>
+<div class="week-num editable cover-week-val">02</div>
 <div class="week-theme">
-<strong class="editable cover-theme-val" contenteditable="true" style="display:inline-block; min-width: 150px;">원소 형성<br/>별의 진화<br/>원소의 주기성</strong><br/>
-<span class="editable" contenteditable="true" style="display:inline-block; min-width: 150px; display:none;"></span><br/>
+
+<strong class="editable cover-theme-val" style="display:inline-block; min-width: 150px;">원소 형성<br>별의 진화<br>원소의 주기성</strong><br>
+
+<span class="editable" style="display:inline-block; min-width: 150px; display:none;"></span><br>
+
 <span style="font-size:12px; color:#64748b; margin-top:5px; display:inline-block;">Data-driven Learning System</span>
 </div>
 </div>
 </div>
 </div>
 <!-- Blank Page 2 (Back of Cover) -->
-<div class="page-wrapper" style="margin-top: 40px;">
+<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 
 <div class="a4-page blank-page" id="blank-page-2" style="background-color: #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative; height: 707px;">
 <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #cbd5e1; font-weight: bold; font-size: 24px;"></div>
 <div class="page-num">- 02 -</div>
 </div>
 </div>
-<div class="page-wrapper" style="margin-top: 40px;">
+<div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 
 <div class="a4-page toc-page" id="toc-page">
 <div class="page-header">
 <div class="header-brand">GOTONGGWA WEEKLY</div>
-<div class="header-vol editable toc-vol-val" contenteditable="true">VOL. 02</div>
+<div class="header-vol editable toc-vol-val">VOL. 02</div>
 </div>
 <div class="title-section">
 <h2 class="index-title">INDEX</h2>
-<div class="week-sub editable toc-theme-val" contenteditable="true">WEEK 02. 자연의 구성 원소</div>
+<div class="week-sub editable toc-theme-val">WEEK 02. 물질의 규칙성과 결합</div>
 </div>
 <!-- New Intro Section -->
 <div class="intro-section" style="background-color: #f0f9ff; border-left: 4px solid #0284c7; padding: 10px 15px; border-radius: 4px; margin-bottom: 15px;">
 <h3 style="font-size: 12px; font-weight: 900; color: #0284c7; margin: 0 0 4px 0;">WEEK 02 학습 목표 &amp; 출제 포인트</h3>
-<p class="editable" contenteditable="true" style="font-size: 10px; color: #334155; margin: 0; line-height: 1.5; font-weight: 500; text-align: justify; word-break: keep-all;">
+<p class="editable" style="font-size: 10px; color: #334155; margin: 0; line-height: 1.5; font-weight: 500; text-align: justify; word-break: keep-all;">
                     우주 초기의 빅뱅부터 별의 진화를 거쳐 어떻게 다양한 원소들이 형성되었는지 그 스토리를 이해하는 것이 핵심입니다. 또한, 이렇게 생성된 원소들이 주기율표에서 어떤 규칙성을 가지며 배열되는지 파악하여 통합과학의 화학 영역의 기초를 탄탄히 다집니다.
                 </p>
 </div>
@@ -634,103 +548,76 @@ window.addEventListener('wheel', (e) => {
 <div class="item-left">
 <div class="item-num">01</div>
 <div class="item-text">
-<h3 class="editable" contenteditable="true">스펙트럼과 우주의 원소</h3>
-<p class="editable" contenteditable="true">우주를 구성하는 원소, 빛의 스펙트럼 분석</p>
+<h3 class="editable">스펙트럼과 우주의 원소</h3>
+<p class="editable">우주를 구성하는 원소, 빛의 스펙트럼 분석</p>
 </div>
 </div>
 <div class="dots"></div>
-<div class="item-page editable" contenteditable="true">06</div>
+<div class="item-page editable">06</div>
 </div>
 <div class="toc-item">
 <div class="item-left">
 <div class="item-num">02</div>
 <div class="item-text">
-<h3 class="editable" contenteditable="true">빅뱅과 우주 초기의 진화</h3>
-<p class="editable" contenteditable="true">빅뱅 우주론과 기본 입자, 우주 배경 복사</p>
+<h3 class="editable">빅뱅과 우주 초기의 진화</h3>
+<p class="editable">빅뱅 우주론과 기본 입자, 우주 배경 복사</p>
 </div>
 </div>
 <div class="dots"></div>
-<div class="item-page editable" contenteditable="true">12</div>
+<div class="item-page editable">12</div>
 </div>
 <div class="toc-item">
 <div class="item-left">
 <div class="item-num">03</div>
 <div class="item-text">
-<h3 class="editable" contenteditable="true">별의 진화와 원소 생성</h3>
-<p class="editable" contenteditable="true">별의 탄생과 진화, 초신성 폭발과 무거운 원소</p>
+<h3 class="editable">별의 진화와 원소 생성</h3>
+<p class="editable">별의 탄생과 진화, 초신성 폭발과 무거운 원소</p>
 </div>
 </div>
 <div class="dots"></div>
-<div class="item-page editable" contenteditable="true">18</div>
+<div class="item-page editable">18</div>
 </div>
 <div class="toc-item">
 <div class="item-left">
 <div class="item-num">04</div>
 <div class="item-text">
-<h3 class="editable" contenteditable="true">원소의 주기성</h3>
-<p class="editable" contenteditable="true">주기율표의 규칙성, 옥텟 규칙과 알칼리 금속</p>
+<h3 class="editable">원소의 주기성</h3>
+<p class="editable">주기율표의 규칙성, 옥텟 규칙과 알칼리 금속</p>
 </div>
 </div>
 <div class="dots"></div>
-<div class="item-page editable" contenteditable="true">28</div>
+<div class="item-page editable">28</div>
 </div>
 
+<div class="toc-item">
+<div class="item-left">
+<div class="item-num">05</div>
+<div class="item-text">
+<h3 class="editable">갓통과 WEEKLY : Fit 20 모의고사</h3>
+<p class="editable">2단 실전 레이아웃 20문항 실전 모의고사</p>
 </div>
-<br/>
+</div>
+<div class="dots"></div>
+<div class="item-page editable">37</div>
+</div>
+</div>
+<br>
 <div class="system-guide">
 <div class="guide-title"><span>⚡</span> GODTONGGWA 100% 활용 가이드</div>
-<p class="guide-desc editable" contenteditable="true" style="text-align: justify; word-break: keep-all;">
-                    본 주간지는 단순 문제집이 아닙니다. 모의고사 풀이 후 하단의 <strong>QR코드</strong>를 갓통과 앱에 입력하세요. 약점 분석 시스템이 취약 행동 영역을 실시간으로 분석하여 <strong>개별 맞춤형 변형 문항</strong>을 제공합니다.
+<p class="guide-desc editable" style="text-align: justify; word-break: keep-all;">
+                    본 주간지는 단순 문제집이 아닙니다. 모의고사 풀이 후 하단의 <strong>QR코드</strong>를 갓통과 앱에 입력하세요. 약점 분석 시스템이 취약 행동 영역을 실시간으로 분석하여 <strong>개별 맞춤형 성적 리포트</strong>를 제공합니다.
                 </p>
 </div>
 <div class="page-num">- 03 -</div>
 </div>
 </div>
-<script>
-        function downloadImage(targetId, type) {
-            const element = document.getElementById(targetId);
-            
-            // 점선 효과 임시 제거
-            const editables = element.querySelectorAll('.editable');
-            editables.forEach(el => {
-                el.style.outline = 'none';
-                el.style.backgroundColor = 'transparent';
-            });
 
-            // 배경색 설정 (표지는 다크 네이비, 목차는 화이트)
-            const bgColor = type === 'Cover' ? '#0f172a' : '#ffffff';
-
-            html2canvas(element, {
-                scale: 3, 
-                backgroundColor: bgColor,
-                logging: false
-            }).then(canvas => {
-                // 주차 번호 동적 추출
-                let weekNum = '01';
-                if(type === 'Cover') {
-                    weekNum = document.querySelector('.cover-week-val').innerText.trim();
-                } else {
-                    weekNum = document.querySelector('.toc-vol-val').innerText.replace(/[^0-9]/g, '');
-                }
-                
-                const fileName = `GOTONGGWA_WEEKLY_${type}_Week${weekNum}.png`;
-
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                
-                // 점선 효과 복구
-                editables.forEach(el => el.style.outline = '');
-            });
-        }
-    </script>
 <!-- Page 3 -->
 <div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('bridge-page', 'Bridge')">📥 [13페이지] CONCEPT BRIDGE 다운로드</button>
+
 <div class="a4-page bridge-page" id="bridge-page">
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
+<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 12px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
 </div>
 <div>
 <h2 class="bridge-title">CONCEPT BRIDGE</h2>
@@ -747,7 +634,7 @@ window.addEventListener('wheel', (e) => {
 <path d="M 320 150 C 320 170, 370 170, 370 190" fill="none" stroke="#e2e8f0" stroke-dasharray="4,4" stroke-width="2"></path>
 </svg>
 <div class="node main" style="top: 10px; left: 50%; transform: translateX(-50%); width: 220px;">
-<div class="node-title" style="color: white;">자연의 구성 원소</div>
+<div class="node-title" style="color: white;">물질의 기원과 규칙성</div>
 <div class="node-desc" style="color: #cbd5e1;">우주에서 태동한 물질의 장엄한 역사</div>
 </div>
 <div class="node sub" style="top: 90px; left: 0px; width: 200px;">
@@ -756,7 +643,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="node sub" style="top: 90px; left: 220px; width: 200px;">
 <div class="node-title">원소의 주기성</div>
-<div class="node-desc">물질을 구성하는 원소들의 놀라운<br/>화학적 규칙</div>
+<div class="node-desc">물질을 구성하는 원소들의 놀라운<br>화학적 규칙</div>
 </div>
 <div class="node leaf" style="top: 190px; left: 0px; width: 100px;">
 <div class="font-bold">원소의 지문, 스펙트럼</div>
@@ -784,7 +671,7 @@ window.addEventListener('wheel', (e) => {
 
 <span style="background-color: #3b82f6; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">출제자의 시선</span>
 
-<span style="font-weight: 700; font-size: 13px;">왜 이것을 배울까?</span>
+<span style="font-weight: 700; font-size: 12px;">왜 이것을 배울까?</span>
 </div>
 <p style="font-size: 10px; color: #cbd5e1; line-height: 1.45; margin: 0; text-align: justify; word-break: keep-all;">
                     이 단원은 우주의 시작부터 생명체의 탄생까지 이어지는 <b>'원소의 빅 히스토리'</b>를 다룹니다. 특히 질량에 따른 별의 진화 경로와 그에 따라 생성되는 원소의 차이를 구분하는 문제, 그리고 주기율표에서 위치(주기, 족)에 따른 화학적 성질을 묻는 <b>자료 분석형 문항</b>이 2028 수능 통합과학에서 반드시 출제될 핵심 포인트입니다.
@@ -794,14 +681,12 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 <!-- New Page 3.5 (from 3p.html) -->
-<style>
-    @font-face {
+<style>    @font-face {
     font-family: 'BareHippie';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Bareun_hipi.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
-    
 .bridge-page-new .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -823,7 +708,7 @@ window.addEventListener('wheel', (e) => {
             margin-bottom: auto; 
         }
 .bridge-page-new .quadrant-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 900;
             color: #0f172a;
             margin-bottom: 2px;
@@ -907,16 +792,16 @@ window.addEventListener('wheel', (e) => {
 .bridge-page-new { padding: 28px 25px !important; background-color: #ffffff; }
 </style>
 <div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('bridge-page-new', 'Bridge_Map')">📸 [14페이지] 과학의 기초 마스터 맵 다운로드</button>
+
 <div class="a4-page bridge-page-new" id="bridge-page-new">
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
+<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 12px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
 </div>
 <div>
-<h2 class="bridge-title" style="font-size: 24px">자연의 구성 원소</h2>
+<h2 class="bridge-title" style="font-size: 24px">물질의 기원과 규칙성</h2>
 <div class="bridge-sub" style="font-size: 13px">빅뱅 우주론 ➔ 별의 진화와 원소 ➔ 주기율표와 전자배치</div>
 </div>
-<br/>
+<br>
 <div class="grid-container" style="grid-template-columns: 1fr; grid-auto-rows: minmax(100px, auto); gap: 15px;">
 <div class="quadrant" style="display: flex; flex-direction: row; gap: 15px; align-items: center;">
 <div style="flex: 1;">
@@ -930,9 +815,9 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 <div class="svg-container" style="flex: 1; min-height: 80px;">
-<svg height="100%" viewbox="0 0 340 120" width="100%">
+<svg height="100%" viewBox="0 0 340 120" width="100%">
 <defs>
-<marker id="arrow" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#94a3b8"></path></marker>
+<marker id="arrow" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#94a3b8"></path></marker>
 </defs>
 <line marker-end="url(#arrow)" stroke="#94a3b8" stroke-width="2" x1="15" x2="315" y1="45" y2="45"></line>
 <!-- 빅뱅 -->
@@ -959,7 +844,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="quadrant" style="display: flex; flex-direction: row; gap: 15px; align-items: center;">
 <div class="svg-container" style="flex: 1; min-height: 140px;">
-<svg height="100%" viewbox="0 0 340 180" width="100%">
+<svg height="100%" viewBox="0 0 340 180" width="100%">
 <g transform="translate(100, 80) scale(1.2)">
 <circle cx="0" cy="0" fill="#f8fafc" r="55" stroke="#94a3b8" stroke-width="1.66"></circle>
 <text fill="#000000" font-size="8.5px" font-weight="900" text-anchor="middle" x="0" y="-38">H (수소)</text>
@@ -1009,9 +894,9 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 <div class="svg-container" style="flex: 1; min-height: 80px;">
-<svg height="100%" viewbox="0 0 340 120" width="100%">
+<svg height="100%" viewBox="0 0 340 120" width="100%">
 <defs>
-<marker id="arrow-dark" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#0f172a"></path></marker>
+<marker id="arrow-dark" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#0f172a"></path></marker>
 </defs>
 <g>
 <!-- Centered Periodic Table Box (Enlarged) -->
@@ -1049,14 +934,14 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 20px;">
 <div class="info-box-title">■ [자료 1] 스펙트럼의 3가지 유형</div>
 <div style="height: 180px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 320 160" width="100%">
+<svg height="100%" viewBox="0 0 320 160" width="100%">
 <defs>
-<lineargradient id="rainbow" x1="0" x2="1">
+<linearGradient id="rainbow" x1="0" x2="1">
 <stop offset="0%" stop-color="#ef4444"></stop><stop offset="20%" stop-color="#f59e0b"></stop>
 <stop offset="40%" stop-color="#eab308"></stop><stop offset="60%" stop-color="#22c55e"></stop>
 <stop offset="80%" stop-color="#3b82f6"></stop><stop offset="100%" stop-color="#a855f7"></stop>
-</lineargradient>
-<marker id="arrow" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#64748b"></path></marker>
+</linearGradient>
+<marker id="arrow" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#64748b"></path></marker>
 </defs>
 <!-- 1. 연속 스펙트럼 -->
 <circle cx="30" cy="25" fill="#fcd34d" r="12" stroke="#f59e0b" stroke-width="2"></circle>
@@ -1097,7 +982,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 2] 스펙트럼 분석의 원리</div>
 <div style="height: 120px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 320 100" width="100%">
+<svg height="100%" viewBox="0 0 320 100" width="100%">
 <rect fill="url(#rainbow)" height="30" width="240" x="40" y="35"></rect>
 <line stroke="#000" stroke-width="2" x1="100" x2="100" y1="35" y2="65"></line>
 <line stroke="#000" stroke-width="5" x1="180" x2="180" y1="35" y2="65"></line>
@@ -1123,12 +1008,12 @@ window.addEventListener('wheel', (e) => {
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 8px; margin-top: 10px;">
 
-<span style="color:#b91c1c; font-weight:bold;">1. 우주를 구성하는 원소의 질량비</span><br/>
+<span style="color:#b91c1c; font-weight:bold;">1. 우주를 구성하는 원소의 질량비</span><br>
                     우주 전역에서 수소(H)와 헬륨(He)의 질량비는 일정하게 관측되며, 이는 빅뱅 우주론의 결정적 증거야!
                 </div>
 <!-- SVG Mass Ratio 3:1 -->
 <div style="height: 100px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px;">
-<svg height="100%" viewbox="0 0 300 80" width="100%">
+<svg height="100%" viewBox="0 0 300 80" width="100%">
 <g transform="translate(25, 20)">
 <!-- Hydrogen Blocks (3) -->
 <rect fill="#bfdbfe" height="40" rx="4" stroke="#3b82f6" stroke-width="2" width="150" x="0" y="0"></rect>
@@ -1147,7 +1032,7 @@ window.addEventListener('wheel', (e) => {
 <span style="color:#b91c1c; font-weight:bold;">2. 스펙트럼 특징 한눈에 정리</span>
 </div>
 <table class="hw-table">
-<tr>
+<tbody><tr>
 <th>구분</th><th>광원/조건</th><th>관측 결과 (형태)</th>
 </tr>
 <tr>
@@ -1159,7 +1044,7 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td>방출 스펙트럼</td><td style="text-align: left; padding-left: 10px;"><span style="color:#dc2626; font-weight:bold;">고온 기체</span>가 스스로 빛 방출</td><td style="color:#475569;">검은 바탕에 <b>밝은 선</b></td>
 </tr>
-</table>
+</tbody></table>
 <div style="margin-top: 15px;">
     <div class="handwriting" style="margin-bottom: 5px;">
         <span style="color:#b91c1c; font-weight:bold;">3. 원소 분석 (스펙트럼 비교)</span>
@@ -1168,49 +1053,49 @@ window.addEventListener('wheel', (e) => {
         <svg width="100%" height="100" viewBox="0 0 350 100">
             <defs>
                 <linearGradient id="rainbow3" x1="0" x2="1">
-                    <stop offset="0%" stop-color="#ef4444" />
-                    <stop offset="20%" stop-color="#f59e0b" />
-                    <stop offset="40%" stop-color="#eab308" />
-                    <stop offset="60%" stop-color="#22c55e" />
-                    <stop offset="80%" stop-color="#3b82f6" />
-                    <stop offset="100%" stop-color="#a855f7" />
+                    <stop offset="0%" stop-color="#ef4444"></stop>
+                    <stop offset="20%" stop-color="#f59e0b"></stop>
+                    <stop offset="40%" stop-color="#eab308"></stop>
+                    <stop offset="60%" stop-color="#22c55e"></stop>
+                    <stop offset="80%" stop-color="#3b82f6"></stop>
+                    <stop offset="100%" stop-color="#a855f7"></stop>
                 </linearGradient>
             </defs>
             
             <!-- 별의 흡수 스펙트럼 -->
             <text x="5" y="15" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">별 (흡수)</text>
-            <rect x="70" y="5" width="270" height="20" fill="url(#rainbow3)" />
-            <line x1="100" y1="5" x2="100" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="150" y1="5" x2="150" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="210" y1="5" x2="210" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="260" y1="5" x2="260" y2="25" stroke="#000" stroke-width="2" />
-            <line x1="300" y1="5" x2="300" y2="25" stroke="#000" stroke-width="2" />
+            <rect x="70" y="5" width="270" height="20" fill="url(#rainbow3)"></rect>
+            <line x1="100" y1="5" x2="100" y2="25" stroke="#000" stroke-width="2"></line>
+            <line x1="150" y1="5" x2="150" y2="25" stroke="#000" stroke-width="2"></line>
+            <line x1="210" y1="5" x2="210" y2="25" stroke="#000" stroke-width="2"></line>
+            <line x1="260" y1="5" x2="260" y2="25" stroke="#000" stroke-width="2"></line>
+            <line x1="300" y1="5" x2="300" y2="25" stroke="#000" stroke-width="2"></line>
             
             <!-- 원소 A 방출 스펙트럼 -->
             <text x="5" y="40" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 A</text>
-            <rect x="70" y="30" width="270" height="15" fill="#000" />
-            <line x1="100" y1="30" x2="100" y2="45" stroke="#f59e0b" stroke-width="2" />
-            <line x1="210" y1="30" x2="210" y2="45" stroke="#3b82f6" stroke-width="2" />
-            <line x1="260" y1="30" x2="260" y2="45" stroke="#a855f7" stroke-width="2" />
+            <rect x="70" y="30" width="270" height="15" fill="#000"></rect>
+            <line x1="100" y1="30" x2="100" y2="45" stroke="#f59e0b" stroke-width="2"></line>
+            <line x1="210" y1="30" x2="210" y2="45" stroke="#3b82f6" stroke-width="2"></line>
+            <line x1="260" y1="30" x2="260" y2="45" stroke="#a855f7" stroke-width="2"></line>
             
             <!-- 원소 B 방출 스펙트럼 -->
             <text x="5" y="60" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 B</text>
-            <rect x="70" y="50" width="270" height="15" fill="#000" />
-            <line x1="150" y1="50" x2="150" y2="65" stroke="#eab308" stroke-width="2" />
-            <line x1="300" y1="50" x2="300" y2="65" stroke="#a855f7" stroke-width="2" />
+            <rect x="70" y="50" width="270" height="15" fill="#000"></rect>
+            <line x1="150" y1="50" x2="150" y2="65" stroke="#eab308" stroke-width="2"></line>
+            <line x1="300" y1="50" x2="300" y2="65" stroke="#a855f7" stroke-width="2"></line>
 
             <!-- 원소 C 방출 스펙트럼 -->
             <text x="5" y="80" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 C</text>
-            <rect x="70" y="70" width="270" height="15" fill="#000" />
-            <line x1="130" y1="70" x2="130" y2="85" stroke="#22c55e" stroke-width="2" />
-            <line x1="240" y1="70" x2="240" y2="85" stroke="#8b5cf6" stroke-width="2" />
+            <rect x="70" y="70" width="270" height="15" fill="#000"></rect>
+            <line x1="130" y1="70" x2="130" y2="85" stroke="#22c55e" stroke-width="2"></line>
+            <line x1="240" y1="70" x2="240" y2="85" stroke="#8b5cf6" stroke-width="2"></line>
 
             <!-- 연결선 -->
-            <line x1="100" y1="25" x2="100" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="150" y1="25" x2="150" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="210" y1="25" x2="210" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="260" y1="25" x2="260" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="300" y1="25" x2="300" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="100" y1="25" x2="100" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2"></line>
+            <line x1="150" y1="25" x2="150" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2"></line>
+            <line x1="210" y1="25" x2="210" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2"></line>
+            <line x1="260" y1="25" x2="260" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2"></line>
+            <line x1="300" y1="25" x2="300" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2"></line>
         </svg>
         <div style="font-size: 10px; color: #1e293b; text-align: justify; word-break: keep-all; line-height: 1.5; margin-top: 10px; width: 100%;">
             👉 별의 흡수 스펙트럼 선과 <strong>원소 A, B</strong>의 방출 스펙트럼 선의 파장(위치)이 <strong>모두 일치</strong>합니다. 따라서 이 별의 대기에는 원소 A와 B가 <strong>포함</strong>되어 있습니다. 반면, <strong>원소 C</strong>의 스펙트럼 선은 일치하지 않으므로 별에는 C가 <strong>존재하지 않습니다.</strong>
@@ -1219,9 +1104,9 @@ window.addEventListener('wheel', (e) => {
 </div>
 <!-- 포스트잇 팁 -->
 <div class="tip-sticky" style="margin-top: 12px;">
-                    📌 <strong>갓쌤의 출제 포인트!</strong><br/>
+                    📌 <strong>갓쌤의 출제 포인트!</strong><br>
                     별빛의 스펙트럼은 별을 둘러싼 대기를 통과하므로
-                    주로 <span style="color:#2563eb; font-weight:bold;">흡수 스펙트럼</span> 형태로 나타나!<br/>
+                    주로 <span style="color:#2563eb; font-weight:bold;">흡수 스펙트럼</span> 형태로 나타나!<br>
                     원소마다 선의 <span style="color:#b91c1c; font-weight:bold;">위치(파장)</span>가 다르다는 점을
                     자료 분석 문제로 꼭 물어보니 주의하자!
                 </div>
@@ -1253,7 +1138,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 13번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q13.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 13번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q13.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -1261,7 +1146,7 @@ window.addEventListener('wheel', (e) => {
 <div class="page-num">- 08 -</div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
@@ -1280,7 +1165,7 @@ window.addEventListener('wheel', (e) => {
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
 
-<strong style="color: #0f172a;">원소 형성</strong><br/>
+<strong style="color: #0f172a;">원소 형성</strong><br>
                         우주의 수소와 헬륨의 질량비는 약 3:1이며, 빅뱅 약 38만 년 후 우주의 온도가 3000K로 낮아질 때 원자핵과 전자가 결합하여 중성 원자가 형성되었습니다.
                     </div>
 </div>
@@ -1312,7 +1197,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 12px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
                         우주에 존재하는 헬륨의 '대부분'은 빅뱅 초기에 만들어졌습니다. 별 내부에서 생성되는 헬륨의 양은 전체 우주 헬륨량에 비하면 매우 적다는 점을 주의하세요.
                     </p>
 </div>
@@ -1320,7 +1205,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
-<button class="btn-download" onclick="downloadImage('page-18', 'Page18')">📸 [18페이지] 실전 체화(디자인 시안) 다운로드</button>
+
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -1332,9 +1217,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q01.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q01.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '저온의 기체' 아래에 있는 C를 보고 기체가 저온이니까 무조건 흡수 스펙트럼이라고 착각하기 쉬워! 기체가 에너지를 얻어 방출하는 빛을 보는 것이므로 C는 '방출 스펙트럼'이라는 점에 주의해야 해.</div>
 </div>
@@ -1342,9 +1227,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q02.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q02.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">저온의 기체를 통과할 때는 '흡수 스펙트럼'이, 고온의 기체가 직접 빛을 방출할 때는 '방출 스펙트럼'이 나타납니다. 시험에서 두 조건의 명칭을 교묘하게 바꾸어 출제하므로 확실히 구분해야 합니다!</div>
 </div>
@@ -1354,7 +1239,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -1393,7 +1278,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 스펙트럼 문제는 시험에 100% 나오는 정말 중요한 단골 주제야. 빛이 어디서 출발해서 무엇을 거쳐 우리 눈에 들어오는지 그 '경로'만 잘 따라가면 절대 틀릴 일 없으니 쌤이랑 같이 완벽하게 정리해 보자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 스펙트럼 문제는 시험에 100% 나오는 정말 중요한 단골 주제야. 빛이 어디서 출발해서 무엇을 거쳐 우리 눈에 들어오는지 그 '경로'만 잘 따라가면 절대 틀릴 일 없으니 쌤이랑 같이 완벽하게 정리해 보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -1423,7 +1308,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 친구들! 스펙트럼 문제는 선의 위치만 자 대고 똑바로 비교해도 거저먹는 보너스 문제야! 갓쌤과 함께 선 맞추기 놀이하듯 아주 쉽고 빠르게 해결해 보자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 친구들! 스펙트럼 문제는 선의 위치만 자 대고 똑바로 비교해도 거저먹는 보너스 문제야! 갓쌤과 함께 선 맞추기 놀이하듯 아주 쉽고 빠르게 해결해 보자!</p>
 </div>
 </div>
 </div>
@@ -1442,9 +1327,9 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 1] 우주 팽창과 입자의 탄생</div>
 <div style="height: 180px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 180" width="100%">
+<svg height="100%" viewBox="0 0 340 180" width="100%">
 <defs>
-<marker id="arrow" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#94a3b8"></path></marker>
+<marker id="arrow" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#94a3b8"></path></marker>
 </defs>
 <!-- Universe Expansion Cone -->
 <path d="M 20 90 L 320 20 L 320 160 Z" fill="#bae6fd" opacity="0.6" stroke="#7dd3fc" stroke-width="1.5"></path>
@@ -1490,7 +1375,7 @@ window.addEventListener('wheel', (e) => {
 <!-- 불투명한 우주 -->
 <div style="width: 45%; height: 100%; border: 1px solid #94a3b8; background: #fff; position: relative;">
 <div style="position: absolute; top: -8px; left: 10px; background: #fff; padding: 0 5px; font-size: 9px; font-weight: bold; color: #b91c1c;">불투명한 우주 (38만년 전)</div>
-<svg height="100%" viewbox="0 0 100 80" width="100%">
+<svg height="100%" viewBox="0 0 100 80" width="100%">
 <!-- Electrons blocking -->
 <circle cx="30" cy="30" fill="#f59e0b" r="3"></circle>
 <circle cx="60" cy="50" fill="#f59e0b" r="3"></circle>
@@ -1504,7 +1389,7 @@ window.addEventListener('wheel', (e) => {
 <!-- 투명한 우주 -->
 <div style="width: 45%; height: 100%; border: 1px solid #94a3b8; background: #fff; position: relative;">
 <div style="position: absolute; top: -8px; left: 10px; background: #fff; padding: 0 5px; font-size: 9px; font-weight: bold; color: #1d4ed8;">투명한 우주 (38만년 후)</div>
-<svg height="100%" viewbox="0 0 100 80" width="100%">
+<svg height="100%" viewBox="0 0 100 80" width="100%">
 <!-- Atoms -->
 <circle cx="30" cy="30" fill="none" r="8" stroke="#94a3b8"></circle>
 <circle cx="30" cy="30" fill="#ef4444" r="2"></circle>
@@ -1533,12 +1418,12 @@ window.addEventListener('wheel', (e) => {
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
 
-<span style="color:#b91c1c; font-weight:bold;">1. 7:1 개수비가 3:1 질량비가 되는 마법</span><br/>
+<span style="color:#b91c1c; font-weight:bold;">1. 7:1 개수비가 3:1 질량비가 되는 마법</span><br>
                     양성자 14개, 중성자 2개(7:1)가 있을 때, 헬륨 원자핵 1개가 만들어지면 남은 건 수소 원자핵 12개야. 질량비는 무조건 외워!
                 </div>
 <!-- SVG Mass Ratio 7:1 to 3:1 -->
 <div style="height: 120px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; background: #f1f5f9; border-radius: 8px;">
-<svg height="100%" viewbox="0 0 340 120" width="100%">
+<svg height="100%" viewBox="0 0 340 120" width="100%">
 <!-- Before 7:1 -->
 <g transform="translate(10, 20)">
 <text fill="#0f172a" font-family="Noto Sans KR" font-size="9px" font-weight="bold" text-anchor="middle" x="40" y="-5">반응 전 (개수비 7:1)</text>
@@ -1598,7 +1483,7 @@ window.addEventListener('wheel', (e) => {
 <span style="color:#b91c1c; font-weight:bold;">2. 헷갈림 방지! 시간별 주요 사건 대조표</span>
 </div>
 <table class="hw-table">
-<tr>
+<tbody><tr>
 <th>구분</th><th>빅뱅 후 3분</th><th>빅뱅 후 38만 년</th>
 </tr>
 <tr>
@@ -1610,58 +1495,20 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td>결정적 사건</td><td style="text-align: left; padding-left: 5px;">수소와 헬륨의 <b>질량비 3:1</b> 형성</td><td style="text-align: left; padding-left: 5px;">우주 배경 복사 방출 (<b>투명한 우주</b>)</td>
 </tr>
-</table>
+</tbody></table>
 <!-- 포스트잇 팁 -->
 <div class="tip-sticky" style="margin-top: 12px;">
-                    📌 <strong>갓쌤의 출제 포인트!</strong><br/>
-                    시험에 무조건 나오는 오답 선지!<br/>
-                    "빅뱅 후 3분에 원자가 만들어졌다." ➔ <span style="color:#dc2626; font-weight:bold;">(X) 38만 년!</span><br/>
-                    "원자핵이 생성될 때 우주가 투명해졌다." ➔ <span style="color:#dc2626; font-weight:bold;">(X) 원자 생성 때!</span><br/>
+                    📌 <strong>갓쌤의 출제 포인트!</strong><br>
+                    시험에 무조건 나오는 오답 선지!<br>
+                    "빅뱅 후 3분에 원자가 만들어졌다." ➔ <span style="color:#dc2626; font-weight:bold;">(X) 38만 년!</span><br>
+                    "원자핵이 생성될 때 우주가 투명해졌다." ➔ <span style="color:#dc2626; font-weight:bold;">(X) 원자 생성 때!</span><br>
                     시기와 입자를 크로스로 엮는 함정에 빠지지 마!
                 </div>
 <div class="page-num">- 13 -</div>
 </div>
 </div>
 </div>
-<script>
-        function downloadImage(targetId, type) {
-            const element = document.getElementById(targetId);
-            
-            // 점선 효과 임시 제거
-            const editables = element.querySelectorAll('.editable');
-            editables.forEach(el => {
-                el.style.outline = 'none';
-                el.style.backgroundColor = 'transparent';
-            });
 
-            // 배경색 설정 (표지는 다크 네이비, 목차는 화이트)
-            const bgColor = type === 'Cover' ? '#0f172a' : '#ffffff';
-
-            html2canvas(element, {
-                scale: 3, 
-                backgroundColor: bgColor,
-                logging: false
-            }).then(canvas => {
-                // 주차 번호 동적 추출
-                let weekNum = '01';
-                if(type === 'Cover') {
-                    weekNum = document.querySelector('.cover-week-val').innerText.trim();
-                } else {
-                    weekNum = document.querySelector('.toc-vol-val').innerText.replace(/[^0-9]/g, '');
-                }
-                
-                const fileName = `GOTONGGWA_WEEKLY_${type}_Week${weekNum}.png`;
-
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                
-                // 점선 효과 복구
-                editables.forEach(el => el.style.outline = '');
-            });
-        }
-    </script>
 <div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
@@ -1685,7 +1532,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 1번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prep_q01.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 1번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prep_q01.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -1693,7 +1540,7 @@ window.addEventListener('wheel', (e) => {
 <div class="page-num">- 14 -</div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
@@ -1721,7 +1568,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">얘들아 안녕! 빅뱅 이후 기본 입자부터 원자까지 만들어지는 순서는 내신과 모의고사 단골 출제 주제야! 우주가 팽창하면서 '온도가 낮아지고' '더 무거운 입자가 생성된다'는 이 핵심 흐름만 잡고 가자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">얘들아 안녕! 빅뱅 이후 기본 입자부터 원자까지 만들어지는 순서는 내신과 모의고사 단골 출제 주제야! 우주가 팽창하면서 '온도가 낮아지고' '더 무거운 입자가 생성된다'는 이 핵심 흐름만 잡고 가자!</p>
 </div>
 <div class="page-num">- 15 -</div>
 </div>
@@ -1737,9 +1584,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q03.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q03.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '우주가 팽창하니까 에너지가 많아져서 온도가 올라가지 않을까?'라는 엉뚱한 생각을 해. 팽창하면 온도는 무조건 내려간다는 사실을 잊지 마!</div>
 </div>
@@ -1747,9 +1594,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q04.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q04.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">학생들이 가장 많이 낚이는 부분이 바로 '원자핵 형성(빅뱅 후 3분)'과 '중성 원자 형성(빅뱅 후 38만 년)'의 혼동이야!</div>
 </div>
@@ -1759,7 +1606,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -1798,7 +1645,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 빅뱅 우주론은 시간 순서대로 입자가 어떻게 탄생했는지 그 흐름만 잡으면 절대 틀릴 수가 없어. 갓쌤과 함께 핵심 타임라인을 머릿속에 쏙쏙 집어넣어 보자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 빅뱅 우주론은 시간 순서대로 입자가 어떻게 탄생했는지 그 흐름만 잡으면 절대 틀릴 수가 없어. 갓쌤과 함께 핵심 타임라인을 머릿속에 쏙쏙 집어넣어 보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -1828,7 +1675,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 얘들아, 갓쌤이야! 빅뱅 우주론에서 무조건 나오는 단골 주제인 '양성자와 중성자의 비율 변화'와 '원소 생성' 문제구나! 그래프에서 각 물질이 무엇인지 파악하고 핵심 시간대만 머릿속에 정리해두면 아주 쉽게 풀 수 있어. 쌤이랑 같이 완벽하게 격파해보자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">그래프에서 각 물질이 무엇인지 파악하고 핵심 시간대만 머릿속에 정리해두면 아주 쉽게 풀 수 있어. 쌤이랑 같이 완벽하게 격파해보자!</p>
 </div>
 </div>
 </div>
@@ -1847,9 +1694,9 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 1] 별의 탄생 과정</div>
 <div style="height: 120px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 120" width="100%">
+<svg height="100%" viewBox="0 0 340 120" width="100%">
 <defs>
-<marker id="arrow1" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#94a3b8"></path></marker>
+<marker id="arrow1" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#94a3b8"></path></marker>
 </defs>
 <!-- 성운 -->
 <path d="M 30 50 C 40 30, 60 40, 70 50 C 80 45, 90 60, 80 70 C 90 80, 70 90, 60 85 C 40 100, 20 80, 30 70 C 10 60, 20 40, 30 50" fill="#e2e8f0" stroke="#cbd5e1"></path>
@@ -1879,10 +1726,10 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 2] 주계열성의 크기 평형 유지</div>
 <div style="height: 130px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 130" width="100%">
+<svg height="100%" viewBox="0 0 340 130" width="100%">
 <defs>
-<marker id="arrow-blue" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#2563eb"></path></marker>
-<marker id="arrow-red" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#dc2626"></path></marker>
+<marker id="arrow-blue" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#2563eb"></path></marker>
+<marker id="arrow-red" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#dc2626"></path></marker>
 </defs>
 <circle cx="170" cy="65" fill="#fcd34d" opacity="0.5" r="45"></circle>
 <circle cx="170" cy="65" fill="#f59e0b" r="15"></circle>
@@ -1921,9 +1768,9 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 3] 질량에 따른 별의 진화 트리</div>
 <div style="height: 220px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 220" width="100%">
+<svg height="100%" viewBox="0 0 340 220" width="100%">
 <defs>
-<marker id="arrow2" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="0" viewbox="0 -3 6 6"><path d="M 0 -2 L 5 0 L 0 2 Z" fill="#94a3b8"></path></marker>
+<marker id="arrow2" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="0" viewBox="0 -3 6 6"><path d="M 0 -2 L 5 0 L 0 2 Z" fill="#94a3b8"></path></marker>
 </defs>
 <text fill="#0f172a" font-size="10px" font-weight="900" text-anchor="middle" x="50" y="105">주계열성</text>
 <!-- Path 1: 태양 정도 -->
@@ -1957,7 +1804,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 4] 질량이 태양 정도인 별 (적색 거성 중심부)</div>
 <div style="height: 120px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 120" width="100%">
+<svg height="100%" viewBox="0 0 340 120" width="100%">
 <!-- Onion shells -->
 <circle cx="170" cy="60" fill="#fca5a5" r="50" stroke="#ef4444" stroke-width="1"></circle>
 <circle cx="170" cy="60" fill="#fdba74" r="35" stroke="#f97316" stroke-width="1"></circle>
@@ -1988,7 +1835,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 5] 질량이 태양보다 훨씬 무거운 별 (초거성 중심부)</div>
 <div style="height: 140px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 140" width="100%">
+<svg height="100%" viewBox="0 0 340 140" width="100%">
 <circle cx="170" cy="70" fill="#fca5a5" r="60" stroke="#ef4444" stroke-width="1"></circle>
 <circle cx="170" cy="70" fill="#fdba74" r="50" stroke="#f97316" stroke-width="1"></circle>
 <circle cx="170" cy="70" fill="#fde047" r="40" stroke="#eab308" stroke-width="1"></circle>
@@ -2014,9 +1861,9 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 6] 태양계와 지구의 형성 과정</div>
 <div style="height: 180px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 180" width="100%">
+<svg height="100%" viewBox="0 0 340 180" width="100%">
 <defs>
-<marker id="arrow3" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="0" viewbox="0 -3 6 6"><path d="M 0 -2 L 5 0 L 0 2 Z" fill="#94a3b8"></path></marker>
+<marker id="arrow3" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="0" viewBox="0 -3 6 6"><path d="M 0 -2 L 5 0 L 0 2 Z" fill="#94a3b8"></path></marker>
 </defs>
 <!-- 1. 태양계 성운 형성 -->
 <path d="M 60 40 C 75 25, 95 30, 100 45 C 110 40, 120 60, 105 70 C 115 85, 90 95, 80 85 C 60 100, 40 85, 50 70 C 35 60, 45 35, 60 40" fill="#e2e8f0" stroke="#cbd5e1"></path>
@@ -2057,9 +1904,9 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 7] 지구의 형성과 생명체 탄생</div>
 <div style="height: 200px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 200" width="100%">
+<svg height="100%" viewBox="0 0 340 200" width="100%">
 <defs>
-<marker id="arrow4" markerheight="6" markerwidth="6" orient="auto" refx="5" refy="0" viewbox="0 -3 6 6"><path d="M 0 -2 L 5 0 L 0 2 Z" fill="#94a3b8"></path></marker>
+<marker id="arrow4" markerHeight="6" markerWidth="6" orient="auto" refX="5" refY="0" viewBox="0 -3 6 6"><path d="M 0 -2 L 5 0 L 0 2 Z" fill="#94a3b8"></path></marker>
 </defs>
 <!-- 1. 미행성체 충돌 -->
 <circle cx="45" cy="50" fill="#94a3b8" r="18"></circle>
@@ -2097,7 +1944,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 15px;">
 <div class="info-box-title">■ [자료 8] 우주, 지구, 생명체의 주요 원소 비율</div>
 <div style="height: 120px; margin-top: 15px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 340 120" width="100%">
+<svg height="100%" viewBox="0 0 340 120" width="100%">
 <!-- Universe -->
 <text fill="#0f172a" font-size="10px" font-weight="bold" text-anchor="end" x="50" y="30">우주</text>
 <rect fill="#bfdbfe" height="12" rx="2" width="180" x="60" y="20"></rect>
@@ -2139,7 +1986,7 @@ window.addEventListener('wheel', (e) => {
 <span style="color:#b91c1c; font-weight:bold;">1. 질량에 따른 별의 진화 특징 대조표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
-<tr>
+<tbody><tr>
 <th style="font-size: 10px;">구분</th><th style="font-size: 10px;">질량이 태양 정도인 별</th><th style="font-size: 10px;">질량이 태양보다 매우 큰 별</th>
 </tr>
 <tr>
@@ -2154,13 +2001,13 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td>별의 수명</td><td style="color:#475569;">상대적으로 <b>길다</b> (진화 속도 느림)</td><td style="color:#dc2626; font-weight:bold;">상대적으로 짧다 (진화 속도 빠름)</td>
 </tr>
-</table>
+</tbody></table>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
 
 <span style="color:#b91c1c; font-weight:bold;">2. 지구형 행성과 목성형 행성 핵심 대조표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
-<tr>
+<tbody><tr>
 <th style="font-size: 10px;">구분</th><th style="font-size: 10px;">지구형 행성 (수·금·지·화)</th><th style="font-size: 10px;">목성형 행성 (목·토·천·해)</th>
 </tr>
 <tr>
@@ -2172,13 +2019,13 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td>평균 밀도</td><td style="color:#dc2626; font-weight:bold;">크다</td><td style="color:#475569;">작다</td>
 </tr>
-</table>
+</tbody></table>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
 
 <span style="color:#b91c1c; font-weight:bold;">3. 지구 형성 단계별 핵심 암기표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
-<tr>
+<tbody><tr>
 <th style="font-size: 10px;">단계</th><th style="font-size: 10px;">핵심 사건 (키워드)</th>
 </tr>
 <tr>
@@ -2190,10 +2037,10 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td style="font-weight:bold;">원시 지각과 바다</td><td style="text-align: left; padding-left: 10px; color:#2563eb;">온도 하강, 수증기가 비가 되어 <b>원시 바다</b> 형성</td>
 </tr>
-</table>
+</tbody></table>
 <div class="tip-sticky" style="margin-top: 15px;">
-                    📌 <strong>핵과 맨틀의 형성 원리는?</strong><br/>
-                    마그마의 바다 상태(액체)였기 때문에 무거운 철(Fe)이 중력에 의해 가라앉을 수 있었어!<br/>
+                    📌 <strong>핵과 맨틀의 형성 원리는?</strong><br>
+                    마그마의 바다 상태(액체)였기 때문에 무거운 철(Fe)이 중력에 의해 가라앉을 수 있었어!<br>
                     만약 계속 고체 상태였다면 핵과 맨틀이 분리되지 못했겠지?
                 </div>
 <div class="page-num">- 22 -</div>
@@ -2208,15 +2055,15 @@ window.addEventListener('wheel', (e) => {
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (2)</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 20px;">
 
-<span style="color:#b91c1c; font-weight:bold;">4. 출제자가 파놓은 치명적 함정 4가지</span><br/><br/>
-                    ① <strong>헬륨의 기원을 구별하라!</strong><br/>우주에 있는 대부분의 헬륨은 '빅뱅' 때 만들어졌지만, 별 내부의 '수소 핵융합'으로도 헬륨이 추가로 만들어지고 있어. 둘 다 맞는 말이야!<br/><br/>
-                    ② <strong>철(Fe)과 우라늄(U)을 구별하라!</strong><br/>별의 중심부 핵융합으로는 <strong>철(Fe)</strong>까지만 생성돼. 그보다 무거운 금, 은, 납, 우라늄은 무조건 <strong>초신성 폭발</strong> 키워드를 찾아야 해!<br/><br/>
-                    ③ <strong>지구 1등 vs 생명체 1등!</strong><br/>지구 전체에 가장 많은 건 핵을 이루는 무거운 <strong>철(Fe)</strong>, 우리 몸(생명체)에 가장 많은 건 물을 구성하는 <strong>산소(O)</strong>야! 우주는 무조건 수소(H)!<br/><br/>
-                    ④ <strong>태양계의 재료는 재활용품?</strong><br/>태양계 성운에는 수소, 헬륨뿐만 아니라 무거운 원소들이 포함되어 있었어. 즉, 이전에 존재했던 별의 <strong>초신성 폭발 잔해</strong>가 섞여 있었다는 뜻!
+<span style="color:#b91c1c; font-weight:bold;">4. 출제자가 파놓은 치명적 함정 4가지</span><br><br>
+                    ① <strong>헬륨의 기원을 구별하라!</strong><br>우주에 있는 대부분의 헬륨은 '빅뱅' 때 만들어졌지만, 별 내부의 '수소 핵융합'으로도 헬륨이 추가로 만들어지고 있어. 둘 다 맞는 말이야!<br><br>
+                    ② <strong>철(Fe)과 우라늄(U)을 구별하라!</strong><br>별의 중심부 핵융합으로는 <strong>철(Fe)</strong>까지만 생성돼. 그보다 무거운 금, 은, 납, 우라늄은 무조건 <strong>초신성 폭발</strong> 키워드를 찾아야 해!<br><br>
+                    ③ <strong>지구 1등 vs 생명체 1등!</strong><br>지구 전체에 가장 많은 건 핵을 이루는 무거운 <strong>철(Fe)</strong>, 우리 몸(생명체)에 가장 많은 건 물을 구성하는 <strong>산소(O)</strong>야! 우주는 무조건 수소(H)!<br><br>
+                    ④ <strong>태양계의 재료는 재활용품?</strong><br>태양계 성운에는 수소, 헬륨뿐만 아니라 무거운 원소들이 포함되어 있었어. 즉, 이전에 존재했던 별의 <strong>초신성 폭발 잔해</strong>가 섞여 있었다는 뜻!
                 </div>
 <div class="tip-sticky" style="margin-top: 30px;">
-                    📌 <strong>최고난도 문항 대비!</strong><br/>
-                    "우주 공간으로 방출된 원소들은 다시 모여 새로운 별을 만든다."<br/>
+                    📌 <strong>최고난도 문항 대비!</strong><br>
+                    "우주 공간으로 방출된 원소들은 다시 모여 새로운 별을 만든다."<br>
                     ➔ <strong>(O) 정답!</strong> 행성상 성운이나 초신성 폭발로 퍼져나간 물질들이 다시 성운이 되어 태양계와 지구를 만들었어! 순환의 고리를 완벽히 이해하자!
                 </div>
 <div class="page-num">- 23 -</div>
@@ -2246,7 +2093,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 11번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q11.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 11번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q11.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -2254,7 +2101,7 @@ window.addEventListener('wheel', (e) => {
 <div class="page-num">- 24 -</div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
@@ -2273,7 +2120,7 @@ window.addEventListener('wheel', (e) => {
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
 
-<strong style="color: #0f172a;">별의 진화</strong><br/>
+<strong style="color: #0f172a;">별의 진화</strong><br>
                         질량이 태양보다 10배 이상 큰 별은 중심부에서 철(Fe)까지 핵융합 반응이 일어납니다. 별의 바깥쪽부터 수소, 헬륨, 탄소, 산소, 규소, 철 순으로 배열됩니다.
                     </div>
 </div>
@@ -2305,7 +2152,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
                         지구와 지각의 주요 구성 원소 질량비 순서는 헷갈리기 쉬우므로 확실히 암기해 두어야 합니다. (지구: Fe, O, Si, Mg / 지각: O, Si, Al, Fe)
                     </p>
 </div>
@@ -2313,7 +2160,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
-<button class="btn-download" onclick="downloadImage('page-18', 'Page18')">📸 [18페이지] 실전 체화(디자인 시안) 다운로드</button>
+
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -2325,9 +2172,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q05.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q05.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">중심부 온도가 상승하는 원인은 팽창이 아니라 '중력 수축' 때문이야! 수축해야 역학적 에너지가 열에너지로 바뀌며 온도가 올라간다는 기본 물리 법칙을 꼭 기억해!</div>
 </div>
@@ -2335,9 +2182,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q06.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q06.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">많은 학생들이 '지구의 원소들이 태양 핵융합으로 만들어졌다'는 함정에 빠지곤 해! 현재 태양은 주계열성으로 수소 핵융합만 하고 있으며, 산소나 규소처럼 무거운 원소는 태양이 생기기 훨씬 전 초신성 폭발로 만들어진 것이 성운에 섞여 있던 거란다.</div>
 </div>
@@ -2347,7 +2194,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -2386,7 +2233,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 갓쌤이야~ 별의 진화 문제는 그래프만 제대로 해석하면 거저먹는 보너스 문제나 다름없어! 별의 질량이 인생을 어떻게 바꾸는지 쌤이랑 핵심만 콕 짚어보자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아 안녕! 갓쌤이야~ 별의 진화 문제는 그래프만 제대로 해석하면 거저먹는 보너스 문제나 다름없어! 별의 질량이 인생을 어떻게 바꾸는지 쌤이랑 핵심만 콕 짚어보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -2416,7 +2263,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 태양계와 지구의 기원을 묻는 아주 대표적인 문제야. 성운설의 각 단계별 특징과 원소의 기원만 머릿속에 잘 정리해 두면 아주 쉽게 풀 수 있어!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 얘들아! 태양계와 지구의 기원을 묻는 아주 대표적인 문제야. 성운설의 각 단계별 특징과 원소의 기원만 머릿속에 잘 정리해 두면 아주 쉽게 풀 수 있어!</p>
 </div>
 </div>
 </div>
@@ -2435,10 +2282,10 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 1] 주기율표의 구조 (주기와 족)</div>
 <div style="height: 400px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 400 400" width="100%">
+<svg height="100%" viewBox="0 0 400 400" width="100%">
 <defs>
-<marker id="arrow-green" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#16a34a"></path></marker>
-<marker id="arrow-orange" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#ea580c"></path></marker>
+<marker id="arrow-green" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#16a34a"></path></marker>
+<marker id="arrow-orange" markerHeight="6" markerWidth="6" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#ea580c"></path></marker>
 </defs>
 <text fill="#0f172a" font-size="14px" font-weight="900" text-anchor="middle" x="200" y="30">단축형 현대 주기율표 (1~20번)</text>
 <!-- 주기율표 틀 -->
@@ -2522,7 +2369,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 2] 주기율표의 전자배치 모형</div>
 <div style="height: 400px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
-<svg height="100%" viewbox="0 0 400 400" width="100%">
+<svg height="100%" viewBox="0 0 400 400" width="100%">
 <text fill="#dc2626" font-size="12px" font-weight="bold" text-anchor="middle" x="70" y="30">1족</text>
 <text fill="#16a34a" font-size="12px" font-weight="bold" text-anchor="middle" x="230" y="30">17족</text>
 <text fill="#d97706" font-size="12px" font-weight="bold" text-anchor="middle" x="330" y="30">18족</text>
@@ -2680,7 +2527,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 3] 1족 알칼리 금속의 특징과 물 반응 실험</div>
 <div style="height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 20px;">
-<svg height="100%" viewbox="0 0 400 260" width="100%">
+<svg height="100%" viewBox="0 0 400 260" width="100%">
 <!-- 리튬 -->
 <text fill="#0f172a" font-size="14px" font-weight="900" text-anchor="middle" x="70" y="20">리튬 (Li)</text>
 <text fill="#475569" font-size="10px" text-anchor="middle" x="70" y="35">비교적 약한 반응</text>
@@ -2722,10 +2569,10 @@ window.addEventListener('wheel', (e) => {
 <circle cx="330" cy="40" fill="#fff" r="4" stroke="#94a3b8"></circle>
 <!-- 반응성 증가 화살표 -->
 <defs>
-<lineargradient id="grad-red" x1="0%" x2="100%" y1="0%" y2="0%">
+<linearGradient id="grad-red" x1="0%" x2="100%" y1="0%" y2="0%">
 <stop offset="0%" stop-color="#fca5a5"></stop>
 <stop offset="100%" stop-color="#dc2626"></stop>
-</lineargradient>
+</linearGradient>
 </defs>
 <path d="M 40 160 L 340 160 L 340 155 L 360 165 L 340 175 L 340 170 L 40 170 Z" fill="url(#grad-red)"></path>
 <text fill="#fff" font-size="10px" font-weight="bold" text-anchor="middle" x="200" y="167">원자 번호가 클수록 반응성 증가!</text>
@@ -2753,7 +2600,7 @@ window.addEventListener('wheel', (e) => {
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 4] 17족 할로젠 원소의 특징과 상태</div>
 <div style="height: 290px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; padding: 20px;">
-<svg height="100%" viewbox="0 0 400 290" width="100%">
+<svg height="100%" viewBox="0 0 400 290" width="100%">
 <!-- 플루오린 -->
 <text fill="#0f172a" font-size="14px" font-weight="900" text-anchor="middle" x="80" y="30">플루오린 (F₂)</text>
 <text fill="#475569" font-size="10px" text-anchor="middle" x="80" y="45">담황색 기체</text>
@@ -2787,10 +2634,10 @@ window.addEventListener('wheel', (e) => {
 <path d="M 325 130 L 330 115 L 335 130 Z" fill="#4c1d95"></path>
 <!-- 반응성 방향 화살표 (왼쪽으로 향함 = 원자번호 작을수록) -->
 <defs>
-<lineargradient id="grad-green" x1="100%" x2="0%" y1="0%" y2="0%">
+<linearGradient id="grad-green" x1="100%" x2="0%" y1="0%" y2="0%">
 <stop offset="0%" stop-color="#bbf7d0"></stop>
 <stop offset="100%" stop-color="#16a34a"></stop>
-</lineargradient>
+</linearGradient>
 </defs>
 <path d="M 360 160 L 60 160 L 60 155 L 40 165 L 60 175 L 60 170 L 360 170 Z" fill="url(#grad-green)"></path>
 <text fill="#fff" font-size="10px" font-weight="bold" text-anchor="middle" x="200" y="167">원자 번호가 작을수록 반응성 증가! (알칼리 금속과 반대)</text>
@@ -2822,7 +2669,7 @@ window.addEventListener('wheel', (e) => {
 <span style="color:#b91c1c; font-weight:bold;">1. 원자의 전자배치와 주기/족의 완벽 이해</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
-<tr>
+<tbody><tr>
 <th width="30%" style="font-size: 10px;">구분</th><th style="font-size: 10px;">가로줄 (주기)</th><th style="font-size: 10px;">세로줄 (족)</th>
 </tr>
 <tr>
@@ -2834,26 +2681,26 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td style="font-weight:bold;">화학적 성질</td><td>서로 다름</td><td style="color:#d97706; font-weight:bold;">화학적 성질 비슷 (동족 원소)</td>
 </tr>
-</table>
+</tbody></table>
 <div class="tip-sticky" style="margin-top: 15px; margin-bottom: 10px;">
-                    📌 <strong>[중요] 최외각 전자 vs 원자가 전자</strong><br/>
-                    - 최외각 전자: 단순히 가장 바깥 껍질에 들어있는 전자 수<br/>
-                    - 원자가 전자: 화학 결합에 직접 참여하는 전자 수<br/>
+                    📌 <strong>[중요] 최외각 전자 vs 원자가 전자</strong><br>
+                    - 최외각 전자: 단순히 가장 바깥 껍질에 들어있는 전자 수<br>
+                    - 원자가 전자: 화학 결합에 직접 참여하는 전자 수<br>
                     ➔ 1~17족까지는 둘의 개수가 같지만, <strong>18족 비활성 기체의 원자가 전자는 '0개'</strong>야! 이미 꽉 차 있어서 다른 애들이랑 결합할 필요가 없거든. 완전 귀족 원소지!
                 </div>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
 
-<span style="color:#b91c1c; font-weight:bold;">2. 교과서 핵심! 18족 비활성 기체</span><br/>
-                    - 헬륨(He), 네온(Ne), 아르곤(Ar)<br/>
-                    - 가장 바깥쪽 전자껍질에 전자가 <strong>8개(He는 2개)</strong> 채워져 있어 매우 안정적이야.<br/>
-                    - 그래서 다른 원소와 화합물을 형성하지 않고 단일 원자 형태로 존재해.<br/>
+<span style="color:#b91c1c; font-weight:bold;">2. 교과서 핵심! 18족 비활성 기체</span><br>
+                    - 헬륨(He), 네온(Ne), 아르곤(Ar)<br>
+                    - 가장 바깥쪽 전자껍질에 전자가 <strong>8개(He는 2개)</strong> 채워져 있어 매우 안정적이야.<br>
+                    - 그래서 다른 원소와 화합물을 형성하지 않고 단일 원자 형태로 존재해.<br>
                     ➔ 결국 모든 화학 결합(이온결합, 공유결합)은 <strong>얘네들처럼 전자 배치를 똑같이 흉내 내기 위해</strong> 일어난다는 게 자연의 법칙!
                 </div>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
 <span style="color:#b91c1c; font-weight:bold;">3. 알칼리 금속 vs 할로젠 원소 비교표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
-<tr>
+<tbody><tr>
 <th width="20%" style="font-size: 10px;">특징</th><th width="40%" style="font-size: 10px;">알칼리 금속 (1족)</th><th width="40%" style="font-size: 10px;">할로젠 원소 (17족)</th>
 </tr>
 <tr>
@@ -2871,16 +2718,16 @@ window.addEventListener('wheel', (e) => {
 <tr>
 <td style="font-weight:bold;">특이 사항</td><td>물과 격렬히 반응(H₂ 발생) 및 <strong>염기성</strong> 수용액</td><td>알칼리 금속, 수소 등 금속/비금속과 잘 반응</td>
 </tr>
-</table>
-<div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
-<span style="color:#b91c1c; font-weight:bold;">4. 자주 나오는 함정 선지 O/X 3제</span><br/>
-                    ① <strong>"수소는 알칼리 금속이다?" ➔ (X) 틀렸어!</strong><br/>
-                    수소(H)는 주기율표상 1족의 가장 맨 위에 있지만 예외적으로 비금속 원소야. 알칼리 금속은 리튬(Li)부터 시작한다는 점, 시험에 100% 나온다!<br/>
-                    <br/>
-                    ② <strong>두 원소의 화합물은 어느 방향일까?</strong><br/>
-                    반응성 큰 알칼리 금속은 가장 바깥 전자껍질의 전자를 버리려(아래로 갈수록) 하고, 반응성 큰 할로젠은 다른 애 전자를 뺏어오려(위로 갈수록) 해. <strong>이 둘이 만나면 찰떡궁합!</strong><br/>
-                    <br/>
-                    ③ <strong>칼륨(K)은 물에 넣으면 가라앉는다? ➔ (X)</strong><br/>
+</tbody></table>
+<div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+<span style="color:#b91c1c; font-weight:bold;">4. 자주 나오는 함정 선지 O/X 3제</span><br>
+                    ① <strong>"수소는 알칼리 금속이다?" ➔ (X) 틀렸어!</strong><br>
+                    수소(H)는 주기율표상 1족의 가장 맨 위에 있지만 예외적으로 비금속 원소야. 알칼리 금속은 리튬(Li)부터 시작한다는 점, 시험에 100% 나온다!<br>
+                    <br>
+                    ② <strong>두 원소의 화합물은 어느 방향일까?</strong><br>
+                    반응성 큰 알칼리 금속은 가장 바깥 전자껍질의 전자를 버리려(아래로 갈수록) 하고, 반응성 큰 할로젠은 다른 애 전자를 뺏어오려(위로 갈수록) 해. <strong>이 둘이 만나면 찰떡궁합!</strong><br>
+                    <br>
+                    ③ <strong>칼륨(K)은 물에 넣으면 가라앉는다? ➔ (X)</strong><br>
                     알칼리 금속은 밀도가 물보다 작아서 <strong>물 위에 떠서</strong> 반응한다고 했지!
                 </div>
 <div class="page-num">- 32 -</div>
@@ -2910,7 +2757,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 21번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q21.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 21번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q21.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -2918,7 +2765,7 @@ window.addEventListener('wheel', (e) => {
 <div class="page-num">- 33 -</div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-17', 'Page17')">📸 [17페이지] 예시문항 1번(해설) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
 <div class="prob-header">
@@ -2937,7 +2784,7 @@ window.addEventListener('wheel', (e) => {
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
 
-<strong style="color: #0f172a;">원소의 주기성</strong><br/>
+<strong style="color: #0f172a;">원소의 주기성</strong><br>
                         인체에서 가장 질량비가 큰 원소는 산소와 탄소 순서입니다. 같은 족 원소는 원자가 전자 수가 같아 화학적 성질이 유사합니다.
                     </div>
 </div>
@@ -2969,7 +2816,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.5;">
                         비율 조건이 주어졌을 때 가능한 실제 값의 후보군을 먼저 나열하는 연습을 하세요. 인체 질량비와 같은 주요 암기 사항을 숙지해야 합니다.
                     </p>
 </div>
@@ -2977,7 +2824,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
-<button class="btn-download" onclick="downloadImage('page-18', 'Page18')">📸 [18페이지] 실전 체화(디자인 시안) 다운로드</button>
+
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -2989,9 +2836,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q07.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q07.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">18족 비활성 기체인 A(Ne)의 원자가 전자 수는 가장 바깥 껍질에 전자가 8개 채워져 있더라도 화학 반응에 참여하는 전자가 없으므로 '0개'로 취급해야 한다는 점을 절대 잊지 마!</div>
 </div>
@@ -2999,9 +2846,9 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q08.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q08.png?alt=media" style="width: 100%; height: auto; object-fit: contain;">
 </div>
-<div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div style="font-size: 9.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">S*V 식만 보고 계산에 매몰되면 시간 조절에 실패하기 쉽습니다! Z-V가 의미하는 '안쪽 껍질 전자 수'가 주기율표에서 2주기는 2, 3주기는 10으로 고정된다는 직관을 먼저 발휘해야 합니다.</div>
 </div>
@@ -3011,7 +2858,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 </div>
 </div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
-<button class="btn-download" onclick="downloadImage('page-19', 'Page19')">📸 [19페이지] 예시문항 2번(문제) 다운로드</button>
+
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header">
@@ -3050,7 +2897,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자 껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자 껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -3080,7 +2927,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아~ 화학에서 이 표 문제는 겉보기엔 복잡해 보이지만, 조건식의 숨은 의미만 찾아내면 30초 만에 끝나는 보물 같은 문제야! Z-V가 바로 '안쪽 껍질 전자 수'라는 갓쌤의 치트키를 기억해봐!</p>
+<p class="learning-desc editable" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">이 표 문제는 겉보기엔 복잡해 보이지만, 조건식의 숨은 의미만 찾아내면 30초 만에 끝나는 보물 같은 문제야! Z-V가 바로 '안쪽 껍질 전자 수'라는 갓쌤의 치트키를 기억해봐!</p>
 </div>
 </div>
 </div>
@@ -3088,191 +2935,750 @@ window.addEventListener('wheel', (e) => {
 <div class="page-num">- 36 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px;">
+</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
 
-<div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
-<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
-<div class="header">
-<div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
-<div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 8px 24px; border-radius: 50px; font-weight: 900; font-size: 15px; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); letter-spacing: -0.5px; border: 2px solid #eff6ff;">
-                            ✨ 실전 체화 문항 - 정답 및 해설
-                        </div>
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+<!-- 해설 페이지 -->
+<!-- Page 31 -->
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+
+
 </div>
-</div>
-<div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
-<div class="practice-columns" style="display: flex; gap: 24px; height: 100%;">
-<!-- Left Column -->
-<div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 15px; display: flex; flex-direction: column;">
-<div class="prob-header" style="margin-bottom: 6px;">
-<div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
-</div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-<span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-<span style="font-size: 18px; font-weight: 900; color: #2563eb;">5</span>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
-                                </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">전자 껍질 수(주기)와 가장 바깥 껍질의 전자 수(원자가 전자 수)를 파악하여 원소의 주기적 성질을 이해하는 문항입니다.</div>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
-                                </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">원자의 전자 배치 모형을 통해 A는 2주기 18족(Ne, 전자 10개), B는 2주기 17족(F, 전자 9개), C는 3주기 1족(Na, 전자 11개)임을 알 수 있습니다. A와 B는 전자 껍질 수가 2개로 같아 같은 주기에 속합니다. 원자가 전자 수는 B(7개)가 가장 크며, B는 전자 1개를 얻어 안정한 음이온이 되기 쉽습니다. 따라서 옳은 설명은 ㄱ뿐입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A와 B는 모두 전자 껍질 수가 2개이므로 같은 주기(2주기)에 속하는 원소가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">원자가 전자 수는 A(Ne) 0개, B(F) 7개, C(Na) 1개이므로, 원자가 전자 수가 가장 큰 원소는 B입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B(F)는 전자를 1개 '얻어서' 비활성 기체와 같은 안정한 전자 배치를 갖는 '음이온'이 되기 쉽습니다.</div></div></div>
-</div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
-<div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자 껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
-</div>
-</div>
-<!-- Right Column -->
-<div class="practice-col" style="flex: 1; padding-left: 10px; display: flex; flex-direction: column;">
-<div class="prob-header" style="margin-bottom: 6px;">
-<div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
-</div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-<span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-<span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
-                                </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">원자 번호(Z)에서 원자가 전자 수(V)를 뺀 값은 '안쪽 껍질의 전자 수'로, 주기에 따라 일정함을 이해하는 것이 핵심입니다.</div>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
-                                </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">Z-V가 2인 A, B는 2주기(S=2) 원소이고, Z-V가 10인 C, D, E는 3주기(S=3) 원소입니다. S*V 값을 통해 각 원소의 원자가 전자 수(V)를 구하면 A는 Li(V=1), B는 F(V=7), C는 Na(V=1), D는 S(V=6), E는 Mg(V=2)가 됩니다. 따라서 ㉠에 해당하는 E는 금속 원소인 Mg입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">E는 S=3, S*V=6에서 원자가 전자 수 V=2인 3주기 2족 원소 Mg(마그네슘)이므로 금속 원소입니다. 따라서 ㉠은 '금속'이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A(Li)와 C(Na)는 모두 원자가 전자 수(V)가 1로 같은 1족 원소(알칼리 금속)이므로 화학적 성질이 유사합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B는 S=2인 2주기 원소이고, E는 S=3인 3주기 원소이므로 서로 다른 주기 원소입니다.</div></div></div>
-</div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
-<div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아~ 화학에서 이 표 문제는 겉보기엔 복잡해 보이지만, 조건식의 숨은 의미만 찾아내면 30초 만에 끝나는 보물 같은 문제야! Z-V가 바로 '안쪽 껍질 전자 수'라는 갓쌤의 치트키를 기억해봐!</p>
-</div>
-</div>
-</div>
-</div>
-<div class="page-num">- 37 -</div>
-</div>
-</div>
-</div>
-<div id="flipbook-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 1000; overflow: auto; align-items: center; justify-content: center; flex-direction: column;">
+<div id="flipbook-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 1000; overflow: hidden; align-items: center; justify-content: center; flex-direction: column;">
 <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
 <button onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
 <button onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
 </div>
-<div id="zoom-wrapper" style="position: relative;">
-<div id="flipbook" style="width: 1000px; height: 707px; transform-origin: top left;"></div>
+<div id="zoom-wrapper" style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+<div id="flipbook" style="width: 95%; height: 90%; transform-origin: center center; max-width: 1000px;"></div>
 </div>
 </div>
-<script>
-        let pageFlip = null;
 
-        
-        let currentZoom = 1.0;
-        let baseScale = 1.0;
 
-        function resizeFlipbook() {
-            const fbElement = document.getElementById('flipbook');
-            if (fbElement) {
-                // scale to fit 95vw and 90vh
-                baseScale = Math.min((window.innerWidth * 0.95) / 1000, (window.innerHeight * 0.9) / 707);
-                applyZoom();
-            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>    #btn-pdf-download {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 99999;
+        padding: 14px 24px;
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        transition: 0.2s all ease-in-out;
+        font-family: 'Noto Sans KR', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    #btn-pdf-download:hover {
+        background-color: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+    }
+    /* 인쇄 시 레이아웃 최적화 (PDF 저장용) */
+    @media print {
+        body { 
+            background: #fff !important; 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            overflow: visible !important;
         }
-        
-        function zoomFlipbook(delta) {
-            currentZoom += delta;
-            if (currentZoom < 0.5) currentZoom = 0.5;
-            if (currentZoom > 3.0) currentZoom = 3.0;
-            applyZoom();
-            
-            // Show alert hint for panning
-            if (currentZoom > 1.0 && delta > 0 && currentZoom - delta <= 1.0) {
-                // Just zoomed in from 1.0
-                const hint = document.getElementById('pan-hint');
-                if (hint) hint.style.display = 'block';
-            } else if (currentZoom <= 1.0) {
-                const hint = document.getElementById('pan-hint');
-                if (hint) hint.style.display = 'none';
-            }
+        body * { 
+            visibility: hidden !important; 
+            animation: none !important;
         }
-        
-        function applyZoom() {
-            const fbElement = document.getElementById('flipbook');
-            const zoomWrapper = document.getElementById('zoom-wrapper');
-            if (fbElement && zoomWrapper) {
-                const totalScale = baseScale * currentZoom;
-                fbElement.style.transform = `scale(${totalScale})`;
-                zoomWrapper.style.width = `${1000 * totalScale}px`;
-                zoomWrapper.style.height = `${707 * totalScale}px`;
-                
-                // Allow browser touch panning when zoomed in
-                if (currentZoom > 1.0) {
-                    fbElement.style.pointerEvents = 'none';
-                } else {
-                    fbElement.style.pointerEvents = 'auto';
-                }
-            }
+        .page-wrapper, .page-wrapper * { 
+            visibility: visible !important; 
         }
-        
-        window.addEventListener('resize', resizeFlipbook);
-
-        // replaced resizeFlipbook 
-        function old_resize() {
-            const fbElement = document.getElementById('flipbook');
-            if (fbElement) {
-                // scale to fit 95vw and 90vh
-                const scale = Math.min((window.innerWidth * 0.95) / 1000, (window.innerHeight * 0.9) / 707);
-                fbElement.style.transform = `scale(${scale})`;
-            }
+        .page-wrapper {
+            position: absolute !important;
+            left: 0 !important; 
+            top: 0 !important;
+            width: 100% !important;
+            display: block !important;
         }
-        window.addEventListener('resize', resizeFlipbook);
-
-        function toggleFlipbook() {
-            const fbContainer = document.getElementById('flipbook-container');
-            const fbElement = document.getElementById('flipbook');
-            
-            if (fbContainer.style.display === "none") {
-                fbContainer.style.display = "flex";
-                document.body.style.overflow = "hidden"; document.getElementById("flipbook-container").style.overflow = "auto"; // Disable background scroll
-
-                // Clone all pages
-                const pages = document.querySelectorAll('.page-wrapper .a4-page, .page-wrapper .concept-page');
-                fbElement.innerHTML = '';
-                pages.forEach(p => {
-                    const clone = p.cloneNode(true);
-                    clone.style.boxShadow = "none";
-                    clone.style.margin = "0";
-                    fbElement.appendChild(clone);
-                });
-
-                resizeFlipbook();
-
-                pageFlip = new St.PageFlip(fbElement, {
-                    width: 500,
-                    height: 707,
-                    size: "fixed",
-                    maxShadowOpacity: 0.5,
-                    showCover: true,
-                    mobileScrollSupport: true,
-                    usePortrait: false
-                });
-
-                pageFlip.loadFromHTML(fbElement.querySelectorAll('.a4-page, .concept-page'));
-            } else {
-                fbContainer.style.display = "none";
-                document.body.style.overflow = "auto";
-                if (pageFlip) {
-                    pageFlip.destroy();
-                    pageFlip = null;
-                    fbElement.innerHTML = '';
-                }
-            }
+        /* 플립북 및 UI 찌꺼기 완벽 숨김 */
+        #flipbook-container, #flipbook, #btn-pdf-download, .controls { 
+            display: none !important; 
         }
+        /* A4 사이즈 페이지 강제 분할 */
+        .a4-page, .concept-page, .cover-page, .blank-page, .toc-page, .bridge-page, .bridge-page-new, .spread-page, .concept-spread {
+            position: relative !important;
+            display: block !important;
+            page-break-after: always !important;
+            page-break-inside: avoid !important;
+            break-after: page !important;
+            break-inside: avoid !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+    }
+</style>
+<button id="btn-pdf-download" onclick="window.print()">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+    전체 PDF 다운로드
+</button>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+        authDomain: "godtonggwa.firebaseapp.com",
+        projectId: "godtonggwa",
+        storageBucket: "godtonggwa.firebasestorage.app",
+        messagingSenderId: "1087434066468",
+        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+        // 선생님 요청으로 로그인 제한 복원
+        if (!user || user.isAnonymous) {
+            alert("로그인이 필요하거나 접근 권한이 없습니다.");
+            window.location.href = "../../exam.html";
+        } else {
+            document.body.style.display = 'flex';
+        }
+    });
+
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('keydown', event => {
+        if (event.ctrlKey && (event.key === 's' || event.key === 'c' || event.key === 'u' || event.key === 'a')) {
+            event.preventDefault();
+        }
+        if (event.key === 'F12') {
+            event.preventDefault();
+        }
+    });
+
     </script>
-</body>
-</html>
+
+<!-- 상용 전자책 뷰어 표준 단일 엔진 (Commercial Reader Standard Engine) -->
+<script>
+    
+    // --- DRAWING ENGINE ---
+    let isDrawingMode = false;
+    let currentPenColor = '#0f172a';
+    let currentPenWidth = 2.5;
+    let isHighlighter = false;
+    let isEraserMode = false;
+
+    function toggleDrawingMode() {
+        isDrawingMode = !isDrawingMode;
+        const btn = document.getElementById('btn-mode-toggle');
+        const tools = document.getElementById('drawing-tools');
+        const canvases = document.querySelectorAll('.draw-layer');
+
+        if (isDrawingMode) {
+            btn.innerText = "✍️ 필기 모드";
+            btn.style.background = "#f59e0b";
+            tools.style.display = "flex";
+            canvases.forEach(c => c.style.pointerEvents = "auto");
+        } else {
+            btn.innerText = "📖 보기 모드";
+            btn.style.background = "#38bdf8";
+            tools.style.display = "none";
+            canvases.forEach(c => c.style.pointerEvents = "none");
+        }
+    }
+
+    function setPen(color, btnElem, isHl = false) {
+        currentPenColor = color;
+        isHighlighter = isHl;
+        isEraserMode = false;
+        document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
+        document.querySelectorAll('.tool-btn').forEach(b => {
+            if (b.innerText === '부분지우개') b.classList.remove('active');
+        });
+        btnElem.style.borderColor = 'white';
+    }
+
+    function setThickness(w, btnElem) {
+        currentPenWidth = w;
+        document.querySelectorAll('.tool-btn').forEach(b => {
+            if (['얇게', '보통', '두껍'].includes(b.innerText)) b.classList.remove('active');
+        });
+        btnElem.classList.add('active');
+    }
+
+    function setEraser(btnElem) {
+        isEraserMode = true;
+        document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
+        document.querySelectorAll('.tool-btn').forEach(b => {
+            if (b.innerText === '부분지우개') b.classList.remove('active');
+        });
+        btnElem.classList.add('active');
+    }
+
+    function clearAllCanvas() {
+        if(!confirm("모든 필기를 지우시겠습니까?")) return;
+        document.querySelectorAll('.draw-layer').forEach(canvas => {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    }
+
+    function setupCanvasDrawing(canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+
+        function handlePointerDown(e) {
+            if (!isDrawingMode) return;
+            if (!e.isPrimary) return; 
+
+            // 손가락 터치는 줌/이동을 위해 필기 무시 (펜/마우스만 허용)
+            if (e.pointerType === 'touch') return; 
+
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+
+            isDrawing = true;
+            try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+
+            if (isEraserMode) {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = currentPenWidth * 8; 
+                ctx.strokeStyle = 'rgba(0,0,0,1)';
+            } else {
+                if (isHighlighter) {
+                    ctx.globalCompositeOperation = 'multiply';
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = currentPenColor;
+                } else {
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.lineWidth = currentPenWidth * 2; 
+                    ctx.strokeStyle = currentPenColor;
+                }
+            }
+
+            const pos = getPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x + 0.01, pos.y);
+            ctx.stroke();
+        }
+
+        function handlePointerMove(e) {
+            if (!isDrawingMode || !isDrawing) return;
+            if (!e.isPrimary) return;
+            
+            if (e.pointerType === 'touch') {
+                isDrawing = false;
+                return;
+            }
+            
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+            
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            
+            lastX = pos.x;
+            lastY = pos.y;
+        }
+
+        function handlePointerUp(e) {
+            if (!isDrawing) return;
+            isDrawing = false;
+            try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
+            e.stopPropagation();
+        }
+
+
+        let lastPenDownTime = 0;
+        let isStylusActive = false;
+
+        // 1. 캔버스 본연의 그리기 로직 (PointerEvent)
+        canvas.addEventListener('pointerdown', (e) => {
+            if (e.pointerType === 'pen' || e.pointerType === 'mouse') {
+                lastPenDownTime = Date.now();
+            }
+            handlePointerDown(e);
+        }, {passive: false});
+        canvas.addEventListener('pointermove', handlePointerMove, {passive: false});
+        canvas.addEventListener('pointerup', handlePointerUp);
+        canvas.addEventListener('pointercancel', handlePointerUp);
+        
+        // 2. 터치 누수 차단 및 사파리 딜레이 제거 (Touch/Mouse Events)
+        canvas.addEventListener('touchstart', (e) => {
+            if (!isDrawingMode) return;
+            
+            // iOS: 터치타입이 명확히 stylus(펜)인 경우
+            let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
+            
+            // Windows/Android: 바로 직전에 pointerdown(pen)이 발생한 경우
+            let isWinStylus = (Date.now() - lastPenDownTime) < 100;
+            
+            if (isIOSStylus || isWinStylus) {
+                isStylusActive = true;
+                e.stopPropagation(); // 뒤쪽 전자책으로 펜 터치가 새어가는 것 차단
+                if (e.cancelable) e.preventDefault(); // 사파리 제스처 대기 무력화 (제로 레이턴시)
+            } else {
+                isStylusActive = false; // 손가락 터치는 통과시킴 (줌/이동 허용)
+            }
+        }, {passive: false});
+        
+        function blockStylusTouch(e) {
+            if (isDrawingMode && isStylusActive) {
+                e.stopPropagation();
+                if (e.cancelable && e.type === 'touchmove') e.preventDefault();
+            }
+        }
+        
+        canvas.addEventListener('touchmove', blockStylusTouch, {passive: false});
+        canvas.addEventListener('touchend', blockStylusTouch);
+        canvas.addEventListener('touchcancel', blockStylusTouch);
+        
+        // 마우스로 그릴 때 페이지가 넘어가지 않도록 차단
+        function blockMouse(e) {
+            if (isDrawingMode) e.stopPropagation();
+        }
+        canvas.addEventListener('mousedown', blockMouse);
+        canvas.addEventListener('mousemove', blockMouse);
+        canvas.addEventListener('mouseup', blockMouse);
+        canvas.addEventListener('click', blockMouse);
+    }
+    // --- END DRAWING ENGINE ---
+
+    // --- TOOLBAR DRAG LOGIC ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const dragToolbar = document.getElementById('drawing-toolbar');
+        let isDraggingTb = false;
+        let tbStartX, tbStartY, tbInitX, tbInitY;
+
+        function startDragTb(e) {
+            if(!e.target.classList.contains('drag-handle')) return; // Only drag if clicking handle
+            isDraggingTb = true;
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            tbStartX = clientX;
+            tbStartY = clientY;
+            const rect = dragToolbar.getBoundingClientRect();
+            tbInitX = rect.left;
+            tbInitY = rect.top;
+            
+            dragToolbar.style.transform = 'none';
+            dragToolbar.style.left = tbInitX + 'px';
+            dragToolbar.style.bottom = 'auto';
+            dragToolbar.style.top = tbInitY + 'px';
+            
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function moveDragTb(e) {
+            if (!isDraggingTb) return;
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            const dx = clientX - tbStartX;
+            const dy = clientY - tbStartY;
+            dragToolbar.style.left = (tbInitX + dx) + 'px';
+            dragToolbar.style.top = (tbInitY + dy) + 'px';
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function stopDragTb() {
+            isDraggingTb = false;
+        }
+
+        if (dragToolbar) {
+            dragToolbar.addEventListener('mousedown', startDragTb);
+            window.addEventListener('mousemove', moveDragTb, {passive: false});
+            window.addEventListener('mouseup', stopDragTb);
+            
+            dragToolbar.addEventListener('touchstart', startDragTb, {passive: false});
+            window.addEventListener('touchmove', moveDragTb, {passive: false});
+            window.addEventListener('touchend', stopDragTb);
+        }
+    });
+    // --- END TOOLBAR DRAG ---
+
+    
+
+
+    let pageFlip = null;
+    let currentZoom = 1.0;
+    let panX = 0;
+    let panY = 0;
+
+    function isPortraitMode() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        return (h > w) || (w < 900) || (h < 500);
+    }
+
+    function resizeFlipbook() {
+        const fbContainer = document.getElementById('flipbook-container');
+        const scaleWrapper = document.getElementById('scale-wrapper');
+        if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
+
+        const portrait = isPortraitMode();
+        const winW = window.innerWidth;
+        const winH = window.innerHeight;
+        
+        const targetW = portrait ? 500 : 1000;
+        const targetH = 707;
+
+        if (currentZoom <= 1.05) {
+            panX = 0;
+            panY = 0;
+        }
+
+        const scaleW = (winW * 0.95) / targetW;
+        const scaleH = (winH * 0.95) / targetH;
+        let baseScale = Math.min(scaleW, scaleH);
+        let totalScale = baseScale * currentZoom;
+
+        scaleWrapper.style.width = targetW + 'px';
+        scaleWrapper.style.height = targetH + 'px';
+        scaleWrapper.style.transform = 'translate(calc(-50% + ' + panX + 'px), calc(-50% + ' + panY + 'px)) scale(' + totalScale + ')';
+
+        if (pageFlip) {
+            pageFlip.update();
+        }
+    }
+
+    function initFlipbookEngine() {
+        const fbElement = document.getElementById('flipbook');
+        if (!fbElement || pageFlip) return;
+
+        const allPages = Array.from(document.querySelectorAll('.a4-page, .concept-page, .spread-page, .cover-page, .toc-page, .bridge-page'));
+        const sourcePages = allPages.filter(p => !p.closest('#flipbook') && (!p.id || !p.id.includes('-clone')));
+
+        // 홀수장일 경우 PageFlip 렌더링 충돌(Crash) 방지를 위해 빈 페이지 하나를 논리적으로 추가
+        if (sourcePages.length % 2 !== 0) {
+            const blank = document.createElement('div');
+            blank.className = 'a4-page';
+            blank.style.backgroundColor = '#fff';
+            sourcePages.push(blank);
+        }
+
+        fbElement.innerHTML = '';
+
+        sourcePages.forEach(p => {
+            const clone = p.cloneNode(true);
+            clone.style.boxShadow = "none";
+            clone.style.margin = "0";
+            if (clone.id) clone.id = clone.id + '-clone';
+            
+            const cvs = document.createElement('canvas');
+            cvs.className = 'draw-layer';
+            cvs.width = 1000;
+            cvs.height = 1414;
+            cvs.style.width = '100%';
+            cvs.style.height = '100%';
+            cvs.style.position = 'absolute';
+            cvs.style.top = '0';
+            cvs.style.left = '0';
+            cvs.style.zIndex = '999';
+            cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
+            cvs.style.touchAction = 'pinch-zoom';
+            setupCanvasDrawing(cvs);
+            clone.appendChild(cvs);
+
+            fbElement.appendChild(clone);
+        });
+
+        pageFlip = new St.PageFlip(fbElement, {
+            width: 500,
+            height: 707,
+            size: "fixed",
+            minWidth: 300,
+            maxWidth: 1000,
+            minHeight: 400,
+            maxHeight: 1000,
+            maxShadowOpacity: 0.5,
+            showCover: true,
+            mobileScrollSupport: false,
+            useMouseEvents: false,
+            usePortrait: true
+        });
+
+        pageFlip.loadFromHTML(fbElement.querySelectorAll('.a4-page, .concept-page, .spread-page, .cover-page, .toc-page, .bridge-page'));
+    }
+
+    window.toggleFlipbook = function() {
+        const fbContainer = document.getElementById('flipbook-container');
+        if (!fbContainer) return;
+
+        if (fbContainer.style.display === "none" || fbContainer.style.display === "") {
+            fbContainer.style.display = "flex";
+            document.getElementById("drawing-toolbar").style.display = "flex";
+            document.body.style.overflow = "hidden";
+
+            if (!pageFlip) {
+                initFlipbookEngine();
+                setupViewerEvents();
+            }
+
+            currentZoom = 1.0;
+            panX = 0;
+            panY = 0;
+            resizeFlipbook();
+        } else {
+            fbContainer.style.display = "none";
+            document.getElementById("drawing-toolbar").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    };
+
+    function setupViewerEvents() {
+        const scaleWrapper = document.getElementById('scale-wrapper');
+        if (!scaleWrapper) return;
+
+        let touchMode = null;
+        let touchStartTime = 0;
+        let startTouchX = 0, startTouchY = 0;
+        let startPanX = 0, startPanY = 0;
+        let initialPinchDist = 0;
+        let zoomAtPinchStart = 1;
+
+        function getDistance(t1, t2) {
+            const dx = t1.clientX - t2.clientX;
+            const dy = t1.clientY - t2.clientY;
+            return Math.hypot(dx, dy);
+        }
+
+        scaleWrapper.addEventListener('touchstart', (e) => {
+            touchStartTime = Date.now();
+
+            if (e.touches.length === 2) {
+                touchMode = 'pinch';
+                initialPinchDist = getDistance(e.touches[0], e.touches[1]);
+                zoomAtPinchStart = currentZoom;
+            } else if (e.touches.length === 1) {
+                touchMode = 'single';
+                startTouchX = e.touches[0].clientX;
+                startTouchY = e.touches[0].clientY;
+                startPanX = panX;
+                startPanY = panY;
+            }
+        }, { passive: false });
+
+        scaleWrapper.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2 && touchMode === 'pinch') {
+                e.preventDefault();
+                const currentDist = getDistance(e.touches[0], e.touches[1]);
+                if (initialPinchDist > 0) {
+                    const ratio = currentDist / initialPinchDist;
+                    currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
+                    resizeFlipbook();
+                }
+            } else if (e.touches.length === 1 && touchMode === 'single') {
+                const moveX = e.touches[0].clientX - startTouchX;
+                const moveY = e.touches[0].clientY - startTouchY;
+                const dist = Math.hypot(moveX, moveY);
+
+                if (currentZoom > 1.1 || dist > 15) {
+                    if (currentZoom > 1.1) {
+                        e.preventDefault();
+                        panX = startPanX + moveX;
+                        panY = startPanY + moveY;
+                        resizeFlipbook();
+                    }
+                }
+            }
+        }, { passive: false });
+
+        scaleWrapper.addEventListener('touchend', (e) => {
+            const touchDuration = Date.now() - touchStartTime;
+
+            if (touchMode === 'single' && e.changedTouches.length === 1) {
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
+
+                if (dist < 15 && touchDuration < 300 && pageFlip) {
+                    const rect = scaleWrapper.getBoundingClientRect();
+                    const relativeX = endX - rect.left;
+
+                    if (relativeX < rect.width / 2) {
+                        pageFlip.flipPrev();
+                    } else {
+                        pageFlip.flipNext();
+                    }
+                    e.preventDefault();
+                }
+            }
+            
+            touchMode = null;
+        });
+
+        let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
+
+        scaleWrapper.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            isMouseDrag = false;
+            mouseStartX = e.clientX;
+            mouseStartY = e.clientY;
+            mouseStartPanX = panX;
+            mouseStartPanY = panY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isMouseDown) return;
+            const moveX = e.clientX - mouseStartX;
+            const moveY = e.clientY - mouseStartY;
+            if (Math.hypot(moveX, moveY) > 5) {
+                isMouseDrag = true;
+                if (currentZoom > 1.1) {
+                    panX = mouseStartPanX + moveX;
+                    panY = mouseStartPanY + moveY;
+                    resizeFlipbook();
+                }
+            }
+        });
+
+        window.addEventListener('mouseup', (e) => {
+            if (isMouseDown && !isMouseDrag && pageFlip) {
+                const rect = scaleWrapper.getBoundingClientRect();
+                const relativeX = e.clientX - rect.left;
+                if (relativeX < rect.width / 2) pageFlip.flipPrev();
+                else pageFlip.flipNext();
+            }
+            isMouseDown = false;
+        });
+
+        window.addEventListener('resize', resizeFlipbook);
+        window.addEventListener('orientationchange', resizeFlipbook);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.body.style.display = 'flex';
+        if (typeof window.toggleFlipbook === 'function') {
+            
+            const fb = document.getElementById('flipbook-container');
+            if (fb && (fb.style.display === 'none' || fb.style.display === '')) {
+                window.toggleFlipbook();
+            }
+
+        }
+    });
+</script>
+
+
+<!-- Drawing Toolbar -->
+<style>    #drawing-toolbar {
+        display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+        background-color: #1e293b; padding: 10px; border-radius: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+        z-index: 1200; gap: 10px; align-items: center; max-width: 95vw; overflow-x: auto;
+    }
+    #drawing-tools {
+        display: none; align-items: center; gap: 8px; flex-wrap: nowrap;
+    }
+    .pen-btn {
+        width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; flex-shrink: 0;
+    }
+    .tool-btn {
+        background: transparent; color: white; border: 1px solid #475569; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    }
+    .tool-btn.active {
+        background: #475569;
+    }
+    /* 스크롤바 숨기기 */
+    #drawing-toolbar::-webkit-scrollbar { display: none; }
+    #drawing-toolbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+<div id="drawing-toolbar">
+    <div class="drag-handle" style="cursor: move; padding: 0 8px; color: #94a3b8; font-size: 20px; user-select: none; display: flex; align-items: center; justify-content: center; touch-action: none;">⠿</div>
+    <button id="btn-mode-toggle" onclick="toggleDrawingMode()" style="background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 900; font-size: 14px; cursor: pointer; flex-shrink: 0; white-space: nowrap;">📖 보기 모드</button>
+    <div id="drawing-tools">
+        <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+        <button class="pen-btn" onclick="setPen('#0f172a', this)" style="background: #0f172a; border-color: white;"></button>
+        <button class="pen-btn" onclick="setPen('#dc2626', this)" style="background: #dc2626;"></button>
+        <button class="pen-btn" onclick="setPen('#0284c7', this)" style="background: #0284c7;"></button>
+        <button class="pen-btn" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true)" style="background: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 14px;">🖍️</button>
+        <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+        <button class="tool-btn" onclick="setThickness(1, this)">얇게</button>
+        <button class="tool-btn active" onclick="setThickness(2.5, this)">보통</button>
+        <button class="tool-btn" onclick="setThickness(5, this)">두껍</button>
+        <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+        <button class="tool-btn" onclick="setEraser(this)">부분지우개</button>
+        <button onclick="clearAllCanvas()" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; flex-shrink: 0; white-space: nowrap;">초기화</button>
+    </div>
+</div>
+
+</body></html>

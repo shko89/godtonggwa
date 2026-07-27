@@ -5,21 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>동아 교과서 2022 개정 통합과학 전수조사</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
-        .table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th { background-color: #1e293b; color: white; padding: 15px; text-align: center; border: 1px solid #334155; }
-        td { padding: 15px; border: 1px solid #e2e8f0; vertical-align: top; word-break: keep-all; }
-        .area-header { background-color: #f1f5f9; font-weight: 800; color: #0f172a; border-left: 6px solid #6366f1; }
-        .content-element { font-weight: 700; color: #4338ca; background: #eef2ff; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
-        .code-cell { font-family: 'Courier New', monospace; color: #64748b; font-size: 0.75rem; font-weight: bold; }
-        .activity-card { background-color: #fffaf0; border: 1px solid #fed7aa; padding: 10px; margin-bottom: 10px; border-radius: 6px; }
-        .activity-title { font-weight: 800; color: #9a3412; display: block; margin-bottom: 5px; font-size: 0.9rem; }
-        .activity-desc { font-size: 0.85rem; color: #4b5563; line-height: 1.5; }
-        .goal-box { font-size: 0.85rem; color: #334155; line-height: 1.4; background: #f8fafc; padding: 8px; border-radius: 4px; border: 1px inset #e2e8f0; }
-    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }        .table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }        table { width: 100%; border-collapse: collapse; table-layout: fixed; }        th { background-color: #1e293b; color: white; padding: 15px; text-align: center; border: 1px solid #334155; }        td { padding: 15px; border: 1px solid #e2e8f0; vertical-align: top; word-break: keep-all; }        .area-header { background-color: #f1f5f9; font-weight: 800; color: #0f172a; border-left: 6px solid #6366f1; }        .content-element { font-weight: 700; color: #4338ca; background: #eef2ff; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }        .code-cell { font-family: 'Courier New', monospace; color: #64748b; font-size: 0.75rem; font-weight: bold; }        .activity-card { background-color: #fffaf0; border: 1px solid #fed7aa; padding: 10px; margin-bottom: 10px; border-radius: 6px; }        .activity-title { font-weight: 800; color: #9a3412; display: block; margin-bottom: 5px; font-size: 0.9rem; }        .activity-desc { font-size: 0.85rem; color: #4b5563; line-height: 1.5; }        .goal-box { font-size: 0.85rem; color: #334155; line-height: 1.4; background: #f8fafc; padding: 8px; border-radius: 4px; border: 1px inset #e2e8f0; }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -35,6 +21,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
 

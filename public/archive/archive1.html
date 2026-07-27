@@ -7,111 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
-        
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; overflow-x: hidden; }
-        
-        .app-container { 
-            max-width: 480px; 
-            margin: 0 auto; 
-            min-height: 100vh; 
-            background-color: #FFFFFF; 
-            position: relative; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.05); 
-            display: flex; 
-            flex-direction: column;
-            transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .app-container.wide-mode { max-width: 1024px; }
-        
-        .notebook-paper {
-            background-color: #fffef0;
-            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px);
-            background-size: 100% 30px;
-            line-height: 30px;
-            position: relative;
-        }
-        .notebook-paper::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 40px;
-            width: 2px;
-            background-color: #ff9999;
-            opacity: 0.4;
-        }
-        .handwriting {
-            font-family: 'Nanum Pen Script', cursive;
-            font-size: 1.7rem;
-            color: #1e293b;
-            padding-left: 50px;
-            padding-right: 20px;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .fade-in { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .num-btn { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 18px; font-weight: 800; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid #F1F5F9; background-color: #F8FAFC; color: #64748B; font-size: 1.1rem; }
-        .num-btn:active { transform: scale(0.9); background-color: #EEF2FF; color: #4F46E5; }
-        .num-btn.active { background-color: #4F46E5; color: white; border-color: #4F46E5; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
-        
-        .question-canvas { width: 100%; height: auto; display: block; border-radius: 12px; image-rendering: -webkit-optimize-contrast; cursor: zoom-in; }
-        .premium-banner { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%); }
-        
-        #zoom-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: #000; flex-direction: column; overflow: hidden; touch-action: none; }
-        .zoom-header { padding: 16px; display: flex; justify-content: space-between; items-center: center; color: white; background: rgba(0,0,0,0.7); z-index: 10; }
-        .zoom-content { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        #zoom-canvas-container { position: absolute; transform-origin: center center; will-change: transform; display: flex; align-items: center; justify-content: center; }
-        #zoom-canvas { background: white; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: block; max-width: none; }
-        .zoom-footer { padding: 24px; display: flex; justify-content: center; gap: 16px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 10; padding-bottom: 40px; }
-
-        /* 전체 화면 확대 최적화 */
-        #solve-zoom-wrapper { 
-            transform-origin: top center; 
-            transition: transform 0.05s linear;
-            will-change: transform; 
-            touch-action: pan-y; 
-        }
-        #solve-zoom-wrapper.zoomed {
-            touch-action: none;
-        }
-        .zoom-indicator {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: rgba(79, 70, 229, 0.9);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 800;
-            z-index: 100;
-            pointer-events: none;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .highlight-yellow { background-color: #fef08a; padding: 2px 4px; border-radius: 4px; font-weight: bold; color: #854d0e; }
-        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
-        .red-pen { color: #ef4444; text-decoration: underline; font-weight: bold; }
-        
-        /* [추가] 정답 및 해설 가리기 스타일 */
-        .ans-blurred { filter: blur(8px); opacity: 0.5; transition: all 0.3s; }
-        .ans-revealed { filter: blur(0); opacity: 1; }
-        .btn-exp-view { 
-            background: #4F46E5; 
-            color: white; 
-            padding: 12px 24px; 
-            border-radius: 50px; 
-            font-weight: 900; 
-            font-size: 1.1rem;
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .btn-exp-view:active { transform: scale(0.95); }
-    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; overflow-x: hidden; }        .app-container {             max-width: 480px;             margin: 0 auto;             min-height: 100vh;             background-color: #FFFFFF;             position: relative;             box-shadow: 0 0 20px rgba(0,0,0,0.05);             display: flex;             flex-direction: column;            transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);        }        .app-container.wide-mode { max-width: 1024px; }        .notebook-paper {            background-color: #fffef0;            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px);            background-size: 100% 30px;            line-height: 30px;            position: relative;        }        .notebook-paper::before {            content: '';            position: absolute;            top: 0; bottom: 0; left: 40px;            width: 2px;            background-color: #ff9999;            opacity: 0.4;        }        .handwriting {            font-family: 'Nanum Pen Script', cursive;            font-size: 1.7rem;            color: #1e293b;            padding-left: 50px;            padding-right: 20px;        }        .num-btn { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 18px; font-weight: 800; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid #F1F5F9; background-color: #F8FAFC; color: #64748B; font-size: 1.1rem; }        .num-btn:active { transform: scale(0.9); background-color: #EEF2FF; color: #4F46E5; }        .num-btn.active { background-color: #4F46E5; color: white; border-color: #4F46E5; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }        .question-canvas { width: 100%; height: auto; display: block; border-radius: 12px; image-rendering: -webkit-optimize-contrast; cursor: zoom-in; }        .premium-banner { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%); }        #zoom-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: #000; flex-direction: column; overflow: hidden; touch-action: none; }        .zoom-header { padding: 16px; display: flex; justify-content: space-between; items-center: center; color: white; background: rgba(0,0,0,0.7); z-index: 10; }        .zoom-content { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }        #zoom-canvas-container { position: absolute; transform-origin: center center; will-change: transform; display: flex; align-items: center; justify-content: center; }        #zoom-canvas { background: white; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: block; max-width: none; }        .zoom-footer { padding: 24px; display: flex; justify-content: center; gap: 16px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 10; padding-bottom: 40px; }        /* 전체 화면 확대 최적화 */        #solve-zoom-wrapper {             transform-origin: top center;             transition: transform 0.05s linear;            will-change: transform;             touch-action: pan-y;         }        #solve-zoom-wrapper.zoomed {            touch-action: none;        }        .zoom-indicator {            position: fixed;            top: 80px;            right: 20px;            background: rgba(79, 70, 229, 0.9);            color: white;            padding: 4px 12px;            border-radius: 20px;            font-size: 10px;            font-weight: 800;            z-index: 100;            pointer-events: none;            display: none;            box-shadow: 0 4px 12px rgba(0,0,0,0.1);        }        .highlight-yellow { background-color: #fef08a; padding: 2px 4px; border-radius: 4px; font-weight: bold; color: #854d0e; }        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }        /* [추가] 정답 및 해설 가리기 스타일 */        .ans-blurred { filter: blur(8px); opacity: 0.5; transition: all 0.3s; }        .ans-revealed { filter: blur(0); opacity: 1; }        .btn-exp-view {             background: #4F46E5;             color: white;             padding: 12px 24px;             border-radius: 50px;             font-weight: 900;             font-size: 1.1rem;            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);            transition: all 0.2s;            cursor: pointer;        }        .btn-exp-view:active { transform: scale(0.95); }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -127,6 +23,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
 

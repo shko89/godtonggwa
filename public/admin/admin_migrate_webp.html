@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>WebP 마이그레이션 툴</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; font-size: 24px; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .info { background-color: #e8f4fd; border-left: 4px solid #2196F3; padding: 15px; margin-bottom: 20px; font-size: 14px; }
+        button { background-color: #4CAF50; color: white; border: none; padding: 12px 24px; text-align: center; font-size: 16px; border-radius: 6px; cursor: pointer; transition: background 0.3s; font-weight: bold; }
+        button:hover { background-color: #45a049; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #logArea { margin-top: 20px; padding: 15px; background: #1e1e1e; color: #4af626; height: 300px; overflow-y: auto; font-family: monospace; font-size: 13px; border-radius: 6px; }
+        .log-line { margin: 4px 0; }
+        .log-error { color: #ff5252; }
+        .log-success { color: #00e676; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Firestore WebP 마이그레이션 툴</h1>
+        <div class="info">
+            <strong>작업 내용:</strong><br>
+            1. 'questions' 컬렉션의 모든 문항을 검사합니다.<br>
+            2. 문항 ID 또는 출처(sourceExamId)에 'week' 또는 'mock'이 포함된 경우에만 동작합니다.<br>
+            3. 이미지 파일명(imageFile 또는 fileName)을 검사하여 `.png`를 `.webp`로 변환합니다.<br>
+            4. 10초 이내에 수백 개의 문항이 안전하게 업데이트됩니다.
+        </div>
+        <button id="startBtn">▶ 마이그레이션 시작하기 (클릭)</button>
+        <div id="logArea">시스템 대기 중...<br></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, writeBatch, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // 기존 프로젝트 정보 그대로 사용
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const logArea = document.getElementById('logArea');
+        const startBtn = document.getElementById('startBtn');
+
+        function log(msg, type='normal') {
+            const div = document.createElement('div');
+            div.className = `log-line log-${type}`;
+            div.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logArea.appendChild(div);
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        async function startMigration() {
+            startBtn.disabled = true;
+            log('마이그레이션을 시작합니다...', 'normal');
+            
+            try {
+                // 관리자로 로그인 상태인지 확인 (브라우저 세션 유지 중이면 통과됨)
+                const currentUser = auth.currentUser;
+                if (!currentUser) {
+                    log('경고: 현재 로그인되어 있지 않습니다. 권한 부족으로 실패할 수 있습니다. (admin.html 탭에서 로그인 후 시도해주세요)', 'error');
+                } else {
+                    log(`로그인 확인됨: ${currentUser.email}`, 'success');
+                }
+
+                // 1. questions 컬렉션 업데이트
+                log('Firestore에서 questions 데이터를 불러오는 중...');
+                const qSnap = await getDocs(collection(db, "questions"));
+                const totalDocs = qSnap.size;
+                log(`총 ${totalDocs}개의 문항을 찾았습니다.`);
+
+                let batch = writeBatch(db);
+                let updateCount = 0;
+                let batchCount = 0;
+
+                qSnap.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const docId = docSnap.id;
+                    const sourceExamId = data.sourceExamId || "";
+                    const storagePrefix = data.storagePrefix || "";
+                    
+                    const isTarget = docId.toLowerCase().includes('week') || 
+                                     docId.toLowerCase().includes('mock') || 
+                                     sourceExamId.toLowerCase().includes('week') ||
+                                     sourceExamId.toLowerCase().includes('mock') ||
+                                     storagePrefix.toLowerCase().includes('week') ||
+                                     storagePrefix.toLowerCase().includes('mock');
+                    
+                    if (isTarget) {
+                        let needUpdate = false;
+                        const updateData = {};
+
+                        let currentImg = data.imageFile;
+                        if (!currentImg) {
+                            currentImg = `${docId}.webp`;
+                            updateData.imageFile = currentImg;
+                            updateData.fileName = currentImg;
+                            needUpdate = true;
+                        } else if (currentImg.endsWith('.png')) {
+                            currentImg = currentImg.replace('.png', '.webp');
+                            updateData.imageFile = currentImg;
+                            updateData.fileName = currentImg;
+                            needUpdate = true;
+                        }
+
+                        let currentFile = data.fileName;
+                        if (currentFile && currentFile.endsWith('.png')) {
+                            currentFile = currentFile.replace('.png', '.webp');
+                            updateData.fileName = currentFile;
+                            updateData.imageFile = currentFile;
+                            needUpdate = true;
+                        }
+
+                        if (needUpdate) {
+                            batch.update(doc(db, "questions", docId), updateData);
+                            updateCount++;
+                            batchCount++;
+                        }
+                    }
+                });
+
+                if (updateCount > 0) {
+                    log(`questions: 총 ${updateCount}개 업데이트 예약됨`);
+                }
+
+                // 2. exams 컬렉션 내의 questions 배열 업데이트
+                log('Firestore에서 exams 데이터를 불러오는 중...');
+                const eSnap = await getDocs(collection(db, "exams"));
+                let examUpdateCount = 0;
+
+                eSnap.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const examId = docSnap.id;
+                    
+                    if (data.questions && Array.isArray(data.questions)) {
+                        let isExamModified = false;
+                        const updatedQuestions = data.questions.map(q => {
+                            if (q.qId) {
+                                const expectedName = q.qId + '.webp';
+                                if (q.fileName !== expectedName || q.imageFile !== expectedName) {
+                                    q.fileName = expectedName;
+                                    q.imageFile = expectedName;
+                                    isExamModified = true;
+                                }
+                            }
+                            return q;
+                        });
+
+                        if (isExamModified) {
+                            batch.update(doc(db, "exams", examId), { questions: updatedQuestions });
+                            examUpdateCount++;
+                            batchCount++;
+                            log(`[모의고사 배열 업데이트 예약] ${examId}`);
+                        }
+                    }
+                });
+
+                if (updateCount === 0 && examUpdateCount === 0) {
+                    log('업데이트할 대상이 없습니다.', 'success');
+                } else {
+                    log(`총 ${updateCount}개의 개별 문항과 ${examUpdateCount}개의 모의고사 시험지 세트를 서버로 전송합니다...`);
+                    await batch.commit();
+                    log(`🎉 완료! 모두 성공적으로 업데이트되었습니다.`, 'success');
+                    log('이제 타임어택 페이지를 새로고침하여 이미지가 잘 뜨는지 확인해 보세요!', 'success');
+                }
+
+            } catch (error) {
+                log(`에러 발생: ${error.message}`, 'error');
+                console.error(error);
+            } finally {
+                startBtn.disabled = false;
+            }
+        }
+
+        // Auth 상태 체크 대기 후 리스너 부착
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                log('관리자 세션을 감지했습니다. 준비 완료.');
+            }
+        });
+
+        startBtn.addEventListener('click', startMigration);
+    </script>
+</body>
+</html>

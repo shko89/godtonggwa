@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>갓통과 - 갓통과 WEEKLY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; text-align: justify; word-break: keep-all; }
+        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script src="https://js.tosspayments.com/v1/"></script>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100 h-[70px]">
+            <button onclick="location.href='index.html'" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
+                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+            </button>
+            <h1 class="text-lg font-black ml-2 text-gray-900 tracking-tight">갓통과 WEEKLY 안내</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto hide-scrollbar pb-32">
+            <!-- Hero Section -->
+            <div class="bg-gradient-to-br from-blue-900 via-cyan-900 to-teal-900 text-white p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-teal-400 rounded-full blur-3xl opacity-20 -ml-10 -mb-10"></div>
+                
+                <div class="relative z-10 fade-in">
+                    <span class="bg-gradient-to-r from-cyan-400 to-teal-400 text-blue-900 text-xs font-black px-3 py-1.5 rounded-full shadow-sm mb-4 inline-block">겨울방학 한정판</span>
+                    <h2 class="text-3xl font-black mb-4 leading-tight mt-2">
+                        갓통과 WEEKLY<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-teal-200">모바일 전자책 & 핏(Fit) 20</span>
+                    </h2>
+                    
+                    <p class="text-cyan-100 text-sm mb-6 leading-relaxed">
+                        겨울방학 기간 동안 통합과학 학습 방향의 큰 흐름을 잡아주고 핵심 내용을 완벽하게 정리해 줍니다.<br>
+                        모바일 전자책을 통해 휴대폰, 태블릿, PC 어디서나 쉽게 학습하세요!
+                    </p>
+
+                    <div class="flex items-center justify-between bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4">
+                        <div class="text-cyan-200 text-sm font-bold">WEEKLY 구독권</div>
+                        <div class="text-2xl font-black text-white">38,000원</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="px-5 py-8 space-y-8 fade-in" style="animation-delay: 0.1s; animation-fill-mode: both;">
+                <div>
+                    <h3 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+                        <i data-lucide="target" class="w-5 h-5 text-teal-600"></i> 프로그램 특징
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div class="bg-blue-100 p-2 rounded-lg text-blue-600 shrink-0"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">언제 어디서나, 모바일 전자책</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">휴대폰, 태블릿, PC 등 다양한 기기에서 편리하게 통합과학 핵심 내용을 학습할 수 있는 고품질 전자책을 제공합니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div class="bg-cyan-100 p-2 rounded-lg text-cyan-600 shrink-0"><i data-lucide="check-circle-2" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">갓통과 핏(Fit) 20</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">매주 20문항으로 구성된 핵심 실전 문제를 모바일에서 바로 풀고 제출할 수 있습니다.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div class="bg-teal-100 p-2 rounded-lg text-teal-600 shrink-0"><i data-lucide="bar-chart-2" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm mb-1">상세한 성적 리포트 제공</h4>
+                                <p class="text-xs text-gray-600 leading-relaxed">핏(Fit) 20 문항을 풀고 제출하면, 취약 단원과 오답을 완벽히 분석한 성적 리포트를 즉시 제공받습니다.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum / Weekly Exams -->
+                <div class="mt-12">
+                    <h3 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+                        <i data-lucide="calendar-days" class="w-5 h-5 text-teal-600"></i> 갓통과 WEEKLY 통합과학 10주 완성
+                    </h3>
+                    <div id="curriculumList" class="space-y-3">
+                        <!-- JS Dynamic Render -->
+                        <div class="text-center py-8 text-gray-400 text-sm">로딩 중...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Action Bar -->
+        <div class="fixed bottom-0 w-full max-w-[480px] bg-white border-t border-gray-100 p-4 pb-6 z-50 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+            <button onclick="handleApply()" class="w-full bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-black text-lg py-4 rounded-xl shadow-lg shadow-teal-500/30 hover:-translate-y-0.5 transition-all">
+                갓통과 WEEKLY 신청하기
+            </button>
+        </div>
+
+        <!-- 결제 모달 (PG 연동 전 모의 결제용) -->
+        <div id="paymentModal" class="fixed inset-0 bg-black/60 z-[100] hidden flex flex-col justify-end backdrop-blur-sm transition-opacity">
+            <div class="bg-white w-full max-w-[480px] mx-auto rounded-t-3xl p-6 pt-8 pb-10 transform translate-y-full transition-transform duration-300 relative shadow-[0_-10px_40px_rgba(0,0,0,0.2)] h-[80vh] flex flex-col">
+                <button onclick="closePaymentModal()" class="absolute top-5 right-5 p-2 bg-gray-100 rounded-full hover:bg-gray-200 text-gray-500"><i data-lucide="x" class="w-5 h-5"></i></button>
+                
+                <h3 class="text-2xl font-black text-gray-900 mb-6 tracking-tight">결제 진행 (모의)</h3>
+                
+                <div class="flex-1 overflow-y-auto hide-scrollbar space-y-6 pb-6">
+                    <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-gray-600 text-sm font-bold">상품명</span>
+                            <span class="text-gray-900 text-sm font-black text-right">갓통과 WEEKLY<br>구독권</span>
+                        </div>
+                        <div class="w-full h-px bg-gray-200 my-4"></div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 text-sm font-bold">결제 금액</span>
+                            <span class="text-blue-600 text-xl font-black">38,000원</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                        <p class="text-xs text-yellow-800 leading-relaxed font-medium">
+                            <i data-lucide="info" class="w-4 h-4 inline-block -mt-0.5 mr-1"></i>
+                            현재는 <strong>토스페이먼츠 테스트 모드</strong>로 연동되어 있습니다. 실제 결제는 이루어지지 않으며, 성공 시 자동으로 구독 권한이 부여됩니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button id="submitBtn" onclick="processTossPayment()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black text-lg py-4 rounded-xl shadow-lg transition-colors">
+                        38,000원 결제하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
+        const app = initializeApp(firebaseConfig); 
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        let isUserLoggedIn = false;
+        let currentUser = null;
+        let hasWeeklyPass = false;
+
+        const curriculumNames = [
+            "과학의 기초", "자연의 구성 원소", "물질의 규칙성과 결합", "지구 시스템 Ⅰ", 
+            "지구 시스템 Ⅱ", "변화와 다양성 Ⅰ", "변화와 다양성 Ⅱ", "생태계와 환경 변화", 
+            "에너지 전환과 활용", "과학과 미래 사회"
+        ];
+
+        function renderCurriculum() {
+            const container = document.getElementById('curriculumList');
+            let html = '';
+
+            for(let i=1; i<=10; i++) {
+                const isFree = (i === 1);
+                const isUnlocked = isFree || hasWeeklyPass;
+                const weekStr = String(i).padStart(2, '0');
+                const title = curriculumNames[i-1];
+                
+                const badge = isFree 
+                    ? `<span class="bg-blue-100 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider ml-2">FREE 체험</span>`
+                    : (!hasWeeklyPass ? `<span class="bg-gray-200 text-gray-500 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider ml-2"><i data-lucide="lock" class="w-3 h-3 inline -mt-0.5"></i> PREMIUM</span>` : '');
+                
+                if (isUnlocked) {
+                    html += `
+                    <div class="p-4 rounded-2xl bg-white border border-gray-200 shadow-sm mb-3">
+                        <div class="flex items-center mb-1">
+                            <span class="text-sm font-black text-teal-600">${i}주차</span>
+                            ${badge}
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 mb-3">${title}</h4>
+                        <div class="flex gap-2">
+                            <button onclick="handleEbook(${i})" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-500 text-white py-2 rounded-lg text-xs font-bold shadow-sm hover:from-indigo-600 hover:to-blue-600 transition-colors flex items-center justify-center gap-1">
+                                <i data-lucide="book-open" class="w-3.5 h-3.5"></i> 전자책 보기
+                            </button>
+                            <button onclick="handleTimeAttack(${i})" class="flex-1 bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-2 rounded-lg text-xs font-bold shadow-sm hover:from-teal-600 hover:to-cyan-600 transition-colors flex items-center justify-center gap-1">
+                                <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Fit 20 풀기
+                            </button>
+                        </div>
+                    </div>
+                    `;
+                } else {
+                    html += `
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100 opacity-80 cursor-pointer hover:bg-gray-100 mb-3" onclick="handleApply()">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-black text-teal-600">${i}주차</span>
+                                ${badge}
+                            </div>
+                            <h4 class="font-bold text-sm text-gray-500">${title}</h4>
+                        </div>
+                        <button class="shrink-0 ml-3 w-10 h-10 rounded-full flex items-center justify-center bg-gray-200 text-gray-400">
+                            <i data-lucide="lock" class="w-4 h-4 ml-0.5"></i>
+                        </button>
+                    </div>
+                    `;
+                }
+            }
+            container.innerHTML = html;
+            if(window.lucide) lucide.createIcons();
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            isUserLoggedIn = !!user;
+            currentUser = user;
+            if (user) {
+                try {
+                    const docRef = doc(db, "users", user.uid);
+                    const docSnap = await getDoc(docRef);
+                    const userData = docSnap.exists() ? docSnap.data() : {};
+                    
+                    // 신규 패키지(주간지 또는 올패스) 또는 레거시 전체 프리미엄 권한 체크
+                    if (userData.subscriptions?.weekly_magazine?.isActive || 
+                        userData.subscriptions?.all_pass?.isActive || 
+                        userData.isPaid) {
+                        hasWeeklyPass = true;
+                        document.querySelector('.fixed.bottom-0').innerHTML = `
+                            <button class="w-full bg-gray-200 text-gray-500 font-black text-lg py-4 rounded-xl cursor-default">
+                                이미 구매한 패키지입니다
+                            </button>
+                        `;
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            renderCurriculum();
+        });
+
+        window.handleTimeAttack = (week) => {
+            if (!isUserLoggedIn) {
+                alert("로그인이 필요합니다. 로그인 화면으로 이동합니다.");
+                window.location.href = 'STEST/exam.html';
+                return;
+            }
+            if (week === 1 || hasWeeklyPass) {
+                const examId = `week_2028_${String(week).padStart(2, '0')}`;
+                window.location.href = `STEST/weekly/timeattack/index.html?examId=${examId}`;
+            } else {
+                window.handleApply();
+            }
+        };
+
+        window.handleEbook = (week) => {
+            if (!isUserLoggedIn) {
+                alert("로그인이 필요합니다. 로그인 화면으로 이동합니다.");
+                window.location.href = 'STEST/exam.html';
+                return;
+            }
+            if (week === 1 || hasWeeklyPass) {
+                const weekStr = String(week).padStart(2, '0');
+                window.location.href = `STEST/weekly/ebook/week_2028_${weekStr}_final.html`;
+            } else {
+                window.handleApply();
+            }
+        };
+
+        window.handleApply = () => {
+            if (!isUserLoggedIn) {
+                alert("로그인이 필요합니다. 로그인 화면으로 이동합니다.");
+                window.location.href = 'STEST/exam.html';
+                return;
+            }
+            if (hasWeeklyPass) {
+                alert("이미 구독 중인 패키지입니다!");
+                return;
+            }
+            const modal = document.getElementById('paymentModal');
+            const inner = modal.children[0];
+            modal.classList.remove('hidden');
+            setTimeout(() => { inner.classList.remove('translate-y-full'); }, 10);
+        };
+
+        window.closePaymentModal = () => {
+            const modal = document.getElementById('paymentModal');
+            const inner = modal.children[0];
+            inner.classList.add('translate-y-full');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
+        window.processTossPayment = async () => {
+            if(!currentUser) return;
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "결제창 불러오는 중...";
+            btn.disabled = true;
+            
+            try {
+                // 토스페이먼츠 객체 초기화 (테스트 클라이언트 키)
+                const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
+                
+                const packageId = "weekly_winter_2028";
+                const orderId = packageId + "__" + new Date().getTime(); 
+                
+                await tossPayments.requestPayment('카드', {
+                    amount: 38000,
+                    orderId: orderId,
+                    orderName: '갓통과 WEEKLY 구독권',
+                    customerName: currentUser.displayName || currentUser.email || '고객',
+                    successUrl: window.location.origin + '/STEST/payment_success.html',
+                    failUrl: window.location.origin + '/STEST/payment_fail.html',
+                });
+            } catch (error) {
+                console.error("Toss Payment Error:", error);
+                if (error.code === 'USER_CANCEL') {
+                    alert("결제가 취소되었습니다.");
+                } else {
+                    alert("결제 창 호출 중 오류가 발생했습니다: " + error.message);
+                }
+                btn.innerText = "38,000원 결제하기";
+                btn.disabled = false;
+            }
+        };
+
+        window.addEventListener('load', () => {
+            renderCurriculum(); // 비로그인 초기 렌더링
+        });
+    </script>
+</body>
+</html>

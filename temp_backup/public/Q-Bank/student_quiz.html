@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>갓통과 학생용 퀴즈</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Pretendard Font (세련된 고딕) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <style>
+        /* 폰트 적용 및 기본 모바일 설정 */
+        body { 
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            overscroll-behavior-y: none; /* 모바일 스크롤 바운스 방지 */
+            background-color: #F0F2F5; /* 배경색을 조금 더 진하게 하여 앱 영역 구분 */
+        }
+        
+        /* 앱 컨테이너: 모바일 뷰포트 최적화 */
+        .app-container {
+            max-width: 480px; /* 태블릿/PC에서는 앱 모양 유지 */
+            margin: 0 auto;
+            height: 100vh; /* 폴백 */
+            height: 100dvh; /* 모바일 동적 높이 (주소창 대응) */
+            background-color: #F9FAFB;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 애니메이션 */
+        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* 버튼 인터랙션 */
+        .btn-press:active { transform: scale(0.96); transition: transform 0.1s; }
+        
+        /* 텍스트 선택 방지 (UI 요소용) */
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* 빈칸 스타일 */
+        .blank-box {
+            display: inline-block;
+            min-width: 40px;
+            border-bottom: 2px dashed #6366F1;
+            color: transparent;
+            text-align: center;
+            padding: 0 6px;
+            font-weight: 700;
+            transition: all 0.3s;
+            background-color: rgba(99, 102, 241, 0.08);
+            border-radius: 4px;
+            margin: 0 3px;
+            line-height: 1.4;
+            vertical-align: bottom;
+        }
+        .blank-box.revealed {
+            color: #4F46E5;
+            border-bottom: 2px solid #4F46E5;
+            background-color: transparent;
+        }
+
+        /* 아이폰 홈 인디케이터 대응 padding */
+        .safe-pb {
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+        }
+
+        /* [수정] 윗첨자(sup), 아래첨자(sub) 스타일 복구 (Tailwind Reset 대응) */
+        sup, sub {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+        sup { top: -0.5em; }
+        sub { bottom: -0.25em; }
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body class="text-gray-800">
+
+    <div class="app-container">
+        <!-- [1] 상단 고정 헤더 -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-3 flex justify-between items-center z-50 border-b border-gray-100 shrink-0 no-select pt-[calc(10px+env(safe-area-inset-top))]">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                <!-- 로고 -->
+                <div class="w-9 h-9 bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
+                    <svg class="w-5 h-5 relative z-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-tight text-gray-900 leading-none">오늘의 퀴즈</h1>
+                    <div class="flex items-center gap-1.5 mt-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gray-300" id="conn-status"></span>
+                        <p class="text-[10px] text-gray-500 font-medium" id="conn-text">연결 대기중</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="goHome()" class="p-2 bg-gray-50 rounded-full hover:bg-gray-100 text-gray-400 active:bg-gray-200 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </header>
+
+        <!-- [2] 중앙 스크롤 영역 -->
+        <main id="main-content" class="flex-1 overflow-y-auto hide-scrollbar p-5 relative bg-[#F9FAFB]">
+            <!-- Content Injected via JS -->
+        </main>
+
+        <!-- [3] 하단 고정 영역 -->
+        <!-- safe-pb 클래스로 아이폰 하단 바 영역 보호 -->
+        <div id="bottom-bar" class="bg-white/80 backdrop-blur-md border-t border-gray-100 p-4 shrink-0 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] safe-pb overflow-visible no-select">
+            <!-- Content Injected via JS -->
+        </div>
+    </div>
+
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-[100] flex flex-col items-center justify-center hidden no-select">
+        <div class="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-3"></div>
+        <p class="text-xs font-bold text-indigo-600 animate-pulse">데이터를 불러오고 있습니다...</p>
+    </div>
+
+    <!-- Toast Message -->
+    <div id="toast-message" class="fixed top-24 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg z-[200] opacity-0 pointer-events-none transition-opacity duration-300">
+        메시지
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const V2_APP_ID = "godtonggwa_v1";
+
+        const UNIT_NAMES = [
+            { id: 'unit_01', title: '1. 과학의 기초', color: 'from-blue-500 to-indigo-500' },
+            { id: 'unit_02', title: '2. 원소의 형성', color: 'from-indigo-500 to-purple-500' },
+            { id: 'unit_03', title: '3. 물질의 구조', color: 'from-purple-500 to-pink-500' },
+            { id: 'unit_04', title: '4. 지구 시스템', color: 'from-emerald-500 to-teal-500' },
+            { id: 'unit_05', title: '5. 역학적 시스템', color: 'from-teal-500 to-cyan-500' },
+            { id: 'unit_06', title: '6. 생명 시스템', color: 'from-rose-500 to-red-500' },
+            { id: 'unit_07', title: '7. 지질과 생물', color: 'from-orange-500 to-amber-500' },
+            { id: 'unit_08', title: '8. 화학 변화', color: 'from-amber-500 to-yellow-500' },
+            { id: 'unit_09', title: '9. 생태계와 기후', color: 'from-lime-500 to-green-500' },
+            { id: 'unit_10', title: '10. 에너지', color: 'from-cyan-500 to-sky-500' },
+            { id: 'unit_11', title: '11. 과학과 미래', color: 'from-sky-500 to-blue-500' }
+        ];
+
+        let state = {
+            questions: [],
+            currentIdx: 0,
+            score: 0,
+            wrongAnswers: [],
+            mode: 'home', // home, quiz, result, market
+            currentUser: null,
+            userData: null
+        };
+
+        // --- 초기화 및 인증 ---
+        async function init() {
+            await initAuth();
+            renderHome();
+            lucide.createIcons();
+
+            onAuthStateChanged(auth, async (user) => {
+                const dot = document.getElementById('conn-status');
+                const text = document.getElementById('conn-text');
+                
+                if(user) {
+                    state.currentUser = user;
+                    dot.classList.replace('bg-gray-300', 'bg-green-500');
+                    text.innerText = "온라인";
+                    text.classList.add('text-green-600');
+                    
+                    try {
+                        const userDoc = await getDoc(doc(db, "users", user.uid));
+                        if(userDoc.exists()) {
+                            state.userData = userDoc.data();
+                        }
+                    } catch(e) { console.warn("User data fetch failed", e); }
+                    
+                } else {
+                    state.currentUser = null;
+                    state.userData = null;
+                    dot.classList.replace('bg-green-500', 'bg-gray-300');
+                    text.innerText = "연결 끊김";
+                    text.classList.remove('text-green-600');
+                }
+            });
+        }
+
+        const initAuth = () => {
+            return new Promise((resolve) => {
+                const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                    unsubscribe();
+                    if (user) {
+                        resolve(user);
+                    } else {
+                        try {
+                            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                                try { 
+                                    await signInWithCustomToken(auth, __initial_auth_token); 
+                                } catch (e) { 
+                                    await signInAnonymously(auth);
+                                }
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                        } catch (e) {
+                            console.error("Auth Error", e);
+                        }
+                        resolve();
+                    }
+                });
+            });
+        };
+
+        // [New] 텍스트 포맷팅 함수 (첨자 변환)
+        function formatText(text) {
+            if (!text) return '';
+            // 1. 윗첨자 변환: ^숫자 또는 ^+ ^- (예: 10^-9, Na^+, a^2)
+            // 정규식: ^ 뒤에 숫자, +, - 가 오는 경우 <sup> 태그로 감쌈
+            let formatted = text.replace(/\^([0-9\+\-]+)/g, '<sup>$1</sup>');
+            
+            // 2. 아래첨자 변환: _숫자 (예: H_2O) - 필요시 사용
+            formatted = formatted.replace(/_([0-9\+\-]+)/g, '<sub>$1</sub>');
+            
+            return formatted;
+        }
+
+        // --- 렌더링 함수들 ---
+
+        // 1. 홈 화면 (단원 선택)
+        window.renderHome = () => {
+            state.mode = 'home';
+            const main = document.getElementById('main-content');
+            
+            main.innerHTML = `
+                <div class="fade-in pb-4">
+                    <!-- Banner -->
+                    <div class="bg-gradient-to-r from-indigo-900 via-purple-900 to-gray-900 p-4 rounded-2xl shadow-lg mb-4 relative overflow-hidden flex justify-between items-center group no-select">
+                        <!-- Decor -->
+                        <div class="absolute -right-4 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors"></div>
+                        <div class="absolute -left-4 -bottom-6 w-20 h-20 bg-indigo-500/20 rounded-full blur-xl"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-white/20 text-indigo-100 text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-md border border-white/10 shadow-sm">Daily Study</span>
+                            </div>
+                            <h2 class="text-lg font-black text-white tracking-tight leading-none mb-1">빈칸 완성 마스터</h2>
+                            <p class="text-[11px] text-indigo-200 opacity-90">2028 수능 필수 개념, <span class="text-white font-bold underline decoration-indigo-400 decoration-2 underline-offset-2">키워드</span>로 정복!</p>
+                        </div>
+
+                        <div class="relative z-10 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center border border-white/20 backdrop-blur-sm shadow-inner shrink-0 ml-3">
+                            <i data-lucide="edit-3" class="w-5 h-5 text-white"></i>
+                        </div>
+                    </div>
+
+                    <p class="text-xs font-bold text-gray-400 mb-2 px-1 no-select">학습할 단원 선택</p>
+                    
+                    <!-- 2열 그리드 -->
+                    <div class="grid grid-cols-2 gap-2 pb-24">
+                        ${UNIT_NAMES.map(unit => `
+                            <button onclick="startQuiz('${unit.id}', '${unit.title}')" class="btn-press bg-white p-3 rounded-xl border border-gray-100 shadow-sm hover:border-indigo-100 hover:shadow-md transition-all flex flex-col justify-between h-24 group text-left relative overflow-hidden">
+                                <!-- 배경 장식 아이콘 -->
+                                <div class="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
+                                    <i data-lucide="hash" class="w-10 h-10 text-indigo-900"></i>
+                                </div>
+                                
+                                <!-- 단원 번호 -->
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br ${unit.color} flex items-center justify-center text-white shadow-sm shrink-0 z-10">
+                                    <span class="font-bold text-xs">${unit.id.split('_')[1]}</span>
+                                </div>
+                                
+                                <!-- 텍스트 정보 -->
+                                <div class="z-10">
+                                    <span class="font-bold text-gray-700 text-sm group-hover:text-indigo-600 transition-colors leading-tight block break-keep">${unit.title}</span>
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            renderBottomNav('quiz');
+        };
+
+        // 하단 네비게이션
+        function renderBottomNav(activeTab) {
+            const bottom = document.getElementById('bottom-bar');
+            
+            const getTabClass = (name) => name === activeTab 
+                ? "text-indigo-600 font-bold"
+                : "text-gray-400 hover:text-gray-600 font-medium";
+
+            bottom.innerHTML = `
+                <div class="flex justify-between items-center relative max-w-[400px] mx-auto">
+                    <button onclick="location.href='../index.html'" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors btn-press">
+                        <i data-lucide="home" class="w-6 h-6"></i>
+                        <span class="text-[11px] font-bold tracking-tight">홈</span>
+                    </button>
+                    
+                    <button onclick="location.href='../STEST/exam.html'" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors btn-press">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                        <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+                    </button>
+                    
+                    <!-- 중앙 플로팅 버튼 -->
+                    <button onclick="renderHome()" class="nav-btn flex flex-col items-center gap-1 -mt-12 group relative z-10 btn-press">
+                        <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform border-4 border-white ${activeTab === 'quiz' ? 'ring-2 ring-indigo-100' : ''}">
+                            <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+                    </button>
+                    
+                    <button onclick="location.href='../archive/archive.html'" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors btn-press">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                        <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+                    </button>
+                    
+                    <button onclick="renderMarket()" class="nav-btn flex flex-col items-center gap-1 ${getTabClass('market')} transition-colors btn-press">
+                        <i data-lucide="user" class="w-6 h-6"></i>
+                        <span class="text-[11px] font-bold tracking-tight">마이</span>
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // 마이 페이지 렌더링
+        window.renderMarket = () => {
+            state.mode = 'market';
+            const main = document.getElementById('main-content');
+            
+            const userName = state.userData ? state.userData.name : '비회원 (Guest)';
+            const userPlan = state.userData && state.userData.isPaid ? '프리미엄' : '무료 회원';
+            const loginBtn = state.currentUser && !state.currentUser.isAnonymous 
+                ? `<button onclick="handleLogout()" class="text-xs text-gray-500 underline ml-auto">로그아웃</button>` 
+                : `<span class="text-xs text-gray-400 ml-auto">자동 로그인 상태</span>`;
+
+            main.innerHTML = `
+                <div class="fade-in space-y-4 pt-4 pb-20">
+                    <h2 class="text-xl font-bold text-gray-800 flex justify-between items-center px-1">마이페이지 ${loginBtn}</h2>
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 flex items-center gap-4 shadow-sm no-select">
+                        <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 border border-gray-100">
+                            <i data-lucide="user" class="w-7 h-7"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-lg text-gray-900">${userName}</p>
+                            <p class="text-xs text-indigo-500 font-bold bg-indigo-50 px-2 py-0.5 rounded inline-block mt-1">${userPlan}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mt-6">
+                         <div onclick="showToast('준비중입니다')" class="btn-press bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors no-select">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-50 p-2 rounded-lg"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i></div>
+                                <span class="text-sm font-medium text-gray-700">내 정보 수정</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                        </div>
+                         <div onclick="showToast('관리자에게 문의하세요')" class="btn-press bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors no-select">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-purple-50 p-2 rounded-lg"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i></div>
+                                <span class="text-sm font-medium text-gray-700">이용권 관리</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-xl mt-6 text-center">
+                        <p class="text-xs text-gray-400">앱 버전 v1.0.8 (Format Fix)</p>
+                    </div>
+                </div>
+            `;
+            
+            renderBottomNav('market');
+            lucide.createIcons();
+        };
+
+        window.handleLogout = async () => {
+            if(confirm("로그아웃 하시겠습니까?")) {
+                await signOut(auth);
+                window.location.reload();
+            }
+        };
+
+        // 2. 퀴즈 진행 (문제 표시)
+        window.startQuiz = async (unitId, unitTitle) => {
+            showLoading(true);
+            try {
+                const colRef = collection(db, 'artifacts', V2_APP_ID, 'public', 'data', 'quiz_problems');
+                const q = query(colRef, where('unitId', '==', unitId));
+                const snapshot = await getDocs(q);
+
+                if(snapshot.empty) {
+                    showToast("이 단원에는 아직 문제가 등록되지 않았습니다 😅");
+                    showLoading(false);
+                    return;
+                }
+
+                state.questions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort(() => Math.random() - 0.5);
+                state.currentIdx = 0;
+                state.score = 0;
+                state.wrongAnswers = [];
+                state.mode = 'quiz';
+
+                renderQuestion();
+
+            } catch(e) {
+                console.error(e);
+                alert("문제 로딩 실패");
+            } finally {
+                showLoading(false);
+            }
+        };
+
+        function renderQuestion() {
+            const q = state.questions[state.currentIdx];
+            const main = document.getElementById('main-content');
+            const bottom = document.getElementById('bottom-bar');
+
+            // [수정] 텍스트 포맷팅 적용: ^숫자 -> 윗첨자
+            const formattedQText = formatText(q.q);
+            // 빈칸 생성 (포맷팅된 텍스트에서 빈칸 치환)
+            const questionText = formattedQText.replace(/\(\s*\)/g, `<span class="blank-box text-indigo-600">?</span>`);
+
+            main.innerHTML = `
+                <div class="fade-in min-h-full flex flex-col justify-center pb-20">
+                    <!-- 진행률 -->
+                    <div class="flex items-center gap-2 mb-6 px-2 no-select">
+                        <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-indigo-500 transition-all duration-300" style="width: ${((state.currentIdx) / state.questions.length) * 100}%"></div>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 font-mono">${state.currentIdx + 1}/${state.questions.length}</span>
+                    </div>
+
+                    <!-- 문제 카드 -->
+                    <div id="quiz-card" class="bg-white rounded-[2rem] p-8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-gray-100 text-left relative overflow-hidden transition-all duration-300 flex flex-col justify-center items-start min-h-[320px]">
+                        <div class="absolute -top-6 -left-6 w-24 h-24 bg-indigo-50 rounded-full"></div>
+                        
+                        <div class="relative z-10 mb-6">
+                            <span class="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold no-select">핵심 개념</span>
+                        </div>
+                        
+                        <h3 class="relative z-10 text-lg font-semibold text-gray-800 leading-8 break-keep tracking-tight">
+                            ${questionText}
+                        </h3>
+
+                        <!-- 정답/해설 영역 (처음엔 숨김) -->
+                        <div id="answer-reveal" class="hidden w-full slide-up mt-8">
+                            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 w-full text-left">
+                                <p class="text-xs text-gray-400 font-bold mb-1 no-select">정답</p>
+                                <!-- [수정] 정답 포맷팅 -->
+                                <p class="text-2xl font-black text-indigo-600 mb-3">${formatText(q.a)}</p>
+                                <div class="h-px bg-gray-200 w-full mb-3"></div>
+                                <p class="text-sm text-gray-600 leading-relaxed text-left break-keep">
+                                    <span class="bg-gray-200 text-gray-600 text-[10px] px-1.5 py-0.5 rounded mr-1 no-select">해설</span>
+                                    <!-- [수정] 해설 포맷팅 -->
+                                    ${formatText(q.exp)}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Bottom: 정답 확인 버튼
+            bottom.innerHTML = `
+                <button onclick="showAnswer()" class="btn-press w-full bg-indigo-600 text-white font-bold h-14 rounded-2xl shadow-lg shadow-indigo-200 text-lg flex items-center justify-center gap-2 no-select">
+                    정답 확인하기 <i data-lucide="eye" class="w-5 h-5"></i>
+                </button>
+            `;
+            lucide.createIcons();
+        }
+
+        window.showAnswer = () => {
+            const q = state.questions[state.currentIdx];
+            
+            const blankBoxes = document.querySelectorAll('.blank-box');
+            blankBoxes.forEach(box => {
+                // [수정] 정답 표시 시 포맷팅 적용 & innerHTML 사용
+                box.innerHTML = formatText(q.a); 
+                box.classList.add('revealed');
+            });
+
+            document.getElementById('answer-reveal').classList.remove('hidden');
+
+            const bottom = document.getElementById('bottom-bar');
+            bottom.innerHTML = `
+                <div class="flex gap-3 h-14 slide-up no-select">
+                    <button onclick="rateAnswer(false)" class="btn-press flex-1 bg-white border-2 border-orange-100 text-orange-500 font-bold rounded-2xl hover:bg-orange-50 hover:border-orange-200 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i> 다시 볼래요
+                    </button>
+                    <button onclick="rateAnswer(true)" class="btn-press flex-1 bg-white border-2 border-indigo-100 text-indigo-600 font-bold rounded-2xl hover:bg-indigo-50 hover:border-indigo-200 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-5 h-5"></i> 완벽히 암기함
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        };
+
+        window.rateAnswer = (isCorrect) => {
+            if(isCorrect) state.score++;
+            else state.wrongAnswers.push(state.questions[state.currentIdx]);
+
+            state.currentIdx++;
+            if(state.currentIdx >= state.questions.length) finishQuiz();
+            else renderQuestion();
+        };
+
+        // 3. 결과 화면
+        function finishQuiz() {
+            state.mode = 'result';
+            const main = document.getElementById('main-content');
+            const bottom = document.getElementById('bottom-bar');
+
+            const percentage = Math.round((state.score / state.questions.length) * 100);
+            let msg = "노력이 필요해요!";
+            if(percentage === 100) msg = "완벽합니다! 갓통과!";
+            else if(percentage >= 80) msg = "훌륭해요! 조금만 더!";
+            else if(percentage >= 50) msg = "잘했어요! 복습해볼까요?";
+
+            // [수정] 오답 노트 포맷팅 적용
+            const reviewHtml = state.wrongAnswers.length > 0 
+                ? state.wrongAnswers.map(item => `
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm mb-3">
+                        <div class="mb-2">
+                             <p class="text-sm font-bold text-gray-800 leading-relaxed text-left">${formatText(item.q).replace(/\(\s*\)/g, `<span class="text-red-500 font-bold underline decoration-red-300 underline-offset-4">${formatText(item.a)}</span>`)}</p>
+                        </div>
+                        <p class="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl leading-relaxed text-left">
+                            ${formatText(item.exp)}
+                        </p>
+                    </div>`).join('') 
+                : `<div class="text-center py-10">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="party-popper" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm">틀린 문제가 없습니다.<br>완벽하게 암기하셨네요!</p>
+                   </div>`;
+
+            main.innerHTML = `
+                <div class="fade-in pt-4 pb-20">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-black text-gray-900 mb-2">${msg}</h2>
+                        <p class="text-gray-500 text-sm">오늘의 암기 결과는?</p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 mb-8 flex justify-between items-center no-select">
+                        <div class="text-center flex-1 border-r border-gray-100">
+                            <p class="text-xs text-gray-400 font-bold mb-1">총 문항</p>
+                            <p class="text-xl font-black text-gray-800">${state.questions.length}</p>
+                        </div>
+                        <div class="text-center flex-1 border-r border-gray-100">
+                            <p class="text-xs text-gray-400 font-bold mb-1">맞힌 개수</p>
+                            <p class="text-xl font-black text-indigo-600">${state.score}</p>
+                        </div>
+                        <div class="text-center flex-1">
+                            <p class="text-xs text-gray-400 font-bold mb-1">정답률</p>
+                            <p class="text-xl font-black text-indigo-600">${percentage}%</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900 mb-4 px-1 flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-red-500"></i>
+                            틀린 문제 다시보기
+                        </h3>
+                        ${reviewHtml}
+                    </div>
+                </div>
+            `;
+
+            bottom.innerHTML = `
+                <div class="grid grid-cols-3 gap-3 no-select">
+                    <button onclick="goHome()" class="col-span-1 bg-white border border-gray-300 text-gray-600 font-bold h-14 rounded-xl hover:bg-gray-50 btn-press">
+                        종료
+                    </button>
+                    <button onclick="startQuiz('${state.questions[0].unitId}', '')" class="col-span-2 bg-gray-900 text-white font-bold h-14 rounded-xl shadow-lg hover:bg-black btn-press">
+                        다시 학습하기
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        window.goHome = () => renderHome();
+        window.location.hrefLink = (url) => window.location.href = url;
+
+        function showLoading(show) {
+            const el = document.getElementById('loading-overlay');
+            if(show) el.classList.remove('hidden');
+            else el.classList.add('hidden');
+        }
+
+        window.showToast = (msg) => {
+            const toast = document.getElementById('toast-message');
+            toast.innerText = msg;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 2500);
+        };
+
+        init();
+    </script>
+</body>
+</html>

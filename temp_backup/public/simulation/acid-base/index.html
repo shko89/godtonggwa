@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/public/simulation/acid-base/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>갓통과 - 중화반응 시뮬레이터</title>
+    
+    <!-- 디자인 시스템: Tailwind CSS & Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* 메인 페이지와 동일한 폰트 적용 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            background-color: #F3F4F6; 
+            margin: 0; 
+            padding: 0;
+            overflow: hidden; /* 전체 스크롤 방지 */
+        }
+
+        /* 앱 셸 구조: 화면 크기에 맞춰 최적화 (유동적 너비) */
+        .app-shell {
+            width: 100%;
+            max-width: 640px; /* 기존 480px에서 확장하여 그래프/표 공간 확보 */
+            margin: 0 auto;
+            height: 100vh;
+            background-color: #FFFFFF;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 시뮬레이터 콘텐츠 영역 (Vite 앱이 마운트되는 곳) */
+        #root {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: #fff;
+            padding-bottom: 100px; 
+            
+            /* --- [사용자 가이드] 시뮬레이터 내부 텍스트 크기 조절 --- */
+            font-size: 13px; /* 기본 폰트 크기를 여기서 조절하세요 (예: 12px, 0.85rem 등) */
+            line-height: 1.4;
+        }
+
+        /* 시뮬레이터 내부 모든 텍스트에 폰트 크기 상속 강제 적용 */
+        #root * {
+            font-size: inherit;
+        }
+
+        /* 특정 태그(예: 표, 버튼)의 글자가 너무 크다면 아래 설정을 활용하세요 */
+        #root h1, #root h2, #root h3 { font-size: 1.1em; font-weight: 800; }
+        #root table { font-size: 0.9em; width: 100% !important; }
+        #root button { font-size: 0.95em; }
+
+        /* 스크롤바 숨기기 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .nav-btn:active { transform: scale(0.95); }
+
+        /* 하단 네비게이션도 앱 셸 너비를 따라가도록 수정 */
+        .fixed-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            border-top: 1px solid #f3f4f6;
+            padding: 12px 24px 24px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+            height: 85px;
+        }
+    </style>
+
+    <!-- 기존 시뮬레이터의 Vite 빌드 자산 (JS/CSS) -->
+    <script type="module" crossorigin src="./assets/index-C8IR4JxV.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DQ3P1g1z.css">
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body>
+
+    <div class="app-shell">
+        <!-- 상단 헤더 -->
+        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100 shadow-sm h-[80px] shrink-0">
+            <button onclick="location.href='../../index.html'" class="p-2 -ml-2 mr-3 hover:bg-gray-100 rounded-full transition-colors text-gray-600">
+                <i data-lucide="arrow-left" class="w-6 h-6"></i>
+            </button>
+            <div class="flex flex-col">
+                <h1 class="text-xl font-black text-slate-900 tracking-tighter leading-none">중화반응 마스터</h1>
+                <p class="text-[10px] font-bold text-slate-400 tracking-[0.2em] mt-1.5 uppercase leading-none">Antigravity Mode</p>
+            </div>
+            <button class="ml-auto p-2 text-gray-400">
+                <i data-lucide="bell" class="w-5 h-5"></i>
+            </button>
+        </header>
+
+        <!-- 실제 시뮬레이터가 렌더링되는 영역 -->
+        <main id="root" class="hide-scrollbar">
+            <!-- React 앱이 여기에 로드됩니다. -->
+        </main>
+
+        <!-- 하단 네비게이션 바 -->
+        <nav class="fixed-nav">
+            <button onclick="location.href='../../index.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">홈</span>
+            </button>
+            
+            <button onclick="location.href='../../STEST/exam.html'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">시험응시</span>
+            </button>
+            
+            <button onclick="location.href='../../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[10px] font-bold text-gray-600 mt-1">문제은행</span>
+            </button>
+            
+            <button onclick="location.href='../../STEST/exam.html?view=report'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">성적분석</span>
+            </button>
+            
+            <button onclick="location.href='../../index.html?view=market'" class="nav-btn text-gray-400 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[10px] font-bold">마이</span>
+            </button>
+        </nav>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>

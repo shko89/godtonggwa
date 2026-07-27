@@ -6,42 +6,7 @@
     <title>용어 암기장 목록</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        400;500;700;900&display=swap');
-        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        /* 스크롤바 숨기기 */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* 아코디언 애니메이션 */
-        .accordion-content {
-            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        .accordion-content.open {
-            max-height: 1000px; /* 충분히 큰 값 */
-            opacity: 1;
-        }
-        
-        /* 아이콘 회전 */
-        .chevron-icon { transition: transform 0.3s; }
-        .chevron-icon.rotate { transform: rotate(180deg); }
-
-        /* 카드 터치 효과 */
-        .topic-card:active { transform: scale(0.96); }
-
-        
-        /* Premium UI */
-        .hover-lift { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #e2e8f0; }
-
-        /* 애니메이션 */
-        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <style>        400;500;700;900&display=swap');        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }        /* 스크롤바 숨기기 */        /* 아코디언 애니메이션 */        .accordion-content {            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;            max-height: 0;            opacity: 0;            overflow: hidden;        }        .accordion-content.open {            max-height: 1000px; /* 충분히 큰 값 */            opacity: 1;        }        /* 아이콘 회전 */        .chevron-icon { transition: transform 0.3s; }        .chevron-icon.rotate { transform: rotate(180deg); }        /* 카드 터치 효과 */        .topic-card:active { transform: scale(0.96); }        /* Premium UI */        .hover-lift { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #e2e8f0; }        /* 애니메이션 */    </style>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 
@@ -59,6 +24,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="bg-gray-50 text-gray-800">
 

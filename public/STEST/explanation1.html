@@ -6,52 +6,14 @@
     <title>갓통과 - 1타 강사 비밀노트</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        /* 1. 손글씨 폰트 로드 */
-        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
-        
-        body { font-family: 'Gaegu', cursive; background-color: #f0f0f0; }
-
-        /* 2. 줄 공책 배경 스타일 (CSS 패턴) */
-        .notebook-paper {
-            background-color: #fffef0; /* 미색 종이 */
-            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px); /* 파란 줄 */
-            background-size: 100% 30px; /* 줄 간격 */
-            line-height: 30px; /* 글자 줄 간격 맞춤 */
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .notebook-paper::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 40px;
-            width: 2px;
-            background-color: #ff9999; /* 빨간 세로줄 */
-            opacity: 0.6;
-        }
-
-        .handwriting {
-            font-family: 'Nanum Pen Script', cursive;
-            font-size: 1.6rem;
-            color: #374151;
-            padding-left: 50px;
-            padding-right: 20px;
-        }
-        
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
-        
-        .btn-selected { 
-            background-color: #4f46e5; 
-            color: white; 
-            transform: scale(1.1); 
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);
-            border-color: #4f46e5;
-        }
-    </style>
+    <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      chtml: { scale: 0.85 }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>        /* 1. 손글씨 폰트 로드 */        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');        body { font-family: 'Gaegu', cursive; background-color: #f0f0f0; }        /* 2. 줄 공책 배경 스타일 (CSS 패턴) */        .notebook-paper {            background-color: #fffef0; /* 미색 종이 */            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px); /* 파란 줄 */            background-size: 100% 30px; /* 줄 간격 */            line-height: 30px; /* 글자 줄 간격 맞춤 */            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);            position: relative;        }        .notebook-paper::before {            content: '';            position: absolute;            top: 0; bottom: 0; left: 40px;            width: 2px;            background-color: #ff9999; /* 빨간 세로줄 */            opacity: 0.6;        }        .handwriting {            font-family: 'Nanum Pen Script', cursive;            font-size: 1.6rem;            color: #374151;            padding-left: 50px;            padding-right: 20px;        }        .custom-scrollbar::-webkit-scrollbar { width: 6px; }        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }        .btn-selected {             background-color: #4f46e5;             color: white;             transform: scale(1.1);             box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);            border-color: #4f46e5;        }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -67,6 +29,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
 
@@ -217,7 +180,6 @@ window.addEventListener('wheel', (e) => {
             }
         }
 
-        // [수정] 익명 로그인 배제 및 리다이렉트 에러 해결
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 init();
@@ -226,7 +188,6 @@ window.addEventListener('wheel', (e) => {
                 modal.classList.remove('hidden');
                 document.getElementById('go-login').onclick = () => {
                     const target = 'exam.html';
-                    // 빈 URL이 아님을 보장하며 안전하게 이동
                     if (target) window.location.assign(target);
                 };
             }
@@ -250,7 +211,6 @@ window.addEventListener('wheel', (e) => {
             document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
             btnElement.classList.add('btn-selected');
 
-            // [수정] Firebase Database의 topic 값을 최우선으로 호출
             const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-', topic: '통합과학' };
             const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === no) : null;
             
@@ -262,7 +222,6 @@ window.addEventListener('wheel', (e) => {
             
             noteArea.style.opacity = 0;
 
-            // [추가] 데이터베이스에서 문항 통계 및 학생 오답 여부 로드
             let statsHtml = '';
             const user = auth.currentUser;
             if (dbQ && dbQ.qId) {
@@ -334,10 +293,13 @@ window.addEventListener('wheel', (e) => {
                     <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-xs font-bold">정답 ${dbQ.correctAnswer || '-'}</span>
                 `;
                 
-                // [수정] 하단 잘림 방지를 위해 pb-32 추가 및 통계 HTML 삽입
                 noteArea.innerHTML = statsHtml + `<div class="handwriting leading-[30px] pt-2 pb-32">${content}</div>`;
                 noteArea.style.opacity = 1;
                 noteArea.style.transition = "opacity 0.3s ease-in-out";
+                
+                if (window.MathJax) {
+                    MathJax.typesetPromise([noteArea, qNumTitle]).catch((err) => console.log('MathJax error: ', err));
+                }
             }, 50);
         };
     </script>

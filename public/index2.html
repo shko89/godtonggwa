@@ -10,66 +10,7 @@
     <!-- 아이콘 라이브러리 -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <style>
-        /* 기본 폰트 */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        /* 암기장용 손글씨 폰트 추가 */
-        @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Nanum+Pen+Script&display=swap');
-        
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        /* 앱 컨테이너 스타일 */
-        .app-container {
-            max-width: 480px;
-            margin: 0 auto;
-            min-height: 100vh;
-            background-color: #F9FAFB;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* 스크롤바 숨기기 */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* 애니메이션 */
-        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 카드 뒤집기 효과 (3D Transform) */
-        .card-flip { perspective: 1000px; }
-        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        
-        /* [중요] absolute 포지션이 HTML 클래스에 의해 덮어씌워지지 않도록 !important 사용하거나 HTML에서 relative 제거 */
-        .card-front, .card-back { 
-            position: absolute; 
-            width: 100%; 
-            height: 100%; 
-            backface-visibility: hidden; 
-            border-radius: 1.5rem; 
-            top: 0; 
-            left: 0; 
-        }
-        .card-back { transform: rotateY(180deg); }
-        .flipped .card-inner { transform: rotateY(180deg); }
-
-        /* 암기장 전용 스타일 */
-        .font-gamja { font-family: 'Gamja Flower', cursive; }
-        .font-pen { font-family: 'Nanum Pen Script', cursive; }
-        .bg-paper { background-color: #FDFCF0; }
-        .bg-paper-pattern {
-            background-color: #ffffff;
-            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        /* 형광펜 효과 */
-        .highlight-pen {
-            background: linear-gradient(120deg, rgba(255, 240, 107, 0) 0%, rgba(255, 240, 107, 0.4) 100%);
-            box-shadow: inset 0 -0.5em 0 rgba(255, 240, 107, 0.4);
-        }
-    </style>
+    <style>        /* 기본 폰트 */        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        /* 암기장용 손글씨 폰트 추가 */        @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Nanum+Pen+Script&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }        /* 앱 컨테이너 스타일 */        .app-container {            max-width: 480px;            margin: 0 auto;            min-height: 100vh;            background-color: #F9FAFB;            position: relative;            box-shadow: 0 0 20px rgba(0,0,0,0.05);            display: flex;            flex-direction: column;        }        /* 스크롤바 숨기기 */        /* 애니메이션 */        /* 카드 뒤집기 효과 (3D Transform) */        .card-flip { perspective: 1000px; }        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }        /* [중요] absolute 포지션이 HTML 클래스에 의해 덮어씌워지지 않도록 !important 사용하거나 HTML에서 relative 제거 */        .card-front, .card-back {             position: absolute;             width: 100%;             height: 100%;             backface-visibility: hidden;             border-radius: 1.5rem;             top: 0;             left: 0;         }        .card-back { transform: rotateY(180deg); }        .flipped .card-inner { transform: rotateY(180deg); }        /* 암기장 전용 스타일 */        .bg-paper { background-color: #FDFCF0; }        .bg-paper-pattern {            background-color: #ffffff;            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);            background-size: 20px 20px;        }        /* 형광펜 효과 */        .highlight-pen {            background: linear-gradient(120deg, rgba(255, 240, 107, 0) 0%, rgba(255, 240, 107, 0.4) 100%);            box-shadow: inset 0 -0.5em 0 rgba(255, 240, 107, 0.4);        }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -85,6 +26,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
 

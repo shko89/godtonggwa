@@ -10,407 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     
-    <style>
-        body {
-            background-color: #cbd5e1;
-            font-family: 'Noto Sans KR', sans-serif;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .header-title { text-align: center; color: #0f172a; }
-        .header-title h1 { font-size: 32px; margin: 0 0 10px 0; font-weight: 900; }
-        .header-title p { font-size: 16px; color: #475569; margin: 0; }
-
-        .btn-download {
-            background-color: #0f172a;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background-color 0.2s;
-            margin: 0px 0;
-        }
-        .btn-download:hover { background-color: #1e293b; }
-
-        .editable {
-            outline: 1px dashed rgba(125, 125, 125, 0.4);
-            cursor: text;
-            transition: all 0.2s;
-        }
-        .editable:hover, .editable:focus {
-            outline: 2px dashed #0ea5e9;
-            background-color: rgba(14, 165, 233, 0.1);
-        }
-
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .a4-page {
-            width: 500px;
-            height: 707px; /* A4 비율 */
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            
-            box-sizing: border-box;
-        }
-
-        .cover-page {
-            background-color: #ffffff;
-            color: #0f172a;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border-top: 15px solid #0284c7;
-        }
-        .cover-page::before {
-            content: ''; position: absolute; top: 15px; left: 0; right: 0; bottom: 0;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px; z-index: 1;
-        }
-        .cover-page > * { position: relative; z-index: 2; }
-        .cover-page .top-section { padding: 45px 40px 0 40px; }
-        .cover-page .brand { font-size: 16px; letter-spacing: 3px; color: #0284c7; font-weight: 700; }
-        .cover-page .title { font-size: 64px; font-weight: 900; margin: 15px 0 0 0; line-height: 1.1; letter-spacing: -2px; color: #0f172a; }
-        .cover-page .subtitle { font-size: 20px; font-weight: 600; color: #475569; margin-top: 10px; }
-        .cover-page .mid-section { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 0 40px; }
-        
-        .cover-page .bottom-section { 
-            background-color: #0f172a;
-            padding: 35px 40px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-top: 4px solid #38bdf8;
-        }
-        .cover-page .week-num { font-family: 'Roboto', sans-serif; font-size: 70px; font-weight: 900; line-height: 0.9; color: #38bdf8; }
-        .cover-page .week-theme { text-align: right; font-size: 18px; color: #f8fafc; line-height: 1.5; }
-
-        .toc-page {
-            background-color: #ffffff;
-            color: #0f172a;
-            padding: 25px 40px;
-            display: flex;
-            flex-direction: column;
-        }
-        .toc-page .page-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 20px; }
-        .toc-page .header-brand { font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b; }
-        .toc-page .header-vol { font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a; }
-        .toc-page .title-section { margin-bottom: 20px; }
-        .toc-page .index-title { font-family: 'Roboto'; font-weight: 900; font-size: 30px; letter-spacing: -1px; margin: 0; line-height: 1; }
-        .toc-page .week-sub { font-size: 13px; font-weight: 700; color: #0284c7; margin-top: 5px; }
-        .toc-page .toc-list { display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }
-        .toc-page .toc-item { display: flex; align-items: flex-start; justify-content: space-between; }
-        .toc-page .item-left { display: flex; gap: 18px; }
-        .toc-page .item-num { font-family: 'Roboto'; font-weight: 900; font-size: 16px; color: #0284c7; width: 25px; }
-        .toc-page .item-text h3 { font-size: 14px; font-weight: 700; margin: 0 0 2px 0; color: #0f172a; }
-        .toc-page .item-text p { font-size: 11px; font-weight: 400; color: #64748b; margin: 0; line-height: 1.4; }
-        .toc-page .item-page { font-family: 'Roboto'; font-weight: 700; font-size: 16px; color: #0f172a; }
-        .toc-page .dots { flex-grow: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 15px; position: relative; top: -6px; }
-        .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; margin-top: auto; }
-        .toc-page .guide-title { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .toc-page .guide-desc { font-size: 10px; color: #475569; margin: 0; line-height: 1.5; }
-        .toc-page .page-footer { text-align: center; font-size: 11px; font-family: 'Roboto'; color: #94a3b8; margin-top: 15px; }
-    
-        /* Page 3 Concept Map Styles */
-        .bridge-page { padding: 30px 40px 50px 40px; background-color: #ffffff; display: flex; flex-direction: column; }
-        .bridge-title { font-family: 'Roboto'; font-weight: 900; font-size: 32px; letter-spacing: -1px; color: #0284c7; margin: 0; line-height: 1; }
-        .bridge-sub { font-size: 14px; font-weight: 700; color: #475569; margin-top: 8px; }
-        .map-container { flex-grow: 1; position: relative; margin-top: 5px; display: flex; flex-direction: column; transform: scale(0.85); transform-origin: top center; min-height: 370px; }
-        .node { box-sizing: border-box; position: absolute; background: white; border: 2px solid #cbd5e1; border-radius: 12px; padding: 8px 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; z-index: 10; }
-        .node.main { border-color: #0f172a; border-width: 3px; background: #0f172a; color: white; padding: 12px 16px; }
-        .node.sub { border-color: #0284c7; border-left-width: 6px; }
-        .node.leaf { border-color: #94a3b8; font-size: 12px; padding: 8px 12px; border-radius: 8px; box-shadow: none; background: #f8fafc; }
-        .node-title { font-weight: 800; font-size: 10px; margin-bottom: 4px; letter-spacing: -0.5px; color: #1d4ed8; }
-        .node-desc { font-size: 10px; font-weight: 400; opacity: 0.9; letter-spacing: -0.5px; line-height: 1.3; color: #475569; }
-        .leaf .font-bold { font-weight: 700; color: #1e293b; }
-        .leaf .desc { font-size: 10px; color: #64748b; margin-top: 4px; }
-        .leaf.red { border-color: #fca5a5; background-color: #fef2f2; }
-        .leaf.red .font-bold { color: #dc2626; }
-        .leaf.red .desc { color: #475569; }
-        .lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .insight-box { width: 100%; box-sizing: border-box; background-color: #1e293b; border-radius: 12px; padding: 16px; color: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-top: auto; z-index: 20; position: relative; }
-        
-        /* Page 4-7 Spread Styles */
-        .spread-page { background-color: #ffffff; color: #0f172a; display: flex; flex-direction: column; }
-        .content-area { display: flex; flex-grow: 1; height: 100%; }
-        .lp-narrow { width: 130px; background-color: #0f172a; color: white; padding: 30px 15px; display: flex; flex-direction: column; }
-        .lp-wide { width: 370px; padding: 30px 25px; display: flex; flex-direction: column; }
-        .rp-wide { width: 370px; padding: 30px 25px; display: flex; flex-direction: column; }
-        .rp-narrow { width: 130px; background-color: #f8fafc; border-left: 2px solid #e2e8f0; padding: 30px 15px; display: flex; flex-direction: column; }
-        
-        .dark-side-title { font-size: 11px; font-weight: 900; color: #38bdf8; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 5px; }
-        .dark-side-text { font-size: 11px; color: #cbd5e1; line-height: 1.6; }
-        .light-side-title { font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 10px; border-bottom: 2px solid #0f172a; padding-bottom: 5px; }
-        .light-side-text { font-size: 11px; color: #475569; line-height: 1.6; }
-        .memo-lines { flex-grow: 1; border-top: 1px solid #cbd5e1; background-image: linear-gradient(#e2e8f0 1px, transparent 1px); background-size: 100% 22px; margin-top: 15px; }
-        
-        .behavior-tag { display: inline-block; font-size: 10px; font-weight: 900; background-color: #0284c7; color: white; padding: 3px 8px; border-radius: 4px; margin-bottom: 6px; }
-        .source-text { font-size: 10px; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }
-        .question-number { font-family: 'Roboto'; font-size: 22px; font-weight: 900; color: #0284c7; margin-right: 6px; }
-        .question-text { font-size: 13px; font-weight: 700; line-height: 1.5; color: #0f172a; }
-        
-        .box-content { border: 2px solid #e2e8f0; padding: 12px; margin: 12px 0; font-size: 12px; line-height: 1.6; color: #1e293b; border-radius: 8px; background-color: #f8fafc; }
-        .box-content table { width: 100%; border-collapse: collapse; margin-top: 8px; text-align: center; }
-        .box-content th, .box-content td { border: 1px solid #cbd5e1; padding: 6px; font-size: 11px; }
-        .box-content th { background-color: #e2e8f0; font-weight: 700; }
-        
-        .img-placeholder { width: 100%; height: 90px; background-color: white; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; margin: 8px 0; border-radius: 4px; }
-        .bogi-box { border: 1px solid #0f172a; padding: 12px; margin: 12px 0; font-size: 12px; line-height: 1.8; color: #0f172a; border-radius: 4px; }
-        .options { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-top: 15px; color: #0f172a; }
-        
-        .rp-wide .section-title { font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 10px; margin-top: 20px; display: flex; align-items: center; gap: 5px; }
-        .rp-wide .section-title::before { content: ''; display: inline-block; width: 4px; height: 14px; background-color: #0284c7; }
-        .rp-wide .section-title:first-child { margin-top: 0; }
-        
-        .concept-block { font-size: 12px; color: #334155; line-height: 1.6; padding-left: 10px; border-left: 2px solid #e2e8f0; }
-        .solution-list { font-size: 12px; color: #334155; line-height: 1.6; padding: 0; margin: 0; list-style: none; }
-        .solution-list li { margin-bottom: 12px; background-color: #f8fafc; padding: 8px 12px; border-radius: 6px; }
-        .ox-mark { font-weight: 900; margin-right: 5px; font-size: 14px; }
-        .ox-o { color: #0284c7; }
-        .ox-x { color: #dc2626; }
-        
-        .learning-method { background: #0f172a; padding: 15px; margin-top: auto; border-radius: 8px; color: white; }
-        .learning-title { font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 6px; }
-        .learning-desc { font-size: 10px; font-weight: 400; line-height: 1.6; color: #cbd5e1; }
-        .spread-footer { text-align: right; font-size: 12px; font-family: 'Roboto'; font-weight: 900; color: #94a3b8; margin-top: 20px; }
-
-        /* --- CONCEPT PAGES CSS --- */
-body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
-        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }
-        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
-        /* -----------------------------------------
-           Left Page: Data Area
-           ----------------------------------------- */
-        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }
-        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 10px; margin-bottom: 20px; }
-        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
-        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
-        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 10px; margin-top: 12px; border-radius: 4px; }
-        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 10px; }
-        
-        .scale-bar-container { position: relative; margin-top: 15px; padding-top: 10px; padding-bottom: 20px; }
-        .scale-line { height: 4px; background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc); width: 100%; position: relative; border-radius: 2px; }
-        .scale-tick { position: absolute; top: -5px; width: 2px; height: 14px; background-color: #0f172a; }
-        .scale-label { position: absolute; bottom: 12px; transform: translateX(-50%); font-family: 'Roboto'; font-size: 11px; font-weight: 700; color: #475569; }
-        .scale-item { position: absolute; top: 12px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; text-align: center; line-height: 1.2; }
-        
-        /* -----------------------------------------
-           Right Page: Memorization Sheet (Tutor's Notes)
-           ----------------------------------------- */
-        .page-right { padding: 40px 35px 50px 35px;
-            background-color: #fafaf9;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
-        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
-        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
-        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
-/* ======= */
-body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
-        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }
-        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
-        /* -----------------------------------------
-           Left Page: Data Area
-           ----------------------------------------- */
-        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }
-        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }
-        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
-        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
-        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }
-        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }
-        
-        /* Table styles for left page */
-        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 2px; text-align: center; }
-        .data-table th { background-color: #e0f2fe; color: #0369a1; padding: 4px; border: 1px solid #bae6fd; font-weight: 700; }
-        .data-table td { padding: 3px; border: 1px solid #bae6fd; color: #334155; font-weight: 500; }
-        .data-table .highlight { background-color: #fef08a; font-weight: 700; color: #b45309; }
-
-        /* Infographic diagram styles */
-        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
-        .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
-        .diagram-desc { font-size: 10px; color: #475569; }
-        .diagram-arrow { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }
-        
-        /* -----------------------------------------
-           Right Page: Memorization Sheet (Tutor's Notes)
-           ----------------------------------------- */
-        .page-right { padding: 40px 35px 50px 35px;
-            background-color: #fafaf9;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
-        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
-        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
-        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
-/* ======= */
-body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
-        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }
-        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
-        /* -----------------------------------------
-           Left Page: Data Area
-           ----------------------------------------- */
-        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }
-        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }
-        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
-        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
-        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }
-        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }
-        
-        /* Infographic diagram styles */
-        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
-        .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
-        .diagram-desc { font-size: 10px; color: #475569; }
-        .diagram-arrow { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }
-        
-        .fermi-box { background: #fff; border: 1px dashed #0284c7; border-radius: 6px; padding: 6px; width: 85%; margin: 3px auto 0; font-size: 11px; }
-        .fermi-step { margin-bottom: 1px; display: flex; align-items: flex-start; }
-        .fermi-num { font-weight: 900; color: #0284c7; margin-right: 8px; font-family: 'Roboto'; }
-
-        /* -----------------------------------------
-           Right Page: Memorization Sheet (Tutor's Notes)
-           ----------------------------------------- */
-        .page-right { padding: 40px 35px 50px 35px;
-            background-color: #fafaf9;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
-        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
-        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
-        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
-/* ======= */
-body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
-        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }
-        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }
-        
-        /* -----------------------------------------
-           Left Page: Data Area
-           ----------------------------------------- */
-        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }
-        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }
-        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }
-        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }
-        
-        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }
-        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }
-        
-        /* Signal graphs */
-        .signal-container { display: flex; justify-content: space-around; margin-top: 5px; }
-        .signal-box { background: #fff; border: 1px solid #94a3b8; padding: 10px; border-radius: 4px; width: 45%; text-align: center; }
-        .signal-title { font-weight: 700; font-size: 12px; color: #0f172a; margin-bottom: 5px; }
-        .signal-svg { width: 100%; height: 50px; background-color: #f8fafc; border: 1px solid #e2e8f0; }
-
-        /* Infographic diagram styles */
-        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
-        .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
-        .diagram-desc { font-size: 10px; color: #475569; }
-        .diagram-arrow { color: #0284c7; font-size: 16px; font-weight: 900; margin: 2px 0; }
-
-        /* -----------------------------------------
-           Right Page: Memorization Sheet (Tutor's Notes)
-           ----------------------------------------- */
-        .page-right { padding: 40px 35px 50px 35px;
-            background-color: #fafaf9;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
-        
-        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }
-        
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
-        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
-        
-        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
-        
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-        
-        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
-    
-        /* 1 Column Layout CSS for Print */
-        .full-page-content { padding: 45px 40px 60px 40px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
-        .compass-box { background-color: #f0f9ff; border: 2px solid #0284c7; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; }
-        .compass-title { font-size: 15px; font-weight: 900; color: #0284c7; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .compass-desc { font-size: 12px; color: #1e293b; line-height: 1.4; font-weight: 500; margin: 0; word-break: keep-all; }
-        .prob-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0284c7; padding-bottom: 6px; margin-bottom: 15px; }
-        .prob-brand { color: #0284c7; font-family:'Roboto'; font-weight:900; font-size:14px; }
-
-    
-        /* Typography Justification */
-        p, .body-text, .q-text, .bogi-items, .compass-desc, .learning-desc, .concept-block, .intro-section p, .solution-list li span {
-            text-justify: inter-word;
-        }
-
-
-        /* CSAT Problem Styles */
-        .csat-prob { font-family: 'Batang', 'KoPubBatang', serif; font-size: 9px; line-height: 1.4; color: #000; margin-bottom: 10px; }
-        .csat-qnum { font-weight: bold; font-size: 11px; margin-right: 4px; }
-        .csat-box { border: 1px solid #000; padding: 8px 12px; margin: 0px 0; background: #fff; border-radius: 0; box-shadow: none; }
-        .csat-box p { margin: 0 0 3px 0; }
-        .csat-box p:last-child { margin: 0; }
-        .csat-bogi-box { border: 1px solid #000; padding: 10px 20px; margin: 15px 0; position: relative; background: #fff; border-radius: 0; }
-        .csat-bogi-title { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 5px; font-weight: normal; font-size: 11px; }
-        .csat-options { display: flex; justify-content: flex-start; gap: 20px; font-size: 10px; margin-top: 10px; padding: 0 5px; }
-        .csat-score { float: right; margin-left: 5px; font-size: 9px; }
-
-</style>
+    <style>        body {            background-color: #cbd5e1;            font-family: 'Noto Sans KR', sans-serif;            margin: 0;            padding: 40px 20px;            display: flex;            flex-direction: column;            align-items: center;            gap: 40px;        }        .header-title { text-align: center; color: #0f172a; }        .header-title h1 { font-size: 32px; margin: 0 0 10px 0; font-weight: 900; }        .header-title p { font-size: 16px; color: #475569; margin: 0; }        .btn-download {            background-color: #0f172a;            color: white;            border: none;            padding: 12px 24px;            font-size: 15px;            font-weight: 700;            border-radius: 8px;            cursor: pointer;            box-shadow: 0 4px 6px rgba(0,0,0,0.1);            transition: background-color 0.2s;            margin: 0px 0;        }        .btn-download:hover { background-color: #1e293b; }        .editable {            outline: 1px dashed rgba(125, 125, 125, 0.4);            cursor: text;            transition: all 0.2s;        }        .editable:hover, .editable:focus {            outline: 2px dashed #0ea5e9;            background-color: rgba(14, 165, 233, 0.1);        }        .page-wrapper {            display: flex;            flex-direction: column;            align-items: center;            gap: 15px;        }        .a4-page {            width: 500px;            height: 707px; /* A4 비율 */            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);            position: relative;            box-sizing: border-box;        }        .cover-page {            background-color: #ffffff;            color: #0f172a;            padding: 0;            display: flex;            flex-direction: column;            justify-content: space-between;            border-top: 15px solid #0284c7;        }        .cover-page::before {            content: ''; position: absolute; top: 15px; left: 0; right: 0; bottom: 0;            background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);            background-size: 20px 20px; z-index: 1;        }        .cover-page > * { position: relative; z-index: 2; }        .cover-page .top-section { padding: 45px 40px 0 40px; }        .cover-page .brand { font-size: 16px; letter-spacing: 3px; color: #0284c7; font-weight: 700; }        .cover-page .title { font-size: 64px; font-weight: 900; margin: 15px 0 0 0; line-height: 1.1; letter-spacing: -2px; color: #0f172a; }        .cover-page .subtitle { font-size: 20px; font-weight: 600; color: #475569; margin-top: 10px; }        .cover-page .mid-section { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 0 40px; }        .cover-page .bottom-section {             background-color: #0f172a;            padding: 35px 40px;             display: flex;             justify-content: space-between;             align-items: center;             border-top: 4px solid #38bdf8;        }        .cover-page .week-num { font-family: 'Roboto', sans-serif; font-size: 70px; font-weight: 900; line-height: 0.9; color: #38bdf8; }        .cover-page .week-theme { text-align: right; font-size: 18px; color: #f8fafc; line-height: 1.5; }        .toc-page {            background-color: #ffffff;            color: #0f172a;            padding: 25px 40px;            display: flex;            flex-direction: column;        }        .toc-page .page-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 20px; }        .toc-page .header-brand { font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b; }        .toc-page .header-vol { font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a; }        .toc-page .title-section { margin-bottom: 20px; }        .toc-page .index-title { font-family: 'Roboto'; font-weight: 900; font-size: 30px; letter-spacing: -1px; margin: 0; line-height: 1; }        .toc-page .week-sub { font-size: 13px; font-weight: 700; color: #0284c7; margin-top: 5px; }        .toc-page .toc-list { display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }        .toc-page .toc-item { display: flex; align-items: flex-start; justify-content: space-between; }        .toc-page .item-left { display: flex; gap: 18px; }        .toc-page .item-num { font-family: 'Roboto'; font-weight: 900; font-size: 16px; color: #0284c7; width: 25px; }        .toc-page .item-text h3 { font-size: 14px; font-weight: 700; margin: 0 0 2px 0; color: #0f172a; }        .toc-page .item-text p { font-size: 11px; font-weight: 400; color: #64748b; margin: 0; line-height: 1.4; }        .toc-page .item-page { font-family: 'Roboto'; font-weight: 700; font-size: 16px; color: #0f172a; }        .toc-page .dots { flex-grow: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 15px; position: relative; top: -6px; }        .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; margin-top: auto; }        .toc-page .guide-title { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }        .toc-page .guide-desc { font-size: 10px; color: #475569; margin: 0; line-height: 1.5; }        .toc-page .page-footer { text-align: center; font-size: 11px; font-family: 'Roboto'; color: #94a3b8; margin-top: 15px; }        /* Page 3 Concept Map Styles */        .bridge-page { padding: 30px 40px 50px 40px; background-color: #ffffff; display: flex; flex-direction: column; }        .bridge-title { font-family: 'Roboto'; font-weight: 900; font-size: 32px; letter-spacing: -1px; color: #0284c7; margin: 0; line-height: 1; }        .bridge-sub { font-size: 14px; font-weight: 700; color: #475569; margin-top: 8px; }        .map-container { flex-grow: 1; position: relative; margin-top: 5px; display: flex; flex-direction: column; transform: scale(0.85); transform-origin: top center; min-height: 370px; }        .node { box-sizing: border-box; position: absolute; background: white; border: 2px solid #cbd5e1; border-radius: 12px; padding: 8px 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; z-index: 10; }        .node.main { border-color: #0f172a; border-width: 3px; background: #0f172a; color: white; padding: 12px 16px; }        .node.sub { border-color: #0284c7; border-left-width: 6px; }        .node.leaf { border-color: #94a3b8; font-size: 12px; padding: 8px 12px; border-radius: 8px; box-shadow: none; background: #f8fafc; }        .node-title { font-weight: 800; font-size: 10px; margin-bottom: 4px; letter-spacing: -0.5px; color: #1d4ed8; }        .node-desc { font-size: 10px; font-weight: 400; opacity: 0.9; letter-spacing: -0.5px; line-height: 1.3; color: #475569; }        .leaf .font-bold { font-weight: 700; color: #1e293b; }        .leaf .desc { font-size: 10px; color: #64748b; margin-top: 4px; }        .leaf.red { border-color: #fca5a5; background-color: #fef2f2; }        .leaf.red .font-bold { color: #dc2626; }        .leaf.red .desc { color: #475569; }        .lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }        .insight-box { width: 100%; box-sizing: border-box; background-color: #1e293b; border-radius: 12px; padding: 16px; color: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-top: auto; z-index: 20; position: relative; }        /* Page 4-7 Spread Styles */        .spread-page { background-color: #ffffff; color: #0f172a; display: flex; flex-direction: column; }        .content-area { display: flex; flex-grow: 1; height: 100%; }        .lp-narrow { width: 130px; background-color: #0f172a; color: white; padding: 30px 15px; display: flex; flex-direction: column; }        .lp-wide { width: 370px; padding: 30px 25px; display: flex; flex-direction: column; }        .rp-wide { width: 370px; padding: 30px 25px; display: flex; flex-direction: column; }        .rp-narrow { width: 130px; background-color: #f8fafc; border-left: 2px solid #e2e8f0; padding: 30px 15px; display: flex; flex-direction: column; }        .dark-side-title { font-size: 11px; font-weight: 900; color: #38bdf8; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 5px; }        .dark-side-text { font-size: 11px; color: #cbd5e1; line-height: 1.6; }        .light-side-title { font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 10px; border-bottom: 2px solid #0f172a; padding-bottom: 5px; }        .light-side-text { font-size: 11px; color: #475569; line-height: 1.6; }        .memo-lines { flex-grow: 1; border-top: 1px solid #cbd5e1; background-image: linear-gradient(#e2e8f0 1px, transparent 1px); background-size: 100% 22px; margin-top: 15px; }        .behavior-tag { display: inline-block; font-size: 10px; font-weight: 900; background-color: #0284c7; color: white; padding: 3px 8px; border-radius: 4px; margin-bottom: 6px; }        .source-text { font-size: 10px; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }        .question-number { font-family: 'Roboto'; font-size: 22px; font-weight: 900; color: #0284c7; margin-right: 6px; }        .question-text { font-size: 13px; font-weight: 700; line-height: 1.5; color: #0f172a; }        .box-content { border: 2px solid #e2e8f0; padding: 12px; margin: 12px 0; font-size: 12px; line-height: 1.6; color: #1e293b; border-radius: 8px; background-color: #f8fafc; }        .box-content table { width: 100%; border-collapse: collapse; margin-top: 8px; text-align: center; }        .box-content th, .box-content td { border: 1px solid #cbd5e1; padding: 6px; font-size: 11px; }        .box-content th { background-color: #e2e8f0; font-weight: 700; }        .img-placeholder { width: 100%; height: 90px; background-color: white; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; margin: 8px 0; border-radius: 4px; }        .bogi-box { border: 1px solid #0f172a; padding: 12px; margin: 12px 0; font-size: 12px; line-height: 1.8; color: #0f172a; border-radius: 4px; }        .options { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-top: 15px; color: #0f172a; }        .rp-wide .section-title { font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 10px; margin-top: 20px; display: flex; align-items: center; gap: 5px; }        .rp-wide .section-title::before { content: ''; display: inline-block; width: 4px; height: 14px; background-color: #0284c7; }        .rp-wide .section-title:first-child { margin-top: 0; }        .concept-block { font-size: 12px; color: #334155; line-height: 1.6; padding-left: 10px; border-left: 2px solid #e2e8f0; }        .solution-list { font-size: 12px; color: #334155; line-height: 1.6; padding: 0; margin: 0; list-style: none; }        .solution-list li { margin-bottom: 12px; background-color: #f8fafc; padding: 8px 12px; border-radius: 6px; }        .ox-mark { font-weight: 900; margin-right: 5px; font-size: 14px; }        .ox-o { color: #0284c7; }        .ox-x { color: #dc2626; }        .learning-method { background: #0f172a; padding: 15px; margin-top: auto; border-radius: 8px; color: white; }        .learning-title { font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 6px; }        .learning-desc { font-size: 10px; font-weight: 400; line-height: 1.6; color: #cbd5e1; }        .spread-footer { text-align: right; font-size: 12px; font-family: 'Roboto'; font-weight: 900; color: #94a3b8; margin-top: 20px; }        /* --- CONCEPT PAGES CSS --- */body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }        /* -----------------------------------------           Left Page: Data Area           ----------------------------------------- */        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 10px; margin-bottom: 20px; }        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 10px; margin-top: 12px; border-radius: 4px; }        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 10px; }        .scale-bar-container { position: relative; margin-top: 15px; padding-top: 10px; padding-bottom: 20px; }        .scale-line { height: 4px; background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc); width: 100%; position: relative; border-radius: 2px; }        .scale-tick { position: absolute; top: -5px; width: 2px; height: 14px; background-color: #0f172a; }        .scale-label { position: absolute; bottom: 12px; transform: translateX(-50%); font-family: 'Roboto'; font-size: 11px; font-weight: 700; color: #475569; }        .scale-item { position: absolute; top: 12px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; text-align: center; line-height: 1.2; }        /* -----------------------------------------           Right Page: Memorization Sheet (Tutor's Notes)           ----------------------------------------- */        .page-right { padding: 40px 35px 50px 35px;            background-color: #fafaf9;            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);            background-size: 20px 20px;        }        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }/* ======= */body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }        /* -----------------------------------------           Left Page: Data Area           ----------------------------------------- */        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }        /* Table styles for left page */        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 2px; text-align: center; }        .data-table th { background-color: #e0f2fe; color: #0369a1; padding: 4px; border: 1px solid #bae6fd; font-weight: 700; }        .data-table td { padding: 3px; border: 1px solid #bae6fd; color: #334155; font-weight: 500; }        .data-table .highlight { background-color: #fef08a; font-weight: 700; color: #b45309; }        /* Infographic diagram styles */        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }        .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }        .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }        .diagram-desc { font-size: 10px; color: #475569; }        .diagram-arrow { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }        /* -----------------------------------------           Right Page: Memorization Sheet (Tutor's Notes)           ----------------------------------------- */        .page-right { padding: 40px 35px 50px 35px;            background-color: #fafaf9;            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);            background-size: 20px 20px;        }        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }/* ======= */body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }        /* -----------------------------------------           Left Page: Data Area           ----------------------------------------- */        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }        /* Infographic diagram styles */        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }        .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }        .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }        .diagram-desc { font-size: 10px; color: #475569; }        .diagram-arrow { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }        .fermi-box { background: #fff; border: 1px dashed #0284c7; border-radius: 6px; padding: 6px; width: 85%; margin: 3px auto 0; font-size: 11px; }        .fermi-step { margin-bottom: 1px; display: flex; align-items: flex-start; }        .fermi-num { font-weight: 900; color: #0284c7; margin-right: 8px; font-family: 'Roboto'; }        /* -----------------------------------------           Right Page: Memorization Sheet (Tutor's Notes)           ----------------------------------------- */        .page-right { padding: 40px 35px 50px 35px;            background-color: #fafaf9;            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);            background-size: 20px 20px;        }        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }/* ======= */body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }        .concept-spread { display: flex; flex-direction: column; gap: 40px; border: none; box-shadow: none; background: transparent; }        .concept-page { border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }        .concept-page { width: 500px; height: 707px; background-color: #ffffff; box-sizing: border-box; position: relative;  }        /* -----------------------------------------           Left Page: Data Area           ----------------------------------------- */        .page-left { padding: 35px 35px 50px 35px; border-right: 1px solid #cbd5e1; }        .data-header { border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 12px; }        .data-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -1px; margin: 0; }        .body-text { font-size: 11.5px; color: #1e293b; line-height: 1.6; }        .info-box { background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 8px; margin-top: 8px; border-radius: 4px; }        .info-box-title { font-size: 11.5px; font-weight: 700; color: #0284c7; margin-bottom: 6px; }        /* Signal graphs */        .signal-container { display: flex; justify-content: space-around; margin-top: 5px; }        .signal-box { background: #fff; border: 1px solid #94a3b8; padding: 10px; border-radius: 4px; width: 45%; text-align: center; }        .signal-title { font-weight: 700; font-size: 12px; color: #0f172a; margin-bottom: 5px; }        .signal-svg { width: 100%; height: 50px; background-color: #f8fafc; border: 1px solid #e2e8f0; }        /* Infographic diagram styles */        .diagram-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }        .diagram-box { background: #fff; border: 2px solid #0284c7; border-radius: 6px; padding: 6px; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }        .diagram-math { font-family: 'Roboto', sans-serif; font-size: 11.5px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }        .diagram-desc { font-size: 10px; color: #475569; }        .diagram-arrow { color: #0284c7; font-size: 16px; font-weight: 900; margin: 2px 0; }        /* -----------------------------------------           Right Page: Memorization Sheet (Tutor's Notes)           ----------------------------------------- */        .page-right { padding: 40px 35px 50px 35px;            background-color: #fafaf9;            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);            background-size: 20px 20px;        }        .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }        .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }        .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }        .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }        /* 1 Column Layout CSS for Print */        .full-page-content { padding: 45px 40px 60px 40px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }        .compass-box { background-color: #f0f9ff; border: 2px solid #0284c7; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; }        .compass-title { font-size: 15px; font-weight: 900; color: #0284c7; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }        .compass-desc { font-size: 12px; color: #1e293b; line-height: 1.4; font-weight: 500; margin: 0; word-break: keep-all; }        .prob-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0284c7; padding-bottom: 6px; margin-bottom: 15px; }        .prob-brand { color: #0284c7; font-family:'Roboto'; font-weight:900; font-size:14px; }        /* Typography Justification */        p, .body-text, .q-text, .bogi-items, .compass-desc, .learning-desc, .concept-block, .intro-section p, .solution-list li span {            text-justify: inter-word;        }        /* CSAT Problem Styles */        .csat-prob { font-family: 'Batang', 'KoPubBatang', serif; font-size: 9px; line-height: 1.4; color: #000; margin-bottom: 10px; }        .csat-qnum { font-weight: bold; font-size: 11px; margin-right: 4px; }        .csat-box { border: 1px solid #000; padding: 8px 12px; margin: 0px 0; background: #fff; border-radius: 0; box-shadow: none; }        .csat-box p { margin: 0 0 3px 0; }        .csat-box p:last-child { margin: 0; }        .csat-bogi-box { border: 1px solid #000; padding: 10px 20px; margin: 15px 0; position: relative; background: #fff; border-radius: 0; }        .csat-bogi-title { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 5px; font-weight: normal; font-size: 11px; }        .csat-options { display: flex; justify-content: flex-start; gap: 20px; font-size: 10px; margin-top: 10px; padding: 0 5px; }        .csat-score { float: right; margin-left: 5px; font-size: 9px; }</style>
 
     <script>
     MathJax = {
@@ -421,6 +21,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 
 
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
 
@@ -677,7 +278,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <span style="background-color: #3b82f6; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">출제자의 시선</span>
                     <span style="font-weight: 700; font-size: 13px;">왜 이것을 배울까?</span>
                 </div>
-                <p style="font-size: 11px; color: #cbd5e1; line-height: 1.45; margin: 0; ">
+                <p style="font-size: 11px; color: #cbd5e1; line-height: 1.45; margin: 0">
                     2028 수능 통합과학에서 새롭게 추가된 이 단원은 <b>"과학자들이 데이터를 어떻게 다루는가?"</b>에 대한 본질적인 물음입니다. 계산식 암기보다는 '유효숫자와 어림의 필요성'이나 '아날로그 데이터를 디지털로 변환했을 때의 장점'과 같은 <b>자료 해석형 문제</b>가 출제될 가능성이 매우 높습니다.
                 </p>
             </div>
@@ -688,110 +289,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
     
 
     <!-- New Page 3.5 (from 3p.html) -->
-    <style>
-.bridge-page-new .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 10px; /* 4사분면 그리드 간격 축소 */
-            flex-grow: 1;
-            position: relative;
-        }
-.bridge-page-new .quadrant {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 8px; /* 내부 패딩 축소 */
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-.bridge-page-new .quadrant-header {
-            margin-bottom: auto; 
-        }
-.bridge-page-new .quadrant-title {
-            font-size: 13px;
-            font-weight: 900;
-            color: #0f172a;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            line-height: 1.2;
-        }
-.bridge-page-new .quadrant-num { font-family: 'Roboto'; color: #0284c7; }
-.bridge-page-new .quadrant-desc { font-size: 9.5px; color: #64748b; margin-bottom: 5px; line-height: 1.3; }
-.bridge-page-new .svg-container {
-            width: 100%;
-            height: 65px; /* 인포그래픽 높이 축소하여 손글씨 공간 확보 */
-            background: #ffffff;
-            border: 1px dashed #cbd5e1;
-            border-radius: 6px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            margin-bottom: 8px; /* 여백 축소 */
-        }
-.bridge-page-new .tutor-note {
-            background-image: linear-gradient(#f1f5f9 1px, transparent 1px), linear-gradient(90deg, #f1f5f9 1px, transparent 1px);
-            background-size: 15px 15px;
-            background-color: #f8fafc;
-            border: 1.5px solid #94a3b8;
-            padding: 5px 7px; /* 내부 패딩 축소 */
-            border-radius: 0 8px 8px 8px;
-            position: relative;
-        }
-.bridge-page-new .tutor-badge {
-            position: absolute;
-            top: -9px;
-            left: -1.5px;
-            background: #0284c7;
-            color: white;
-            font-family: 'Roboto';
-            font-weight: 900;
-            font-size: 8px;
-            padding: 1px 6px;
-        }
-.bridge-page-new .handwriting {
-            font-family: inherit;
-            font-size: 10px; /* 글꼴 크기 소폭 축소 */
-            line-height: 1.25; /* 줄간격 타이트하게 조절 */
-            color: #1e3a8a;
-            margin: 0;
-            letter-spacing: 0.5px;
-            }
-.bridge-page-new .center-hub {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #0f172a;
-            color: white;
-            width: 55px; /* 크기 소폭 축소 */
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 0 0 4px #ffffff, 0 6px 10px rgba(0,0,0,0.15);
-            z-index: 10;
-        }
-.bridge-page-new .hub-title { font-family: 'Roboto'; font-weight: 900; font-size: 8.5px; letter-spacing: 1px; color: #38bdf8; line-height: 1.1; }
-.bridge-page-new .hub-text { font-size: 7px; font-weight: 700; margin-top: 3px; line-height: 1.2; }
-.bridge-page-new /* 4사분면 허브 가림 방지 여백 (조정) */
-        .q4-header-avoid {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-.bridge-page-new /* 공통 SVG 스타일 */
-        .axis-line { stroke: #334155; stroke-width: 1.2; }
-.bridge-page-new .svg-text { font-family: 'Roboto', sans-serif; font-size: 10px; fill: #475569; }
-.bridge-page-new .svg-text-ko { font-family: 'Noto Sans KR', sans-serif; font-size: 9px; fill: #0f172a; font-weight: 700; }
-.bridge-page-new { padding: 28px 25px !important; background-color: #ffffff; }
-</style>
+    <style>.bridge-page-new .grid-container {            display: grid;            grid-template-columns: 1fr 1fr;            grid-template-rows: 1fr 1fr;            gap: 25px 10px; /* 4사분면 그리드 간격 축소 */            flex-grow: 1;            position: relative;        }.bridge-page-new .quadrant {            background: #f8fafc;            border: 1px solid #e2e8f0;            border-radius: 8px;            padding: 8px; /* 내부 패딩 축소 */            display: flex;            flex-direction: column;            position: relative;        }.bridge-page-new .quadrant-header {            margin-bottom: auto;         }.bridge-page-new .quadrant-title {            font-size: 13px;            font-weight: 900;            color: #0f172a;            margin-bottom: 2px;            display: flex;            align-items: center;            gap: 5px;            line-height: 1.2;        }.bridge-page-new .quadrant-num { font-family: 'Roboto'; color: #0284c7; }.bridge-page-new .quadrant-desc { font-size: 9.5px; color: #64748b; margin-bottom: 5px; line-height: 1.3; }.bridge-page-new .svg-container {            width: 100%;            height: 65px; /* 인포그래픽 높이 축소하여 손글씨 공간 확보 */            background: #ffffff;            border: 1px dashed #cbd5e1;            border-radius: 6px;            display: flex;            justify-content: center;            align-items: center;            overflow: hidden;            margin-bottom: 8px; /* 여백 축소 */        }.bridge-page-new .tutor-note {            background-image: linear-gradient(#f1f5f9 1px, transparent 1px), linear-gradient(90deg, #f1f5f9 1px, transparent 1px);            background-size: 15px 15px;            background-color: #f8fafc;            border: 1.5px solid #94a3b8;            padding: 10px 7px; /* 내부 패딩 축소 */            border-radius: 0 8px 8px 8px;            position: relative;        }.bridge-page-new .tutor-badge {            position: absolute;            top: -9px;            left: -1.5px;            background: #0284c7;            color: white;            font-family: 'Roboto';            font-weight: 900;            font-size: 10.5px;            padding: 1px 6px;        }.bridge-page-new .handwriting {            font-family: inherit;            font-size: 10px; /* 글꼴 크기 소폭 축소 */            line-height: 1.25; /* 줄간격 타이트하게 조절 */            color: #1e3a8a;            margin: 0;            letter-spacing: 0.5px;            }.bridge-page-new .center-hub {            position: absolute;            top: 50%;            left: 50%;            transform: translate(-50%, -50%);            background: #0f172a;            color: white;            width: 55px; /* 크기 소폭 축소 */            height: 55px;            border-radius: 50%;            display: flex;            flex-direction: column;            justify-content: center;            align-items: center;            text-align: center;            box-shadow: 0 0 0 4px #ffffff, 0 6px 10px rgba(0,0,0,0.15);            z-index: 10;        }.bridge-page-new .hub-title { font-family: 'Roboto'; font-weight: 900; font-size: 8.5px; letter-spacing: 1px; color: #38bdf8; line-height: 1.1; }.bridge-page-new .hub-text { font-size: 7px; font-weight: 700; margin-top: 3px; line-height: 1.2; }.bridge-page-new /* 4사분면 허브 가림 방지 여백 (조정) */        .q4-header-avoid {            margin-left: 20px;            margin-top: 10px;        }.bridge-page-new /* 공통 SVG 스타일 */        .axis-line { stroke: #334155; stroke-width: 1.2; }.bridge-page-new .svg-text { font-family: 'Roboto', sans-serif; font-size: 10px; fill: #475569; }.bridge-page-new .svg-text-ko { font-family: 'Noto Sans KR', sans-serif; font-size: 9px; fill: #0f172a; font-weight: 700; }.bridge-page-new { padding: 28px 25px !important; background-color: #ffffff; }</style>
     <div class="page-wrapper" style="margin-top: 40px;">
         <button class="btn-download" onclick="downloadImage('bridge-page-new', 'Bridge_Map')">📸 [14페이지] 과학의 기초 마스터 맵 다운로드</button>
         <div class="a4-page bridge-page-new" id="bridge-page-new">
@@ -836,7 +334,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 
                 <div class="tutor-note">
                     <div class="tutor-badge">Tutor's Schema</div>
-                    <p class="handwriting">"수능 자료해석에서 축의 단위가 10ⁿ이라면 눈금 한 칸은 '더하기'가 아니라 '곱하기(배율)'를 의미해! 선형 스케일인지 로그 스케일인지 확인하자."</p>
+                    <p class="handwriting">"우주처럼 거대한 거시 규모부터 원자처럼 작은 미시 규모까지, 그 상대적인 크기를 묻는 문제에 대비하자!"</p>
                 </div>
             </div>
 
@@ -912,7 +410,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 <!-- q4-header-avoid 클래스로 중앙 허브 피하기 -->
                 <div class="quadrant-header q4-header-avoid">
                     <div class="quadrant-title"><span class="quadrant-num">Q4.</span> 정보와 신호</div>
-                    <div class="quadrant-desc">표본화와 양자화 (A/D 변환)</div>
+                    <div class="quadrant-desc">센서 : 아날로그 신호 → 전기적 신호</div>
                 </div>
                 
                 <div class="svg-container">
@@ -940,7 +438,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 
                 <div class="tutor-note">
                     <div class="tutor-badge">Tutor's Schema</div>
-                    <p class="handwriting">"연속적인 자연의 소리를 촘촘하게 쪼개고(표본화) 세밀하게 수치화(양자화) 할수록 원본과 똑같아지지만, 파일 용량은 훨씬 커져. 수능은 이 원리를 꼭 물어봐!"</p>
+                    <p class="handwriting">"측정 간격이 좁고 더 세밀하게 어림할수록 원래의 자연 현상과 똑같아지지만, 그만큼 저장해야 할 데이터 용량은 엄청나게 커진다는 점을 기억해!"</p>
                 </div>
             </div>
 
@@ -969,9 +467,9 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 자연은 10<sup>-15</sup>m의 미시 세계부터 10<sup>26</sup>m의 관측 가능한 우주까지, 그리고 찰나의 순간부터 138억 년에 이르는 광범위한 시공간적 규모를 가집니다. 통합과학에서는 이러한 다양한 규모를 인식하고 분류하는 것이 중요합니다.
             </p>
             
-            <div class="info-box" style="margin-top: 30px;">
+            <div class="info-box" style="margin-top: 20px;">
                 <div class="info-box-title">■ [자료 1] 공간의 규모 (Scale of Space)</div>
-                <div class="scale-bar-container" style="height: 85px; margin-top: 25px;">
+                <div class="scale-bar-container" style="height: 50px; margin-top: 25px;">
                     <div class="scale-line">
                         <!-- Ticks -->
                         <div class="scale-tick" style="left: 0%;"></div>
@@ -1000,9 +498,9 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </div>
             </div>
 
-            <div class="info-box">
+            <div class="info-box" style="margin-top: 8px;">
                 <div class="info-box-title">■ [자료 2] 시간의 규모 (Scale of Time)</div>
-                <div class="scale-bar-container" style="height: 85px; margin-top: 25px;">
+                <div class="scale-bar-container" style="height: 50px; margin-top: 25px;">
                     <div class="scale-line" style="background: linear-gradient(90deg, #fcd34d, #fb923c, #ef4444);">
                         <!-- Ticks -->
                         <div class="scale-tick" style="left: 0%;"></div>
@@ -1028,6 +526,16 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </div>
             </div>
             
+
+            <div class="info-box" style="margin-top: 10px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #0284c7;">
+                <div style="font-weight: 700; color: #0f172a; margin-bottom: 5px; font-size: 11.5px;">📌 규모(Scale)와 거시/미시 세계</div>
+                <ul style="margin: 0; padding-left: 20px; font-size: 10.5px; color: #334155; line-height: 1.5; text-align: justify; word-break: keep-all;">
+                    <li><strong>규모(Scale):</strong> 자연 현상을 관찰하고 측정할 때 기준이 되는 크기나 범위를 의미합니다.</li>
+                    <li><strong>거시 세계(Macroscopic World):</strong> 인간의 감각으로 직접 관찰할 수 있거나 그보다 더 큰 규모의 세계입니다. (예: 사람, 지구, 우주)</li>
+                    <li><strong>미시 세계(Microscopic World):</strong> 원자나 분자처럼 너무 작아서 현미경 등의 특수 도구 없이는 관찰할 수 없는 세계입니다.</li>
+                </ul>
+            </div>
+            
             <div class="page-num">- 05 -</div>
         </div>
 
@@ -1035,13 +543,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         <div class="concept-page page-right">
             <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
             
-            <div class="handwriting" style="margin-bottom: 4px; margin-top: 4px;">
-                <span style="color:#b91c1c; font-weight:bold;">1. 규모(Scale)의 필요성</span><br>
+            <div class="handwriting" style="margin-bottom: 4px; margin-top: 5px;">
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">1. 규모(Scale)의 필요성</span><br>
                 자연은 10<sup>-15</sup>m부터 10<sup>26</sup>m까지 범위가 너무 넓어, 현상에 맞는 <span class="highlight-marker">적절한 단위와 스케일</span>을 사용해야 직관적인 비교가 가능해!
             </div>
-
-             margin-top: 25px;"><div class="handwriting" style="margin-bottom: 5px;">
-                <span style="color:#b91c1c; font-weight:bold;">2. 필수 암기! SI 접두어</span> (단위 변환 함정 조심!)
+            <br>
+            <div class="handwriting" style="margin-bottom: 4px;">
+                <span style="color:#b91c1c; font-size: 11.0px; font-weight:bold;">2. 필수 암기! SI 접두어</span> (단위 변환 함정 조심!)
             </div>
             <table class="hw-table">
                 <tr>
@@ -1058,7 +566,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <td>킬로 (kilo)</td><td>k</td><td>10<sup>3</sup> (천)</td>
                 </tr>
                 <tr style="background-color:rgba(226,232,240,0.5);">
-                    <td colspan="4" style="font-size: 14px; color:#64748b; padding: 1px;">기준 단위 (예: m, s, g 등) = 10<sup>0</sup></td>
+                    <td colspan="4" style="font-size: 12px; color:#64748b; padding: 1px;">기준 단위 (예: m, s, g 등) = 10<sup>0</sup></td>
                 </tr>
                 <tr>
                     <td rowspan="3" style="color:#2563eb;">미시<br>(작아짐)</td>
@@ -1071,9 +579,9 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <td>나노 (nano)</td><td>n</td><td>10<sup>-9</sup> (십억분의 1)</td>
                 </tr>
             </table>
-
-             margin-top: 25px;"><div class="handwriting" style="margin-bottom: 2px;">
-                <span style="color:#b91c1c; font-weight:bold;">3. 미시/거시 세계 사례 및 관측 기구</span>
+            <br>
+            <div class="handwriting" style="margin-bottom: 5px;">
+                <span style="color:#b91c1c; font-size: 11.0px; font-weight:bold;">3. 미시/거시 세계 사례 및 관측 기구</span>
             </div>
             <table class="hw-table">
                 <tr>
@@ -1096,7 +604,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </tr>
             </table>
 
-            <!-- 포스트잇 팁 -->`n            <div class="tip-sticky" style="margin-top: 5px;">
+            <!-- 포스트잇 팁 -->          <div class="tip-sticky" style="margin-top: 25px;">
                 📌 <strong>갓쌤의 출제 포인트!</strong><br>
                 다양한 자연 세계의 공간 규모와 시간 규모를<br>
                 <span style="color:#b91c1c;">미시 세계</span>와 <span style="color:#2563eb;">거시 세계</span>로 정확히<br>
@@ -1140,7 +648,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </table>
             </div>
 
-            <div class="info-box">
+            <div class="info-box" style="margin-top: 8px;">
                 <div class="info-box-title">■ [자료 2] 유도량의 탄생 과정</div>
                 <div class="diagram-container">
                     <div class="diagram-box" style="border-color: #3b82f6;">
@@ -1177,13 +685,12 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             
             <div class="handwriting" style="margin-bottom: 3px; margin-top: 5px;">
                 수많은 공식들을 무작정 외우고 있니?<br>
-                <span style="color:#b91c1c; font-weight:bold;">단위가 곧 공식의 힌트야!</span><br>
-                모든 공식은 기본량이라는 <span class="highlight-marker">레고 블록</span>으로<br>
-                만들어진 조립품일 뿐이란다.
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">단위가 곧 공식의 힌트야!</span><br>
+                모든 공식은 기본량이라는 <span class="highlight-marker">레고 블록</span>으로 만들어진 조립품일 뿐이란다.
             </div>
 
             <div class="handwriting" style="margin-bottom: 2px;">
-                <span style="color:#b91c1c; font-weight:bold;">■ 필수 암기! 유도량 차원 분석표</span>
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">■ 필수 암기! 유도량 차원 분석표</span>
             </div>
             <table class="hw-table" style="margin-bottom: 5px;">
                 <tr>
@@ -1228,11 +735,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </tr>
             </table>
 
-            <!-- 포스트잇 팁 -->`n            <div class="tip-sticky" style="margin-top: 5px;">
+            <!-- 포스트잇 팁 -->       <div class="tip-sticky" style="margin-top: 25px;">
                 📌 <strong>갓쌤의 가장 많이 낚이는 오답 함정!</strong><br>
-                시험 문제에서 자주 나오는<br>
+                시험 문제에서 자주 나오는
                 부피 단위인 리터(<span style="font-family:'Roboto';">L</span>)나 밀리리터(<span style="font-family:'Roboto';">mL</span>) 역시,<br>
-                <span style="color:#b91c1c; font-weight:bold;">'길이'</span>라는 기본량이 3번 곱해져서 만들어진<br>
+                <span style="color:#b91c1c; font-weight:bold;">'길이'</span>라는 기본량이 3번 곱해져서 만들어진
                 <span style="color:#2563eb; font-weight:bold;">유도량</span>이라는 사실을 절대 잊지 마!
             </div>
 
@@ -1296,17 +803,17 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
             
             <div class="handwriting" style="margin-top: 8px; margin-bottom: 2px;">
-                <span style="color:#b91c1c; font-weight:bold;">1. 측정 표준과 오차</span>
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">1. 측정 표준과 오차</span>
             </div>
-            <div class="handwriting" style="margin-bottom: 6px; margin-left: 10px; font-size: 17px;">
+            <div class="handwriting" style="margin-bottom: 6px; margin-left: 10px">
                 • <strong>측정</strong> : 물리량을 수치와 단위로 나타냄 (필연적으로 <span style="color:#b91c1c;">오차</span> 발생!)<br>
                 • <strong>측정 표준</strong> : 측정의 절대 기준. 장소와 시간에 따라 <span class="highlight-marker">변하지 않아야 함</span>.
             </div>
 
             <div class="handwriting" style="margin-bottom: 2px;">
-                <span style="color:#b91c1c; font-weight:bold;">2. 어림 (Estimation)</span>
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">2. 어림 (Estimation)</span>
             </div>
-            <div class="handwriting" style="margin-bottom: 10px; margin-left: 10px; font-size: 17px;">
+            <div class="handwriting" style="margin-bottom: 10px; margin-left: 10px">
                 • 정확한 측정이 어려울 때, <span style="color:#0369a1;">대략적인 자릿수(규모)</span>를 직관적으로 추론.<br>
                 • 복잡한 계산 없이 빠르게 현상의 규모를 파악할 수 있어!
             </div>
@@ -1322,26 +829,26 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </tr>
                 <tr>
                     <td style="font-weight:bold; color:#0369a1;">길이 (m)</td>
-                    <td>미터 원기<br><span style="font-size:14px; color:#64748b;">(온도/압력에 따른 변형)</span></td>
+                    <td>미터 원기<br><span style="font-size:11px; color:#64748b;">(온도/압력에 따른 변형)</span></td>
                     <td style="font-weight:bold; color:#0369a1;">진공에서의 빛의 속력 (c)</td>
                 </tr>
                 <tr>
                     <td style="font-weight:bold; color:#b91c1c;">질량 (kg)</td>
-                    <td>킬로그램 원기<br><span style="font-size:14px; color:#64748b;">(마모/산화로 질량 변화)</span></td>
+                    <td>킬로그램 원기<br><span style="font-size:11px; color:#64748b;">(마모/산화로 질량 변화)</span></td>
                     <td style="font-weight:bold; color:#b91c1c;">플랑크 상수 (h)</td>
                 </tr>
                 <tr>
                     <td style="font-weight:bold; color:#15803d;">시간 (s)</td>
-                    <td>지구 자전/공전 주기<br><span style="font-size:14px; color:#64748b;">(미세한 불규칙성 존재)</span></td>
+                    <td>지구 자전/공전 주기<br><span style="font-size:11px; color:#64748b;">(미세한 불규칙성 존재)</span></td>
                     <td style="font-weight:bold; color:#15803d;">세슘 원자의 진동 주기</td>
                 </tr>
             </table>
 
-            <!-- 포스트잇 팁 -->`n            <div class="tip-sticky" style="margin-top: 5px;">
+            <!-- 포스트잇 팁 -->         <div class="tip-sticky" style="margin-top: 25px;">
                 📌 <strong>갓쌤의 수능 출제 포인트!</strong><br><br>
-                수능에는 미터법 재정의에 관한 <strong>'표준의 불변성'</strong>을<br>
+                수능에는 미터법 재정의에 관한 <strong>'표준의 불변성'</strong>을
                 묻는 문제가 무조건 출제된다!<br>
-                금속 쇳덩어리(인공물)는 환경에 따라 변하므로,<br>
+                금속 쇳덩어리(인공물)는 환경에 따라 변하므로,
                 절대 불변인 <span style="color:#b91c1c; font-weight:bold;">자연 상수(우주 상수)</span>로 새롭게<br>
                 단위를 정의했다는 인과관계를 기억해!
             </div>
@@ -1424,23 +931,23 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         <div class="concept-page page-right">
             <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
             
-            <div class="handwriting" style="margin-top: 4px; margin-bottom: 2px;">
-                <span style="color:#b91c1c; font-weight:bold;">1. 정보와 신호의 관계</span>
+            <div class="handwriting" style="margin-top: 14px; margin-bottom: 5px;">
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">1. 정보와 신호의 관계</span>
             </div>
-            <div class="handwriting" style="margin-bottom: 4px; margin-left: 10px; font-size: 17px; line-height: 1.1;">
+            <div class="handwriting" style="margin-bottom: 20px; margin-left: 10px">
                 • <strong>정보</strong> : 자연 현상을 관찰하고 측정하여 얻은 <span class="highlight-marker">의미 있는 자료</span>.<br>
                 • <strong>신호</strong> : 그 정보를 멀리 전달하기 위해 사용하는 <span style="color:#0369a1;">물리량</span> (빛, 전압 등)
             </div>
-
-            <div class="handwriting" style="margin-bottom: 2px;">
-                <span style="color:#b91c1c; font-weight:bold;">2. 센서(Sensor)의 역할과 활용 사례</span>
+            
+            <div class="handwriting" style="margin-bottom: 5px;">
+                <span style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">2. 센서(Sensor)의 역할과 활용 사례</span>
             </div>
-            <div class="handwriting" style="margin-bottom: 6px; margin-left: 10px; font-size: 17px; line-height: 1.1;">
+            <div class="handwriting" style="margin-bottom: 20px; margin-left: 10px">
                 • <strong>역할</strong> : 자연계의 변화를 기계가 인식할 수 있는 <span style="color:#0369a1; font-weight:bold;">전기적 신호로 변환</span>해 주는 장치. (사람의 '감각 기관'과 유사)<br>
                 • <strong>사례</strong> : <strong>마이크</strong>(소리→전기), <strong>광센서/카메라</strong>(빛→전기), <strong>온도 센서</strong>(온도→전기)
             </div>
-
-            <div class="handwriting" style="margin-bottom: 2px;">
+            
+            <div class="handwriting" style="margin-bottom: 5px;">
                 <span style="color:#b91c1c; font-weight:bold;">3. 아날로그 vs 디지털 신호 핵심 비교표</span>
             </div>
             <table class="hw-table" style="margin-bottom: 8px;">
@@ -1451,13 +958,13 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </tr>
                 <tr>
                     <td style="font-weight:bold;">데이터 형태</td>
-                    <td style="color:#0369a1; font-weight:bold;">연속적인 값<br><span style="font-size:14px; color:#64748b; font-weight:normal;">(끊어짐이 없음)</span></td>
-                    <td style="color:#b91c1c; font-weight:bold;">불연속적인 값<br><span style="font-size:14px; color:#64748b; font-weight:normal;">(0과 1로 구분)</span></td>
+                    <td style="color:#0369a1; font-weight:bold;">연속적인 값<br><span style="font-size:11px; color:#64748b; font-weight:normal;">(끊어짐이 없음)</span></td>
+                    <td style="color:#b91c1c; font-weight:bold;">불연속적인 값<br><span style="font-size:11px; color:#64748b; font-weight:normal;">(0과 1로 구분)</span></td>
                 </tr>
                 <tr>
                     <td style="font-weight:bold;">핵심 장점</td>
                     <td>자연의 변화를 있는 그대로<br>섬세하게 표현</td>
-                    <td style="font-weight:bold; color:#b91c1c;">잡음(Noise)에 강함<br><span style="font-size:14px; color:#000; font-weight:normal;">복제 및 저장이 매우 용이</span></td>
+                    <td style="font-weight:bold; color:#b91c1c;">잡음(Noise)에 강함<br><span style="font-size:11px; color:#000; font-weight:normal;">복제 및 저장이 매우 용이</span></td>
                 </tr>
                 <tr style="background-color:rgba(226,232,240,0.5);">
                     <td style="font-weight:bold;">단점/한계</td>
@@ -1468,7 +975,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 
                         </table>
 
-            <div class="handwriting" style="margin-bottom: 3px; margin-top: 15px;">
+            <div class="handwriting" style="margin-bottom: 5px; margin-top: 20px;">
                 <span style="color:#b91c1c; font-weight:bold;">■ 불변의 기준을 찾아서! 측정 표준의 변천</span><br>
                 과거에는 변할 수 있는 물체나 천체를 기준으로 삼았지만,<br>
                 현대에는 우주 어디서나 변하지 않는 <strong>절대적인 물리 상수</strong>를 기준으로 삼아!
@@ -1496,12 +1003,12 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                 </tr>
             </table>
             <!-- 포스트잇 팁 -->
-            <div class="tip-sticky" style="margin-top: 4px; padding: 6px 10px;">
+            <div class="tip-sticky" style="margin-top: 20px; padding: 6px 10px;">
                 📌 <strong>갓쌤의 수능 출제 포인트! (함정 주의)</strong><br><br>
-                수능 통합과학에서는 '표본화', '양자화' 같은 복잡한<br>
+                수능 통합과학에서는 '표본화', '양자화' 같은 복잡한<
                 디지털 변환 기술은 절대 출제되지 않아!<br>
                 (이건 고등학교 '정보' 과목의 내용이거든!)<br><br>
-                통합과학에서는 오직 <span style="color:#0369a1; font-weight:bold;">'연속성 vs 불연속성'의 차이</span>와,<br>
+                통합과학에서는 오직 <span style="color:#0369a1; font-weight:bold;">'연속성 vs 불연속성'의 차이</span>와,
                 디지털 신호가 <span style="color:#b91c1c; font-weight:bold;">'잡음에 강하다'</span>는 특징만 기억해!!
             </div>
 
@@ -1532,14 +1039,14 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="prob-split-left" style="flex: 0 0 100px;">
                         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px;">
                             <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 6px;">💡 갓쌤의 접근법</div>
-                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all; ">
+                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all">
                                 x축(시간 규모)과 y축(공간 규모)이 모두 로그 스케일로 표현되어 있음에 주의하세요. 세슘 원자와 우주 같은 극단적인 값들을 먼저 매칭하면 사람과 지구의 규모를 쉽게 유추할 수 있습니다.
                             </div>
                         </div>
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding: 0 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="./1주차/scale_prob1_full.png" alt="시간과 공간의 규모 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prep_q01.png?alt=media" alt="시간과 공간의 규모 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -1567,7 +1074,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
                         <span style="color: #0284c7; margin-right: 5px;">▶</span>출제 의도
                     </div>
-                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all">
                         시간과 공간의 규모를 나타내는 좌표에서 미시 세계부터 거시 세계까지의 스케일을 올바르게 짝지을 수 있는지 묻는 문항이다.
                     </div>
                 </div>
@@ -1579,23 +1086,23 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     
                     <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
                         <p style="margin-top: 0; margin-bottom: 10px; font-weight: 700; color: #0f172a;">[A~D 분석]</p>
-                        <p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; ">
+                        <p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all">
                             A는 10⁻¹⁰초/m 단위의 미시 세계이므로 <b>세슘 원자</b>, B는 10⁰초/m 단위(초, 미터 단위의 일상적 규모)이므로 <b>사람</b>, C는 10¹⁷초/10⁷m 단위이므로 <b>지구</b>, D는 가장 거대한 규모(10¹⁸초/10²⁶m 이상)이므로 <b>우주</b>이다.
                         </p>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">C는 지구이다.</div>
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">C는 지구이다.</div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄴ. (X)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">B(사람)의 시간 규모(수명)는 대략 100년(약 3×10⁹초)이다. 이는 지구의 공전 주기(1년)보다는 길지만, 목성(약 12년), 해왕성(약 165년) 등 태양계 행성들의 전반적인 공전 주기와 비교했을 때 '훨씬 큰 값'이라고 볼 수 없다.</div>
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">B(사람)의 시간 규모(수명)는 대략 100년(약 3×10⁹초)이다. 이는 지구의 공전 주기(1년)보다는 길지만, 목성(약 12년), 해왕성(약 165년) 등 태양계 행성들의 전반적인 공전 주기와 비교했을 때 '훨씬 큰 값'이라고 볼 수 없다.</div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 0;">
                             <div class="bogi-mark" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄷ. (X)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">미시 세계(A)에서 거시 세계(D)로 갈수록 공간 척도가 커지면 시간 척도도 함께 커지므로 일반적으로 서로 비례하는 경향을 띤다.</div>
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">미시 세계(A)에서 거시 세계(D)로 갈수록 공간 척도가 커지면 시간 척도도 함께 커지므로 일반적으로 서로 비례하는 경향을 띤다.</div>
                         </div>
                     </div>
                 </div>
@@ -1626,7 +1133,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Left Column -->
                     <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prob21_1_a4.png" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q01.png?alt=media" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -1640,7 +1147,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Right Column -->
                     <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prob21_2_a4.png" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q02.png?alt=media" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -1805,14 +1312,14 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="prob-split-left" style="flex: 0 0 100px;">
                         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px;">
                             <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 6px;">💡 갓쌤의 접근법</div>
-                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all; ">
+                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all">
                                 문제에 주어진 ㉠, ㉡, ㉢이 각각 어떤 물리량인지 먼저 파악하세요. 부피는 기본량일까요, 유도량일까요? 단위를 변환할 때 10의 몇 제곱을 곱해야 하는지 주의 깊게 살펴보세요.
                             </div>
                         </div>
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="./1주차/prob15_full.png" alt="예시문항 1번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q03.png?alt=media" alt="예시문항 1번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -1839,7 +1346,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
                         <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
-                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all">
                         <strong style="color: #0f172a;">차원 분석 (단위의 곱과 나눗셈)</strong><br>
                         압력의 단위 $\mathrm{N/m^2}$ 에 부피의 단위 $\mathrm{m^3}$ 을 곱하면, 분모의 $\mathrm{m^2}$ 이 약분되어 $\mathrm{N \cdot m}$ 만 남게 됩니다. 이는 일(Work)이나 에너지(Energy)의 단위인 $\mathrm{J}$(줄)과 완벽히 일치하는 차원입니다.
                     </div>
@@ -1853,21 +1360,21 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄱ. (X)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 넓이는 (길이 $	imes$ 길이), 부피는 (길이 $	imes$ 길이 $	imes$ 길이)로 조합된 <strong>유도량</strong>입니다. 길이는 기본량이지만 면적과 부피는 아닙니다.
                             </div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄴ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 $X = (\mathrm{N/m^2}) 	imes (\mathrm{m^3}) = \mathrm{N \cdot m}$ 가 성립합니다.
                             </div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 0;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄷ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 힘 $F = ma$ 이므로 질량($\mathrm{kg}$)과 가속도($\mathrm{m/s^2}$)를 곱한 것과 뉴턴($\mathrm{N}$)은 완전히 같은 단위입니다.
                             </div>
                         </div>
@@ -1899,7 +1406,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Left Column -->
                     <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prac_p1_L.png" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q03.png?alt=media" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -1911,7 +1418,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Right Column -->
                     <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prac_p1_R.png" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q04.png?alt=media" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -2074,14 +1581,14 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="prob-split-left" style="flex: 0 0 100px;">
                         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px;">
                             <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 6px;">💡 갓쌤의 접근법</div>
-                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all; ">
+                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all">
                                 측정 표준이 변해 온 역사를 시간순으로 기억하세요. 인공물(원기)에서 자연의 불변하는 상수(빛의 속력 등)로 정의가 바뀌게 된 결정적 이유를 떠올려 보세요.
                             </div>
                         </div>
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding: 0 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="./1주차/prob17_full.png" alt="예시문항 2번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q02.png?alt=media" alt="예시문항 2번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                 </div>
                 </div>
@@ -2109,7 +1616,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
                         <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
-                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all">
                         <strong style="color: #0f172a;">측정 표준의 변화 과정: 지구 자오선(C) &rarr; 미터원기(A) &rarr; 빛의 속력(B)</strong><br>
                         과거에는 지구의 크기나 금속 합금을 표준으로 삼았으나, 온도/압력 등 환경에 따라 변형될 수 있는 한계가 있었습니다. 오늘날에는 우주 어디서나 변하지 않는 자연 상수(빛의 속력)를 기준으로 삼습니다.
                     </div>
@@ -2123,21 +1630,21 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 미터원기 등 금속은 열팽창에 의해 온도에 따라 길이가 미세하게 변합니다.
                             </div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄴ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 1/299,792,458초라는 찰나의 시간을 측정해야 하므로, 현대 양자역학 기술(세슘 원자시계)이 필수적입니다.
                             </div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 0;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄷ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 자연물(지구)에서 인공물(미터원기)을 거쳐 불변의 상수(빛의 속력)로 발전했습니다.
                             </div>
                         </div>
@@ -2169,7 +1676,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Left Column -->
                     <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prac_p2_L.png" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q05.png?alt=media" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -2181,7 +1688,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Right Column -->
                     <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prac_p2_R.png" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q06.png?alt=media" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -2344,14 +1851,14 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="prob-split-left" style="flex: 0 0 100px;">
                         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px;">
                             <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 6px;">💡 갓쌤의 접근법</div>
-                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all; ">
+                            <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all">
                                 센서의 역할과 아날로그/디지털 신호의 차이를 명확히 구분하세요. 디지털 데이터로 변환 시 잡음에 강해지는 근본적인 이유를 떠올려보면 쉽게 해결할 수 있습니다.
                             </div>
                         </div>
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding: 0 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="./1주차/prob19_full.png" alt="실전 문항 분석 3번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prep_q02.png?alt=media" alt="실전 문항 분석 3번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -2379,7 +1886,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
                         <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
-                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+                    <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all">
                         <strong style="color: #0f172a;">아날로그와 디지털 신호의 특징 비교</strong><br>
                         자연계의 소리와 같은 '아날로그 신호'는 연속적이며, 이를 0과 1의 불연속적 값인 '디지털 데이터'로 변환하면 잡음에 매우 강해져 원본 신호로 복원하기가 쉽습니다.
                     </div>
@@ -2393,21 +1900,21 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 자연계의 소리는 끊어지지 않고 연속적으로 변하는 아날로그 신호입니다.
                             </div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 8px;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄴ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 이것이 바로 센서의 가장 핵심적인 정의이자 역할입니다. 소리(물리적 변화)를 기계가 인식할 수 있는 전기적 신호로 변환합니다.
                             </div>
                         </div>
                         
                         <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 0;">
                             <div class="bogi-mark" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄷ. (O)</div>
-                            <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
+                            <div class="bogi-text" style="flex: 1; word-break: keep-all">
                                 디지털 데이터는 0과 1로 명확히 구분되므로, 미세한 노이즈가 끼더라도 0인지 1인지만 판별하면 원본 복원이 완벽하게 이루어집니다.
                             </div>
                         </div>
@@ -2440,7 +1947,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Left Column -->
                     <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prac_p3_L.png" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q07.png?alt=media" alt="변형 문항 1" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -2452,7 +1959,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <!-- Right Column -->
                     <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
                         <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-                            <img src="./1주차/prac_p3_R.png" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q08.png?alt=media" alt="변형 문항 2" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         
                         <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
@@ -2627,11 +2134,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
                         <!-- Question 1 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q1.png" alt="1번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q01.png?alt=media" alt="1번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 2 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q2.png" alt="2번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q02.png?alt=media" alt="2번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                     
@@ -2639,11 +2146,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
                         <!-- Question 3 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q3.png" alt="3번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q03.png?alt=media" alt="3번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 4 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q4.png" alt="4번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q04.png?alt=media" alt="4번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -2670,11 +2177,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
                         <!-- Question 5 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q5.png" alt="5번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q05.png?alt=media" alt="5번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 6 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q6.png" alt="6번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q06.png?alt=media" alt="6번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                     
@@ -2682,11 +2189,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
                         <!-- Question 7 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q7.png" alt="7번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q07.png?alt=media" alt="7번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 8 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q8.png" alt="8번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q08.png?alt=media" alt="8번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -2713,11 +2220,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
                         <!-- Question 9 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q9.png" alt="9번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q09.png?alt=media" alt="9번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 10 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q10.png" alt="10번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q10.png?alt=media" alt="10번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                     
@@ -2725,11 +2232,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
                         <!-- Question 11 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q11.png" alt="11번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q11.png?alt=media" alt="11번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 12 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q12.png" alt="12번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q12.png?alt=media" alt="12번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -2756,11 +2263,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
                         <!-- Question 13 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q13.png" alt="13번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q13.png?alt=media" alt="13번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 14 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q14.png" alt="14번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q14.png?alt=media" alt="14번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                     
@@ -2768,11 +2275,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
                         <!-- Question 15 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q15.png" alt="15번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q15.png?alt=media" alt="15번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 16 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q16.png" alt="16번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q16.png?alt=media" alt="16번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -2799,11 +2306,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
                         <!-- Question 17 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q17.png" alt="17번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q17.png?alt=media" alt="17번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 18 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q18.png" alt="18번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q18.png?alt=media" alt="18번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                     
@@ -2811,11 +2318,11 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
                     <div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
                         <!-- Question 19 -->
                         <div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q19.png" alt="19번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q19.png?alt=media" alt="19번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                         <!-- Question 20 -->
                         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-                            <img src="./1주차/mock_q20.png" alt="20번 문항" style="width: 100%; height: auto; object-fit: contain;">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_mock_q20.png?alt=media" alt="20번 문항" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>

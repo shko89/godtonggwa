@@ -6,14 +6,7 @@
     <title>갓통과 - 갓통과 WEEKLY</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; text-align: justify; word-break: keep-all; }
-        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; text-align: justify; word-break: keep-all; }        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }    </style>
     <script src="https://js.tosspayments.com/v1/"></script>
 
 <script>
@@ -30,6 +23,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="app-container">
@@ -234,9 +228,14 @@ window.addEventListener('wheel', (e) => {
             currentUser = user;
             if (user) {
                 try {
-                    const docRef = doc(db, "users", user.uid, "my_packages", "weekly_winter_2028");
+                    const docRef = doc(db, "users", user.uid);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists() && docSnap.data().status === 'active') {
+                    const userData = docSnap.exists() ? docSnap.data() : {};
+                    
+                    // 신규 패키지(주간지 또는 올패스) 또는 레거시 전체 프리미엄 권한 체크
+                    if (userData.subscriptions?.weekly_magazine?.isActive || 
+                        userData.subscriptions?.all_pass?.isActive || 
+                        userData.isPaid) {
                         hasWeeklyPass = true;
                         document.querySelector('.fixed.bottom-0').innerHTML = `
                             <button class="w-full bg-gray-200 text-gray-500 font-black text-lg py-4 rounded-xl cursor-default">

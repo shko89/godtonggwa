@@ -317,41 +317,6 @@ window.addEventListener('wheel', (e) => {
             return 5;
         }
 
-        /**
-         * [신규 추가] 오답 노트 및 누적 통계를 업데이트하는 함수
-         */
-        async function processAndSaveWrongAnswers(userId, examId, evaluatedAnswers) {
-            // 틀린 문제 중 qId가 명확히 존재하는 문제들만 필터링
-            const wrongAnswers = evaluatedAnswers.filter(ans => !ans.isCorrect && ans.qId);
-            if (wrongAnswers.length === 0) return;
-
-            const batch = writeBatch(db);
-
-            // 오답 문항들의 세부 정보(topic, behavioralDomain)를 questions 컬렉션에서 가져옴
-            await Promise.all(wrongAnswers.map(async (ans) => {
-                let topic = "미분류";
-                let behavior = "미분류";
-
-                try {
-                    const qSnap = await getDoc(doc(db, "questions", ans.qId));
-                    if (qSnap.exists()) {
-                        const qData = qSnap.data();
-                        topic = qData.taxonomy?.topic || "미분류";
-                        behavior = qData.behavioralDomain || "미분류";
-                    }
-                } catch(e) { 
-                    console.warn(`문항(${ans.qId}) 정보 로드 실패:`, e); 
-                }
-
-                // 1. wrong_answers 서브 컬렉션에 저장 (문항 ID를 문서명으로)
-                const wrongAnswerRef = doc(db, "users", userId, "wrong_answers", ans.qId);
-                batch.set(wrongAnswerRef, {
-                    examId: examId,
-                    qId: ans.qId,
-                    topic: topic,
-                    behavior: behavior,
-                    studentMark: ans.studentMark,
-                    correctAnswer: ans.correctAnswer,
                     wrongCount: increment(1), // 다시 틀렸을 때 누적
                     lastFailedAt: new Date().toISOString()
                 }, { merge: true });
@@ -410,13 +375,22 @@ window.addEventListener('wheel', (e) => {
 
                     // 오답 데이터 처리를 위해 원본 맵핑 아이디 획득
                     const qData = EXAM_QUESTIONS && EXAM_QUESTIONS[i-1] ? EXAM_QUESTIONS[i-1] : null;
+                    
+                    let expTopic = null;
+                    if (window.globalExamData && window.globalExamData.explanations) {
+                        const exp = window.globalExamData.explanations.find(e => e.no === i);
+                        if (exp && exp.topic) expTopic = exp.topic;
+                    }
+
                     evaluatedAnswers.push({
                         no: i,
-                        qId: qData ? qData.qId : null,
+                        qId: qData ? qData.qId : `${EXAM_ID}_q${i}`,
                         isCorrect: isCorrect,
                         studentMark: val,
                         correctAnswer: CORRECT_ANSWERS[i-1],
-                        score: SCORE_MAP[i-1]
+                        score: SCORE_MAP[i-1],
+                        topic: qData ? (qData.taxonomy?.topic || expTopic) : expTopic,
+                        behavior: qData ? qData.behavioralDomain : null
                     });
                 }
                 
@@ -504,7 +478,7 @@ window.addEventListener('wheel', (e) => {
 
                 // C. [신규 로직 실행] 오답 노트 및 누적 통계 일괄 업데이트
                 document.getElementById('loading-status-text').innerHTML = "AI 채점 완료!<br>취약 단원 및 오답 노트를 분석 중입니다...";
-                await processAndSaveWrongAnswers(user.uid, EXAM_ID, evaluatedAnswers);
+
 
                 document.getElementById('loading-overlay').classList.add('hidden');
                 

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 1타 강사 비밀노트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            chtml: { matchFontHeight: true }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        /* 1. 손글씨 폰트 로드 */
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+        
+        body { font-family: 'Gaegu', cursive; background-color: #f0f0f0; }
+
+        /* 공통 개념 박스 스타일 */
+        .concept-box { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; 
+            background: linear-gradient(135deg, rgba(220, 252, 231, 0.85), rgba(240, 253, 244, 0.95)); 
+            border-left: 5px solid #22c55e; 
+            padding: 16px 20px; 
+            margin-top: 14px; 
+            margin-bottom: 24px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15), inset 0 0 0 1px rgba(255,255,255,0.5); 
+            line-height: normal;
+            position: relative;
+            z-index: 10;
+        }
+        .concept-title { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: #14532d; 
+            font-size: 13px; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            letter-spacing: -0.5px; 
+            font-weight: 900; 
+            margin: 0;
+        }
+        .concept-content { 
+            display: block; 
+            color: #166534; 
+            font-size: 10.5px; 
+            line-height: 1.6; 
+            word-break: keep-all; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            font-weight: 500;
+            margin: 0;
+        }
+
+
+        /* 2. 줄 공책 배경 스타일 (CSS 패턴) */
+        .notebook-paper {
+            background-color: #fffef0; /* 미색 종이 */
+            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px); /* 파란 줄 */
+            background-size: 100% 30px; /* 줄 간격 */
+            line-height: 30px; /* 글자 줄 간격 맞춤 */
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .notebook-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 40px;
+            width: 2px;
+            background-color: #ff9999; /* 빨간 세로줄 */
+            opacity: 0.6;
+        }
+
+        .handwriting {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 1.6rem;
+            color: #374151;
+            padding-left: 50px;
+            padding-right: 20px;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* 📝 예쁜 반투명 스크롤바 */
+        .custom-notebook-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-notebook-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-notebook-scroll::-webkit-scrollbar-thumb { 
+            background: rgba(0, 0, 0, 0.15); 
+            border-radius: 10px; 
+        }
+        .custom-notebook-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.3); }
+        
+        .btn-selected { 
+            background-color: #4f46e5; 
+            color: white; 
+            transform: scale(1.1); 
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);
+            border-color: #4f46e5;
+        }
+        
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
+
+    <div class="w-full max-w-4xl flex justify-between items-center mb-6">
+        <button onclick="history.back()" class="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition">
+            <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
+        </button>
+        <h1 class="text-2xl font-bold text-gray-700 flex items-center gap-2">
+            <span class="text-3xl">📓</span> 
+            <span id="exam-title-header">오답노트 펼치는 중...</span>
+        </h1>
+        <div class="w-10"></div>
+    </div>
+
+    <div class="w-full max-w-4xl flex flex-col md:flex-row gap-6 h-[80vh]">
+        
+        <div class="w-full md:w-1/3 bg-white rounded-2xl p-4 shadow-xl flex flex-col border-4 border-gray-300">
+            <div class="mb-4 pb-2 border-b-2 border-dashed border-gray-300 text-center">
+                <span class="text-xl font-bold text-indigo-600">문항 선택하기</span>
+                <p class="text-sm text-gray-500 mt-1">번호를 누르면 해설이 보여요!</p>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto hide-scrollbar">
+                <div class="grid grid-cols-5 gap-2" id="question-grid">
+                    <p class="col-span-5 text-center text-gray-400 py-10 text-xs">데이터 로딩 중...</p>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center shrink-0">
+                <p class="text-xs text-gray-400 mb-1">현재 보고 있는 문제</p>
+                <div id="current-info-badges" class="flex justify-center gap-2">
+                    <span class="bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded">선택 대기중</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-2/3 relative perspective-1000">
+            <div class="absolute -left-3 top-4 bottom-4 w-6 flex flex-col justify-between z-10 py-2">
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+            </div>
+
+            <div class="w-full h-full bg-[#fffef0] rounded-r-lg shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper">
+                
+                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8 bg-indigo-50/10">
+                    <span class="text-2xl font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
+                        Q. 문항을 선택해주세요
+                    </span>
+                </div>
+
+                <div class="flex-1 overflow-y-auto px-6 pb-6 pt-0 ml-2 custom-notebook-scroll relative" id="note-content-area">
+                    <div class="handwriting flex flex-col items-center justify-center h-full text-gray-400 opacity-50 text-center">
+                        <i data-lucide="hand-metal" class="w-12 h-12 mb-2"></i>
+                        왼쪽에서 문항 번호를<br>콕! 눌러보세요.
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-4 right-4 transform rotate-[-10deg] opacity-80 pointer-events-none">
+                    <span class="bg-yellow-200 text-yellow-800 px-3 py-1 text-lg font-bold shadow-lg border-2 border-yellow-400 rounded-sm">
+                        Very Good! 👍
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl text-center max-w-xs w-full mx-4">
+            <i data-lucide="lock" class="w-12 h-12 text-indigo-600 mx-auto mb-4"></i>
+            <h2 class="text-xl font-bold mb-2">로그인 필요</h2>
+            <p class="text-gray-500 text-sm mb-6">유료 회원 전용 서비스입니다.<br>로그인 후 이용해 주세요.</p>
+            <button id="go-login" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl active:scale-95 transition-transform">로그인하러 가기</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const EXAM_ID = urlParams.get('id') || 'exam_01';
+        
+        let examMetaData = null;
+        let aiExamData = null;
+
+        function loadExamDataScript(examId) {
+            return new Promise((resolve) => {
+                let fileName = '';
+                if (examId === '2028_pretest' || examId === 'past_예비문항') {
+                    fileName = `../archive/kice_2028/2028_pretest.js`;
+                } else if (examId.includes('week_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1]; 
+                    const baseId = parts.slice(0, 3).join('_'); 
+                    fileName = `./weekly/${year}/${baseId}.js`;
+                } else {
+                    fileName = `./data/${examId}.js`;
+                }
+                fileName += `?v=${new Date().getTime()}`;
+                
+                console.log("파일을 찾으러 갑니다:", fileName); 
+
+                const script = document.createElement('script');
+                script.src = fileName;
+                
+                script.onload = () => {
+                    if (window.globalExamData) resolve(window.globalExamData);
+                    else resolve(null);
+                };
+                
+                script.onerror = () => {
+                    console.warn(`파일을 찾지 못했습니다 (404 Error): ${fileName}`);
+                    resolve(null);
+                };
+                
+                document.head.appendChild(script);
+            });
+        }
+
+       async function init() {
+            try {
+                // [수정] 긴 ID(week_...)에서 앞의 3단어만 추출하여 DB 조회용으로 사용
+                const parts = EXAM_ID.split('_');
+                const cleanExamId = parts.slice(0, 3).join('_');
+
+                const [metaSnap, loadedAiData] = await Promise.allSettled([
+                    getDoc(doc(db, "exams", cleanExamId)),
+                    loadExamDataScript(EXAM_ID)
+                ]);
+
+                if (metaSnap.status === 'fulfilled' && metaSnap.value.exists()) {
+                    examMetaData = metaSnap.value.data();
+                    document.getElementById('exam-title-header').innerText = examMetaData.title || "나만의 오답노트";
+                } else {
+                    document.getElementById('exam-title-header').innerText = "시험 정보를 찾을 수 없습니다.";
+                }
+                if (loadedAiData.status === 'fulfilled' && loadedAiData.value) aiExamData = loadedAiData.value;
+                renderQuestionGrid();
+                
+                // [신규 추가] URL에 qNum이 있으면 해당 문항 해설을 자동으로 띄우기
+                const preSelectNum = urlParams.get('qNum');
+                if (preSelectNum) {
+                    const no = parseInt(preSelectNum);
+                    const btns = document.querySelectorAll('#question-grid button');
+                    if (no > 0 && no <= btns.length) {
+                        btns[no - 1].click();
+                    }
+                }
+
+                lucide.createIcons();
+            } catch (e) { console.error("초기화 오류:", e); }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                init();
+            } else {
+                const modal = document.getElementById('auth-modal');
+                modal.classList.remove('hidden');
+                document.getElementById('go-login').onclick = () => {
+                    const target = 'exam.html';
+                    if (target) window.location.assign(target);
+                };
+            }
+        });
+
+        function renderQuestionGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+            
+            // [수정 완료] id가 week로 시작하면 20문항, 아니면 DB설정값 또는 25문항
+            let totalQ = 25;
+            if (EXAM_ID.startsWith('week')) {
+                totalQ = 20;
+            } else {
+                totalQ = examMetaData?.questions?.length || 25;
+            }
+
+            for (let i = 1; i <= totalQ; i++) {
+                const btn = document.createElement('button');
+                btn.className = "w-full aspect-square rounded-xl bg-gray-100 border-2 border-gray-200 text-lg font-bold text-gray-500 hover:bg-indigo-100 hover:border-indigo-300 hover:text-indigo-600 transition-all flex items-center justify-center shadow-sm";
+                btn.innerText = i;
+                btn.onclick = () => selectQuestion(i, btn);
+                grid.appendChild(btn);
+            }
+        }
+
+        window.selectQuestion = async (no, btnElement) => {
+            document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
+            btnElement.classList.add('btn-selected');
+
+            const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-', topic: '' };
+            const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === no) : null;
+            
+            // [핵심 수정] AI 해설 파일의 토픽을 최우선으로 사용하도록 순서 변경
+            const topic = aiQ?.topic || dbQ.topic || "통합과학";
+            const content = aiQ?.content || "앗! 아직 이 문항의 비밀노트 해설이 준비되지 않았어요.";
+
+            const noteArea = document.getElementById('note-content-area');
+            const qNumTitle = document.getElementById('note-q-number');
+            
+            noteArea.style.opacity = 0;
+
+            let statsHtml = '';
+            const user = auth.currentUser;
+            
+            if (dbQ && dbQ.qId) {
+                try {
+                    const [qSnap, wrongSnap] = await Promise.all([
+                        getDoc(doc(db, "questions", dbQ.qId)),
+                        user ? getDoc(doc(db, "users", user.uid, "wrong_answers", dbQ.qId)) : Promise.resolve(null)
+                    ]);
+                    
+                    let qData = qSnap.exists() ? qSnap.data() : null;
+                    let wData = wrongSnap && wrongSnap.exists() ? wrongSnap.data() : null;
+                    
+                    if (qData && qData.stats) {
+                        const totalAttempts = qData.stats.totalAttempts || 0;
+                        const correctCount = qData.stats.correctCount || 0;
+                        if (totalAttempts > 0) {
+                            const correctRate = Math.round((correctCount / totalAttempts) * 100);
+                            let diagnosis = "";
+                            let diagColor = "";
+                            
+                            if (correctRate >= 70) {
+                                diagnosis = "다수의 학생들이 맞춘 <b>기본 개념 문항</b>입니다. 만약 틀렸다면 기초 복습이 시급합니다!";
+                                diagColor = "text-green-800 bg-green-50 border-green-300";
+                            } else if (correctRate >= 40) {
+                                diagnosis = "개념의 정확한 적용을 묻는 <b>핵심 문항</b>입니다. 헷갈린 선지가 있다면 반드시 짚고 넘어가세요.";
+                                diagColor = "text-yellow-800 bg-yellow-50 border-yellow-300";
+                            } else {
+                                diagnosis = "오답률이 높은 <b>킬러 문항</b>입니다! 좌절하지 말고 출제자의 의도를 파악해 보세요.";
+                                diagColor = "text-red-800 bg-red-50 border-red-300";
+                            }
+                            
+                            statsHtml += `
+                                <div class="mb-6 ml-[50px] mr-5 p-3 rounded-xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
+                                    <div class="flex items-center gap-1 mb-1">
+                                        <span class="text-sm">📊</span>
+                                        <h3 class="font-bold text-[10px]">전체 응시자 정답률: ${correctRate}%</h3>
+                                    </div>
+                                    <p class="text-[10px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
+                            `;
+                            
+                            if (wData && qData.distractorStats) {
+                                const myMark = wData.studentMark;
+                                const distCount = qData.distractorStats[myMark] || 0;
+                                const distRate = Math.round((distCount / totalAttempts) * 100);
+                                if (myMark > 0 && myMark !== wData.correctAnswer) {
+                                    statsHtml += `
+                                        <div class="mt-2 pt-2 border-t border-black/10 flex items-start gap-1">
+                                            <span class="text-sm">🚨</span>
+                                            <p class="text-[10px]">
+                                                <b>매력적인 오답 경보:</b> 내가 고른 <b>${myMark}번</b> 선지는 전체 응시자의 <b>${distRate}%</b>가 낚인 함정이었습니다. 당신만 틀린 게 아니에요!
+                                            </p>
+                                        </div>
+                                    `;
+                                }
+                            }
+                            statsHtml += `</div>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error("통계 로딩 중 오류:", e);
+                }
+            }
+            
+            setTimeout(() => {
+                qNumTitle.innerHTML = `<span class="text-indigo-600 mr-2">Q${no}.</span>${topic}`;
+                
+                document.getElementById('current-info-badges').innerHTML = `
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-xs font-bold">배점 ${dbQ.score || 0}점</span>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-xs font-bold">정답 ${dbQ.correctAnswer || '-'}</span>
+                `;
+                
+                noteArea.innerHTML = statsHtml + `<div class="handwriting leading-[30px] pt-2 pb-32">${content}</div>`;
+                noteArea.style.opacity = 1;
+                noteArea.style.transition = "opacity 0.3s ease-in-out";
+                
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise([noteArea]).catch((err) => console.log(err.message));
+                }
+            }, 50);
+        };
+    </script>
+</body>
+</html>

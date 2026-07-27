@@ -42,7 +42,45 @@ exports.processExamSubmissionV2 = onDocumentCreated(
                 }, { merge: true });
             });
 
-            await snap.ref.update({ 
+            // --- 신규 백엔드 정석 로직: 오답 노트 서버 직접 저장 ---
+            const uid = data.uid;
+            const evaluatedAnswers = data.evaluatedAnswers || [];
+            const wrongAnswers = evaluatedAnswers.filter(ans => !ans.isCorrect || ans.isCorrect === 'false');
+            
+            if (uid && wrongAnswers.length > 0) {
+                const batch = db.batch();
+                wrongAnswers.forEach(ans => {
+                    let topic = ans.topic || "미분류";
+                    let behavior = ans.behavior || "미분류";
+                    const docId = ans.qId || `${examId}_q${ans.no}`;
+                    
+                    // 1. wrong_answers 서브 컬렉션에 추가
+                    const wrongAnswerRef = db.collection('users').doc(uid).collection('wrong_answers').doc(docId);
+                    batch.set(wrongAnswerRef, {
+                        examId: examId,
+                        qId: docId,
+                        topic: topic,
+                        behavior: behavior,
+                        studentMark: ans.studentMark || '-',
+                        correctAnswer: ans.correctAnswer || '?',
+                        wrongCount: admin.firestore.FieldValue.increment(1),
+                        lastFailedAt: new Date().toISOString()
+                    }, { merge: true });
+
+                    // 2. 누적 통계 업데이트
+                    const statsRef = db.collection('users').doc(uid).collection('user_stats').doc('summary');
+                    batch.set(statsRef, {
+                        [`topic_stats.${topic}.wrong`]: admin.firestore.FieldValue.increment(1),
+                        [`behavior_stats.${behavior}.wrong`]: admin.firestore.FieldValue.increment(1)
+                    }, { merge: true });
+                });
+                
+                await batch.commit();
+                console.log(`[${examId}] 유저(${uid})의 오답 노트 ${wrongAnswers.length}건 서버 저장 완료!`);
+            }
+            // -----------------------------------------------------
+
+            await snap.ref.update({
                 status: 'processed', 
                 processedAt: admin.firestore.FieldValue.serverTimestamp() 
             });

@@ -101,50 +101,7 @@
 
         initAuth();
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; overflow-y: auto; }
-        
-        .matrix-outer-wrapper { overflow-x: auto; width: 100%; border-radius: 0.5rem; background: white; border: 1px solid #e2e8f0; }
-        
-        table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1400px; table-layout: fixed; }
-        
-        .col-unit { width: 100px; }
-        .col-topic { width: 220px; }
-        .col-round { width: auto; }
-
-        thead th { position: sticky; top: 0; z-index: 40; background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; }
-        thead tr:nth-child(1) th { height: 36px; font-size: 11px; top: 0; }
-        thead tr:nth-child(2) th { height: 32px; top: 36px; }
-
-        .sticky-col-1 { position: sticky; left: 0; z-index: 25; background-color: white !important; border-right: 1px solid #e2e8f0; }
-        .sticky-col-2 { position: sticky; left: 100px; z-index: 25; background-color: white !important; border-right: 2px solid #94a3b8; }
-        
-        thead th.sticky-col-1, thead th.sticky-col-2 { z-index: 50; background-color: #f1f5f9 !important; }
-        
-        td { border-bottom: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; height: 38px; padding: 0 !important; }
-        tr:hover td:not(.sticky-col-1):not(.sticky-col-2) { background-color: #f8fafc; }
-        
-        .circle-badge {
-            width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 800; color: white; margin: 1px; box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-            cursor: pointer; transition: transform 0.1s;
-        }
-        
-        .bg-understand { background-color: #64748b; }
-        .bg-apply { background-color: #0ea5e9; }
-        .bg-comm { background-color: #475569; }
-        .bg-hypo { background-color: #f59e0b; }
-        .bg-design { background-color: #ef4444; }
-        .bg-exec { background-color: #10b981; }
-        .bg-anal { background-color: #6366f1; }
-        .bg-conc { background-color: #8b5cf6; }
-
-        .unit-divider td { border-top: 1.5px solid #cbd5e1 !important; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-overlay.active { display: flex; }
-        .stat-text { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: -0.5px; color: #94a3b8; }
-    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; overflow-y: auto; }        .matrix-outer-wrapper { overflow-x: auto; width: 100%; border-radius: 0.5rem; background: white; border: 1px solid #e2e8f0; }        table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1400px; table-layout: fixed; }        .col-unit { width: 100px; }        .col-topic { width: 220px; }        .col-round { width: auto; }        thead th { position: sticky; top: 0; z-index: 40; background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; }        thead tr:nth-child(1) th { height: 36px; font-size: 11px; top: 0; }        thead tr:nth-child(2) th { height: 32px; top: 36px; }        .sticky-col-1 { position: sticky; left: 0; z-index: 25; background-color: white !important; border-right: 1px solid #e2e8f0; }        .sticky-col-2 { position: sticky; left: 100px; z-index: 25; background-color: white !important; border-right: 2px solid #94a3b8; }        thead th.sticky-col-1, thead th.sticky-col-2 { z-index: 50; background-color: #f1f5f9 !important; }        td { border-bottom: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; height: 38px; padding: 0 !important; }        tr:hover td:not(.sticky-col-1):not(.sticky-col-2) { background-color: #f8fafc; }        .circle-badge {            width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;            font-size: 10px; font-weight: 800; color: white; margin: 1px; box-shadow: 0 1px 1px rgba(0,0,0,0.1);            cursor: pointer; transition: transform 0.1s;        }        .bg-understand { background-color: #64748b; }        .bg-apply { background-color: #0ea5e9; }        .bg-comm { background-color: #475569; }        .bg-hypo { background-color: #f59e0b; }        .bg-design { background-color: #ef4444; }        .bg-exec { background-color: #10b981; }        .bg-anal { background-color: #6366f1; }        .bg-conc { background-color: #8b5cf6; }        .unit-divider td { border-top: 1.5px solid #cbd5e1 !important; }        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }        .modal-overlay.active { display: flex; }        .stat-text { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: -0.5px; color: #94a3b8; }    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -160,6 +117,7 @@ window.addEventListener('wheel', (e) => {
     }
 }, { passive: true });
 </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body class="p-2">
 

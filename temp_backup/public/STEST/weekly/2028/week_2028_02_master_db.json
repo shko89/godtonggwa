@@ -1,0 +1,735 @@
+{
+    "week_2028_02_prep_q01": {
+        "id": "week_2028_02_prep_q01",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prep",
+        "examQNum": 1,
+        "imageFile": "week_2028_02_prep_q01.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "빅뱅"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.113125Z"
+    },
+    "week_2028_02_prac_q01": {
+        "id": "week_2028_02_prac_q01",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 1,
+        "imageFile": "week_2028_02_prac_q01.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.197882Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_02_prac_q02": {
+        "id": "week_2028_02_prac_q02",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 2,
+        "imageFile": "week_2028_02_prac_q02.png",
+        "correctAnswer": "3",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.270085Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_02_prac_q03": {
+        "id": "week_2028_02_prac_q03",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 3,
+        "imageFile": "week_2028_02_prac_q03.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.368023Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_02_prac_q04": {
+        "id": "week_2028_02_prac_q04",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 4,
+        "imageFile": "week_2028_02_prac_q04.png",
+        "correctAnswer": "1",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.484095Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_02_prac_q05": {
+        "id": "week_2028_02_prac_q05",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 5,
+        "imageFile": "week_2028_02_prac_q05.png",
+        "correctAnswer": "1",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.583374Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_02_prac_q06": {
+        "id": "week_2028_02_prac_q06",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 6,
+        "imageFile": "week_2028_02_prac_q06.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.670131Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_02_prac_q07": {
+        "id": "week_2028_02_prac_q07",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 7,
+        "imageFile": "week_2028_02_prac_q07.png",
+        "correctAnswer": "5",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.836451Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_02_prac_q08": {
+        "id": "week_2028_02_prac_q08",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "prac",
+        "examQNum": 8,
+        "imageFile": "week_2028_02_prac_q08.png",
+        "correctAnswer": "3",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "원자가 전자 수"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.873184Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_02_mock_q01": {
+        "id": "week_2028_02_mock_q01",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 1,
+        "imageFile": "week_2028_02_mock_q01.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:37.970678Z"
+    },
+    "week_2028_02_mock_q02": {
+        "id": "week_2028_02_mock_q02",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 2,
+        "imageFile": "week_2028_02_mock_q02.png",
+        "correctAnswer": "2",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자 배치"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.096646Z"
+    },
+    "week_2028_02_mock_q03": {
+        "id": "week_2028_02_mock_q03",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 3,
+        "imageFile": "week_2028_02_mock_q03.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "빅뱅"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.171980Z"
+    },
+    "week_2028_02_mock_q04": {
+        "id": "week_2028_02_mock_q04",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 4,
+        "imageFile": "week_2028_02_mock_q04.png",
+        "correctAnswer": "2",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "원소의 상대적 질량비"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.273534Z"
+    },
+    "week_2028_02_mock_q05": {
+        "id": "week_2028_02_mock_q05",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 5,
+        "imageFile": "week_2028_02_mock_q05.png",
+        "correctAnswer": "3",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "원소의 분류"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.396355Z"
+    },
+    "week_2028_02_mock_q06": {
+        "id": "week_2028_02_mock_q06",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 6,
+        "imageFile": "week_2028_02_mock_q06.png",
+        "correctAnswer": "3",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "원소의 질량비"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.490573Z"
+    },
+    "week_2028_02_mock_q07": {
+        "id": "week_2028_02_mock_q07",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 7,
+        "imageFile": "week_2028_02_mock_q07.png",
+        "correctAnswer": "1",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "쿼크"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.558920Z"
+    },
+    "week_2028_02_mock_q08": {
+        "id": "week_2028_02_mock_q08",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 8,
+        "imageFile": "week_2028_02_mock_q08.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.677073Z"
+    },
+    "week_2028_02_mock_q09": {
+        "id": "week_2028_02_mock_q09",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 9,
+        "imageFile": "week_2028_02_mock_q09.png",
+        "correctAnswer": "2",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "별의 내부 구조"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.803867Z"
+    },
+    "week_2028_02_mock_q10": {
+        "id": "week_2028_02_mock_q10",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 10,
+        "imageFile": "week_2028_02_mock_q10.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자 배치"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.840859Z"
+    },
+    "week_2028_02_mock_q11": {
+        "id": "week_2028_02_mock_q11",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 11,
+        "imageFile": "week_2028_02_mock_q11.png",
+        "correctAnswer": "5",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.884427Z"
+    },
+    "week_2028_02_mock_q12": {
+        "id": "week_2028_02_mock_q12",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 12,
+        "imageFile": "week_2028_02_mock_q12.png",
+        "correctAnswer": "2",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "원소의 질량비"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:38.974345Z"
+    },
+    "week_2028_02_mock_q13": {
+        "id": "week_2028_02_mock_q13",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 13,
+        "imageFile": "week_2028_02_mock_q13.png",
+        "correctAnswer": "2",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자 배치"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.094496Z"
+    },
+    "week_2028_02_mock_q14": {
+        "id": "week_2028_02_mock_q14",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 14,
+        "imageFile": "week_2028_02_mock_q14.png",
+        "correctAnswer": "4",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "주계열성"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.204599Z"
+    },
+    "week_2028_02_mock_q15": {
+        "id": "week_2028_02_mock_q15",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 15,
+        "imageFile": "week_2028_02_mock_q15.png",
+        "correctAnswer": "5",
+        "score": NaN,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "결론 도출 및 일반화",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.293323Z"
+    },
+    "week_2028_02_mock_q16": {
+        "id": "week_2028_02_mock_q16",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 16,
+        "imageFile": "week_2028_02_mock_q16.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "의사소통",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "빅뱅"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.405900Z"
+    },
+    "week_2028_02_mock_q17": {
+        "id": "week_2028_02_mock_q17",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 17,
+        "imageFile": "week_2028_02_mock_q17.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자 배치"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.509294Z"
+    },
+    "week_2028_02_mock_q18": {
+        "id": "week_2028_02_mock_q18",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 18,
+        "imageFile": "week_2028_02_mock_q18.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "원소의 질량 변화"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.573552Z"
+    },
+    "week_2028_02_mock_q19": {
+        "id": "week_2028_02_mock_q19",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 19,
+        "imageFile": "week_2028_02_mock_q19.png",
+        "correctAnswer": "1",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "문제 인식 및 가설 설정",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.618934Z"
+    },
+    "week_2028_02_mock_q20": {
+        "id": "week_2028_02_mock_q20",
+        "sourceExamId": "week_2028_02",
+        "magazineType": "mock",
+        "examQNum": 20,
+        "imageFile": "week_2028_02_mock_q20.png",
+        "correctAnswer": "4",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "별의 진화 경로"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-16T11:04:39.691008Z"
+    }
+}

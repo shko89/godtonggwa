@@ -643,8 +643,8 @@ window.addEventListener('wheel', (e) => {
                     refreshCurrentTab();
                 });
 
-                onSnapshot(collection(db, "users", currentUser.uid, "exam_results"), (snapshot) => {
-                    myExamResults = {};
+                onSnapshot(collection(db, "users", currentUser.uid, "exam_results"), async (snapshot) => {
+                    const tempResults = {};
                     snapshot.forEach(doc => {
                         const d = doc.data();
                         if (d.standardScore === undefined && d.maxScore !== undefined) {
@@ -664,19 +664,76 @@ window.addEventListener('wheel', (e) => {
                             else if (rank <= 90) d.grade = 4;
                             else d.grade = 5;
                         }
-                        myExamResults[doc.id] = d;
+                        tempResults[doc.id] = d;
                     });
+                    });
+                    
+                    myExamResults = tempResults;
                     if (window.currentTab === 'report') refreshCurrentTab();
                 });
 
                 // [추가] wrong_answers 컬렉션 실시간 동기화
-                onSnapshot(collection(db, "users", currentUser.uid, "wrong_answers"), (snapshot) => {
-                    myWrongAnswers = [];
-                    snapshot.forEach(doc => myWrongAnswers.push(doc.data()));
+                onSnapshot(collection(db, "users", currentUser.uid, "wrong_answers"), async (snapshot) => {
+                    let rawAnswers = [];
+                    snapshot.forEach(doc => rawAnswers.push(doc.data()));
+                    
+                    // 단원명 강제 하이드레이션
+                    const jsDataCache = {};
+                    for (let wa of rawAnswers) {
+                        if (wa.examId && (wa.examId.startsWith('week_') || wa.examId.startsWith('mock_'))) {
+                            const baseId = wa.examId.replace(/_\d{13}$/, '');
+                            if (!jsDataCache[baseId]) {
+                                jsDataCache[baseId] = await loadExamDataScript(baseId);
+                            }
+                            const jsData = jsDataCache[baseId];
+                            if (jsData && jsData.explanations) {
+                                const idx = (wa.no || 1) - 1;
+                                if (jsData.explanations[idx] && jsData.explanations[idx].topic) {
+                                    wa.topic = jsData.explanations[idx].topic;
+                                    if(!wa.taxonomy) wa.taxonomy = {};
+                                    wa.taxonomy.topic = jsData.explanations[idx].topic;
+                                }
+                            }
+                        }
+                    }
+                    myWrongAnswers = rawAnswers;
                     if (window.currentTab === 'report') refreshCurrentTab();
                 });
 
             } catch(e) { console.error(e); }
+        }
+
+        function loadExamDataScript(examId) {
+            return new Promise((resolve) => {
+                let fileName = '';
+                if (examId === '2028_pretest') {
+                    fileName = `../archive/kice_2028/2028_pretest.js`;
+                } else if (examId.includes('week_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1]; 
+                    const baseId = parts.slice(0, 3).join('_'); 
+                    fileName = `./weekly/${year}/${baseId}.js`;
+                } else if (examId.includes('mock_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1];
+                    const folderName = parts.slice(0, 3).join('_');
+                    fileName = `./mock/${year}/${folderName}/${examId}.js`;
+                } else {
+                    fileName = `./data/${examId}.js`;
+                }
+                fileName += `?v=${new Date().getTime()}`;
+                
+                const script = document.createElement('script');
+                script.src = fileName;
+                script.onload = () => {
+                    // [중요] .js 파일 내부에 document.documentElement.style.fontSize = "11px" 같은 
+                    // 전역 레이아웃 파괴 코드가 있어서, 로드 직후 폰트 사이즈를 강제로 원래대로 복구합니다.
+                    document.documentElement.style.fontSize = "";
+                    resolve(window.globalExamData || null);
+                };
+                script.onerror = () => resolve(null);
+                document.head.appendChild(script);
+            });
         }
 
         window.switchTab = (tab) => { window.currentTab = tab; refreshCurrentTab(); };
@@ -1791,21 +1848,6 @@ html += `<div class="mb-8">`;
             if (wrongAnswersList) {
                 // 단일 모의고사 오답 목록
                 let wrongAnswers = myWrongAnswers.filter(wa => wa.examId === data.examId);
-                
-                // [수정] timeattack 등에서 answers 데이터가 문서 내에 포함되어 있는 경우 이를 활용하여 studentMark, correctAnswer 누락 방지
-                if (data.answers && data.answers.length > 0) {
-                    const extractedWrong = data.answers.filter(ans => ans.isCorrect === false || ans.isCorrect === 'false').map(ans => ({
-                        no: ans.no,
-                        qId: ans.qId || ans.id,
-                        examId: data.examId,
-                        topic: ans.taxonomy?.topic || ans.taxonomy?.chapter || ans.topic || '-',
-                        studentMark: ans.studentMark || ans.userAnswer || '-',
-                        correctAnswer: ans.correctAnswer || ans.answer || '?'
-                    }));
-                    if (extractedWrong.length > 0) {
-                        wrongAnswers = extractedWrong;
-                    }
-                }
                 
                 // [신규 추가] 오답 문항 통계 조회 및 점수 자동 복구 (exams 컬렉션 기준)
                 const statsMap = {};

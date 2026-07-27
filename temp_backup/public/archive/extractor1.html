@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 기출 좌표 추출기 (UHD Data Editor)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #020617; color: white; }
+        #viewer-pane { scroll-behavior: auto; background-color: #020617; image-rendering: -webkit-optimize-contrast; }
+        #pdf-render-container { position: relative; display: inline-block; cursor: crosshair; user-select: none; text-align: left; margin: 60px auto 150px auto; box-shadow: 0 0 80px rgba(0,0,0,0.9); background-color: white; }
+        #pdf-canvas { display: block; }
+        #selection-rect { position: absolute; border: 2px solid #6366f1; background-color: rgba(99, 102, 241, 0.2); pointer-events: none; display: none; z-index: 100; }
+        .captured-rect { position: absolute; border: 1.5 solid #10b981; background-color: rgba(16, 185, 129, 0.1); pointer-events: none; z-index: 50; transition: all 0.2s; }
+        .captured-rect.active { border: 3px solid #f43f5e; background-color: rgba(244, 63, 94, 0.2); z-index: 60; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .edit-mode-active { border: 2px solid #f43f5e !important; background-color: #2d0a11 !important; }
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <header class="bg-slate-900 p-4 border-b border-white/5 flex justify-between items-center shrink-0 z-[100] shadow-2xl">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 p-2 rounded-xl shadow-lg"><i data-lucide="highlighter" class="w-5 h-5 text-white"></i></div>
+            <div>
+                <h1 class="text-lg font-black text-white">기출 좌표 추출기</h1>
+                <p class="text-[9px] text-indigo-400 font-bold uppercase mt-1 tracking-widest animate-pulse">UHD Mapping Mode</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3 bg-black/40 px-4 py-2 rounded-2xl border border-white/10">
+            <button onclick="changeZoom(-0.1)" class="p-1 hover:text-indigo-400"><i data-lucide="zoom-out" class="w-4 h-4"></i></button>
+            <span id="zoom-label" class="text-[12px] font-black min-w-[50px] text-center">100%</span>
+            <button onclick="changeZoom(0.1)" class="p-1 hover:text-indigo-400"><i data-lucide="zoom-in" class="w-4 h-4"></i></button>
+        </div>
+
+        <div class="flex gap-2">
+            <input type="file" id="pdf-input" accept=".pdf" class="hidden">
+            <button onclick="document.getElementById('pdf-input').click()" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-white/5">
+                <i data-lucide="file-up" class="w-4 h-4"></i> PDF 로드
+            </button>
+            <button onclick="loadFromDB()" class="bg-indigo-900/50 hover:bg-indigo-900 border border-indigo-700 text-indigo-300 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                <i data-lucide="cloud-download" class="w-4 h-4"></i> DB 로드
+            </button>
+            <button onclick="saveToDB()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg">
+                <i data-lucide="save" class="w-4 h-4"></i> 전체 저장
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 flex overflow-hidden">
+        <div class="flex-1 overflow-auto custom-scrollbar text-center relative" id="viewer-pane">
+            <div id="pdf-render-container">
+                <canvas id="pdf-canvas"></canvas>
+                <div id="selection-rect"></div>
+                <div id="captured-layers"></div>
+            </div>
+        </div>
+
+        <aside class="w-[400px] bg-slate-900 border-l border-white/5 flex flex-col shrink-0 shadow-2xl z-40 overflow-hidden">
+            <div class="p-6 border-b border-white/5 bg-slate-900/50">
+                <label class="text-[10px] uppercase font-black text-indigo-400 mb-2 block tracking-widest">Target Exam ID</label>
+                <input type="text" id="target-exam-id" placeholder="예: 2028_pretest" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 font-bold text-indigo-300 text-sm shadow-inner transition-all">
+                
+                <div class="mt-4 flex justify-between items-center mb-2">
+                    <span class="text-[10px] text-slate-500 font-black uppercase">Navigation</span>
+                    <span class="text-[10px] text-slate-400 font-bold" id="total-pages-label">Page 0 / 0</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="prevPage()" class="flex-1 bg-slate-800 py-2.5 rounded-xl hover:bg-indigo-600 transition-all border border-white/5"><i data-lucide="arrow-left" class="mx-auto w-4 h-4"></i></button>
+                    <button onclick="nextPage()" class="flex-1 bg-slate-800 py-2.5 rounded-xl hover:bg-indigo-600 transition-all border border-white/5"><i data-lucide="arrow-right" class="mx-auto w-4 h-4"></i></button>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+                <!-- [수정] 해설 입력창을 삭제하고 핵심 정보 입력란만 유지 -->
+                <div id="edit-form-container" class="bg-black/30 p-5 rounded-2xl border border-white/5 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h2 class="font-bold text-white text-xs uppercase tracking-widest flex items-center gap-2"><i data-lucide="edit-3" class="w-4 h-4 text-indigo-500"></i> 문항 상세 설정</h2>
+                        <span id="edit-mode-indicator" class="hidden text-[9px] font-black bg-rose-600 text-white px-2 py-0.5 rounded-full animate-pulse">EDITING Q<span id="editing-q-num-text"></span></span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-black text-slate-500 mb-1 block">문항 번호</label>
+                            <input type="number" id="q-num" value="1" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2 outline-none focus:border-indigo-500 font-black">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-slate-500 mb-1 block">정답</label>
+                            <select id="q-ans" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2 outline-none focus:border-emerald-500 font-bold text-emerald-400">
+                                <option value="①">①</option><option value="②">②</option><option value="③" selected>③</option><option value="④">④</option><option value="⑤">⑤</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-black text-slate-500 mb-1 block">배점</label>
+                            <select id="q-score" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2 outline-none text-xs">
+                                <option value="1.5">1.5점</option><option value="2.0" selected>2.0점</option><option value="2.5">2.5점</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-slate-500 mb-1 block">단원 (Topic)</label>
+                            <select id="q-topic" class="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-2 outline-none text-[10px]">
+                                <option value="미분류">단원 선택</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="updateAndSaveSingle()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-black shadow-lg flex items-center justify-center gap-2 transition-all">
+                        <i data-lucide="cloud-upload" class="w-4 h-4"></i> 이 문항 정보만 DB 업데이트
+                    </button>
+                </div>
+
+                <!-- 추출 목록 -->
+                <div>
+                    <h2 class="font-bold text-white text-[11px] uppercase tracking-widest opacity-60 mb-4">추출 목록 (<span id="captured-count">0</span>)</h2>
+                    <div id="data-list" class="space-y-2"></div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <div id="loading-overlay" class="hidden fixed inset-0 bg-black/95 z-[1000] flex flex-col items-center justify-center backdrop-blur-md">
+        <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+        <p class="text-white font-black tracking-widest text-sm uppercase">Cloud Synchronizing...</p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+        const appId = 'godtonggwa_v1';
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const TOPIC_MAP = { "과학의 기초": ["기본량과 단위", "측정과 어림", "정보와 신호"], "물질과 규칙성": ["원소 형성", "별의 진화", "원소의 주기성", "화학 결합", "지각과 생명체 구성 물질의 규칙성"], "시스템과 상호작용": ["지구시스템의 구성과 상호작용", "판구조론과 지각 변동", "중력장 내의 운동", "충격량과 운동량", "생명 시스템의 기본 단위", "물질대사", "유전자와 단백질", "물질의 전기적 성질"], "변화와 다양성": ["지질시대의 생물과 화석", "지질시대 환경 변화와 대멸종", "자연선택", "생물다양성", "산화와 환원", "중화 반응", "물질 변화에서 에너지 출입"], "환경과 에너지": ["생태계 구성 요소", "생태계 평형", "대기와 해양의 상호작용", "온실기체와 지구온난화", "핵융합", "발전", "에너지 전환과 효율"], "과학과 미래 사회": ["감염병과 병원체", "인공지능과 과학 탐구", "로봇", "과학기술과 윤리"] };
+
+        let pdfDoc = null, pageNum = 1, userScale = 1.0, currentData = {}, editingNum = null;
+        const dpr = window.devicePixelRatio || 1, quality = 3.5;
+        const canvas = document.getElementById('pdf-canvas'), ctx = canvas.getContext('2d');
+
+        function initTopicSelect() {
+            const select = document.getElementById('q-topic');
+            Object.keys(TOPIC_MAP).forEach(chapter => {
+                const group = document.createElement('optgroup'); group.label = chapter;
+                TOPIC_MAP[chapter].forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.innerText = t; group.appendChild(opt); });
+                select.appendChild(group);
+            });
+        }
+        signInAnonymously(auth); window.onload = initTopicSelect;
+
+        document.getElementById('pdf-input').onchange = async (e) => {
+            const file = e.target.files[0]; if(!file) return;
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            const reader = new FileReader();
+            reader.onload = async function() { pdfDoc = await pdfjsLib.getDocument(new Uint8Array(this.result)).promise; pageNum = 1; renderPage(); };
+            reader.readAsArrayBuffer(file);
+        };
+
+        async function renderPage() {
+            if(!pdfDoc) return;
+            const page = await pdfDoc.getPage(pageNum);
+            const vp = page.getViewport({ scale: userScale * dpr * quality });
+            canvas.width = vp.width; canvas.height = vp.height;
+            canvas.style.width = (vp.width / (dpr * quality)) + "px";
+            canvas.style.height = (vp.height / (dpr * quality)) + "px";
+            await page.render({ canvasContext: ctx, viewport: vp }).promise;
+            document.getElementById('total-pages-label').innerText = `Page ${pageNum} / ${pdfDoc.numPages}`;
+            document.getElementById('loading-overlay').classList.add('hidden');
+            updateDataList(); renderCapturedLayers();
+        }
+
+        window.prevPage = () => { if(pageNum > 1) { pageNum--; renderPage(); } };
+        window.nextPage = () => { if(pageNum < pdfDoc.numPages) { pageNum++; renderPage(); } };
+        window.changeZoom = (delta) => { userScale = Math.max(0.2, Math.min(4.0, userScale + delta)); renderPage(); };
+
+        window.loadFromDB = async () => {
+            const examId = document.getElementById('target-exam-id').value.trim();
+            if(!examId) return alert("Exam ID 입력!");
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            try {
+                const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', examId));
+                if (snap.exists()) {
+                    currentData = snap.data().coords || {};
+                    updateDataList(); renderCapturedLayers();
+                    const keys = Object.keys(currentData).map(Number);
+                    if(keys.length > 0) document.getElementById('q-num').value = Math.max(...keys) + 1;
+                    alert("데이터를 성공적으로 불러왔습니다!");
+                } else { alert("데이터가 없습니다."); currentData = {}; updateDataList(); }
+            } catch (e) { alert("오류: " + e.message); }
+            finally { document.getElementById('loading-overlay').classList.add('hidden'); }
+        };
+
+        const viewerPane = document.getElementById('viewer-pane'), container = document.getElementById('pdf-render-container'), selection = document.getElementById('selection-rect');
+        let startX, startY, isDragging = false;
+
+        function getMousePos(e) { const rect = container.getBoundingClientRect(); return { x: e.clientX - rect.left, y: e.clientY - rect.top }; }
+
+        container.onmousedown = (e) => { if(!pdfDoc) return; isDragging = true; const pos = getMousePos(e); startX = pos.x; startY = pos.y; selection.style.left = startX + 'px'; selection.style.top = startY + 'px'; selection.style.width = '0px'; selection.style.height = '0px'; selection.style.display = 'block'; };
+        window.onmousemove = (e) => { if(!isDragging) return; const pos = getMousePos(e); const w = pos.x - startX, h = pos.y - startY; selection.style.width = Math.abs(w) + 'px'; selection.style.height = Math.abs(h) + 'px'; selection.style.left = (w > 0 ? startX : pos.x) + 'px'; selection.style.top = (h > 0 ? startY : pos.y) + 'px'; };
+        window.onmouseup = () => {
+            if(!isDragging) return; isDragging = false;
+            const vW = parseFloat(canvas.style.width), vH = parseFloat(canvas.style.height);
+            const rx = parseFloat(selection.style.left) / vW, ry = parseFloat(selection.style.top) / vH, rw = parseFloat(selection.style.width) / vW, rh = parseFloat(selection.style.height) / vH;
+            if(rw < 0.005 || rh < 0.005) { selection.style.display = 'none'; return; }
+            const num = document.getElementById('q-num').value;
+            // [수정] 코멘터리 및 팁 데이터 필드 제거
+            currentData[num] = { 
+                p: pageNum, 
+                rect: [rx, ry, rw, rh].map(v => parseFloat(v.toFixed(6))), 
+                ans: document.getElementById('q-ans').value, 
+                score: parseFloat(document.getElementById('q-score').value), 
+                topic: document.getElementById('q-topic').value 
+            };
+            if(!editingNum) document.getElementById('q-num').value = parseInt(num) + 1;
+            selection.style.display = 'none'; updateDataList(); renderCapturedLayers();
+        };
+
+        function updateDataList() {
+            const list = document.getElementById('data-list'); list.innerHTML = '';
+            const keys = Object.keys(currentData).sort((a,b)=>Number(a)-Number(b));
+            document.getElementById('captured-count').innerText = keys.length;
+            keys.forEach(n => {
+                const d = currentData[n]; const isEditing = editingNum === n.toString();
+                const item = document.createElement('div');
+                item.className = `bg-white/5 border ${isEditing ? 'border-rose-500 bg-rose-500/10' : 'border-white/10'} p-3 rounded-xl flex justify-between items-center group hover:bg-white/10 transition-all mb-2 cursor-pointer shadow-sm`;
+                item.innerHTML = `
+                    <div class="flex flex-col text-left">
+                        <span class="text-indigo-400 font-black text-sm">Question ${n}</span>
+                        <span class="text-[9px] font-bold opacity-50 uppercase">P${d.p} · ${d.ans} · ${d.score}점 · ${d.topic}</span>
+                    </div>
+                    <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onclick="editItem('${n}', event)" class="p-2 text-slate-400 hover:text-indigo-400"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                        <button onclick="deleteData('${n}', event)" class="p-2 text-slate-400 hover:text-red-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>
+                `;
+                item.onclick = () => focusItem(n);
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        window.editItem = (n, e) => {
+            if(e) e.stopPropagation();
+            const d = currentData[n]; editingNum = n.toString();
+            document.getElementById('q-num').value = n;
+            document.getElementById('q-ans').value = d.ans || "①";
+            document.getElementById('q-score').value = d.score || 2.0;
+            document.getElementById('q-topic').value = d.topic || "미분류";
+            document.getElementById('edit-form-container').classList.add('edit-mode-active');
+            document.getElementById('edit-mode-indicator').classList.remove('hidden');
+            document.getElementById('editing-q-num-text').innerText = n;
+            focusItem(n); updateDataList();
+        };
+
+        window.focusItem = (n) => {
+            const d = currentData[n]; if(!d) return;
+            if(d.p !== pageNum) { pageNum = d.p; renderPage(); }
+            setTimeout(() => { document.querySelectorAll('.captured-rect').forEach(l => { if(l.dataset.q === n.toString()) l.classList.add('active'); else l.classList.remove('active'); }); }, 200);
+        };
+
+        window.updateAndSaveSingle = async () => {
+            const num = document.getElementById('q-num').value;
+            if(!currentData[num]) return alert("먼저 좌표를 드래그하여 생성하세요!");
+            currentData[num].ans = document.getElementById('q-ans').value;
+            currentData[num].score = parseFloat(document.getElementById('q-score').value);
+            currentData[num].topic = document.getElementById('q-topic').value;
+            
+            const examId = document.getElementById('target-exam-id').value.trim();
+            if(!examId) return alert("Exam ID 입력!");
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', examId), { examId, coords: currentData, updatedAt: new Date().toISOString() });
+                editingNum = null; document.getElementById('edit-form-container').classList.remove('edit-mode-active'); document.getElementById('edit-mode-indicator').classList.add('hidden');
+                alert(`✅ Q${num} 문항 정보가 DB에 업데이트되었습니다!`); updateDataList();
+            } catch (e) { alert("저장 실패"); }
+            finally { document.getElementById('loading-overlay').classList.add('hidden'); }
+        };
+
+        function renderCapturedLayers() {
+            const layer = document.getElementById('captured-layers'); layer.innerHTML = '';
+            const vW = parseFloat(canvas.style.width), vH = parseFloat(canvas.style.height);
+            Object.keys(currentData).forEach(n => {
+                const d = currentData[n]; if(d.p !== pageNum) return;
+                const div = document.createElement('div'); div.className = 'captured-rect'; div.dataset.q = n;
+                div.style.left = (d.rect[0] * vW) + 'px'; div.style.top = (d.rect[1] * vH) + 'px'; div.style.width = (d.rect[2] * vW) + 'px'; div.style.height = (d.rect[3] * vH) + 'px';
+                div.innerHTML = `<span class="bg-emerald-500 text-[9px] font-black text-white px-1.5 py-0.5 absolute top-0 left-0 rounded-br-md">Q${n}</span>`;
+                layer.appendChild(div);
+            });
+        }
+
+        window.deleteData = (n, e) => { if(e) e.stopPropagation(); if(confirm(`문항 Q${n} 좌표 정보를 삭제하시겠습니까?`)) { delete currentData[n]; updateDataList(); renderCapturedLayers(); } };
+        window.saveToDB = async () => { 
+            const examId = document.getElementById('target-exam-id').value.trim();
+            if(!examId) return alert("시험 ID를 입력하세요!");
+            if(Object.keys(currentData).length === 0) return alert("저장할 데이터가 없습니다.");
+            if(!confirm(`[${examId}]의 전체 데이터를 클라우드에 저장하시겠습니까?`)) return;
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', examId), { examId, coords: currentData, updatedAt: new Date().toISOString() });
+                alert("🎉 전체 데이터 동기화 완료!");
+            } catch (e) { alert("저장 실패"); }
+            finally { document.getElementById('loading-overlay').classList.add('hidden'); }
+        };
+        lucide.createIcons();
+    </script>
+</body>
+</html>

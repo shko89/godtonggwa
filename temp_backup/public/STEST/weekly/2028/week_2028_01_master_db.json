@@ -1,0 +1,760 @@
+{
+    "week_2028_01_prep_q01": {
+        "id": "week_2028_01_prep_q01",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prep",
+        "examQNum": 1,
+        "imageFile": "week_2028_01_prep_q01.png",
+        "correctAnswer": "1",
+        "score": 1.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규모"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:23.541079Z"
+    },
+    "week_2028_01_prep_q02": {
+        "id": "week_2028_01_prep_q02",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prep",
+        "examQNum": 2,
+        "imageFile": "week_2028_01_prep_q02.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "디지털"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:23.644257Z"
+    },
+    "week_2028_01_prac_q01": {
+        "id": "week_2028_01_prac_q01",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 1,
+        "imageFile": "week_2028_01_prac_q01.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "미시 세계"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:23.695443Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_01_prac_q02": {
+        "id": "week_2028_01_prac_q02",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 2,
+        "imageFile": "week_2028_01_prac_q02.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규모"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:23.797786Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_01_prac_q03": {
+        "id": "week_2028_01_prac_q03",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 3,
+        "imageFile": "week_2028_01_prac_q03.png",
+        "correctAnswer": "5",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기본량"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:23.943669Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_01_prac_q04": {
+        "id": "week_2028_01_prac_q04",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 4,
+        "imageFile": "week_2028_01_prac_q04.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기본량"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.052133Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_01_prac_q05": {
+        "id": "week_2028_01_prac_q05",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 5,
+        "imageFile": "week_2028_01_prac_q05.png",
+        "correctAnswer": "2",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "어림"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.145079Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_01_prac_q06": {
+        "id": "week_2028_01_prac_q06",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 6,
+        "imageFile": "week_2028_01_prac_q06.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정 표준"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.258555Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_01_prac_q07": {
+        "id": "week_2028_01_prac_q07",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 7,
+        "imageFile": "week_2028_01_prac_q07.png",
+        "correctAnswer": "5",
+        "score": 2.0,
+        "difficulty": 3,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "아날로그"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.323855Z",
+        "layoutPosition": "left"
+    },
+    "week_2028_01_prac_q08": {
+        "id": "week_2028_01_prac_q08",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "prac",
+        "examQNum": 8,
+        "imageFile": "week_2028_01_prac_q08.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "센서"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.414919Z",
+        "layoutPosition": "right"
+    },
+    "week_2028_01_mock_q01": {
+        "id": "week_2028_01_mock_q01",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 1,
+        "imageFile": "week_2028_01_mock_q01.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "센서"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.507699Z"
+    },
+    "week_2028_01_mock_q02": {
+        "id": "week_2028_01_mock_q02",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 2,
+        "imageFile": "week_2028_01_mock_q02.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.582509Z"
+    },
+    "week_2028_01_mock_q03": {
+        "id": "week_2028_01_mock_q03",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 3,
+        "imageFile": "week_2028_01_mock_q03.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "국제단위계"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.657274Z"
+    },
+    "week_2028_01_mock_q04": {
+        "id": "week_2028_01_mock_q04",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 4,
+        "imageFile": "week_2028_01_mock_q04.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기본량"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.735769Z"
+    },
+    "week_2028_01_mock_q05": {
+        "id": "week_2028_01_mock_q05",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 5,
+        "imageFile": "week_2028_01_mock_q05.png",
+        "correctAnswer": "2",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "디지털"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.888639Z"
+    },
+    "week_2028_01_mock_q06": {
+        "id": "week_2028_01_mock_q06",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 6,
+        "imageFile": "week_2028_01_mock_q06.png",
+        "correctAnswer": "1",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "디지털"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:24.952998Z"
+    },
+    "week_2028_01_mock_q07": {
+        "id": "week_2028_01_mock_q07",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 7,
+        "imageFile": "week_2028_01_mock_q07.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규모"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.019032Z"
+    },
+    "week_2028_01_mock_q08": {
+        "id": "week_2028_01_mock_q08",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 8,
+        "imageFile": "week_2028_01_mock_q08.png",
+        "correctAnswer": "2",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정 표준"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.089034Z"
+    },
+    "week_2028_01_mock_q09": {
+        "id": "week_2028_01_mock_q09",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 9,
+        "imageFile": "week_2028_01_mock_q09.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "아날로그"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.206578Z"
+    },
+    "week_2028_01_mock_q10": {
+        "id": "week_2028_01_mock_q10",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 10,
+        "imageFile": "week_2028_01_mock_q10.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "센서"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.310056Z"
+    },
+    "week_2028_01_mock_q11": {
+        "id": "week_2028_01_mock_q11",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 11,
+        "imageFile": "week_2028_01_mock_q11.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규모"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.426974Z"
+    },
+    "week_2028_01_mock_q12": {
+        "id": "week_2028_01_mock_q12",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 12,
+        "imageFile": "week_2028_01_mock_q12.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정 표준"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.472986Z"
+    },
+    "week_2028_01_mock_q13": {
+        "id": "week_2028_01_mock_q13",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 13,
+        "imageFile": "week_2028_01_mock_q13.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "신호"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.614253Z"
+    },
+    "week_2028_01_mock_q14": {
+        "id": "week_2028_01_mock_q14",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 14,
+        "imageFile": "week_2028_01_mock_q14.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "정보와 신호"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "신호"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.677287Z"
+    },
+    "week_2028_01_mock_q15": {
+        "id": "week_2028_01_mock_q15",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 15,
+        "imageFile": "week_2028_01_mock_q15.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.748906Z"
+    },
+    "week_2028_01_mock_q16": {
+        "id": "week_2028_01_mock_q16",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 16,
+        "imageFile": "week_2028_01_mock_q16.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "미시 세계"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.867358Z"
+    },
+    "week_2028_01_mock_q17": {
+        "id": "week_2028_01_mock_q17",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 17,
+        "imageFile": "week_2028_01_mock_q17.png",
+        "correctAnswer": "5",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "측정 표준"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:25.997209Z"
+    },
+    "week_2028_01_mock_q18": {
+        "id": "week_2028_01_mock_q18",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 18,
+        "imageFile": "week_2028_01_mock_q18.png",
+        "correctAnswer": "3",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규모"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:26.047065Z"
+    },
+    "week_2028_01_mock_q19": {
+        "id": "week_2028_01_mock_q19",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 19,
+        "imageFile": "week_2028_01_mock_q19.png",
+        "correctAnswer": "4",
+        "score": 1.5,
+        "difficulty": 2,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "의사소통",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "단위"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:26.128598Z"
+    },
+    "week_2028_01_mock_q20": {
+        "id": "week_2028_01_mock_q20",
+        "sourceExamId": "week_2028_01",
+        "magazineType": "mock",
+        "examQNum": 20,
+        "imageFile": "week_2028_01_mock_q20.png",
+        "correctAnswer": "3",
+        "score": 2.5,
+        "difficulty": 4,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "문제 인식 및 가설 설정",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기본량"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-07-17T06:25:26.231592Z"
+    }
+}

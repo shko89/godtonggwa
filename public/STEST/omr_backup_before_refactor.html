@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - OMR 비동기 제출 테스트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        /* OMR 마킹 디자인 */
+        .omr-radio input:checked + span {
+            background-color: #4f46e5; /* Indigo-600 */
+            color: white;
+            border-color: #4f46e5;
+            font-weight: 800;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
+        }
+        /* 5문제마다 구분선 (시각적 편의) */
+        .omr-row:nth-child(5n) { border-bottom: 2px solid #e5e7eb; } 
+    </style>
+
+<script>
+// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
+// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
+window.addEventListener('wheel', (e) => {
+    if (!e.target.closest('.overflow-y-auto')) {
+        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
+        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+        if (activeContainer) {
+            activeContainer.scrollTop += e.deltaY;
+        }
+    }
+}, { passive: true });
+</script>
+</head>
+<body class="bg-gray-50 h-[100dvh] flex flex-col overflow-hidden"> 
+
+    <!-- 헤더 -->
+    <header class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shrink-0 h-14 shadow-sm z-10">
+        <div class="flex items-center gap-3">
+            <button onclick="safeNavigate('../index.html')" class="text-gray-500 hover:text-gray-900 bg-gray-100 p-2 rounded-full transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <div>
+                <h1 class="font-bold text-gray-900 text-sm sm:text-base leading-tight" id="exam-title-display">모의고사 로딩 중...</h1>
+                <p class="text-[10px] text-gray-500 hidden sm:block">정확하게 마킹 후 제출해주세요.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="text-right">
+                <p class="text-[10px] text-gray-400">마킹 현황</p>
+                <p class="text-sm font-bold text-indigo-600"><span id="answered-count">0</span> / <span id="total-q-display">25</span></p>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                <i data-lucide="edit-3" class="w-5 h-5"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 (OMR 시트) -->
+    <main class="flex-1 p-2 sm:p-6 overflow-hidden flex flex-col items-center">
+        <div class="bg-white w-full max-w-5xl h-full border border-gray-200 shadow-xl rounded-2xl flex flex-col overflow-hidden">
+            <!-- 시트 상단 -->
+            <div class="bg-gray-900 text-white flex justify-between items-center px-4 py-2 shrink-0">
+                <span class="text-xs font-bold tracking-widest opacity-80">OMR ANSWER SHEET</span>
+                <span class="text-xs font-mono bg-gray-800 px-2 py-0.5 rounded text-gray-300" id="exam-id-display">CODE</span>
+            </div>
+
+            <!-- 문항 그리드 -->
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 bg-white relative">
+                <!-- 워터마크 -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
+                    <span class="text-9xl font-black text-gray-900">OMR</span>
+                </div>
+
+                <!-- 로딩 인디케이터 -->
+                <div id="grid-loading" class="absolute inset-0 flex items-center justify-center bg-white z-20">
+                    <div class="flex flex-col items-center">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mb-2"></div>
+                        <p class="text-xs text-gray-500">시험지 정보를 불러오는 중...</p>
+                    </div>
+                </div>
+
+                <!-- 문항 그리드 -->
+                <div id="omr-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 sm:gap-x-4 gap-y-2 sm:gap-y-4 relative z-10 hidden">
+                    <!-- JS로 문항 생성됨 -->
+                </div>
+            </div>
+
+            <!-- 하단 제출 버튼 -->
+            <div class="p-4 border-t border-gray-100 bg-gray-50 shrink-0">
+                <button onclick="submitAnswers()" id="submit-btn" disabled class="w-full bg-gray-400 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-not-allowed">
+                    <span>답안 제출 및 채점하기</span>
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 로딩/결과 오버레이 -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center max-w-sm w-[90%] text-center animate-bounce-in">
+            <div class="relative mb-6">
+                <div class="absolute inset-0 bg-indigo-100 rounded-full animate-ping opacity-75"></div>
+                <div class="relative bg-white p-4 rounded-full shadow-md">
+                    <div class="animate-spin rounded-full h-8 w-8 border-4 border-indigo-600 border-t-transparent"></div>
+                </div>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-1">AI 채점 분석 중...</h3>
+            <p id="loading-status-text" class="text-sm text-gray-500">배점에 따른 원점수 계산 및<br>오답 노트/통계를 산출하고 있습니다.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, runTransaction, serverTimestamp, writeBatch, increment, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.safeNavigate = function(url) {
+            try {
+                window.location.href = url;
+            } catch (e) {
+                if(url.startsWith('..')) {
+                    try { window.location.href = '/index.html'; } catch(e2) { alert("메인 화면으로 이동해주세요."); }
+                } else {
+                    alert("페이지 이동 중 오류가 발생했습니다.");
+                }
+            }
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const EXAM_ID = urlParams.get('id');
+        let EXAM_TITLE = decodeURIComponent(urlParams.get('title') || '실전 모의고사');
+        
+        let SCORE_MAP = null;     
+        let CORRECT_ANSWERS = null; 
+        let TOTAL_QUESTIONS = 25; 
+        let EXAM_QUESTIONS = null; // [추가] 오답 노트를 위해 문제 ID 등의 원본 배열 보관
+
+        async function initExam() {
+            if (!EXAM_ID) {
+                alert("잘못된 접근입니다. (시험 ID 없음)");
+                window.safeNavigate('../index.html');
+                return;
+            }
+
+            // [신규 로직] 중복 제출 원천 차단벽
+            try {
+                const user = auth.currentUser;
+                if (user) {
+                    const myExamSnap = await getDoc(doc(db, "users", user.uid, "my_exams", EXAM_ID));
+                    if (myExamSnap.exists() && myExamSnap.data().status === 'graded') {
+                        alert("이미 성적 처리가 완료된 시험입니다.\n내 시험지에서 성적표와 오답 노트를 확인해 주세요.\n(정확한 백분위 통계를 위해 재제출은 차단됩니다.)");
+                        window.safeNavigate('exam.html?view=report&id=' + EXAM_ID);
+                        return;
+                    }
+                }
+            } catch(e) {
+                console.error("중복 검사 오류:", e);
+            }
+
+            document.getElementById('exam-id-display').innerText = EXAM_ID.toUpperCase();
+            
+            try {
+                const examDocRef = doc(db, "exams", EXAM_ID);
+                const examSnap = await getDoc(examDocRef);
+
+                if (!examSnap.exists()) {
+                    console.warn("시험 데이터가 DB에 없습니다. JS 파일에서 데이터 로딩을 시도합니다.");
+                    await loadFallbackData();
+                } else {
+                    const data = examSnap.data();
+                    
+                    if (data.answer_key && data.score_map) {
+                        CORRECT_ANSWERS = data.answer_key;
+                        SCORE_MAP = data.score_map;
+                        TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
+                        if (data.title) EXAM_TITLE = data.title;
+                        if (data.questions) EXAM_QUESTIONS = data.questions; // 원본 문제 메타데이터 보관
+                    } else {
+                        console.warn("정답/배점 필드가 비어있습니다. JS 파일에서 데이터 로딩을 시도합니다.");
+                        await loadFallbackData();
+                    }
+                }
+
+                document.getElementById('exam-title-display').innerText = EXAM_TITLE;
+                document.getElementById('total-q-display').innerText = TOTAL_QUESTIONS;
+                renderOMR();
+                
+                document.getElementById('grid-loading').classList.add('hidden');
+                document.getElementById('omr-grid').classList.remove('hidden');
+                const btn = document.getElementById('submit-btn');
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'active:scale-[0.98]');
+
+            } catch (err) {
+                console.error("Exam Load Error:", err);
+                alert("시험 정보를 불러오는 중 오류가 발생했습니다.\n" + err.message);
+                window.safeNavigate('exam.html');
+            }
+        }
+
+        async function loadFallbackData() {
+            return new Promise((resolve) => {
+                let scriptPath = '';
+                if (EXAM_ID === '2028_pretest' || EXAM_ID === 'past_예비문항') {
+                    scriptPath = `../archive/kice_2028/2028_pretest.js`;
+                } else if (EXAM_ID.includes('week_2028')) {
+                    scriptPath = `../weekly/2028/${EXAM_ID}.js`;
+                } else {
+                    scriptPath = `../data/${EXAM_ID}.js`;
+                }
+
+                const script = document.createElement('script');
+                script.src = scriptPath + `?v=${Date.now()}`;
+                script.onload = () => {
+                    if (window.globalExamData && window.globalExamData.answers) {
+                        CORRECT_ANSWERS = window.globalExamData.answers;
+                        SCORE_MAP = window.globalExamData.scores || Array(CORRECT_ANSWERS.length).fill(4);
+                        TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
+                        if (window.globalExamData.title) EXAM_TITLE = window.globalExamData.title;
+                        resolve(true);
+                    } else {
+                        useHardcodedFallback();
+                        resolve(false);
+                    }
+                };
+                script.onerror = () => {
+                    useHardcodedFallback();
+                    resolve(false);
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        function useHardcodedFallback() {
+            TOTAL_QUESTIONS = 25;
+            SCORE_MAP = [];
+            for(let i = 1; i <= TOTAL_QUESTIONS; i++) {
+                if (i <= 10) SCORE_MAP.push(1.5);
+                else if (i <= 15) SCORE_MAP.push(2.0);
+                else SCORE_MAP.push(2.5);
+            }
+            const seed = EXAM_ID.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+            CORRECT_ANSWERS = [];
+            for(let i=0; i<TOTAL_QUESTIONS; i++) {
+                CORRECT_ANSWERS.push(((seed + i) % 5) + 1); 
+            }
+        }
+
+        function renderOMR() {
+            const grid = document.getElementById('omr-grid');
+            grid.innerHTML = "";
+            for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+                const row = document.createElement('div');
+                row.className = "omr-row flex items-center justify-center gap-3 py-2 sm:py-1.5 border-b border-gray-100 hover:bg-gray-50 transition-colors px-1 rounded-lg w-full";
+                
+                const score = SCORE_MAP[i-1];
+                
+                let optionsHtml = '';
+                for (let opt = 1; opt <= 5; opt++) {
+                    optionsHtml += `
+                        <label class="omr-radio cursor-pointer relative block group">
+                            <input type="radio" name="q${i}" value="${opt}" class="peer sr-only" onchange="updateCount()">
+                            <span class="w-8 h-8 sm:w-6 sm:h-6 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 bg-white group-hover:border-indigo-300 transition-all text-xs sm:text-[11px] font-bold shadow-sm peer-checked:scale-110">${opt}</span>
+                        </label>`;
+                }
+                
+                row.innerHTML = `
+                    <div class="flex items-center justify-end w-8 shrink-0" title="배점: ${score}점">
+                        <span class="font-black text-gray-700 font-mono text-sm tracking-tighter">${String(i).padStart(2,'0')}.</span>
+                    </div>
+                    <div class="flex gap-2 sm:gap-1 justify-center">${optionsHtml}</div>
+                `;
+                grid.appendChild(row);
+            }
+            updateCount();
+        }
+
+        window.updateCount = function() {
+            const checked = document.querySelectorAll('input[type="radio"]:checked').length;
+            document.getElementById('answered-count').innerText = checked;
+        }
+
+        function getCumulativeProbability(z) {
+            if (z < -6.5) return 0.0; if (z > 6.5) return 1.0;
+            let k = 1 / (1 + 0.2316419 * Math.abs(z));
+            let poly = k * (0.319381530 + k * (-0.356563782 + k * (1.781477937 + k * (-1.821255978 + 1.330274429 * k))));
+            let approx = 1.0 - (1.0 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * poly;
+            return z < 0 ? 1.0 - approx : approx;
+        }
+
+        function calculateGrade(percentile) {
+            const rank = 100 - percentile;
+            if (rank <= 10) return 1;
+            if (rank <= 34) return 2;
+            if (rank <= 66) return 3;
+            if (rank <= 90) return 4;
+            return 5;
+        }
+
+        async function processAndSaveWrongAnswers(userId, examId, evaluatedAnswers) {
+            // 틀린 문제 필터링 (qId 없어도 처리 가능하게 변경)
+            const wrongAnswers = evaluatedAnswers.filter(ans => !ans.isCorrect);
+            if (wrongAnswers.length === 0) return;
+
+            const batch = writeBatch(db);
+
+            await Promise.all(wrongAnswers.map(async (ans) => {
+                let topic = ans.topic || "미분류";
+                let behavior = ans.behavior || "미분류";
+                const docId = ans.qId || `${examId}_q${ans.no}`;
+
+                // 1. wrong_answers 서브 컬렉션에 저장 (문항 ID 또는 가상 ID를 문서명으로)
+                const wrongAnswerRef = doc(db, "users", userId, "wrong_answers", docId);
+                batch.set(wrongAnswerRef, {
+                    examId: examId,
+                    qId: docId,
+                    topic: topic,
+                    behavior: behavior,
+                    studentMark: ans.studentMark,
+                    correctAnswer: ans.correctAnswer,
+                    wrongCount: increment(1), // 다시 틀렸을 때 누적
+                    lastFailedAt: new Date().toISOString()
+                }, { merge: true });
+
+                // 2. 대시보드 로딩 최적화를 위한 '누적 통계(summary)' 업데이트
+                const statsRef = doc(db, "users", userId, "user_stats", "summary");
+                batch.set(statsRef, {
+                    [`topic_stats.${topic}.wrong`]: increment(1),
+                    [`behavior_stats.${behavior}.wrong`]: increment(1)
+                }, { merge: true });
+            }));
+
+            try {
+                await batch.commit();
+                console.log("오답 노트 데이터베이스 구축 완료!");
+            } catch (error) {
+                console.error("오답 노트 저장 중 오류 발생:", error);
+            }
+        }
+
+        window.submitAnswers = async function() {
+            const user = auth.currentUser;
+            if(!user) return alert("로그인이 필요합니다.");
+
+            if (!SCORE_MAP || !CORRECT_ANSWERS) {
+                return alert("채점 기준 데이터가 로드되지 않았습니다. 새로고침 해주세요.");
+            }
+
+            const totalAnswered = document.querySelectorAll('input[type="radio"]:checked').length;
+            if (totalAnswered < TOTAL_QUESTIONS) {
+                if(!confirm(`${TOTAL_QUESTIONS - totalAnswered}문항을 풀지 않았습니다.\n정말 제출하시겠습니까? (미응답은 0점 처리)`)) return;
+            } else {
+                if(!confirm("최종 제출하시겠습니까?")) return;
+            }
+
+            document.getElementById('loading-overlay').classList.remove('hidden');
+
+            try {
+                // A. 채점 (DB에서 가져온 배점/정답 사용)
+                let myAnswers = [];
+                let rawScore = 0;
+                let correctList = [];
+                let evaluatedAnswers = []; // 오답노트 구성을 위한 상세 배열
+
+                for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    const val = selected ? parseInt(selected.value) : 0;
+                    myAnswers.push(val);
+                    
+                    const isCorrect = (val === CORRECT_ANSWERS[i-1]);
+                    correctList.push(isCorrect);
+                    
+                    if (isCorrect) {
+                        rawScore += SCORE_MAP[i-1]; 
+                    }
+
+                    // 오답 데이터 처리를 위해 원본 맵핑 아이디 획득
+                    const qData = EXAM_QUESTIONS && EXAM_QUESTIONS[i-1] ? EXAM_QUESTIONS[i-1] : null;
+                    
+                    let expTopic = null;
+                    if (window.globalExamData && window.globalExamData.explanations) {
+                        const exp = window.globalExamData.explanations.find(e => e.no === i);
+                        if (exp && exp.topic) expTopic = exp.topic;
+                    }
+
+                    evaluatedAnswers.push({
+                        no: i,
+                        qId: qData ? qData.qId : `${EXAM_ID}_q${i}`,
+                        isCorrect: isCorrect,
+                        studentMark: val,
+                        correctAnswer: CORRECT_ANSWERS[i-1],
+                        score: SCORE_MAP[i-1],
+                        topic: qData ? (qData.taxonomy?.topic || expTopic) : expTopic,
+                        behavior: qData ? qData.behavioralDomain : null
+                    });
+                }
+                
+                rawScore = Math.round(rawScore * 10) / 10;
+
+                // B. 비동기 큐(Queue) 기반 채점 기록 [신규 아키텍처]
+                const examRef = doc(db, "exams", EXAM_ID);
+                const myResultRef = doc(db, "users", user.uid, "exam_results", EXAM_ID);
+                const myPurchaseRef = doc(db, "users", user.uid, "my_exams", EXAM_ID);
+
+                // 1. 단순 읽기(Read)로 현재 전체 통계를 가져와 "가채점" 표준점수 계산 (트랜잭션 X)
+                const examDoc = await getDoc(examRef);
+                let count = 0, sum = 0, sumSq = 0;
+                if (examDoc.exists()) {
+                    const data = examDoc.data();
+                    count = data.participantCount || 0;
+                    sum = data.totalScoreSum || 0;
+                    sumSq = data.totalScoreSqSum || 0;
+                }
+
+                // 가채점을 위해 클라이언트에서 임시 계산
+                const newCount = count + 1;
+                const newSum = sum + rawScore;
+                const newSumSq = sumSq + (rawScore * rawScore);
+                
+                let maxScore = 50;
+                if (SCORE_MAP && SCORE_MAP.length > 0) {
+                    maxScore = SCORE_MAP.reduce((a, b) => a + Number(b || 2.5), 0);
+                }
+
+                let standardScore = '-';
+                let percentile = '-';
+                let grade = 5;
+                let isAbsoluteGrade = false;
+
+                if (newCount < 30) {
+                    isAbsoluteGrade = true;
+                    const ratio = rawScore / maxScore;
+                    if (ratio >= 0.9) grade = 1;
+                    else if (ratio >= 0.8) grade = 2;
+                    else if (ratio >= 0.6) grade = 3;
+                    else if (ratio >= 0.4) grade = 4;
+                    else grade = 5;
+                } else {
+                    const mean = newSum / newCount;
+                    const variance = (newSumSq / newCount) - (mean * mean);
+                    const stdDev = Math.sqrt(Math.max(0, variance));
+
+                    let zScore = (stdDev > 0) ? (rawScore - mean) / stdDev : 0;
+                    standardScore = Math.round(50 + (10 * zScore));
+                    percentile = Math.round(getCumulativeProbability(zScore) * 100);
+                    grade = calculateGrade(percentile);
+                }
+
+                // 2. 일괄 쓰기(Batch) - 개인 성적 기록만 저장 (서버 병목 없음)
+                const batch = writeBatch(db);
+                batch.set(myResultRef, {
+                    examId: EXAM_ID,
+                    title: EXAM_TITLE,
+                    score: rawScore,        
+                    standardScore: standardScore, // 가채점 (임시)
+                    grade: grade,           
+                    percentile: percentile, 
+                    myAnswers: myAnswers,
+                    scoreMap: SCORE_MAP, 
+                    submittedAt: serverTimestamp(),
+                    isAsyncCalculated: true // 비동기 모드 플래그
+                });
+                batch.set(myPurchaseRef, { status: 'graded', score: rawScore }, { merge: true });
+
+                // 3. 큐(Queue) 생성 - 서버(Cloud Functions)가 감지하여 전체 통계(exams) 업데이트 처리
+                const queueRef = doc(collection(db, "exam_submissions_queue"));
+                batch.set(queueRef, {
+                    examId: EXAM_ID,
+                    uid: user.uid,
+                    rawScore: rawScore,
+                    evaluatedAnswers: evaluatedAnswers,
+                    status: 'pending',
+                    createdAt: serverTimestamp()
+                });
+
+                await batch.commit();
+                
+                const result = { rawScore, standardScore, grade, percentile };
+
+                // C. [신규 로직 실행] 오답 노트 및 누적 통계 일괄 업데이트
+                document.getElementById('loading-status-text').innerHTML = "AI 채점 완료!<br>취약 단원 및 오답 노트를 분석 중입니다...";
+                await processAndSaveWrongAnswers(user.uid, EXAM_ID, evaluatedAnswers);
+
+                document.getElementById('loading-overlay').classList.add('hidden');
+                
+                alert(`[비동기 제출 완료]\n\n등급: ${result.grade}등급 (가채점)\n표준점수: ${result.standardScore}\n원점수: ${result.rawScore} / ${maxScore}점\n\n${isAbsoluteGrade ? '💡 응시자가 부족하여 임시 절대평가 기준이 적용되었습니다.\n\n' : ''}전체 통계는 서버에서 1~2분 뒤 안전하게 일괄 합산됩니다.`);
+                
+                window.safeNavigate('exam.html?view=report&id=' + EXAM_ID); 
+
+            } catch (e) {
+                console.error(e);
+                document.getElementById('loading-overlay').classList.add('hidden');
+                alert("제출 중 오류 발생: " + e.message);
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if(!user) {
+                alert("로그인이 필요합니다.");
+                window.safeNavigate('../index.html');
+            } else {
+                initExam();
+            }
+        });
+        
+        lucide.createIcons();
+    </script>
+</body>
+</html>

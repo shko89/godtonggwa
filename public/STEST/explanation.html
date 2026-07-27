@@ -6,6 +6,15 @@
     <title>갓통과 - 1타 강사 비밀노트</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/css/common.css">
+    
+    <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      chtml: { scale: 0.85 }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
         /* 1. 손글씨 폰트 로드 */
         @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
@@ -187,6 +196,11 @@ window.addEventListener('wheel', (e) => {
                     const year = parts[1]; 
                     const baseId = parts.slice(0, 3).join('_'); 
                     fileName = `./weekly/${year}/${baseId}.js`;
+                } else if (examId.includes('mock_')) {
+                    const parts = examId.split('_');
+                    const year = parts[1];
+                    const folderName = parts.slice(0, 3).join('_'); // mock_2028_s0
+                    fileName = `./mock/${year}/${folderName}/${examId}.js`;
                 } else {
                     fileName = `./data/${examId}.js`;
                 }
@@ -226,7 +240,7 @@ window.addEventListener('wheel', (e) => {
                     examMetaData = metaSnap.value.data();
                     document.getElementById('exam-title-header').innerText = examMetaData.title || "나만의 오답노트";
                 } else {
-                    document.getElementById('exam-title-header').innerText = "시험 정보를 찾을 수 없습니다.";
+                    document.getElementById('exam-title-header').innerText = (loadedAiData.status === 'fulfilled' && loadedAiData.value && loadedAiData.value.title) ? loadedAiData.value.title : "시험 정보를 찾을 수 없습니다.";
                 }
                 if (loadedAiData.status === 'fulfilled' && loadedAiData.value) aiExamData = loadedAiData.value;
                 renderQuestionGrid();
@@ -370,6 +384,10 @@ window.addEventListener('wheel', (e) => {
                 noteArea.innerHTML = statsHtml + `<div class="handwriting leading-[30px] pt-2 pb-32">${content}</div>`;
                 noteArea.style.opacity = 1;
                 noteArea.style.transition = "opacity 0.3s ease-in-out";
+                
+                if (window.MathJax) {
+                    MathJax.typesetPromise([noteArea, qNumTitle]).catch((err) => console.log('MathJax error: ', err));
+                }
             }, 50);
         };
     </script>

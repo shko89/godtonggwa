@@ -1,0 +1,217 @@
+async function renderChartsAndLists(data) {
+            const rawDomainScores = data.analysis?.domainScores || {};
+            const domainScores = {};
+            const defaultDomains = ['과학의 기초', '물질과 규칙성', '시스템과 상호작용', '변화와 다양성', '환경과 에너지'];
+            
+            defaultDomains.forEach(key => {
+                domainScores[key] = rawDomainScores[key] || 0;
+            });
+
+            const labels = Object.keys(domainScores);
+            const scores = Object.values(domainScores);
+
+            if (Object.keys(rawDomainScores).length > 0) {
+                const ctx = document.getElementById('radarChart').getContext('2d');
+                if(window.myRadarChart) window.myRadarChart.destroy();
+                
+                window.myRadarChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '나의 점수',
+                            data: scores,
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)', 
+                            borderColor: '#4F46E5',
+                            pointBackgroundColor: '#4F46E5',
+                            pointBorderColor: '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: { 
+                            r: { 
+                                suggestedMin: 0, 
+                                suggestedMax: 100, 
+                                ticks: { display: false }, 
+                                pointLabels: { font: { size: 10, family: 'Noto Sans KR' }, color: '#4B5563' } 
+                            } 
+                        },
+                        plugins: { legend: { display: false } },
+                        maintainAspectRatio: false
+                    }
+                });
+            } else {
+                document.getElementById('radarChart').parentElement.innerHTML = '<p class="text-center text-gray-400 text-xs py-10">데이터 부족</p>';
+            }
+
+            const weaknessList = document.getElementById('weakness-list');
+            const weaknesses = data.analysis?.weakness || [];
+            let wHtml = '';
+            
+            if (weaknesses.length > 0) {
+                weaknesses.forEach((topic, index) => {
+                    const aiPromptTitle = encodeURIComponent(`[${topic}] 단원 개념 학습법 질문합니다.`);
+                    const aiPromptBody = encodeURIComponent(`이번 모의고사에서 '${topic}' 단원 오답률이 너무 높습니다. 어떻게 개념을 잡고 공부해야 할까요? 도와주세요 봇튜터님!`);
+                    const communityUrl = `../Board/board.html?view=write&category=qna&title=${aiPromptTitle}&body=${aiPromptBody}`;
+
+                    wHtml += `
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-red-50 rounded-xl border border-red-100 gap-3">
+                            <div>
+                                <span class="inline-block px-2 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded mb-1">Rank ${index + 1}</span>
+                                <h4 class="text-sm font-bold text-gray-900">${topic}</h4>
+                            </div>
+                            <a href="${communityUrl}" class="flex items-center justify-center gap-1 bg-white text-red-600 border border-red-200 hover:bg-red-50 px-3 py-2 rounded-lg text-[11px] font-bold shadow-sm transition shrink-0">
+                                🤖 AI 튜터에게 묻기
+                            </a>
+                        </div>
+                    `;
+                });
+            } else {
+                wHtml = '<p class="text-center text-emerald-600 text-xs py-4 font-bold">취약점이 없습니다. 완벽합니다! 🎉</p>';
+            }
+            weaknessList.innerHTML = wHtml;
+
+            const wrongAnswersList = document.getElementById('wrong-answers-list');
+            if (wrongAnswersList) {
+                // 단일 모의고사 오답 목록
+                let wrongAnswers = myWrongAnswers.filter(wa => wa.examId === data.examId);
+                
+                // [수정] timeattack 등에서 answers 데이터가 문서 내에 포함되어 있는 경우 이를 활용하여 studentMark, correctAnswer 누락 방지
+                if (data.answers && data.answers.length > 0) {
+                    const extractedWrong = data.answers.filter(ans => ans.isCorrect === false || ans.isCorrect === 'false').map(ans => ({
+                        no: ans.no,
+                        qId: ans.qId || ans.id,
+                        examId: data.examId,
+                        topic: ans.taxonomy?.topic || ans.taxonomy?.chapter || ans.topic || '-',
+                        studentMark: ans.studentMark || ans.userAnswer || '-',
+                        correctAnswer: ans.correctAnswer || ans.answer || '?'
+                    }));
+                    if (extractedWrong.length > 0) {
+                        wrongAnswers = extractedWrong;
+                    }
+                }
+                
+                // [신규 추가] 오답 문항 통계 조회 및 점수 자동 복구 (exams 컬렉션 기준)
+                const statsMap = {};
+                try {
+                    const baseExamId = data.examId.replace(/_\d{13}$/, '');
+                    const examDocSnap = await getDoc(doc(db, "exams", baseExamId));
+                    let answerKey = [];
+                    if (examDocSnap.exists()) {
+                        answerKey = examDocSnap.data().answer_key || [];
+                    }
+
+                    // 0점 힐링 (data.answers가 있고 0점인 경우)
+                    if (data.answers && data.answers.length > 0 && typeof data.score === 'number' && data.score === 0) {
+                        let healedScore = 0;
+                        let healedCorrectCount = 0;
+                        data.answers.forEach((ans, idx) => {
+                            const qIdx = parseInt((String(ans.qId).match(/\d+$/) || [idx+1])[0]) - 1;
+                            const correctAns = answerKey[qIdx];
+                            ans.correctAnswer = correctAns;
+                            if (Number(ans.studentMark) === Number(correctAns)) {
+                                ans.isCorrect = true;
+                                healedScore += (ans.score || 2.5);
+                                healedCorrectCount++;
+                            } else {
+                                ans.isCorrect = false;
+                            }
+                        });
+                        if (healedCorrectCount > 0) {
+                            data.score = healedScore;
+                            const scoreEls = document.querySelectorAll('.text-5xl.font-black.tracking-tighter');
+                            scoreEls.forEach(el => el.innerText = healedScore);
+                        }
+                    }
+
+                    // [신규] JS 파일 동적 로드 (단원명 폴백 및 qId 폴백)
+                    const loadedAiData = await loadExamDataScript(baseExamId);
+
+                    if (wrongAnswers.length > 0) {
+                        // qId가 없는 경우 가상 ID 부여 (정답률 조회를 위함)
+                        wrongAnswers.forEach(ans => {
+                            const qNum = ans.no || (ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [0])[0]) : 0);
+                            if (!ans.qId && qNum > 0) {
+                                ans.qId = `${baseExamId}_q${qNum}`;
+                            }
+                            if (window.globalExamData && window.globalExamData.explanations) {
+                                const exp = window.globalExamData.explanations.find(e => e.no === qNum);
+                                if (exp && exp.topic) {
+                                    ans.topic = exp.topic;
+                                    ans.taxonomy = ans.taxonomy || {};
+                                    ans.taxonomy.topic = exp.topic; // UI 렌더링 호환성 위해 taxonomy에도 강제 주입
+                                }
+                            }
+                        });
+
+                        const statsPromises = wrongAnswers.map(ans => getDoc(doc(db, "questions", ans.qId)));
+                        const snaps = await Promise.all(statsPromises);
+                        snaps.forEach((snap, idx) => {
+                            const qIdx = parseInt((String(wrongAnswers[idx].qId).match(/\d+$/) || [1])[0]) - 1;
+                            if (!wrongAnswers[idx].correctAnswer || wrongAnswers[idx].correctAnswer === '?' || Number.isNaN(Number(wrongAnswers[idx].correctAnswer))) {
+                                wrongAnswers[idx].correctAnswer = answerKey[qIdx] || '?';
+                            }
+                            if(snap.exists()) {
+                                const qData = snap.data();
+                                if(qData.stats && qData.stats.totalAttempts > 0) {
+                                    statsMap[wrongAnswers[idx].qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
+                                }
+                            }
+                        });
+                    }
+                } catch(e) { console.error(e); }
+
+                let tableHtml = '';
+                if (wrongAnswers.length > 0) {
+                    wrongAnswers.sort((a,b) => {
+                        const noA = a.no || (a.qId ? parseInt((String(a.qId).match(/\d+$/) || [0])[0]) : 0);
+                        const noB = b.no || (b.qId ? parseInt((String(b.qId).match(/\d+$/) || [0])[0]) : 0);
+                        return noA - noB;
+                    }).forEach((ans, index) => {
+                        const originalQNum = ans.no || (ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [index + 1])[0]) : index + 1);
+                        const qNum = originalQNum;
+                        const topicText = ans.taxonomy?.topic || ans.topic || '-';
+                        const explanationUrl = `explanation.html?id=${data.examId}&qNum=${ans.no}`;
+
+                        let rateHtml = '';
+                        if (statsMap[ans.qId] !== undefined) {
+                            const r = statsMap[ans.qId];
+                            let color = r >= 70 ? 'bg-green-100 text-green-700' : r >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700';
+                            rateHtml = `<span class="${color} text-[10px] px-1.5 py-0.5 rounded font-bold ml-1 whitespace-nowrap">${r}%</span>`;
+                        } else {
+                            rateHtml = `<span class="bg-gray-100 text-gray-500 text-[10px] px-1.5 py-0.5 rounded font-bold ml-1 whitespace-nowrap">집계 중</span>`;
+                        }
+
+                        tableHtml += `
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-2 py-3 text-center font-bold text-gray-900 whitespace-nowrap">${qNum}번</td>
+                                <td class="px-2 py-3 text-gray-600 text-[11px] truncate max-w-[120px]" title="${topicText}">${topicText}</td>
+                                <td class="px-2 py-3 text-center whitespace-nowrap">${rateHtml}</td>
+                                <td class="px-2 py-3 text-center whitespace-nowrap">
+                                    <span class="text-red-500 font-medium line-through mr-1 text-[11px]">${ans.studentMark || '-'}</span>
+                                    <span class="text-green-600 font-bold text-[11px]">${ans.correctAnswer}</span>
+                                </td>
+                                <td class="px-2 py-3 text-center">
+                                    <a href="${explanationUrl}" class="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1.5 rounded-md text-[10px] font-bold shadow-sm transition whitespace-nowrap">
+                                        해설보기
+                                    </a>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    wrongAnswersList.innerHTML = tableHtml;
+                } else {
+                    wrongAnswersList.innerHTML = '<tr><td colspan="5" class="text-center py-6 text-gray-400 text-xs">틀린 문항이 없습니다. 완벽합니다! 🎉</td></tr>';
+                }
+            }
+        }
+
+        window.changeReport = (examId) => {
+            const contentDiv = document.getElementById('exam-content');
+            if(contentDiv) {
+                renderReportPage(contentDiv, examId);
+            }
+        };
+        
+        

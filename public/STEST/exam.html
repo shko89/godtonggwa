@@ -16,8 +16,6 @@ window.addEventListener('unhandledrejection', function(event) {
 </script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -665,12 +663,11 @@ window.addEventListener('wheel', (e) => {
                             else d.grade = 5;
                         }
                         tempResults[doc.id] = d;
-                    });
-                    });
+                    }); // snapshot.forEach 종료
                     
                     myExamResults = tempResults;
                     if (window.currentTab === 'report') refreshCurrentTab();
-                });
+                }); // onSnapshot 종료
 
                 // [추가] wrong_answers 컬렉션 실시간 동기화
                 onSnapshot(collection(db, "users", currentUser.uid, "wrong_answers"), async (snapshot) => {
@@ -1961,11 +1958,20 @@ html += `<div class="mb-8">`;
         
         window.openScoreModal = (id) => { window.selectedExamId = id; document.getElementById('scoreInput').value = ''; document.getElementById('scoreModal').classList.remove('hidden'); };
         window.closeScoreModal = () => document.getElementById('scoreModal').classList.add('hidden');
+        
         window.submitScore = async () => {
             const score = Number(document.getElementById('scoreInput').value);
             if(!window.selectedExamId || !currentUser) return;
-            try { await setDoc(doc(db, "users", currentUser.uid, "my_exams", window.selectedExamId), { status: 'graded', score, gradedAt: new Date().toISOString() }, { merge: true }); alert("채점 완료!"); closeScoreModal(); switchTab('report'); } catch { alert("저장 실패"); }
+            try { 
+                await setDoc(doc(db, "users", currentUser.uid, "my_exams", window.selectedExamId), { status: 'graded', score, gradedAt: new Date().toISOString() }, { merge: true }); 
+                alert("채점 완료!"); 
+                closeScoreModal(); 
+                switchTab('report'); 
+            } catch (e) { 
+                alert("저장 실패"); 
+            }
         };
+        
         window.copyToClipboard = (text) => { navigator.clipboard.writeText(text).then(() => alert('복사되었습니다.')).catch(() => alert('복사 실패')); };
 
         window.resetUserPassword = async () => {

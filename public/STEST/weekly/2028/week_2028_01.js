@@ -200,7 +200,7 @@ window.globalExamData = {
             "topic": "정보와 신호",
             "content": `
 <div class="ans-correct-title">정답: ① ㄱ</div>
-        <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">아날로그 비디오테이프를 복사하면 어떻게 되지? 노이즈가 껴서 화질구지가 되지! 반면 디지털은 복붙 100번 해도 쌩쌩해.</div></div>
+        <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">자연계의 원래 신호는 아날로그이지만, 정보의 압축·저장·가공에 훨씬 유리한 건 디지털 방식이라는 점을 절대 잊지 마!</div></div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄱ.</span>
@@ -209,11 +209,11 @@ window.globalExamData = {
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
         <div class="fact-check-item">
-            <span class="fact-check-label">ㄴ.</span>
+            <span class="wrong-fact-label">ㄴ.</span>
             <span class="fact-check-text">아날로그 신호를 디지털 신호로 변환하는 과정에서는 연속된 값을 불연속적인 단위로 쪼개어 저장하므로, 필연적으로 미세한 정보의 손실(오차)이 발생 해. (X)</span>
         </div>
         <div class="fact-check-item">
-            <span class="fact-check-label">ㄷ.</span>
+            <span class="wrong-fact-label">ㄷ.</span>
             <span class="fact-check-text">디지털 방식(나)은 원본 아날로그보다 <b>정보를 압축하고 변형(편집)</b>하는 데 훨씬 유리하지! (X)</span>
         </div>
 `
@@ -223,15 +223,19 @@ window.globalExamData = {
             "topic": "기본량과 유도량, 단위",
             "content": `
 <div class="ans-correct-title">정답: ③ ㄱ, ㄴ</div>
-        <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">그래프에서 기울기는 y/x! 물리량을 다룰 때 가장 중요한 건 '단위 변환(g -> kg)' 함정에 빠지지 않는 거야.</div></div>
+        <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">정답: ③ ㄱ, ㄴ
+
+💡 [갓쌤의 1초 개념]
+측정 도구(아날로그 vs 디지털 센서)의 원리와 측정의 불확실성을 이해하는 문제!
+모든 과학적 측정에는 필연적으로 불확실성(오차)이 포함되며, 아무리 첨단 디지털 기기를 사용하더라도 오차를 '100% 완벽하게' 제거하는 것은 불가능하다는 과학의 기본 원칙을 잊지 마!</div></div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
-                <span class="wrong-fact-label">ㄱ.</span>
+                <span class="fact-check-label">ㄱ.</span>
                 <span class="fact-check-text">온도 센서는 온도라는 아날로그 물리량을 기계가 읽을 수 있는 <b>전기 신호</b>로 바꿔주는 핵심 장치야. (O)</span>
             </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
-            <span class="fact-check-text">온도 센서는 온도라는 아날로그 물리량을 기계가 읽을 수 있는 <b>전기 신호</b>로 바꿔주는 핵심 장치야. (O)</span>
+            <span class="fact-check-text">액체 온도계(가)로 눈금을 읽을 때는 눈대중으로 어림잡아 읽는 과정에서 관측자에 따른 오차가 발생할 수밖에 없어. 뿐만 아니라, 자연계의 모든 물리적 측정에는 측정 도구의 한계나 외부 환경 요인으로 인해 반드시 불확실성(오차)이 포함된다는 사실! (O)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
@@ -256,7 +260,7 @@ window.globalExamData = {
 <div class="wrong-fact-section">
     <div class="wrong-fact-title">🚨 오답 선지 팩트폭행! (함정 주의)</div>
     <div class="fact-check-item">
-    <span class="fact-check-label">ㄱ.</span>
+    <span class="wrong-fact-label">ㄱ.</span>
     <span class="fact-check-text">(가) 전자 현미경은 눈으로 볼 수 없는 아주 작은 <b>미시 세계</b>를 관측하는 데 딱이야. (X)</span>
     </div>
 
@@ -271,7 +275,7 @@ window.globalExamData = {
             "no": 12,
             "topic": "표준의 확립",
             "content": `
-<div class="ans-correct-title">정답: ② ㄴ</div>
+<div class="ans-correct-title">정답: ⑤ ㄴ, ㄷ</div>
 <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">현대 과학의 단위(SI)는 썩어 문드러지는 쇳덩이(미터원기) 대신, 절대 변하지 않는 '자연 상수(빛의 속력)'를 기준으로 싹 다 갈아엎었어!</div></div>
 <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
 <div class="fact-check-item">
@@ -439,7 +443,7 @@ window.globalExamData = {
 <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">헷갈리지 마! 광년(ly)은 '빛이 1년 동안 날아간 거리'니까 길이 단위고, 속력이나 힘은 기본량들이 뭉쳐서 만들어진 '유도량'이야!</div></div>
 <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
 <div class="fact-check-item">
-        <span class="wrong-fact-label">B</span>
+        <span class="fact-check-label">B</span>
         <span class="fact-check-text">질량의 기본 단위는 g이 아니고, kg이라는 거 잊지마! (O)</span>
     </div>
 <div class="fact-check-item">
@@ -463,24 +467,11 @@ window.globalExamData = {
 <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">변인 통제 훈련! 길이만 바꿨을 땐 주기가 변했는데 질량만 바꿨을 땐 주기가 그대로네? 그럼 주기는 오직 '길이'랑만 썸타는 거지!</div></div>
 <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
 <div class="fact-check-item">
-    <span class="fact-check-label">③</span>
+    <span class="fact-check-label">①</span>
     <span class="fact-check-text">실험 결과를 보면 질량은 주기에 1도 영향을 못 주고, 길이에 의해서만 주기가 변했어. 그러니까 진자의 주기는 질량과 무관하고 <b>길이에 의해 결정된다</b>가 완벽한 가설이지! (O)</span>
 </div>
 <div class="wrong-fact-section">
     <div class="wrong-fact-title">🚨 오답 선지 팩트폭행! (함정 주의)</div>
-    <div class="fact-check-item">
-        <span class="wrong-fact-label">②</span>
-        <span class="fact-check-text">주기가 질량에 의해 결정된다? 이것도 실험 결과(질량 무관)랑 반대야. (X)</span>
-    </div>
-    <div class="fact-check-item">
-        <span class="wrong-fact-label">③</span>
-        <span class="fact-check-text">주기가 질량에 비례? 실험에서 질량이 변해도 주기 안 변했어. (X)</span>
-    </div>
-   
-    <div class="fact-check-item">
-        <span class="wrong-fact-label">④</span>
-        <span class="fact-check-text">질량이 클수록 주기가 짧아진다? 아니, 질량은 주기에 아무 영향도 못 줬다니까! (X)</span>
-    </div>
     <div class="fact-check-item">
         <span class="wrong-fact-label">⑤</span>
         <span class="fact-check-text">이 실험은 측정 오차를 줄이는 게 목표가 아니라, 변인이 주기에 미치는 영향을 밝히는 탐구 과정이야. 핀트가 어긋났어. (X)</span>

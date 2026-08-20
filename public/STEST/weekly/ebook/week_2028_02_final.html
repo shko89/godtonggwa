@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="ko">
 <head>
@@ -10,6 +10,13 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Roboto:wght@300;400;700;900&amp;family=Nanum+Pen+Script&amp;display=swap" rel="stylesheet"/>
 <style>
+    @font-face {
+    font-family: 'BareHippie';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Bareun_hipi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+    
         html, body {
             width: 100%;
             min-width: 100%;
@@ -122,7 +129,7 @@
         .toc-page .title-section { margin-bottom: 20px; }
         .toc-page .index-title { font-family: 'Roboto'; font-weight: 900; font-size: 30px; letter-spacing: -1px; margin: 0; line-height: 1; }
         .toc-page .week-sub { font-size: 13px; font-weight: 700; color: #0284c7; margin-top: 5px; }
-        .toc-page .toc-list { display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }
+        .toc-page .toc-list { display: flex; flex-direction: column; gap: 10px; }
         .toc-page .toc-item { display: flex; align-items: flex-start; justify-content: space-between; }
         .toc-page .item-left { display: flex; gap: 18px; }
         .toc-page .item-num { font-family: 'Roboto'; font-weight: 900; font-size: 16px; color: #0284c7; width: 25px; }
@@ -130,7 +137,7 @@
         .toc-page .item-text p { font-size: 11px; font-weight: 400; color: #64748b; margin: 0; line-height: 1.4; }
         .toc-page .item-page { font-family: 'Roboto'; font-weight: 700; font-size: 16px; color: #0f172a; }
         .toc-page .dots { flex-grow: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 15px; position: relative; top: -6px; }
-        .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; margin-top: auto; }
+        .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; position: absolute; bottom: 75px; left: 40px; width: 420px; box-sizing: border-box; }
         .toc-page .guide-title { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
         .toc-page .guide-desc { font-size: 10px; color: #475569; margin: 0; line-height: 1.5; }
         .toc-page .page-footer { text-align: center; font-size: 11px; font-family: 'Roboto'; color: #94a3b8; margin-top: 15px; }
@@ -230,15 +237,15 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
         
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
         
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
         
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
         
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
 /* ======= */
@@ -280,15 +287,15 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
         
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
         
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
         
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
         
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
 /* ======= */
@@ -328,15 +335,15 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
         
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
         
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
         
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
         
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
 /* ======= */
@@ -378,15 +385,15 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
         }
         .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
         
-        .handwriting { font-family: 'Nanum Pen Script', cursive; color: #1e3a8a; font-size: 18px; line-height: 1.2; }
+        .handwriting { color: #1e3a8a; font-size: 9.5px; line-height: 1.5; font-weight: 500; }
         
-        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: 'Nanum Pen Script', cursive; font-size: 15px; color: #000; text-align: center; border: 2px solid #94a3b8; }
-        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 17px; }
+        .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
+        .hw-table th { background-color: #f1f5f9; padding: 1px 3px; border: 1px solid #94a3b8; color: #1e3a8a; font-size: 12px; }
         .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
         
         .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
         
-        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: 'Nanum Pen Script', cursive; font-size: 16px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
+        .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-1deg); margin-top: 4px; font-size: 10px; color: #000; line-height: 1.5; border: 1px solid #fde047; }
         
         .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
     
@@ -465,104 +472,28 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
             }
         }
 </style>
-<div id="flipbook-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 1000; overflow: auto; align-items: center; justify-content: center; flex-direction: column;">
-<div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
-<button onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
-<button onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
-</div>
-<div id="zoom-wrapper" style="position: relative;">
-<div id="flipbook" style="width: 1000px; height: 707px; transform-origin: top left;"></div>
-</div>
-</div>
+
 <script>
     MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\(', '\)']] }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
     };
 </script>
-<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-            authDomain: "godtonggwa.firebaseapp.com",
-            projectId: "godtonggwa",
-            storageBucket: "godtonggwa.firebasestorage.app",
-            messagingSenderId: "1087434066468",
-            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-        };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        onAuthStateChanged(auth, (user) => {
-            if (!user || user.isAnonymous) {
-                alert("로그인이 필요하거나 접근 권한이 없습니다.");
-                window.location.href = "../../exam.html";
-            } else {
-                document.body.style.display = 'flex';
-            }
-        });
-
-        // Anti-copy measures
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('keydown', event => {
-            if (event.ctrlKey && (event.key === 's' || event.key === 'c' || event.key === 'u' || event.key === 'a')) {
-                event.preventDefault();
-            }
-            if (event.key === 'F12') {
-                event.preventDefault();
-            }
-        });
-
-        // Auto-start Flipbook mode
-        window.addEventListener('load', () => {
-            if(typeof toggleFlipbook === 'function') {
-                const fbContainer = document.getElementById('flipbook-container');
-                if (fbContainer && fbContainer.style.display === "none") {
-                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    if (!isMobile && window.innerWidth > 768) {
-                        toggleFlipbook();
-                    } else {
-                        // On mobile, show vertical scroll mode by making body flex to keep centering
-                        document.body.style.display = 'flex'; 
-                    }
-                }
-            }
-        });
-    </script>
-<style>
-        body {
-            user-select: none;
-            -webkit-user-select: none;
-            display: none;
-            padding-top: 60px !important; /* 모바일에서 X버튼에 가리지 않도록 여백 추가 */
-        }
-        img {
-            pointer-events: none;
-        }
-    </style>
-<script>
-// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
-// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
-window.addEventListener('wheel', (e) => {
-    if (!e.target.closest('.overflow-y-auto')) {
-        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
-        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
-        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
-        if (activeContainer) {
-            activeContainer.scrollTop += e.deltaY;
-        }
-    }
-}, { passive: true });
-</script>
 </head>
 <body>
-<div style="position: fixed; top: 15px; right: 20px; z-index: 9999;">
-<button onclick="window.history.back()" style="background-color: #0f172a; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0.9;">✕</button>
-</div>
+<!-- Flipbook E-Book Viewer Container (100% 1·2주차 표준 구조) -->
+<div id="flipbook-container">
+    
+    <!-- Top Left: Zoom In / Out Buttons -->
+    <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
+        <button class="zoom-btn" onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
+        <button class="zoom-btn" onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
+    </div>
+
+<!-- Main Content (Source Pages for Flipbook) -->
+<div id="main-content" style="display: none;">
 <div class="page-wrapper">
 <button class="btn-download" onclick="downloadImage('cover-page', 'Cover')">📥 [1페이지] 표지 다운로드</button>
 <div class="a4-page cover-page" id="cover-page">
@@ -591,8 +522,11 @@ window.addEventListener('wheel', (e) => {
 <div class="bottom-section">
 <div class="week-num editable cover-week-val" contenteditable="true">02</div>
 <div class="week-theme">
+
 <strong class="editable cover-theme-val" contenteditable="true" style="display:inline-block; min-width: 150px;">원소 형성<br/>별의 진화<br/>원소의 주기성</strong><br/>
+
 <span class="editable" contenteditable="true" style="display:inline-block; min-width: 150px; display:none;"></span><br/>
+
 <span style="font-size:12px; color:#64748b; margin-top:5px; display:inline-block;">Data-driven Learning System</span>
 </div>
 </div>
@@ -669,11 +603,12 @@ window.addEventListener('wheel', (e) => {
 <div class="dots"></div>
 <div class="item-page editable" contenteditable="true">28</div>
 </div>
+
 <div class="toc-item">
 <div class="item-left">
 <div class="item-num">05</div>
 <div class="item-text">
-<h3 class="editable" contenteditable="true">갓통과 WEEKLY : Fit 20 모의고사</h3>
+<h3 class="editable" contenteditable="true">갓통과 Fit 20 모의고사</h3>
 <p class="editable" contenteditable="true">2단 실전 레이아웃 20문항 실전 모의고사</p>
 </div>
 </div>
@@ -786,7 +721,9 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="insight-box">
 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+
 <span style="background-color: #3b82f6; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">출제자의 시선</span>
+
 <span style="font-weight: 700; font-size: 13px;">왜 이것을 배울까?</span>
 </div>
 <p style="font-size: 10px; color: #cbd5e1; line-height: 1.45; margin: 0; text-align: justify; word-break: keep-all;">
@@ -1090,11 +1027,11 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div style="margin-top: 15px; padding: 12px 15px; background-color: #f8fafc; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 10px; color: #334155; line-height: 1.5; text-align: justify; word-break: keep-all;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;"><strong>연속 스펙트럼:</strong> 고온의 물체(광원)에서 방출된 빛이 분광기를 통과할 때 나타나는 끊어짐 없는 무지개색 띠입니다.</li>
-<li style="margin-bottom: 5px;"><strong>흡수 스펙트럼:</strong> 고온의 광원에서 나온 빛이 상대적으로 <strong>저온의 기체</strong>를 통과할 때, 기체가 특정 파장의 빛을 흡수하여 연속 스펙트럼 바탕에 <strong>검은 선</strong>으로 나타납니다.</li>
-<li><strong>방출 스펙트럼:</strong> 에너지를 흡수하여 가열된 <strong>고온의 기체</strong>가 원래 상태로 돌아오면서 스스로 특정 파장의 빛을 방출하여 검은 바탕에 <strong>밝은 선</strong>으로 나타납니다.</li>
-</ul>
+    <ul style="margin: 0; padding-left: 20px;">
+        <li style="margin-bottom: 5px;"><strong>연속 스펙트럼:</strong> 고온의 물체(광원)에서 방출된 빛이 분광기를 통과할 때 나타나는 끊어짐 없는 무지개색 띠입니다.</li>
+        <li style="margin-bottom: 5px;"><strong>흡수 스펙트럼:</strong> 고온의 광원에서 나온 빛이 상대적으로 <strong>저온의 기체</strong>를 통과할 때, 기체가 특정 파장의 빛을 흡수하여 연속 스펙트럼 바탕에 <strong>검은 선</strong>으로 나타납니다.</li>
+        <li><strong>방출 스펙트럼:</strong> 에너지를 흡수하여 가열된 <strong>고온의 기체</strong>가 원래 상태로 돌아오면서 스스로 특정 파장의 빛을 방출하여 검은 바탕에 <strong>밝은 선</strong>으로 나타납니다.</li>
+    </ul>
 </div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
@@ -1125,6 +1062,7 @@ window.addEventListener('wheel', (e) => {
 <div class="concept-page page-right">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 8px; margin-top: 10px;">
+
 <span style="color:#b91c1c; font-weight:bold;">1. 우주를 구성하는 원소의 질량비</span><br/>
                     우주 전역에서 수소(H)와 헬륨(He)의 질량비는 일정하게 관측되며, 이는 빅뱅 우주론의 결정적 증거야!
                 </div>
@@ -1145,6 +1083,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="handwriting" style="margin-bottom: 5px;">
+
 <span style="color:#b91c1c; font-weight:bold;">2. 스펙트럼 특징 한눈에 정리</span>
 </div>
 <table class="hw-table">
@@ -1162,56 +1101,61 @@ window.addEventListener('wheel', (e) => {
 </tr>
 </table>
 <div style="margin-top: 15px;">
-<div class="handwriting" style="margin-bottom: 5px;">
-<span style="color:#b91c1c; font-weight:bold;">3. 원소 분석 (스펙트럼 비교)</span>
-</div>
-<div style="border: 1px dashed #cbd5e1; border-radius: 6px; padding: 10px 15px; background: #f8fafc; display: flex; flex-direction: column; align-items: center;">
-<svg height="100" viewbox="0 0 350 100" width="100%">
-<defs>
-<lineargradient id="rainbow3" x1="0" x2="1">
-<stop offset="0%" stop-color="#ef4444"></stop>
-<stop offset="20%" stop-color="#f59e0b"></stop>
-<stop offset="40%" stop-color="#eab308"></stop>
-<stop offset="60%" stop-color="#22c55e"></stop>
-<stop offset="80%" stop-color="#3b82f6"></stop>
-<stop offset="100%" stop-color="#a855f7"></stop>
-</lineargradient>
-</defs>
-<!-- 별의 흡수 스펙트럼 -->
-<text dominant-baseline="middle" fill="#334155" font-family="Noto Sans KR" font-size="10" font-weight="bold" x="5" y="15">별 (흡수)</text>
-<rect fill="url(#rainbow3)" height="20" width="270" x="70" y="5"></rect>
-<line stroke="#000" stroke-width="2" x1="100" x2="100" y1="5" y2="25"></line>
-<line stroke="#000" stroke-width="2" x1="150" x2="150" y1="5" y2="25"></line>
-<line stroke="#000" stroke-width="2" x1="210" x2="210" y1="5" y2="25"></line>
-<line stroke="#000" stroke-width="2" x1="260" x2="260" y1="5" y2="25"></line>
-<line stroke="#000" stroke-width="2" x1="300" x2="300" y1="5" y2="25"></line>
-<!-- 원소 A 방출 스펙트럼 -->
-<text dominant-baseline="middle" fill="#334155" font-family="Noto Sans KR" font-size="10" font-weight="bold" x="5" y="40">원소 A</text>
-<rect fill="#000" height="15" width="270" x="70" y="30"></rect>
-<line stroke="#f59e0b" stroke-width="2" x1="100" x2="100" y1="30" y2="45"></line>
-<line stroke="#3b82f6" stroke-width="2" x1="210" x2="210" y1="30" y2="45"></line>
-<line stroke="#a855f7" stroke-width="2" x1="260" x2="260" y1="30" y2="45"></line>
-<!-- 원소 B 방출 스펙트럼 -->
-<text dominant-baseline="middle" fill="#334155" font-family="Noto Sans KR" font-size="10" font-weight="bold" x="5" y="60">원소 B</text>
-<rect fill="#000" height="15" width="270" x="70" y="50"></rect>
-<line stroke="#eab308" stroke-width="2" x1="150" x2="150" y1="50" y2="65"></line>
-<line stroke="#a855f7" stroke-width="2" x1="300" x2="300" y1="50" y2="65"></line>
-<!-- 원소 C 방출 스펙트럼 -->
-<text dominant-baseline="middle" fill="#334155" font-family="Noto Sans KR" font-size="10" font-weight="bold" x="5" y="80">원소 C</text>
-<rect fill="#000" height="15" width="270" x="70" y="70"></rect>
-<line stroke="#22c55e" stroke-width="2" x1="130" x2="130" y1="70" y2="85"></line>
-<line stroke="#8b5cf6" stroke-width="2" x1="240" x2="240" y1="70" y2="85"></line>
-<!-- 연결선 -->
-<line stroke="#dc2626" stroke-dasharray="2,2" stroke-width="1" x1="100" x2="100" y1="25" y2="30"></line>
-<line stroke="#dc2626" stroke-dasharray="2,2" stroke-width="1" x1="150" x2="150" y1="25" y2="50"></line>
-<line stroke="#dc2626" stroke-dasharray="2,2" stroke-width="1" x1="210" x2="210" y1="25" y2="30"></line>
-<line stroke="#dc2626" stroke-dasharray="2,2" stroke-width="1" x1="260" x2="260" y1="25" y2="30"></line>
-<line stroke="#dc2626" stroke-dasharray="2,2" stroke-width="1" x1="300" x2="300" y1="25" y2="50"></line>
-</svg>
-<div style="font-size: 10px; color: #1e293b; text-align: justify; word-break: keep-all; line-height: 1.5; margin-top: 10px; width: 100%;">
+    <div class="handwriting" style="margin-bottom: 5px;">
+        <span style="color:#b91c1c; font-weight:bold;">3. 원소 분석 (스펙트럼 비교)</span>
+    </div>
+    <div style="border: 1px dashed #cbd5e1; border-radius: 6px; padding: 10px 15px; background: #f8fafc; display: flex; flex-direction: column; align-items: center;">
+        <svg width="100%" height="100" viewBox="0 0 350 100">
+            <defs>
+                <linearGradient id="rainbow3" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#ef4444" />
+                    <stop offset="20%" stop-color="#f59e0b" />
+                    <stop offset="40%" stop-color="#eab308" />
+                    <stop offset="60%" stop-color="#22c55e" />
+                    <stop offset="80%" stop-color="#3b82f6" />
+                    <stop offset="100%" stop-color="#a855f7" />
+                </linearGradient>
+            </defs>
+            
+            <!-- 별의 흡수 스펙트럼 -->
+            <text x="5" y="15" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">별 (흡수)</text>
+            <rect x="70" y="5" width="270" height="20" fill="url(#rainbow3)" />
+            <line x1="100" y1="5" x2="100" y2="25" stroke="#000" stroke-width="2" />
+            <line x1="150" y1="5" x2="150" y2="25" stroke="#000" stroke-width="2" />
+            <line x1="210" y1="5" x2="210" y2="25" stroke="#000" stroke-width="2" />
+            <line x1="260" y1="5" x2="260" y2="25" stroke="#000" stroke-width="2" />
+            <line x1="300" y1="5" x2="300" y2="25" stroke="#000" stroke-width="2" />
+            
+            <!-- 원소 A 방출 스펙트럼 -->
+            <text x="5" y="40" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 A</text>
+            <rect x="70" y="30" width="270" height="15" fill="#000" />
+            <line x1="100" y1="30" x2="100" y2="45" stroke="#f59e0b" stroke-width="2" />
+            <line x1="210" y1="30" x2="210" y2="45" stroke="#3b82f6" stroke-width="2" />
+            <line x1="260" y1="30" x2="260" y2="45" stroke="#a855f7" stroke-width="2" />
+            
+            <!-- 원소 B 방출 스펙트럼 -->
+            <text x="5" y="60" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 B</text>
+            <rect x="70" y="50" width="270" height="15" fill="#000" />
+            <line x1="150" y1="50" x2="150" y2="65" stroke="#eab308" stroke-width="2" />
+            <line x1="300" y1="50" x2="300" y2="65" stroke="#a855f7" stroke-width="2" />
+
+            <!-- 원소 C 방출 스펙트럼 -->
+            <text x="5" y="80" font-family="Noto Sans KR" font-size="10" font-weight="bold" fill="#334155" dominant-baseline="middle">원소 C</text>
+            <rect x="70" y="70" width="270" height="15" fill="#000" />
+            <line x1="130" y1="70" x2="130" y2="85" stroke="#22c55e" stroke-width="2" />
+            <line x1="240" y1="70" x2="240" y2="85" stroke="#8b5cf6" stroke-width="2" />
+
+            <!-- 연결선 -->
+            <line x1="100" y1="25" x2="100" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="150" y1="25" x2="150" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="210" y1="25" x2="210" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="260" y1="25" x2="260" y2="30" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="300" y1="25" x2="300" y2="50" stroke="#dc2626" stroke-width="1" stroke-dasharray="2,2" />
+        </svg>
+        <div style="font-size: 10px; color: #1e293b; text-align: justify; word-break: keep-all; line-height: 1.5; margin-top: 10px; width: 100%;">
             👉 별의 흡수 스펙트럼 선과 <strong>원소 A, B</strong>의 방출 스펙트럼 선의 파장(위치)이 <strong>모두 일치</strong>합니다. 따라서 이 별의 대기에는 원소 A와 B가 <strong>포함</strong>되어 있습니다. 반면, <strong>원소 C</strong>의 스펙트럼 선은 일치하지 않으므로 별에는 C가 <strong>존재하지 않습니다.</strong>
-</div>
-</div>
+        </div>
+    </div>
 </div>
 <!-- 포스트잇 팁 -->
 <div class="tip-sticky" style="margin-top: 12px;">
@@ -1249,7 +1193,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 13번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q13.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 13번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q13.webp?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -1264,20 +1208,25 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">①</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+
 <strong style="color: #0f172a;">원소 형성</strong><br/>
                         우주의 수소와 헬륨의 질량비는 약 3:1이며, 빅뱅 약 38만 년 후 우주의 온도가 3000K로 낮아질 때 원자핵과 전자가 결합하여 중성 원자가 형성되었습니다.
                     </div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
@@ -1323,7 +1272,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q01.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q01.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -1333,7 +1282,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q02.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q02.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -1363,17 +1312,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">4</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.0px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">광원과 저온의 기체를 지나는 빛의 경로에 따라 연속 스펙트럼, 흡수 스펙트럼, 방출 스펙트럼이 나타나는 원리를 이해하는 문항입니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.0px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;"></p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A는 고온의 별에서 나오는 빛을 직접 관측하므로 모든 파장의 빛이 연속적으로 나타나는 연속 스펙트럼을 관측하는 것이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">C는 기체가 에너지를 흡수했다가 바닥 상태로 떨어지며 방출하는 빛을 관측하므로 흡수 스펙트럼이 아닌 '방출 스펙트럼'을 관측합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">동일한 원소(저온의 기체)가 흡수하고 방출하는 에너지 준위 차이는 같으므로, B가 관측한 흡수선의 위치와 C가 관측한 방출선의 위치는 정확히 일치합니다.</div></div></div>
@@ -1389,17 +1342,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">원소 종류에 따른 스펙트럼 선의 위치(에너지 준위 차이) 분석 및 흡수/방출 스펙트럼의 형성 원리 이해</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;"></p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄱ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별의 대기에는 원소 X의 방출선 위치만 흡수선과 일치하므로 원소 X는 포함되어 있지만, 원소 Y의 방출선은 일치하지 않아 원소 Y는 포함되어 있지 않습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">빛이 우주 공간의 저온 기체를 통과할 때 형성되는 것은 '흡수 스펙트럼'입니다. 원소 Z의 방출 스펙트럼은 고온의 기체가 방출하는 빛에 의해 형성됩니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">동일한 원소의 경우 전자의 에너지 준위 차이가 같으므로, 빛을 흡수할 때(흡수 스펙트럼)와 방출할 때(방출 스펙트럼) 선의 위치가 정확히 일치합니다.</div></div></div>
@@ -1515,6 +1472,7 @@ window.addEventListener('wheel', (e) => {
 <div class="concept-page page-right">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+
 <span style="color:#b91c1c; font-weight:bold;">1. 7:1 개수비가 3:1 질량비가 되는 마법</span><br/>
                     양성자 14개, 중성자 2개(7:1)가 있을 때, 헬륨 원자핵 1개가 만들어지면 남은 건 수소 원자핵 12개야. 질량비는 무조건 외워!
                 </div>
@@ -1570,12 +1528,13 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="concept-box" style="background-color: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px; margin: 12px 0; border-radius: 0 4px 4px 0;">
-<div style="font-weight: 900; color: #b45309; font-size: 11px; margin-bottom: 4px;">📌 원자 생성과 우주 배경 복사</div>
-<div style="font-size: 10px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">
+    <div style="font-weight: 900; color: #b45309; font-size: 11px; margin-bottom: 4px;">📌 원자 생성과 우주 배경 복사</div>
+    <div style="font-size: 10px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">
         우주 탄생 후 약 <strong>38만 년</strong>이 지나 온도가 약 <strong>3000 K</strong>로 낮아졌을 때, 전자가 원자핵에 붙잡혀 <strong>원자가 생성</strong>되었습니다. 원자 생성 이전에는 빛이 전자 등에 부딪혀 흩어졌지만, 원자가 생성되면서 빛이 물질과 분리되어 우주 공간으로 <strong>직진</strong>할 수 있게 되었습니다. 이때 방출된 빛이 바로 <strong>우주 배경 복사</strong>이며, 우주가 팽창함에 따라 파장이 점차 길어져 오늘날에는 우주 전역에서 약 2.7 K의 <strong>마이크로파</strong>(전파) 형태로 검출됩니다.
     </div>
 </div>
 <div class="handwriting" style="margin-bottom: 5px;">
+
 <span style="color:#b91c1c; font-weight:bold;">2. 헷갈림 방지! 시간별 주요 사건 대조표</span>
 </div>
 <table class="hw-table">
@@ -1666,7 +1625,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 1번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prep_q01.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 1번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prep_q01.webp?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -1681,17 +1640,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">5</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">빅뱅 우주론에 따른 물질의 생성 순서(기본 입자 → 양성자/중성자 → 원자핵 → 원자)와 온도 변화 이해하기.</div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all;">우주가 팽창하면서 온도가 낮아짐에 따라 쿼크가 결합해 양성자(㉠)를 만들고, 이후 헬륨 원자핵이 형성된 뒤, 약 38만 년이 지나 온도가 3000 K가 되었을 때 마지막으로 원자핵이 전자와 결합하여 중성 원자(㉡)를 형성합니다. 따라서 ㉠은 양성자, ㉡은 원자입니다. 이 전 과정에서 우주의 온도는 계속 감소하였고, 원자가 형성되며 빛이 물질과 분리되어 우주가 투명해졌습니다.</p><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all;">우주는 계속 팽창하며 온도가 낮아지므로, 초기 단계인 A 시기가 후기인 D 시기보다 온도가 높습니다.</div></div><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all;">㉠은 양성자입니다. 양성자는 3개의 쿼크(위 쿼크 2개, 아래 쿼크 1개)가 결합하여 만들어진 입자가 맞습니다.</div></div><div style="display: flex; gap: 10px; margin-bottom: 8px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all;">D 시기에 원자(㉡)가 형성되면서 빛을 산란시키던 자유 전자가 원자핵에 붙잡혔고, 이로 인해 빛이 직진할 수 있게 되어 우주가 투명해졌습니다.</div></div></div>
@@ -1714,7 +1677,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q03.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q03.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -1724,7 +1687,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 5px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q04.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q04.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -1754,17 +1717,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">4</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">우주가 팽창하면서 온도는 점차 낮아지고, 이에 따라 기본 입자로부터 양성자/중성자, 원자핵, 원자가 순서대로 생성됩니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">빅뱅 우주론에 따르면 우주는 끊임없이 팽창하며 온도와 밀도가 감소했습니다. (가) 시기에는 쿼크와 전자 같은 기본 입자가 생성되었고, (나)~(다) 과정을 거쳐 양성자와 중성자, 헬륨 원자핵이 만들어졌습니다. 마지막으로 (라) 시기에는 전자가 원자핵과 결합하여 중성 원자가 형성되었고, 이때 퍼져 나간 빛이 오늘날의 우주 배경 복사입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">전자는 쿼크와 더불어 (가) 시기에 생성된 대표적인 기본 입자가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">우주는 계속해서 팽창하고 있으므로 (나)에서 (다) 과정으로 갈 때 우주의 온도는 상승하는 것이 아니라 지속적으로 하강하였습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">빅뱅 후 약 38만 년(라) 시기에 중성 원자가 형성되면서 우주 공간으로 퍼져나간 빛이 오늘날 약 3K의 우주 배경 복사로 관측되는 것이 맞습니다.</div></div></div>
@@ -1780,24 +1747,28 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">1</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">빅뱅 초기 양성자(㉠)와 중성자(㉢)의 비율 변화 및 약 3분($t_1$) 시점의 헬륨 원자핵(㉡) 합성 과정 이해</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">초기 우주에서 양성자(㉠)와 중성자(㉢)의 개수비가 7:1이 되었을 때, 빅뱅 후 약 3분($t_1$)이 되며 헬륨 원자핵(㉡)이 합성되었습니다. 이로 인해 수소 원자핵(양성자)과 헬륨 원자핵의 질량비는 약 3:1(75%:25%)로 고정됩니다. 이때는 전자가 결합하지 않은 원자핵 상태만 존재했습니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">양성자(㉠)와 양방향 반응을 하다 온도가 낮아지며 양성자로 우세하게 변환되어 비율이 감소한 ㉢은 중성자가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">$t_1$은 헬륨 원자핵이 폭발적으로 합성된 시기이므로, 빅뱅 후 약 38만 년이 아니라 '약 3분'이 지난 시기입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">$t_1$ 시점 직후에는 '헬륨 원자핵'이 형성된 것이며, 전자가 결합한 '안정된 중성 원자'는 빅뱅 후 약 38만 년(우주 온도 약 3000 K)이 되었을 때 형성되기 시작했습니다.</div></div></div>
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">그래프에서 각 물질이 무엇인지 파악하고 핵심 시간대만 머릿속에 정리해두면 아주 쉽게 풀 수 있어. 쌤이랑 같이 완벽하게 격파해보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕 얘들아, 갓쌤이야! 빅뱅 우주론에서 무조건 나오는 단골 주제인 '양성자와 중성자의 비율 변화'와 '원소 생성' 문제구나! 그래프에서 각 물질이 무엇인지 파악하고 핵심 시간대만 머릿속에 정리해두면 아주 쉽게 풀 수 있어. 쌤이랑 같이 완벽하게 격파해보자!</p>
 </div>
 </div>
 </div>
@@ -1842,7 +1813,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>성운이 중력 수축하여 온도가 상승하고 원시별이 됩니다. 이후 중심부 온도가 1000만 K에 도달하면 수소 핵융합 반응이 시작되어 비로소 스스로 빛을 내는 주계열성이 탄생합니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>성운이 중력 수축하여 온도가 상승하고 원시별이 됩니다. 이후 중심부 온도가 1000만 K에 도달하면 수소 핵융합 반응이 시작되어 비로소 스스로 빛을 내는 주계열성이 탄생합니다.
 </div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
@@ -1875,7 +1846,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>주계열성은 중심부의 수소 핵융합 반응으로 인해 밖으로 팽창하려는 내부 압력과, 별 자체의 질량으로 인해 안으로 수축하려는 중력이 평형(정역학 평형)을 이루어 별의 크기가 일정하게 유지됩니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>주계열성은 중심부의 수소 핵융합 반응으로 인해 밖으로 팽창하려는 내부 압력과, 별 자체의 질량으로 인해 안으로 수축하려는 중력이 평형(정역학 평형)을 이루어 별의 크기가 일정하게 유지됩니다.
 </div>
 </div>
 <div class="page-num">- 18 -</div>
@@ -1920,7 +1891,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>별은 질량에 따라 진화 경로가 달라집니다. 태양 정도 질량의 별은 적색 거성을 거쳐 행성상 성운과 백색 왜성으로 진화하고, 태양보다 훨씬 무거운 별은 초거성을 거쳐 초신성 폭발 후 중성자별이나 블랙홀이 됩니다. 별의 질량이 클수록 수명은 짧습니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>별은 질량에 따라 진화 경로가 달라집니다. 태양 정도 질량의 별은 적색 거성을 거쳐 행성상 성운과 백색 왜성으로 진화하고, 태양보다 훨씬 무거운 별은 초거성을 거쳐 초신성 폭발 후 중성자별이나 블랙홀이 됩니다. 별의 질량이 클수록 수명은 짧습니다.
 </div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
@@ -1942,7 +1913,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>질량이 태양 정도인 별은 적색 거성 단계에서 중심부 온도가 약 1억 K에 도달하면 헬륨 핵융합 반응이 일어납니다. 헬륨 핵융합이 끝나면 탄소(C)와 산소(O) 중심핵이 형성되며 더 이상의 핵융합은 일어나지 않습니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>질량이 태양 정도인 별은 적색 거성 단계에서 중심부 온도가 약 1억 K에 도달하면 헬륨 핵융합 반응이 일어납니다. 헬륨 핵융합이 끝나면 탄소(C)와 산소(O) 중심핵이 형성되며 더 이상의 핵융합은 일어나지 않습니다.
 </div>
 </div>
 <div class="page-num">- 19 -</div>
@@ -1977,7 +1948,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>질량이 태양보다 훨씬 무거운 별은 중심부 온도가 계속 상승하여 탄소, 산소, 규소 등의 핵융합 반응이 연속적으로 일어납니다. 철(Fe)은 원자핵이 가장 안정하므로 중심부에 철이 만들어지면 핵융합 반응이 멈추게 됩니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>질량이 태양보다 훨씬 무거운 별은 중심부 온도가 계속 상승하여 탄소, 산소, 규소 등의 핵융합 반응이 연속적으로 일어납니다. 철(Fe)은 원자핵이 가장 안정하므로 중심부에 철이 만들어지면 핵융합 반응이 멈추게 됩니다.
 </div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
@@ -2011,7 +1982,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>우리 은하 나선팔에 있던 거대한 성운이 근처 초신성 폭발의 충격으로 수축하며 회전하기 시작했고, 원반의 중심부에서는 원시 태양이, 회전 원반에서는 미행성체들이 충돌하고 뭉치면서 지구를 비롯한 태양계 행성들이 형성되었습니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>우리 은하 나선팔에 있던 거대한 성운이 근처 초신성 폭발의 충격으로 수축하며 회전하기 시작했고, 원반의 중심부에서는 원시 태양이, 회전 원반에서는 미행성체들이 충돌하고 뭉치면서 지구를 비롯한 태양계 행성들이 형성되었습니다.
 </div>
 </div>
 <div class="page-num">- 20 -</div>
@@ -2060,7 +2031,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>원시 지구는 미행성체들의 지속적인 충돌로 발생한 열에 의해 표면이 녹아있는 마그마의 바다 상태였습니다. 이후 철, 니켈 등 무거운 물질은 가라앉아 핵이 되고 가벼운 물질은 맨틀이 되었으며, 온도가 식으면서 지각과 원시 바다가 형성되어 마침내 생명체가 탄생하게 되었습니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>원시 지구는 미행성체들의 지속적인 충돌로 발생한 열에 의해 표면이 녹아있는 마그마의 바다 상태였습니다. 이후 철, 니켈 등 무거운 물질은 가라앉아 핵이 되고 가벼운 물질은 맨틀이 되었으며, 온도가 식으면서 지각과 원시 바다가 형성되어 마침내 생명체가 탄생하게 되었습니다.
 </div>
 </div>
 <div class="info-box" style="margin-top: 15px;">
@@ -2090,7 +2061,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 10.5px; line-height: 1.5; color: #78350f; text-align: justify; word-break: keep-all;">
-<strong style="color: #b45309;">💡 그림 해석: </strong>우주는 빅뱅 때 생성된 수소와 헬륨이 대부분을 차지하지만, 지구는 무거운 핵을 이루는 철(Fe)이 가장 많고 그다음이 산소입니다. 반면 생명체는 물과 유기물의 핵심 성분인 산소(O)와 탄소(C)의 비율이 가장 높습니다.
+    <strong style="color: #b45309;">💡 그림 해석: </strong>우주는 빅뱅 때 생성된 수소와 헬륨이 대부분을 차지하지만, 지구는 무거운 핵을 이루는 철(Fe)이 가장 많고 그다음이 산소입니다. 반면 생명체는 물과 유기물의 핵심 성분인 산소(O)와 탄소(C)의 비율이 가장 높습니다.
 </div>
 </div>
 <div class="page-num">- 21 -</div>
@@ -2104,6 +2075,7 @@ window.addEventListener('wheel', (e) => {
 <div class="concept-page page-left" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (1)</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+
 <span style="color:#b91c1c; font-weight:bold;">1. 질량에 따른 별의 진화 특징 대조표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
@@ -2124,6 +2096,7 @@ window.addEventListener('wheel', (e) => {
 </tr>
 </table>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
+
 <span style="color:#b91c1c; font-weight:bold;">2. 지구형 행성과 목성형 행성 핵심 대조표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
@@ -2141,6 +2114,7 @@ window.addEventListener('wheel', (e) => {
 </tr>
 </table>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
+
 <span style="color:#b91c1c; font-weight:bold;">3. 지구 형성 단계별 핵심 암기표</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
@@ -2173,6 +2147,7 @@ window.addEventListener('wheel', (e) => {
 <div class="concept-page page-right">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️ (2)</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 20px;">
+
 <span style="color:#b91c1c; font-weight:bold;">4. 출제자가 파놓은 치명적 함정 4가지</span><br/><br/>
                     ① <strong>헬륨의 기원을 구별하라!</strong><br/>우주에 있는 대부분의 헬륨은 '빅뱅' 때 만들어졌지만, 별 내부의 '수소 핵융합'으로도 헬륨이 추가로 만들어지고 있어. 둘 다 맞는 말이야!<br/><br/>
                     ② <strong>철(Fe)과 우라늄(U)을 구별하라!</strong><br/>별의 중심부 핵융합으로는 <strong>철(Fe)</strong>까지만 생성돼. 그보다 무거운 금, 은, 납, 우라늄은 무조건 <strong>초신성 폭발</strong> 키워드를 찾아야 해!<br/><br/>
@@ -2211,7 +2186,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 11번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q11.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 11번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q11.webp?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -2226,20 +2201,25 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">③</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+
 <strong style="color: #0f172a;">별의 진화</strong><br/>
                         질량이 태양보다 10배 이상 큰 별은 중심부에서 철(Fe)까지 핵융합 반응이 일어납니다. 별의 바깥쪽부터 수소, 헬륨, 탄소, 산소, 규소, 철 순으로 배열됩니다.
                     </div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
@@ -2285,7 +2265,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q05.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q05.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -2295,7 +2275,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q06.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q06.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -2325,17 +2305,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">1</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.0px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">별의 질량이 클수록 중심부 온도가 더 높아져 더 무거운 원소까지 핵융합으로 만들 수 있습니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.0px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">그래프에서 별 A는 최고 온도가 $10^8$ K 수준에 그쳐 탄소까지만 만드는 질량이 작은 별(태양 정도)입니다. 반면 별 B는 중심부 온도가 $3 \times 10^9$ K 부근까지 계단식으로 상승해 철(Fe)까지 만드는 질량이 매우 큰 별입니다. 온도가 급격히 상승하는 구간은 핵연료가 고갈된 후 중심부가 중력 수축하며 온도가 높아지는 단계입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별 B는 A보다 중심부 온도가 훨씬 높이 올라가며 진화하므로, 주계열성일 때 질량은 B가 A보다 큽니다. 따라서 A가 B보다 작다는 옳은 설명입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">별 A의 중심부 최종 핵융합 산물은 탄소(C)나 산소(O)이지만, 질량이 큰 별 B는 철(Fe)까지 생성하므로 최종 원소는 B가 A보다 더 무겁습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">중심부 온도가 상승하는 주된 원인은 팽창에 의한 에너지 방출이 아니라, 중심부의 '중력 수축'에 의한 위치 에너지의 열에너지 전환 때문입니다.</div></div></div>
@@ -2351,17 +2335,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.0px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">태양계 성운의 형성 과정(성운설)과 지구를 구성하는 원소들의 우주적 기원</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.0px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">그림은 성운이 수축하면서 회전 원반을 만들고, 원시 태양과 미행성체들이 형성되는 성운설의 단계를 보여줍니다. 태양에 가까운 영역은 온도가 높아 녹는점이 높은 금속과 암석 성분의 지구형 행성이 되었고, 먼 영역은 가벼운 기체와 얼음 성분의 목성형 행성이 되었습니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">태양계 성운(가)은 과거 우주에서 수명을 다한 무거운 별들이 초신성 폭발을 일으키며 방출한 다양한 원소들을 포함하여 형성되었습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">태양에서 멀리 떨어진 곳은 온도가 낮아 물, 메테인 등의 얼음 성분과 가벼운 수소, 헬륨 기체 등이 뭉쳐 목성형 행성을 이룰 수 있었습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">지각을 구성하는 산소와 규소는 태양이 태어나기 전 이미 성운에 존재하던 물질입니다. 원시 태양 내부의 핵융합 반응으로는 현재 수소 핵융합(헬륨 생성)만 일어나며, 산소나 규소 같은 무거운 원소를 만들 수 없습니다.</div></div></div>
@@ -2457,7 +2445,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[그림 해석]</strong> <br/>
+<strong style="color: #1e3a8a;">[그림 해석]</strong> <br>
 <span style="display: inline-block; margin-top: 4px;">1족, 17족, 18족은 각각 <strong>원자가 전자 수가 같기 때문에 화학적으로 유사한 성질</strong>을 나타냅니다. 특히 <strong>18족 원소는 화학적으로 매우 안정</strong>하다는 특징을 가집니다.</span>
 </div>
 </div>
@@ -2470,6 +2458,7 @@ window.addEventListener('wheel', (e) => {
 <div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 15 ================= -->
 <div class="concept-page page-right" style="background-color: #fff; background-image: none;">
+
 <div class="info-box" style="margin-top: 10px;">
 <div class="info-box-title">■ [자료 2] 주기율표의 전자배치 모형</div>
 <div style="height: 400px; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">
@@ -2483,141 +2472,142 @@ window.addEventListener('wheel', (e) => {
 <text fill="#2563eb" font-size="12px" font-weight="bold" text-anchor="middle" x="25" y="355">4주기</text>
 <text fill="#94a3b8" font-size="20px" font-weight="bold" text-anchor="middle" x="150" y="250">...</text>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="69">H</text>
-<circle cx="70" cy="65" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="65" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="55.00" fill="#38bdf8" r="2"></circle>
+<circle cx="70" cy="65" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="70" cy="65" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="55.00" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="159">Li</text>
-<circle cx="70" cy="155" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="155" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="145.00" fill="#38bdf8" r="2"></circle>
-<circle cx="70.00" cy="165.00" fill="#38bdf8" r="2"></circle>
-<circle cx="70" cy="155" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="137.00" fill="#38bdf8" r="2"></circle>
+<circle cx="70" cy="155" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="70" cy="155" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="145.00" r="2" fill="#38bdf8"></circle>
+<circle cx="70.00" cy="165.00" r="2" fill="#38bdf8"></circle>
+<circle cx="70" cy="155" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="137.00" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="259">Na</text>
-<circle cx="70" cy="255" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="255" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="245.00" fill="#38bdf8" r="2"></circle>
-<circle cx="70.00" cy="265.00" fill="#38bdf8" r="2"></circle>
-<circle cx="70" cy="255" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="237.00" fill="#38bdf8" r="2"></circle>
-<circle cx="82.73" cy="242.27" fill="#38bdf8" r="2"></circle>
-<circle cx="88.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="82.73" cy="267.73" fill="#38bdf8" r="2"></circle>
-<circle cx="70.00" cy="273.00" fill="#38bdf8" r="2"></circle>
-<circle cx="57.27" cy="267.73" fill="#38bdf8" r="2"></circle>
-<circle cx="52.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="57.27" cy="242.27" fill="#38bdf8" r="2"></circle>
-<circle cx="70" cy="255" fill="none" r="26" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="229.00" fill="#38bdf8" r="2"></circle>
+<circle cx="70" cy="255" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="70" cy="255" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="245.00" r="2" fill="#38bdf8"></circle>
+<circle cx="70.00" cy="265.00" r="2" fill="#38bdf8"></circle>
+<circle cx="70" cy="255" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="237.00" r="2" fill="#38bdf8"></circle>
+<circle cx="82.73" cy="242.27" r="2" fill="#38bdf8"></circle>
+<circle cx="88.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="82.73" cy="267.73" r="2" fill="#38bdf8"></circle>
+<circle cx="70.00" cy="273.00" r="2" fill="#38bdf8"></circle>
+<circle cx="57.27" cy="267.73" r="2" fill="#38bdf8"></circle>
+<circle cx="52.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="57.27" cy="242.27" r="2" fill="#38bdf8"></circle>
+<circle cx="70" cy="255" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="229.00" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="112" y="359">K</text>
-<circle cx="70" cy="355" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="70" cy="355" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="345.00" fill="#38bdf8" r="2"></circle>
-<circle cx="70.00" cy="365.00" fill="#38bdf8" r="2"></circle>
-<circle cx="70" cy="355" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="337.00" fill="#38bdf8" r="2"></circle>
-<circle cx="82.73" cy="342.27" fill="#38bdf8" r="2"></circle>
-<circle cx="88.00" cy="355.00" fill="#38bdf8" r="2"></circle>
-<circle cx="82.73" cy="367.73" fill="#38bdf8" r="2"></circle>
-<circle cx="70.00" cy="373.00" fill="#38bdf8" r="2"></circle>
-<circle cx="57.27" cy="367.73" fill="#38bdf8" r="2"></circle>
-<circle cx="52.00" cy="355.00" fill="#38bdf8" r="2"></circle>
-<circle cx="57.27" cy="342.27" fill="#38bdf8" r="2"></circle>
-<circle cx="70" cy="355" fill="none" r="26" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="329.00" fill="#38bdf8" r="2"></circle>
-<circle cx="88.38" cy="336.62" fill="#38bdf8" r="2"></circle>
-<circle cx="96.00" cy="355.00" fill="#38bdf8" r="2"></circle>
-<circle cx="88.38" cy="373.38" fill="#38bdf8" r="2"></circle>
-<circle cx="70.00" cy="381.00" fill="#38bdf8" r="2"></circle>
-<circle cx="51.62" cy="373.38" fill="#38bdf8" r="2"></circle>
-<circle cx="44.00" cy="355.00" fill="#38bdf8" r="2"></circle>
-<circle cx="51.62" cy="336.62" fill="#38bdf8" r="2"></circle>
-<circle cx="70" cy="355" fill="none" r="34" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="70.00" cy="321.00" fill="#38bdf8" r="2"></circle>
+<circle cx="70" cy="355" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="70" cy="355" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="345.00" r="2" fill="#38bdf8"></circle>
+<circle cx="70.00" cy="365.00" r="2" fill="#38bdf8"></circle>
+<circle cx="70" cy="355" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="337.00" r="2" fill="#38bdf8"></circle>
+<circle cx="82.73" cy="342.27" r="2" fill="#38bdf8"></circle>
+<circle cx="88.00" cy="355.00" r="2" fill="#38bdf8"></circle>
+<circle cx="82.73" cy="367.73" r="2" fill="#38bdf8"></circle>
+<circle cx="70.00" cy="373.00" r="2" fill="#38bdf8"></circle>
+<circle cx="57.27" cy="367.73" r="2" fill="#38bdf8"></circle>
+<circle cx="52.00" cy="355.00" r="2" fill="#38bdf8"></circle>
+<circle cx="57.27" cy="342.27" r="2" fill="#38bdf8"></circle>
+<circle cx="70" cy="355" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="329.00" r="2" fill="#38bdf8"></circle>
+<circle cx="88.38" cy="336.62" r="2" fill="#38bdf8"></circle>
+<circle cx="96.00" cy="355.00" r="2" fill="#38bdf8"></circle>
+<circle cx="88.38" cy="373.38" r="2" fill="#38bdf8"></circle>
+<circle cx="70.00" cy="381.00" r="2" fill="#38bdf8"></circle>
+<circle cx="51.62" cy="373.38" r="2" fill="#38bdf8"></circle>
+<circle cx="44.00" cy="355.00" r="2" fill="#38bdf8"></circle>
+<circle cx="51.62" cy="336.62" r="2" fill="#38bdf8"></circle>
+<circle cx="70" cy="355" r="34" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="70.00" cy="321.00" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="272" y="159">F</text>
-<circle cx="230" cy="155" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="230" cy="155" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="145.00" fill="#38bdf8" r="2"></circle>
-<circle cx="230.00" cy="165.00" fill="#38bdf8" r="2"></circle>
-<circle cx="230" cy="155" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="137.00" fill="#38bdf8" r="2"></circle>
-<circle cx="244.07" cy="143.78" fill="#38bdf8" r="2"></circle>
-<circle cx="247.55" cy="159.01" fill="#38bdf8" r="2"></circle>
-<circle cx="237.81" cy="171.22" fill="#38bdf8" r="2"></circle>
-<circle cx="222.19" cy="171.22" fill="#38bdf8" r="2"></circle>
-<circle cx="212.45" cy="159.01" fill="#38bdf8" r="2"></circle>
-<circle cx="215.93" cy="143.78" fill="#38bdf8" r="2"></circle>
+<circle cx="230" cy="155" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="230" cy="155" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="230.00" cy="145.00" r="2" fill="#38bdf8"></circle>
+<circle cx="230.00" cy="165.00" r="2" fill="#38bdf8"></circle>
+<circle cx="230" cy="155" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="230.00" cy="137.00" r="2" fill="#38bdf8"></circle>
+<circle cx="244.07" cy="143.78" r="2" fill="#38bdf8"></circle>
+<circle cx="247.55" cy="159.01" r="2" fill="#38bdf8"></circle>
+<circle cx="237.81" cy="171.22" r="2" fill="#38bdf8"></circle>
+<circle cx="222.19" cy="171.22" r="2" fill="#38bdf8"></circle>
+<circle cx="212.45" cy="159.01" r="2" fill="#38bdf8"></circle>
+<circle cx="215.93" cy="143.78" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="272" y="259">Cl</text>
-<circle cx="230" cy="255" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="230" cy="255" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="245.00" fill="#38bdf8" r="2"></circle>
-<circle cx="230.00" cy="265.00" fill="#38bdf8" r="2"></circle>
-<circle cx="230" cy="255" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="237.00" fill="#38bdf8" r="2"></circle>
-<circle cx="242.73" cy="242.27" fill="#38bdf8" r="2"></circle>
-<circle cx="248.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="242.73" cy="267.73" fill="#38bdf8" r="2"></circle>
-<circle cx="230.00" cy="273.00" fill="#38bdf8" r="2"></circle>
-<circle cx="217.27" cy="267.73" fill="#38bdf8" r="2"></circle>
-<circle cx="212.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="217.27" cy="242.27" fill="#38bdf8" r="2"></circle>
-<circle cx="230" cy="255" fill="none" r="26" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="230.00" cy="229.00" fill="#38bdf8" r="2"></circle>
-<circle cx="250.33" cy="238.79" fill="#38bdf8" r="2"></circle>
-<circle cx="255.35" cy="260.79" fill="#38bdf8" r="2"></circle>
-<circle cx="241.28" cy="278.43" fill="#38bdf8" r="2"></circle>
-<circle cx="218.72" cy="278.43" fill="#38bdf8" r="2"></circle>
-<circle cx="204.65" cy="260.79" fill="#38bdf8" r="2"></circle>
-<circle cx="209.67" cy="238.79" fill="#38bdf8" r="2"></circle>
+<circle cx="230" cy="255" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="230" cy="255" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="230.00" cy="245.00" r="2" fill="#38bdf8"></circle>
+<circle cx="230.00" cy="265.00" r="2" fill="#38bdf8"></circle>
+<circle cx="230" cy="255" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="230.00" cy="237.00" r="2" fill="#38bdf8"></circle>
+<circle cx="242.73" cy="242.27" r="2" fill="#38bdf8"></circle>
+<circle cx="248.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="242.73" cy="267.73" r="2" fill="#38bdf8"></circle>
+<circle cx="230.00" cy="273.00" r="2" fill="#38bdf8"></circle>
+<circle cx="217.27" cy="267.73" r="2" fill="#38bdf8"></circle>
+<circle cx="212.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="217.27" cy="242.27" r="2" fill="#38bdf8"></circle>
+<circle cx="230" cy="255" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="230.00" cy="229.00" r="2" fill="#38bdf8"></circle>
+<circle cx="250.33" cy="238.79" r="2" fill="#38bdf8"></circle>
+<circle cx="255.35" cy="260.79" r="2" fill="#38bdf8"></circle>
+<circle cx="241.28" cy="278.43" r="2" fill="#38bdf8"></circle>
+<circle cx="218.72" cy="278.43" r="2" fill="#38bdf8"></circle>
+<circle cx="204.65" cy="260.79" r="2" fill="#38bdf8"></circle>
+<circle cx="209.67" cy="238.79" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="372" y="69">He</text>
-<circle cx="330" cy="65" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="330" cy="65" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="55.00" fill="#38bdf8" r="2"></circle>
-<circle cx="330.00" cy="75.00" fill="#38bdf8" r="2"></circle>
+<circle cx="330" cy="65" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="330" cy="65" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="330.00" cy="55.00" r="2" fill="#38bdf8"></circle>
+<circle cx="330.00" cy="75.00" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="372" y="159">Ne</text>
-<circle cx="330" cy="155" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="330" cy="155" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="145.00" fill="#38bdf8" r="2"></circle>
-<circle cx="330.00" cy="165.00" fill="#38bdf8" r="2"></circle>
-<circle cx="330" cy="155" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="137.00" fill="#38bdf8" r="2"></circle>
-<circle cx="342.73" cy="142.27" fill="#38bdf8" r="2"></circle>
-<circle cx="348.00" cy="155.00" fill="#38bdf8" r="2"></circle>
-<circle cx="342.73" cy="167.73" fill="#38bdf8" r="2"></circle>
-<circle cx="330.00" cy="173.00" fill="#38bdf8" r="2"></circle>
-<circle cx="317.27" cy="167.73" fill="#38bdf8" r="2"></circle>
-<circle cx="312.00" cy="155.00" fill="#38bdf8" r="2"></circle>
-<circle cx="317.27" cy="142.27" fill="#38bdf8" r="2"></circle>
+<circle cx="330" cy="155" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="330" cy="155" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="330.00" cy="145.00" r="2" fill="#38bdf8"></circle>
+<circle cx="330.00" cy="165.00" r="2" fill="#38bdf8"></circle>
+<circle cx="330" cy="155" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="330.00" cy="137.00" r="2" fill="#38bdf8"></circle>
+<circle cx="342.73" cy="142.27" r="2" fill="#38bdf8"></circle>
+<circle cx="348.00" cy="155.00" r="2" fill="#38bdf8"></circle>
+<circle cx="342.73" cy="167.73" r="2" fill="#38bdf8"></circle>
+<circle cx="330.00" cy="173.00" r="2" fill="#38bdf8"></circle>
+<circle cx="317.27" cy="167.73" r="2" fill="#38bdf8"></circle>
+<circle cx="312.00" cy="155.00" r="2" fill="#38bdf8"></circle>
+<circle cx="317.27" cy="142.27" r="2" fill="#38bdf8"></circle>
 <text fill="#0f172a" font-size="13px" font-weight="bold" x="372" y="259">Ar</text>
-<circle cx="330" cy="255" fill="#fca5a5" r="5" stroke="#ef4444" stroke-width="1.5"></circle>
-<circle cx="330" cy="255" fill="none" r="10" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="245.00" fill="#38bdf8" r="2"></circle>
-<circle cx="330.00" cy="265.00" fill="#38bdf8" r="2"></circle>
-<circle cx="330" cy="255" fill="none" r="18" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="237.00" fill="#38bdf8" r="2"></circle>
-<circle cx="342.73" cy="242.27" fill="#38bdf8" r="2"></circle>
-<circle cx="348.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="342.73" cy="267.73" fill="#38bdf8" r="2"></circle>
-<circle cx="330.00" cy="273.00" fill="#38bdf8" r="2"></circle>
-<circle cx="317.27" cy="267.73" fill="#38bdf8" r="2"></circle>
-<circle cx="312.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="317.27" cy="242.27" fill="#38bdf8" r="2"></circle>
-<circle cx="330" cy="255" fill="none" r="26" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
-<circle cx="330.00" cy="229.00" fill="#38bdf8" r="2"></circle>
-<circle cx="348.38" cy="236.62" fill="#38bdf8" r="2"></circle>
-<circle cx="356.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="348.38" cy="273.38" fill="#38bdf8" r="2"></circle>
-<circle cx="330.00" cy="281.00" fill="#38bdf8" r="2"></circle>
-<circle cx="311.62" cy="273.38" fill="#38bdf8" r="2"></circle>
-<circle cx="304.00" cy="255.00" fill="#38bdf8" r="2"></circle>
-<circle cx="311.62" cy="236.62" fill="#38bdf8" r="2"></circle>
+<circle cx="330" cy="255" r="5" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"></circle>
+<circle cx="330" cy="255" r="10" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="330.00" cy="245.00" r="2" fill="#38bdf8"></circle>
+<circle cx="330.00" cy="265.00" r="2" fill="#38bdf8"></circle>
+<circle cx="330" cy="255" r="18" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="330.00" cy="237.00" r="2" fill="#38bdf8"></circle>
+<circle cx="342.73" cy="242.27" r="2" fill="#38bdf8"></circle>
+<circle cx="348.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="342.73" cy="267.73" r="2" fill="#38bdf8"></circle>
+<circle cx="330.00" cy="273.00" r="2" fill="#38bdf8"></circle>
+<circle cx="317.27" cy="267.73" r="2" fill="#38bdf8"></circle>
+<circle cx="312.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="317.27" cy="242.27" r="2" fill="#38bdf8"></circle>
+<circle cx="330" cy="255" r="26" fill="none" stroke="#94a3b8" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<circle cx="330.00" cy="229.00" r="2" fill="#38bdf8"></circle>
+<circle cx="348.38" cy="236.62" r="2" fill="#38bdf8"></circle>
+<circle cx="356.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="348.38" cy="273.38" r="2" fill="#38bdf8"></circle>
+<circle cx="330.00" cy="281.00" r="2" fill="#38bdf8"></circle>
+<circle cx="311.62" cy="273.38" r="2" fill="#38bdf8"></circle>
+<circle cx="304.00" cy="255.00" r="2" fill="#38bdf8"></circle>
+<circle cx="311.62" cy="236.62" r="2" fill="#38bdf8"></circle>
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[그림 해석]</strong> <br/>
+<strong style="color: #1e3a8a;">[그림 해석]</strong> <br>
 <span style="display: inline-block; margin-top: 4px;">1족 원소인 Li, Na, K은 원자가 전자 수가 1로 같아 화학적 성질이 유사하고, 17족 원소인 F, Cl은 7로 같아서, 18족 원소인 He, Ne, Ar은 8개가 다 채워져 있어 유사함을 보입니다.</span>
 </div>
 </div>
+
 <div class="page-num">- 29 -</div>
 </div>
 </div>
@@ -2687,7 +2677,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[알칼리 금속의 성질]</strong> <br/>
+<strong style="color: #1e3a8a;">[알칼리 금속의 성질]</strong> <br>
 <span style="display: inline-block; margin-top: 4px;">알칼리 금속(Li, Na, K 등)은 반응성이 매우 커서 산소나 물과 격렬하게 반응하며, 물과 반응할 때 수소 기체를 발생시키고 용액을 염기성으로 만듭니다. 주기율표에서 아래로 갈수록(원자 번호가 커질수록) 반응성이 더 커지는 특징이 있습니다. 칼로 자를 수 있을 만큼 무르고 밀도가 작습니다.</span>
 </div>
 </div>
@@ -2753,7 +2743,7 @@ window.addEventListener('wheel', (e) => {
 </svg>
 </div>
 <div class="data-explanation" style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 4px; font-size: 10px; line-height: 1.5; color: #334155; word-break: keep-all; text-align: justify;">
-<strong style="color: #1e3a8a;">[할로젠 원소의 성질]</strong> <br/>
+<strong style="color: #1e3a8a;">[할로젠 원소의 성질]</strong> <br>
 <span style="display: inline-block; margin-top: 4px;">할로젠 원소(F, Cl, Br, I 등)는 반응성이 커서 금속이나 수소와 잘 반응하며, 특유의 색깔을 띠는 이원자 분자(F<sub>2</sub>, Cl<sub>2</sub> 등) 상태로 존재합니다. 알칼리 금속과 반대로, 주기율표에서 위로 갈수록(원자 번호가 작을수록) 반응성이 더 커지는 특징이 있습니다.</span>
 </div>
 </div>
@@ -2768,11 +2758,12 @@ window.addEventListener('wheel', (e) => {
 <div class="concept-page page-left" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+
 <span style="color:#b91c1c; font-weight:bold;">1. 원자의 전자배치와 주기/족의 완벽 이해</span>
 </div>
 <table class="hw-table" style="font-size: 9px;">
 <tr>
-<th style="font-size: 10px;" width="30%">구분</th><th style="font-size: 10px;">가로줄 (주기)</th><th style="font-size: 10px;">세로줄 (족)</th>
+<th width="30%" style="font-size: 10px;">구분</th><th style="font-size: 10px;">가로줄 (주기)</th><th style="font-size: 10px;">세로줄 (족)</th>
 </tr>
 <tr>
 <td style="font-weight:bold;">의미하는 바</td><td style="color:#2563eb; font-weight:bold;">전자껍질 수</td><td style="color:#dc2626; font-weight:bold;">원자가 전자 수</td>
@@ -2791,6 +2782,7 @@ window.addEventListener('wheel', (e) => {
                     ➔ 1~17족까지는 둘의 개수가 같지만, <strong>18족 비활성 기체의 원자가 전자는 '0개'</strong>야! 이미 꽉 차 있어서 다른 애들이랑 결합할 필요가 없거든. 완전 귀족 원소지!
                 </div>
 <div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+
 <span style="color:#b91c1c; font-weight:bold;">2. 교과서 핵심! 18족 비활성 기체</span><br/>
                     - 헬륨(He), 네온(Ne), 아르곤(Ar)<br/>
                     - 가장 바깥쪽 전자껍질에 전자가 <strong>8개(He는 2개)</strong> 채워져 있어 매우 안정적이야.<br/>
@@ -2802,7 +2794,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <table class="hw-table" style="font-size: 9px;">
 <tr>
-<th style="font-size: 10px;" width="20%">특징</th><th style="font-size: 10px;" width="40%">알칼리 금속 (1족)</th><th style="font-size: 10px;" width="40%">할로젠 원소 (17족)</th>
+<th width="20%" style="font-size: 10px;">특징</th><th width="40%" style="font-size: 10px;">알칼리 금속 (1족)</th><th width="40%" style="font-size: 10px;">할로젠 원소 (17족)</th>
 </tr>
 <tr>
 <td style="font-weight:bold;">원자가 전자</td><td>1개</td><td>7개</td>
@@ -2820,14 +2812,14 @@ window.addEventListener('wheel', (e) => {
 <td style="font-weight:bold;">특이 사항</td><td>물과 격렬히 반응(H₂ 발생) 및 <strong>염기성</strong> 수용액</td><td>알칼리 금속, 수소 등 금속/비금속과 잘 반응</td>
 </tr>
 </table>
-<div class="handwriting" style="margin-bottom: 5px; margin-top: 10px;">
+<div class="handwriting" style="margin-bottom: 5px; margin-top: 15px;">
 <span style="color:#b91c1c; font-weight:bold;">4. 자주 나오는 함정 선지 O/X 3제</span><br/>
                     ① <strong>"수소는 알칼리 금속이다?" ➔ (X) 틀렸어!</strong><br/>
                     수소(H)는 주기율표상 1족의 가장 맨 위에 있지만 예외적으로 비금속 원소야. 알칼리 금속은 리튬(Li)부터 시작한다는 점, 시험에 100% 나온다!<br/>
-<br/>
+                    <br/>
                     ② <strong>두 원소의 화합물은 어느 방향일까?</strong><br/>
                     반응성 큰 알칼리 금속은 가장 바깥 전자껍질의 전자를 버리려(아래로 갈수록) 하고, 반응성 큰 할로젠은 다른 애 전자를 뺏어오려(위로 갈수록) 해. <strong>이 둘이 만나면 찰떡궁합!</strong><br/>
-<br/>
+                    <br/>
                     ③ <strong>칼륨(K)은 물에 넣으면 가라앉는다? ➔ (X)</strong><br/>
                     알칼리 금속은 밀도가 물보다 작아서 <strong>물 위에 떠서</strong> 반응한다고 했지!
                 </div>
@@ -2858,7 +2850,7 @@ window.addEventListener('wheel', (e) => {
 </div>
 <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 21번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q21.png?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 21번 전체 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q21.webp?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
@@ -2873,20 +2865,25 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 12px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+
 <span style="font-size: 14px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 24px; font-weight: 900; color: #2563eb;">①</span>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
 <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
+
 <strong style="color: #0f172a;">원소의 주기성</strong><br/>
                         인체에서 가장 질량비가 큰 원소는 산소와 탄소 순서입니다. 같은 족 원소는 원자가 전자 수가 같아 화학적 성질이 유사합니다.
                     </div>
 </div>
 <div class="exp-section" style="margin-top: 15px;">
 <div class="exp-title" style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 8px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                     </div>
 <div class="exp-detail" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
@@ -2932,7 +2929,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q07.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q07.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -2942,7 +2939,7 @@ window.addEventListener('wheel', (e) => {
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q08.png?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_prac_q08.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div style="font-size: 10.5px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
@@ -2972,17 +2969,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">5</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">전자 껍질 수(주기)와 가장 바깥 껍질의 전자 수(원자가 전자 수)를 파악하여 원소의 주기적 성질을 이해하는 문항입니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">원자의 전자 배치 모형을 통해 A는 2주기 18족(Ne, 전자 10개), B는 2주기 17족(F, 전자 9개), C는 3주기 1족(Na, 전자 11개)임을 알 수 있습니다. A와 B는 전자 껍질 수가 2개로 같아 같은 주기에 속합니다. 원자가 전자 수는 B(7개)가 가장 크며, B는 전자 1개를 얻어 안정한 음이온이 되기 쉽습니다. 따라서 옳은 설명은 ㄱ뿐입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A와 B는 모두 전자 껍질 수가 2개이므로 같은 주기(2주기)에 속하는 원소가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">원자가 전자 수는 A(Ne) 0개, B(F) 7개, C(Na) 1개이므로, 원자가 전자 수가 가장 큰 원소는 B입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B(F)는 전자를 1개 '얻어서' 비활성 기체와 같은 안정한 전자 배치를 갖는 '음이온'이 되기 쉽습니다.</div></div></div>
@@ -2998,17 +2999,21 @@ window.addEventListener('wheel', (e) => {
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
 <div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
+
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">원자 번호(Z)에서 원자가 전자 수(V)를 뺀 값은 '안쪽 껍질의 전자 수'로, 주기에 따라 일정함을 이해하는 것이 핵심입니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
 <div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">Z-V가 2인 A, B는 2주기(S=2) 원소이고, Z-V가 10인 C, D, E는 3주기(S=3) 원소입니다. S*V 값을 통해 각 원소의 원자가 전자 수(V)를 구하면 A는 Li(V=1), B는 F(V=7), C는 Na(V=1), D는 S(V=6), E는 Mg(V=2)가 됩니다. 따라서 ㉠에 해당하는 E는 금속 원소인 Mg입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">E는 S=3, S*V=6에서 원자가 전자 수 V=2인 3주기 2족 원소 Mg(마그네슘)이므로 금속 원소입니다. 따라서 ㉠은 '금속'이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A(Li)와 C(Na)는 모두 원자가 전자 수(V)가 1로 같은 1족 원소(알칼리 금속)이므로 화학적 성질이 유사합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B는 S=2인 2주기 원소이고, E는 S=3인 3주기 원소이므로 서로 다른 주기 원소입니다.</div></div></div>
@@ -3023,75 +3028,571 @@ window.addEventListener('wheel', (e) => {
 <div class="page-num">- 36 -</div>
 </div>
 </div>
-</div><div class="page-wrapper" style="margin-top: 40px;">
-<div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
-<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
-<div class="header">
-<div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
-<div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 8px 24px; border-radius: 50px; font-weight: 900; font-size: 15px; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); letter-spacing: -0.5px; border: 2px solid #eff6ff;">
-                            ✨ 실전 체화 문항 - 정답 및 해설
-                        </div>
+</div><div class="page-wrapper" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="a4-page spread-page" id="page-29" style="display: flex; flex-direction: column;">
+<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
+<div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+<div>
+<div style="font-size: 20px; font-weight: 900; letter-spacing: -1px; color: #000;">PREMIUM WEEKLY : </div>
+<div style="font-size: 11px; color: #555; margin-top: 5px;">갓통과 Fit 20 모의고사</div>
+</div>
+<div style="text-align: right;">
+<div style="font-size: 11px; border: 1px solid #000; padding: 4px 10px; display: inline-block; font-weight: bold; color: #000;">제한 시간 : 30 분</div>
 </div>
 </div>
-<div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
-<div class="practice-columns" style="display: flex; gap: 24px; height: 100%;">
+<!-- 2 Columns, 4 Questions -->
+<div style="display: flex; gap: 20px; flex: 1; margin-bottom: 30px;">
 <!-- Left Column -->
-<div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 15px; display: flex; flex-direction: column;">
-<div class="prob-header" style="margin-bottom: 6px;">
-<div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
+<div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
+<!-- Question 1 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="1번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q01.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-<span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-<span style="font-size: 18px; font-weight: 900; color: #2563eb;">5</span>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
-                                </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">전자 껍질 수(주기)와 가장 바깥 껍질의 전자 수(원자가 전자 수)를 파악하여 원소의 주기적 성질을 이해하는 문항입니다.</div>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
-                                </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">원자의 전자 배치 모형을 통해 A는 2주기 18족(Ne, 전자 10개), B는 2주기 17족(F, 전자 9개), C는 3주기 1족(Na, 전자 11개)임을 알 수 있습니다. A와 B는 전자 껍질 수가 2개로 같아 같은 주기에 속합니다. 원자가 전자 수는 B(7개)가 가장 크며, B는 전자 1개를 얻어 안정한 음이온이 되기 쉽습니다. 따라서 옳은 설명은 ㄱ뿐입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A와 B는 모두 전자 껍질 수가 2개이므로 같은 주기(2주기)에 속하는 원소가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">원자가 전자 수는 A(Ne) 0개, B(F) 7개, C(Na) 1개이므로, 원자가 전자 수가 가장 큰 원소는 B입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B(F)는 전자를 1개 '얻어서' 비활성 기체와 같은 안정한 전자 배치를 갖는 '음이온'이 되기 쉽습니다.</div></div></div>
-</div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
-<div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자 껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
+<!-- Question 2 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="2번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q02.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 </div>
 <!-- Right Column -->
-<div class="practice-col" style="flex: 1; padding-left: 10px; display: flex; flex-direction: column;">
-<div class="prob-header" style="margin-bottom: 6px;">
-<div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
+<div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
+<!-- Question 3 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="3번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q03.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-<span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
-<span style="font-size: 18px; font-weight: 900; color: #2563eb;">3</span>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
-                                </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">원자 번호(Z)에서 원자가 전자 수(V)를 뺀 값은 '안쪽 껍질의 전자 수'로, 주기에 따라 일정함을 이해하는 것이 핵심입니다.</div>
-</div>
-<div class="exp-section" style="margin-top: 8px;">
-<div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
-<span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
-                                </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">Z-V가 2인 A, B는 2주기(S=2) 원소이고, Z-V가 10인 C, D, E는 3주기(S=3) 원소입니다. S*V 값을 통해 각 원소의 원자가 전자 수(V)를 구하면 A는 Li(V=1), B는 F(V=7), C는 Na(V=1), D는 S(V=6), E는 Mg(V=2)가 됩니다. 따라서 ㉠에 해당하는 E는 금속 원소인 Mg입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">E는 S=3, S*V=6에서 원자가 전자 수 V=2인 3주기 2족 원소 Mg(마그네슘)이므로 금속 원소입니다. 따라서 ㉠은 '금속'이 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A(Li)와 C(Na)는 모두 원자가 전자 수(V)가 1로 같은 1족 원소(알칼리 금속)이므로 화학적 성질이 유사합니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B는 S=2인 2주기 원소이고, E는 S=3인 3주기 원소이므로 서로 다른 주기 원소입니다.</div></div></div>
-</div>
-<div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
-<div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">얘들아~ 화학에서 이 표 문제는 겉보기엔 복잡해 보이지만, 조건식의 숨은 의미만 찾아내면 30초 만에 끝나는 보물 같은 문제야! Z-V가 바로 '안쪽 껍질 전자 수'라는 갓쌤의 치트키를 기억해봐!</p>
-</div>
+<!-- Question 4 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="4번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q04.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 </div>
 </div>
 <div class="page-num">- 37 -</div>
 </div>
 </div>
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+<button class="btn-download" onclick="downloadImage('page-29', 'Page29')">📸 [29페이지] TIME ATTACK 모의고사 다운로드</button>
+<div class="a4-page spread-page" id="page-30" style="display: flex; flex-direction: column;">
+<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
+<div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+<div style="font-size: 12px; font-weight: bold; color: #555;">갓통과 Fit 20 모의고사</div>
+</div>
+<!-- 2 Columns, 4 Questions -->
+<div style="display: flex; gap: 20px; flex: 1; margin-bottom: 30px;">
+<!-- Left Column -->
+<div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
+<!-- Question 5 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="5번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q05.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 6 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="6번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q06.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+<!-- Right Column -->
+<div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
+<!-- Question 7 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="7번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q07.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 8 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="8번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q08.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+</div>
+<div class="page-num">- 38 -</div>
+</div>
+</div>
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+<button class="btn-download" onclick="downloadImage('page-30', 'Page30')">📸 [30페이지] TIME ATTACK 모의고사 다운로드</button>
+<div class="a4-page spread-page" id="page-31" style="display: flex; flex-direction: column;">
+<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
+<div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+<div style="font-size: 12px; font-weight: bold; color: #555;">갓통과 Fit 20 모의고사</div>
+</div>
+<!-- 2 Columns, 4 Questions -->
+<div style="display: flex; gap: 20px; flex: 1; margin-bottom: 30px;">
+<!-- Left Column -->
+<div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
+<!-- Question 9 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="9번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q09.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 10 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="10번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q10.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+<!-- Right Column -->
+<div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
+<!-- Question 11 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="11번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q11.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 12 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="12번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q12.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+</div>
+<div class="page-num">- 39 -</div>
+</div>
+</div>
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+<button class="btn-download" onclick="downloadImage('page-31', 'Page31')">📸 [31페이지] TIME ATTACK 모의고사 다운로드</button>
+<div class="a4-page spread-page" id="page-32" style="display: flex; flex-direction: column;">
+<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
+<div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+<div style="font-size: 12px; font-weight: bold; color: #555;">갓통과 Fit 20 모의고사</div>
+</div>
+<!-- 2 Columns, 4 Questions -->
+<div style="display: flex; gap: 20px; flex: 1; margin-bottom: 30px;">
+<!-- Left Column -->
+<div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
+<!-- Question 13 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="13번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q13.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 14 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="14번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q14.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+<!-- Right Column -->
+<div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
+<!-- Question 15 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="15번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q15.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 16 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="16번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q16.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+</div>
+<div class="page-num">- 40 -</div>
+</div>
+</div>
+</div><div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+<button class="btn-download" onclick="downloadImage('page-32', 'Page32')">📸 [32페이지] TIME ATTACK 모의고사 다운로드</button>
+<div class="a4-page spread-page" id="page-33" style="display: flex; flex-direction: column;">
+<div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
+<div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+<div style="font-size: 12px; font-weight: bold; color: #555;">갓통과 Fit 20 모의고사</div>
+</div>
+<!-- 2 Columns, 4 Questions -->
+<div style="display: flex; gap: 20px; flex: 1; margin-bottom: 30px;">
+<!-- Left Column -->
+<div style="flex: 1; border-right: 1px solid #000; padding-right: 20px; display: flex; flex-direction: column;">
+<!-- Question 17 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="17번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q17.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 18 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="18번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q18.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+<!-- Right Column -->
+<div style="flex: 1; padding-left: 0px; display: flex; flex-direction: column;">
+<!-- Question 19 -->
+<div style="flex: 1; border-bottom: 1px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="19번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q19.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+<!-- Question 20 -->
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+<img alt="20번 문항" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_02%2Fweek_2028_02_mock_q20.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+</div>
+</div>
+</div>
+<div class="page-num">- 41 -</div>
+</div>
+</div>
+<!-- 해설 페이지 -->
+<!-- Page 31 -->
+<!-- 해설 페이지 (42페이지부터 시작) -->
+<!-- 해설 페이지 (42페이지부터 시작) -->
+<div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+    <button class="btn-download" onclick="downloadImage('page-34', 'Page34_Answer')">📸 [34페이지] 빠른정답 다운로드</button>
+    <div class="a4-page spread-page" id="page-34" style="display: flex; flex-direction: column; background: white;">
+        <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
+            <div class="header">
+                <div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
+                    <div style="background: linear-gradient(135deg, #0f172a, #475569); color: white; padding: 6px 20px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); letter-spacing: -0.5px; border: 2px solid #f8fafc;">
+                        ✨ 갓통과 Fit 20 모의고사 정답
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
+                <div style="column-count: 2; column-gap: 20px; text-align: justify; word-break: keep-all; width: 100%; height: 100%;">
+                    <div style="break-inside: avoid; margin-bottom: 10px; width: 100%;">
+                        <div style="font-size: 12px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #0284c7; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="color: #0284c7; margin-right: 4px;">⚡</span>빠른 정답 확인
+                        </div>
+                        <table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 8.5px; border: 2px solid #cbd5e1;">
+                            <tr style="background: #f1f5f9;">
+                                <th style="padding: 2px 0; border: 1px solid #cbd5e1; width: 12.5%;">문항</th><th style="padding: 2px 0; border: 1px solid #cbd5e1; color: #1e3a8a; width: 12.5%;">정답</th>
+                                <th style="padding: 2px 0; border: 1px solid #cbd5e1; width: 12.5%;">문항</th><th style="padding: 2px 0; border: 1px solid #cbd5e1; color: #1e3a8a; width: 12.5%;">정답</th>
+                                <th style="padding: 2px 0; border: 1px solid #cbd5e1; width: 12.5%;">문항</th><th style="padding: 2px 0; border: 1px solid #cbd5e1; color: #1e3a8a; width: 12.5%;">정답</th>
+                                <th style="padding: 2px 0; border: 1px solid #cbd5e1; width: 12.5%;">문항</th><th style="padding: 2px 0; border: 1px solid #cbd5e1; color: #1e3a8a; width: 12.5%;">정답</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">1번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">5</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">6번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">1</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">11번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">5</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">16번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">3</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">2번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">3</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">7번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">1</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">12번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">4</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">17번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">5</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">3번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">2</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">8번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">3</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">13번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">2</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">18번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">3</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">4번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">3</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">9번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">2</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">14번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">5</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">19번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">1</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">5번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">3</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">10번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">5</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">15번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">4</td>
+                                <td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center;">20번</td><td style="padding: 2px 0; border: 1px solid #cbd5e1; text-align: center; color: #e11d48; font-weight: bold;">4</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- 1번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">1번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 5</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">우주는 팽창하면서 지속적으로 온도가 하강하므로, 초기인 A 시기가 후기인 D 시기보다 온도가 높습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">헬륨 원자핵 이전 단계에 생성된 ㉠은 양성자(및 중성자)입니다. 이들은 쿼크가 강력으로 결합하여 만들어진 입자가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">D 시기(빅뱅 후 38만 년)에 중성 원자(㉡)가 형성되면서 빛을 산란시키던 자유 전자들이 원자핵에 붙잡혔고, 이로 인해 빛이 직진할 수 있게 되어 우주가 투명해졌습니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 2번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">2번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 3</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">A는 고온의 별에서 방출되는 빛을 방해물 없이 직접 관측하므로 무지개색 띠가 연속적으로 나타나는 연속 스펙트럼을 관측합니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">C는 저온 기체가 에너지를 흡수했다가 바닥 상태로 떨어지며 스스로 방출하는 빛을 관측하므로, 검은 바탕에 밝은 선이 나타나는 '방출 스펙트럼'을 관측하게 됩니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">동일한 성간 기체가 흡수하고 방출하는 에너지 준위 차이는 완벽히 같으므로, B가 관측한 흡수선의 위치와 C가 관측한 방출선의 위치는 정확히 일치합니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 3번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">3번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 2</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">미지의 별의 흡수선 위치를 원소들과 대조해 보면 원소 X와 Z의 선은 모두 일치하여 대기에 포함되어 있음을 알 수 있으나, 원소 Y의 선은 일치하지 않습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">원소 Z의 방출 스펙트럼은 가열된 고온의 기체가 에너지를 방출할 때 형성됩니다. 빛이 저온 기체를 통과할 때 나타나는 것은 흡수 스펙트럼입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">동일한 원소의 경우 전자의 고유한 에너지 준위 차이가 같으므로, 빛을 흡수할 때와 방출할 때 선의 위치가 정확하게 일치하게 됩니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 4번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">4번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 3</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">빅뱅 직후 초기 우주에서 입자가 생성된 순서는 기본 입자(나) → 양성자와 중성자(가) → 헬륨 원자핵(다) 순이 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">우주는 탄생 이후 끊임없이 팽창하며 온도가 낮아지므로, 시간상 먼저 일어난 (가) 시기가 (다) 시기보다 우주의 온도가 더 높았습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄷ. (X)</div><div style="flex: 1; text-align: justify;">(다) 단계(빅뱅 후 3분)를 거치며 우주에 존재하는 수소 원자핵과 헬륨 원자핵의 총 질량비는 약 3:1로 고정되므로, 수소 원자핵의 총 질량이 훨씬 큽니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 5번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">5번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 3</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">(가)는 광원 자체의 빛이므로 끊어짐 없는 연속 스펙트럼이며, 이는 백열등이나 별과 같이 고온·고밀도의 광원에서 관측되는 것이 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">고온의 기체 성운 주변에서는 기체들이 에너지를 방출하며 만드는 (나) 형태(방출 스펙트럼)가 관측됩니다. (다)는 저온 기체를 통과할 때의 흡수 스펙트럼입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">별빛이 우주 공간의 저온 성간 기체를 통과하게 되면, 기체 성분이 특정 파장의 빛을 흡수하므로 연속 스펙트럼 바탕에 검은 선이 나타나는 (다)가 관측됩니다.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-num">- 42 -</div>
+        </div>
+    </div>
+</div>
+
+<div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+    <button class="btn-download" onclick="downloadImage('page-35', 'Page35_Answer')">📸 [35페이지] 해설2 다운로드</button>
+    <div class="a4-page spread-page" id="page-35" style="display: flex; flex-direction: column; background: white;">
+        <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
+            <div class="header">
+                <div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
+                    <div style="background: linear-gradient(135deg, #0f172a, #475569); color: white; padding: 6px 20px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); letter-spacing: -0.5px; border: 2px solid #f8fafc;">
+                        ✨ 갓통과 Fit 20 모의고사 정답
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
+                <div style="column-count: 2; column-gap: 20px; text-align: justify; word-break: keep-all; width: 100%; height: 100%;">
+                    
+                    <!-- 6번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">6번 문항 (2.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 1</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">초기 우주에서 $t_1$ 시점에 급격히 폭발적으로 증가하여 전체의 25% 질량비를 차지하는 ㉡은 '헬륨 원자핵'이며, 75%를 유지하는 ㉠은 '양성자', 소모되어 사라지는 ㉢은 '중성자'입니다. 따라서 ㉢은 중성자가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">헬륨 원자핵이 합성되어 수소와 헬륨의 질량비가 3:1로 고정된 $t_1$ 시점은 빅뱅 후 '약 3분'이 지난 시점입니다. 38만 년이 아닙니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄷ. (X)</div><div style="flex: 1; text-align: justify;">$t_1$ 시점 직후에는 '원자핵' 단계만 존재했습니다. 전자가 결합하여 안정된 중성 원자들이 형성되기 시작한 것은 빅뱅 후 약 38만 년이 지났을 때입니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 7번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">7번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 1</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">별 A는 중심부 온도가 $10^8\text{K}$ 부근에 그치므로 질량이 작은 별(태양 정도)이며, B는 계단식으로 온도가 계속 상승하므로 질량이 매우 큰 별입니다. 질량이 클수록 주계열성에 머무는 수명은 짧으므로, A가 B보다 질량이 작다는 설명은 옳습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">질량이 작은 별 A는 탄소(C)나 산소(O)까지만 만들지만, 질량이 큰 별 B는 중심부 온도가 높아서 철(Fe)까지 핵융합으로 생성하므로 B에서 만들어지는 최종 원소가 더 무겁습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄷ. (X)</div><div style="flex: 1; text-align: justify;">중심부 온도가 계단 모양으로 급격히 상승하는 이유는 중심부의 핵연료가 고갈된 후 별 중심핵이 '중력 수축'하면서 위치 에너지가 열에너지로 전환되기 때문입니다. 팽창이 아닙니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 8번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">8번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 3</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">태양계 성운(가)은 과거 우주 공간에서 먼저 수명을 다해 폭발한 초신성 등이 방출한 다양한 무거운 원소들이 포함되어 형성된 것이 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">원시 태양으로부터 거리가 먼 곳은 온도가 낮아 녹는점이 낮은 가벼운 수소, 헬륨 기체나 얼음 성분들이 거대한 크기로 뭉쳐 목성형 행성을 형성하였습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄷ. (X)</div><div style="flex: 1; text-align: justify;">지각을 구성하는 산소와 규소는 태양이 태어나기 전 이미 성운에 존재하던 물질입니다. 현재 주계열성인 태양 내부의 핵융합 반응으로는 오직 수소 핵융합(헬륨 생성)만 일어납니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 9번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">9번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 2</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">(가)는 중심부에 탄소(C)가 있으므로 질량이 태양 정도인 별이고, (나)는 중심부에 철(Fe)이 있으므로 질량이 매우 큰 별입니다. 질량이 클수록 수명이 짧으므로 주계열성 단계 수명은 (나)가 (가)보다 짧습니다. 즉, (가)가 더 깁니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">질량이 작은 별인 (가)는 최종 진화 단계에서 초신성 폭발을 일으키지 못하고, '행성상 성운'의 형태로 외각 물질을 방출하며 중심부는 백색 왜성이 됩니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">(나)와 같은 무거운 별은 핵융합이 단계적으로 진행되며 안쪽 중심부로 갈수록 무거운 원소가 배치되는데, 이는 중심부로 갈수록 더 높은 온도의 핵융합 반응이 일어났음을 명확히 보여줍니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 10번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">10번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 5</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">원자 번호(Z)에서 원자가 전자 수(V)를 뺀 값은 '안쪽 껍질 전자 수'입니다. 상댓값 1과 5의 실제 값은 각각 2와 10입니다. 따라서 A, C는 안쪽 전자가 2개인 2주기 원소이고, B, D는 10개인 3주기 원소입니다. $S \times V$ 값을 대조하면 A=F, C=Ne, B=Na, D=Mg가 되므로 원자 번호는 C(Ne, 10)가 A(F, 9)보다 큽니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">위 분석에 의해 B(나트륨, Na)와 D(마그네슘, Mg)는 모두 전자 껍질 수가 3개인 같은 3주기 원소가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">원자 번호와 원자가 전자 수의 합(Z+V)을 계산해 보면, A(F)는 $9 + 7 = 16$ 이고 D(Mg)는 $12 + 2 = 14$ 이므로 A가 D보다 더 큽니다.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-num">- 43 -</div>
+        </div>
+    </div>
+</div>
+
+<div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+    <button class="btn-download" onclick="downloadImage('page-36', 'Page36_Answer')">📸 [36페이지] 해설3 다운로드</button>
+    <div class="a4-page spread-page" id="page-36" style="display: flex; flex-direction: column; background: white;">
+        <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
+            <div class="header">
+                <div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
+                    <div style="background: linear-gradient(135deg, #0f172a, #475569); color: white; padding: 6px 20px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); letter-spacing: -0.5px; border: 2px solid #f8fafc;">
+                        ✨ 갓통과 Fit 20 모의고사 정답
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
+                <div style="column-count: 2; column-gap: 20px; text-align: justify; word-break: keep-all; width: 100%; height: 100%;">
+                    
+                    <!-- 11번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">11번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 5</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">가장 무거운 원소들이 발견되지 않는 A가 우주 초기에 가장 먼저 생성된 항성계이며, 철과 초신성 폭발의 증거인 우라늄 선이 다량 발견되는 C가 가장 최근에 형성된 항성계입니다. 따라서 형성 순서는 A→B→C 가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">C는 태양과 질량이 비슷한 주계열성이므로 자체 중심부 핵융합으로는 철과 우라늄을 절대로 만들 수 없습니다. 이 원소들은 성운 형성 이전에 발생한 다른 무거운 별들의 초신성 폭발 잔해가 섞여 들어온 것입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">시간이 흘러 나중에 만들어진 항성계일수록(A→B→C) 산소, 철, 우라늄과 같은 무거운 원소들의 흡수선이 뚜렷하게 관측되므로, 우주 전체에서 무거운 원소의 비율이 점차 누적되어 증가했음을 보여줍니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 12번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">12번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 4</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">질량비 데이터를 통해 (가)는 우주(A=수소), (나)는 지구 전체(B=철, C=산소, D=규소)임을 알 수 있습니다. 원자가 전자 수는 규소(D, 14족)가 4개이고 산소(C, 16족)가 6개이므로 D < C 입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">(나) 그래프는 무거운 원소인 철(B)과 산소(C)가 대부분을 차지하므로 우주가 아니라 '지구 전체'를 구성하는 원소의 질량비입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">원소 B는 철(Fe)입니다. 철은 질량이 태양보다 매우 큰 별의 중심부에서 초거성 단계의 마지막 핵융합 반응을 통해 생성되는 가장 안정하고 무거운 최종 원소입니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 13번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">13번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 2</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">원자가 전자 수/껍질 수 비율을 대조하면 A는 2주기 탄소(C, 비율 4/2=2), B는 2주기 산소(O, 비율 6/2=3), C는 3주기 황(S, 비율 6/3=2)입니다. 탄소(A)는 14족, 황(C)은 16족이므로 성질이 다릅니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">B(산소)와 C(황)는 둘 다 원자가 전자 수가 6개이므로 주기율표상에서 같은 세로줄에 위치하는 '같은 족(16족) 원소'가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄷ. (X)</div><div style="flex: 1; text-align: justify;">A(탄소), B(산소), C(황) 세 원소는 모두 금속 광택과 전도성이 없는 '비금속 원소'에 해당하므로 비금속 원소는 2가지가 아니라 3가지입니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 14번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">14번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 5</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">주계열성 중심부의 고온 수소 핵융합 반응 열기로 인해 바깥쪽으로 별을 밀어내며 팽창시키려는 힘인 ㉠은 '별의 내부 압력에 의한 힘'이 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">스스로 안정되게 빛을 발하는 주계열성의 중심부 핵심 에너지원은 4개의 수소 원자핵이 결합하여 1개의 헬륨 원자핵이 되는 수소 핵융합 반응입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">밖으로 밀어내려는 내부 압력(㉠)과 안으로 수축시키려는 중력(㉡)의 크기가 정확히 같은 '정역학 평형 상태'를 이루므로 주계열성 단계 동안 별의 크기는 거의 일정하게 유지됩니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 15번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">15번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 4</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">별 S1의 흡수선 위치와 방출선 위치가 완벽히 잃치하는 ㉮는 기체 A가 맞습니다. 그러나 과정 (다)에서 별 S2의 흡수선 위치와 대조하여 일치하는 ㉯는 기체 B이므로 ㉮는 B가 아닌 A입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">별 S2 스펙트럼 선의 개수와 파장 위치를 기체들과 대조해 보면 검은 선들이 기체 B의 방출선 위치 위에 정확히 매칭되므로 S2 대기에는 ㉯(기체 B)가 포함되어 있습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">고온의 광원에서 나온 연속 스펙트럼의 빛이 별 대기 주변의 저온 기체층을 통과할 때, 해당 기체를 구성하는 원소들이 특정 파장의 에너지를 흡수하기 때문에 스펙트럼에 검은 흡수선이 나타나게 됩니다.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-num">- 44 -</div>
+        </div>
+    </div>
+</div>
+
+<div class="page-wrapper" style="margin-top: 40px; margin-bottom: 40px;">
+    <button class="btn-download" onclick="downloadImage('page-37', 'Page37_Answer')">📸 [37페이지] 해설4 다운로드</button>
+    <div class="a4-page spread-page" id="page-37" style="display: flex; flex-direction: column; background: white;">
+        <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
+            <div class="header">
+                <div style="display: flex; justify-content: center; margin-bottom: 5px; margin-top: 0px;">
+                    <div style="background: linear-gradient(135deg, #0f172a, #475569); color: white; padding: 6px 20px; border-radius: 50px; font-weight: 900; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); letter-spacing: -0.5px; border: 2px solid #f8fafc;">
+                        ✨ 갓통과 Fit 20 모의고사
+                    </div>
+                </div>
+            </div>
+            <div class="content" style="padding: 5px 0; flex: 1; display: flex; flex-direction: column; height: 100%;">
+                <div style="column-count: 2; column-gap: 20px; text-align: justify; word-break: keep-all; width: 100%; height: 100%;">
+                    
+                    <!-- 16번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">16번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 3</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="text-align: justify; margin-bottom: 4px;"><strong>학생 A (O):</strong> 빅뱅 초기에 급격한 우주 팽창으로 밀도와 온도가 하강하면서 기본 입자인 쿼크가 강력으로 묶여 양성자와 중성자가 생성되었습니다.</div>
+                            <div style="text-align: justify; margin-bottom: 4px;"><strong>학생 B (X):</strong> 수소 원자핵과 헬륨 원자핵의 질량비가 약 3:1로 형성 및 고정된 시점은 우주의 온도가 약 10억 K까지 낮아진 '빅뱅 후 약 3분' 시점입니다. 우주 온도가 약 3000 K인 시기는 38만 년이 지났을 때입니다.</div>
+                            <div style="text-align: justify;"><strong>학생 C (O):</strong> 우주 탄생 후 약 38만 년이 지나 온도가 3000 K로 낮아졌을 때 중성 원자가 최초로 형성되었으며, 이때 전자의 방해를 벗어나 직진하며 퍼진 빛이 오늘날의 우주 배경 복사입니다. 따라서 올바른 학생은 A, C입니다.</div>
+                        </div>
+                    </div>
+
+                    <!-- 17번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">17번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 5</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">원자가 전자 수 - 전자 껍질 수 값인 Y가 0에서 연속 음수 통과 지점을 고려하면 D는 2주기 18족 Ne(0-2=-2), E는 3주기 1족 Na(1-3=-2)이 됩니다. 이를 연동하면 B는 2주기 16족인 산소(O), F는 3주기 2족인 마그네슘(Mg)이 되므로 서로 족이 다릅니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄴ. (O)</div><div style="flex: 1; text-align: justify;">A~H 원소 라인업은 2, 3주기의 N, O, F, Ne, Na, Mg, Al, Si 입니다. 이 중 다른 원소와 반응하지 않는 비활성 기체는 D(네온, Ne) 1가지가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">D(Ne)는 전자가 들어 있는 전자 껍질 수가 2개인 2주기 원소이고, E(Na)는 껍질 수가 3개인 3주기 원소이므로 두 원소는 전자 껍질 수가 서로 다릅니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 18번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">18번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 3</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">우주의 역사 동안 별 내부 핵융합 반응의 연료로 소모되며 우주 전체에서의 총질량이 지속적으로 우상향 감소세를 보이는 A가 '수소'이며, 서서히 결합되어 증가 누적되는 B가 '탄소'입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">수소(A)의 총 질량이 감소하는 주된 결정적 원인은 우주 공간의 수축이 아니라 별 중심부에서 폭발적으로 일어나는 '수소 핵융합 반응'의 결과 물질이 변환되기 때문입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">B(탄소)는 빅뱅 직후 초기 우주 핵합성이 아니라, 수많은 시간이 흐른 뒤 탄생한 적색 거성이나 초거성 단계의 '별 내부 헬륨 핵융합 반응'을 통해 대량으로 생성되어 누적되었습니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 19번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">19번 문항 (2.0점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 1</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄱ. (O)</div><div style="flex: 1; text-align: justify;">과거 세대의 별들이 뿜어낸 잔해가 성운에 섞이므로, 나중에 최근에 형성된 별일수록 대기에 무거운 원소 질량비가 누적되어 '증가한다'는 가설 속 ㉠의 문구는 참입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">별 내부에서 뿜어져 나오는 백색의 연속적인 빛이 별의 대기층을 뚫고 나오며 분석되는 두 스펙트럼 데이터는 모두 특정 원소가 빛을 흡수하여 검은 띠가 생기는 '흡수 스펙트럼'입니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄷ. (X)</div><div style="flex: 1; text-align: justify;">별 B의 대기에서 관측되는 철, 니켈과 같은 2%의 무거운 원소들은 B가 스스로 창조한 것이 아닙니다. B가 태어나기 전에 우주 성운 재료에 초신성 폭발 등으로 미리 섞여 있던 물질들이 고스란히 관측된 것입니다.</div></div>
+                        </div>
+                    </div>
+
+                    <!-- 20번 해설 -->
+                    <div class="ta-exp" style="break-inside: avoid; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
+                            <span style="font-weight: 900; font-size: 11px; color: #0f172a;">20번 문항 (1.5점)</span>
+                            <span style="font-weight: 900; font-size: 11px; color: #2563eb;">정답 4</span>
+                        </div>
+                        <div style="font-size: 9px; line-height: 1.4; color: #334155;">
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄱ. (X)</div><div style="flex: 1; text-align: justify;">질량이 태양 정도인 별의 경로 (가)에서 주계열성 다음 단계에 팽창하며 나타나는 ㉤은 중심부에 탄소가 생성되는 '적색 거성' 단계가 맞습니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 2px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 30px;">ㄴ. (X)</div><div style="flex: 1; text-align: justify;">초거성을 거쳐 초신성 폭발 및 블랙홀/중성자별 테크를 타는 진화 경로 (나)의 성운과 주계열성이 (가) 단계의 별들보다 초기 질량이 압도적으로 수십 배 이상 큽니다.</div></div>
+                            <div style="display: flex; gap: 6px; margin-bottom: 0;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 30px;">ㄷ. (O)</div><div style="flex: 1; text-align: justify;">진화 경로 (나)의 대미를 장식하는 ㉥ 단계는 '초신성 폭발'입니다. 이 거대한 우주적 폭발 순간에 발생하는 엄청난 고온과 고압의 에너지로 인해, 별 내부 핵융합 한계였던 철(Fe)보다 훨씬 무거운 금, 은, 우라늄 등의 원소가 순식간에 합성됩니다.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-num">- 45 -</div>
+        </div>
+    </div>
 </div>
 <div id="flipbook-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 1000; overflow: auto; align-items: center; justify-content: center; flex-direction: column;">
 <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
@@ -3102,111 +3603,626 @@ window.addEventListener('wheel', (e) => {
 <div id="flipbook" style="width: 1000px; height: 707px; transform-origin: top left;"></div>
 </div>
 </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 <script>
-        let pageFlip = null;
+// ==========================================
+// 1. Close Button Logic (Reliable Navigation)
+// ==========================================
+window.closeEbook = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+        try { e.preventDefault(); } catch(err){}
+    }
+    if (window.opener && !window.opener.closed) {
+        window.close();
+        return;
+    }
+    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1)) {
+        window.location.href = document.referrer;
+        return;
+    }
+    if (window.history && window.history.length > 1) {
+        window.history.back();
+        setTimeout(function() {
+            window.location.href = "../../exam.html";
+        }, 300);
+        return;
+    }
+    window.location.href = "../../exam.html";
+};
 
-        
-        let currentZoom = 1.0;
-        let baseScale = 1.0;
-
-        function resizeFlipbook() {
-            const fbElement = document.getElementById('flipbook');
-            if (fbElement) {
-                // scale to fit 95vw and 90vh
-                baseScale = Math.min((window.innerWidth * 0.95) / 1000, (window.innerHeight * 0.9) / 707);
-                applyZoom();
+// ==========================================
+// 2. Interactive Quiz Handlers (OX & Blanks)
+// ==========================================
+window.checkOX = function(btn, choice, event) {
+    if (event) {
+        try { event.stopPropagation(); } catch(err){}
+    }
+    var group = btn.closest('.btn-group') || btn.parentElement;
+    if (!group || group.dataset.answered) return;
+    var answer = group.dataset.answer;
+    group.dataset.answered = "true";
+    
+    var btns = group.querySelectorAll('.ox-btn');
+    if (choice === answer) {
+        btn.style.setProperty('background-color', '#dcfce7', 'important');
+        btn.style.setProperty('color', '#16a34a', 'important');
+        btn.style.setProperty('border-color', '#16a34a', 'important');
+    } else {
+        btn.style.setProperty('background-color', '#fee2e2', 'important');
+        btn.style.setProperty('color', '#dc2626', 'important');
+        btn.style.setProperty('border-color', '#dc2626', 'important');
+        btns.forEach(function(b) {
+            if (b.textContent.trim() === answer) {
+                b.style.setProperty('background-color', '#dcfce7', 'important');
+                b.style.setProperty('color', '#16a34a', 'important');
+                b.style.setProperty('border-color', '#16a34a', 'important');
             }
-        }
-        
-        function zoomFlipbook(delta) {
-            currentZoom += delta;
-            if (currentZoom < 0.5) currentZoom = 0.5;
-            if (currentZoom > 3.0) currentZoom = 3.0;
-            applyZoom();
-            
-            // Show alert hint for panning
-            if (currentZoom > 1.0 && delta > 0 && currentZoom - delta <= 1.0) {
-                // Just zoomed in from 1.0
-                const hint = document.getElementById('pan-hint');
-                if (hint) hint.style.display = 'block';
-            } else if (currentZoom <= 1.0) {
-                const hint = document.getElementById('pan-hint');
-                if (hint) hint.style.display = 'none';
-            }
-        }
-        
-        function applyZoom() {
-            const fbElement = document.getElementById('flipbook');
-            const zoomWrapper = document.getElementById('zoom-wrapper');
-            if (fbElement && zoomWrapper) {
-                const totalScale = baseScale * currentZoom;
-                fbElement.style.transform = `scale(${totalScale})`;
-                zoomWrapper.style.width = `${1000 * totalScale}px`;
-                zoomWrapper.style.height = `${707 * totalScale}px`;
-                
-                // Allow browser touch panning when zoomed in
-                if (currentZoom > 1.0) {
-                    fbElement.style.pointerEvents = 'none';
-                } else {
-                    fbElement.style.pointerEvents = 'auto';
-                }
-            }
-        }
-        
-        window.addEventListener('resize', resizeFlipbook);
+        });
+    }
+};
 
-        // replaced resizeFlipbook 
-        function old_resize() {
-            const fbElement = document.getElementById('flipbook');
-            if (fbElement) {
-                // scale to fit 95vw and 90vh
-                const scale = Math.min((window.innerWidth * 0.95) / 1000, (window.innerHeight * 0.9) / 707);
-                fbElement.style.transform = `scale(${scale})`;
-            }
-        }
-        window.addEventListener('resize', resizeFlipbook);
+window.revealBlank = function(el, event) {
+    if (event) {
+        try { event.stopPropagation(); } catch(err){}
+    }
+    el.classList.add('revealed');
+};
 
-        function toggleFlipbook() {
-            const fbContainer = document.getElementById('flipbook-container');
-            const fbElement = document.getElementById('flipbook');
-            
-            if (fbContainer.style.display === "none") {
-                fbContainer.style.display = "flex";
-                document.body.style.overflow = "hidden"; document.getElementById("flipbook-container").style.overflow = "auto"; // Disable background scroll
+// ==========================================
+// 3. Drawing Engine (보기 모드 & 쓰기/필기 모드)
+// ==========================================
+let isDrawingMode = false;
+let currentPenColor = '#0f172a';
+let currentPenWidth = 2.5;
+let isHighlighter = false;
+let isEraserMode = false;
 
-                // Clone all pages
-                const pages = document.querySelectorAll('.page-wrapper .a4-page, .page-wrapper .concept-page');
-                fbElement.innerHTML = '';
-                pages.forEach(p => {
-                    const clone = p.cloneNode(true);
-                    clone.style.boxShadow = "none";
-                    clone.style.margin = "0";
-                    fbElement.appendChild(clone);
-                });
+window.toggleDrawingMode = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
+    isDrawingMode = !isDrawingMode;
+    const btn = document.getElementById('btn-mode-toggle');
+    const tools = document.getElementById('drawing-tools');
+    const canvases = document.querySelectorAll('.draw-layer');
 
-                resizeFlipbook();
+    if (isDrawingMode) {
+        btn.innerText = "✍️ 쓰기 모드";
+        btn.style.background = "#f59e0b";
+        tools.style.display = "flex";
+        canvases.forEach(c => c.style.pointerEvents = "auto");
+    } else {
+        btn.innerText = "📖 보기 모드";
+        btn.style.background = "#38bdf8";
+        tools.style.display = "none";
+        canvases.forEach(c => c.style.pointerEvents = "none");
+    }
+};
 
-                pageFlip = new St.PageFlip(fbElement, {
-                    width: 500,
-                    height: 707,
-                    size: "fixed",
-                    maxShadowOpacity: 0.5,
-                    showCover: true,
-                    mobileScrollSupport: true,
-                    usePortrait: false
-                });
+window.setPen = function(color, btnElem, isHl = false, e) {
+    if (e) { try { e.stopPropagation(); } catch(err){} }
+    currentPenColor = color;
+    isHighlighter = isHl;
+    isEraserMode = false;
+    document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
+    document.querySelectorAll('.tool-btn').forEach(b => {
+        if (b.innerText === '부분지우개') b.classList.remove('active');
+    });
+    btnElem.style.borderColor = 'white';
+};
 
-                pageFlip.loadFromHTML(fbElement.querySelectorAll('.a4-page, .concept-page'));
+window.setThickness = function(w, btnElem, e) {
+    if (e) { try { e.stopPropagation(); } catch(err){} }
+    currentPenWidth = w;
+    document.querySelectorAll('.tool-btn').forEach(b => {
+        if (['얇게', '보통', '두껍'].includes(b.innerText)) b.classList.remove('active');
+    });
+    btnElem.classList.add('active');
+};
+
+window.setEraser = function(btnElem, e) {
+    if (e) { try { e.stopPropagation(); } catch(err){} }
+    isEraserMode = true;
+    document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
+    document.querySelectorAll('.tool-btn').forEach(b => {
+        if (b.innerText === '부분지우개') b.classList.remove('active');
+    });
+    btnElem.classList.add('active');
+};
+
+window.clearAllCanvas = function(e) {
+    if (e) { try { e.stopPropagation(); } catch(err){} }
+    if (!confirm("모든 필기를 지우시겠습니까?")) return;
+    document.querySelectorAll('.draw-layer').forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+};
+
+function setupCanvasDrawing(canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        return {
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY
+        };
+    }
+
+    function handlePointerDown(e) {
+        if (!isDrawingMode) return;
+        if (!e.isPrimary) return; 
+
+        // 손가락 터치는 줌/이동을 위해 필기 무시 (펜/마우스만 허용)
+        if (e.pointerType === 'touch') return; 
+
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+
+        isDrawing = true;
+        try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+
+        if (isEraserMode) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = currentPenWidth * 8; 
+            ctx.strokeStyle = 'rgba(0,0,0,1)';
+        } else {
+            if (isHighlighter) {
+                ctx.globalCompositeOperation = 'multiply';
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = currentPenColor;
             } else {
-                fbContainer.style.display = "none";
-                document.body.style.overflow = "auto";
-                if (pageFlip) {
-                    pageFlip.destroy();
-                    pageFlip = null;
-                    fbElement.innerHTML = '';
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = currentPenWidth * 2; 
+                ctx.strokeStyle = currentPenColor;
+            }
+        }
+
+        const pos = getPos(e);
+        lastX = pos.x;
+        lastY = pos.y;
+        
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(pos.x + 0.01, pos.y);
+        ctx.stroke();
+    }
+
+    function handlePointerMove(e) {
+        if (!isDrawingMode || !isDrawing) return;
+        if (!e.isPrimary) return;
+        
+        if (e.pointerType === 'touch') {
+            isDrawing = false;
+            return;
+        }
+        
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+        
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        
+        lastX = pos.x;
+        lastY = pos.y;
+    }
+
+    function handlePointerUp(e) {
+        if (!isDrawing) return;
+        isDrawing = false;
+        try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
+        e.stopPropagation();
+    }
+
+    let lastPenDownTime = 0;
+    let isStylusActive = false;
+
+    canvas.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'pen' || e.pointerType === 'mouse') {
+            lastPenDownTime = Date.now();
+        }
+        handlePointerDown(e);
+    }, {passive: false});
+    canvas.addEventListener('pointermove', handlePointerMove, {passive: false});
+    canvas.addEventListener('pointerup', handlePointerUp);
+    canvas.addEventListener('pointercancel', handlePointerUp);
+    
+    canvas.addEventListener('touchstart', (e) => {
+        if (!isDrawingMode) return;
+        let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
+        let isWinStylus = (Date.now() - lastPenDownTime) < 100;
+        
+        if (isIOSStylus || isWinStylus) {
+            isStylusActive = true;
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        } else {
+            isStylusActive = false;
+        }
+    }, {passive: false});
+    
+    function blockStylusTouch(e) {
+        if (isDrawingMode && isStylusActive) {
+            e.stopPropagation();
+            if (e.cancelable && e.type === 'touchmove') e.preventDefault();
+        }
+    }
+    
+    canvas.addEventListener('touchmove', blockStylusTouch, {passive: false});
+    canvas.addEventListener('touchend', blockStylusTouch);
+    canvas.addEventListener('touchcancel', blockStylusTouch);
+    
+    function blockMouse(e) {
+        if (isDrawingMode) e.stopPropagation();
+    }
+    canvas.addEventListener('mousedown', blockMouse);
+    canvas.addEventListener('mousemove', blockMouse);
+    canvas.addEventListener('mouseup', blockMouse);
+    canvas.addEventListener('click', blockMouse);
+}
+
+// ==========================================
+// 4. Toolbar Drag Logic
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const dragToolbar = document.getElementById('drawing-toolbar');
+    if (!dragToolbar) return;
+
+    let isDraggingTb = false;
+    let tbStartX = 0, tbStartY = 0, tbInitX = 0, tbInitY = 0;
+
+    function startDragTb(e) {
+        // 버튼 클릭 시에는 드래그 대신 버튼 기능 실행
+        if (e.target.closest('button, input, select, textarea')) return;
+
+        isDraggingTb = true;
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }
+        tbStartX = clientX;
+        tbStartY = clientY;
+        const rect = dragToolbar.getBoundingClientRect();
+        tbInitX = rect.left;
+        tbInitY = rect.top;
+        
+        dragToolbar.style.setProperty('transform', 'none', 'important');
+        dragToolbar.style.setProperty('bottom', 'auto', 'important');
+        dragToolbar.style.setProperty('left', tbInitX + 'px', 'important');
+        dragToolbar.style.setProperty('top', tbInitY + 'px', 'important');
+        
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+    }
+
+    function moveDragTb(e) {
+        if (!isDraggingTb) return;
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }
+        const dx = clientX - tbStartX;
+        const dy = clientY - tbStartY;
+        
+        const rect = dragToolbar.getBoundingClientRect();
+        let newLeft = Math.max(5, Math.min(window.innerWidth - rect.width - 5, tbInitX + dx));
+        let newTop = Math.max(5, Math.min(window.innerHeight - rect.height - 5, tbInitY + dy));
+        
+        dragToolbar.style.setProperty('left', newLeft + 'px', 'important');
+        dragToolbar.style.setProperty('top', newTop + 'px', 'important');
+        
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+    }
+
+    function stopDragTb(e) {
+        if (isDraggingTb) {
+            isDraggingTb = false;
+            if (e) {
+                try { e.stopPropagation(); } catch(err){}
+            }
+        }
+    }
+
+    dragToolbar.addEventListener('mousedown', startDragTb);
+    window.addEventListener('mousemove', moveDragTb, {passive: false});
+    window.addEventListener('mouseup', stopDragTb);
+    
+    dragToolbar.addEventListener('touchstart', startDragTb, {passive: false});
+    window.addEventListener('touchmove', moveDragTb, {passive: false});
+    window.addEventListener('touchend', stopDragTb);
+    window.addEventListener('touchcancel', stopDragTb);
+});
+
+// ==========================================
+// ==========================================
+// 5. Standard 1·2 Week Standardized Flipbook & Zoom Engine
+// ==========================================
+let pageFlip = null;
+let currentZoom = 1.0;
+let panX = 0;
+let panY = 0;
+
+function isPortraitMode() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return (h > w) || (w < 900) || (h < 500);
+}
+
+function resizeFlipbook() {
+    const fbContainer = document.getElementById('flipbook-container');
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
+
+    const portrait = isPortraitMode();
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    
+    const targetW = portrait ? 500 : 1000;
+    const targetH = 707;
+
+    if (currentZoom <= 1.05) {
+        panX = 0;
+        panY = 0;
+    }
+
+    const scaleW = (winW * 0.95) / targetW;
+    const scaleH = (winH * 0.95) / targetH;
+    let baseScale = Math.min(scaleW, scaleH);
+    let totalScale = baseScale * currentZoom;
+
+    scaleWrapper.style.width = targetW + 'px';
+    scaleWrapper.style.height = targetH + 'px';
+    scaleWrapper.style.transform = 'translate(calc(-50% + ' + panX + 'px), calc(-50% + ' + panY + 'px)) scale(' + totalScale + ')';
+
+    if (pageFlip) {
+        pageFlip.update();
+    }
+}
+
+function zoomFlipbook(delta) {
+    currentZoom += delta;
+    if (currentZoom < 0.6) currentZoom = 0.6;
+    if (currentZoom > 3.5) currentZoom = 3.5;
+    resizeFlipbook();
+}
+
+function initFlipbookEngine() {
+    const fbElement = document.getElementById('flipbook');
+    if (!fbElement || pageFlip) return;
+
+    // Use strictly top-level page-wrappers from #main-content to guarantee exactly 41 pages without nested duplicate extraction
+    const topWrappers = Array.from(document.querySelectorAll('#main-content > .page-wrapper'));
+
+    fbElement.innerHTML = '';
+
+    topWrappers.forEach(w => {
+        const a4Page = w.querySelector('.a4-page') || w.querySelector('.concept-page') || w.querySelector('.spread-page') || w.firstElementChild;
+        if (!a4Page) return;
+
+        const clone = a4Page.cloneNode(true);
+        clone.style.boxShadow = "none";
+        clone.style.margin = "0";
+        if (clone.id) clone.id = clone.id + '-clone';
+
+        // Preserve page-scope class from parent wrapper
+        Array.from(w.classList).forEach(cls => {
+            if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {
+                clone.classList.add(cls);
+            }
+        });
+        
+        const cvs = document.createElement('canvas');
+        cvs.className = 'draw-layer';
+        cvs.width = 1000;
+        cvs.height = 1414;
+        cvs.style.width = '100%';
+        cvs.style.height = '100%';
+        cvs.style.position = 'absolute';
+        cvs.style.top = '0';
+        cvs.style.left = '0';
+        cvs.style.zIndex = '999';
+        cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
+        cvs.style.touchAction = 'pinch-zoom';
+        setupCanvasDrawing(cvs);
+        clone.appendChild(cvs);
+
+        fbElement.appendChild(clone);
+    });
+
+    pageFlip = new St.PageFlip(fbElement, {
+        width: 500,
+        height: 707,
+        size: "fixed",
+        minWidth: 300,
+        maxWidth: 1000,
+        minHeight: 400,
+        maxHeight: 1000,
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        mobileScrollSupport: false,
+        useMouseEvents: false,
+        usePortrait: true
+    });
+
+    pageFlip.loadFromHTML(Array.from(fbElement.children));
+}
+
+function setupViewerEvents() {
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!scaleWrapper) return;
+
+    let touchMode = null;
+    let touchStartTime = 0;
+    let startTouchX = 0, startTouchY = 0;
+    let startPanX = 0, startPanY = 0;
+    let initialPinchDist = 0;
+    let zoomAtPinchStart = 1;
+
+    function getDistance(t1, t2) {
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.hypot(dx, dy);
+    }
+
+    scaleWrapper.addEventListener('touchstart', (e) => {
+        touchStartTime = Date.now();
+
+        if (e.touches.length === 2) {
+            touchMode = 'pinch';
+            initialPinchDist = getDistance(e.touches[0], e.touches[1]);
+            zoomAtPinchStart = currentZoom;
+        } else if (e.touches.length === 1) {
+            touchMode = 'single';
+            startTouchX = e.touches[0].clientX;
+            startTouchY = e.touches[0].clientY;
+            startPanX = panX;
+            startPanY = panY;
+        }
+    }, { passive: false });
+
+    scaleWrapper.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && touchMode === 'pinch') {
+            e.preventDefault();
+            const currentDist = getDistance(e.touches[0], e.touches[1]);
+            if (initialPinchDist > 0) {
+                const ratio = currentDist / initialPinchDist;
+                currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
+                resizeFlipbook();
+            }
+        } else if (e.touches.length === 1 && touchMode === 'single') {
+            const moveX = e.touches[0].clientX - startTouchX;
+            const moveY = e.touches[0].clientY - startTouchY;
+            const dist = Math.hypot(moveX, moveY);
+
+            if (currentZoom > 1.1 || dist > 15) {
+                if (currentZoom > 1.1) {
+                    e.preventDefault();
+                    panX = startPanX + moveX;
+                    panY = startPanY + moveY;
+                    resizeFlipbook();
                 }
             }
         }
-    </script>
+    }, { passive: false });
+
+    scaleWrapper.addEventListener('touchend', (e) => {
+        const touchDuration = Date.now() - touchStartTime;
+
+        if (touchMode === 'single' && e.changedTouches.length === 1) {
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
+
+            if (dist < 15 && touchDuration < 300 && pageFlip) {
+                const target = document.elementFromPoint(endX, endY);
+                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+                    touchMode = null;
+                    return;
+                }
+                const rect = scaleWrapper.getBoundingClientRect();
+                const relativeX = endX - rect.left;
+
+                if (relativeX < rect.width / 2) {
+                    pageFlip.flipPrev();
+                } else {
+                    pageFlip.flipNext();
+                }
+                e.preventDefault();
+            }
+        }
+        touchMode = null;
+    });
+
+    let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
+
+    scaleWrapper.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        isMouseDrag = false;
+        mouseStartX = e.clientX;
+        mouseStartY = e.clientY;
+        mouseStartPanX = panX;
+        mouseStartPanY = panY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        const moveX = e.clientX - mouseStartX;
+        const moveY = e.clientY - mouseStartY;
+        if (Math.hypot(moveX, moveY) > 5) {
+            isMouseDrag = true;
+            if (currentZoom > 1.1) {
+                panX = mouseStartPanX + moveX;
+                panY = mouseStartPanY + moveY;
+                resizeFlipbook();
+            }
+        }
+    });
+
+    window.addEventListener('mouseup', (e) => {
+        if (isMouseDown && !isMouseDrag && pageFlip) {
+            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+                isMouseDown = false;
+                return;
+            }
+            const rect = scaleWrapper.getBoundingClientRect();
+            const relativeX = e.clientX - rect.left;
+            if (relativeX < rect.width / 2) pageFlip.flipPrev();
+            else pageFlip.flipNext();
+        }
+        isMouseDown = false;
+    });
+
+    window.addEventListener('resize', resizeFlipbook);
+    window.addEventListener('orientationchange', resizeFlipbook);
+
+    // Keyboard Arrow Keys
+    window.addEventListener('keydown', (e) => {
+        if (!pageFlip) return;
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') pageFlip.flipPrev();
+        else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') pageFlip.flipNext();
+    });
+}
+
+window.toggleFlipbook = function() {
+    const fbContainer = document.getElementById('flipbook-container');
+    if (!fbContainer) return;
+
+    fbContainer.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    if (!pageFlip) {
+        initFlipbookEngine();
+        setupViewerEvents();
+    }
+
+    currentZoom = 1.0;
+    panX = 0;
+    panY = 0;
+    resizeFlipbook();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.toggleFlipbook();
+});
+</script>
 </body>
 </html>

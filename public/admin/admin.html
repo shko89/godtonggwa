@@ -6,7 +6,13 @@
     <title>갓통과 관리자 모드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; }        .custom-scrollbar::-webkit-scrollbar { width: 6px; }        .custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; }        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b7280; }    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -101,6 +107,7 @@ window.addEventListener('wheel', (e) => {
             <button onclick="switchAdminTab('question')" id="btn-tab-question" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">문항 은행</button>
             <button onclick="switchAdminTab('user')" id="btn-tab-user" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">사용자 관리</button>
             <button onclick="switchAdminTab('v2')" id="btn-tab-v2" class="flex-1 py-2 rounded-lg text-sm font-bold text-amber-400 hover:text-amber-300 transition-all whitespace-nowrap px-4 border border-amber-500/30">V2 퀴즈DB</button>
+            <button onclick="window.open('weekly_merger.html', '_blank')" class="flex-1 py-2 rounded-lg text-sm font-bold text-sky-400 hover:text-sky-300 hover:bg-sky-950/40 transition-all whitespace-nowrap px-4 border border-sky-500/30">📖 주간지 빌더</button>
         </div>
 
         <!-- 2. 모의고사 관리 섹션 -->
@@ -108,12 +115,16 @@ window.addEventListener('wheel', (e) => {
             <div class="bg-gray-900 rounded-2xl p-6 border border-gray-700">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="database" class="w-4 h-4 text-emerald-400"></i> 모의고사 목록 (exams)</h2>
-                    <div class="flex gap-2">
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="triggerMasterDbUpload()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 shadow-lg border border-indigo-400/30">
+                            <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i> master_db.json 업로드 & DB 일괄 동기화
+                        </button>
                         <button onclick="openExamEditModal()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1">
                             <i data-lucide="plus" class="w-3 h-3"></i> 새 시험 생성
                         </button>
                         <button onclick="loadExamList()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg border border-gray-600 transition-colors">새로고침</button>
                     </div>
+                    <input type="file" id="master-db-file-input" accept=".json" class="hidden" onchange="handleMasterDbFileSelected(event)">
                 </div>
                 
                 <div class="flex space-x-2 mb-4 bg-gray-800 p-1 rounded-lg">
@@ -156,9 +167,17 @@ window.addEventListener('wheel', (e) => {
                         <h2 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="layers" class="w-4 h-4 text-purple-400"></i> 문항 은행 관리</h2>
                         <span class="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full" id="total-questions-count">0개</span>
                     </div>
-                    <button onclick="openQuestionModal()" class="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1">
-                        <i data-lucide="plus" class="w-3 h-3"></i> 새 문항 추가
-                    </button>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="triggerMasterDbUpload()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 shadow border border-indigo-400/30">
+                            <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i> JSON 일괄 업로드
+                        </button>
+                        <button onclick="exportCurrentGroupMasterDbJson()" class="text-xs bg-gray-800 hover:bg-gray-700 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 shadow">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i> 현재 주차 JSON 내보내기
+                        </button>
+                        <button onclick="openQuestionModal()" class="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1">
+                            <i data-lucide="plus" class="w-3 h-3"></i> 새 문항 추가
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 그룹화 필터 영역 (회차별) -->
@@ -496,13 +515,31 @@ window.addEventListener('wheel', (e) => {
             <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="text-xs text-gray-400 block mb-1">문항 ID (예: q_2028_s0_01)</label>
-                        <input id="q-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="자동 생성 가능">
+                        <label class="text-xs text-gray-400 block mb-1">문항 ID (예: week_2028_01_mock_q01)</label>
+                        <input id="q-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="문항 ID 입력 (예: week_2028_01_mock_q01)">
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 block mb-1">출처 모의고사 ID (선택)</label>
-                        <input id="q-source-exam-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="예: 2028_s0_01">
+                        <input id="q-source-exam-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 outline-none" placeholder="예: week_2028_01">
                     </div>
+                </div>
+
+                <!-- 문항 이미지 실시간 미리보기 영역 (Firebase Storage .webp 자동 연동) -->
+                <div class="bg-gray-900/90 p-3 rounded-xl border border-gray-700">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-xs text-gray-300 font-bold flex items-center gap-1.5">
+                            <i data-lucide="image" class="w-3.5 h-3.5 text-purple-400"></i> Storage 이미지 실시간 연동 (.webp)
+                        </label>
+                        <span id="q-modal-img-status" class="text-[10px] text-gray-500 font-mono">대기 중...</span>
+                    </div>
+                    <div class="w-full h-44 bg-black/40 rounded-lg flex items-center justify-center overflow-hidden border border-gray-700 relative group/pimg">
+                        <img id="q-modal-preview-img" src="" class="max-h-full max-w-full object-contain p-1 hidden cursor-pointer" alt="문항 미리보기" onclick="if(this.src) openImagePreview(this.src)">
+                        <div id="q-modal-preview-placeholder" class="text-center text-xs text-gray-500 p-4">
+                            <p class="font-bold text-gray-400 mb-1">🖼️ 문항 ID를 입력하면 Storage의 .webp 이미지를 자동으로 불러옵니다.</p>
+                            <p class="text-[10px] text-gray-600">예: week_2028_01_mock_q01, kice_2028_pretest_q01, 2028_s0_01 등</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="q-image-url" value="">
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
@@ -740,6 +777,166 @@ window.addEventListener('wheel', (e) => {
             }
         };
 
+
+        // =========================================================================
+        // Firebase Storage .webp 이미지 자동 경로 탐색 헬퍼 (모든 명명 규칙 지원)
+        // =========================================================================
+        window.fetchQuestionImageUrl = async (qId, sourceExamId = null) => {
+            if (!qId) return '';
+            const cleanId = qId.trim().replace(/^q_/, '');
+            const rawId = qId.trim();
+
+            const candidates = [];
+
+            // 1. 주간지 형식: week_2028_01_mock_q01 / week_2028_01_prep_q01 / week_2028_01_prac_q01
+            const weekMatch = cleanId.match(/^week_(\d{4})_(\d{2})/);
+            if (weekMatch) {
+                const year = weekMatch[1];
+                const weekFolder = `week_${year}_${weekMatch[2]}`;
+                candidates.push(`questions/week/${year}/${weekFolder}/${cleanId}.webp`);
+                candidates.push(`questions/week/${year}/${weekFolder}/${rawId}.webp`);
+                candidates.push(`questions/week/${year}/${weekFolder}/${cleanId}.png`);
+                candidates.push(`questions/week/${year}/${weekFolder}/${rawId}.png`);
+            }
+
+            // 2. KICE 평가원 기출 형식: kice_2028_pretest_q01
+            const kiceMatch = cleanId.match(/^kice_(\d{4})_([^_]+)/);
+            if (kiceMatch) {
+                const year = kiceMatch[1];
+                const examId = sourceExamId || `${year}_${kiceMatch[2]}`;
+                candidates.push(`questions/kice/${year}/${examId}/${cleanId}.webp`);
+                candidates.push(`questions/kice/${year}/${examId}/${rawId}.webp`);
+                candidates.push(`questions/kice/${year}/${examId}/${cleanId}.png`);
+                candidates.push(`questions/kice/${year}/${examId}/${rawId}.png`);
+            }
+
+            // 3. 시즌 모의고사 형식: mock_2028_s0_q01 / 2028_s0_01
+            const mockMatch = cleanId.match(/^(?:mock_)?(\d{4})_(s\d+)/);
+            if (mockMatch) {
+                const year = mockMatch[1];
+                const season = mockMatch[2];
+                const examId = sourceExamId || `${year}_${season}`;
+                candidates.push(`questions/mock/${year}/${examId}/${cleanId}.webp`);
+                candidates.push(`questions/mock/${year}/${examId}/${rawId}.webp`);
+                candidates.push(`questions/${examId}/${cleanId}.webp`);
+                candidates.push(`questions/${examId}/${rawId}.webp`);
+                candidates.push(`questions/mock/${year}/${examId}/${cleanId}.png`);
+                candidates.push(`questions/${examId}/${cleanId}.png`);
+            }
+
+            // 4. SourceExamId 기반 탐색
+            if (sourceExamId) {
+                candidates.push(`questions/${sourceExamId}/${cleanId}.webp`);
+                candidates.push(`questions/${sourceExamId}/${rawId}.webp`);
+                candidates.push(`questions/${sourceExamId}/${cleanId}.png`);
+                candidates.push(`questions/${sourceExamId}/${rawId}.png`);
+            }
+
+            // 5. 기본 루트 questions/ 경로 fallback
+            candidates.push(`questions/${cleanId}.webp`);
+            candidates.push(`questions/${rawId}.webp`);
+            candidates.push(`questions/${cleanId}.png`);
+            candidates.push(`questions/${rawId}.png`);
+
+            for (const path of candidates) {
+                try {
+                    const imgRef = ref(storage, path);
+                    const url = await getDownloadURL(imgRef);
+                    if (url) return url;
+                } catch (e) {
+                    // 다음 후보 경로 탐색
+                }
+            }
+            return '';
+        };
+
+        let previewDebounceTimer = null;
+        window.checkModalImagePreview = (immediate = false) => {
+            if (previewDebounceTimer) clearTimeout(previewDebounceTimer);
+
+            const run = async () => {
+                const qIdEl = document.getElementById('q-id');
+                const sourceExamIdEl = document.getElementById('q-source-exam-id');
+                const statusEl = document.getElementById('q-modal-img-status');
+                const imgEl = document.getElementById('q-modal-preview-img');
+                const placeholderEl = document.getElementById('q-modal-preview-placeholder');
+                const urlHidden = document.getElementById('q-image-url');
+
+                if (!qIdEl || !statusEl || !imgEl || !placeholderEl || !urlHidden) return;
+
+                const qId = qIdEl.value.trim();
+                const sourceExamId = sourceExamIdEl ? sourceExamIdEl.value.trim() : '';
+
+                if (!qId) {
+                    statusEl.innerText = "문항 ID를 입력하세요";
+                    statusEl.className = "text-[10px] text-gray-500 font-mono";
+                    imgEl.classList.add('hidden');
+                    imgEl.src = "";
+                    placeholderEl.classList.remove('hidden');
+                    urlHidden.value = "";
+                    return;
+                }
+
+                statusEl.innerText = "Storage .webp 조회 중...";
+                statusEl.className = "text-[10px] text-amber-400 font-mono animate-pulse";
+
+                const url = await window.fetchQuestionImageUrl(qId, sourceExamId);
+                if (url) {
+                    statusEl.innerText = "✅ Storage 연결됨 (.webp)";
+                    statusEl.className = "text-[10px] text-emerald-400 font-bold font-mono";
+                    imgEl.src = url;
+                    imgEl.classList.remove('hidden');
+                    placeholderEl.classList.add('hidden');
+                    urlHidden.value = url;
+                } else {
+                    statusEl.innerText = "⚠️ Storage에 이미지 없음";
+                    statusEl.className = "text-[10px] text-red-400 font-mono";
+                    imgEl.classList.add('hidden');
+                    imgEl.src = "";
+                    placeholderEl.classList.remove('hidden');
+                    urlHidden.value = "";
+                }
+            };
+
+            if (immediate) run();
+            else previewDebounceTimer = setTimeout(run, 350);
+        };
+
+        // 온디맨드 문항 이미지 미리보기 (목록에서 버튼 클릭 시 단건 로드)
+        window.previewQuestionImage = async (qId, sourceExamId, btnElem) => {
+            const originalHtml = btnElem ? btnElem.innerHTML : '';
+            if (btnElem) {
+                btnElem.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> 로딩...`;
+                btnElem.disabled = true;
+                lucide.createIcons();
+            }
+
+            try {
+                const qData = allQuestionsData.find(q => q.id === qId);
+                let url = qData ? (qData.image_path || qData.imagePath) : '';
+                if (!url) {
+                    url = await window.fetchQuestionImageUrl(qId, sourceExamId);
+                    if (url && qData) {
+                        qData.image_path = url; // 메모리 캐싱
+                    }
+                }
+
+                if (url) {
+                    window.openImagePreview(url);
+                } else {
+                    await window.customAlert(`[${qId}]\n\nFirebase Storage에서 해당 문항의 .webp 이미지를 찾을 수 없습니다.`);
+                }
+            } catch (err) {
+                await window.customAlert("이미지 로드 중 오류: " + err.message);
+            } finally {
+                if (btnElem) {
+                    btnElem.innerHTML = originalHtml;
+                    btnElem.disabled = false;
+                    lucide.createIcons();
+                }
+            }
+        };
+
         const TOPIC_MAP = {
             "과학의 기초": ["기본량과 단위", "측정과 어림", "정보와 신호"],
             "물질과 규칙성": ["원소 형성", "별의 진화", "원소의 주기성", "화학 결합", "지각과 생명체 구성 물질의 규칙성"],
@@ -915,6 +1112,259 @@ window.addEventListener('wheel', (e) => {
             catch(e) { await customAlert("삭제 실패"); }
         };
 
+
+        // =========================================================================
+        // master_db.json 기반 클라우드 DB 일괄 동기화(업로드) & 내보내기(다운로드)
+        // =========================================================================
+        let pendingTargetExamId = null;
+
+        window.triggerMasterDbUpload = (targetExamId = null) => {
+            pendingTargetExamId = targetExamId;
+            const fileInput = document.getElementById('master-db-file-input');
+            if (fileInput) {
+                fileInput.value = '';
+                fileInput.click();
+            }
+        };
+
+        window.handleMasterDbFileSelected = async (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                const text = await file.text();
+                const data = JSON.parse(text);
+                await window.processMasterDbSync(data, pendingTargetExamId, file.name);
+            } catch (err) {
+                console.error(err);
+                await window.customAlert("JSON 파일 파싱 실패: 올바른 master_db.json 형식인지 확인하세요.\n\n" + err.message);
+            } finally {
+                pendingTargetExamId = null;
+            }
+        };
+
+        window.processMasterDbSync = async (jsonData, explicitExamId = null, filename = '') => {
+            const keys = Object.keys(jsonData);
+            if (keys.length === 0) {
+                return await window.customAlert("JSON 파일에 문항 데이터가 없습니다.");
+            }
+
+            // 대상 시험 ID 자동 감지
+            let detectedExamId = explicitExamId;
+            if (!detectedExamId) {
+                const firstItem = jsonData[keys[0]];
+                detectedExamId = firstItem.sourceExamId || '';
+            }
+            if (!detectedExamId) {
+                const match = keys[0].match(/^(week_\d{4}_\d{2})/);
+                if (match) detectedExamId = match[1];
+            }
+
+            const proceed = await window.customConfirm(
+                `[master_db.json 일괄 DB 동기화]\n\n` +
+                `• 파일명: ${filename || 'master_db.json'}\n` +
+                `• 총 문항 수: ${keys.length}개\n` +
+                `• 대상 시험/주차 ID: ${detectedExamId || '(문항별 자동 매핑)'}\n\n` +
+                `Questions 컬렉션, Exams 시험지, 분석 아카이브를 일괄 업데이트하시겠습니까?`
+            );
+            if (!proceed) return;
+
+            try {
+                const batch = writeBatch(db);
+                let qCount = 0;
+                let prepCount = 0;
+                let pracCount = 0;
+                let mockCount = 0;
+
+                const mockQuestionsList = [];
+
+                for (const qId of keys) {
+                    const item = jsonData[qId];
+                    if (!item || typeof item !== 'object') continue;
+
+                    const qDocId = item.id || qId;
+                    const magType = item.magazineType || (qId.includes('_prep_') ? 'prep' : (qId.includes('_prac_') ? 'prac' : (qId.includes('_mock_') ? 'mock' : 'etc')));
+                    if (magType === 'prep') prepCount++;
+                    else if (magType === 'prac') pracCount++;
+                    else if (magType === 'mock') mockCount++;
+
+                    const sourceExamId = item.sourceExamId || detectedExamId || '';
+                    const correctAnswer = Number(item.correctAnswer) || 0;
+                    const score = Number(item.score) || (item.difficulty > 3 ? 2.5 : (item.difficulty < 2 ? 1.5 : 2.0));
+                    const difficulty = Number(item.difficulty) || 2;
+                    const behavioralDomain = item.behavioralDomain || '이해';
+                    const taxonomy = item.taxonomy || { subject: "통합과학", domain: "통합과학1", topic: "미분류" };
+                    const tags = Array.isArray(item.tags) ? item.tags : [];
+                    const imageFile = item.imageFile || `${qDocId}.png`;
+
+                    const qData = {
+                        id: qDocId,
+                        sourceExamId: sourceExamId,
+                        magazineType: magType,
+                        examQNum: item.examQNum || 0,
+                        imageFile: imageFile,
+                        correctAnswer: correctAnswer,
+                        score: score,
+                        difficulty: difficulty,
+                        behavioralDomain: behavioralDomain,
+                        taxonomy: taxonomy,
+                        tags: tags,
+                        qType: item.qType || "합답형(ㄱ,ㄴ,ㄷ)",
+                        stats: item.stats || { total: 0, correct: 0 },
+                        updatedAt: new Date().toISOString()
+                    };
+
+                    if (item.image_path) qData.image_path = item.image_path;
+                    if (item.layoutPosition) qData.layoutPosition = item.layoutPosition;
+
+                    batch.set(doc(db, "questions", qDocId), qData, { merge: true });
+                    qCount++;
+
+                    if (magType === 'mock' || qId.includes('_mock_')) {
+                        mockQuestionsList.push({
+                            qId: qDocId,
+                            examQNum: item.examQNum || (mockQuestionsList.length + 1),
+                            score: score,
+                            correctAnswer: correctAnswer,
+                            topic: taxonomy.topic || '',
+                            domain: behavioralDomain
+                        });
+                    }
+                }
+
+                mockQuestionsList.sort((a, b) => (a.examQNum || 0) - (b.examQNum || 0));
+
+                let examUpdated = false;
+                let archiveCount = 0;
+                if (detectedExamId && mockQuestionsList.length > 0) {
+                    const examQuestionsArr = mockQuestionsList.map((mq, idx) => ({
+                        no: idx + 1,
+                        qId: mq.qId,
+                        score: mq.score,
+                        correctAnswer: mq.correctAnswer
+                    }));
+
+                    const scoreMap = examQuestionsArr.map(q => q.score);
+                    const answerKey = examQuestionsArr.map(q => q.correctAnswer);
+
+                    const weekMatch = detectedExamId.match(/^week_(\d{4})_(\d{2})/);
+                    let defaultTitle = `갓통과 2028 주간지 ${weekMatch ? parseInt(weekMatch[2], 10) : ''}주차 (Fit 20)`;
+                    let serviceType = weekMatch ? 'WEEKLY_MAG' : 'SEASON_MOCK';
+
+                    const existingExam = allExamsData.find(e => e.docId === detectedExamId);
+                    const titleToUse = existingExam?.title || defaultTitle;
+                    const orderNum = existingExam?.orderId || (weekMatch ? parseInt(weekMatch[2], 10) : (Number(detectedExamId.replace(/[^0-9]/g, '')) || 0));
+
+                    // 1) public_exams
+                    batch.set(doc(db, "public_exams", detectedExamId), {
+                        id: orderNum,
+                        title: titleToUse,
+                        subTitle: existingExam?.subTitle || "실전 체화 모의고사",
+                        price: existingExam?.price || 5000,
+                        serviceType: serviceType,
+                        isAuthRequired: existingExam?.isAuthRequired ?? true,
+                        isContentVisible: existingExam?.isContentVisible ?? false,
+                        updatedAt: new Date().toISOString()
+                    }, { merge: true });
+
+                    // 2) exams
+                    batch.set(doc(db, "exams", detectedExamId), {
+                        title: titleToUse,
+                        questions: examQuestionsArr,
+                        score_map: scoreMap,
+                        answer_key: answerKey,
+                        serviceType: serviceType,
+                        isAuthRequired: existingExam?.isAuthRequired ?? true,
+                        isContentVisible: existingExam?.isContentVisible ?? false,
+                        updatedAt: new Date().toISOString()
+                    }, { merge: true });
+
+                    examUpdated = true;
+
+                    // 3) exam_archive
+                    const archiveCol = collection(db, 'artifacts', 'godtonggwa_v1', 'public', 'data', 'exam_archive');
+                    for (let i = 0; i < mockQuestionsList.length; i++) {
+                        const mq = mockQuestionsList[i];
+                        const archiveDocId = `${detectedExamId}_q${String(i + 1).padStart(2, '0')}`;
+                        batch.set(doc(archiveCol, archiveDocId), {
+                            exam_id: detectedExamId,
+                            q_num: i + 1,
+                            q_id: mq.qId,
+                            topic: mq.topic || "미분류",
+                            domain: mq.domain || "미분류",
+                            updatedAt: new Date().toISOString()
+                        }, { merge: true });
+                        archiveCount++;
+                    }
+                }
+
+                await batch.commit();
+
+                let msg = `🎉 DB 일괄 동기화 성공!\n\n` +
+                          `• 총 Questions 등록/갱신: ${qCount}건\n` +
+                          `  (개념: ${prepCount}개, 연습: ${pracCount}개, 모의고사: ${mockCount}개)\n`;
+                if (examUpdated) {
+                    msg += `• 시험지 [${detectedExamId}] (${mockQuestionsList.length}문항) 갱신 완료\n` +
+                           `• 통계 아카이브 [${archiveCount}건] 자동 생성/동기화`;
+                }
+
+                await window.customAlert(msg);
+                window.loadExamList();
+                window.loadQuestionsList();
+            } catch (e) {
+                console.error(e);
+                await window.customAlert("DB 일괄 동기화 중 오류 발생: " + e.message);
+            }
+        };
+
+        window.exportCurrentGroupMasterDbJson = () => {
+            if (allQuestionsData.length === 0) {
+                return window.customAlert("내보낼 문항 데이터가 없습니다.");
+            }
+
+            const dataToExport = (currentQuestionGroupFilter && currentQuestionGroupFilter !== 'all') 
+                ? filteredQuestionsData 
+                : allQuestionsData;
+
+            if (dataToExport.length === 0) {
+                return window.customAlert("현재 선택된 그룹에 문항 데이터가 없습니다.");
+            }
+
+            const exportObj = {};
+            dataToExport.forEach(d => {
+                exportObj[d.id] = {
+                    id: d.id,
+                    sourceExamId: d.sourceExamId || '',
+                    magazineType: d.magazineType || (d.id.includes('_prep_') ? 'prep' : (d.id.includes('_prac_') ? 'prac' : (d.id.includes('_mock_') ? 'mock' : 'etc'))),
+                    examQNum: d.examQNum || 0,
+                    imageFile: d.imageFile || `${d.id}.png`,
+                    correctAnswer: String(d.correctAnswer || ''),
+                    score: Number(d.score) || (d.difficulty > 3 ? 2.5 : (d.difficulty < 2 ? 1.5 : 2.0)),
+                    difficulty: Number(d.difficulty) || 2,
+                    taxonomy: d.taxonomy || { subject: "통합과학", domain: "통합과학1", topic: "미분류" },
+                    behavioralDomain: d.behavioralDomain || "이해",
+                    qType: d.qType || "합답형(ㄱ,ㄴ,ㄷ)",
+                    tags: Array.isArray(d.tags) ? d.tags : [],
+                    stats: d.stats || { total: 0, correct: 0 },
+                    updatedAt: d.updatedAt || new Date().toISOString()
+                };
+                if (d.layoutPosition) exportObj[d.id].layoutPosition = d.layoutPosition;
+            });
+
+            const groupName = (currentQuestionGroupFilter && currentQuestionGroupFilter !== 'all') ? currentQuestionGroupFilter : 'all_questions';
+            const filename = `${groupName}_master_db.json`;
+
+            const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+
         let allExamsData = [];
         window.currentExamFilter = 'ALL';
 
@@ -957,7 +1407,8 @@ window.addEventListener('wheel', (e) => {
                                 <h4 class="text-sm font-bold text-white truncate">${data.title}</h4>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button onclick="openExamEditModal('${data.docId}')" class="p-2 bg-gray-700 hover:bg-emerald-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                                <button onclick="triggerMasterDbUpload('${data.docId}')" class="p-2 bg-indigo-900/40 hover:bg-indigo-600 border border-indigo-700/50 rounded-lg text-indigo-300 hover:text-white transition-colors" title="이 시험지에 master_db.json 일괄 동기화"><i data-lucide="upload-cloud" class="w-4 h-4"></i></button>
+                                <button onclick="openExamEditModal('${data.docId}')" class="p-2 bg-gray-700 hover:bg-emerald-600 rounded-lg text-gray-300 hover:text-white transition-colors" title="시험 설정"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
                                 <button onclick="deleteExamData('${data.docId}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors" title="삭제"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             </div>
                         </div>`;
@@ -1047,30 +1498,91 @@ window.addEventListener('wheel', (e) => {
             }
         };
 
+        // 문항 그룹 키 추출 헬퍼 (주간지 prep, prac, mock을 주차 단위 week_YYYY_WW로 통합)
+        function getQuestionGroupKey(id) {
+            if (!id) return 'etc';
+            const cleanId = id.trim().startsWith('q_') ? id.trim().substring(2) : id.trim();
+
+            // 1. 주간지 형식: week_2028_01_prep_q01 / week_2028_02_mock_q01 -> week_2028_01, week_2028_02 로 묶음
+            const weekMatch = cleanId.match(/^week_(\d{4})_(\d{2})/);
+            if (weekMatch) {
+                return `week_${weekMatch[1]}_${weekMatch[2]}`;
+            }
+
+            // 2. KICE 평가원 기출: kice_2028_pretest_q01 -> kice_2028_pretest
+            const kiceMatch = cleanId.match(/^kice_(\d{4})_([^_]+)/);
+            if (kiceMatch) {
+                return `kice_${kiceMatch[1]}_${kiceMatch[2]}`;
+            }
+
+            // 3. 시즌 모의고사: mock_2028_s0_q01 / 2028_s0_01 -> mock_2028_s0
+            const mockMatch = cleanId.match(/^(?:mock_)?(\d{4})_(s\d+)/);
+            if (mockMatch) {
+                return `mock_${mockMatch[1]}_${mockMatch[2]}`;
+            }
+
+            // 4. 일반 fallback: 마지막 _ 앞부분
+            const lastIndex = cleanId.lastIndexOf('_');
+            if (lastIndex > 0) {
+                return cleanId.substring(0, lastIndex);
+            }
+            return 'etc';
+        }
+
+        function getQuestionGroupLabel(groupKey, count = 0) {
+            const countBadge = count > 0 ? ` (${count})` : '';
+            if (groupKey === 'all') return `전체보기${allQuestionsData.length ? ` (${allQuestionsData.length})` : ''}`;
+            if (groupKey === 'etc') return `기타/미분류${countBadge}`;
+
+            // 주간지: week_2028_02 -> 주간지 2주차 (week_2028_02)
+            const weekMatch = groupKey.match(/^week_(\d{4})_(\d{2})/);
+            if (weekMatch) {
+                const weekNum = parseInt(weekMatch[2], 10);
+                return `주간지 ${weekNum}주차 (${groupKey})${countBadge}`;
+            }
+
+            // KICE 기출: kice_2028_pretest
+            const kiceMatch = groupKey.match(/^kice_(\d{4})_([^_]+)/);
+            if (kiceMatch) {
+                return `기출 ${kiceMatch[1]} ${kiceMatch[2]}${countBadge}`;
+            }
+
+            // 시즌 모의고사: mock_2028_s0
+            const mockMatch = groupKey.match(/^mock_(\d{4})_(s\d+)/);
+            if (mockMatch) {
+                return `${mockMatch[1]} 시즌 ${mockMatch[2].replace('s', '')} 모의고사${countBadge}`;
+            }
+
+            return `${groupKey.replace('q_', '').replace(/_/g, '-')}${countBadge}`;
+        }
+
         function renderQuestionGroupFilters() {
             const filterContainer = document.getElementById('question-group-filters');
             if (!filterContainer) return;
 
-            const groups = new Set();
+            const groupCounts = {};
             allQuestionsData.forEach(d => {
-                const lastIndex = d.id.lastIndexOf('_');
-                if (lastIndex > 0) {
-                    const groupKey = d.id.substring(0, lastIndex);
-                    groups.add(groupKey);
-                } else {
-                    groups.add('etc'); 
-                }
+                const groupKey = getQuestionGroupKey(d.id);
+                groupCounts[groupKey] = (groupCounts[groupKey] || 0) + 1;
             });
 
-            const sortedGroups = Array.from(groups).sort().reverse();
+            // 주간지(week_...)가 우선적으로 주차 내림차순 정렬되도록 구성
+            const sortedGroups = Object.keys(groupCounts).sort((a, b) => {
+                if (a.startsWith('week_') && b.startsWith('week_')) {
+                    return b.localeCompare(a); // 최신 주차 먼저
+                }
+                if (a.startsWith('week_')) return -1;
+                if (b.startsWith('week_')) return 1;
+                return b.localeCompare(a);
+            });
 
-            let html = `<button onclick="applyQuestionFilter('all')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${currentQuestionGroupFilter === 'all' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-600'}">전체보기</button>`;
+            let html = `<button onclick="applyQuestionFilter('all')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${currentQuestionGroupFilter === 'all' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-600'}">전체보기 (${allQuestionsData.length})</button>`;
             
             sortedGroups.forEach(group => {
                 const isActive = currentQuestionGroupFilter === group;
-                const label = group === 'etc' ? '기타/미분류' : group.replace('q_', '').replace('_', '-');
+                const label = getQuestionGroupLabel(group, groupCounts[group]);
                 
-                html += `<button onclick="applyQuestionFilter('${group}')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${isActive ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-700'}">
+                html += `<button onclick="applyQuestionFilter('${group}')" class="q-filter-btn px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${isActive ? 'bg-purple-600 text-white shadow-lg ring-2 ring-purple-400/50' : 'bg-gray-700 text-gray-400 hover:text-white border border-gray-700'}">
                     ${label}
                 </button>`;
             });
@@ -1086,8 +1598,7 @@ window.addEventListener('wheel', (e) => {
                 filteredQuestionsData = [...allQuestionsData];
             } else {
                 filteredQuestionsData = allQuestionsData.filter(d => {
-                    if (filter === 'etc') return d.id.split('_').length < 3;
-                    return d.id.startsWith(filter);
+                    return getQuestionGroupKey(d.id) === filter;
                 });
             }
 
@@ -1095,7 +1606,7 @@ window.addEventListener('wheel', (e) => {
             renderQuestionsPage(0);
         };
 
-        window.renderQuestionsPage = async (pageIndex) => {
+        window.renderQuestionsPage = (pageIndex) => {
             currentQuestionPage = pageIndex;
             const container = document.getElementById('questions-list-container');
             const paginationContainer = document.getElementById('question-pagination');
@@ -1110,73 +1621,34 @@ window.addEventListener('wheel', (e) => {
                 return;
             }
 
-            container.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-10 gap-3">
-                    <i data-lucide="loader-2" class="w-6 h-6 animate-spin text-purple-400"></i>
-                    <p class="text-xs text-gray-400">보안 토큰을 확인하고 이미지를 불러오는 중입니다...</p>
-                </div>
-            `;
-            lucide.createIcons();
-
-            const itemsHtml = await Promise.all(pageData.map(async (d) => {
-                const examId = d.sourceExamId || (d.id.split('_').slice(1, -1).join('_'));
-                
-                // 실제 Storage의 폴더 구조 (예: questions/kice/2028/2028_pretest/...) 반영 로직
-                let storagePrefix = d.storagePrefix || '';
-                if (!storagePrefix) {
-                    if (d.id.startsWith('kice_')) {
-                        const yearMatch = d.id.match(/kice_(\d{4})/);
-                        const year = yearMatch ? yearMatch[1] : '';
-                        storagePrefix = year ? `kice/${year}` : 'kice';
-                    } else if (d.id.startsWith('mock_')) {
-                        const yearMatch = d.id.match(/mock_(\d{4})/);
-                        const year = yearMatch ? yearMatch[1] : '';
-                        storagePrefix = year ? `mock/${year}` : 'mock';
-                    }
-                }
-                
-                const imageFileName = d.imageFile || `${d.id}.png`;
-                const imagePath = storagePrefix ? `questions/${storagePrefix}/${examId}/${imageFileName}` : `questions/${examId}/${imageFileName}`;
-                
-                let imageUrl = d.image_path || d.imagePath || '';
-                if (!imageUrl) {
-                    try {
-                        const imageRef = ref(storage, imagePath);
-                        imageUrl = await getDownloadURL(imageRef);
-                    } catch (error) {
-                        console.warn(`이미지 로드 실패 (${imagePath}):`, error);
-                    }
-                }
-
-                return `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
-                            
-                            <div class="shrink-0 mr-4 cursor-pointer" onclick="if('${imageUrl}') openImagePreview('${imageUrl}')">
-                                <div class="w-16 h-16 bg-gray-900 rounded-lg border border-gray-600 overflow-hidden flex items-center justify-center relative group/img">
-                                    <img src="${imageUrl}" 
-                                         alt="문항 썸네일" 
-                                         class="w-full h-full object-contain p-1"
-                                         onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'text-[10px] text-gray-500\\'>이미지 없음</span>';">
-                                    ${imageUrl ? `<div class="absolute inset-0 bg-black/50 hidden group-hover/img:flex items-center justify-center transition-all"><i data-lucide="zoom-in" class="w-4 h-4 text-white"></i></div>` : ''}
-                                </div>
-                            </div>
-
+            const itemsHtml = pageData.map(d => {
+                return `<div class="bg-gray-800 p-3.5 rounded-xl border border-gray-700 flex justify-between items-center group hover:border-gray-600 transition-colors">
                             <div class="flex-1 min-w-0 mr-3">
-                                <div class="flex items-center gap-2 mb-1">
+                                <div class="flex items-center gap-2 mb-1.5 flex-wrap">
                                     <span class="bg-purple-900/50 text-purple-300 text-[10px] px-1.5 py-0.5 rounded font-mono border border-purple-800">${d.id}</span>
-                                    <span class="text-xs text-gray-400 font-bold">${d.taxonomy?.domain || '미분류'}</span>
+                                    ${d.id.includes('_prep_') ? '<span class="text-[9px] bg-emerald-900/70 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-700 font-bold">개념(prep)</span>' : ''}
+                                    ${d.id.includes('_prac_') ? '<span class="text-[9px] bg-sky-900/70 text-sky-300 px-1.5 py-0.5 rounded border border-sky-700 font-bold">연습(prac)</span>' : ''}
+                                    ${d.id.includes('_mock_') ? '<span class="text-[9px] bg-indigo-900/70 text-indigo-300 px-1.5 py-0.5 rounded border border-indigo-700 font-bold">모의(mock)</span>' : ''}
+                                    <span class="text-xs text-gray-200 font-bold">${d.taxonomy?.domain || '미분류'}</span>
+                                    ${d.taxonomy?.chapter ? `<span class="text-[10px] bg-gray-700 text-gray-300 px-1.5 py-0.5 rounded">${d.taxonomy.chapter}</span>` : ''}
                                 </div>
-                                <div class="text-xs text-gray-400 flex gap-3 items-center">
-                                    <span>정답: <strong class="text-white">${d.correctAnswer || '?'}</strong></span>
+                                <div class="text-xs text-gray-400 flex flex-wrap gap-x-4 gap-y-1 items-center">
+                                    <span>정답: <strong class="text-emerald-400 font-bold">${d.correctAnswer || '?'}</strong></span>
                                     <span>배점: <strong class="text-white">${parseFloat(d.score || (d.difficulty > 3 ? 2.5 : (d.difficulty < 2 ? 1.5 : 2.0))).toFixed(1)}</strong>점</span>
-                                    <span class="text-[10px] text-gray-500 truncate opacity-60">${d.taxonomy?.topic || ''}</span>
+                                    ${d.taxonomy?.topic ? `<span class="text-[11px] text-indigo-300 font-medium">유형: ${d.taxonomy.topic}</span>` : ''}
+                                    ${d.behavioralDomain ? `<span class="text-[10px] text-amber-300/80">역량: ${d.behavioralDomain}</span>` : ''}
                                 </div>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="openQuestionModal('${d.id}')" class="p-2 bg-gray-700 hover:bg-purple-600 rounded-lg text-gray-300 hover:text-white transition-colors"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
-                                <button onclick="deleteQuestionData('${d.id}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <button onclick="previewQuestionImage('${d.id}', '${d.sourceExamId || ''}', this)" class="px-3 py-1.5 bg-gray-700/80 hover:bg-indigo-600 rounded-lg text-gray-300 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 shadow" title="문항 이미지 보기">
+                                    <i data-lucide="image" class="w-3.5 h-3.5 text-purple-400 group-hover:text-white"></i>
+                                    <span>이미지</span>
+                                </button>
+                                <button onclick="openQuestionModal('${d.id}')" class="p-2 bg-gray-700 hover:bg-purple-600 rounded-lg text-gray-300 hover:text-white transition-colors" title="문항 수정"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                                <button onclick="deleteQuestionData('${d.id}')" class="p-2 bg-red-900/50 hover:bg-red-900 border border-red-800 rounded-lg text-red-300 hover:text-white transition-colors" title="삭제"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             </div>
                         </div>`;
-            }));
+            });
 
             container.innerHTML = itemsHtml.join('');
             container.scrollTop = 0; 
@@ -1530,10 +2002,13 @@ window.addEventListener('wheel', (e) => {
             if (chapter && TOPIC_MAP[chapter]) TOPIC_MAP[chapter].forEach(t => { const o = document.createElement('option'); o.value = t; o.text = t; if(topic===t) o.selected=true; select.appendChild(o); });
         };
         document.getElementById('q-chapter').addEventListener('change', (e) => window.updateTopicOptions(e.target.value));
+        document.getElementById('q-id').addEventListener('input', () => window.checkModalImagePreview());
+        document.getElementById('q-id').addEventListener('change', () => window.checkModalImagePreview(true));
+        document.getElementById('q-source-exam-id').addEventListener('input', () => window.checkModalImagePreview());
 
         window.openQuestionModal = async (docId = null) => {
             safeSetValue('q-doc-id', docId || ''); 
-            safeSetValue('q-id', docId || `q_${new Date().getFullYear()}_${Math.random().toString(36).substr(2,5)}`);
+            safeSetValue('q-id', docId || `week_${new Date().getFullYear()}_01_mock_q01`);
             safeSetValue('q-source-exam-id', ''); 
             safeSetValue('q-domain',''); 
             safeSetValue('q-chapter',''); 
@@ -1545,6 +2020,16 @@ window.addEventListener('wheel', (e) => {
             document.getElementById('stat-total').innerText = '0';
             document.getElementById('stat-correct').innerText = '0';
             document.getElementById('stat-accuracy').innerText = '0%';
+
+            // 실시간 이미지 미리보기 초기화
+            const statusEl = document.getElementById('q-modal-img-status');
+            const imgEl = document.getElementById('q-modal-preview-img');
+            const placeholderEl = document.getElementById('q-modal-preview-placeholder');
+            const urlHidden = document.getElementById('q-image-url');
+            if (statusEl) { statusEl.innerText = '대기 중...'; statusEl.className = 'text-[10px] text-gray-500 font-mono'; }
+            if (imgEl) { imgEl.src = ''; imgEl.classList.add('hidden'); }
+            if (placeholderEl) { placeholderEl.classList.remove('hidden'); }
+            if (urlHidden) { urlHidden.value = ''; }
 
             if (docId) {
                 try {
@@ -1600,6 +2085,7 @@ window.addEventListener('wheel', (e) => {
             }
             document.getElementById('question-edit-modal').classList.remove('hidden');
             lucide.createIcons();
+            window.checkModalImagePreview(true);
         };
         
         window.closeQuestionModal = () => document.getElementById('question-edit-modal').classList.add('hidden');
@@ -1620,7 +2106,18 @@ window.addEventListener('wheel', (e) => {
             if (!await customConfirm("저장 및 실시간 동기화를 진행할까요?")) return;
 
             try {
-                const data = { id: newDocId, sourceExamId, correctAnswer, difficulty, score: difficulty, behavioralDomain: behavior, taxonomy: { subject: "통합과학", domain, chapter, topic }, updatedAt: new Date().toISOString() };
+                const imageUrl = document.getElementById('q-image-url')?.value.trim() || await window.fetchQuestionImageUrl(newDocId, sourceExamId);
+                const data = { 
+                    id: newDocId, 
+                    sourceExamId, 
+                    correctAnswer, 
+                    difficulty, 
+                    score: difficulty, 
+                    behavioralDomain: behavior, 
+                    image_path: imageUrl,
+                    taxonomy: { subject: "통합과학", domain, chapter, topic }, 
+                    updatedAt: new Date().toISOString() 
+                };
                 
                 await setDoc(doc(db, "questions", newDocId), data, { merge: true });
                 if (originalDocId && originalDocId !== newDocId) await deleteDoc(doc(db, "questions", originalDocId));

@@ -136,6 +136,14 @@
     
     <!-- Weekly Master Common Styles -->
     <style id="weekly-common-styles">
+@font-face {
+    font-family: 'SlowSlow';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/SlowSlow.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 /* Auto-generated common CSS for Weekly Ebook */
 body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; display: flex; justify-content: center; padding: 40px; margin: 0; word-break: keep-all; overflow-wrap: break-word; }
@@ -1082,7 +1090,13 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
     <!-- Scoped Component Styles -->
     <style>/* === [Style] Page 5: page05.html (지구 시스템 Ⅰ) === */
-
+@font-face {
+            font-family: 'SlowSlow';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/SlowSlow.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
 
 .page-scope-p05 html, .page-scope-p05 body {
     width: 100%;
@@ -1101,22 +1115,25 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 }
 
 .page-scope-p05 .bridge-page-new {
-  padding: 18px 24px !important;
+  padding: 22px 24px !important;
             box-sizing: border-box !important;
             width: 500px !important;
             height: 707px !important;
-            position: relative !important;
             background-color: #ffffff !important;
             overflow: hidden !important;
             font-family: 'Noto Sans KR', sans-serif !important;
+            display: flex;
+            flex-direction: column;
+            word-break: keep-all;
 }
 .page-scope-p05 .page-header {
-  display: flex;
+  flex-shrink: 0;
+            display: flex;
             justify-content: space-between;
             align-items: flex-end;
             border-bottom: 2px solid #cbd5e1;
-            padding-bottom: 5px;
-            margin-bottom: 6px;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
 }
 .page-scope-p05 .header-brand {
   font-family: 'Roboto';
@@ -1126,7 +1143,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             color: #94a3b8;
 }
 .page-scope-p05 .bridge-title {
-  font-size: 23px;
+  font-size: 24px;
             font-weight: 900;
             color: #0284c7;
             margin: 0;
@@ -1134,33 +1151,37 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             letter-spacing: -0.8px;
 }
 .page-scope-p05 .bridge-sub {
-  font-size: 11.5px;
+  font-size: 12px;
             font-weight: 700;
             color: #475569;
-            margin-top: 3px;
-            margin-bottom: 7px;
+            margin-top: 4px;
+            margin-bottom: 12px;
 }
 .page-scope-p05 .grid-container {
-  display: flex;
+  flex: 1; 
+            min-height: 0; 
+            display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
 }
 .page-scope-p05 .quadrant {
-  background-color: #ffffff;
+  flex: 1; 
+            min-height: 0; 
+            background-color: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 7px 9px;
+            border-radius: 10px;
+            padding: 8px 12px; 
             box-shadow: 0 1px 3px rgba(0,0,0,0.03);
             display: flex;
-            gap: 10px;
-            align-items: center;
+            gap: 14px;
+            align-items: stretch; 
             box-sizing: border-box;
 }
 .page-scope-p05 .quadrant-header {
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 .page-scope-p05 .quadrant-title {
-  font-size: 11.5px;
+  font-size: 12px;
             font-weight: 900;
             color: #0f172a;
             display: flex;
@@ -1173,46 +1194,53 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             color: #0284c7;
 }
 .page-scope-p05 .quadrant-desc {
-  font-size: 8.5px;
+  font-size: 9px;
             color: #64748b;
             margin-top: 1px;
 }
 .page-scope-p05 .tutor-note {
-  background-color: #f8fafc;
+  flex: 1;
+            background-color: #f8fafc;
             border-left: 3px solid #0284c7;
-            padding: 4px 6px;
+            padding: 6px 8px;
             border-radius: 0 6px 6px 0;
-            margin-top: 3px;
+            margin-top: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 }
 .page-scope-p05 .tutor-badge {
   color: #0284c7;
             font-weight: 900;
-            font-size: 8px;
-            margin-bottom: 1px;
+            font-size: 8.5px;
+            margin-bottom: 2px;
+            font-family: 'Noto Sans KR', sans-serif !important;
 }
-.page-scope-p05 .handwriting {
-  font-size: 7.8px;
-            line-height: 1.35;
-            color: #1e293b;
+.page-scope-p05 .handwriting, .page-scope-p05 .tutor-note .handwriting, .page-scope-p05 .tutor-note p {
+  font-family: 'SlowSlow', 'NeuriNeuri', 'Nanum Pen Script', cursive, sans-serif !important;
+            font-size: 11.5px !important; 
+            line-height: 1.35 !important;
+            color: #1e293b !important;
             margin: 0;
-            word-break: keep-all;
 }
 .page-scope-p05 .mini-table {
   width: 100%;
+            height: 100%;
             border-collapse: collapse;
-            font-size: 7.8px;
-            line-height: 1.25;
+            font-size: 8.5px;
+            line-height: 1.35;
+            table-layout: fixed;
 }
 .page-scope-p05 .mini-table th {
   background-color: #f1f5f9;
             color: #334155;
             font-weight: 900;
-            padding: 2.5px 4px;
+            padding: 2px 4px; 
             border: 1px solid #cbd5e1;
             text-align: center;
 }
 .page-scope-p05 .mini-table td {
-  padding: 2px 4px;
+  padding: 2px 4px; 
             border: 1px solid #e2e8f0;
             color: #334155;
 }
@@ -1231,11 +1259,38 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             font-weight: 700;
 }
 .page-scope-p05 .page-num {
-  text-align: center;
+  flex-shrink: 0;
+            text-align: center;
             color: #64748b;
             font-weight: 700;
-            margin-top: 6px;
             font-size: 11px;
+            margin-top: auto; 
+            padding-top: 10px;
+}
+.page-scope-p05 .svg-wrapper {
+  width: 230px; 
+            flex-shrink: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 6px; 
+            position: relative;
+}
+.page-scope-p05 .svg-wrapper svg {
+  width: 100%;
+            height: auto;
+            max-height: 100%;
+}
+.page-scope-p05 .schema-list li, .page-scope-p05 .tutor-note .schema-list li {
+  font-family: 'SlowSlow', 'NeuriNeuri', 'Nanum Pen Script', cursive, sans-serif !important;
+            padding-left: 10px; 
+            text-indent: -10px; 
+            margin-bottom: 2px; 
+            font-size: 11.5px !important; 
+            line-height: 1.35 !important; 
+            color: #1e293b !important;
 }</style>
     <style>/* === [Style] Page 6: page06.html (지구 시스템의 구성요소 (1)) === */
 
@@ -5793,15 +5848,16 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         <div style="font-family: 'Roboto'; font-weight: 700; font-size: 12px; color: #0284c7;">VOL. 04</div>
     </div>
     
-    <div>
+    <div style="flex-shrink: 0;">
         <h2 class="bridge-title">지구 시스템 Ⅰ</h2>
         <div class="bridge-sub">지구 시스템의 구성 ➔ 물질과 탄소의 순환 ➔ 판 구조론과 지각 변동</div>
     </div>
 
     <div class="grid-container">
+        
         <!-- Q1 Quadrant: 5개 권역 특징 표 -->
-        <div class="quadrant" style="height: 174px;">
-            <div style="width: 168px; flex-shrink: 0;">
+        <div class="quadrant">
+            <div style="width: 168px; flex-shrink: 0; display: flex; flex-direction: column;">
                 <div class="quadrant-header">
                     <div class="quadrant-title"><span class="quadrant-num">Q1.</span> 지구 시스템의 구성</div>
                     <div class="quadrant-desc">5개 권역의 층상 구조와 상호작용</div>
@@ -5811,7 +5867,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     <p class="handwriting">"외핵 액체 대류(지구 자기장 형성), 기권 대류권의 기상 현상, 수권 수온 약층의 안정성(물질 교환 차단)을 반드시 기억하자!"</p>
                 </div>
             </div>
-            <div style="flex: 1; overflow: hidden;">
+            <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <!-- 테이블 높이가 컨테이너를 가득 채우도록 변경 -->
                 <table class="mini-table">
                     <thead>
                         <tr>
@@ -5846,9 +5903,9 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         </div>
 
         <!-- Q2 Quadrant: 탄소 순환 다이어그램 + 설명 -->
-        <div class="quadrant" style="height: 184px;">
-            <div style="width: 256px; height: 168px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; position: relative;">
-                <svg width="254" height="166" viewBox="0 0 254 166">
+        <div class="quadrant">
+            <div class="svg-wrapper">
+                <svg viewBox="0 0 254 166">
                     <defs>
                         <marker id="arr-org" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
                             <path d="M 0 2 L 8 5 L 0 8 z" fill="#ea580c"/>
@@ -5867,7 +5924,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         </filter>
                     </defs>
 
-                                        <!-- Outer Curved Arrows A (기권 <-> 지권) -->
+                    <!-- Outer Curved Arrows A (기권 <-> 지권) -->
                     <path d="M 106 20 C 42 28, 10 75, 28 114" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arr-org)"/>
                     <rect x="2" y="74" width="36" height="12" rx="3" fill="#fff" stroke="#fdba74" stroke-width="0.8"/>
                     <text x="20" y="83" font-size="6.5" font-weight="900" text-anchor="middle" fill="#c2410c">풍화·침전</text>
@@ -5910,53 +5967,52 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     <text x="175" y="106.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#0369a1">패각·유기물(CaCO₃)</text>
 
                     <!-- Central and Outer Circles -->
-                    <!-- Top: 기권 (x: 127, y: 23, r: 19) -->
                     <circle cx="127" cy="23" r="19" fill="#bae6fd" stroke="#0284c7" stroke-width="2" filter="url(#shadow)"/>
                     <text x="127" y="27.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#0369a1">기권</text>
 
-                    <!-- Center: 생물권 (x: 127, y: 81, r: 19) -->
                     <circle cx="127" cy="81" r="19" fill="#bbf7d0" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
                     <text x="127" y="85.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#15803d">생물권</text>
 
-                    <!-- Bottom Left: 지권 (x: 46, y: 130, r: 19) -->
                     <circle cx="46" cy="130" r="19" fill="#fed7aa" stroke="#ea580c" stroke-width="2" filter="url(#shadow)"/>
                     <text x="46" y="134.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#c2410c">지권</text>
 
-                    <!-- Bottom Right: 수권 (x: 208, y: 130, r: 19) -->
                     <circle cx="208" cy="130" r="19" fill="#fde68a" stroke="#d97706" stroke-width="2" filter="url(#shadow)"/>
                     <text x="208" y="134.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#b45309">수권</text>
                 </svg>
             </div>
-            <div style="flex: 1;">
+            <div style="flex: 1; display: flex; flex-direction: column;">
                 <div class="quadrant-header">
                     <div class="quadrant-title"><span class="quadrant-num">Q2.</span> 탄소 순환과 이동 형태</div>
                     <div class="quadrant-desc">각 권역별 탄소의 존재 및 교환 형태</div>
                 </div>
+                <!-- 원본 텍스트 완벽 복원 -->
                 <div class="tutor-note">
                     <div class="tutor-badge">⚡ Tutor's Schema</div>
                     <ul class="schema-list" style="margin: 0; padding: 0; list-style: none;">
-                        <li style="padding-left: 10px; text-indent: -10px; margin-bottom: 1.5px; font-size: 7.8px; line-height: 1.35; color: #1e293b; word-break: keep-all;">• <b>기권:</b> 이산화 탄소(CO₂), 메테인</li>
-                        <li style="padding-left: 10px; text-indent: -10px; margin-bottom: 1.5px; font-size: 7.8px; line-height: 1.35; color: #1e293b; word-break: keep-all;">• <b>수권:</b> 탄산수소 이온(HCO₃⁻)</li>
-                        <li style="padding-left: 10px; text-indent: -10px; margin-bottom: 1.5px; font-size: 7.8px; line-height: 1.35; color: #1e293b; word-break: keep-all;">• <b>지권:</b> <b class="tag-red">석회암(CaCO₃, 최대량)</b>, 화석연료</li>
-                        <li style="padding-left: 10px; text-indent: -10px; margin-bottom: 0px; font-size: 7.8px; line-height: 1.35; color: #1e293b; word-break: keep-all;">• <b>생물권:</b> 유기물(탄수화물, 단백질)</li>
+                        <li>• <b>기권:</b> 이산화 탄소(CO₂), 메테인</li>
+                        <li>• <b>수권:</b> 탄산수소 이온(HCO₃⁻)</li>
+                        <li>• <b>지권:</b> <b class="tag-red">석회암(CaCO₃, 최대량)</b>, 화석연료</li>
+                        <li style="margin-bottom: 0;">• <b>생물권:</b> 유기물(탄수화물, 단백질)</li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <!-- Q3 Quadrant: 판 경계 특징 표 -->
-        <div class="quadrant" style="height: 174px;">
-            <div style="width: 168px; flex-shrink: 0;">
+        <div class="quadrant">
+            <div style="width: 168px; flex-shrink: 0; display: flex; flex-direction: column;">
                 <div class="quadrant-header">
                     <div class="quadrant-title"><span class="quadrant-num">Q3.</span> 판구조론과 판 경계</div>
                     <div class="quadrant-desc">3대 판 경계별 지형과 지각 변동</div>
                 </div>
+                <!-- 원본 텍스트 복구 -->
                 <div class="tutor-note">
                     <div class="tutor-badge">⚡ Tutor's Schema</div>
                     <p class="handwriting">"발산형·섭입형은 <b>화산 활동 ◯</b>, 충돌형·보존형은 <b class="tag-red">화산 활동 ✕</b>! 섭입대는 대륙판 쪽으로 갈수록 진원이 깊어짐!"</p>
                 </div>
             </div>
-            <div style="flex: 1; overflow: hidden;">
+            <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <!-- 테이블 높이가 컨테이너를 가득 채우도록 변경 -->
                 <table class="mini-table">
                     <thead>
                         <tr>
@@ -5992,6 +6048,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         </div>
     </div>
 
+    <!-- 페이지 번호 위치 원복 및 고정 -->
     <div class="page-num">- 05 -</div>
 </div>
     </div>

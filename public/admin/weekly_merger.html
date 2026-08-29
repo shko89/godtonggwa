@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>갓통과 주간지 전자책 빌더 & 페이지 병합 도구</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- SortableJS for Drag & Drop Reordering -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
@@ -49,7 +45,6 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Top Header -->
     <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -60,11 +55,10 @@
                     <h1 class="text-lg font-black tracking-tight text-white flex items-center gap-2">
                         GOTONGGWA <span class="text-sky-400 text-sm font-semibold px-2 py-0.5 rounded bg-sky-950/80 border border-sky-800">주간지 전자책 빌더</span>
                     </h1>
-                    <p class="text-xs text-slate-400">100% 스타일 격리 · 드래그 앤 드롭 정렬 · 원클릭 플립북 병합 도구</p>
+                    <p class="text-xs text-slate-400">3주차 표준 양면 펼침(Spread) · 하단 중앙 드래그 툴바 · 100% 스타일 격리 병합</p>
                 </div>
             </div>
 
-            <!-- Volume Selector & Quick Actions -->
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-2 bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-xs">
                     <span class="text-slate-400 font-medium">회차:</span>
@@ -83,7 +77,7 @@
                 </div>
 
                 <button onclick="previewMergedEbook()" id="btnPreviewTop" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-sky-300 transition shadow-sm">
-                    <i data-lucide="eye" class="w-4 h-4"></i> 미리보기
+                    <i data-lucide="eye" class="w-4 h-4"></i> 실시간 미리보기
                 </button>
 
                 <button onclick="mergeAndExport()" id="btnMergeTop" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-xs sm:text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition">
@@ -93,13 +87,10 @@
         </div>
     </header>
 
-    <!-- Main Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
 
-        <!-- Controls & Upload Bar -->
         <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 shadow-lg backdrop-blur-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             
-            <!-- Left: Add Files & Preset Loaders -->
             <div class="flex flex-wrap items-center gap-2.5">
                 <input type="file" id="fileInput" multiple accept=".html,.htm" class="hidden" onchange="handleFileSelect(event)">
                 <input type="file" id="imgInput" multiple accept="image/*" class="hidden" onchange="handleImageSelect(event)">
@@ -117,7 +108,6 @@
                 </button>
             </div>
 
-            <!-- Right: Sequence Tools & Counters -->
             <div class="flex flex-wrap items-center justify-end gap-2 text-xs">
                 <div class="bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 flex items-center gap-3">
                     <div class="flex items-center gap-1.5 text-slate-300">
@@ -131,7 +121,7 @@
                     </div>
                 </div>
 
-                <button onclick="autoRenumberPages()" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-700/80 hover:bg-slate-600 border border-slate-600 text-slate-200 transition font-medium" title="순서대로 - 01 -, - 02 - 페이지 번호 자동 동기화">
+                <button onclick="autoRenumberPages()" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-700/80 hover:bg-slate-600 border border-slate-600 text-slate-200 transition font-medium" title="순서대로 - 03 -, - 04 - 페이지 번호 자동 동기화">
                     <i data-lucide="hash" class="w-3.5 h-3.5 text-amber-400"></i> 번호 자동 매기기
                 </button>
 
@@ -145,7 +135,6 @@
             </div>
         </div>
 
-        <!-- Drag & Drop Zone / Empty State -->
         <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"
              class="border-2 border-dashed border-slate-700 hover:border-sky-500 rounded-2xl p-8 text-center bg-slate-850/40 transition-all flex flex-col items-center justify-center gap-3 cursor-pointer"
              onclick="if(event.target.tagName !== 'BUTTON') document.getElementById('fileInput').click()">
@@ -157,13 +146,12 @@
                 <p class="text-xs text-slate-400 mt-1">개별 HTML 페이지(page01.html, page06.html, quiz_04.html 등)를 여러 개 한꺼번에 끌어다 놓으세요.</p>
             </div>
             <div class="flex items-center gap-4 text-xs text-slate-500 mt-1">
-                <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-sky-400"></i> 페이지별 CSS 완벽 격리</span>
+                <span class="flex items-center gap-1"><i data-lucide="book-open-check" class="w-3.5 h-3.5 text-emerald-400"></i> 표지 뒤 면지(빈 페이지) 자동 삽입 양면 펼침</span>
                 <span class="flex items-center gap-1"><i data-lucide="move" class="w-3.5 h-3.5 text-indigo-400"></i> 마우스 드래그 순서 변경</span>
-                <span class="flex items-center gap-1"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> 100% 원본 폰트/디자인 유지</span>
+                <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-sky-400"></i> 100% 원본 폰트/디자인/CSS 격리</span>
             </div>
         </div>
 
-        <!-- Page List Header & Settings -->
         <div class="flex items-center justify-between pt-2">
             <div class="flex items-center gap-2">
                 <h2 class="text-base font-bold text-white flex items-center gap-2">
@@ -173,9 +161,13 @@
             </div>
             
             <div class="flex items-center gap-4 text-xs text-slate-400">
+                <label class="flex items-center gap-1.5 cursor-pointer" title="표지(1쪽) 뒤에 2쪽 면지를 삽입하여 3쪽 목차부터 좌/우 양면이 완벽하게 펼쳐지도록 합니다.">
+                    <input type="checkbox" id="chkInsertInsideCover" checked class="rounded border-slate-700 text-sky-500 focus:ring-sky-500 bg-slate-800">
+                    <span class="text-sky-300 font-medium">표지 뒤 면지(2쪽) 자동 삽입 (양면 펼침)</span>
+                </label>
                 <label class="flex items-center gap-1.5 cursor-pointer">
                     <input type="checkbox" id="chkAutoRenumber" checked class="rounded border-slate-700 text-sky-500 focus:ring-sky-500 bg-slate-800">
-                    <span>병합 시 페이지 번호 자동 갱신</span>
+                    <span>페이지 번호 자동 갱신</span>
                 </label>
                 <label class="flex items-center gap-1.5 cursor-pointer">
                     <input type="checkbox" id="chkEmbedImages" checked class="rounded border-slate-700 text-sky-500 focus:ring-sky-500 bg-slate-800">
@@ -184,14 +176,10 @@
             </div>
         </div>
 
-        <!-- Sortable Page Cards Grid -->
-        <div id="pageGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[250px] pb-12">
-            <!-- Cards injected via JS -->
-        </div>
+        <div id="pageGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[250px] pb-12"></div>
 
     </main>
 
-    <!-- Bottom Action Bar (Fixed on scroll) -->
     <div class="bg-slate-900/90 border-t border-slate-800 backdrop-blur-md sticky bottom-0 z-30 py-3.5 shadow-2xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
             <div class="flex items-center gap-3">
@@ -210,10 +198,8 @@
         </div>
     </div>
 
-    <!-- Live Preview Modal -->
-    <div id="previewModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6">
-        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full h-full max-w-6xl flex flex-col overflow-hidden shadow-2xl">
-            <!-- Modal Header -->
+    <div id="previewModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full h-full max-w-7xl flex flex-col overflow-hidden shadow-2xl">
             <div class="px-5 py-3.5 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <i data-lucide="book-marked" class="w-5 h-5 text-sky-400"></i>
@@ -229,14 +215,12 @@
                     </button>
                 </div>
             </div>
-            <!-- Modal Body (Iframe) -->
             <div class="flex-1 bg-slate-950 relative">
                 <iframe id="previewIframe" class="w-full h-full border-0"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- Single Page Quick View Modal -->
     <div id="singlePageModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
             <div class="px-4 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
@@ -251,511 +235,518 @@
         </div>
     </div>
 
-    <!-- Application Script -->
     <script>
-        // Data State
-        let pagesData = []; // Array of page objects { id, sourceFile, subIndex, title, category, rawHtml, rawStyles, pageNum, originalPageNum }
-        let imageCache = {}; // filename -> dataURL
-        let mergedHtmlOutput = "";
-        let sortableInstance = null;
+    
+// Data State
+let pagesData = [];
+let imageCache = {};
+let mergedHtmlOutput = "";
+let sortableInstance = null;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            initSortable();
-            setupVolSelect();
+document.addEventListener('DOMContentLoaded', () => {
+    lucide.createIcons();
+    initSortable();
+    setupVolSelect();
+});
+
+function setupVolSelect() {
+    document.getElementById('volSelect').addEventListener('change', (e) => {
+        const vol = e.target.value;
+        document.getElementById('outputFileName').value = `week_2028_${vol}_final.html`;
+    });
+}
+
+function initSortable() {
+    const grid = document.getElementById('pageGrid');
+    sortableInstance = new Sortable(grid, {
+        animation: 200,
+        handle: '.drag-handle',
+        ghostClass: 'sortable-ghost',
+        chosenClass: 'sortable-chosen',
+        dragClass: 'sortable-drag',
+        onEnd: function (evt) {
+            const newOrderIds = Array.from(grid.children).map(c => c.dataset.pageId);
+            const newPages = [];
+            newOrderIds.forEach(id => {
+                const found = pagesData.find(p => p.id === id);
+                if (found) newPages.push(found);
+            });
+            pagesData = newPages;
+            updateStats();
+            renderPageCards();
+        }
+    });
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    document.getElementById('dropZone').classList.add('border-sky-400', 'bg-sky-950/20');
+}
+
+function handleDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    document.getElementById('dropZone').classList.remove('border-sky-400', 'bg-sky-950/20');
+}
+
+async function handleDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    document.getElementById('dropZone').classList.remove('border-sky-400', 'bg-sky-950/20');
+
+    const files = Array.from(e.dataTransfer.files);
+    await processIncomingFiles(files);
+}
+
+async function handleFileSelect(e) {
+    const files = Array.from(e.target.files);
+    await processIncomingFiles(files);
+    e.target.value = '';
+}
+
+async function handleImageSelect(e) {
+    const files = Array.from(e.target.files);
+    for (const file of files) {
+        if (file.type.startsWith('image/')) {
+            const dataUrl = await readFileAsDataURL(file);
+            imageCache[file.name] = dataUrl;
+        }
+    }
+    const count = Object.keys(imageCache).length;
+    const badge = document.getElementById('imgCountBadge');
+    badge.innerText = count;
+    badge.classList.toggle('hidden', count === 0);
+    alert(`${files.length}개의 이미지가 로컬 캐시에 등록되었습니다! (병합 시 자동 임베딩)`);
+    e.target.value = '';
+}
+
+function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsText(file, 'utf-8');
+    });
+}
+
+function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+async function processIncomingFiles(files) {
+    const htmlFiles = files.filter(f => f.name.endsWith('.html') || f.name.endsWith('.htm'));
+    const imgFiles = files.filter(f => f.type.startsWith('image/'));
+
+    for (const img of imgFiles) {
+        const dataUrl = await readFileAsDataURL(img);
+        imageCache[img.name] = dataUrl;
+    }
+    if (imgFiles.length > 0) {
+        const count = Object.keys(imageCache).length;
+        const badge = document.getElementById('imgCountBadge');
+        badge.innerText = count;
+        badge.classList.remove('hidden');
+    }
+
+    htmlFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+
+    for (const file of htmlFiles) {
+        const content = await readFileAsText(file);
+        parseAndAddPagesFromContent(content, file.name);
+    }
+
+    updateStats();
+    renderPageCards();
+}
+
+function parseAndAddPagesFromContent(htmlContent, fileName) {
+    const styleMatches = Array.from(htmlContent.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi));
+    const rawStyles = styleMatches.map(m => m[1]).join('\n');
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+
+    let pageElements = Array.from(doc.querySelectorAll('.a4-page'));
+    
+    if (pageElements.length === 0) {
+        const spreads = Array.from(doc.querySelectorAll('.concept-page, .spread-page'));
+        if (spreads.length > 0) {
+            pageElements = spreads;
+        } else {
+            const bodyChild = doc.body.firstElementChild || doc.body;
+            pageElements = [bodyChild];
+        }
+    }
+
+    pageElements.forEach((el, idx) => {
+        const pageId = 'page_' + Math.random().toString(36).substring(2, 9);
+        
+        let title = '';
+        const hTag = el.querySelector('h1, h2, h3, h4, .brand, .schema-title, .section-title, .title');
+        if (hTag) {
+            title = hTag.innerText.trim().replace(/\s+/g, ' ');
+        }
+        if (!title) {
+            title = `${fileName} (${idx + 1}/${pageElements.length})`;
+        }
+
+        let category = '기타';
+        const elClasses = el.className || '';
+        const htmlStr = el.outerHTML;
+        if (elClasses.includes('cover') || htmlStr.includes('cover-page') || fileName.includes('page01')) category = '표지';
+        else if (elClasses.includes('toc') || htmlStr.includes('toc-page') || fileName.includes('page03')) category = '목차';
+        else if (elClasses.includes('bridge') || htmlStr.includes('bridge-page') || fileName.includes('page04') || fileName.includes('page05')) category = '개념 브릿지';
+        else if (htmlStr.includes('암기장') || fileName.includes('page07') || fileName.includes('page09') || fileName.includes('page11') || fileName.includes('page13')) category = '실전 암기장';
+        else if (htmlStr.includes('나침반') || fileName.includes('-1.html') || fileName.includes('prob') || fileName.includes('ans')) category = '수능의 나침반';
+        else if (htmlStr.includes('quiz') || fileName.includes('quiz')) category = '개념 SCAN 퀴즈';
+        else category = '개념 학습';
+
+        let originalPageNum = '';
+        const pnEl = el.querySelector('.page-num');
+        if (pnEl) {
+            originalPageNum = pnEl.innerText.trim();
+        }
+
+        pagesData.push({
+            id: pageId,
+            sourceFile: fileName,
+            subIndex: idx + 1,
+            totalInFile: pageElements.length,
+            title: title,
+            category: category,
+            rawHtml: el.outerHTML,
+            rawStyles: rawStyles,
+            pageNum: originalPageNum || `- ${String(pagesData.length + 1).padStart(2, '0')} -`,
+            originalPageNum: originalPageNum
         });
+    });
+}
 
-        function setupVolSelect() {
-            document.getElementById('volSelect').addEventListener('change', (e) => {
-                const vol = e.target.value;
-                document.getElementById('outputFileName').value = `week_2028_${vol}_final.html`;
-            });
-        }
+function renderPageCards() {
+    const grid = document.getElementById('pageGrid');
+    grid.innerHTML = '';
 
-        function initSortable() {
-            const grid = document.getElementById('pageGrid');
-            sortableInstance = new Sortable(grid, {
-                animation: 200,
-                handle: '.drag-handle',
-                ghostClass: 'sortable-ghost',
-                chosenClass: 'sortable-chosen',
-                dragClass: 'sortable-drag',
-                onEnd: function (evt) {
-                    const newOrderIds = Array.from(grid.children).map(c => c.dataset.pageId);
-                    const newPages = [];
-                    newOrderIds.forEach(id => {
-                        const found = pagesData.find(p => p.id === id);
-                        if (found) newPages.push(found);
-                    });
-                    pagesData = newPages;
-                    updateStats();
-                    renderPageCards();
-                }
-            });
-        }
+    if (pagesData.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full py-12 text-center text-slate-500">
+                <i data-lucide="layers" class="w-12 h-12 mx-auto mb-2 opacity-30"></i>
+                <p class="text-sm">추가된 페이지가 없습니다. 상단에서 HTML 파일을 추가하거나 '4주차 폴더 자동 불러오기'를 누르세요.</p>
+            </div>
+        `;
+        lucide.createIcons();
+        return;
+    }
 
-        // ==========================================
-        // File Drag & Drop Handlers
-        // ==========================================
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            document.getElementById('dropZone').classList.add('border-sky-400', 'bg-sky-950/20');
-        }
+    pagesData.forEach((page, index) => {
+        const seq = index + 1;
+        const card = document.createElement('div');
+        card.className = 'page-card bg-slate-800/90 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between gap-3 shadow-md relative group select-none';
+        card.dataset.pageId = page.id;
 
-        function handleDragLeave(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            document.getElementById('dropZone').classList.remove('border-sky-400', 'bg-sky-950/20');
-        }
+        let catColor = 'bg-slate-700 text-slate-300 border-slate-600';
+        if (page.category === '표지') catColor = 'bg-sky-950 text-sky-300 border-sky-700';
+        else if (page.category === '목차') catColor = 'bg-indigo-950 text-indigo-300 border-indigo-700';
+        else if (page.category === '개념 브릿지') catColor = 'bg-cyan-950 text-cyan-300 border-cyan-700';
+        else if (page.category === '실전 암기장') catColor = 'bg-amber-950 text-amber-300 border-amber-700';
+        else if (page.category === '수능의 나침반') catColor = 'bg-violet-950 text-violet-300 border-violet-700';
+        else if (page.category === '개념 SCAN 퀴즈') catColor = 'bg-emerald-950 text-emerald-300 border-emerald-700';
 
-        async function handleDrop(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            document.getElementById('dropZone').classList.remove('border-sky-400', 'bg-sky-950/20');
-
-            const files = Array.from(e.dataTransfer.files);
-            await processIncomingFiles(files);
-        }
-
-        async function handleFileSelect(e) {
-            const files = Array.from(e.target.files);
-            await processIncomingFiles(files);
-            e.target.value = '';
-        }
-
-        async function handleImageSelect(e) {
-            const files = Array.from(e.target.files);
-            for (const file of files) {
-                if (file.type.startsWith('image/')) {
-                    const dataUrl = await readFileAsDataURL(file);
-                    imageCache[file.name] = dataUrl;
-                }
-            }
-            const count = Object.keys(imageCache).length;
-            const badge = document.getElementById('imgCountBadge');
-            badge.innerText = count;
-            badge.classList.toggle('hidden', count === 0);
-            alert(`${files.length}개의 이미지가 로컬 캐시에 등록되었습니다! (병합 시 자동 임베딩)`);
-            e.target.value = '';
-        }
-
-        function readFileAsText(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = reject;
-                reader.readAsText(file, 'utf-8');
-            });
-        }
-
-        function readFileAsDataURL(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // ==========================================
-        // Parse & Extract Individual Pages from HTML
-        // ==========================================
-        async function processIncomingFiles(files) {
-            const htmlFiles = files.filter(f => f.name.endsWith('.html') || f.name.endsWith('.htm'));
-            const imgFiles = files.filter(f => f.type.startsWith('image/'));
-
-            // Cache images
-            for (const img of imgFiles) {
-                const dataUrl = await readFileAsDataURL(img);
-                imageCache[img.name] = dataUrl;
-            }
-            if (imgFiles.length > 0) {
-                const count = Object.keys(imageCache).length;
-                const badge = document.getElementById('imgCountBadge');
-                badge.innerText = count;
-                badge.classList.remove('hidden');
-            }
-
-            // Natural sort HTML files
-            htmlFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
-
-            for (const file of htmlFiles) {
-                const content = await readFileAsText(file);
-                parseAndAddPagesFromContent(content, file.name);
-            }
-
-            updateStats();
-            renderPageCards();
-        }
-
-        function parseAndAddPagesFromContent(htmlContent, fileName) {
-            // Extract all <style> blocks
-            const styleMatches = Array.from(htmlContent.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi));
-            const rawStyles = styleMatches.map(m => m[1]).join('\n');
-
-            // Parse body
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlContent, 'text/html');
-
-            // Find all page units: .a4-page or .concept-page or .spread-page
-            let pageElements = Array.from(doc.querySelectorAll('.a4-page'));
-            
-            if (pageElements.length === 0) {
-                // Check if concept-spread or concept-page exists
-                const spreads = Array.from(doc.querySelectorAll('.concept-page, .spread-page'));
-                if (spreads.length > 0) {
-                    pageElements = spreads;
-                } else {
-                    // Fallback to body content wrapped
-                    const bodyChild = doc.body.firstElementChild || doc.body;
-                    pageElements = [bodyChild];
-                }
-            }
-
-            pageElements.forEach((el, idx) => {
-                const pageId = 'page_' + Math.random().toString(36).substring(2, 9);
-                
-                // Detect title / header
-                let title = '';
-                const hTag = el.querySelector('h1, h2, h3, h4, .brand, .schema-title, .section-title, .title');
-                if (hTag) {
-                    title = hTag.innerText.trim().replace(/\s+/g, ' ');
-                }
-                if (!title) {
-                    title = `${fileName} (${idx + 1}/${pageElements.length})`;
-                }
-
-                // Detect category badge
-                let category = '기타';
-                const elClasses = el.className || '';
-                const htmlStr = el.outerHTML;
-                if (elClasses.includes('cover') || htmlStr.includes('cover-page') || fileName.includes('page01')) category = '표지';
-                else if (elClasses.includes('toc') || htmlStr.includes('toc-page') || fileName.includes('page03')) category = '목차';
-                else if (elClasses.includes('bridge') || htmlStr.includes('bridge-page') || fileName.includes('page04') || fileName.includes('page05')) category = '개념 브릿지';
-                else if (htmlStr.includes('암기장') || fileName.includes('page07') || fileName.includes('page09') || fileName.includes('page11') || fileName.includes('page13')) category = '실전 암기장';
-                else if (htmlStr.includes('나침반') || fileName.includes('-1.html') || fileName.includes('prob') || fileName.includes('ans')) category = '수능의 나침반';
-                else if (htmlStr.includes('quiz') || fileName.includes('quiz')) category = '개념 SCAN 퀴즈';
-                else category = '개념 학습';
-
-                // Detect original page number
-                let originalPageNum = '';
-                const pnEl = el.querySelector('.page-num');
-                if (pnEl) {
-                    originalPageNum = pnEl.innerText.trim();
-                }
-
-                pagesData.push({
-                    id: pageId,
-                    sourceFile: fileName,
-                    subIndex: idx + 1,
-                    totalInFile: pageElements.length,
-                    title: title,
-                    category: category,
-                    rawHtml: el.outerHTML,
-                    rawStyles: rawStyles,
-                    pageNum: originalPageNum || `- ${String(pagesData.length + 1).padStart(2, '0')} -`,
-                    originalPageNum: originalPageNum
-                });
-            });
-        }
-
-        // ==========================================
-        // Render UI Page Cards
-        // ==========================================
-        function renderPageCards() {
-            const grid = document.getElementById('pageGrid');
-            grid.innerHTML = '';
-
-            if (pagesData.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-500">
-                        <i data-lucide="layers" class="w-12 h-12 mx-auto mb-2 opacity-30"></i>
-                        <p class="text-sm">추가된 페이지가 없습니다. 상단에서 HTML 파일을 추가하거나 '4주차 폴더 자동 불러오기'를 누르세요.</p>
-                    </div>
-                `;
-                lucide.createIcons();
-                return;
-            }
-
-            pagesData.forEach((page, index) => {
-                const seq = index + 1;
-                const card = document.createElement('div');
-                card.className = 'page-card bg-slate-800/90 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between gap-3 shadow-md relative group select-none';
-                card.dataset.pageId = page.id;
-
-                // Category color badge
-                let catColor = 'bg-slate-700 text-slate-300 border-slate-600';
-                if (page.category === '표지') catColor = 'bg-sky-950 text-sky-300 border-sky-700';
-                else if (page.category === '목차') catColor = 'bg-indigo-950 text-indigo-300 border-indigo-700';
-                else if (page.category === '개념 브릿지') catColor = 'bg-cyan-950 text-cyan-300 border-cyan-700';
-                else if (page.category === '실전 암기장') catColor = 'bg-amber-950 text-amber-300 border-amber-700';
-                else if (page.category === '수능의 나침반') catColor = 'bg-violet-950 text-violet-300 border-violet-700';
-                else if (page.category === '개념 SCAN 퀴즈') catColor = 'bg-emerald-950 text-emerald-300 border-emerald-700';
-
-                card.innerHTML = `
-                    <div>
-                        <!-- Header Bar: Grip & Sequence -->
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <div class="flex items-center gap-2">
-                                <span class="drag-handle cursor-grab active:cursor-grabbing p-1 rounded bg-slate-700/60 hover:bg-slate-600 text-slate-400 hover:text-white transition" title="마우스로 끌어서 순서 변경">
-                                    <i data-lucide="grip-vertical" class="w-4 h-4"></i>
-                                </span>
-                                <span class="text-xs font-black px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-sky-400">
-                                    #${String(seq).padStart(2, '0')}
-                                </span>
-                            </div>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${catColor}">
-                                ${page.category}
-                            </span>
-                        </div>
-
-                        <!-- Title & Source -->
-                        <div class="mt-1">
-                            <h4 class="text-xs font-bold text-slate-100 line-clamp-1 group-hover:text-sky-300 transition" title="${escapeHtml(page.title)}">
-                                ${escapeHtml(page.title)}
-                            </h4>
-                            <div class="flex items-center gap-1 text-[11px] text-slate-400 mt-1 truncate">
-                                <i data-lucide="file-code" class="w-3.5 h-3.5 text-slate-500"></i>
-                                <span class="font-mono">${page.sourceFile}</span>
-                                ${page.totalInFile > 1 ? `<span class="text-slate-500">(${page.subIndex}/${page.totalInFile})</span>` : ''}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Controls: Page Number & Actions -->
-                    <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-xs">
-                        <span class="font-mono text-[11px] text-slate-400 font-bold bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">
-                            ${page.pageNum || `- ${String(seq).padStart(2, '0')} -`}
+        card.innerHTML = `
+            <div>
+                <!-- Header Bar: Grip & Sequence -->
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="drag-handle cursor-grab active:cursor-grabbing p-1 rounded bg-slate-700/60 hover:bg-slate-600 text-slate-400 hover:text-white transition" title="마우스로 끌어서 순서 변경">
+                            <i data-lucide="grip-vertical" class="w-4 h-4"></i>
                         </span>
-
-                        <div class="flex items-center gap-1">
-                            <button onclick="quickViewPage('${page.id}')" class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-sky-600/30 text-slate-400 hover:text-sky-300 transition" title="단일 페이지 미리보기">
-                                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="movePage(${index}, -1)" ${index === 0 ? 'disabled' : ''} class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-slate-600 text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:bg-slate-700/60 transition" title="위로">
-                                <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="movePage(${index}, 1)" ${index === pagesData.length - 1 ? 'disabled' : ''} class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-slate-600 text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:bg-slate-700/60 transition" title="아래로">
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="deletePage('${page.id}')" class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-rose-900/50 text-slate-400 hover:text-rose-400 transition" title="삭제">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
+                        <span class="text-xs font-black px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-sky-400">
+                            #${String(seq).padStart(2, '0')}
+                        </span>
                     </div>
-                `;
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${catColor}">
+                        ${page.category}
+                    </span>
+                </div>
 
-                grid.appendChild(card);
-            });
+                <!-- Title & Source -->
+                <div class="mt-1">
+                    <h4 class="text-xs font-bold text-slate-100 line-clamp-1 group-hover:text-sky-300 transition" title="${escapeHtml(page.title)}">
+                        ${escapeHtml(page.title)}
+                    </h4>
+                    <div class="flex items-center gap-1 text-[11px] text-slate-400 mt-1 truncate">
+                        <i data-lucide="file-code" class="w-3.5 h-3.5 text-slate-500"></i>
+                        <span class="font-mono">${page.sourceFile}</span>
+                        ${page.totalInFile > 1 ? `<span class="text-slate-500">(${page.subIndex}/${page.totalInFile})</span>` : ''}
+                    </div>
+                </div>
+            </div>
 
-            lucide.createIcons();
+            <!-- Bottom Controls: Page Number & Actions -->
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-xs">
+                <span class="font-mono text-[11px] text-slate-400 font-bold bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">
+                    ${page.pageNum || `- ${String(seq).padStart(2, '0')} -`}
+                </span>
+
+                <div class="flex items-center gap-1">
+                    <button onclick="quickViewPage('${page.id}')" class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-sky-600/30 text-slate-400 hover:text-sky-300 transition" title="단일 페이지 미리보기">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="movePage(${index}, -1)" ${index === 0 ? 'disabled' : ''} class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-slate-600 text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:bg-slate-700/60 transition" title="위로">
+                        <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="movePage(${index}, 1)" ${index === pagesData.length - 1 ? 'disabled' : ''} class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-slate-600 text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:bg-slate-700/60 transition" title="아래로">
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="deletePage('${page.id}')" class="p-1.5 rounded-lg bg-slate-700/60 hover:bg-rose-900/50 text-slate-400 hover:text-rose-400 transition" title="삭제">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+
+    lucide.createIcons();
+}
+
+function updateStats() {
+    document.getElementById('pageCount').innerText = pagesData.length;
+    const uniqueFiles = new Set(pagesData.map(p => p.sourceFile));
+    document.getElementById('fileCount').innerText = uniqueFiles.size;
+}
+
+function movePage(index, dir) {
+    const newIdx = index + dir;
+    if (newIdx < 0 || newIdx >= pagesData.length) return;
+    const temp = pagesData[index];
+    pagesData[index] = pagesData[newIdx];
+    pagesData[newIdx] = temp;
+    renderPageCards();
+}
+
+function deletePage(id) {
+    pagesData = pagesData.filter(p => p.id !== id);
+    updateStats();
+    renderPageCards();
+}
+
+function clearAllPages() {
+    if (pagesData.length === 0) return;
+    if (confirm("모든 페이지를 목록에서 지우시겠습니까?")) {
+        pagesData = [];
+        updateStats();
+        renderPageCards();
+    }
+}
+
+function autoRenumberPages() {
+    const insertInsideCover = document.getElementById('chkInsertInsideCover').checked;
+    pagesData.forEach((p, idx) => {
+        let seq = idx + 1;
+        if (insertInsideCover && idx >= 1) {
+            seq += 1;
         }
-
-        function updateStats() {
-            document.getElementById('pageCount').innerText = pagesData.length;
-            const uniqueFiles = new Set(pagesData.map(p => p.sourceFile));
-            document.getElementById('fileCount').innerText = uniqueFiles.size;
+        if (idx === 0 || p.category === '표지') {
+            p.pageNum = '';
+        } else {
+            p.pageNum = `- ${String(seq).padStart(2, '0')} -`;
         }
+    });
+    renderPageCards();
+    alert("전체 페이지 번호가 순서대로 자동 갱신되었습니다!");
+}
 
-        function movePage(index, dir) {
-            const newIdx = index + dir;
-            if (newIdx < 0 || newIdx >= pagesData.length) return;
-            const temp = pagesData[index];
-            pagesData[index] = pagesData[newIdx];
-            pagesData[newIdx] = temp;
-            renderPageCards();
-        }
+function sortPagesByName() {
+    pagesData.sort((a, b) => {
+        const cmp = a.sourceFile.localeCompare(b.sourceFile, undefined, { numeric: true, sensitivity: 'base' });
+        if (cmp !== 0) return cmp;
+        return a.subIndex - b.subIndex;
+    });
+    renderPageCards();
+}
 
-        function deletePage(id) {
-            pagesData = pagesData.filter(p => p.id !== id);
-            updateStats();
-            renderPageCards();
-        }
+function scopeCSSRules(cssText, scopeClass) {
+    if (!cssText) return "";
+    
+    let clean = cssText.replace(/\/\*[\s\S]*?\*\//g, '');
+    const topLevelRules = [];
+    
+    // Extract keyframes, font-face, import
+    clean = clean.replace(/@(-webkit-|-moz-|-o-|-ms-)?keyframes\s+[^{]+\{[\s\S]*?\n\}/gi, (m) => {
+        topLevelRules.push(m);
+        return '';
+    });
+    clean = clean.replace(/@font-face\s*\{[^{}]*\}/gi, (m) => {
+        topLevelRules.push(m);
+        return '';
+    });
+    clean = clean.replace(/@import\s+[^;]+;/gi, (m) => {
+        topLevelRules.push(m);
+        return '';
+    });
 
-        function clearAllPages() {
-            if (pagesData.length === 0) return;
-            if (confirm("모든 페이지를 목록에서 지우시겠습니까?")) {
-                pagesData = [];
-                updateStats();
-                renderPageCards();
-            }
-        }
+    function processRulesBlock(rulesText) {
+        const out = [];
+        const ruleRegex = /([^{}]+)\{([^{}]*)\}/g;
+        let match;
+        while ((match = ruleRegex.exec(rulesText)) !== null) {
+            const selectorsStr = match[1].trim();
+            const declarations = match[2].trim();
+            if (!selectorsStr || !declarations) continue;
 
-        function autoRenumberPages() {
-            pagesData.forEach((p, idx) => {
-                const seq = idx + 1;
-                // Don't put page number on cover (page 1)
-                if (seq === 1 || p.category === '표지') {
-                    p.pageNum = '';
+            const scopedList = [];
+            const selectors = selectorsStr.split(',');
+            for (let sel of selectors) {
+                sel = sel.trim();
+                if (!sel) continue;
+
+                if (/^(html|body|:root)(\s|$|:|\.)/i.test(sel)) {
+                    const sub = sel.replace(/^(html|body|:root)/i, '').trim();
+                    if (sub) scopedList.push(`.${scopeClass} ${sub}`);
+                    scopedList.push(`.${scopeClass}`);
+                } else if (sel.startsWith('.a4-page') || sel.startsWith('.concept-page') || sel.startsWith('.spread-page') || sel.startsWith('.page-wrapper')) {
+                    scopedList.push(`.${scopeClass} ${sel}`);
+                    scopedList.push(`.${scopeClass}${sel}`);
                 } else {
-                    p.pageNum = `- ${String(seq).padStart(2, '0')} -`;
+                    scopedList.push(`.${scopeClass} ${sel}`);
                 }
-            });
-            renderPageCards();
-            alert("전체 페이지 번호가 순서대로 자동 갱신되었습니다!");
+            }
+            if (scopedList.length > 0) {
+                out.push(`${Array.from(new Set(scopedList)).join(', ')} {\n  ${declarations}\n}`);
+            }
+        }
+        return out.join('\n');
+    }
+
+    const resultBlocks = [];
+    const mediaRegex = /@media[^{]+\{[\s\S]*?\n\}/gi;
+    let lastIdx = 0;
+    let mMatch;
+
+    while ((mMatch = mediaRegex.exec(clean)) !== null) {
+        const start = mMatch.index;
+        const end = mediaRegex.lastIndex;
+        if (start > lastIdx) {
+            const before = clean.substring(lastIdx, start);
+            resultBlocks.push(processRulesBlock(before));
         }
 
-        function sortPagesByName() {
-            pagesData.sort((a, b) => {
-                const cmp = a.sourceFile.localeCompare(b.sourceFile, undefined, { numeric: true, sensitivity: 'base' });
-                if (cmp !== 0) return cmp;
-                return a.subIndex - b.subIndex;
-            });
-            renderPageCards();
+        const fullMedia = mMatch[0];
+        const headerMatch = fullMedia.match(/(@media[^{]+)\{([\s\S]*)\}/);
+        if (headerMatch) {
+            const header = headerMatch[1].trim();
+            const inner = headerMatch[2].trim();
+            resultBlocks.push(`${header} {\n${processRulesBlock(inner)}\n}`);
+        }
+        lastIdx = end;
+    }
+
+    if (lastIdx < clean.length) {
+        resultBlocks.push(processRulesBlock(clean.substring(lastIdx)));
+    }
+
+    const wrapperStd = `
+.${scopeClass} html, .${scopeClass} body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif !important;
+}
+.${scopeClass} .a4-page, .${scopeClass}.a4-page, .${scopeClass} .concept-page, .${scopeClass} .spread-page {
+    width: 500px !important;
+    height: 707px !important;
+    background-color: #ffffff;
+    position: relative !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+`;
+
+    return `${topLevelRules.join('\n')}\n${wrapperStd}\n${resultBlocks.join('\n')}`;
+}
+
+function generateMergedHTML() {
+    if (pagesData.length === 0) {
+        alert("병합할 페이지가 없습니다. 먼저 HTML 파일들을 추가하세요!");
+        return null;
+    }
+
+    const vol = document.getElementById('volSelect').value;
+    const autoRenumber = document.getElementById('chkAutoRenumber').checked;
+    const embedImages = document.getElementById('chkEmbedImages').checked;
+    const insertInsideCover = document.getElementById('chkInsertInsideCover').checked;
+
+    const finalPages = [];
+    if (insertInsideCover && pagesData.length > 0) {
+        finalPages.push(pagesData[0]); // Cover
+        finalPages.push({
+            id: 'inside_cover_blank',
+            sourceFile: 'inside_cover_blank',
+            subIndex: 1,
+            totalInFile: 1,
+            title: '면지 (Inside Cover)',
+            category: '면지',
+            rawHtml: '<div class="a4-page blank-inside-cover" style="background-color: #ffffff; width: 500px; height: 707px;"></div>',
+            rawStyles: '',
+            pageNum: ''
+        });
+        for (let i = 1; i < pagesData.length; i++) {
+            finalPages.push(pagesData[i]);
+        }
+    } else {
+        finalPages.push(...pagesData);
+    }
+
+    const scopedStyles = [];
+    const pageWrappers = [];
+
+    finalPages.forEach((page, index) => {
+        const seq = index + 1;
+        const scopeClass = `page-scope-p${String(seq).padStart(2, '0')}`;
+
+        if (page.rawStyles) {
+            const scoped = scopeCSSRules(page.rawStyles, scopeClass);
+            scopedStyles.push(`/* === [Style] Page ${seq}: ${page.sourceFile} (${escapeHtml(page.title)}) === */\n${scoped}`);
         }
 
-        // ==========================================
-        // 100% Zero-Defect CSS Scoping Engine
-        // ==========================================
-        function scopeCSSRules(cssText, scopeClass) {
-            if (!cssText) return "";
-            
-            // Remove comments
-            let clean = cssText.replace(/\/\*[\s\S]*?\*\//g, '');
-            
-            // Extract top-level @ rules (@keyframes, @font-face, @import)
-            const topLevelRules = [];
-            
-            clean = clean.replace(/@(-webkit-|-moz-|-o-|-ms-)?keyframes\s+[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/gi, (m) => {
-                topLevelRules.push(m);
-                return '';
-            });
-            clean = clean.replace(/@font-face\s*\{[^{}]*\}/gi, (m) => {
-                topLevelRules.push(m);
-                return '';
-            });
-            clean = clean.replace(/@import\s+[^;]+;/gi, (m) => {
-                topLevelRules.push(m);
-                return '';
-            });
+        let pageHtml = page.rawHtml;
 
-            function processRulesBlock(rulesText) {
-                const out = [];
-                const ruleRegex = /([^{}]+)\{([^{}]*)\}/g;
-                let match;
-                while ((match = ruleRegex.exec(rulesText)) !== null) {
-                    const selectorsStr = match[1].trim();
-                    const declarations = match[2].trim();
-                    if (!selectorsStr || !declarations) continue;
-
-                    const scopedList = [];
-                    const selectors = selectorsStr.split(',');
-                    for (let sel of selectors) {
-                        sel = sel.trim();
-                        if (!sel) continue;
-
-                        if (/^(html|body|:root)(\s|$|:|\.)/i.test(sel)) {
-                            const sub = sel.replace(/^(html|body|:root)/i, '').trim();
-                            if (sub) scopedList.push(`.${scopeClass} ${sub}`);
-                            scopedList.push(`.${scopeClass}`);
-                        } else if (sel.startsWith('.a4-page') || sel.startsWith('.concept-page') || sel.startsWith('.spread-page') || sel.startsWith('.page-wrapper')) {
-                            scopedList.push(`.${scopeClass} ${sel}`);
-                            scopedList.push(`.${scopeClass}${sel}`);
-                        } else {
-                            scopedList.push(`.${scopeClass} ${sel}`);
-                        }
-                    }
-                    if (scopedList.length > 0) {
-                        out.push(`${Array.from(new Set(scopedList)).join(', ')} {\n  ${declarations}\n}`);
-                    }
-                }
-                return out.join('\n');
+        if (embedImages) {
+            for (const [imgName, dataUrl] of Object.entries(imageCache)) {
+                pageHtml = pageHtml.split(imgName).join(dataUrl);
             }
-
-            // Handle @media queries
-            const resultBlocks = [];
-            const mediaRegex = /@media[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/gi;
-            let lastIdx = 0;
-            let mMatch;
-
-            while ((mMatch = mediaRegex.exec(clean)) !== null) {
-                const start = mMatch.index;
-                const end = mediaRegex.lastIndex;
-                if (start > lastIdx) {
-                    const before = clean.substring(lastIdx, start);
-                    resultBlocks.push(processRulesBlock(before));
-                }
-
-                const fullMedia = mMatch[0];
-                const headerMatch = fullMedia.match(/(@media[^{]+)\{([\s\S]*)\}/);
-                if (headerMatch) {
-                    const header = headerMatch[1].trim();
-                    const inner = headerMatch[2].trim();
-                    resultBlocks.push(`${header} {\n${processRulesBlock(inner)}\n}`);
-                }
-                lastIdx = end;
-            }
-
-            if (lastIdx < clean.length) {
-                resultBlocks.push(processRulesBlock(clean.substring(lastIdx)));
-            }
-
-            return `${topLevelRules.join('\n')}\n${resultBlocks.join('\n')}`;
         }
 
-        // ==========================================
-        // Master Weekly Ebook Generator
-        // ==========================================
-        function generateMergedHTML() {
-            if (pagesData.length === 0) {
-                alert("병합할 페이지가 없습니다. 먼저 HTML 파일들을 추가하세요!");
-                return null;
+        const isCoverOrBlank = (seq <= 2 || page.category === '표지' || page.category === '면지' || pageHtml.includes('cover') || pageHtml.includes('blank-inside-cover'));
+        const finalNum = isCoverOrBlank ? '' : `- ${String(seq).padStart(2, '0')} -`;
+
+        if (autoRenumber) {
+            if (pageHtml.includes('class="page-num"')) {
+                pageHtml = pageHtml.replace(/<div[^>]*class="[^"]*page-num[^"]*"[^>]*>[\s\S]*?<\/div>/gi, finalNum ? `<div class="page-num">${finalNum}</div>` : '');
+            } else if (finalNum) {
+                const lastClose = pageHtml.lastIndexOf('</div>');
+                if (lastClose !== -1) {
+                    pageHtml = pageHtml.substring(0, lastClose) + `<div class="page-num">${finalNum}</div></div>`;
+                }
             }
+        }
 
-            const vol = document.getElementById('volSelect').value;
-            const autoRenumber = document.getElementById('chkAutoRenumber').checked;
-            const embedImages = document.getElementById('chkEmbedImages').checked;
+        if (seq === 1 && !pageHtml.includes('data-density="hard"')) {
+            pageHtml = pageHtml.replace(/<div([^>]*class="[^"]*a4-page[^"]*")/, '<div$1 data-density="hard"');
+        }
 
-            const scopedStyles = [];
-            const pageWrappers = [];
+        pageWrappers.push(`    <div class="page-wrapper ${scopeClass}" style="margin-top: 40px; display: flex; justify-content: center;">\n        ${pageHtml}\n    </div>`);
+    });
 
-            pagesData.forEach((page, index) => {
-                const seq = index + 1;
-                const scopeClass = `page-scope-p${String(seq).padStart(2, '0')}`;
-
-                // Scope styles
-                if (page.rawStyles) {
-                    const scoped = scopeCSSRules(page.rawStyles, scopeClass);
-                    scopedStyles.push(`/* === [Style] Page ${seq}: ${page.sourceFile} (${escapeHtml(page.title)}) === */\n${scoped}`);
-                }
-
-                // Process HTML snippet
-                let pageHtml = page.rawHtml;
-
-                // Image embedding
-                if (embedImages) {
-                    for (const [imgName, dataUrl] of Object.entries(imageCache)) {
-                        pageHtml = pageHtml.split(imgName).join(dataUrl);
-                    }
-                }
-
-                // Update page-num
-                if (autoRenumber) {
-                    const finalNum = (seq === 1 || page.category === '표지') ? '' : `- ${String(seq).padStart(2, '0')} -`;
-                    if (pageHtml.includes('class="page-num"')) {
-                        pageHtml = pageHtml.replace(/<div[^>]*class="[^"]*page-num[^"]*"[^>]*>[\s\S]*?<\/div>/gi, finalNum ? `<div class="page-num">${finalNum}</div>` : '');
-                    } else if (finalNum) {
-                        // Append before closing </div>
-                        const lastClose = pageHtml.lastIndexOf('</div>');
-                        if (lastClose !== -1) {
-                            pageHtml = pageHtml.substring(0, lastClose) + `<div class="page-num">${finalNum}</div></div>`;
-                        }
-                    }
-                }
-
-                // First page gets data-density="hard"
-                if (seq === 1 && !pageHtml.includes('data-density="hard"')) {
-                    pageHtml = pageHtml.replace(/<div([^>]*class="[^"]*a4-page[^"]*")/, '<div$1 data-density="hard"');
-                }
-
-                // Wrap in .page-wrapper with scoped class
-                pageWrappers.push(`    <div class="page-wrapper ${scopeClass}">\n        ${pageHtml}\n    </div>`);
-            });
-
-            // Master Template
-            const masterHTML = `<!DOCTYPE html>
+    const masterHTML = `<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="utf-8">
@@ -769,42 +760,47 @@
     <style>
         * { box-sizing: border-box; }
         body { 
-            margin: 0 !important; 
-            padding: 0 !important; 
-            background-color: #cbd5e1 !important; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f1f5f9; 
             font-family: 'Noto Sans KR', sans-serif; 
-            overflow: hidden !important;
+            display: none;
         }
-        .page-wrapper { 
-            margin: 0 !important; 
-            padding: 0 !important; 
-            width: 100% !important; 
-            height: 100% !important; 
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-        }
+        .page-wrapper { margin: 0; padding: 0; width: 100%; height: 100%; }
         .a4-page, .concept-page, .spread-page {
             width: 500px !important;
             height: 707px !important;
-            position: relative !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
+            position: relative;
             background-color: #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         #flipbook-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #cbd5e1;
+            z-index: 1000;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #zoom-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             display: flex;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            background-color: #cbd5e1 !important;
-            z-index: 10000 !important;
-            overflow: hidden !important;
-            align-items: center !important;
-            justify-content: center !important;
+            align-items: center;
+            justify-content: center;
         }
 
         #scale-wrapper {
@@ -815,138 +811,182 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
         }
 
         #flipbook {
-            width: 100% !important;
-            height: 100% !important;
-            position: relative !important;
-            top: 0 !important;
-            left: 0 !important;
-            transform: none !important;
-            margin: 0 !important;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: none;
+            margin: 0;
         }
 
-        /* Master Page Number */
-        .page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num {
-            position: absolute !important;
-            bottom: 12px !important;
-            left: 0 !important;
-            width: 100% !important;
-            text-align: center !important;
-            font-size: 11px !important;
-            line-height: 1 !important;
-            color: #64748b !important;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
-            font-weight: 700 !important;
-            letter-spacing: 2px !important;
-            pointer-events: none !important;
-            z-index: 50 !important;
-        }
-
-        /* Floating Drawing Toolbar */
         #drawing-toolbar {
-            position: absolute;
-            right: 20px;
-            top: 100px;
-            display: flex;
-            flex-direction: column;
+            display: flex !important; 
+            position: fixed !important; 
+            bottom: 25px !important; 
+            left: 50% !important; 
+            transform: translateX(-50%) !important; 
+            background-color: #1e293b !important; 
+            padding: 10px 16px !important; 
+            border-radius: 30px !important; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4) !important; 
+            z-index: 2000 !important; 
+            gap: 10px !important; 
+            align-items: center !important; 
+            max-width: 95vw !important; 
+            overflow-x: auto !important;
+        }
+        #drawing-tools {
+            display: none;
             align-items: center;
             gap: 8px;
-            z-index: 1100;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            border: 1px solid #cbd5e1;
-            backdrop-filter: blur(5px);
         }
+        .pen-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.1s, border-color 0.2s;
+            flex-shrink: 0;
+        }
+        .pen-btn:hover { transform: scale(1.15); }
         .tool-btn {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 6px 10px;
+            background: #334155;
+            color: white;
+            border: 1px solid #475569;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
-            color: #334155;
             transition: all 0.2s;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
-        .tool-btn:hover { background: #e2e8f0; }
-        .tool-btn.active { background: #0284c7; color: white; border-color: #0284c7; }
-        .color-palette { display: flex; gap: 4px; }
-        .pen-btn { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+        .tool-btn:hover { background: #475569; }
+        .tool-btn.active {
+            background: #0284c7 !important;
+            border-color: #38bdf8 !important;
+            color: white !important;
+        }
+        #drawing-toolbar::-webkit-scrollbar { display: none; }
+        #drawing-toolbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    
+    <!-- Weekly Master Common Styles -->
+    <style id="weekly-common-styles">
+${WEEKLY_COMMON_CSS}
+    </style>
+
+    <!-- Master Transparent Page Number Style -->
+    <style id="master-page-num-style">
+.page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num {
+    position: absolute !important;
+    bottom: 12px !important;
+    left: 0 !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    color: #64748b !important;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+.stf__item[style*="display: none"], .stf__item[style*="display:none"] {
+    display: none !important;
+}
+.stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {
+    position: absolute !important;
+    top: 0 !important;
+    width: 500px !important;
+    height: 707px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
     </style>
 
     <!-- Scoped Component Styles -->
-${scopedStyles.map(s => `    <style>\n${s}\n    </style>`).join('\n\n')}
+${scopedStyles.map(s => `    <style>${s}</style>`).join('\n')}
 </head>
 <body>
 
-<!-- Hidden Master Main Content (Source of Clone for PageFlip) -->
-<div id="main-content" style="display: none;">
-${pageWrappers.join('\n\n')}
-</div>
-
-<!-- Interactive Flipbook Viewport Container -->
 <div id="flipbook-container">
-    
-    <!-- Top Left: Zoom In / Out Buttons -->
     <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
         <button class="zoom-btn" onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
         <button class="zoom-btn" onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
     </div>
 
-    <!-- Top Right: Navigation Close Button -->
-    <div style="position: absolute; top: 20px; right: 20px; z-index: 1100;">
-        <button onclick="closeEbook(event)" style="background-color: #ef4444; color: white; border: none; padding: 10px 18px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">✕ 닫기</button>
-    </div>
+    <button id="close-flipbook-btn" onclick="window.closeEbook(event)" ontouchstart="window.closeEbook(event)" style="position: absolute; top: 20px; right: 20px; padding: 10px 18px; font-size: 16px; background-color: #ef4444; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: 800; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35); z-index: 1100; display: flex; align-items: center; gap: 6px; letter-spacing: -0.5px;">
+        <span style="font-size: 16px; font-weight: 900;">✖</span> 닫기
+    </button>
 
-    <!-- Centered Scale Wrapper -->
-    <div id="scale-wrapper">
-        <div id="flipbook">
-            <!-- Cloned pages injected here -->
+    <div id="zoom-wrapper">
+        <div id="scale-wrapper">
+            <div id="flipbook"></div>
         </div>
     </div>
 
-    <!-- Floating Drawing Toolbar -->
     <div id="drawing-toolbar">
-        <button id="btn-mode-toggle" class="tool-btn" style="background: #38bdf8; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: bold;" onclick="toggleDrawingMode(event)">📖 보기 모드</button>
-        
-        <div id="drawing-tools" style="display: none; flex-direction: column; gap: 8px; align-items: center; margin-top: 5px;">
-            <div class="color-palette">
-                <button class="pen-btn" style="background: #0f172a; border-color: white;" onclick="setPen('#0f172a', this, false, event)"></button>
-                <button class="pen-btn" style="background: #ef4444;" onclick="setPen('#ef4444', this, false, event)"></button>
-                <button class="pen-btn" style="background: #0284c7;" onclick="setPen('#0284c7', this, false, event)"></button>
-            </div>
-            <button class="tool-btn" style="background: #fef08a; color: #854d0e; width: 100%;" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true, event)">✏️ 형광펜</button>
-            <div style="display: flex; gap: 4px; width: 100%;">
-                <button class="tool-btn active" style="flex: 1; padding: 4px;" onclick="setThickness(2.5, this, event)">얇게</button>
-                <button class="tool-btn" style="flex: 1; padding: 4px;" onclick="setThickness(5, this, event)">보통</button>
-                <button class="tool-btn" style="flex: 1; padding: 4px;" onclick="setThickness(9, this, event)">두껍</button>
-            </div>
-            <button class="tool-btn" style="width: 100%;" onclick="setEraser(this, event)">부분지우개</button>
-            <button class="tool-btn" style="background: #fee2e2; color: #dc2626; border-color: #fca5a5; width: 100%;" onclick="clearAllCanvas(event)">초기화</button>
+        <div class="drag-handle" style="cursor: move; padding: 0 8px; color: #94a3b8; font-size: 20px; user-select: none; display: flex; align-items: center; justify-content: center; touch-action: none;">⠿</div>
+        <button id="btn-mode-toggle" onclick="toggleDrawingMode(event)" style="background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 900; font-size: 14px; cursor: pointer; flex-shrink: 0; white-space: nowrap;">📖 보기 모드</button>
+        <div id="drawing-tools">
+            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+            <button class="pen-btn" onclick="setPen('#0f172a', this, false, event)" style="background: #0f172a; border-color: white;"></button>
+            <button class="pen-btn" onclick="setPen('#dc2626', this, false, event)" style="background: #dc2626;"></button>
+            <button class="pen-btn" onclick="setPen('#0284c7', this, false, event)" style="background: #0284c7;"></button>
+            <button class="pen-btn" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true, event)" style="background: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 14px;">🖍️</button>
+            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+            <button class="tool-btn" onclick="setThickness(1, this, event)">얇게</button>
+            <button class="tool-btn active" onclick="setThickness(2.5, this, event)">보통</button>
+            <button class="tool-btn" onclick="setThickness(5, this, event)">두껍</button>
+            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+            <button class="tool-btn" onclick="setEraser(this, event)">부분지우개</button>
+            <button onclick="clearAllCanvas(event)" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; flex-shrink: 0; white-space: nowrap;">초기화</button>
         </div>
     </div>
 </div>
 
-<!-- External Scripts (PageFlip & MathJax) -->
+<div id="main-content" style="display: none;">
+${pageWrappers.join('\n')}
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 <script>
-// ==========================================
-// 1. Close Button Logic
-// ==========================================
 window.closeEbook = function(e) {
-    if (e) { try { e.stopPropagation(); e.preventDefault(); } catch(err){} }
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+        try { e.preventDefault(); } catch(err){}
+    }
     if (window.opener && !window.opener.closed) { window.close(); return; }
-    if (window.history && window.history.length > 1) { window.history.back(); return; }
+    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1)) {
+        window.location.href = document.referrer;
+        return;
+    }
+    if (window.history && window.history.length > 1) {
+        window.history.back();
+        setTimeout(function() { window.location.href = "../../exam.html"; }, 300);
+        return;
+    }
     window.location.href = "../../exam.html";
 };
 
-// ==========================================
-// 2. Interactive Quiz Handlers
-// ==========================================
 window.checkOX = function(btn, choice, event) {
     if (event) { try { event.stopPropagation(); } catch(err){} }
     var group = btn.closest('.btn-group') || btn.parentElement;
@@ -978,9 +1018,6 @@ window.revealBlank = function(el, event) {
     el.classList.add('revealed');
 };
 
-// ==========================================
-// 3. Drawing Engine
-// ==========================================
 let isDrawingMode = false;
 let currentPenColor = '#0f172a';
 let currentPenWidth = 2.5;
@@ -1054,15 +1091,19 @@ function setupCanvasDrawing(canvas) {
 
     function getPos(e) {
         const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         return {
-            x: (e.clientX - rect.left) * (canvas.width / rect.width),
-            y: (e.clientY - rect.top) * (canvas.height / rect.height)
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY
         };
     }
 
     function handlePointerDown(e) {
-        if (!isDrawingMode || !e.isPrimary) return;
+        if (!isDrawingMode) return;
+        if (!e.isPrimary) return; 
         if (e.pointerType === 'touch') return; 
+
         e.stopPropagation();
         if (e.cancelable) e.preventDefault();
 
@@ -1073,19 +1114,22 @@ function setupCanvasDrawing(canvas) {
             ctx.globalCompositeOperation = 'destination-out';
             ctx.lineWidth = currentPenWidth * 8; 
             ctx.strokeStyle = 'rgba(0,0,0,1)';
-        } else if (isHighlighter) {
-            ctx.globalCompositeOperation = 'multiply';
-            ctx.lineWidth = 20;
-            ctx.strokeStyle = currentPenColor;
         } else {
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.lineWidth = currentPenWidth * 2; 
-            ctx.strokeStyle = currentPenColor;
+            if (isHighlighter) {
+                ctx.globalCompositeOperation = 'multiply';
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = currentPenColor;
+            } else {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = currentPenWidth * 2; 
+                ctx.strokeStyle = currentPenColor;
+            }
         }
 
         const pos = getPos(e);
         lastX = pos.x;
         lastY = pos.y;
+        
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x + 0.01, pos.y);
@@ -1093,12 +1137,19 @@ function setupCanvasDrawing(canvas) {
     }
 
     function handlePointerMove(e) {
-        if (!isDrawingMode || !isDrawing || !e.isPrimary) return;
+        if (!isDrawingMode || !isDrawing) return;
+        if (!e.isPrimary) return;
+        if (e.pointerType === 'touch') { isDrawing = false; return; }
+        
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+        
         const pos = getPos(e);
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
+        
         lastX = pos.x;
         lastY = pos.y;
     }
@@ -1107,24 +1158,152 @@ function setupCanvasDrawing(canvas) {
         if (!isDrawing) return;
         isDrawing = false;
         try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
+        e.stopPropagation();
     }
 
-    canvas.addEventListener('pointerdown', handlePointerDown);
-    canvas.addEventListener('pointermove', handlePointerMove);
+    let lastPenDownTime = 0;
+    let isStylusActive = false;
+
+    canvas.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'pen' || e.pointerType === 'mouse') {
+            lastPenDownTime = Date.now();
+        }
+        handlePointerDown(e);
+    }, {passive: false});
+    canvas.addEventListener('pointermove', handlePointerMove, {passive: false});
     canvas.addEventListener('pointerup', handlePointerUp);
     canvas.addEventListener('pointercancel', handlePointerUp);
+    
+    canvas.addEventListener('touchstart', (e) => {
+        if (!isDrawingMode) return;
+        let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
+        let isWinStylus = (Date.now() - lastPenDownTime) < 100;
+        
+        if (isIOSStylus || isWinStylus) {
+            isStylusActive = true;
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        } else {
+            isStylusActive = false;
+        }
+    }, {passive: false});
+    
+    function blockStylusTouch(e) {
+        if (isDrawingMode && isStylusActive) {
+            e.stopPropagation();
+            if (e.cancelable && e.type === 'touchmove') e.preventDefault();
+        }
+    }
+    
+    canvas.addEventListener('touchmove', blockStylusTouch, {passive: false});
+    canvas.addEventListener('touchend', blockStylusTouch);
+    canvas.addEventListener('touchcancel', blockStylusTouch);
+    
+    function blockMouse(e) { if (isDrawingMode) e.stopPropagation(); }
+    canvas.addEventListener('mousedown', blockMouse);
+    canvas.addEventListener('mousemove', blockMouse);
+    canvas.addEventListener('mouseup', blockMouse);
+    canvas.addEventListener('click', blockMouse);
 }
 
-// ==========================================
-// 4. St.PageFlip Engine Setup
-// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const dragToolbar = document.getElementById('drawing-toolbar');
+    let isDraggingTb = false;
+    let tbStartX, tbStartY, tbInitX, tbInitY;
+
+    function startDragTb(e) {
+        if(!e.target.classList.contains('drag-handle')) return;
+        isDraggingTb = true;
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if(e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }
+        tbStartX = clientX;
+        tbStartY = clientY;
+        const rect = dragToolbar.getBoundingClientRect();
+        tbInitX = rect.left;
+        tbInitY = rect.top;
+        
+        dragToolbar.style.transform = 'none';
+        dragToolbar.style.left = tbInitX + 'px';
+        dragToolbar.style.bottom = 'auto';
+        dragToolbar.style.top = tbInitY + 'px';
+        
+        if (e.cancelable) e.preventDefault();
+    }
+
+    function moveDragTb(e) {
+        if (!isDraggingTb) return;
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if(e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }
+        const dx = clientX - tbStartX;
+        const dy = clientY - tbStartY;
+        dragToolbar.style.left = (tbInitX + dx) + 'px';
+        dragToolbar.style.top = (tbInitY + dy) + 'px';
+        if (e.cancelable) e.preventDefault();
+    }
+
+    function stopDragTb() { isDraggingTb = false; }
+
+    if (dragToolbar) {
+        dragToolbar.addEventListener('mousedown', startDragTb);
+        window.addEventListener('mousemove', moveDragTb, {passive: false});
+        window.addEventListener('mouseup', stopDragTb);
+        
+        dragToolbar.addEventListener('touchstart', startDragTb, {passive: false});
+        window.addEventListener('touchmove', moveDragTb, {passive: false});
+        window.addEventListener('touchend', stopDragTb);
+    }
+});
+
 let pageFlip = null;
 let currentZoom = 1.0;
 let panX = 0;
 let panY = 0;
 
 function isPortraitMode() {
-    return window.innerWidth <= 768 || window.innerHeight > window.innerWidth;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return (h > w) || (w < 900) || (h < 500);
+}
+
+function resizeFlipbook() {
+    const fbContainer = document.getElementById('flipbook-container');
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
+
+    const portrait = isPortraitMode();
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    
+    const targetW = portrait ? 500 : 1000;
+    const targetH = 707;
+
+    if (currentZoom <= 1.05) { panX = 0; panY = 0; }
+
+    const scaleW = (winW * 0.95) / targetW;
+    const scaleH = (winH * 0.95) / targetH;
+    let baseScale = Math.min(scaleW, scaleH);
+    let totalScale = baseScale * currentZoom;
+
+    scaleWrapper.style.width = targetW + 'px';
+    scaleWrapper.style.height = targetH + 'px';
+    scaleWrapper.style.transform = 'translate(calc(-50% + ' + panX + 'px), calc(-50% + ' + panY + 'px)) scale(' + totalScale + ')';
+
+    if (pageFlip) pageFlip.update();
+}
+
+function zoomFlipbook(delta) {
+    currentZoom += delta;
+    if (currentZoom < 0.6) currentZoom = 0.6;
+    if (currentZoom > 3.5) currentZoom = 3.5;
+    resizeFlipbook();
 }
 
 function initFlipbookEngine() {
@@ -1143,7 +1322,6 @@ function initFlipbookEngine() {
         clone.style.margin = "0";
         if (clone.id) clone.id = clone.id + '-clone';
 
-        // Preserve scoped class
         Array.from(w.classList).forEach(cls => {
             if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {
                 clone.classList.add(cls);
@@ -1161,6 +1339,7 @@ function initFlipbookEngine() {
         cvs.style.left = '0';
         cvs.style.zIndex = '999';
         cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
+        cvs.style.touchAction = 'pinch-zoom';
         setupCanvasDrawing(cvs);
         clone.appendChild(cvs);
 
@@ -1185,64 +1364,120 @@ function initFlipbookEngine() {
     pageFlip.loadFromHTML(Array.from(fbElement.children));
 }
 
-function resizeFlipbook() {
-    const fbContainer = document.getElementById('flipbook-container');
-    const scaleWrapper = document.getElementById('scale-wrapper');
-    if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
-
-    const portrait = isPortraitMode();
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-    
-    const targetW = portrait ? 500 : 1000;
-    const targetH = 707;
-
-    if (currentZoom <= 1.05) { panX = 0; panY = 0; }
-
-    const scaleW = (winW * 0.95) / targetW;
-    const scaleH = (winH * 0.95) / targetH;
-    let baseScale = Math.min(scaleW, scaleH);
-    let totalScale = baseScale * currentZoom;
-
-    scaleWrapper.style.width = targetW + 'px';
-    scaleWrapper.style.height = targetH + 'px';
-    scaleWrapper.style.transform = \`translate(calc(-50% + \${panX}px), calc(-50% + \${panY}px)) scale(\${totalScale})\`;
-
-    if (pageFlip) pageFlip.update();
-}
-
-window.zoomFlipbook = function(delta) {
-    currentZoom = Math.min(Math.max(0.6, currentZoom + delta), 2.5);
-    resizeFlipbook();
-};
-
 function setupViewerEvents() {
-    let isMouseDown = false;
-    let startX = 0, startY = 0;
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!scaleWrapper) return;
 
-    const fbContainer = document.getElementById('flipbook-container');
-    fbContainer.addEventListener('mousedown', (e) => {
-        if (e.target.closest('#drawing-toolbar') || e.target.closest('.zoom-btn') || e.target.closest('button')) return;
+    let touchMode = null;
+    let touchStartTime = 0;
+    let startTouchX = 0, startTouchY = 0;
+    let startPanX = 0, startPanY = 0;
+    let initialPinchDist = 0;
+    let zoomAtPinchStart = 1;
+
+    function getDistance(t1, t2) {
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.hypot(dx, dy);
+    }
+
+    scaleWrapper.addEventListener('touchstart', (e) => {
+        touchStartTime = Date.now();
+        if (e.touches.length === 2) {
+            touchMode = 'pinch';
+            initialPinchDist = getDistance(e.touches[0], e.touches[1]);
+            zoomAtPinchStart = currentZoom;
+        } else if (e.touches.length === 1) {
+            touchMode = 'single';
+            startTouchX = e.touches[0].clientX;
+            startTouchY = e.touches[0].clientY;
+            startPanX = panX;
+            startPanY = panY;
+        }
+    }, { passive: false });
+
+    scaleWrapper.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && touchMode === 'pinch') {
+            e.preventDefault();
+            const currentDist = getDistance(e.touches[0], e.touches[1]);
+            if (initialPinchDist > 0) {
+                const ratio = currentDist / initialPinchDist;
+                currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
+                resizeFlipbook();
+            }
+        } else if (e.touches.length === 1 && touchMode === 'single') {
+            const moveX = e.touches[0].clientX - startTouchX;
+            const moveY = e.touches[0].clientY - startTouchY;
+            const dist = Math.hypot(moveX, moveY);
+
+            if (currentZoom > 1.1 || dist > 15) {
+                if (currentZoom > 1.1) {
+                    e.preventDefault();
+                    panX = startPanX + moveX;
+                    panY = startPanY + moveY;
+                    resizeFlipbook();
+                }
+            }
+        }
+    }, { passive: false });
+
+    scaleWrapper.addEventListener('touchend', (e) => {
+        const touchDuration = Date.now() - touchStartTime;
+        if (touchMode === 'single' && e.changedTouches.length === 1) {
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
+
+            if (dist < 15 && touchDuration < 300 && pageFlip) {
+                const target = document.elementFromPoint(endX, endY);
+                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+                    touchMode = null;
+                    return;
+                }
+                const rect = scaleWrapper.getBoundingClientRect();
+                const relativeX = endX - rect.left;
+                if (relativeX < rect.width / 2) pageFlip.flipPrev();
+                else pageFlip.flipNext();
+                e.preventDefault();
+            }
+        }
+        touchMode = null;
+    });
+
+    let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
+
+    scaleWrapper.addEventListener('mousedown', (e) => {
         isMouseDown = true;
-        startX = e.clientX - panX;
-        startY = e.clientY - panY;
+        isMouseDrag = false;
+        mouseStartX = e.clientX;
+        mouseStartY = e.clientY;
+        mouseStartPanX = panX;
+        mouseStartPanY = panY;
     });
 
     window.addEventListener('mousemove', (e) => {
         if (!isMouseDown) return;
-        if (currentZoom > 1.05 && !isDrawingMode) {
-            panX = e.clientX - startX;
-            panY = e.clientY - startY;
-            resizeFlipbook();
+        const moveX = e.clientX - mouseStartX;
+        const moveY = e.clientY - mouseStartY;
+        if (Math.hypot(moveX, moveY) > 5) {
+            isMouseDrag = true;
+            if (currentZoom > 1.1) {
+                panX = mouseStartPanX + moveX;
+                panY = mouseStartPanY + moveY;
+                resizeFlipbook();
+            }
         }
     });
 
     window.addEventListener('mouseup', (e) => {
-        if (!isMouseDown) return;
-        if (currentZoom <= 1.05 && !isDrawingMode && pageFlip) {
-            const clickX = e.clientX;
-            const mid = window.innerWidth / 2;
-            if (clickX < mid) pageFlip.flipPrev();
+        if (isMouseDown && !isMouseDrag && pageFlip) {
+            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+                isMouseDown = false;
+                return;
+            }
+            const rect = scaleWrapper.getBoundingClientRect();
+            const relativeX = e.clientX - rect.left;
+            if (relativeX < rect.width / 2) pageFlip.flipPrev();
             else pageFlip.flipNext();
         }
         isMouseDown = false;
@@ -1258,75 +1493,87 @@ function setupViewerEvents() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initFlipbookEngine();
-    setupViewerEvents();
+window.toggleFlipbook = function() {
+    const fbContainer = document.getElementById('flipbook-container');
+    if (!fbContainer) return;
+    fbContainer.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    if (!pageFlip) {
+        initFlipbookEngine();
+        setupViewerEvents();
+    }
+
+    currentZoom = 1.0;
+    panX = 0;
+    panY = 0;
     resizeFlipbook();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.toggleFlipbook();
 });
-</script>
+<\/script>
 </body>
 </html>`;
 
-            return masterHTML;
-        }
+    return masterHTML;
+}
 
-        // ==========================================
-        // Preview & Download Actions
-        // ==========================================
-        function previewMergedEbook() {
-            const html = generateMergedHTML();
-            if (!html) return;
+function previewMergedEbook() {
+    const html = generateMergedHTML();
+    if (!html) return;
 
-            mergedHtmlOutput = html;
-            const iframe = document.getElementById('previewIframe');
-            iframe.srcdoc = html;
-            document.getElementById('previewPageIndicator').innerText = `(${pagesData.length}쪽 로드됨)`;
-            document.getElementById('previewModal').classList.remove('hidden');
-            document.getElementById('previewModal').classList.add('flex');
-            lucide.createIcons();
-        }
+    mergedHtmlOutput = html;
+    const iframe = document.getElementById('previewIframe');
+    iframe.srcdoc = html;
+    document.getElementById('previewPageIndicator').innerText = `(${pagesData.length}쪽 로드됨)`;
+    document.getElementById('previewModal').classList.remove('hidden');
+    document.getElementById('previewModal').classList.add('flex');
+    lucide.createIcons();
+}
 
-        function closePreviewModal() {
-            document.getElementById('previewModal').classList.add('hidden');
-            document.getElementById('previewModal').classList.remove('flex');
-            document.getElementById('previewIframe').srcdoc = "";
-        }
+function closePreviewModal() {
+    document.getElementById('previewModal').classList.add('hidden');
+    document.getElementById('previewModal').classList.remove('flex');
+    document.getElementById('previewIframe').srcdoc = "";
+}
 
-        function mergeAndExport() {
-            const html = generateMergedHTML();
-            if (!html) return;
-            mergedHtmlOutput = html;
-            downloadMergedHTML();
-        }
+function mergeAndExport() {
+    const html = generateMergedHTML();
+    if (!html) return;
+    mergedHtmlOutput = html;
+    downloadMergedHTML();
+}
 
-        function downloadMergedHTML() {
-            if (!mergedHtmlOutput) {
-                mergedHtmlOutput = generateMergedHTML();
-                if (!mergedHtmlOutput) return;
-            }
+function downloadMergedHTML() {
+    if (!mergedHtmlOutput) {
+        mergedHtmlOutput = generateMergedHTML();
+        if (!mergedHtmlOutput) return;
+    }
 
-            const fileName = document.getElementById('outputFileName').value || 'week_final.html';
-            const blob = new Blob([mergedHtmlOutput], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
+    const fileName = document.getElementById('outputFileName').value || 'week_final.html';
+    const blob = new Blob([mergedHtmlOutput], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
 
-        function quickViewPage(pageId) {
-            const page = pagesData.find(p => p.id === pageId);
-            if (!page) return;
+function quickViewPage(pageId) {
+    const page = pagesData.find(p => p.id === pageId);
+    if (!page) return;
 
-            const modal = document.getElementById('singlePageModal');
-            const iframe = document.getElementById('singlePageIframe');
-            document.getElementById('singlePageTitle').innerText = `${page.sourceFile} - ${page.title}`;
+    const modal = document.getElementById('singlePageModal');
+    const iframe = document.getElementById('singlePageIframe');
+    document.getElementById('singlePageTitle').innerText = `${page.sourceFile} - ${page.title}`;
 
-            const scoped = scopeCSSRules(page.rawStyles, 'page-scope-preview');
-            const singleHtml = `<!DOCTYPE html>
+    const scoped = scopeCSSRules(page.rawStyles, 'page-scope-preview');
+    const singleHtml = `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -1336,6 +1583,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body { margin: 0; padding: 20px; display: flex; justify-content: center; background: #1e293b; }
         .page-scope-preview { width: 500px; height: 707px; overflow: hidden; }
         .page-scope-preview .a4-page { width: 500px !important; height: 707px !important; background: #fff; position: relative; }
+        ${WEEKLY_COMMON_CSS}
         ${scoped}
     </style>
 </head>
@@ -1346,72 +1594,66 @@ document.addEventListener('DOMContentLoaded', () => {
 </body>
 </html>`;
 
-            iframe.srcdoc = singleHtml;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
-        }
+    iframe.srcdoc = singleHtml;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    lucide.createIcons();
+}
 
-        function closeSinglePageModal() {
-            document.getElementById('singlePageModal').classList.add('hidden');
-            document.getElementById('singlePageModal').classList.remove('flex');
-            document.getElementById('singlePageIframe').srcdoc = '';
-        }
+function closeSinglePageModal() {
+    document.getElementById('singlePageModal').classList.add('hidden');
+    document.getElementById('singlePageModal').classList.remove('flex');
+    document.getElementById('singlePageIframe').srcdoc = '';
+}
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
-        // ==========================================
-        // Week 4 Preset Loader (For Instant Testing)
-        // ==========================================
-        async function loadWeek4Preset() {
-            // Preset filenames in standard sequence for Week 04
-            const presetList = [
-                'page01.html',
-                'page03.html',
-                'page04.html',
-                'page05.html',
-                'page06.html',
-                'page07.html',
-                'page07-1.html',
-                'page08.html',
-                'page09.html',
-                'page9-1.html',
-                'page10.html',
-                'page11.html',
-                'page11-1.html',
-                'page12.html',
-                'page13.html',
-                'page13-1.html',
-                'quiz_04.html'
-            ];
+async function loadWeek4Preset() {
+    const presetList = [
+        'page01.html',
+        'page03.html',
+        'page04.html',
+        'page05.html',
+        'page06.html',
+        'page07.html',
+        'page07-1.html',
+        'page08.html',
+        'page09.html',
+        'page9-1.html',
+        'page10.html',
+        'page11.html',
+        'page11-1.html',
+        'page12.html',
+        'page13.html',
+        'page13-1.html',
+        'quiz_04.html'
+    ];
 
-            let loadedCount = 0;
-            for (const name of presetList) {
-                try {
-                    // Try fetching from relative path if running on web server or local folder
-                    const res = await fetch(`./${name}`);
-                    if (res.ok) {
-                        const text = await res.text();
-                        parseAndAddPagesFromContent(text, name);
-                        loadedCount++;
-                    }
-                } catch(e) {
-                    // Fetch might be blocked on file:// protocol in some browsers
-                }
+    let loadedCount = 0;
+    for (const name of presetList) {
+        try {
+            const res = await fetch(`./${name}`);
+            if (res.ok) {
+                const text = await res.text();
+                parseAndAddPagesFromContent(text, name);
+                loadedCount++;
             }
+        } catch(e) {}
+    }
 
-            if (loadedCount > 0) {
-                updateStats();
-                renderPageCards();
-                alert(`4주차 프리셋에서 ${loadedCount}개 파일(${pagesData.length}쪽)을 성공적으로 불러왔습니다!`);
-            } else {
-                alert("웹 브라우저의 로컬 파일 보안 정책(CORS)으로 인해 브라우저에서 직접 자동 fetch가 제한될 수 있습니다.\n'HTML 파일 추가' 버튼을 눌러 4주차 폴더의 파일들을 선택해주세요!");
-                document.getElementById('fileInput').click();
-            }
-        }
+    if (loadedCount > 0) {
+        updateStats();
+        renderPageCards();
+        alert(`4주차 프리셋에서 ${loadedCount}개 파일(${pagesData.length}쪽)을 성공적으로 불러왔습니다!`);
+    } else {
+        alert("웹 브라우저의 보안 정책(CORS)으로 인해 file:// 프로토콜에서는 직접 자동 fetch가 제한될 수 있습니다.\n'HTML 파일 추가' 버튼을 눌러 4주차 폴더의 파일들을 선택해주세요!");
+        document.getElementById('fileInput').click();
+    }
+}
+
     </script>
 </body>
 </html>

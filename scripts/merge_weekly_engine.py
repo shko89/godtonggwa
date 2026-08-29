@@ -6,13 +6,16 @@ import shutil
 
 sys.stdout.reconfigure(encoding='utf-8')
 
+# Read common CSS from scratch or from backup
+common_css_path = r'C:\Users\shko8\.gemini\antigravity\brain\e4b02453-8135-4547-97df-6cd778ef4f3e\scratch\common_css.css'
+with open(common_css_path, 'r', encoding='utf-8') as f:
+    WEEKLY_COMMON_CSS = f.read()
+
 def scope_css_rules(css_text, scope_class):
     if not css_text:
         return ""
     
-    # Remove comments
     clean = re.sub(r'/\*[\s\S]*?\*/', '', css_text)
-    
     top_level_rules = []
     
     def extract_top(match):
@@ -71,14 +74,29 @@ def scope_css_rules(css_text, scope_class):
     if last_idx < len(clean):
         result_blocks.append(process_block(clean[last_idx:]))
 
-    return f"{'\n'.join(top_level_rules)}\n{'\n'.join(result_blocks)}"
+    # Add standard .a4-page wrapper style for this scope
+    wrapper_std = f"""
+.{scope_class} html, .{scope_class} body {{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif !important;
+}}
+.{scope_class} .a4-page, .{scope_class}.a4-page, .{scope_class} .concept-page, .{scope_class} .spread-page {{
+    width: 500px !important;
+    height: 707px !important;
+    background-color: #ffffff;
+    position: relative !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}}
+"""
+    return f"{'\n'.join(top_level_rules)}\n{wrapper_std}\n{'\n'.join(result_blocks)}"
 
-def merge_week(folder_path, sequence_files, vol_num, output_path):
-    print(f"=== 주간지 {vol_num}주차 병합 시작 ===")
-    print(f"소스 폴더: {folder_path}")
-    print(f"출력 경로: {output_path}")
-
-    # Load local images for auto base64 embedding
+def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
+    print(f"=== 주간지 {vol_num}주차 완벽 동기화 병합 시작 ===")
+    
     img_cache = {}
     for f in os.listdir(folder_path):
         ext = os.path.splitext(f)[1].lower()
@@ -89,7 +107,7 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
                 img_cache[f] = f"data:{mime};base64,{b64}"
     print(f"캐싱된 로컬 이미지: {len(img_cache)}개")
 
-    extracted_pages = [] # (file_name, sub_idx, title, page_html, raw_styles)
+    raw_extracted = [] # (fname, sub_idx, title, page_html, raw_styles)
 
     for fname in sequence_files:
         fp = os.path.join(folder_path, fname)
@@ -100,31 +118,22 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
         with open(fp, 'r', encoding='utf-8', errors='ignore') as file:
             content = file.read()
 
-        # Extract styles
         styles = re.findall(r'<style[^>]*>([\s\S]*?)</style>', content, re.I)
         combined_styles = '\n'.join(styles)
 
-        # Extract .a4-page elements
-        # Using regex to find <div class="...a4-page..."> to </div>
-        # A reliable way is finding each opening tag and matching to its closing tag or using BeautifulSoup/regex
         a4_starts = [m.start() for m in re.finditer(r'<div[^>]*class=[\'"][^\'"]*a4-page[^\'"]*[\'"]', content)]
-        
         if not a4_starts:
-            # Try concept-page or spread-page
             a4_starts = [m.start() for m in re.finditer(r'<div[^>]*class=[\'"][^\'"]*(?:concept-page|spread-page)[^\'"]*[\'"]', content)]
 
         if not a4_starts:
-            # Fallback to entire body
             body_m = re.search(r'<body[^>]*>([\s\S]*?)</body>', content, re.I)
             if body_m:
-                extracted_pages.append((fname, 1, fname, body_m.group(1).strip(), combined_styles))
+                raw_extracted.append((fname, 1, fname, body_m.group(1).strip(), combined_styles))
             continue
 
         for i, start_pos in enumerate(a4_starts):
-            # End pos is start of next page or </body> or end of file
             if i + 1 < len(a4_starts):
                 end_pos = a4_starts[i + 1]
-                # Slice backwards to find the last </div> before next start
                 page_html = content[start_pos:end_pos].strip()
             else:
                 body_end = content.find('</body>', start_pos)
@@ -132,35 +141,50 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
                     body_end = len(content)
                 page_html = content[start_pos:body_end].strip()
 
-            # Clean extra closing divs at the very end of file if any
-            # Detect title
-            h_m = re.search(r'<h[1-4][^>]*>([\s\S]*?)</h[1-4]>', page_html)
+            h_m = re.search(r'<h[1-4][^>]*>(.*?)</h[1-4]>', page_html)
             title = re.sub(r'<[^>]+>', '', h_m.group(1)).strip() if h_m else fname
 
-            extracted_pages.append((fname, i + 1, title, page_html, combined_styles))
+            raw_extracted.append((fname, i + 1, title, page_html, combined_styles))
 
-    print(f"총 추출된 페이지 수: {len(extracted_pages)} 페이지")
+    print(f"총 추출된 원본 페이지 수: {len(raw_extracted)} 페이지")
 
-    # Build Merged Structure
+    # Arrange Pages into Flipbook:
+    # 1. Page 1: Cover (page01.html)
+    # 2. Page 2: Inside Blank Cover (blank-inside-cover) -> Guaranteed 2-page spread!
+    # 3. Subsequent pages
+    final_pages = []
+    
+    # 1. Add Cover
+    cover_item = raw_extracted[0]
+    final_pages.append(cover_item)
+
+    # 2. Add Inside Blank Cover (Page 02)
+    blank_p02_html = '<div class="a4-page blank-inside-cover" style="background-color: #ffffff; width: 500px; height: 707px;"></div>'
+    final_pages.append(('inside_cover_blank', 1, '면지 (Inside Cover)', blank_p02_html, ''))
+
+    # 3. Add rest of pages
+    for item in raw_extracted[1:]:
+        final_pages.append(item)
+
+    print(f"최종 플립북 페이지 수 (면지 포함): {len(final_pages)} 페이지")
+
     scoped_styles_list = []
     page_wrappers_list = []
 
-    for seq, (fname, sub_idx, title, page_html, raw_styles) in enumerate(extracted_pages, start=1):
+    for seq, (fname, sub_idx, title, page_html, raw_styles) in enumerate(final_pages, start=1):
         scope_class = f"page-scope-p{seq:02d}"
 
-        # Scope CSS
         if raw_styles:
             scoped_css = scope_css_rules(raw_styles, scope_class)
             scoped_styles_list.append(f"/* === [Style] Page {seq}: {fname} ({title}) === */\n{scoped_css}")
 
-        # Embed local images if found
         for img_name, data_url in img_cache.items():
             if img_name in page_html:
                 page_html = page_html.replace(f'"{img_name}"', f'"{data_url}"').replace(f"'{img_name}'", f"'{data_url}'").replace(f"./{img_name}", data_url)
 
-        # Renumber bottom page numbers
-        is_cover = (seq == 1 or 'cover' in page_html)
-        final_num = "" if is_cover else f"- {seq:02d} -"
+        # Page numbering: Cover (P01) and Blank (P02) have NO page number
+        is_cover_or_blank = (seq <= 2 or 'cover' in page_html or 'blank-inside-cover' in page_html)
+        final_num = "" if is_cover_or_blank else f"- {seq:02d} -"
 
         if 'class="page-num"' in page_html or "class='page-num'" in page_html:
             page_html = re.sub(r'<div[^>]*class=[\'"][^\'"]*page-num[^\'"]*[\'"][^>]*>[\s\S]*?</div>', 
@@ -174,10 +198,10 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
         if seq == 1 and 'data-density="hard"' not in page_html:
             page_html = re.sub(r'<div([^>]*class=[\'"][^\'"]*a4-page[^\'"]*[\'"])', r'<div\1 data-density="hard"', page_html)
 
-        page_wrappers_list.append(f'    <div class="page-wrapper {scope_class}">\n        {page_html}\n    </div>')
+        page_wrappers_list.append(f'    <div class="page-wrapper {scope_class}" style="margin-top: 40px; display: flex; justify-content: center;">\n        {page_html}\n    </div>')
 
-    # Read template from weekly_merger.html template logic
-    template = f"""<!DOCTYPE html>
+    # Master template exactly matching Week 3
+    master_template = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="utf-8">
@@ -191,42 +215,47 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
     <style>
         * {{ box-sizing: border-box; }}
         body {{ 
-            margin: 0 !important; 
-            padding: 0 !important; 
-            background-color: #cbd5e1 !important; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f1f5f9; 
             font-family: 'Noto Sans KR', sans-serif; 
-            overflow: hidden !important;
+            display: none; /* Authenticated user check before showing */
         }}
-        .page-wrapper {{ 
-            margin: 0 !important; 
-            padding: 0 !important; 
-            width: 100% !important; 
-            height: 100% !important; 
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-        }}
+        .page-wrapper {{ margin: 0; padding: 0; width: 100%; height: 100%; }}
         .a4-page, .concept-page, .spread-page {{
             width: 500px !important;
             height: 707px !important;
-            position: relative !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
+            position: relative;
             background-color: #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            overflow: hidden;
         }}
 
         #flipbook-container {{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #cbd5e1;
+            z-index: 1000;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+        }}
+
+        #zoom-wrapper {{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             display: flex;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            background-color: #cbd5e1 !important;
-            z-index: 10000 !important;
-            overflow: hidden !important;
-            align-items: center !important;
-            justify-content: center !important;
+            align-items: center;
+            justify-content: center;
         }}
 
         #scale-wrapper {{
@@ -237,78 +266,127 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
             display: flex;
             align-items: center;
             justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
         }}
 
         #flipbook {{
-            width: 100% !important;
-            height: 100% !important;
-            position: relative !important;
-            top: 0 !important;
-            left: 0 !important;
-            transform: none !important;
-            margin: 0 !important;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: none;
+            margin: 0;
         }}
 
-        /* Master Page Number */
-        .page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num {{
-            position: absolute !important;
-            bottom: 12px !important;
-            left: 0 !important;
-            width: 100% !important;
-            text-align: center !important;
-            font-size: 11px !important;
-            line-height: 1 !important;
-            color: #64748b !important;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
-            font-weight: 700 !important;
-            letter-spacing: 2px !important;
-            pointer-events: none !important;
-            z-index: 50 !important;
-        }}
-
-        /* Floating Drawing Toolbar */
+        /* Floating Drawing Toolbar Styling */
         #drawing-toolbar {{
-            position: absolute;
-            right: 20px;
-            top: 100px;
-            display: flex;
-            flex-direction: column;
+            display: flex !important; 
+            position: fixed !important; 
+            bottom: 25px !important; 
+            left: 50% !important; 
+            transform: translateX(-50%) !important; 
+            background-color: #1e293b !important; 
+            padding: 10px 16px !important; 
+            border-radius: 30px !important; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4) !important; 
+            z-index: 2000 !important; 
+            gap: 10px !important; 
+            align-items: center !important; 
+            max-width: 95vw !important; 
+            overflow-x: auto !important;
+        }}
+        #drawing-tools {{
+            display: none;
             align-items: center;
             gap: 8px;
-            z-index: 1100;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            border: 1px solid #cbd5e1;
-            backdrop-filter: blur(5px);
         }}
-        .tool-btn {{
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 6px 10px;
+        .pen-btn {{{{
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.1s, border-color 0.2s;
+            flex-shrink: 0;
+        }}}}
+        .pen-btn:hover {{{{ transform: scale(1.15); }}}}
+        .tool-btn {{{{
+            background: #334155;
+            color: white;
+            border: 1px solid #475569;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
-            color: #334155;
             transition: all 0.2s;
-        }}
-        .tool-btn:hover {{ background: #e2e8f0; }}
-        .tool-btn.active {{ background: #0284c7; color: white; border-color: #0284c7; }}
-        .color-palette {{ display: flex; gap: 4px; }}
-        .pen-btn {{ width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }}
+            flex-shrink: 0;
+            white-space: nowrap;
+        }}}}
+        .tool-btn:hover {{{{ background: #475569; }}}}
+        .tool-btn.active {{{{
+            background: #0284c7 !important;
+            border-color: #38bdf8 !important;
+            color: white !important;
+        }}}}
+        #drawing-toolbar::-webkit-scrollbar {{ display: none; }}
+        #drawing-toolbar {{ -ms-overflow-style: none; scrollbar-width: none; }}
+    </style>
+    
+    <!-- Weekly Master Common Styles -->
+    <style id="weekly-common-styles">
+{WEEKLY_COMMON_CSS}
+    </style>
+
+    <!-- Master Transparent Page Number Style -->
+    <style id="master-page-num-style">
+/* Global Master Page Number Styling (100% Seamless & Transparent) */
+.page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num {{
+    position: absolute !important;
+    bottom: 12px !important;
+    left: 0 !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    color: #64748b !important;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}}
+
+/* Ensure PageFlip inactive pages remain strictly hidden */
+.stf__item[style*="display: none"], .stf__item[style*="display:none"] {{
+    display: none !important;
+}}
+
+/* Force absolute positioning, strict 500x707 dimensions, zero margins on all PageFlip items */
+.stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {{
+    position: absolute !important;
+    top: 0 !important;
+    width: 500px !important;
+    height: 707px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}}
     </style>
 
     <!-- Scoped Component Styles -->
 {chr(10).join([f'    <style>{s}</style>' for s in scoped_styles_list])}
 </head>
 <body>
-
-<!-- Hidden Master Main Content (Source of Clone for PageFlip) -->
-<div id="main-content" style="display: none;">
-{chr(10).join(page_wrappers_list)}
-</div>
 
 <!-- Interactive Flipbook Viewport Container -->
 <div id="flipbook-container">
@@ -319,58 +397,82 @@ def merge_week(folder_path, sequence_files, vol_num, output_path):
         <button class="zoom-btn" onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
     </div>
 
-    <!-- Top Right: Navigation Close Button -->
-    <div style="position: absolute; top: 20px; right: 20px; z-index: 1100;">
-        <button onclick="closeEbook(event)" style="background-color: #ef4444; color: white; border: none; padding: 10px 18px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">✕ 닫기</button>
-    </div>
+    <!-- Top Right: Red Close Button -->
+    <button id="close-flipbook-btn" onclick="window.closeEbook(event)" ontouchstart="window.closeEbook(event)" style="position: absolute; top: 20px; right: 20px; padding: 10px 18px; font-size: 16px; background-color: #ef4444; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: 800; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35); z-index: 1100; display: flex; align-items: center; gap: 6px; letter-spacing: -0.5px;">
+        <span style="font-size: 16px; font-weight: 900;">✖</span> 닫기
+    </button>
 
-    <!-- Centered Scale Wrapper -->
-    <div id="scale-wrapper">
-        <div id="flipbook">
-            <!-- Cloned pages injected here -->
+    <!-- Flipbook Canvas Wrapper -->
+    <div id="zoom-wrapper">
+        <div id="scale-wrapper">
+            <div id="flipbook">
+                <!-- Cloned pages injected here -->
+            </div>
         </div>
     </div>
 
-    <!-- Floating Drawing Toolbar -->
+    <!-- Floating Drawing Toolbar (보기 모드 / 쓰기 모드) inside Container -->
     <div id="drawing-toolbar">
-        <button id="btn-mode-toggle" class="tool-btn" style="background: #38bdf8; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: bold;" onclick="toggleDrawingMode(event)">📖 보기 모드</button>
-        
-        <div id="drawing-tools" style="display: none; flex-direction: column; gap: 8px; align-items: center; margin-top: 5px;">
-            <div class="color-palette">
-                <button class="pen-btn" style="background: #0f172a; border-color: white;" onclick="setPen('#0f172a', this, false, event)"></button>
-                <button class="pen-btn" style="background: #ef4444;" onclick="setPen('#ef4444', this, false, event)"></button>
-                <button class="pen-btn" style="background: #0284c7;" onclick="setPen('#0284c7', this, false, event)"></button>
-            </div>
-            <button class="tool-btn" style="background: #fef08a; color: #854d0e; width: 100%;" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true, event)">✏️ 형광펜</button>
-            <div style="display: flex; gap: 4px; width: 100%;">
-                <button class="tool-btn active" style="flex: 1; padding: 4px;" onclick="setThickness(2.5, this, event)">얇게</button>
-                <button class="tool-btn" style="flex: 1; padding: 4px;" onclick="setThickness(5, this, event)">보통</button>
-                <button class="tool-btn" style="flex: 1; padding: 4px;" onclick="setThickness(9, this, event)">두껍</button>
-            </div>
-            <button class="tool-btn" style="width: 100%;" onclick="setEraser(this, event)">부분지우개</button>
-            <button class="tool-btn" style="background: #fee2e2; color: #dc2626; border-color: #fca5a5; width: 100%;" onclick="clearAllCanvas(event)">초기화</button>
+        <div class="drag-handle" style="cursor: move; padding: 0 8px; color: #94a3b8; font-size: 20px; user-select: none; display: flex; align-items: center; justify-content: center; touch-action: none;">⠿</div>
+        <button id="btn-mode-toggle" onclick="toggleDrawingMode(event)" style="background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 900; font-size: 14px; cursor: pointer; flex-shrink: 0; white-space: nowrap;">📖 보기 모드</button>
+        <div id="drawing-tools">
+            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+            <button class="pen-btn" onclick="setPen('#0f172a', this, false, event)" style="background: #0f172a; border-color: white;"></button>
+            <button class="pen-btn" onclick="setPen('#dc2626', this, false, event)" style="background: #dc2626;"></button>
+            <button class="pen-btn" onclick="setPen('#0284c7', this, false, event)" style="background: #0284c7;"></button>
+            <button class="pen-btn" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true, event)" style="background: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 14px;">🖍️</button>
+            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+            <button class="tool-btn" onclick="setThickness(1, this, event)">얇게</button>
+            <button class="tool-btn active" onclick="setThickness(2.5, this, event)">보통</button>
+            <button class="tool-btn" onclick="setThickness(5, this, event)">두껍</button>
+            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
+            <button class="tool-btn" onclick="setEraser(this, event)">부분지우개</button>
+            <button onclick="clearAllCanvas(event)" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; flex-shrink: 0; white-space: nowrap;">초기화</button>
         </div>
     </div>
+</div>
+
+<!-- Hidden Master Main Content (Source of Clone for PageFlip) -->
+<div id="main-content" style="display: none;">
+{chr(10).join(page_wrappers_list)}
 </div>
 
 <!-- External Scripts (PageFlip & MathJax) -->
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 <script>
 // ==========================================
-// 1. Close Button Logic
+// 1. Close Button Logic (Reliable Navigation)
 // ==========================================
 window.closeEbook = function(e) {{
-    if (e) {{ try {{ e.stopPropagation(); e.preventDefault(); }} catch(err){{}} }}
-    if (window.opener && !window.opener.closed) {{ window.close(); return; }}
-    if (window.history && window.history.length > 1) {{ window.history.back(); return; }}
+    if (e) {{
+        try {{ e.stopPropagation(); }} catch(err){{}}
+        try {{ e.preventDefault(); }} catch(err){{}}
+    }}
+    if (window.opener && !window.opener.closed) {{
+        window.close();
+        return;
+    }}
+    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1)) {{
+        window.location.href = document.referrer;
+        return;
+    }}
+    if (window.history && window.history.length > 1) {{
+        window.history.back();
+        setTimeout(function() {{
+            window.location.href = "../../exam.html";
+        }}, 300);
+        return;
+    }}
     window.location.href = "../../exam.html";
 }};
 
 // ==========================================
-// 2. Interactive Quiz Handlers
+// 2. Interactive Quiz Handlers (OX & Blanks)
 // ==========================================
 window.checkOX = function(btn, choice, event) {{
-    if (event) {{ try {{ e.stopPropagation(); }} catch(err){{}} }}
+    if (event) {{
+        try {{ event.stopPropagation(); }} catch(err){{}}
+    }}
     var group = btn.closest('.btn-group') || btn.parentElement;
     if (!group || group.dataset.answered) return;
     var answer = group.dataset.answer;
@@ -396,12 +498,14 @@ window.checkOX = function(btn, choice, event) {{
 }};
 
 window.revealBlank = function(el, event) {{
-    if (event) {{ try {{ event.stopPropagation(); }} catch(err){{}} }}
+    if (event) {{
+        try {{ event.stopPropagation(); }} catch(err){{}}
+    }}
     el.classList.add('revealed');
 }};
 
 // ==========================================
-// 3. Drawing Engine
+// 3. Drawing Engine (보기 모드 & 필기/그리기 모드)
 // ==========================================
 let isDrawingMode = false;
 let currentPenColor = '#0f172a';
@@ -410,7 +514,9 @@ let isHighlighter = false;
 let isEraserMode = false;
 
 window.toggleDrawingMode = function(e) {{
-    if (e) {{ try {{ e.stopPropagation(); }} catch(err){{}} }}
+    if (e) {{
+        try {{ e.stopPropagation(); }} catch(err){{}}
+    }}
     isDrawingMode = !isDrawingMode;
     const btn = document.getElementById('btn-mode-toggle');
     const tools = document.getElementById('drawing-tools');
@@ -454,6 +560,9 @@ window.setEraser = function(btnElem, e) {{
     if (e) {{ try {{ e.stopPropagation(); }} catch(err){{}} }}
     isEraserMode = true;
     document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
+    document.querySelectorAll('.tool-btn').forEach(b => {{
+        if (b.innerText === '부분지우개') b.classList.remove('active');
+    }});
     btnElem.classList.add('active');
 }};
 
@@ -476,15 +585,21 @@ function setupCanvasDrawing(canvas) {{
 
     function getPos(e) {{
         const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         return {{
-            x: (e.clientX - rect.left) * (canvas.width / rect.width),
-            y: (e.clientY - rect.top) * (canvas.height / rect.height)
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY
         }};
     }}
 
     function handlePointerDown(e) {{
-        if (!isDrawingMode || !e.isPrimary) return;
+        if (!isDrawingMode) return;
+        if (!e.isPrimary) return; 
+
+        // 손가락 터치는 줌/이동을 위해 필기 무시 (펜/마우스만 허용)
         if (e.pointerType === 'touch') return; 
+
         e.stopPropagation();
         if (e.cancelable) e.preventDefault();
 
@@ -495,19 +610,22 @@ function setupCanvasDrawing(canvas) {{
             ctx.globalCompositeOperation = 'destination-out';
             ctx.lineWidth = currentPenWidth * 8; 
             ctx.strokeStyle = 'rgba(0,0,0,1)';
-        }} else if (isHighlighter) {{
-            ctx.globalCompositeOperation = 'multiply';
-            ctx.lineWidth = 20;
-            ctx.strokeStyle = currentPenColor;
         }} else {{
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.lineWidth = currentPenWidth * 2; 
-            ctx.strokeStyle = currentPenColor;
+            if (isHighlighter) {{
+                ctx.globalCompositeOperation = 'multiply';
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = currentPenColor;
+            }} else {{
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = currentPenWidth * 2; 
+                ctx.strokeStyle = currentPenColor;
+            }}
         }}
 
         const pos = getPos(e);
         lastX = pos.x;
         lastY = pos.y;
+        
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x + 0.01, pos.y);
@@ -515,12 +633,23 @@ function setupCanvasDrawing(canvas) {{
     }}
 
     function handlePointerMove(e) {{
-        if (!isDrawingMode || !isDrawing || !e.isPrimary) return;
+        if (!isDrawingMode || !isDrawing) return;
+        if (!e.isPrimary) return;
+        
+        if (e.pointerType === 'touch') {{
+            isDrawing = false;
+            return;
+        }}
+        
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+        
         const pos = getPos(e);
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
+        
         lastX = pos.x;
         lastY = pos.y;
     }}
@@ -529,16 +658,119 @@ function setupCanvasDrawing(canvas) {{
         if (!isDrawing) return;
         isDrawing = false;
         try {{ canvas.releasePointerCapture(e.pointerId); }} catch(err){{}}
+        e.stopPropagation();
     }}
 
-    canvas.addEventListener('pointerdown', handlePointerDown);
-    canvas.addEventListener('pointermove', handlePointerMove);
+    let lastPenDownTime = 0;
+    let isStylusActive = false;
+
+    canvas.addEventListener('pointerdown', (e) => {{
+        if (e.pointerType === 'pen' || e.pointerType === 'mouse') {{
+            lastPenDownTime = Date.now();
+        }}
+        handlePointerDown(e);
+    }}, {{passive: false}});
+    canvas.addEventListener('pointermove', handlePointerMove, {{passive: false}});
     canvas.addEventListener('pointerup', handlePointerUp);
     canvas.addEventListener('pointercancel', handlePointerUp);
+    
+    canvas.addEventListener('touchstart', (e) => {{
+        if (!isDrawingMode) return;
+        let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
+        let isWinStylus = (Date.now() - lastPenDownTime) < 100;
+        
+        if (isIOSStylus || isWinStylus) {{
+            isStylusActive = true;
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        }} else {{
+            isStylusActive = false;
+        }}
+    }}, {{passive: false}});
+    
+    function blockStylusTouch(e) {{
+        if (isDrawingMode && isStylusActive) {{
+            e.stopPropagation();
+            if (e.cancelable && e.type === 'touchmove') e.preventDefault();
+        }}
+    }}
+    
+    canvas.addEventListener('touchmove', blockStylusTouch, {{passive: false}});
+    canvas.addEventListener('touchend', blockStylusTouch);
+    canvas.addEventListener('touchcancel', blockStylusTouch);
+    
+    function blockMouse(e) {{
+        if (isDrawingMode) e.stopPropagation();
+    }}
+    canvas.addEventListener('mousedown', blockMouse);
+    canvas.addEventListener('mousemove', blockMouse);
+    canvas.addEventListener('mouseup', blockMouse);
+    canvas.addEventListener('click', blockMouse);
 }}
 
 // ==========================================
-// 4. St.PageFlip Engine Setup
+// 4. Toolbar Drag Logic (Week 3 Standard)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {{
+    const dragToolbar = document.getElementById('drawing-toolbar');
+    let isDraggingTb = false;
+    let tbStartX, tbStartY, tbInitX, tbInitY;
+
+    function startDragTb(e) {{
+        if(!e.target.classList.contains('drag-handle')) return;
+        isDraggingTb = true;
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if(e.touches && e.touches.length > 0) {{
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }}
+        tbStartX = clientX;
+        tbStartY = clientY;
+        const rect = dragToolbar.getBoundingClientRect();
+        tbInitX = rect.left;
+        tbInitY = rect.top;
+        
+        dragToolbar.style.transform = 'none';
+        dragToolbar.style.left = tbInitX + 'px';
+        dragToolbar.style.bottom = 'auto';
+        dragToolbar.style.top = tbInitY + 'px';
+        
+        if (e.cancelable) e.preventDefault();
+    }}
+
+    function moveDragTb(e) {{
+        if (!isDraggingTb) return;
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if(e.touches && e.touches.length > 0) {{
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }}
+        const dx = clientX - tbStartX;
+        const dy = clientY - tbStartY;
+        dragToolbar.style.left = (tbInitX + dx) + 'px';
+        dragToolbar.style.top = (tbInitY + dy) + 'px';
+        if (e.cancelable) e.preventDefault();
+    }}
+
+    function stopDragTb() {{
+        isDraggingTb = false;
+    }}
+
+    if (dragToolbar) {{
+        dragToolbar.addEventListener('mousedown', startDragTb);
+        window.addEventListener('mousemove', moveDragTb, {{passive: false}});
+        window.addEventListener('mouseup', stopDragTb);
+        
+        dragToolbar.addEventListener('touchstart', startDragTb, {{passive: false}});
+        window.addEventListener('touchmove', moveDragTb, {{passive: false}});
+        window.addEventListener('touchend', stopDragTb);
+    }}
+}});
+
+// ==========================================
+// 5. Standard Flipbook & Zoom Engine
 // ==========================================
 let pageFlip = null;
 let currentZoom = 1.0;
@@ -546,7 +778,47 @@ let panX = 0;
 let panY = 0;
 
 function isPortraitMode() {{
-    return window.innerWidth <= 768 || window.innerHeight > window.innerWidth;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return (h > w) || (w < 900) || (h < 500);
+}}
+
+function resizeFlipbook() {{
+    const fbContainer = document.getElementById('flipbook-container');
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
+
+    const portrait = isPortraitMode();
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    
+    const targetW = portrait ? 500 : 1000;
+    const targetH = 707;
+
+    if (currentZoom <= 1.05) {{
+        panX = 0;
+        panY = 0;
+    }}
+
+    const scaleW = (winW * 0.95) / targetW;
+    const scaleH = (winH * 0.95) / targetH;
+    let baseScale = Math.min(scaleW, scaleH);
+    let totalScale = baseScale * currentZoom;
+
+    scaleWrapper.style.width = targetW + 'px';
+    scaleWrapper.style.height = targetH + 'px';
+    scaleWrapper.style.transform = 'translate(calc(-50% + ' + panX + 'px), calc(-50% + ' + panY + 'px)) scale(' + totalScale + ')';
+
+    if (pageFlip) {{
+        pageFlip.update();
+    }}
+}}
+
+function zoomFlipbook(delta) {{
+    currentZoom += delta;
+    if (currentZoom < 0.6) currentZoom = 0.6;
+    if (currentZoom > 3.5) currentZoom = 3.5;
+    resizeFlipbook();
 }}
 
 function initFlipbookEngine() {{
@@ -565,7 +837,6 @@ function initFlipbookEngine() {{
         clone.style.margin = "0";
         if (clone.id) clone.id = clone.id + '-clone';
 
-        // Preserve scoped class
         Array.from(w.classList).forEach(cls => {{
             if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {{
                 clone.classList.add(cls);
@@ -583,6 +854,7 @@ function initFlipbookEngine() {{
         cvs.style.left = '0';
         cvs.style.zIndex = '999';
         cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
+        cvs.style.touchAction = 'pinch-zoom';
         setupCanvasDrawing(cvs);
         clone.appendChild(cvs);
 
@@ -607,64 +879,126 @@ function initFlipbookEngine() {{
     pageFlip.loadFromHTML(Array.from(fbElement.children));
 }}
 
-function resizeFlipbook() {{
-    const fbContainer = document.getElementById('flipbook-container');
-    const scaleWrapper = document.getElementById('scale-wrapper');
-    if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
-
-    const portrait = isPortraitMode();
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-    
-    const targetW = portrait ? 500 : 1000;
-    const targetH = 707;
-
-    if (currentZoom <= 1.05) {{ panX = 0; panY = 0; }}
-
-    const scaleW = (winW * 0.95) / targetW;
-    const scaleH = (winH * 0.95) / targetH;
-    let baseScale = Math.min(scaleW, scaleH);
-    let totalScale = baseScale * currentZoom;
-
-    scaleWrapper.style.width = targetW + 'px';
-    scaleWrapper.style.height = targetH + 'px';
-    scaleWrapper.style.transform = `translate(calc(-50% + ${{panX}}px), calc(-50% + ${{panY}}px)) scale(${{totalScale}})`;
-
-    if (pageFlip) pageFlip.update();
-}}
-
-window.zoomFlipbook = function(delta) {{
-    currentZoom = Math.min(Math.max(0.6, currentZoom + delta), 2.5);
-    resizeFlipbook();
-}};
-
 function setupViewerEvents() {{
-    let isMouseDown = false;
-    let startX = 0, startY = 0;
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!scaleWrapper) return;
 
-    const fbContainer = document.getElementById('flipbook-container');
-    fbContainer.addEventListener('mousedown', (e) => {{
-        if (e.target.closest('#drawing-toolbar') || e.target.closest('.zoom-btn') || e.target.closest('button')) return;
+    let touchMode = null;
+    let touchStartTime = 0;
+    let startTouchX = 0, startTouchY = 0;
+    let startPanX = 0, startPanY = 0;
+    let initialPinchDist = 0;
+    let zoomAtPinchStart = 1;
+
+    function getDistance(t1, t2) {{
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.hypot(dx, dy);
+    }}
+
+    scaleWrapper.addEventListener('touchstart', (e) => {{
+        touchStartTime = Date.now();
+
+        if (e.touches.length === 2) {{
+            touchMode = 'pinch';
+            initialPinchDist = getDistance(e.touches[0], e.touches[1]);
+            zoomAtPinchStart = currentZoom;
+        }} else if (e.touches.length === 1) {{
+            touchMode = 'single';
+            startTouchX = e.touches[0].clientX;
+            startTouchY = e.touches[0].clientY;
+            startPanX = panX;
+            startPanY = panY;
+        }}
+    }}, {{ passive: false }});
+
+    scaleWrapper.addEventListener('touchmove', (e) => {{
+        if (e.touches.length === 2 && touchMode === 'pinch') {{
+            e.preventDefault();
+            const currentDist = getDistance(e.touches[0], e.touches[1]);
+            if (initialPinchDist > 0) {{
+                const ratio = currentDist / initialPinchDist;
+                currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
+                resizeFlipbook();
+            }}
+        }} else if (e.touches.length === 1 && touchMode === 'single') {{
+            const moveX = e.touches[0].clientX - startTouchX;
+            const moveY = e.touches[0].clientY - startTouchY;
+            const dist = Math.hypot(moveX, moveY);
+
+            if (currentZoom > 1.1 || dist > 15) {{
+                if (currentZoom > 1.1) {{
+                    e.preventDefault();
+                    panX = startPanX + moveX;
+                    panY = startPanY + moveY;
+                    resizeFlipbook();
+                }}
+            }}
+        }}
+    }}, {{ passive: false }});
+
+    scaleWrapper.addEventListener('touchend', (e) => {{
+        const touchDuration = Date.now() - touchStartTime;
+
+        if (touchMode === 'single' && e.changedTouches.length === 1) {{
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
+
+            if (dist < 15 && touchDuration < 300 && pageFlip) {{
+                const target = document.elementFromPoint(endX, endY);
+                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {{
+                    touchMode = null;
+                    return;
+                }}
+                const rect = scaleWrapper.getBoundingClientRect();
+                const relativeX = endX - rect.left;
+
+                if (relativeX < rect.width / 2) {{
+                    pageFlip.flipPrev();
+                }} else {{
+                    pageFlip.flipNext();
+                }}
+                e.preventDefault();
+            }}
+        }}
+        touchMode = null;
+    }});
+
+    let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
+
+    scaleWrapper.addEventListener('mousedown', (e) => {{
         isMouseDown = true;
-        startX = e.clientX - panX;
-        startY = e.clientY - panY;
+        isMouseDrag = false;
+        mouseStartX = e.clientX;
+        mouseStartY = e.clientY;
+        mouseStartPanX = panX;
+        mouseStartPanY = panY;
     }});
 
     window.addEventListener('mousemove', (e) => {{
         if (!isMouseDown) return;
-        if (currentZoom > 1.05 && !isDrawingMode) {{
-            panX = e.clientX - startX;
-            panY = e.clientY - startY;
-            resizeFlipbook();
+        const moveX = e.clientX - mouseStartX;
+        const moveY = e.clientY - mouseStartY;
+        if (Math.hypot(moveX, moveY) > 5) {{
+            isMouseDrag = true;
+            if (currentZoom > 1.1) {{
+                panX = mouseStartPanX + moveX;
+                panY = mouseStartPanY + moveY;
+                resizeFlipbook();
+            }}
         }}
     }});
 
     window.addEventListener('mouseup', (e) => {{
-        if (!isMouseDown) return;
-        if (currentZoom <= 1.05 && !isDrawingMode && pageFlip) {{
-            const clickX = e.clientX;
-            const mid = window.innerWidth / 2;
-            if (clickX < mid) pageFlip.flipPrev();
+        if (isMouseDown && !isMouseDrag && pageFlip) {{
+            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {{
+                isMouseDown = false;
+                return;
+            }}
+            const rect = scaleWrapper.getBoundingClientRect();
+            const relativeX = e.clientX - rect.left;
+            if (relativeX < rect.width / 2) pageFlip.flipPrev();
             else pageFlip.flipNext();
         }}
         isMouseDown = false;
@@ -673,6 +1007,7 @@ function setupViewerEvents() {{
     window.addEventListener('resize', resizeFlipbook);
     window.addEventListener('orientationchange', resizeFlipbook);
 
+    // Keyboard Arrow Keys
     window.addEventListener('keydown', (e) => {{
         if (!pageFlip) return;
         if (e.key === 'ArrowLeft' || e.key === 'PageUp') pageFlip.flipPrev();
@@ -680,20 +1015,36 @@ function setupViewerEvents() {{
     }});
 }}
 
-document.addEventListener('DOMContentLoaded', () => {{
-    initFlipbookEngine();
-    setupViewerEvents();
+window.toggleFlipbook = function() {{
+    const fbContainer = document.getElementById('flipbook-container');
+    if (!fbContainer) return;
+
+    fbContainer.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    if (!pageFlip) {{
+        initFlipbookEngine();
+        setupViewerEvents();
+    }}
+
+    currentZoom = 1.0;
+    panX = 0;
+    panY = 0;
     resizeFlipbook();
+}};
+
+document.addEventListener('DOMContentLoaded', () => {{
+    window.toggleFlipbook();
 }});
 </script>
 </body>
 </html>"""
 
     with open(output_path, 'w', encoding='utf-8') as out_f:
-        out_f.write(template)
+        out_f.write(master_template)
 
-    print(f"✓ 주간지 완성본 생성 완료! ({len(template):,} bytes)")
-    return template
+    print(f"✓ 주간지 완성본 생성 완료! ({len(master_template):,} bytes)")
+    return master_template
 
 if __name__ == '__main__':
     w4_folder = r'G:\내 드라이브\주간지\4주차'
@@ -719,8 +1070,6 @@ if __name__ == '__main__':
     out_drive = r'G:\내 드라이브\주간지\4주차\week_2028_04_final.html'
     out_public = r'C:\Users\shko8\godtonggwa\public\STEST\weekly\ebook\week_2028_04_final.html'
 
-    merge_week(w4_folder, w4_files, "04", out_drive)
-    
-    if os.path.exists(r'C:\Users\shko8\godtonggwa\public\STEST\weekly\ebook'):
-        shutil.copy2(out_drive, out_public)
-        print(f"✓ 앱 public 디렉토리에도 동기화 완료: {out_public}")
+    merge_week_perfect(w4_folder, w4_files, "04", out_drive)
+    shutil.copy2(out_drive, out_public)
+    print(f"✓ 복사 완료: {out_public}")

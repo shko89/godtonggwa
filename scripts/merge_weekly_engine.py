@@ -216,7 +216,7 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
     
     <!-- Base Reset & Flipbook Global Styles -->
     <style>
-        * {{ box-sizing: border-box; }}
+* {{ box-sizing: border-box; }}
         body {{ 
             margin: 0; 
             padding: 0; 
@@ -229,14 +229,13 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
             width: 500px !important;
             height: 707px !important;
             position: relative;
-            background-color: #ffffff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            box-sizing: border-box;
+            background: #ffffff;
+            box-sizing: border-box !important;
             overflow: hidden;
+            margin: 0 !important;
         }}
 
         #flipbook-container {{
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -245,35 +244,26 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
             background-color: #cbd5e1;
             z-index: 1000;
             overflow: hidden;
-            align-items: center;
-            justify-content: center;
-        }}
-
-        #zoom-wrapper {{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
         }}
-
+        #zoom-wrapper {{
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }}
         #scale-wrapper {{
             position: absolute;
             top: 50%;
             left: 50%;
+            transform: translate(-50%, -50%) scale(1);
             transform-origin: center center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: none;
+            width: 1000px;
+            height: 707px;
         }}
-
         #flipbook {{
             width: 100%;
             height: 100%;
@@ -288,9 +278,9 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
         #drawing-toolbar {{
             display: flex !important; 
             position: fixed !important; 
-            bottom: 25px !important; 
-            left: 50% !important; 
-            transform: translateX(-50%) !important; 
+            bottom: 25px; 
+            left: 50%; 
+            transform: translateX(-50%); 
             background-color: #1e293b !important; 
             padding: 10px 16px !important; 
             border-radius: 30px !important; 
@@ -302,40 +292,33 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
             overflow-x: auto !important;
         }}
         #drawing-tools {{
-            display: none;
-            align-items: center;
-            gap: 8px;
+            display: none; 
+            align-items: center; 
+            gap: 8px; 
+            flex-wrap: nowrap;
         }}
-        .pen-btn {{{{
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            cursor: pointer;
-            outline: none;
-            transition: transform 0.1s, border-color 0.2s;
-            flex-shrink: 0;
-        }}}}
-        .pen-btn:hover {{{{ transform: scale(1.15); }}}}
-        .tool-btn {{{{
-            background: #334155;
-            color: white;
-            border: 1px solid #475569;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            white-space: nowrap;
-        }}}}
-        .tool-btn:hover {{{{ background: #475569; }}}}
-        .tool-btn.active {{{{
-            background: #0284c7 !important;
-            border-color: #38bdf8 !important;
-            color: white !important;
-        }}}}
+        .pen-btn {{
+            width: 30px !important; 
+            height: 30px !important; 
+            border-radius: 50% !important; 
+            border: 2px solid transparent !important; 
+            cursor: pointer !important; 
+            flex-shrink: 0 !important;
+        }}
+        .tool-btn {{
+            background: transparent !important; 
+            color: white !important; 
+            border: 1px solid #475569 !important; 
+            padding: 6px 12px !important; 
+            border-radius: 6px !important; 
+            font-size: 13px !important; 
+            cursor: pointer !important; 
+            white-space: nowrap !important; 
+            flex-shrink: 0 !important;
+        }}
+        .tool-btn.active {{
+            background: #475569 !important;
+        }}
         #drawing-toolbar::-webkit-scrollbar {{ display: none; }}
         #drawing-toolbar {{ -ms-overflow-style: none; scrollbar-width: none; }}
     </style>
@@ -508,7 +491,7 @@ window.revealBlank = function(el, event) {{
 }};
 
 // ==========================================
-// 3. Drawing Engine (보기 모드 & 필기/그리기 모드)
+// 3. Drawing Engine (보기 모드 & 쓰기/필기 모드)
 // ==========================================
 let isDrawingMode = false;
 let currentPenColor = '#0f172a';
@@ -712,19 +695,23 @@ function setupCanvasDrawing(canvas) {{
 }}
 
 // ==========================================
-// 4. Toolbar Drag Logic (Week 3 Standard)
+// 4. Toolbar Drag Logic
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {{
     const dragToolbar = document.getElementById('drawing-toolbar');
+    if (!dragToolbar) return;
+
     let isDraggingTb = false;
-    let tbStartX, tbStartY, tbInitX, tbInitY;
+    let tbStartX = 0, tbStartY = 0, tbInitX = 0, tbInitY = 0;
 
     function startDragTb(e) {{
-        if(!e.target.classList.contains('drag-handle')) return;
+        // 버튼 클릭 시에는 드래그 대신 버튼 기능 실행
+        if (e.target.closest('button, input, select, textarea')) return;
+
         isDraggingTb = true;
         let clientX = e.clientX;
         let clientY = e.clientY;
-        if(e.touches && e.touches.length > 0) {{
+        if (e.touches && e.touches.length > 0) {{
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
         }}
@@ -734,11 +721,12 @@ document.addEventListener('DOMContentLoaded', () => {{
         tbInitX = rect.left;
         tbInitY = rect.top;
         
-        dragToolbar.style.transform = 'none';
-        dragToolbar.style.left = tbInitX + 'px';
-        dragToolbar.style.bottom = 'auto';
-        dragToolbar.style.top = tbInitY + 'px';
+        dragToolbar.style.setProperty('transform', 'none', 'important');
+        dragToolbar.style.setProperty('bottom', 'auto', 'important');
+        dragToolbar.style.setProperty('left', tbInitX + 'px', 'important');
+        dragToolbar.style.setProperty('top', tbInitY + 'px', 'important');
         
+        e.stopPropagation();
         if (e.cancelable) e.preventDefault();
     }}
 
@@ -746,34 +734,46 @@ document.addEventListener('DOMContentLoaded', () => {{
         if (!isDraggingTb) return;
         let clientX = e.clientX;
         let clientY = e.clientY;
-        if(e.touches && e.touches.length > 0) {{
+        if (e.touches && e.touches.length > 0) {{
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
         }}
         const dx = clientX - tbStartX;
         const dy = clientY - tbStartY;
-        dragToolbar.style.left = (tbInitX + dx) + 'px';
-        dragToolbar.style.top = (tbInitY + dy) + 'px';
+        
+        const rect = dragToolbar.getBoundingClientRect();
+        let newLeft = Math.max(5, Math.min(window.innerWidth - rect.width - 5, tbInitX + dx));
+        let newTop = Math.max(5, Math.min(window.innerHeight - rect.height - 5, tbInitY + dy));
+        
+        dragToolbar.style.setProperty('left', newLeft + 'px', 'important');
+        dragToolbar.style.setProperty('top', newTop + 'px', 'important');
+        
+        e.stopPropagation();
         if (e.cancelable) e.preventDefault();
     }}
 
-    function stopDragTb() {{
-        isDraggingTb = false;
+    function stopDragTb(e) {{
+        if (isDraggingTb) {{
+            isDraggingTb = false;
+            if (e) {{
+                try {{ e.stopPropagation(); }} catch(err){{}}
+            }}
+        }}
     }}
 
-    if (dragToolbar) {{
-        dragToolbar.addEventListener('mousedown', startDragTb);
-        window.addEventListener('mousemove', moveDragTb, {{passive: false}});
-        window.addEventListener('mouseup', stopDragTb);
-        
-        dragToolbar.addEventListener('touchstart', startDragTb, {{passive: false}});
-        window.addEventListener('touchmove', moveDragTb, {{passive: false}});
-        window.addEventListener('touchend', stopDragTb);
-    }}
+    dragToolbar.addEventListener('mousedown', startDragTb);
+    window.addEventListener('mousemove', moveDragTb, {{passive: false}});
+    window.addEventListener('mouseup', stopDragTb);
+    
+    dragToolbar.addEventListener('touchstart', startDragTb, {{passive: false}});
+    window.addEventListener('touchmove', moveDragTb, {{passive: false}});
+    window.addEventListener('touchend', stopDragTb);
+    window.addEventListener('touchcancel', stopDragTb);
 }});
 
 // ==========================================
-// 5. Standard Flipbook & Zoom Engine
+// ==========================================
+// 5. Standard 1·2 Week Standardized Flipbook & Zoom Engine
 // ==========================================
 let pageFlip = null;
 let currentZoom = 1.0;
@@ -828,7 +828,9 @@ function initFlipbookEngine() {{
     const fbElement = document.getElementById('flipbook');
     if (!fbElement || pageFlip) return;
 
+    // Use strictly top-level page-wrappers from #main-content to guarantee exactly 41 pages without nested duplicate extraction
     const topWrappers = Array.from(document.querySelectorAll('#main-content > .page-wrapper'));
+
     fbElement.innerHTML = '';
 
     topWrappers.forEach(w => {{
@@ -840,6 +842,7 @@ function initFlipbookEngine() {{
         clone.style.margin = "0";
         if (clone.id) clone.id = clone.id + '-clone';
 
+        // Preserve page-scope class from parent wrapper
         Array.from(w.classList).forEach(cls => {{
             if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {{
                 clone.classList.add(cls);

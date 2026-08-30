@@ -124,26 +124,43 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
         styles = re.findall(r'<style[^>]*>([\s\S]*?)</style>', content, re.I)
         combined_styles = '\n'.join(styles)
 
-        a4_starts = [m.start() for m in re.finditer(r'<div[^>]*class=[\'"][^\'"]*a4-page[^\'"]*[\'"]', content)]
-        if not a4_starts:
-            a4_starts = [m.start() for m in re.finditer(r'<div[^>]*class=[\'"][^\'"]*(?:concept-page|spread-page)[^\'"]*[\'"]', content)]
+        # 1. Find only top-level a4-page elements
+        matches = list(re.finditer(r'<div[^>]*class=["\'][^"\']*\ba4-page\b[^"\']*["\'][^>]*>', content))
+        if not matches:
+            matches = list(re.finditer(r'<div[^>]*class=["\'][^"\']*(?:concept-page|spread-page)[^"\']*["\'][^>]*>', content))
 
-        if not a4_starts:
+        if not matches:
             body_m = re.search(r'<body[^>]*>([\s\S]*?)</body>', content, re.I)
             if body_m:
                 raw_extracted.append((fname, 1, fname, body_m.group(1).strip(), combined_styles))
             continue
 
-        for i, start_pos in enumerate(a4_starts):
-            if i + 1 < len(a4_starts):
-                end_pos = a4_starts[i + 1]
-                page_html = content[start_pos:end_pos].strip()
-            else:
-                body_end = content.find('</body>', start_pos)
-                if body_end == -1:
-                    body_end = len(content)
-                page_html = content[start_pos:body_end].strip()
+        for i, m in enumerate(matches):
+            start_pos = m.start()
+            depth = 0
+            end_pos = start_pos
+            idx_scan = start_pos
+            while idx_scan < len(content):
+                if content[idx_scan:idx_scan+4] == '<div':
+                    depth += 1
+                    idx_scan += 4
+                elif content[idx_scan:idx_scan+6] == '</div>':
+                    depth -= 1
+                    idx_scan += 6
+                    if depth == 0:
+                        end_pos = idx_scan
+                        break
+                else:
+                    idx_scan += 1
+            
+            if depth != 0:
+                if i + 1 < len(matches):
+                    end_pos = matches[i+1].start()
+                else:
+                    b_end = content.find('</body>', start_pos)
+                    end_pos = b_end if b_end != -1 else len(content)
 
+            page_html = content[start_pos:end_pos].strip()
             h_m = re.search(r'<h[1-4][^>]*>(.*?)</h[1-4]>', page_html)
             title = re.sub(r'<[^>]+>', '', h_m.group(1)).strip() if h_m else fname
 

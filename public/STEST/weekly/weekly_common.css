@@ -249,7 +249,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 /* ========================================================
    GLOBAL OVERRIDE: 100% REMOVE BACKGROUND IMAGE FROM TUTOR'S SCHEMA
    ======================================================== */
-.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {
+.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {padding: 8px 8px 5px 8px !important; 
     background-image: none !important;
     background-size: auto !important;
     background-color: #ffffff !important; }
@@ -261,7 +261,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 /* ========================================================
    GLOBAL OVERRIDE: TUTOR'S SCHEMA SPACING & TYPOGRAPHY
    ======================================================== */
-.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {
+.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {padding: 8px 8px 5px 8px !important; 
     background-image: none !important;
     background-size: auto !important;
     background-color: #ffffff !important;

@@ -452,7 +452,7 @@
             const htmlFiles = files.filter(f => {
                 const lower = f.name.toLowerCase();
                 if (!lower.endsWith('.html') && !lower.endsWith('.htm')) return false;
-                if (lower.includes('final') || lower.includes('병합도구') || lower.includes('merger') || lower.includes('admin')) return false;
+                if (lower.includes('final') || lower.includes('병합도구') || lower.includes('merger') || lower.includes('admin') || lower.includes('old') || lower.includes('draft') || lower.includes('-1.html')) return false;
                 return true;
             });
 
@@ -488,8 +488,8 @@
                 }
             }
 
+            sortPagesByName();
             updateStats();
-            renderPageCards();
             
             if (htmlFiles.length > 0) {
                 alert(htmlFiles.length + "개 HTML 파일에서 총 " + addedPagesCount + "쪽의 페이지가 정상 추가되었습니다!");
@@ -746,8 +746,8 @@
 
         function deletePage(id) {
             pagesData = pagesData.filter(p => p.id !== id);
+            sortPagesByName();
             updateStats();
-            renderPageCards();
         }
 
         function clearAllPages() {
@@ -776,8 +776,40 @@
             alert("전체 페이지 번호가 순서대로 자동 갱신되었습니다!");
         }
 
+        function getPageWeight(sourceFile) {
+            const name = (sourceFile || '').toLowerCase();
+            if (name.includes('page01') || name.includes('cover')) return 10;
+            if (name.includes('inside') || name.includes('blank')) return 20;
+            if (name.includes('page03') || name.includes('index') || name.includes('toc')) return 30;
+            if (name.includes('page04')) return 40;
+            if (name.includes('page05')) return 50;
+            if (name.includes('page06')) return 60;
+            if (name.includes('page07') && !name.includes('-')) return 70;
+            if (name.includes('section01_prob')) return 71;
+            if (name.includes('section01_ans')) return 72;
+            if (name.includes('page08')) return 80;
+            if (name.includes('page09') && !name.includes('-')) return 90;
+            if (name.includes('section02_prob')) return 91;
+            if (name.includes('section02_ans')) return 92;
+            if (name.includes('page10')) return 100;
+            if (name.includes('page11') && !name.includes('-')) return 110;
+            if (name.includes('section03_prob') || name.includes('section05_prob')) return 111;
+            if (name.includes('section03_ans') || name.includes('section05_ans')) return 112;
+            if (name.includes('page12')) return 120;
+            if (name.includes('page13') && !name.includes('-')) return 130;
+            if (name.includes('section04_prob') || name.includes('section06_prob')) return 131;
+            if (name.includes('section04_ans') || name.includes('section06_ans')) return 132;
+            if (name.includes('page14')) return 140;
+            if (name.includes('page15')) return 150;
+            if (name.includes('quiz') || name.includes('mock')) return 900;
+            return 500;
+        }
+
         function sortPagesByName() {
             pagesData.sort((a, b) => {
+                const wA = getPageWeight(a.sourceFile);
+                const wB = getPageWeight(b.sourceFile);
+                if (wA !== wB) return wA - wB;
                 const cmp = a.sourceFile.localeCompare(b.sourceFile, undefined, { numeric: true, sensitivity: 'base' });
                 if (cmp !== 0) return cmp;
                 return a.subIndex - b.subIndex;

@@ -403,6 +403,7 @@ window.addEventListener('wheel', (e) => {
             }
         };
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
         import { 
             getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
             setPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail 
@@ -419,6 +420,10 @@ window.addEventListener('wheel', (e) => {
         };
 
         const app = initializeApp(firebaseConfig);
+        const appCheck = initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
+            isTokenAutoRefreshEnabled: true
+        });
         const auth = getAuth(app);
         const db = getFirestore(app);
 
@@ -684,7 +689,8 @@ window.addEventListener('wheel', (e) => {
                             }
                             const jsData = jsDataCache[baseId];
                             if (jsData && jsData.explanations) {
-                                const idx = (wa.no || 1) - 1;
+                                const qNum = wa.no || (wa.qId ? parseInt((String(wa.qId).match(/\d+$/) || [1])[0], 10) : 1);
+                                const idx = qNum - 1;
                                 if (jsData.explanations[idx] && jsData.explanations[idx].topic) {
                                     wa.topic = jsData.explanations[idx].topic;
                                     if(!wa.taxonomy) wa.taxonomy = {};
@@ -737,22 +743,44 @@ window.addEventListener('wheel', (e) => {
         window.currentTab = 'all';
 
         function refreshCurrentTab() {
-            if (currentUserData && currentUserData.hasAllPass) {
+            const hasAllPass = Boolean(currentUserData && (currentUserData.hasAllPass || currentUserData.subscriptions?.all_pass?.isActive || currentUserData.isPaid));
+            const hasWeeklySub = Boolean(currentUserData && (currentUserData.subscriptions?.weekly_magazine?.isActive || currentUserData.hasWeeklyPass || hasAllPass));
+            const hasSeasonSub = Boolean(currentUserData && (currentUserData.subscriptions?.season_mock?.isActive || hasAllPass));
+
+            if (hasAllPass) {
                 // 가상 올패스(마스터 키) 적용: 모든 패키지와 시험을 보유한 것으로 처리
                 masterPackages.forEach(p => {
                     if (!myPackagesData[p.id]) myPackagesData[p.id] = { status: 'active', adminGranted: true, title: p.title };
                 });
                 masterExams.forEach(e => {
-                    if (!myExamData[e.id]) myExamData[e.id] = { status: 'purchased', adminGranted: true, packageId: e.packageId };
+                    const eId = e.docId || e.id;
+                    if (!myExamData[eId]) myExamData[eId] = { status: 'purchased', adminGranted: true, packageId: e.packageId };
                 });
+            } else {
+                if (hasWeeklySub) {
+                    masterExams.forEach(e => {
+                        if (e.serviceType === 'WEEKLY_MAG') {
+                            const eId = e.docId || e.id;
+                            if (!myExamData[eId]) myExamData[eId] = { status: 'purchased', adminGranted: true, packageId: 'weekly_winter_2028' };
+                        }
+                    });
+                }
+                if (hasSeasonSub) {
+                    masterExams.forEach(e => {
+                        if (e.serviceType === 'SEASON_MOCK') {
+                            const eId = e.docId || e.id;
+                            if (!myExamData[eId]) myExamData[eId] = { status: 'purchased', adminGranted: true, packageId: e.packageId };
+                        }
+                    });
+                }
             }
 
             ['all', 'my', 'report'].forEach(t => {
                 const el = document.getElementById(`tab-${t}`);
                 if(!el) return;
                 el.className = t === window.currentTab 
-                    ? "pb-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap transition-colors"
-                    : "pb-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-600 whitespace-nowrap transition-colors";
+                    ? "pb-3 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 whitespace-nowrap transition-colors" 
+                    : "pb-3 text-sm font-bold text-gray-400 hover:text-gray-600 whitespace-nowrap transition-colors";
             });
 
             const navExamBtn = document.getElementById('nav-exam-btn');
@@ -845,7 +873,10 @@ window.addEventListener('wheel', (e) => {
 
                 
                 // --- WEEKLY_MAG ROADMAP ---
-                if ((subFilter === 'ALL' || subFilter === 'WEEKLY') && weeklyExams.length > 0) {
+                if (subFilter === 'ALL' || subFilter === 'WEEKLY') {
+                    const hasAllPass = Boolean(currentUserData && (currentUserData.hasAllPass || currentUserData.subscriptions?.all_pass?.isActive || currentUserData.isPaid));
+                    const hasWeeklySub = Boolean(currentUserData && (currentUserData.subscriptions?.weekly_magazine?.isActive || currentUserData.hasWeeklyPass || hasAllPass));
+
                     const resolvedWeekly = weeklyExams.map(examMeta => {
                         const rec = myExamData ? myExamData[examMeta.docId] : null;
                         let status = 'locked';
@@ -853,11 +884,13 @@ window.addEventListener('wheel', (e) => {
                             status = rec.status;
                             if (rec.status === 'purchased' && rec.adminGranted) status = 'purchased';
                         } else {
-                            if (myPackagesData && examMeta.packageId && myPackagesData[examMeta.packageId]) {
+                            if (hasWeeklySub) {
+                                status = 'purchased';
+                            } else if (myPackagesData && examMeta.packageId && myPackagesData[examMeta.packageId]) {
                                 const pkgStatus = myPackagesData[examMeta.packageId].status;
                                 if (pkgStatus === 'active') status = 'purchased';
                                 else if (pkgStatus === 'pending') status = 'pending';
-                            } else if (currentUserData?.hasAllPass) {
+                            } else if (hasAllPass) {
                                 status = 'purchased';
                             }
                         }
@@ -894,17 +927,43 @@ window.addEventListener('wheel', (e) => {
                     `;
                     
                     for(let i = 1; i <= 10; i++) {
-                        const weekData = resolvedWeekly.find(e => e.subTitle && e.subTitle.includes(`${i}주차`)) 
-                                         || resolvedWeekly[i-1] 
-                                         || { title: `갓통과 WEEKLY ${i < 10 ? '0'+i : i}`, status: 'locked' };
+                        const paddedNum = i < 10 ? '0' + i : String(i);
+                        const docIdExpected = `week_2028_${paddedNum}`;
+                        const foundExam = weeklyExams.find(e => 
+                            e.docId === docIdExpected || 
+                            e.id === i ||
+                            (e.subTitle && (e.subTitle.includes(`${i}주차`) || e.subTitle.includes(`${paddedNum}주차`))) ||
+                            (e.title && (e.title.includes(`${i}주차`) || e.title.includes(`${paddedNum}주차`)))
+                        );
+                        
+                        const isRegisteredInDb = Boolean(foundExam);
+                        const rec = myExamData ? myExamData[foundExam?.docId || docIdExpected] : null;
+                        
+                        let itemStatus = 'upcoming';
+                        if (isRegisteredInDb) {
+                            if (rec && rec.status === 'graded') {
+                                itemStatus = 'graded';
+                            } else if (hasWeeklySub || (rec && (rec.status === 'purchased' || rec.adminGranted))) {
+                                itemStatus = 'purchased';
+                            } else if (myPackagesData && foundExam.packageId && myPackagesData[foundExam.packageId]?.status === 'pending') {
+                                itemStatus = 'pending';
+                            } else {
+                                itemStatus = 'locked';
+                            }
+                        } else {
+                            itemStatus = 'upcoming';
+                        }
+
+                        const weekData = {
+                            docId: foundExam?.docId || docIdExpected,
+                            title: foundExam?.title || `갓통과 2028 주간지 ${i}주차 (Fit 20)`,
+                            status: itemStatus
+                        };
                                          
                         let titleToDisplay = weekData.title;
                         
                         let nodeHtml = '';
                         if (weekData.status === 'graded') {
-                            const paddedNum = i < 10 ? '0' + i : i;
-                            titleToDisplay = weekData.title.includes(paddedNum) ? weekData.title : `${weekData.title} ${paddedNum}`;
-                            
                             nodeHtml = `
                             <div class="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden">
                                 <div class="absolute -right-4 -top-4 opacity-10"><i data-lucide="check-circle" class="w-24 h-24 text-emerald-500"></i></div>
@@ -940,23 +999,32 @@ window.addEventListener('wheel', (e) => {
                                 </div>
                                 <button disabled class="mt-4 w-full bg-yellow-100 text-yellow-600 py-2 rounded-lg text-xs font-bold cursor-wait flex items-center justify-center gap-1">승인 대기 중...</button>
                             </div>`;
+                        } else if (weekData.status === 'upcoming') {
+                            nodeHtml = `
+                            <div class="bg-gray-50/80 border border-dashed border-gray-200 rounded-2xl p-5 flex flex-col justify-between opacity-75">
+                                <div>
+                                    <span class="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-0.5 rounded uppercase mb-2 inline-flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-gray-400"></i> 순차 오픈 예정</span>
+                                    <h4 class="font-bold text-gray-400 mb-1">${titleToDisplay}</h4>
+                                </div>
+                                <button disabled class="mt-4 w-full bg-gray-100/70 border border-gray-200 text-gray-400 py-2 rounded-lg text-xs font-bold cursor-not-allowed flex items-center justify-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 opacity-60"></i> 아직 오픈되지 않았습니다</button>
+                            </div>`;
                         } else {
                             nodeHtml = `
-                            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 flex flex-col justify-between opacity-70">
+                            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 flex flex-col justify-between opacity-80">
                                 <div>
                                     <span class="bg-gray-200 text-gray-500 text-[10px] font-bold px-2 py-0.5 rounded uppercase mb-2 inline-flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i> 잠김</span>
-                                    <h4 class="font-bold text-gray-500">${weekData.title}</h4>
+                                    <h4 class="font-bold text-gray-600 mb-1">${weekData.title}</h4>
                                 </div>
-                                <button disabled class="mt-4 w-full bg-white border border-gray-200 text-gray-400 py-2 rounded-lg text-xs font-bold cursor-not-allowed flex items-center justify-center gap-1">아직 열리지 않았습니다</button>
+                                <button onclick="location.href='../weekly_info.html'" class="mt-4 w-full bg-white border border-indigo-200 text-indigo-600 hover:bg-indigo-50 py-2 rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1">주간지 패키지 신청하기</button>
                             </div>`;
                         }
                         
                         html += nodeHtml;
                     }
-                    html += `</div></div><hr class="border-gray-100 my-10"/>`; 
+                    html += `</div></div><hr class="border-gray-100 my-10"/>`;
                 }
 
-html += `<div class="mb-8">`;
+                html += `<div class="mb-8">`;
                 
                 if (subFilter === 'ALL' || subFilter === 'MOCK' || subFilter === 'PREP') {
                 // 1. 진행 중인 모의고사
@@ -970,9 +1038,19 @@ html += `<div class="mb-8">`;
                         const rec = myExamData ? myExamData[examMeta.docId] : null;
                         
                         let currentStatus = 'locked';
+                        const hasAllPass = Boolean(currentUserData && (currentUserData.hasAllPass || currentUserData.subscriptions?.all_pass?.isActive || currentUserData.isPaid));
+                        const hasWeeklySub = Boolean(currentUserData && (currentUserData.subscriptions?.weekly_magazine?.isActive || currentUserData.hasWeeklyPass || hasAllPass));
+                        const hasSeasonSub = Boolean(currentUserData && (currentUserData.subscriptions?.season_mock?.isActive || hasAllPass));
+
                         if (!examMeta.isAuthRequired) {
                             currentStatus = 'purchased';
-                        } else if (currentUserData?.hasAllPass || (examMeta.packageId && myPackagesData[examMeta.packageId]) || (rec && rec.adminGranted)) {
+                        } else if (hasAllPass) {
+                            currentStatus = 'purchased';
+                        } else if (examMeta.serviceType === 'WEEKLY_MAG' && hasWeeklySub) {
+                            currentStatus = 'purchased';
+                        } else if (examMeta.serviceType === 'SEASON_MOCK' && hasSeasonSub) {
+                            currentStatus = 'purchased';
+                        } else if ((examMeta.packageId && myPackagesData[examMeta.packageId]?.status === 'active') || (rec && (rec.adminGranted || rec.status === 'purchased'))) {
                             currentStatus = 'purchased';
                         }
                         
@@ -1085,7 +1163,7 @@ html += `<div class="mb-8">`;
             } else if (exam.status === 'purchased') {
                 if (exam.serviceType === 'WEEKLY_MAG') {
                     btn = `<div class="flex gap-2">
-                        <button onclick="location.href='weekly/ebook/week_2028_02_final.html?id=${exam.docId}'" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-500 text-white py-3 rounded-xl font-bold text-xs shadow-md hover:from-indigo-600 hover:to-blue-600 transition-colors flex justify-center items-center gap-1.5"><i data-lucide="book-open" class="w-4 h-4"></i> WEEKLY 전자책</button>
+                        <button onclick="location.href='weekly/ebook/${exam.docId}_final.html?id=${exam.docId}'" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-500 text-white py-3 rounded-xl font-bold text-xs shadow-md hover:from-indigo-600 hover:to-blue-600 transition-colors flex justify-center items-center gap-1.5"><i data-lucide="book-open" class="w-4 h-4"></i> WEEKLY 전자책</button>
                         <button onclick="location.href='weekly/timeattack/index.html?examId=${exam.docId}'" class="flex-1 bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-3 rounded-xl font-bold text-xs shadow-md hover:from-teal-600 hover:to-cyan-600 transition-colors flex justify-center items-center gap-1.5"><i data-lucide="play-circle" class="w-4 h-4"></i> Fit 20 모의고사</button>
                     </div>`;
                 } else if (exam.isContentVisible === false) {
@@ -1499,7 +1577,8 @@ html += `<div class="mb-8">`;
 
             if (sortedAnswers.length > 0) {
                 sortedAnswers.forEach(ans => {
-                    const explanationUrl = `explanation.html?id=${ans.examId}&qNum=${ans.no}`;
+                    const qNum = ans.no || (ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [1])[0], 10) : 1);
+                    const explanationUrl = `explanation.html?id=${ans.examId}&qNum=${qNum}`;
                     const displayExamId = ans.examId ? ans.examId.replace('exam_', '') : '-';
                     
                     let rateHtml = '';
@@ -1681,6 +1760,9 @@ html += `<div class="mb-8">`;
                     }));
                 }
 
+                let jsData = null;
+                try { jsData = await loadExamDataScript(examId); } catch(e) {}
+
                 const promises = questions.map(async (q, i) => {
                     const studentMark = myAnswers[i];
                     const isCorrect = String(studentMark).trim() === String(q.correctAnswer).trim();
@@ -1695,12 +1777,18 @@ html += `<div class="mb-8">`;
                         } catch(e) { console.warn("Question fetch error:", e); }
                     }
 
+                    if (!taxonomy.topic && jsData && jsData.explanations && jsData.explanations[i]) {
+                        taxonomy.topic = jsData.explanations[i].topic || '미분류';
+                    }
+
                     return {
                         no: i + 1,
+                        qId: q.qId || `${examId}_q${i + 1}`,
                         studentMark: studentMark,
                         correctAnswer: q.correctAnswer,
                         isCorrect: isCorrect,
                         score: q.score,
+                        topic: taxonomy.topic || '미분류',
                         taxonomy: taxonomy
                     };
                 });
@@ -1843,8 +1931,21 @@ html += `<div class="mb-8">`;
 
             const wrongAnswersList = document.getElementById('wrong-answers-list');
             if (wrongAnswersList) {
-                // 단일 모의고사 오답 목록
-                let wrongAnswers = myWrongAnswers.filter(wa => wa.examId === data.examId);
+                // 단일 모의고사 오답 목록 (최신 제출 시험의 data.answers 우선 사용)
+                let wrongAnswers = [];
+                if (data.answers && data.answers.length > 0) {
+                    wrongAnswers = data.answers.filter(a => !a.isCorrect).map((a, idx) => ({
+                        no: a.no || (idx + 1),
+                        qId: a.qId || `${data.examId}_q${a.no || idx + 1}`,
+                        studentMark: a.studentMark !== undefined ? a.studentMark : (data.myAnswers ? data.myAnswers[(a.no || idx + 1) - 1] : '-'),
+                        correctAnswer: a.correctAnswer || '?',
+                        topic: a.taxonomy?.topic || a.topic || '미분류',
+                        score: a.score || 2.0,
+                        isCorrect: false
+                    }));
+                } else {
+                    wrongAnswers = myWrongAnswers.filter(wa => wa.examId === data.examId);
+                }
                 
                 // [신규 추가] 오답 문항 통계 조회 및 점수 자동 복구 (exams 컬렉션 기준)
                 const statsMap = {};
@@ -1880,17 +1981,32 @@ html += `<div class="mb-8">`;
                     }
 
                     if (wrongAnswers.length > 0) {
+                        let jsData = null;
+                        try {
+                            jsData = await loadExamDataScript(baseExamId);
+                        } catch(e) {}
+
                         const statsPromises = wrongAnswers.map(ans => getDoc(doc(db, "questions", ans.qId)));
                         const snaps = await Promise.all(statsPromises);
                         snaps.forEach((snap, idx) => {
-                            const qIdx = parseInt((String(wrongAnswers[idx].qId).match(/\d+$/) || [1])[0]) - 1;
+                            const qIdx = parseInt((String(wrongAnswers[idx].qId).match(/\d+$/) || [idx + 1])[0], 10) - 1;
                             if (!wrongAnswers[idx].correctAnswer || wrongAnswers[idx].correctAnswer === '?' || Number.isNaN(Number(wrongAnswers[idx].correctAnswer))) {
                                 wrongAnswers[idx].correctAnswer = answerKey[qIdx] || '?';
                             }
                             if(snap.exists()) {
                                 const qData = snap.data();
+                                if (qData.taxonomy && qData.taxonomy.topic) {
+                                    wrongAnswers[idx].topic = qData.taxonomy.topic;
+                                } else if (qData.topic) {
+                                    wrongAnswers[idx].topic = qData.topic;
+                                }
                                 if(qData.stats && qData.stats.totalAttempts > 0) {
                                     statsMap[wrongAnswers[idx].qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
+                                }
+                            }
+                            if (!wrongAnswers[idx].topic || wrongAnswers[idx].topic === '미분류') {
+                                if (jsData && jsData.explanations && jsData.explanations[qIdx] && jsData.explanations[qIdx].topic) {
+                                    wrongAnswers[idx].topic = jsData.explanations[qIdx].topic;
                                 }
                             }
                         });
@@ -1904,10 +2020,10 @@ html += `<div class="mb-8">`;
                         const noB = b.no || (b.qId ? parseInt((String(b.qId).match(/\d+$/) || [0])[0]) : 0);
                         return noA - noB;
                     }).forEach((ans, index) => {
-                        const originalQNum = ans.no || (ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [index + 1])[0]) : index + 1);
+                        const originalQNum = ans.no || (ans.qId ? parseInt((String(ans.qId).match(/\d+$/) || [index + 1])[0], 10) : index + 1);
                         const qNum = originalQNum;
                         const topicText = ans.taxonomy?.topic || ans.topic || '-';
-                        const explanationUrl = `explanation.html?id=${data.examId}&qNum=${ans.no}`;
+                        const explanationUrl = `explanation.html?id=${data.examId}&qNum=${qNum}`;
 
                         let rateHtml = '';
                         if (statsMap[ans.qId] !== undefined) {

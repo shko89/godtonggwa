@@ -117,6 +117,7 @@ window.addEventListener('wheel', (e) => {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, runTransaction, serverTimestamp, writeBatch, increment, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -130,6 +131,10 @@ window.addEventListener('wheel', (e) => {
         };
 
         const app = initializeApp(firebaseConfig);
+        const appCheck = initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
+            isTokenAutoRefreshEnabled: true
+        });
         const auth = getAuth(app);
         const db = getFirestore(app);
 
@@ -498,6 +503,7 @@ window.addEventListener('wheel', (e) => {
                     const wrongAnswerRef = doc(db, "users", user.uid, "wrong_answers", `${EXAM_ID}_${ans.qId}`);
                     if (!ans.isCorrect) {
                         batch.set(wrongAnswerRef, {
+                            no: ans.no || 0,
                             qId: ans.qId,
                             examId: EXAM_ID,
                             topic: ans.topic || '미분류',

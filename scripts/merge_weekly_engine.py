@@ -215,13 +215,14 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
         is_cover_or_blank = (seq <= 2 or 'cover' in page_html or 'blank-inside-cover' in page_html)
         final_num = "" if is_cover_or_blank else f"- {seq:02d} -"
 
-        if 'class="page-num"' in page_html or "class='page-num'" in page_html:
-            page_html = re.sub(r'<div[^>]*class=["\'][^"\']*page-num[^"\']*["\'][^>]*>[\s\S]*?</div>', 
-                               f'<div class="page-num">{final_num}</div>' if final_num else '', page_html)
-        elif final_num:
+        # Universal Guaranteed Page Numbering: Remove any internal .page-num and place as DIRECT child of .a4-page
+        page_html = re.sub(r'<div[^>]*class=["\'][^"\']*page-num[^"\']*["\'][^>]*>[\s\S]*?</div>', '', page_html)
+        if final_num:
             last_close = page_html.rfind('</div>')
             if last_close != -1:
-                page_html = page_html[:last_close] + f'<div class="page-num">{final_num}</div></div>'
+                page_html = page_html[:last_close] + f'\n    <div class="page-num">{final_num}</div>\n' + page_html[last_close:]
+            else:
+                page_html += f'\n<div class="page-num">{final_num}</div>'
 
         # First page hard density
         if seq == 1 and 'data-density="hard"' not in page_html:
@@ -354,10 +355,16 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
 {WEEKLY_COMMON_CSS}
     </style>
 
-    <!-- Master Transparent Page Number Style -->
-    <!-- Master Standard Page Number Style (Unified to Page 3 standard) -->
     <!-- Master Standard Page Number Style (Unified to Page 3 standard) -->
     <style id="master-page-num-style">
+.a4-page {{
+    position: relative !important;
+    width: 500px !important;
+    height: 707px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}}
+
 .concept-page, .concept-spread, .page-left, .page-right {{
     height: 707px !important;
     width: 500px !important;
@@ -368,6 +375,7 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
 #main-content .page-num,
 .flipbook .page-num,
 .a4-page .page-num,
+.a4-page > .page-num,
 .concept-page .page-num,
 .spread-page .page-num,
 .toc-page .page-num,
@@ -390,7 +398,7 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    z-index: 100 !important;
+    z-index: 9999 !important;
     pointer-events: none !important;
 }}
     </style>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="ko">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <meta charset="utf-8"/>
 <link href="../weekly_common.css" rel="stylesheet"/>
 <style>
@@ -10821,123 +10822,298 @@ p[data-scope="page35"], .body-text[data-scope="page35"], .q-text[data-scope="pag
 }
 </style>
 
-<style>
-/* === Flipbook Override CSS (최우선 적용) === */
-* { box-sizing: border-box; }
-body {
-    margin: 0 !important;
-    padding: 0 !important;
-    background-color: #cbd5e1 !important;
-    font-family: 'Noto Sans KR', sans-serif;
-    overflow: hidden !important;
-}
-.page-wrapper { margin: 0 !important; padding: 0 !important; width: 100% !important; height: 100% !important; display: block !important; }
 
-.a4-page, .concept-page, .spread-page {
-    width: 500px !important;
-    height: 707px !important;
-    position: relative !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
+
+<style>
+
+        /* Modern UI & Typography scaled for 11px */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+        
+        :root {
+            --primary: #4A90E2;
+            --secondary: #F39C12;
+            --success: #2ECC71;
+            --danger: #E74C3C;
+            --bg-color: #F8F9FA;
+            --text-dark: #1e293b;
+            --card-bg: #FFFFFF;
+        }
+
+        .quiz-container {
+            width: 100% !important;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+            padding: 10px 20px;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            height: 100%;
+            display: block;
+            column-count: 1 !important;
+            flex: 1 1 100% !important;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100% !important;
+            display: block;
+        }
+        .header h1 {
+            font-weight: 900;
+            color: var(--primary);
+            font-size: 18px;
+            margin: 0 0 5px 0;
+        }
+        .header p {
+            color: #64748b;
+            font-size: 11px;
+            margin: 0;
+        }
+
+        /* Section Titles */
+        .unit-title {
+            background-color: var(--primary);
+            color: white;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+        }
+        .card + .unit-title {
+            margin-top: 35px !important;
+        }
+
+        /* Question Cards */
+        .card {
+            width: 100% !important;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            box-sizing: border-box !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 4px solid var(--primary);
+            display: block;
+            page-break-inside: avoid;
+            float: none !important;
+            clear: both !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        .q-type {
+            font-size: 9px;
+            font-weight: 900;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .q-text {
+            width: 100% !important;
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            word-break: keep-all;
+            display: flex;
+        }
+        .q-num {
+            font-weight: 900;
+            color: var(--primary);
+            margin-right: 4px;
+            flex-shrink: 0;
+        }
+        .q-content {
+            flex: 1;
+        }
+
+        /* O/X Buttons */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            width: 100% !important;
+        }
+        .ox-btn {
+            flex: 1;
+            padding: 6px 0;
+            font-size: 12px;
+            font-weight: 900;
+            background-color: #F1F2F6;
+            border: 1px solid #DFE4EA;
+            border-radius: 6px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* Blank Toggle (Frosted Glass / Blur Effect) */
+        .blank {
+            display: inline-block;
+            background-color: #E8F0FE;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
+            border: 1px dashed var(--primary);
+            padding: 1px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            position: relative;
+            vertical-align: middle;
+            user-select: none;
+            min-width: 40px;
+            text-align: center;
+        }
+        .blank::after {
+            content: '?';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary);
+            text-shadow: none;
+            font-size: 10px;
+        }
+        .blank.revealed {
+            color: var(--primary) !important;
+            text-shadow: none !important;
+            background-color: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        .blank.revealed::after {
+            display: none;
+        }
+
+        /* Answer key */
+        .answer-key {
+            font-size: 9px;
+            line-height: 1.5;
+            color: #94a3b8;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px dashed #cbd5e1;
+            text-align: left;
+        }
+    
+</style>
+
+<style>
+/* Standardized 4주차 Page-Num Style */
+.page-num {
+    position: absolute !important;
+    bottom: 10px !important;
+    left: 0 !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    color: #64748b !important;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 700 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 10 !important;
+}
+
+body { 
+    margin: 0; 
+    padding: 0; 
+    background-color: #cbd5e1; 
+    font-family: 'Noto Sans KR', sans-serif; 
+    display: flex;
+    justify-content: center;
 }
 
 #flipbook-container {
-    display: none;
     position: fixed !important;
-    top: 0 !important;
+    top: 50px !important;
     left: 0 !important;
     width: 100vw !important;
-    height: 100vh !important;
+    height: calc(100vh - 50px) !important;
     background-color: #cbd5e1 !important;
-    z-index: 10000 !important;
+    z-index: 1000 !important;
     overflow: hidden !important;
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
 }
-
-#flipbook {
+#zoom-wrapper {
+    position: relative !important;
     width: 100% !important;
     height: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+#scale-wrapper {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(1);
+    transform-origin: center center !important;
+    width: 1000px !important;
+    height: 707px !important;
+    cursor: pointer !important;
+}
+#flipbook {
+    width: 1000px !important;
+    height: 707px !important;
     position: relative !important;
     top: 0 !important;
     left: 0 !important;
-    transform: none !important;
     margin: 0 !important;
 }
 
-.zoom-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+
 </style>
+
 </head>
-<style>
-.page-scope-quiz_01 { --primary: #4A90E2; --bg-color: #F8F9FA; --card-bg: #FFFFFF; }
-.page-scope-quiz_01 .quiz-container { width:100%!important; font-family:'Noto Sans KR',sans-serif!important; padding:10px 20px!important; box-sizing:border-box!important; background-color:var(--bg-color)!important; height:100%!important; display:block!important; }
-.page-scope-quiz_01 .card { width:100%!important; background-color:var(--card-bg)!important; border-radius:10px!important; padding:12px 14px!important; margin-bottom:12px!important; box-sizing:border-box!important; box-shadow:0 2px 8px rgba(0,0,0,0.04)!important; border-left:4px solid var(--primary)!important; display:block!important; }
-.page-scope-quiz_01 .ox-btn { flex:1!important; padding:6px 0!important; font-size:12px!important; font-weight:900!important; background-color:#F1F2F6!important; border:1px solid #DFE4EA!important; border-radius:6px!important; color:#94a3b8!important; text-align:center!important; cursor:pointer!important; user-select:none!important; }
-.page-scope-quiz_01 .blank { display:inline-block!important; background-color:#E8F0FE!important; color:transparent!important; text-shadow:0 0 8px rgba(74,144,226,0.7)!important; border:1px dashed var(--primary)!important; padding:1px 10px!important; border-radius:6px!important; font-weight:700!important; position:relative!important; vertical-align:middle!important; user-select:none!important; min-width:40px!important; text-align:center!important; cursor:pointer!important; }
-.page-scope-quiz_01 .blank::after { content:'?'!important; position:absolute!important; left:50%!important; top:50%!important; transform:translate(-50%,-50%)!important; color:var(--primary)!important; font-size:10px!important; text-shadow:none!important; }
-.page-scope-quiz_01 .blank.revealed { color:var(--primary)!important; text-shadow:none!important; background-color:transparent!important; border:none!important; padding:0!important; }
-.page-scope-quiz_01 .blank.revealed::after { display:none!important; }
-.page-scope-quiz_01 .btn-group { display:flex!important; gap:10px!important; width:100%!important; }
-.page-scope-quiz_01 .q-text { width:100%!important; font-size:11px!important; font-weight:500!important; margin-bottom:8px!important; line-height:1.4!important; word-break:keep-all!important; display:flex!important; }
-.page-scope-quiz_01 .q-num { font-weight:900!important; color:var(--primary)!important; margin-right:4px!important; flex-shrink:0!important; }
-.page-scope-quiz_01 .unit-title { background-color:var(--primary)!important; color:white!important; display:inline-block!important; padding:4px 12px!important; border-radius:12px!important; font-size:12px!important; font-weight:700!important; margin:0 0 10px 0!important; }
-</style>
 <body>
-<!-- Flipbook E-Book Viewer Container (100% 1·2주차 표준 구조) -->
-<div id="flipbook-container">
-    
-    <!-- Top Left: Zoom In / Out Buttons -->
-    <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
-        <button class="zoom-btn" onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
-        <button class="zoom-btn" onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
-    </div>
 
-    <!-- Top Right: Red Close Button (이전 화면으로 돌아가기) -->
-    <button id="close-flipbook-btn" onclick="window.closeEbook(event)" ontouchstart="window.closeEbook(event)" style="position: absolute; top: 20px; right: 20px; padding: 10px 18px; font-size: 16px; background-color: #ef4444; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: 800; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35); z-index: 1100; display: flex; align-items: center; gap: 6px; letter-spacing: -0.5px;">
-        <span style="font-size: 16px; font-weight: 900;">✖</span> 닫기
-    </button>
-
-    <!-- Flipbook Canvas Wrapper -->
-    <div id="zoom-wrapper">
-        <div id="scale-wrapper">
-            <div id="flipbook">
-                <!-- Cloned pages injected here -->
+    <!-- Top Unified Header Toolbar -->
+    <div style="position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10000; box-sizing: border-box;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <button onclick="window.closeEbook(event)" style="background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);">
+                <span style="font-size: 13px; font-weight: 900;">✖</span> 닫기
+            </button>
+            <div style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; color: #38bdf8; letter-spacing: 0.5px;">
+                GODTONGGWA <span style="background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px;">VOL.01</span>
             </div>
         </div>
-    </div>
 
-    <!-- Floating Drawing Toolbar (보기 모드 / 쓰기 모드) inside Container -->
-    <div id="drawing-toolbar">
-        <div class="drag-handle" style="cursor: move; padding: 0 8px; color: #94a3b8; font-size: 20px; user-select: none; display: flex; align-items: center; justify-content: center; touch-action: none;">⠿</div>
-        <button id="btn-mode-toggle" onclick="toggleDrawingMode(event)" style="background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 900; font-size: 14px; cursor: pointer; flex-shrink: 0; white-space: nowrap;">📖 보기 모드</button>
-        <div id="drawing-tools">
-            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
-            <button class="pen-btn" onclick="setPen('#0f172a', this, false, event)" style="background: #0f172a; border-color: white;"></button>
-            <button class="pen-btn" onclick="setPen('#dc2626', this, false, event)" style="background: #dc2626;"></button>
-            <button class="pen-btn" onclick="setPen('#0284c7', this, false, event)" style="background: #0284c7;"></button>
-            <button class="pen-btn" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true, event)" style="background: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 14px;">🖍️</button>
-            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
-            <button class="tool-btn" onclick="setThickness(1, this, event)">얇게</button>
-            <button class="tool-btn active" onclick="setThickness(2.5, this, event)">보통</button>
-            <button class="tool-btn" onclick="setThickness(5, this, event)">두껍</button>
-            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
-            <button class="tool-btn" onclick="setEraser(this, event)">부분지우개</button>
-            <button onclick="clearAllCanvas(event)" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; flex-shrink: 0; white-space: nowrap;">초기화</button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button id="btn-mode-toggle" onclick="window.toggleDrawingMode(event)" style="background: #38bdf8; border: none; color: #0f172a; padding: 6px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 800; cursor: pointer;">
+                📖 보기 모드
+            </button>
+            
+            <div id="drawing-tools" style="display: none; align-items: center; gap: 6px; background: #1e293b; padding: 3px 8px; border-radius: 6px; border: 1px solid #334155;">
+                <button class="pen-btn active" onclick="window.setPen('#0f172a', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #0f172a; border: 2px solid white; cursor: pointer;"></button>
+                <button class="pen-btn" onclick="window.setPen('#ef4444', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #ef4444; border: 2px solid transparent; cursor: pointer;"></button>
+                <button class="pen-btn" onclick="window.setPen('#2563eb', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #2563eb; border: 2px solid transparent; cursor: pointer;"></button>
+                <button class="pen-btn" onclick="window.setPen('rgba(250, 204, 21, 0.4)', this, true, event)" style="background: #fde047; color: #854d0e; border: 1px solid #facc15; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">형광펜</button>
+                <button onclick="window.setEraser(this, event)" style="background: #334155; color: #f8fafc; border: 1px solid #475569; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">지우개</button>
+                <button onclick="window.clearCurrentPageCanvas(event)" style="background: #475569; color: #f8fafc; border: 1px solid #64748b; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">전체 지우기</button>
+            </div>
+
+            <div style="font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 700; color: #94a3b8; background: #1e293b; padding: 4px 12px; border-radius: 20px; border: 1px solid #334155;">
+                <span id="page-status-text" style="color: #38bdf8;">01</span> / <span id="total-page-num">42</span> P
+            </div>
+            
+            <button onclick="zoomFlipbook(0.15)" style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">🔍 확대 (+)</button>
+            <button onclick="zoomFlipbook(-0.15)" style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">🔍 축소 (-)</button>
+            <button onclick="resetZoom()" style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">맞춤</button>
         </div>
     </div>
-</div>
 
-<!-- Main Content (Source Pages for Flipbook) -->
-<div id="main-content" style="display: none;">
-<div class="page-wrapper page-scope-page01" style="margin-top: 40px; display: flex; justify-content: center;">
+
+    <!-- Main Content Source Pages -->
+    <div id="main-content" style="display: none;">
+<div class="page-wrapper page-scope-page01" >
 <div data-density="hard" class="a4-page cover-page" data-scope="page01" id="cover-page">
 <div class="top-section" data-scope="page01">
 <div class="brand" data-scope="page01">GOTONGGWA</div>
@@ -10973,14 +11149,12 @@ body {
 <div class="page-num">- 01 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page02" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page02" >
 <div class="a4-page" data-scope="page02">
 <div class="page-num">- 02 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page03" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page03" >
 <div class="a4-page toc-page" data-scope="page03" id="toc-page">
 <div class="page-header" data-scope="page03">
 <div class="header-brand" data-scope="page03">GOTONGGWA WEEKLY</div>
@@ -11060,11 +11234,10 @@ body {
                     본 주간지는 단순 문제집이 아닙니다. 모의고사 풀이 후 하단의 <strong data-scope="page03">QR코드</strong>를 갓통과 앱에 입력하세요. 약점 분석 시스템이 취약 행동 영역을 실시간으로 분석하여 <strong data-scope="page03">개별 맞춤형 성적 리포트</strong>를 제공합니다.
                 </p>
 </div>
-<div class="page-num" data-scope="page03">- 03 -</div>
+<div class="page-num">- 03 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page04-1" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page04-1" >
 <div class="a4-page bridge-page" data-scope="page04-1">
 <!-- Header -->
 <div class="page-header" data-scope="page04-1">
@@ -11134,11 +11307,10 @@ body {
 </div>
 </div>
 <!-- Footer -->
-<div class="page-num" data-scope="page04-1">- 04 -</div>
+<div class="page-num">- 04 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page05-1" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page05-1" >
 <div class="a4-page bridge-page-new" data-scope="page05-1" id="bridge-page-new">
 <div class="page-header" data-scope="page05-1">
 <div class="header-brand" data-scope="page05-1">GOTONGGWA WEEKLY</div>
@@ -11268,11 +11440,10 @@ body {
 <div class="hub-text" data-scope="page05-1">자연에서<br data-scope="page05-1"/>데이터로</div>
 </div>
 </div>
-<div class="page-num" data-scope="page05-1">- 05 -</div>
+<div class="page-num">- 05 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page06-1" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page06-1" >
 <div class="a4-page page-left" data-scope="page06-1">
 <div class="data-header" data-scope="page06-1">
 <div data-scope="page06-1" style="font-family: 'Roboto'; font-weight: 900; font-size: 10px; color: #0284c7; margin-bottom: 3px;">SECTION 01</div>
@@ -11390,11 +11561,10 @@ body {
 <li class="editable" data-scope="page06-1"><strong data-scope="page06-1">미시 세계(Microscopic World):</strong> 원자나 분자처럼 너무 작아서 현미경 등의 특수 도구 없이는 관찰할 수 없는 세계입니다.</li>
 </ul>
 </div>
-<div class="page-num" data-scope="page06-1">- 06 -</div>
+<div class="page-num">- 06 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page06-1" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page06-1" >
 <div class="a4-page page-right" data-scope="page06-1">
 <h3 class="schema-title editable" data-scope="page06-1">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting editable" data-scope="page06-1" style="margin-bottom: 6px; margin-top: 6px;">
@@ -11460,11 +11630,10 @@ body {
             📌 <strong data-scope="page06-1">갓쌤의 출제 포인트!</strong><br data-scope="page06-1"/>
             다양한 자연 세계의 공간 규모와 시간 규모를 <span data-scope="page06-1" style="color:#b91c1c;">미시 세계</span>와 <span data-scope="page06-1" style="color:#2563eb;">거시 세계</span>로 정확히 매칭하고 구분할 수 있어야 해!
         </div>
-<div class="page-num" data-scope="page06-1">- 07 -</div>
+<div class="page-num">- 07 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page14" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page14" >
 <div class="a4-page spread-page" data-scope="page14" id="page-scale-q">
 <div class="full-page-content" data-scope="page14">
 <div class="compass-box" data-scope="page14">
@@ -11491,12 +11660,11 @@ body {
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
-<div class="page-num" data-scope="page14">- 08 -</div>
+<div class="page-num">- 08 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page15" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page15" >
 <div class="a4-page spread-page" data-scope="page15" id="page-scale-a">
 <div class="full-page-content" data-scope="page15">
 <div class="prob-header" data-scope="page15">
@@ -11543,12 +11711,11 @@ body {
                         시간과 공간의 스케일을 다룰 때는 막연한 크기보다 구체적인 사례(지구의 나이, 우주의 크기 등)를 기준점으로 삼는 것이 좋습니다. 로그 스케일 그래프에서는 격자 한 칸이 10배, 100배를 의미한다는 점을 절대 잊지 마세요!
                     </p>
 </div>
-<div class="page-num" data-scope="page15">- 09 -</div>
+<div class="page-num">- 09 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page16" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page16" >
 <div class="a4-page spread-page" data-scope="page16" id="page-15" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page16" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box" data-scope="page16">
@@ -11581,12 +11748,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page16">- 10 -</div>
+<div class="page-num">- 10 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page17" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page17" >
 <div class="a4-page spread-page" data-scope="page17" id="page-16" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page17" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header" data-scope="page17">
@@ -11698,7 +11864,7 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page17">- 11 -</div>
+<div class="page-num">- 11 -</div>
 </div>
 </div><div class="concept-page page-left" data-scope="page08">
 <div class="data-header" data-scope="page08">
@@ -11743,7 +11909,7 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page08">- 12 -</div>
+<div class="page-num">- 11 -</div>
 </div><div class="concept-page page-right" data-scope="page09">
 <h3 class="schema-title" data-scope="page09">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" data-scope="page09" style="margin-bottom: 3px; margin-top: 5px;">
@@ -11803,11 +11969,10 @@ body {
 <span data-scope="page09" style="color:#b91c1c; font-weight:bold;">'길이'</span>라는 기본량이 3번 곱해져서 만들어진
                 <span data-scope="page09" style="color:#2563eb; font-weight:bold;">유도량</span>이라는 사실을 절대 잊지 마!
             </div>
-<div class="page-num" data-scope="page09">- 13 -</div>
+<div class="page-num">- 11 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page18" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page18" >
 <div class="a4-page spread-page" data-scope="page18" id="page-17">
 <div class="full-page-content" data-scope="page18">
 <div class="compass-box" data-scope="page18">
@@ -11830,16 +11995,15 @@ body {
 </div>
 <div class="prob-split-right" data-scope="page18" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
 <div class="csat-prob" data-scope="page18" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 1번 전체 문항" data-scope="page18" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q03.webp?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 1번 전체 문항" data-scope="page18" src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q03.webp" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
 </div> <!-- end full-page-content -->
-<div class="page-num" data-scope="page18">- 14 -</div>
+<div class="page-num">- 12 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page19" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page19" >
 <div class="a4-page spread-page" data-scope="page19" id="page-18">
 <div class="full-page-content" data-scope="page19">
 <div class="prob-header" data-scope="page19">
@@ -11889,12 +12053,11 @@ body {
                         물리 공식을 무작정 암기하기보다, 주어진 <strong data-scope="page19">단위들을 수학의 미지수처럼 약분하고 곱해보는 습관</strong>을 들이세요. 새로운 물리량의 실체를 파악하는 가장 빠르고 정확한 방법입니다.
                     </p>
 </div>
-<div class="page-num" data-scope="page19">- 15 -</div>
+<div class="page-num">- 13 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page20" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page20" >
 <div class="a4-page spread-page" data-scope="page20" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page20" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box" data-scope="page20">
@@ -11923,12 +12086,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page20">- 16 -</div>
+<div class="page-num">- 14 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page21" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page21" >
 <div class="a4-page spread-page" data-scope="page21" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page21" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header" data-scope="page21">
@@ -12040,7 +12202,7 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page21">- 17 -</div>
+<div class="page-num">- 15 -</div>
 </div>
 </div><div class="concept-page page-left" data-scope="page10-1">
 <div class="data-header" data-scope="page10-1">
@@ -12087,7 +12249,7 @@ body {
 <li data-scope="page10-1"><strong data-scope="page10-1">질량(kg) - 플랑크 상수 :</strong> 극미량 성분 배합이 필수적인 초정밀 신약 제약 공정</li>
 </ul>
 </div>
-<div class="page-num" data-scope="page10-1">- 18 -</div>
+<div class="page-num">- 15 -</div>
 </div><div class="concept-page page-right" data-scope="page10-1">
 <h3 class="schema-title" data-scope="page10-1">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" data-scope="page10-1" style="margin-top: 8px; margin-bottom: 2px;">
@@ -12172,11 +12334,10 @@ body {
                     절대 불변인 <span data-scope="page10-1" style="color:#b91c1c; font-weight:bold;">자연 상수(우주 상수)</span>로 새롭게<br data-scope="page10-1"/>
                     단위를 정의했다는 인과관계를 기억해!
                 </div>
-<div class="page-num" data-scope="page10-1">- 19 -</div>
+<div class="page-num">- 15 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page22" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page22" >
 <div class="a4-page spread-page" data-scope="page22" id="page-21">
 <div class="full-page-content" data-scope="page22">
 <div class="compass-box" data-scope="page22">
@@ -12199,16 +12360,15 @@ body {
 </div>
 <div class="prob-split-right" data-scope="page22" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding: 0 10px;">
 <div class="csat-prob" data-scope="page22" style="text-align: center; margin-top: 0px;">
-<img alt="예시문항 2번 전체 문항" data-scope="page22" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fkice%2F2028%2F2028_pretest%2Fkice_2028_pretest_q02.webp?alt=media" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
+<img alt="예시문항 2번 전체 문항" data-scope="page22" src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q02.webp" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;"/>
 </div> <!-- end csat-prob -->
 </div>
 </div>
-<div class="page-num" data-scope="page22">- 20 -</div>
+<div class="page-num">- 16 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page23" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page23" >
 <div class="a4-page spread-page" data-scope="page23" id="page-22">
 <div class="full-page-content" data-scope="page23">
 <div class="prob-header" data-scope="page23">
@@ -12258,12 +12418,11 @@ body {
                         기본적인 개념인 '변화 흐름'과 '한계점'을 정확히 이해하고 있는지 묻는 문항입니다. 단순 순서 암기를 넘어, 이전 표준이 <strong data-scope="page23">어떤 물리적 한계</strong>를 가졌는지 인과관계를 파악하세요.
                     </p>
 </div>
-<div class="page-num" data-scope="page23">- 21 -</div>
+<div class="page-num">- 17 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page24" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page24" >
 <div class="a4-page spread-page" data-scope="page24" id="page-23" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page24" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box" data-scope="page24">
@@ -12292,12 +12451,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page24">- 22 -</div>
+<div class="page-num">- 18 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page25" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page25" >
 <div class="a4-page spread-page" data-scope="page25" id="page-24" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page25" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header" data-scope="page25">
@@ -12409,12 +12567,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page25">- 23 -</div>
+<div class="page-num">- 19 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page012-1" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page012-1" >
 <div class="a4-page page-left" data-scope="page012-1">
 <div class="data-header" data-scope="page012-1">
 <div data-scope="page012-1" style="font-family: 'Roboto'; font-weight: 900; font-size: 11px; color: #0284c7; margin-bottom: 2px;">SECTION 04</div>
@@ -12466,11 +12623,10 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page012-1">- 24 -</div>
+<div class="page-num">- 20 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page012-1" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page012-1" >
 <div class="a4-page page-right" data-scope="page012-1">
 <h3 class="schema-title" data-scope="page012-1">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" data-scope="page012-1" style="margin-top: 6px; margin-bottom: 4px;">
@@ -12553,11 +12709,10 @@ body {
             통합과학에서는 오직 <span data-scope="page012-1" style="color:#0369a1; font-weight:900;">'연속성 vs 불연속성'의 차이</span>와,
             디지털 신호가 <span data-scope="page012-1" style="color:#b91c1c; font-weight:900;">'잡음에 강하다'</span>는 특징만 기억해!!
         </div>
-<div class="page-num" data-scope="page012-1">- 25 -</div>
+<div class="page-num">- 21 -</div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page26" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page26" >
 <div class="a4-page spread-page" data-scope="page26" id="page-25">
 <div class="full-page-content" data-scope="page26">
 <div class="compass-box" data-scope="page26">
@@ -12584,12 +12739,11 @@ body {
 </div> <!-- end csat-prob -->
 </div> <!-- end prob-split-right -->
 </div> <!-- end prob-split -->
-<div class="page-num" data-scope="page26">- 26 -</div>
+<div class="page-num">- 22 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page27" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page27" >
 <div class="a4-page spread-page" data-scope="page27" id="page-26">
 <div class="full-page-content" data-scope="page27">
 <div class="prob-header" data-scope="page27">
@@ -12639,12 +12793,11 @@ body {
                         단순히 아날로그/디지털의 단어 뜻만 외우지 말고, '왜 현대 통신이 아날로그에서 디지털로 넘어갔는지(잡음에 강하고 복원이 쉬움)' 그 <strong data-scope="page27">근본적인 이유(인과관계)</strong>를 묻는 것이 출제자의 의도입니다.
                     </p>
 </div>
-<div class="page-num" data-scope="page27">- 27 -</div>
+<div class="page-num">- 23 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page28" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page28" >
 <div class="a4-page spread-page" data-scope="page28" id="page-27" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page28" style="flex: 1; display: flex; flex-direction: column;">
 <div class="compass-box" data-scope="page28">
@@ -12673,12 +12826,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page28">- 28 -</div>
+<div class="page-num">- 24 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page29" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page29" >
 <div class="a4-page spread-page" data-scope="page29" id="page-28" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page29" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header" data-scope="page29">
@@ -12790,12 +12942,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page29">- 29 -</div>
+<div class="page-num">- 25 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page30" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page30" >
 <div class="a4-page spread-page" data-scope="page30" id="page-29" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page30" style="flex: 1; display: flex; flex-direction: column;">
 <div data-scope="page30" style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
@@ -12832,12 +12983,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page30">- 30 -</div>
+<div class="page-num">- 26 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page31" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page31" >
 <div class="a4-page spread-page" data-scope="page31" id="page-30" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page31" style="flex: 1; display: flex; flex-direction: column;">
 <div data-scope="page31" style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
@@ -12868,12 +13018,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page31">- 31 -</div>
+<div class="page-num">- 27 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page32" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page32" >
 <div class="a4-page spread-page" data-scope="page32" id="page-31" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page32" style="flex: 1; display: flex; flex-direction: column;">
 <div data-scope="page32" style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
@@ -12904,12 +13053,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page32">- 32 -</div>
+<div class="page-num">- 28 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page33" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page33" >
 <div class="a4-page spread-page" data-scope="page33" id="page-32" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page33" style="flex: 1; display: flex; flex-direction: column;">
 <div data-scope="page33" style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
@@ -12940,12 +13088,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page33">- 33 -</div>
+<div class="page-num">- 29 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page34" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page34" >
 <div class="a4-page spread-page" data-scope="page34" id="page-33" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page34" style="flex: 1; display: flex; flex-direction: column;">
 <div data-scope="page34" style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
@@ -12976,12 +13123,11 @@ body {
 </div>
 </div>
 </div>
-<div class="page-num" data-scope="page34">- 34 -</div>
+<div class="page-num">- 30 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page35" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page35" >
 <div class="a4-page spread-page" data-scope="page35" id="page-34" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page35" style="flex: 1; display: flex; flex-direction: column; height: 100%; padding: 35px 30px;">
 <div class="header" data-scope="page35">
@@ -13002,12 +13148,11 @@ body {
 <div class="content-grid" data-scope="page35"><div class="ans-card" data-scope="page35"><div class="ans-card-header" data-scope="page35"><span class="ans-card-title" data-scope="page35">1번 문항</span><span class="ans-card-badge" data-scope="page35">정답 5</span></div><div class="ans-card-body" data-scope="page35"><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page35">가속도는 m/s²인 유도량입니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page35">자연의 물리량(아날로그)은 연속적인 신호입니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page35">ADC(가)를 거쳐 0과 1의 불연속적인 디지털 데이터로 변환합니다.</div></div></div></div><div class="ans-card" data-scope="page35"><div class="ans-card-header" data-scope="page35"><span class="ans-card-title" data-scope="page35">2번 문항</span><span class="ans-card-badge" data-scope="page35">정답 5</span></div><div class="ans-card-body" data-scope="page35"><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page35">부피는 길이를 3번 곱한 유도량입니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page35">메스실린더는 액체 표면의 평평한 최하단(B)을 눈높이와 수평이 되게 읽어야 합니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #e11d48;">ㄷ. (X)</div><div class="bogi-desc" data-scope="page35">위(A)에서 내려다보면 눈금이 실제보다 크게 읽히는 시차(개인 오차)가 발생합니다.</div></div></div></div><div class="ans-card" data-scope="page35"><div class="ans-card-header" data-scope="page35"><span class="ans-card-title" data-scope="page35">3번 문항</span><span class="ans-card-badge" data-scope="page35">정답 3</span></div><div class="ans-card-body" data-scope="page35"><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page35">킬로(k)는 10³입니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page35">1 nm = 10⁻⁹ m이고, 10⁻³ μm = 10⁻³ × 10⁻⁶ m = 10⁻⁹ m이므로 두 값은 같습니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #e11d48;">ㄷ. (X)</div><div class="bogi-desc" data-scope="page35">세포의 크기는 주로 마이크로(μ) 단위를 씁니다.</div></div></div></div><div class="ans-card" data-scope="page35"><div class="ans-card-header" data-scope="page35"><span class="ans-card-title" data-scope="page35">4번 문항</span><span class="ans-card-badge" data-scope="page35">정답 5</span></div><div class="ans-card-body" data-scope="page35"><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page35">(가)는 기본량, (나)는 기본량을 수학적으로 조합한 유도량입니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page35">시간은 기본량(A)에 속합니다.</div></div><div class="bogi-row" data-scope="page35"><div class="bogi-ox" data-scope="page35" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page35">힘(F=ma)은 유도량(B)에 속합니다.</div></div></div></div></div>
 </div>
 </div>
-<div class="page-num" data-scope="page35" style="position: absolute; bottom: 15px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: 'Roboto'; font-weight: 700;">- 35 -</div>
+<div class="page-num">- 31 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page36" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page36" >
 <div class="a4-page" data-scope="page36" id="page-35">
 <div class="full-page-content" data-scope="page36">
 <div data-scope="page36" style="display: flex; justify-content: center; margin-bottom: 15px;">
@@ -13078,12 +13223,11 @@ body {
 <div class="bogi-row" data-scope="page36"><div class="bogi-ox" data-scope="page36" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page36">예외 없이 적용되는 올바른 사실이야.</div></div>
 </div>
 </div></div>
-<div class="page-num" data-scope="page36">- 36 -</div>
+<div class="page-num">- 32 -</div>
 </div>
 </div>
 </div>
-
-<div class="page-wrapper page-scope-page37" style="margin-top: 40px; display: flex; justify-content: center;">
+<div class="page-wrapper page-scope-page37" >
 <div class="a4-page spread-page" data-scope="page37" id="page-36" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page37" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
 <div class="header" data-scope="page37">
@@ -13098,13 +13242,12 @@ body {
 <div class="content-grid" data-scope="page37"><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">13번 문항</span><span class="ans-card-badge" data-scope="page37">정답 5</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">가장 기본적이고 정확한 설명이지.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">자료에서 완벽하게 유추할 수 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page37">결론까지 아주 정확하게 도출했네.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">14번 문항</span><span class="ans-card-badge" data-scope="page37">정답 3</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">올바른 원리를 설명하고 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">그래프나 자료를 잘 분석했네. 맞아.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #e11d48;">ㄷ. (X)</div><div class="bogi-desc" data-scope="page37">꼼꼼히 읽어보면 틀린 부분이 숨어 있어.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">15번 문항</span><span class="ans-card-badge" data-scope="page37">정답 3</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">올바른 원리를 설명하고 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">그래프나 자료를 잘 분석했네. 맞아.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #e11d48;">ㄷ. (X)</div><div class="bogi-desc" data-scope="page37">꼼꼼히 읽어보면 틀린 부분이 숨어 있어.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">16번 문항</span><span class="ans-card-badge" data-scope="page37">정답 5</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">가장 기본적이고 정확한 설명이지.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">자료에서 완벽하게 유추할 수 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page37">결론까지 아주 정확하게 도출했네.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">17번 문항</span><span class="ans-card-badge" data-scope="page37">정답 5</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">가장 기본적이고 정확한 설명이지.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">자료에서 완벽하게 유추할 수 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page37">결론까지 아주 정확하게 도출했네.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">18번 문항</span><span class="ans-card-badge" data-scope="page37">정답 3</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">올바른 원리를 설명하고 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">그래프나 자료를 잘 분석했네. 맞아.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #e11d48;">ㄷ. (X)</div><div class="bogi-desc" data-scope="page37">꼼꼼히 읽어보면 틀린 부분이 숨어 있어.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">19번 문항</span><span class="ans-card-badge" data-scope="page37">정답 4</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">질문의 핵심을 잘 짚은 설명이야.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #e11d48;">ㄴ. (X)</div><div class="bogi-desc" data-scope="page37">변화 방향이나 크기가 잘못 설명되었어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄷ. (O)</div><div class="bogi-desc" data-scope="page37">예외 없이 적용되는 올바른 사실이야.</div></div></div></div><div class="ans-card" data-scope="page37"><div class="ans-card-header" data-scope="page37"><span class="ans-card-title" data-scope="page37">20번 문항</span><span class="ans-card-badge" data-scope="page37">정답 3</span></div><div class="ans-card-body" data-scope="page37"><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄱ. (O)</div><div class="bogi-desc" data-scope="page37">올바른 원리를 설명하고 있어.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #16a34a;">ㄴ. (O)</div><div class="bogi-desc" data-scope="page37">그래프나 자료를 잘 분석했네. 맞아.</div></div><div class="bogi-row" data-scope="page37"><div class="bogi-ox" data-scope="page37" style="color: #e11d48;">ㄷ. (X)</div><div class="bogi-desc" data-scope="page37">꼼꼼히 읽어보면 틀린 부분이 숨어 있어.</div></div></div></div></div>
 </div>
 </div>
-<div class="page-num" data-scope="page37">- 37 -</div>
+<div class="page-num">- 33 -</div>
 </div>
 </div></div>
-</div>
 
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page">
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13116,8 +13259,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>1.</span> <span class='q-content'>자연에서 일어나는 현상들은 시간 규모와 공간 규모가 매우 다양하다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13135,8 +13278,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>수소 원자의 지름은 약 0.1 nm(나노미터)로 미시 세계의 공간 규모에 해당한다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13151,14 +13294,11 @@ body {
     </div>
 </div>
 
-<div class="page-num">- 38 -</div>
+    <div class="page-num">- 34 -</div>
 </div>
-
-<!-- PAGE 2 (Q07 ~ Q12) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13194,20 +13334,17 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>현대의 정밀한 시간과 공간 측정 기술 발전은 인간이 경험하고 탐구할 수 있는 시공간의 범위를 획기적으로 확장시켰다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 </div>
 
-<div class="page-num">- 39 -</div>
+    <div class="page-num">- 35 -</div>
 </div>
-
-<!-- PAGE 3 (Q13 ~ Q18) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13229,8 +13366,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>15.</span> <span class='q-content'>기본량은 다른 물리량들을 조합하여 표현할 수 없다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13250,14 +13387,11 @@ body {
     </div>
 </div>
 
-<div class="page-num">- 40 -</div>
+    <div class="page-num">- 36 -</div>
 </div>
-
-<!-- PAGE 4 (Q19 ~ Q24) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13273,8 +13407,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>20.</span> <span class='q-content'>힘의 단위인 뉴턴(N)은 질량의 단위(kg)와 가속도의 단위(m/s²)를 곱한 유도 단위이다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13297,20 +13431,17 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>24.</span> <span class='q-content'>질량 퍼센트 농도(%)와 같이 같은 물리량의 비로 정의되는 양은 단위가 없는 물리량이다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 </div>
 
-<div class="page-num">- 41 -</div>
+    <div class="page-num">- 37 -</div>
 </div>
-
-<!-- PAGE 5 (Q25 ~ Q30) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13332,8 +13463,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>과학 탐구에서 어림은 측정할 도구나 범위를 결정하는 데 유용한 길잡이가 된다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13351,20 +13482,17 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>30.</span> <span class='q-content'>서로 다른 단위를 사용할 때 생기는 사회적·경제적 혼란을 방지하기 위해 국제적인 측정 표준이 필요하다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 </div>
 
-<div class="page-num">- 42 -</div>
+    <div class="page-num">- 38 -</div>
 </div>
-
-<!-- PAGE 6 (Q31 ~ Q36) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13375,8 +13503,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>측정 표준을 바탕으로 얻은 데이터는 연구자 사이의 원활한 소통과 정보의 신뢰성을 보장한다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13394,8 +13522,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>정밀한 부품을 조립하는 산업 공정에서는 엄격한 측정 표준이 품질 관리의 핵심 요소이다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13410,14 +13538,11 @@ body {
     </div>
 </div>
 
-<div class="page-num">- 43 -</div>
+    <div class="page-num">- 39 -</div>
 </div>
-
-<!-- PAGE 7 (Q37 ~ Q41) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13451,14 +13576,11 @@ body {
     </div>
 </div>
 
-<div class="page-num">- 44 -</div>
+    <div class="page-num">- 40 -</div>
 </div>
-
-<!-- PAGE 8 (Q42 ~ Q46) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13469,8 +13591,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>자연계에서 발생하는 빛이나 소리 등 대부분의 신호는 아날로그 신호이다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13483,8 +13605,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>44.</span> <span class='q-content'>디지털 신호는 신호의 저장, 복사, 재생, 전송이 매우 편리하다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13492,8 +13614,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>디지털 신호는 전송 과정에서 외부 잡음(노이즈)이 발생해도 원래 신호로 복원하기 쉽다.</span></div>
         <div class="btn-group" data-answer="O">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13503,14 +13625,11 @@ body {
     </div>
 </div>
 
-<div class="page-num">- 45 -</div>
+    <div class="page-num">- 41 -</div>
 </div>
-
-<!-- PAGE 9 (Q47 ~ Q50 & Answer Key) -->
 </div>
-
-<div class="page-wrapper page-scope-quiz_01" style="margin-top: 40px; display: flex; justify-content: center;">
-<div data-density="hard" class="a4-page spread-page page-scope-quiz_01" style="margin-top: 40px;">
+<div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
+<div class="a4-page spread-page" >
 <div class="quiz-container">
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
         <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
@@ -13531,8 +13650,8 @@ body {
         <span class="q-type">O / X 퀴즈</span>
         <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>아날로그 신호는 복사나 전송을 반복해도 품질 저하나 잡음 누적이 전혀 발생하지 않는다.</span></div>
         <div class="btn-group" data-answer="X">
-            <div class="ox-btn" onclick="checkOX(this, \'O\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">O</div>
-            <div class="ox-btn" onclick="checkOX(this, \'X\', event)" onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="cursor:pointer;">X</div>
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
         </div>
     </div>
 
@@ -13546,63 +13665,25 @@ body {
 </div>
 
 
-<div class="page-num">- 46 -</div>
+    <div class="page-num">- 42 -</div>
 </div>
-
-<script>
-window.checkOX = function(btn, choice, event) {
-    if (event) event.stopPropagation();
-    var group = btn.closest('.btn-group') || btn.parentElement;
-    if (!group || group.dataset.answered) return;
-    var answer = group.dataset.answer;
-    group.dataset.answered = "true";
-    
-    var btns = group.querySelectorAll('.ox-btn');
-    if (choice === answer) {
-        btn.style.setProperty('background-color', '#dcfce7', 'important');
-        btn.style.setProperty('color', '#16a34a', 'important');
-        btn.style.setProperty('border-color', '#16a34a', 'important');
-    } else {
-        btn.style.setProperty('background-color', '#fee2e2', 'important');
-        btn.style.setProperty('color', '#dc2626', 'important');
-        btn.style.setProperty('border-color', '#dc2626', 'important');
-        btns.forEach(function(b) {
-            if (b.textContent.trim() === answer) {
-                b.style.setProperty('background-color', '#dcfce7', 'important');
-                b.style.setProperty('color', '#16a34a', 'important');
-                b.style.setProperty('border-color', '#16a34a', 'important');
-            }
-        });
-    }
-};
-
-window.revealBlank = function(el, event) {
-    if (event) event.stopPropagation();
-    el.classList.add('revealed');
-};
-
-document.addEventListener('click', function(e) {
-    var target = e.target;
-    var oxBtn = target.closest('.ox-btn');
-    if (oxBtn) {
-        e.stopPropagation();
-        var choice = oxBtn.textContent.trim();
-        window.checkOX(oxBtn, choice, e);
-        return;
-    }
-    var blank = target.closest('.blank');
-    if (blank) {
-        e.stopPropagation();
-        blank.classList.add('revealed');
-        return;
-    }
-}, true);
-</script>
+</div>
+    </div>
 
 
+    <!-- Flipbook Container -->
+    <div id="flipbook-container">
+        <div id="zoom-wrapper">
+            <div id="scale-wrapper">
+                <div id="flipbook"></div>
+            </div>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-<script>
+
+    <!-- PageFlip & Interactive Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script>
 // ==========================================
 // 1. Close Button Logic (Reliable Navigation)
 // ==========================================
@@ -13615,15 +13696,8 @@ window.closeEbook = function(e) {
         window.close();
         return;
     }
-    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1)) {
-        window.location.href = document.referrer;
-        return;
-    }
     if (window.history && window.history.length > 1) {
         window.history.back();
-        setTimeout(function() {
-            window.location.href = "../../exam.html";
-        }, 300);
         return;
     }
     window.location.href = "../../exam.html";
@@ -13668,7 +13742,7 @@ window.revealBlank = function(el, event) {
 };
 
 // ==========================================
-// 3. Drawing Engine (보기 모드 & 쓰기/필기 모드)
+// 3. Drawing Engine
 // ==========================================
 let isDrawingMode = false;
 let currentPenColor = '#0f172a';
@@ -13704,322 +13778,124 @@ window.setPen = function(color, btnElem, isHl = false, e) {
     isHighlighter = isHl;
     isEraserMode = false;
     document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
-    document.querySelectorAll('.tool-btn').forEach(b => {
-        if (b.innerText === '부분지우개') b.classList.remove('active');
-    });
-    btnElem.style.borderColor = 'white';
-};
-
-window.setThickness = function(w, btnElem, e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
-    currentPenWidth = w;
-    document.querySelectorAll('.tool-btn').forEach(b => {
-        if (['얇게', '보통', '두껍'].includes(b.innerText)) b.classList.remove('active');
-    });
-    btnElem.classList.add('active');
+    if (btnElem && btnElem.classList.contains('pen-btn')) {
+        btnElem.style.borderColor = 'white';
+    }
 };
 
 window.setEraser = function(btnElem, e) {
     if (e) { try { e.stopPropagation(); } catch(err){} }
     isEraserMode = true;
-    document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
-    document.querySelectorAll('.tool-btn').forEach(b => {
-        if (b.innerText === '부분지우개') b.classList.remove('active');
-    });
-    btnElem.classList.add('active');
 };
 
-window.clearAllCanvas = function(e) {
+window.clearCurrentPageCanvas = function(e) {
     if (e) { try { e.stopPropagation(); } catch(err){} }
-    if (!confirm("모든 필기를 지우시겠습니까?")) return;
-    document.querySelectorAll('.draw-layer').forEach(canvas => {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
+    if (!pageFlip) return;
+    const currIdx = pageFlip.getCurrentPageIndex();
+    const pages = document.querySelectorAll('#flipbook .stf__item');
+    if (pages[currIdx]) {
+        const cvs = pages[currIdx].querySelector('.draw-layer');
+        if (cvs) {
+            const ctx = cvs.getContext('2d');
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+        }
+    }
 };
 
-function setupCanvasDrawing(canvas) {
-    const ctx = canvas.getContext('2d');
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+function setupCanvasDrawing(cvs) {
+    const ctx = cvs.getContext('2d');
     let isDrawing = false;
-    let lastX = 0;
-    let lastY = 0;
+    let lastX = 0, lastY = 0;
 
-    function getPos(e) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
+    function getCoords(e) {
+        const rect = cvs.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const scaleX = cvs.width / rect.width;
+        const scaleY = cvs.height / rect.height;
         return {
-            x: (e.clientX - rect.left) * scaleX,
-            y: (e.clientY - rect.top) * scaleY
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY
         };
     }
 
-    function handlePointerDown(e) {
+    function startDraw(e) {
         if (!isDrawingMode) return;
-        if (!e.isPrimary) return; 
-
-        // 손가락 터치는 줌/이동을 위해 필기 무시 (펜/마우스만 허용)
-        if (e.pointerType === 'touch') return; 
-
-        e.stopPropagation();
-        if (e.cancelable) e.preventDefault();
-
         isDrawing = true;
-        try { canvas.setPointerCapture(e.pointerId); } catch(err){}
-
-        if (isEraserMode) {
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineWidth = currentPenWidth * 8; 
-            ctx.strokeStyle = 'rgba(0,0,0,1)';
-        } else {
-            if (isHighlighter) {
-                ctx.globalCompositeOperation = 'multiply';
-                ctx.lineWidth = 20;
-                ctx.strokeStyle = currentPenColor;
-            } else {
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.lineWidth = currentPenWidth * 2; 
-                ctx.strokeStyle = currentPenColor;
-            }
-        }
-
-        const pos = getPos(e);
+        const pos = getCoords(e);
         lastX = pos.x;
         lastY = pos.y;
-        
-        ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(pos.x + 0.01, pos.y);
-        ctx.stroke();
     }
 
-    function handlePointerMove(e) {
-        if (!isDrawingMode || !isDrawing) return;
-        if (!e.isPrimary) return;
-        
-        if (e.pointerType === 'touch') {
-            isDrawing = false;
-            return;
-        }
-        
-        e.stopPropagation();
-        if (e.cancelable) e.preventDefault();
-        
-        const pos = getPos(e);
+    function draw(e) {
+        if (!isDrawing || !isDrawingMode) return;
+        const pos = getCoords(e);
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x, pos.y);
+        if (isEraserMode) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = 25;
+        } else if (isHighlighter) {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle = currentPenColor;
+            ctx.lineWidth = 18;
+            ctx.lineCap = 'square';
+        } else {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle = currentPenColor;
+            ctx.lineWidth = currentPenWidth * 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+        }
         ctx.stroke();
-        
         lastX = pos.x;
         lastY = pos.y;
     }
 
-    function handlePointerUp(e) {
-        if (!isDrawing) return;
+    function stopDraw() {
         isDrawing = false;
-        try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
-        e.stopPropagation();
     }
 
-    let lastPenDownTime = 0;
-    let isStylusActive = false;
+    cvs.addEventListener('mousedown', startDraw);
+    cvs.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
 
-    canvas.addEventListener('pointerdown', (e) => {
-        if (e.pointerType === 'pen' || e.pointerType === 'mouse') {
-            lastPenDownTime = Date.now();
-        }
-        handlePointerDown(e);
-    }, {passive: false});
-    canvas.addEventListener('pointermove', handlePointerMove, {passive: false});
-    canvas.addEventListener('pointerup', handlePointerUp);
-    canvas.addEventListener('pointercancel', handlePointerUp);
-    
-    canvas.addEventListener('touchstart', (e) => {
-        if (!isDrawingMode) return;
-        let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
-        let isWinStylus = (Date.now() - lastPenDownTime) < 100;
-        
-        if (isIOSStylus || isWinStylus) {
-            isStylusActive = true;
-            e.stopPropagation();
-            if (e.cancelable) e.preventDefault();
-        } else {
-            isStylusActive = false;
-        }
-    }, {passive: false});
-    
-    function blockStylusTouch(e) {
-        if (isDrawingMode && isStylusActive) {
-            e.stopPropagation();
-            if (e.cancelable && e.type === 'touchmove') e.preventDefault();
-        }
-    }
-    
-    canvas.addEventListener('touchmove', blockStylusTouch, {passive: false});
-    canvas.addEventListener('touchend', blockStylusTouch);
-    canvas.addEventListener('touchcancel', blockStylusTouch);
-    
-    function blockMouse(e) {
-        if (isDrawingMode) e.stopPropagation();
-    }
-    canvas.addEventListener('mousedown', blockMouse);
-    canvas.addEventListener('mousemove', blockMouse);
-    canvas.addEventListener('mouseup', blockMouse);
-    canvas.addEventListener('click', blockMouse);
+    cvs.addEventListener('touchstart', startDraw, { passive: true });
+    cvs.addEventListener('touchmove', draw, { passive: true });
+    window.addEventListener('touchend', stopDraw);
 }
 
 // ==========================================
-// 4. Toolbar Drag Logic
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const dragToolbar = document.getElementById('drawing-toolbar');
-    if (!dragToolbar) return;
-
-    let isDraggingTb = false;
-    let tbStartX = 0, tbStartY = 0, tbInitX = 0, tbInitY = 0;
-
-    function startDragTb(e) {
-        // 버튼 클릭 시에는 드래그 대신 버튼 기능 실행
-        if (e.target.closest('button, input, select, textarea')) return;
-
-        isDraggingTb = true;
-        let clientX = e.clientX;
-        let clientY = e.clientY;
-        if (e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        }
-        tbStartX = clientX;
-        tbStartY = clientY;
-        const rect = dragToolbar.getBoundingClientRect();
-        tbInitX = rect.left;
-        tbInitY = rect.top;
-        
-        dragToolbar.style.setProperty('transform', 'none', 'important');
-        dragToolbar.style.setProperty('bottom', 'auto', 'important');
-        dragToolbar.style.setProperty('left', tbInitX + 'px', 'important');
-        dragToolbar.style.setProperty('top', tbInitY + 'px', 'important');
-        
-        e.stopPropagation();
-        if (e.cancelable) e.preventDefault();
-    }
-
-    function moveDragTb(e) {
-        if (!isDraggingTb) return;
-        let clientX = e.clientX;
-        let clientY = e.clientY;
-        if (e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        }
-        const dx = clientX - tbStartX;
-        const dy = clientY - tbStartY;
-        
-        const rect = dragToolbar.getBoundingClientRect();
-        let newLeft = Math.max(5, Math.min(window.innerWidth - rect.width - 5, tbInitX + dx));
-        let newTop = Math.max(5, Math.min(window.innerHeight - rect.height - 5, tbInitY + dy));
-        
-        dragToolbar.style.setProperty('left', newLeft + 'px', 'important');
-        dragToolbar.style.setProperty('top', newTop + 'px', 'important');
-        
-        e.stopPropagation();
-        if (e.cancelable) e.preventDefault();
-    }
-
-    function stopDragTb(e) {
-        if (isDraggingTb) {
-            isDraggingTb = false;
-            if (e) {
-                try { e.stopPropagation(); } catch(err){}
-            }
-        }
-    }
-
-    dragToolbar.addEventListener('mousedown', startDragTb);
-    window.addEventListener('mousemove', moveDragTb, {passive: false});
-    window.addEventListener('mouseup', stopDragTb);
-    
-    dragToolbar.addEventListener('touchstart', startDragTb, {passive: false});
-    window.addEventListener('touchmove', moveDragTb, {passive: false});
-    window.addEventListener('touchend', stopDragTb);
-    window.addEventListener('touchcancel', stopDragTb);
-});
-
-// ==========================================
-// ==========================================
-// 5. Standard 1·2 Week Standardized Flipbook & Zoom Engine
+// 4. StPageFlip Engine & Click-to-Turn Navigation
 // ==========================================
 let pageFlip = null;
 let currentZoom = 1.0;
 let panX = 0;
 let panY = 0;
 
-function isPortraitMode() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    return (h > w) || (w < 900) || (h < 500);
-}
-
-function resizeFlipbook() {
-    const fbContainer = document.getElementById('flipbook-container');
-    const scaleWrapper = document.getElementById('scale-wrapper');
-    if (!fbContainer || fbContainer.style.display === 'none' || !scaleWrapper) return;
-
-    const portrait = isPortraitMode();
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-    
-    const targetW = portrait ? 500 : 1000;
-    const targetH = 707;
-
-    if (currentZoom <= 1.05) {
-        panX = 0;
-        panY = 0;
-    }
-
-    const scaleW = (winW * 0.95) / targetW;
-    const scaleH = (winH * 0.95) / targetH;
-    let baseScale = Math.min(scaleW, scaleH);
-    let totalScale = baseScale * currentZoom;
-
-    scaleWrapper.style.width = targetW + 'px';
-    scaleWrapper.style.height = targetH + 'px';
-    scaleWrapper.style.transform = 'translate(calc(-50% + ' + panX + 'px), calc(-50% + ' + panY + 'px)) scale(' + totalScale + ')';
-
-    if (pageFlip) {
-        pageFlip.update();
-    }
-}
-
-function zoomFlipbook(delta) {
-    currentZoom += delta;
-    if (currentZoom < 0.6) currentZoom = 0.6;
-    if (currentZoom > 3.5) currentZoom = 3.5;
-    resizeFlipbook();
-}
-
 function initFlipbookEngine() {
     const fbElement = document.getElementById('flipbook');
     if (!fbElement || pageFlip) return;
 
-    // Use strictly top-level page-wrappers from #main-content to guarantee exactly 41 pages without nested duplicate extraction
     const topWrappers = Array.from(document.querySelectorAll('#main-content > .page-wrapper'));
-
     fbElement.innerHTML = '';
 
-    topWrappers.forEach(w => {
+    topWrappers.forEach((w, idx) => {
         const a4Page = w.querySelector('.a4-page') || w.querySelector('.concept-page') || w.querySelector('.spread-page') || w.firstElementChild;
         if (!a4Page) return;
 
         const clone = a4Page.cloneNode(true);
         clone.style.boxShadow = "none";
-        clone.style.margin = "0";
+        clone.style.margin = "0"; clone.style.marginTop = "0"; clone.style.top = "0";
+        clone.style.marginTop = "0";
+        clone.style.marginBottom = "0";
+        clone.style.top = "0";
+        clone.style.left = "0";
+        clone.style.width = "500px";
+        clone.style.height = "707px";
         if (clone.id) clone.id = clone.id + '-clone';
 
-        // Preserve page-scope class from parent wrapper
         Array.from(w.classList).forEach(cls => {
             if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {
                 clone.classList.add(cls);
@@ -14037,7 +13913,6 @@ function initFlipbookEngine() {
         cvs.style.left = '0';
         cvs.style.zIndex = '999';
         cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
-        cvs.style.touchAction = 'pinch-zoom';
         setupCanvasDrawing(cvs);
         clone.appendChild(cvs);
 
@@ -14056,97 +13931,78 @@ function initFlipbookEngine() {
         showCover: true,
         mobileScrollSupport: false,
         useMouseEvents: false,
-        usePortrait: true
+        usePortrait: false
     });
 
     pageFlip.loadFromHTML(Array.from(fbElement.children));
+
+    pageFlip.on('flip', (e) => {
+        updatePageStatus(e.data);
+    });
+
+    resizeFlipbook();
+}
+
+function updatePageStatus(pageIdx) {
+    const total = 42;
+    const statusText = document.getElementById('page-status-text');
+    if (!statusText) return;
+    
+    if (pageIdx === 0) {
+        statusText.textContent = '01';
+    } else {
+        const leftP = pageIdx;
+        const rightP = Math.min(pageIdx + 1, total);
+        statusText.textContent = String(leftP).padStart(2, '0') + '-' + String(rightP).padStart(2, '0');
+    }
+}
+
+function zoomFlipbook(delta) {
+    currentZoom += delta;
+    if (currentZoom < 0.6) currentZoom = 0.6;
+    if (currentZoom > 3.5) currentZoom = 3.5;
+    resizeFlipbook();
+}
+
+function resetZoom() {
+    currentZoom = 1.0;
+    panX = 0;
+    panY = 0;
+    resizeFlipbook();
+}
+
+function resizeFlipbook() {
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!scaleWrapper) return;
+
+    const winW = window.innerWidth;
+    const winH = window.innerHeight - 50;
+    
+    const targetW = 1000;
+    const targetH = 707;
+
+    if (currentZoom <= 1.05) {
+        panX = 0;
+        panY = 0;
+    }
+
+    const scaleW = (winW * 0.95) / targetW;
+    const scaleH = (winH * 0.92) / targetH;
+    let baseScale = Math.min(scaleW, scaleH);
+    let totalScale = baseScale * currentZoom;
+
+    scaleWrapper.style.width = targetW + 'px';
+    scaleWrapper.style.height = targetH + 'px';
+    scaleWrapper.style.transform = 'translate(calc(-50% + ' + panX + 'px), calc(-50% + ' + panY + 'px)) scale(' + totalScale + ')';
+
+    if (pageFlip) {
+        pageFlip.update();
+    }
 }
 
 function setupViewerEvents() {
     const scaleWrapper = document.getElementById('scale-wrapper');
     if (!scaleWrapper) return;
-
-    let touchMode = null;
-    let touchStartTime = 0;
-    let startTouchX = 0, startTouchY = 0;
-    let startPanX = 0, startPanY = 0;
-    let initialPinchDist = 0;
-    let zoomAtPinchStart = 1;
-
-    function getDistance(t1, t2) {
-        const dx = t1.clientX - t2.clientX;
-        const dy = t1.clientY - t2.clientY;
-        return Math.hypot(dx, dy);
-    }
-
-    scaleWrapper.addEventListener('touchstart', (e) => {
-        touchStartTime = Date.now();
-
-        if (e.touches.length === 2) {
-            touchMode = 'pinch';
-            initialPinchDist = getDistance(e.touches[0], e.touches[1]);
-            zoomAtPinchStart = currentZoom;
-        } else if (e.touches.length === 1) {
-            touchMode = 'single';
-            startTouchX = e.touches[0].clientX;
-            startTouchY = e.touches[0].clientY;
-            startPanX = panX;
-            startPanY = panY;
-        }
-    }, { passive: false });
-
-    scaleWrapper.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2 && touchMode === 'pinch') {
-            e.preventDefault();
-            const currentDist = getDistance(e.touches[0], e.touches[1]);
-            if (initialPinchDist > 0) {
-                const ratio = currentDist / initialPinchDist;
-                currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
-                resizeFlipbook();
-            }
-        } else if (e.touches.length === 1 && touchMode === 'single') {
-            const moveX = e.touches[0].clientX - startTouchX;
-            const moveY = e.touches[0].clientY - startTouchY;
-            const dist = Math.hypot(moveX, moveY);
-
-            if (currentZoom > 1.1 || dist > 15) {
-                if (currentZoom > 1.1) {
-                    e.preventDefault();
-                    panX = startPanX + moveX;
-                    panY = startPanY + moveY;
-                    resizeFlipbook();
-                }
-            }
-        }
-    }, { passive: false });
-
-    scaleWrapper.addEventListener('touchend', (e) => {
-        const touchDuration = Date.now() - touchStartTime;
-
-        if (touchMode === 'single' && e.changedTouches.length === 1) {
-            const endX = e.changedTouches[0].clientX;
-            const endY = e.changedTouches[0].clientY;
-            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
-
-            if (dist < 15 && touchDuration < 300 && pageFlip) {
-                const target = document.elementFromPoint(endX, endY);
-                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
-                    touchMode = null;
-                    return;
-                }
-                const rect = scaleWrapper.getBoundingClientRect();
-                const relativeX = endX - rect.left;
-
-                if (relativeX < rect.width / 2) {
-                    pageFlip.flipPrev();
-                } else {
-                    pageFlip.flipNext();
-                }
-                e.preventDefault();
-            }
-        }
-        touchMode = null;
-    });
 
     let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
 
@@ -14173,52 +14029,76 @@ function setupViewerEvents() {
         }
     });
 
+    // 💡 페이지 클릭 시 좌우 이동
     window.addEventListener('mouseup', (e) => {
-        if (isMouseDown && !isMouseDrag && pageFlip) {
-            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+        if (isMouseDown && !isMouseDrag && pageFlip && !isDrawingMode) {
+            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn')) {
                 isMouseDown = false;
                 return;
             }
             const rect = scaleWrapper.getBoundingClientRect();
             const relativeX = e.clientX - rect.left;
-            if (relativeX < rect.width / 2) pageFlip.flipPrev();
-            else pageFlip.flipNext();
+            if (relativeX < rect.width / 2) {
+                pageFlip.flipPrev();
+            } else {
+                pageFlip.flipNext();
+            }
         }
         isMouseDown = false;
+    });
+
+    // 터치 기기 탭 넘김
+    let touchStartTime = 0, startTouchX = 0, startTouchY = 0;
+    scaleWrapper.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            touchStartTime = Date.now();
+            startTouchX = e.touches[0].clientX;
+            startTouchY = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    scaleWrapper.addEventListener('touchend', (e) => {
+        const touchDuration = Date.now() - touchStartTime;
+        if (e.changedTouches.length === 1 && !isDrawingMode) {
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
+
+            if (dist < 15 && touchDuration < 300 && pageFlip) {
+                const target = document.elementFromPoint(endX, endY);
+                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn')) {
+                    return;
+                }
+                const rect = scaleWrapper.getBoundingClientRect();
+                const relativeX = endX - rect.left;
+                if (relativeX < rect.width / 2) {
+                    pageFlip.flipPrev();
+                } else {
+                    pageFlip.flipNext();
+                }
+            }
+        }
     });
 
     window.addEventListener('resize', resizeFlipbook);
     window.addEventListener('orientationchange', resizeFlipbook);
 
-    // Keyboard Arrow Keys
+    // 키보드 방향키
     window.addEventListener('keydown', (e) => {
         if (!pageFlip) return;
-        if (e.key === 'ArrowLeft' || e.key === 'PageUp') pageFlip.flipPrev();
-        else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') pageFlip.flipNext();
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            pageFlip.flipPrev();
+        } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+            pageFlip.flipNext();
+        }
     });
 }
 
-window.toggleFlipbook = function() {
-    const fbContainer = document.getElementById('flipbook-container');
-    if (!fbContainer) return;
-
-    fbContainer.style.display = "flex";
-    document.body.style.overflow = "hidden";
-
-    if (!pageFlip) {
-        initFlipbookEngine();
-        setupViewerEvents();
-    }
-
-    currentZoom = 1.0;
-    panX = 0;
-    panY = 0;
-    resizeFlipbook();
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-    window.toggleFlipbook();
+    initFlipbookEngine();
+    setupViewerEvents();
 });
-</script>
+    </script>
+
 </body>
 </html>

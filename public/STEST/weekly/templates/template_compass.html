@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../weekly_common.css">
+    <style>
+        body { background: #cbd5e1; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 20px; font-family: 'Noto Sans KR', sans-serif; }
+        .a4-page { width: 500px !important; height: 707px !important; background: #ffffff !important; position: relative; box-sizing: border-box; overflow: hidden; padding: 25px 28px; }
+        .compass-box { background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 8px 12px; border-radius: 0 8px 8px 0; margin-bottom: 8px; }
+        .compass-title { font-size: 13px; font-weight: 900; color: #0f172a; margin-bottom: 3px; }
+        .compass-desc { font-size: 10px; color: #475569; margin: 0; line-height: 1.45; }
+        .prob-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0f172a; padding-bottom: 4px; margin-bottom: 6px; }
+        .prob-brand { font-size: 13.5px; font-weight: 900; color: #0f172a; }
+        .behavior-tag { display: inline-block; background: #0284c7; color: white; padding: 3px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; margin-bottom: 4px; }
+        .source-text { font-size: 10px; color: #64748b; margin-bottom: 4px; }
+        .prob-split { display: flex; gap: 14px; margin-top: 2px; align-items: flex-start; }
+        .prob-split-left { flex: 0 0 105px; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px; }
+        .prob-split-right { flex: 1; border-left: 1px dashed #cbd5e1; padding-left: 10px; text-align: center; }
+        .ans-box { background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 10px; }
+        .exp-section { margin-top: 12px; }
+        .exp-title { font-size: 11.5px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 6px; }
+        .exp-text { font-size: 10px; line-height: 1.5; color: #334155; }
+        .learning-method { background: #e0f2fe; border-left: 4px solid #0284c7; padding: 8px 10px; border-radius: 0 4px 4px 0; margin-top: 12px; }
+        .page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-weight: 700; font-family: 'Roboto', sans-serif; }
+    </style>
+</head>
+<body>
+    <!-- Page 1: 문제 페이지 -->
+    <div class="a4-page spread-page">
+        <div class="compass-box">
+            <div class="compass-title">🧭 수능의 나침반 : 단원명</div>
+            <p class="compass-desc">평가원 수능 예시문항 분석을 통해 이 단원에서 수능이 묻고자 하는 핵심을 짚어봅니다.</p>
+        </div>
+        <div class="prob-header">
+            <div class="prob-brand">2028 수능 예시문항 분석</div>
+        </div>
+        <div class="behavior-tag">자료 변환 및 해석</div>
+        <div class="source-text">[출처] 2028학년도 수능 통합과학 예시문항 00번</div>
+        
+        <div class="prob-split">
+            <div class="prob-split-left">
+                <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 4px;">💡 갓쌤의 접근법</div>
+                <div style="font-size: 9px; color: #14532d; line-height: 1.45;">문항의 핵심 해결 논리와 자료 분석 포인트를 서술합니다.</div>
+            </div>
+            <div class="prob-split-right">
+                <img src="prob_sample.webp" alt="예시문항" style="max-width: 100%; max-height: 380px; object-fit: contain;">
+            </div>
+        </div>
+        <div class="page-num">- 09 -</div>
+    </div>
+
+    <!-- Page 2: 해설 페이지 -->
+    <div class="a4-page spread-page">
+        <div class="prob-header">
+            <div class="prob-brand">실전 대비 핵심 문항 분석 - 정답 및 해설</div>
+        </div>
+        <div class="ans-box">
+            <span style="font-size: 13px; font-weight: 900; color: #1e3a8a;">정답</span>
+            <span style="font-size: 22px; font-weight: 900; color: #2563eb;">③</span>
+        </div>
+        <div class="exp-section">
+            <div class="exp-title"><span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리</div>
+            <div class="exp-text">문항에 적용된 핵심 이론 및 공식을 정리합니다.</div>
+        </div>
+        <div class="exp-section">
+            <div class="exp-title"><span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설</div>
+            <div class="exp-text">
+                <div style="margin-bottom: 6px;"><b>ㄱ. (O)</b> 보기 ㄱ에 대한 명쾌한 분석입니다.</div>
+                <div style="margin-bottom: 6px;"><b>ㄴ. (O)</b> 보기 ㄴ에 대한 명쾌한 분석입니다.</div>
+                <div><b>ㄷ. (X)</b> 보기 ㄷ에 대한 함정 탈출 분석입니다.</div>
+            </div>
+        </div>
+        <div class="learning-method">
+            <div style="font-size: 11.5px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
+            <div style="font-size: 9.5px; color: #0f172a; line-height: 1.45;">실전 시험장에서 실수를 방지하는 행동 강령을 제시합니다.</div>
+        </div>
+        <div class="page-num">- 10 -</div>
+    </div>
+</body>
+</html>

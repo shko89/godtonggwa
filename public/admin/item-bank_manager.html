@@ -263,6 +263,7 @@ window.addEventListener('wheel', (e) => {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app-check.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, query, where, getDocs, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
@@ -279,6 +280,10 @@ window.addEventListener('wheel', (e) => {
         const ADMIN_EMAIL = "godtonggwa@gmail.com"; 
 
         const app = initializeApp(firebaseConfig);
+        const appCheck = initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
+            isTokenAutoRefreshEnabled: true
+        });
         const auth = getAuth(app);
         const db = getFirestore(app);
         const storage = getStorage(app);
@@ -469,7 +474,8 @@ window.addEventListener('wheel', (e) => {
 
                     const blob = await cropPdf(qData.p, qData.rect);
                     const sRef = ref(storage, `artifacts/${appId}/question_bank_images/${targetId}/${qId}.png`);
-                    await uploadBytes(sRef, blob);
+                    const metadata = { cacheControl: 'public, max-age=31536000' };
+                    await uploadBytes(sRef, blob, metadata);
                     const url = await getDownloadURL(sRef);
 
                     const aiQ = aiExamData.explanations?.find(e => e.no === Number(k));

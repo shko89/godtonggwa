@@ -366,11 +366,16 @@ window.addEventListener('wheel', (e) => {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
-        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const appCheck = initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
+            isTokenAutoRefreshEnabled: true
+        }); const auth = getAuth(app); const db = getFirestore(app);
         const appId = 'godtonggwa_v1';
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -507,7 +512,17 @@ window.addEventListener('wheel', (e) => {
             document.getElementById('solve-q-label').innerText = `Q ${String(num).padStart(2, '0')}`;
             document.getElementById('solve-q-score').innerText = `${qData.score || 2.0} Points`;
             document.getElementById('solve-q-topic').innerText = dbTopic;
-            document.getElementById('correct-ans').innerText = qData.ans || "?";
+            
+            // 2028_pretest.js (aiExamData)에서 정답 가져오기
+            let finalAns = "?";
+            if (aiExamData && aiExamData.answers && aiExamData.answers.length >= num) {
+                const ansNum = aiExamData.answers[num - 1];
+                finalAns = ["①", "②", "③", "④", "⑤"][ansNum - 1] || ansNum;
+            } else {
+                finalAns = qData.ans || "?";
+            }
+            document.getElementById('correct-ans').innerText = finalAns;
+            
             document.getElementById('note-topic-text').innerText = `Q${num}. ${dbTopic}`;
             document.getElementById('exp-text-main').innerHTML = aiQ?.content || "해설 준비 중입니다.";
             

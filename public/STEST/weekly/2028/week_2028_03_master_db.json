@@ -1,0 +1,811 @@
+{
+  "week_2028_03_prep_q01": {
+    "id": "week_2028_03_prep_q01",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prep",
+    "examQNum": 1,
+    "imageFile": "week_2028_03_prep_q01.png",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_prac_q01": {
+    "id": "week_2028_03_prac_q01",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 1,
+    "imageFile": "week_2028_03_prac_q01.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "화학 결합"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "이온 결합",
+      "공유 결합",
+      "규소"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_03_prac_q02": {
+    "id": "week_2028_03_prac_q02",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 2,
+    "imageFile": "week_2028_03_prac_q02.png",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "화학 결합"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "공유 전자쌍",
+      "비금속 원소"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_03_prac_q03": {
+    "id": "week_2028_03_prac_q03",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 3,
+    "imageFile": "week_2028_03_prac_q03.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 광물",
+      "복사슬 구조",
+      "판상 구조"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_03_prac_q04": {
+    "id": "week_2028_03_prac_q04",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 4,
+    "imageFile": "week_2028_03_prac_q04.png",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "탄소 화합물"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_03_prac_q05": {
+    "id": "week_2028_03_prac_q05",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 5,
+    "imageFile": "week_2028_03_prac_q05.png",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "DNA",
+      "RNA",
+      "핵산"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_03_prac_q06": {
+    "id": "week_2028_03_prac_q06",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 6,
+    "imageFile": "week_2028_03_prac_q06.png",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "단백질",
+      "펩타이드 결합",
+      "아미노산"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_03_prac_q07": {
+    "id": "week_2028_03_prac_q07",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 7,
+    "imageFile": "week_2028_03_prac_q07.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "물질의 전기적 성질"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "도체",
+      "반도체",
+      "절연체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_03_prac_q08": {
+    "id": "week_2028_03_prac_q08",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "prac",
+    "examQNum": 8,
+    "imageFile": "week_2028_03_prac_q08.png",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "물질의 전기적 성질"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "다이오드",
+      "p형 반도체",
+      "n형 반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_03_mock_q01": {
+    "id": "week_2028_03_mock_q01",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "week_2028_03_mock_q01.png",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "화학 결합"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "이온 결합",
+      "공유 결합"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q02": {
+    "id": "week_2028_03_mock_q02",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "week_2028_03_mock_q02.png",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "물질의 전기적 성질"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "반도체",
+      "신소재",
+      "서미스터"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q03": {
+    "id": "week_2028_03_mock_q03",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "week_2028_03_mock_q03.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "화학 결합"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "화학 결합",
+      "전자 배치"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q04": {
+    "id": "week_2028_03_mock_q04",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "week_2028_03_mock_q04.png",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "DNA",
+      "핵산",
+      "상보적 결합"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q05": {
+    "id": "week_2028_03_mock_q05",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "week_2028_03_mock_q05.png",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 광물",
+      "사면체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q06": {
+    "id": "week_2028_03_mock_q06",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "week_2028_03_mock_q06.png",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지각",
+      "생명체",
+      "원소 질량비"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q07": {
+    "id": "week_2028_03_mock_q07",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "week_2028_03_mock_q07.png",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 광물",
+      "독립형",
+      "단일사슬"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q08": {
+    "id": "week_2028_03_mock_q08",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "week_2028_03_mock_q08.png",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "아미노산",
+      "뉴클레오타이드"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q09": {
+    "id": "week_2028_03_mock_q09",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "week_2028_03_mock_q09.png",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "물",
+      "단백질",
+      "지질"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q10": {
+    "id": "week_2028_03_mock_q10",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "week_2028_03_mock_q10.png",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "탐구 수행 및 자료 수집",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "단백질 형성",
+      "펩타이드 결합"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q11": {
+    "id": "week_2028_03_mock_q11",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "week_2028_03_mock_q11.png",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "화학 결합"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "이온 결합",
+      "공유 결합",
+      "전기 전도성"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q12": {
+    "id": "week_2028_03_mock_q12",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "week_2028_03_mock_q12.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 광물",
+      "쪼개짐",
+      "흑운모"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q13": {
+    "id": "week_2028_03_mock_q13",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "week_2028_03_mock_q13.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "물질의 전기적 성질"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "도체",
+      "반도체",
+      "절연체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q14": {
+    "id": "week_2028_03_mock_q14",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "week_2028_03_mock_q14.png",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "결론 도출 및 일반화",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "DNA 이중 나선",
+      "X선 회절"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q15": {
+    "id": "week_2028_03_mock_q15",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "week_2028_03_mock_q15.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "문제 인식 및 가설 설정",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "효소",
+      "단백질 입체 구조"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q16": {
+    "id": "week_2028_03_mock_q16",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "week_2028_03_mock_q16.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "화학 결합"
+    },
+    "behavioralDomain": "의사소통",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염",
+      "단백질",
+      "신소재"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q17": {
+    "id": "week_2028_03_mock_q17",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "week_2028_03_mock_q17.png",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "사람 원소 질량비",
+      "산소",
+      "탄소"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q18": {
+    "id": "week_2028_03_mock_q18",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "week_2028_03_mock_q18.png",
+    "correctAnswer": "5",
+    "score": 2.5,
+    "difficulty": 4,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "물질의 전기적 성질"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "다이오드",
+      "정류 작용",
+      "회로"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q19": {
+    "id": "week_2028_03_mock_q19",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "week_2028_03_mock_q19.png",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "탐구 설계",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 광물 모형",
+      "산소 공유"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  },
+  "week_2028_03_mock_q20": {
+    "id": "week_2028_03_mock_q20",
+    "sourceExamId": "week_2028_03",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "week_2028_03_mock_q20.png",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각과 생명체 구성 물질의 규칙성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "단백질",
+      "핵산",
+      "탄소 화합물"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-17T02:22:28.302172Z"
+  }
+}

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 주간지 스마트 전자책 뷰어</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-dark: #0b1120;
+            --bg-viewer: #1e293b;
+            --page-w: 500px;
+            --page-h: 707px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* Top Toolbar */
+        .top-toolbar {
+            height: 54px;
+            background-color: #0b1120;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        .toolbar-left, .toolbar-center, .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 900;
+            font-size: 15px;
+            color: #38bdf8;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-badge {
+            background: #0284c7;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        select.custom-select {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-family: inherit;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        select.custom-select:hover {
+            border-color: #0284c7;
+            background-color: #334155;
+        }
+
+        .btn-icon {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+
+        .btn-icon:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            border-color: #38bdf8;
+        }
+
+        .page-status {
+            font-family: 'Roboto', sans-serif;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #94a3b8;
+            background: #1e293b;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .page-status span {
+            color: #38bdf8;
+        }
+
+        /* Main Workspace */
+        .workspace {
+            flex: 1;
+            position: relative;
+            background-color: var(--bg-viewer);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        /* Book Spread Container */
+        .book-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 100px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            position: relative;
+            background-color: #ffffff;
+        }
+
+        .page-slot {
+            width: var(--page-w);
+            height: var(--page-h);
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .page-slot.left-slot {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            box-shadow: inset -15px 0 25px -10px rgba(0, 0, 0, 0.12);
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .page-slot.right-slot {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            box-shadow: inset 15px 0 25px -10px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Single page mode for Cover (Page 1) */
+        .single-mode .left-slot {
+            display: none !important;
+        }
+        .single-mode .right-slot {
+            border-radius: 6px !important;
+            box-shadow: none !important;
+        }
+
+        /* Central Book Spine Shadow */
+        .book-spine {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, rgba(0,0,0,0.25), rgba(255,255,255,0.2), rgba(0,0,0,0.25));
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .single-mode .book-spine {
+            display: none;
+        }
+
+        .page-frame {
+            width: 500px;
+            height: 707px;
+            border: none;
+            display: block;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Side Navigation Floating Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 76px;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            z-index: 40;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(2, 132, 199, 0.9);
+            width: 56px;
+            box-shadow: 0 0 20px rgba(2, 132, 199, 0.5);
+        }
+
+        .nav-arrow.disabled {
+            opacity: 0.15;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .nav-prev { left: 20px; }
+        .nav-next { right: 20px; }
+
+        /* Bottom Control Bar */
+        .bottom-bar {
+            height: 48px;
+            background-color: #0b1120;
+            border-top: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 20px;
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 340px;
+        }
+
+        .page-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #334155;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .page-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+            transition: transform 0.1s;
+        }
+
+        .page-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+        }
+
+        /* Keyboard Hints Overlay */
+        .key-hint {
+            font-size: 11.5px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .kbd {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #94a3b8;
+            font-size: 10.5px;
+        }
+
+        /* TOC Drawer */
+        .toc-drawer {
+            position: absolute;
+            top: 54px;
+            left: 0;
+            bottom: 48px;
+            width: 300px;
+            background: #0f172a;
+            border-right: 1px solid #334155;
+            z-index: 60;
+            transform: translateX(-100%);
+            transition: transform 0.25s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .toc-drawer.open {
+            transform: translateX(0);
+        }
+
+        .toc-header {
+            padding: 14px 16px;
+            font-weight: 900;
+            font-size: 13.5px;
+            color: #38bdf8;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toc-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .toc-item {
+            padding: 11px 16px;
+            font-size: 12px;
+            color: #cbd5e1;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+
+        .toc-item:hover {
+            background: #1e293b;
+            color: #38bdf8;
+            border-left-color: #38bdf8;
+        }
+
+        .toc-page {
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Toolbar -->
+    <div class="top-toolbar">
+        <div class="toolbar-left">
+            <div class="brand-logo">
+                GODTONGGWA <span class="brand-badge">E-BOOK</span>
+            </div>
+            <select id="weekSelect" class="custom-select" onchange="changeWeek(this.value)">
+                <option value="5주차">5주차 주간지</option>
+                <option value="4주차" selected>4주차 주간지</option>
+            </select>
+            <button class="btn-icon" onclick="toggleTOC()">
+                📑 목차 보기
+            </button>
+        </div>
+
+        <div class="toolbar-center">
+            <div class="page-status">
+                <span id="currPageDisplay">01</span> / <span id="totalPageDisplay">40</span> P
+            </div>
+        </div>
+
+        <div class="toolbar-right">
+            <button class="btn-icon" onclick="zoomFit()">🔍 맞춤</button>
+            <button class="btn-icon" onclick="zoomIn()">➕ 확대</button>
+            <button class="btn-icon" onclick="zoomOut()">➖ 축소</button>
+            <button class="btn-icon" onclick="toggleFullscreen()">⛶ 전체화면</button>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="workspace" id="workspace">
+        
+        <!-- Navigation Arrows -->
+        <button class="nav-arrow nav-prev" id="btnPrev" onclick="prevPage()">‹</button>
+        <button class="nav-arrow nav-next" id="btnNext" onclick="nextPage()">›</button>
+
+        <!-- Book Spread Stage -->
+        <div class="book-stage" id="bookStage">
+            <div class="page-slot left-slot" id="leftSlot">
+                <iframe class="page-frame" id="leftFrame" src="about:blank"></iframe>
+            </div>
+            <div class="book-spine"></div>
+            <div class="page-slot right-slot" id="rightSlot">
+                <iframe class="page-frame" id="rightFrame" src="about:blank"></iframe>
+            </div>
+        </div>
+
+        <!-- TOC Drawer -->
+        <div class="toc-drawer" id="tocDrawer">
+            <div class="toc-header">
+                <span>주간지 목차 (INDEX)</span>
+                <span style="cursor:pointer; color:#94a3b8;" onclick="toggleTOC()">✕</span>
+            </div>
+            <div class="toc-list" id="tocList"></div>
+        </div>
+    </div>
+
+    <!-- Bottom Control Bar -->
+    <div class="bottom-bar">
+        <button class="btn-icon" onclick="goToPage(1)">⏮ 처음</button>
+        <button class="btn-icon" onclick="prevPage()">◀ 이전</button>
+        
+        <div class="slider-container">
+            <input type="range" class="page-slider" id="pageSlider" min="1" max="40" value="1" oninput="onSliderMove(this.value)" onchange="onSliderChange(this.value)">
+        </div>
+
+        <button class="btn-icon" onclick="nextPage()">다음 ▶</button>
+        <button class="btn-icon" onclick="goToPage(state.total)">끝 ⏭</button>
+
+        <div class="key-hint" style="margin-left: 15px;">
+            <span class="kbd">←</span> <span class="kbd">→</span> 방향키 넘김
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            currentWeek: '4주차',
+            bookData: null,
+            flatPages: [],
+            currSpreadIndex: 0,
+            total: 40,
+            zoomScale: 1.0,
+            autoScale: true
+        };
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const weekParam = params.get('week');
+            if (weekParam) {
+                state.currentWeek = weekParam.includes('주차') ? weekParam : `${weekParam}주차`;
+                const weekSelect = document.getElementById('weekSelect');
+                if (weekSelect) weekSelect.value = state.currentWeek;
+            }
+
+            setupIframeHooks(document.getElementById('leftFrame'));
+            setupIframeHooks(document.getElementById('rightFrame'));
+
+            await loadBookManifest(state.currentWeek);
+            window.addEventListener('resize', autoFitStage);
+            setupKeyboardNav();
+        });
+
+        // Setup intelligent iframe isolation hook
+        function setupIframeHooks(iframe) {
+            iframe.addEventListener('load', () => {
+                try {
+                    const doc = iframe.contentDocument;
+                    if (!doc || !doc.body) return;
+
+                    // Clean body styling for seamless embed inside slot
+                    doc.body.style.margin = '0';
+                    doc.body.style.padding = '0';
+                    doc.body.style.backgroundColor = '#ffffff';
+                    doc.body.style.overflow = 'hidden';
+
+                    // Check for ?p=N query param to isolate multi-page files
+                    const url = new URL(iframe.src, window.location.href);
+                    const pageNum = parseInt(url.searchParams.get('p'));
+                    const a4Pages = doc.querySelectorAll('.a4-page');
+
+                    if (pageNum && a4Pages.length > 1) {
+                        const targetIdx = pageNum - 1;
+                        a4Pages.forEach((p, idx) => {
+                            if (idx === targetIdx) {
+                                p.style.display = 'flex';
+                                p.style.margin = '0';
+                                p.style.boxShadow = 'none';
+                            } else {
+                                p.style.display = 'none';
+                            }
+                        });
+                    } else if (a4Pages.length === 1) {
+                        a4Pages[0].style.margin = '0';
+                        a4Pages[0].style.boxShadow = 'none';
+                    }
+                } catch (e) {
+                    console.debug('[Viewer] Iframe hook:', e);
+                }
+            });
+        }
+
+        // Load manifest
+        async function loadBookManifest(weekFolder) {
+            try {
+                const manifestUrl = `./${weekFolder}/book.json`;
+                const res = await fetch(manifestUrl);
+                if (!res.ok) throw new Error(`Manifest not found at ${manifestUrl}`);
+                const data = await res.json();
+                state.bookData = data;
+                buildFlatPages(data, weekFolder);
+                buildTOC(data.toc || []);
+                renderCurrentSpread();
+            } catch (err) {
+                console.warn('[Viewer] Manifest load error:', err);
+            }
+        }
+
+        function buildFlatPages(data, weekFolder) {
+            state.flatPages = [];
+            if (data.pages && Array.isArray(data.pages)) {
+                data.pages.forEach(p => {
+                    const fullUrl = p.startsWith('http') || p.startsWith('/') ? p : `./${weekFolder}/${p}`;
+                    state.flatPages.push(fullUrl);
+                });
+            }
+            state.total = state.flatPages.length || 40;
+            document.getElementById('totalPageDisplay').textContent = String(state.total).padStart(2, '0');
+            document.getElementById('pageSlider').max = state.total;
+        }
+
+        function renderCurrentSpread() {
+            const leftFrame = document.getElementById('leftFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            const stage = document.getElementById('bookStage');
+            const currDisplay = document.getElementById('currPageDisplay');
+            const slider = document.getElementById('pageSlider');
+
+            if (state.currSpreadIndex === 0) {
+                // Cover: Single page (1p on right)
+                stage.classList.add('single-mode');
+                leftFrame.src = 'about:blank';
+                rightFrame.src = state.flatPages[0] || 'about:blank';
+                currDisplay.textContent = '01';
+                slider.value = 1;
+            } else {
+                // Two-page spread: Page 2N (left), Page 2N+1 (right)
+                stage.classList.remove('single-mode');
+                const leftPageNum = state.currSpreadIndex * 2;
+                const rightPageNum = leftPageNum + 1;
+
+                const leftUrl = state.flatPages[leftPageNum - 1] || 'about:blank';
+                const rightUrl = state.flatPages[rightPageNum - 1] || 'about:blank';
+
+                leftFrame.src = leftUrl;
+                rightFrame.src = rightUrl;
+
+                currDisplay.textContent = `${String(leftPageNum).padStart(2, '0')}-${String(Math.min(rightPageNum, state.total)).padStart(2, '0')}`;
+                slider.value = leftPageNum;
+            }
+
+            updateNavButtons();
+            autoFitStage();
+        }
+
+        function prevPage() {
+            if (state.currSpreadIndex > 0) {
+                state.currSpreadIndex--;
+                renderCurrentSpread();
+            }
+        }
+
+        function nextPage() {
+            const maxSpread = Math.ceil(state.total / 2);
+            if (state.currSpreadIndex < maxSpread) {
+                state.currSpreadIndex++;
+                renderCurrentSpread();
+            }
+        }
+
+        function goToPage(targetPageNum) {
+            targetPageNum = Math.max(1, Math.min(parseInt(targetPageNum) || 1, state.total));
+            if (targetPageNum === 1) {
+                state.currSpreadIndex = 0;
+            } else {
+                state.currSpreadIndex = Math.floor(targetPageNum / 2);
+            }
+            renderCurrentSpread();
+        }
+
+        function updateNavButtons() {
+            const maxSpread = Math.ceil(state.total / 2);
+            document.getElementById('btnPrev').classList.toggle('disabled', state.currSpreadIndex <= 0);
+            document.getElementById('btnNext').classList.toggle('disabled', state.currSpreadIndex >= maxSpread);
+        }
+
+        function onSliderMove(val) {
+            document.getElementById('currPageDisplay').textContent = String(val).padStart(2, '0');
+        }
+
+        function onSliderChange(val) {
+            goToPage(val);
+        }
+
+        function buildTOC(tocItems) {
+            const list = document.getElementById('tocList');
+            list.innerHTML = '';
+            tocItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'toc-item';
+                div.innerHTML = `<span>${item.title}</span><span class="toc-page">${item.page}p</span>`;
+                div.onclick = () => {
+                    goToPage(item.page);
+                    toggleTOC();
+                };
+                list.appendChild(div);
+            });
+        }
+
+        function toggleTOC() {
+            document.getElementById('tocDrawer').classList.toggle('open');
+        }
+
+        function autoFitStage() {
+            if (!state.autoScale) return;
+            const ws = document.getElementById('workspace');
+            const stage = document.getElementById('bookStage');
+            
+            const isSingle = stage.classList.contains('single-mode');
+            const targetWidth = isSingle ? 500 : 1000;
+            const targetHeight = 707;
+
+            const availWidth = ws.clientWidth - 130;
+            const availHeight = ws.clientHeight - 30;
+
+            const scaleX = availWidth / targetWidth;
+            const scaleY = availHeight / targetHeight;
+            const scale = Math.min(scaleX, scaleY, 1.2);
+
+            state.zoomScale = Math.max(0.4, scale);
+            stage.style.transform = `scale(${state.zoomScale})`;
+        }
+
+        function zoomIn() {
+            state.autoScale = false;
+            state.zoomScale = Math.min(state.zoomScale + 0.15, 2.5);
+            document.getElementById('bookStage').style.transform = `scale(${state.zoomScale})`;
+        }
+
+        function zoomOut() {
+            state.autoScale = false;
+            state.zoomScale = Math.max(state.zoomScale - 0.15, 0.4);
+            document.getElementById('bookStage').style.transform = `scale(${state.zoomScale})`;
+        }
+
+        function zoomFit() {
+            state.autoScale = true;
+            autoFitStage();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+
+        function changeWeek(week) {
+            state.currentWeek = week;
+            state.currSpreadIndex = 0;
+            loadBookManifest(week);
+        }
+
+        function setupKeyboardNav() {
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    prevPage();
+                } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                    nextPage();
+                } else if (e.key === 'Home') {
+                    goToPage(1);
+                } else if (e.key === 'End') {
+                    goToPage(state.total);
+                } else if (e.key === 'Escape') {
+                    document.getElementById('tocDrawer').classList.remove('open');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -271,3 +271,16 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     background-image: none !important;
     background-color: transparent !important;
 }
+
+.tutor-note sub, .tutor-note sup, .tutor-schema sub, .tutor-schema sup {
+    font-size: 0.72em !important;
+    line-height: 0 !important;
+    position: relative !important;
+    vertical-align: baseline !important;
+}
+.tutor-note sub, .tutor-schema sub {
+    bottom: -0.2em !important;
+}
+.tutor-note sup, .tutor-schema sup {
+    top: -0.4em !important;
+}

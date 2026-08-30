@@ -1061,6 +1061,20 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     background-image: none !important;
     background-color: transparent !important;
 }
+
+.tutor-note sub, .tutor-note sup, .tutor-schema sub, .tutor-schema sup {
+    font-size: 0.72em !important;
+    line-height: 0 !important;
+    position: relative !important;
+    vertical-align: baseline !important;
+}
+.tutor-note sub, .tutor-schema sub {
+    bottom: -0.2em !important;
+}
+.tutor-note sup, .tutor-schema sup {
+    top: -0.4em !important;
+}
+
     </style>
 
     <!-- Master Transparent Page Number Style -->
@@ -1321,6 +1335,18 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             font-size: 10.5px;
             margin-top: auto; 
             padding-top: 8px;
+}
+.page-scope-p05 .tutor-note sub, .page-scope-p05 .tutor-note sup {
+  font-size: 0.72em !important;
+            line-height: 0 !important;
+            position: relative !important;
+            vertical-align: baseline !important;
+}
+.page-scope-p05 .tutor-note sub {
+  bottom: -0.2em !important;
+}
+.page-scope-p05 .tutor-note sup {
+  top: -0.4em !important;
 }</style>
     <style>/* === [Style] Page 6: page06.html (지구 시스템의 구성요소 (1)) === */
 
@@ -5894,7 +5920,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 </div>
                 <div class="tutor-note">
                     <div class="tutor-badge">⚡ Tutor's Schema</div>
-                    <p class="handwriting">"외핵 액체 대류(지구 자기장 형성), 기권 대류권의 기상 현상, 수권 수온 약층의 안정성(물질 교환 차단)을 반드시 기억하자!"</p>
+                    <p class="handwriting">외핵 액체 대류(지구 자기장 형성), 기권 대류권의 기상 현상, 수권 수온 약층의 안정성(물질 교환 차단)을 반드시 기억하자!</p>
                 </div>
             </div>
             <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
@@ -5908,11 +5934,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     <tbody>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#eff6ff; color:#1d4ed8;">지권</td>
-                            <td>지각·맨틀·외핵·내핵 / <b class="tag-blue">외핵(액체)</b> 대류 ➔ <b>지구 자기장</b> 형성</td>
+                            <td>지각·맨틀·외핵·내핵 / <b class="tag-blue">외핵(액체)</b> 대류 <br>➔ <b>지구 자기장</b> 형성</td>
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#eff6ff; color:#1d4ed8;">기권</td>
-                            <td><b class="tag-blue">대류권</b>(기상현상◯), <b class="tag-blue">성층권</b>(오존층·자외선 흡수), 중간권, 열권</td>
+                            <td><b class="tag-blue">대류권</b>(기상현상◯), <b class="tag-blue">성층권</b>(오존층·자외선 흡수) <br>중간권, 열권</td>
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#eff6ff; color:#1d4ed8;">수권</td>
@@ -5920,7 +5946,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#f0fdf4; color:#15803d;">생물권</td>
-                            <td>지권·기권·수권에 걸쳐 분포, 광합성·호흡을 통한 물질 순환</td>
+                            <td>지권·기권·수권에 걸쳐 분포 <br>광합성·호흡을 통한 물질 순환</td>
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#f8fafc; color:#475569;">외권</td>
@@ -6017,9 +6043,9 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="tutor-note">
                     <div class="tutor-badge">⚡ Tutor's Schema</div>
                     <ul class="schema-list" style="margin: 0; padding: 0; list-style: none;">
-                        <li>• <b>기권:</b> 이산화 탄소(CO₂), 메테인</li>
-                        <li>• <b>수권:</b> 탄산수소 이온(HCO₃⁻)</li>
-                        <li>• <b>지권:</b> <b class="tag-red">석회암(CaCO₃, 최대량)</b>, 화석연료</li>
+                        <li>• <b>기권:</b> 이산화 탄소(CO<sub>2</sub>), 메테인</li>
+                        <li>• <b>수권:</b> 탄산수소 이온(HCO<sub>3</sub><sup>-</sup>)</li>
+                        <li>• <b>지권:</b> <b class="tag-red">석회암(CaCO<sub>3</sub>, 최대량)</b>, 화석연료</li>
                         <li style="margin-bottom: 0;">• <b>생물권:</b> 유기물(탄수화물, 단백질)</li>
                     </ul>
                 </div>

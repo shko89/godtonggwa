@@ -5915,12 +5915,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         <div class="quadrant">
             <div style="width: 168px; flex-shrink: 0; display: flex; flex-direction: column;">
                 <div class="quadrant-header">
-                    <div class="quadrant-title"><span class="quadrant-num">Q1.</span> 지구 시스템의 구성</div>
+                    <div style="line-height: 1.6;"><span class="quadrant-num">Q1.</span> 지구 시스템의 구성</div>
                     <div class="quadrant-desc">5개 권역의 층상 구조와 상호작용</div>
                 </div>
                 <div class="tutor-note">
                     <div class="tutor-badge">⚡ Tutor's Schema</div>
-                    <p class="handwriting">외핵 액체 대류(지구 자기장 형성), 기권 대류권의 기상 현상, 수권 수온 약층의 안정성(물질 교환 차단)을 반드시 기억하자!</p>
+                    <p class="handwriting">외핵 액체 대류(지구 자기장 형성), <BR>기권 대류권의 기상 현상, <BR>수권 수온 약층의 안정성(물질 교환 차단)을 <BR>반드시 기억하자!</p>
                 </div>
             </div>
             <div style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
@@ -5938,7 +5938,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#eff6ff; color:#1d4ed8;">기권</td>
-                            <td><b class="tag-blue">대류권</b>(기상현상◯), <b class="tag-blue">성층권</b>(오존층·자외선 흡수) <br>중간권, 열권</td>
+                            <td><b class="tag-blue">대류권</b>(기상현상◯), <b class="tag-blue">성층권</b>(오존층·자외선 흡수), <br>중간권, 열권</td>
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#eff6ff; color:#1d4ed8;">수권</td>
@@ -5946,7 +5946,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#f0fdf4; color:#15803d;">생물권</td>
-                            <td>지권·기권·수권에 걸쳐 분포 <br>광합성·호흡을 통한 물질 순환</td>
+                            <td>지권·기권·수권에 걸쳐 분포 / <br>광합성·호흡을 통한 물질 순환</td>
                         </tr>
                         <tr>
                             <td style="text-align:center; font-weight:bold; background-color:#f8fafc; color:#475569;">외권</td>
@@ -5979,60 +5979,73 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         </filter>
                     </defs>
 
-                    <!-- Outer Curved Arrows A (기권 <-> 지권) -->
-                    <path d="M 106 20 C 42 28, 10 75, 28 114" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arr-org)"/>
-                    <rect x="2" y="74" width="38" height="12" rx="3" fill="#fff" stroke="#fdba74" stroke-width="0.8"/>
-                    <text x="21" y="83" font-size="6.5" font-weight="900" text-anchor="middle" fill="#c2410c">강우·풍화</text>
+                    <!-- ========================================================
+                         1. 동심원 외곽 화살표 (CONCENTRIC CIRCULAR ARCS)
+                         ======================================================== -->
+                    
+                    <!-- 1) 기권 -> 지권 (외측 동심원호 R=86) -->
+                    <path d="M 104 6 A 86 86 0 0 0 28 108" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arr-org)"/>
+                    <rect x="2" y="68" width="38" height="12" rx="3" fill="#fff" stroke="#fdba74" stroke-width="0.8"/>
+                    <text x="21" y="77" font-size="6.5" font-weight="900" text-anchor="middle" fill="#c2410c">강우·풍화</text>
 
-                    <path d="M 44 112 C 28 68, 65 36, 105 28" fill="none" stroke="#0284c7" stroke-width="1.4" marker-end="url(#arr-blu)"/>
-                    <rect x="36" y="58" width="46" height="12" rx="3" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
-                    <text x="59" y="67" font-size="6.5" font-weight="900" text-anchor="middle" fill="#0369a1">연소·화산(CO₂)</text>
+                    <!-- 2) 지권 -> 기권 (내측 동심원호 R=64) -->
+                    <path d="M 44 110 A 64 64 0 0 1 106 25" fill="none" stroke="#0284c7" stroke-width="1.4" marker-end="url(#arr-blu)"/>
+                    <rect x="36" y="56" width="46" height="12" rx="3" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
+                    <text x="59" y="65" font-size="6.5" font-weight="900" text-anchor="middle" fill="#0369a1">연소·화산(CO₂)</text>
 
-                    <!-- Outer Curved Arrows C (기권 <-> 수권) -->
-                    <path d="M 148 28 C 188 38, 226 70, 210 112" fill="none" stroke="#0284c7" stroke-width="1.4" marker-end="url(#arr-blu)"/>
-                    <rect x="194" y="65" width="56" height="12" rx="3" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
-                    <text x="222" y="74" font-size="6.5" font-weight="900" text-anchor="middle" fill="#0369a1">해수용해(HCO₃⁻)</text>
+                    <!-- 3) 기권 -> 수권 (외측 동심원호 R=86) -->
+                    <path d="M 150 6 A 86 86 0 0 1 226 108" fill="none" stroke="#0284c7" stroke-width="1.4" marker-end="url(#arr-blu)"/>
+                    <rect x="194" y="68" width="58" height="12" rx="3" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
+                    <text x="223" y="77" font-size="6.5" font-weight="900" text-anchor="middle" fill="#0369a1">해수용해(HCO₃⁻)</text>
 
-                    <path d="M 226 114 C 244 75, 211 28, 148 20" fill="none" stroke="#38bdf8" stroke-width="1.4" marker-end="url(#arr-lblu)"/>
-                    <rect x="178" y="24" width="44" height="12" rx="3" fill="#fff" stroke="#7dd3fc" stroke-width="0.8"/>
-                    <text x="200" y="33" font-size="6.5" font-weight="900" text-anchor="middle" fill="#0284c7">해수방출(CO₂)</text>
+                    <!-- 4) 수권 -> 기권 (내측 동심원호 R=64) -->
+                    <path d="M 210 110 A 64 64 0 0 0 148 25" fill="none" stroke="#38bdf8" stroke-width="1.4" marker-end="url(#arr-lblu)"/>
+                    <rect x="176" y="24" width="44" height="12" rx="3" fill="#fff" stroke="#7dd3fc" stroke-width="0.8"/>
+                    <text x="198" y="33" font-size="6.5" font-weight="900" text-anchor="middle" fill="#0284c7">해수방출(CO₂)</text>
 
-                    <!-- Bottom Curved Arrows B (수권 -> 지권: 침전·퇴적 / 석회암) -->
-                    <path d="M 190 140 C 150 160, 105 160, 64 140" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arr-org)"/>
+                    <!-- 5) 수권 -> 지권 (하단 동심원호 R=82: 침전·퇴적 / 석회암 형성) -->
+                    <path d="M 188 142 A 82 82 0 0 1 66 142" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arr-org)"/>
                     <rect x="80" y="148" width="94" height="12" rx="3" fill="#fff" stroke="#fdba74" stroke-width="0.8"/>
                     <text x="127" y="157" font-size="6.5" font-weight="900" text-anchor="middle" fill="#c2410c">침전·퇴적(석회암 CaCO₃)</text>
 
-                    <!-- Inner Arrows D (기권 <-> 생물권) -->
-                    <path d="M 120 41 L 120 64" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr-grn)"/>
+                    <!-- ========================================================
+                         2. 생물권 중심 방사형 화살표 (INNER RADIAL ARROWS)
+                         ======================================================== -->
+
+                    <!-- 6) 기권 -> 생물권 (광합성) -->
+                    <path d="M 120 41 L 120 63" fill="none" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr-grn)"/>
                     <rect x="74" y="44" width="42" height="11" rx="2" fill="#fff" stroke="#86efac" stroke-width="0.8"/>
                     <text x="95" y="52.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#15803d">광합성(유기물)</text>
 
-                    <path d="M 134 64 L 134 41" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-lblu)"/>
+                    <!-- 7) 생물권 -> 기권 (호흡) -->
+                    <path d="M 134 63 L 134 41" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-lblu)"/>
                     <rect x="137" y="44" width="34" height="11" rx="2" fill="#fff" stroke="#7dd3fc" stroke-width="0.8"/>
                     <text x="154" y="52.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#0284c7">호흡(CO₂)</text>
 
-                    <!-- Inner Arrow E (생물권 -> 지권) -->
+                    <!-- 8) 생물권 -> 지권 (사체 매몰) -->
                     <path d="M 112 92 L 64 121" fill="none" stroke="#ea580c" stroke-width="1.4" marker-end="url(#arr-org)"/>
-                    <rect x="62" y="98" width="38" height="11" rx="2" fill="#fff" stroke="#fdba74" stroke-width="0.8"/>
-                    <text x="81" y="106.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#c2410c">사체(화석연료)</text>
+                    <rect x="60" y="98" width="40" height="11" rx="2" fill="#fff" stroke="#fdba74" stroke-width="0.8"/>
+                    <text x="80" y="106.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#c2410c">사체(화석연료)</text>
 
-                    <!-- Inner Arrow F (생물권 <-> 수권) -->
+                    <!-- 9) 생물권 <-> 수권 (패각·유기물) -->
                     <path d="M 142 92 L 190 121" fill="none" stroke="#0284c7" stroke-width="1.4" marker-end="url(#arr-blu)"/>
-                    <rect x="154" y="98" width="42" height="11" rx="2" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
-                    <text x="175" y="106.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#0369a1">패각·유기물(CaCO₃)</text>
+                    <rect x="154" y="98" width="44" height="11" rx="2" fill="#fff" stroke="#93c5fd" stroke-width="0.8"/>
+                    <text x="176" y="106.5" font-size="6.2" font-weight="900" text-anchor="middle" fill="#0369a1">패각·유기물(CaCO₃)</text>
 
-                    <!-- Central and Outer Circles -->
+                    <!-- ========================================================
+                         3. 4대 권역 원형 노드 (SPHERE NODES)
+                         ======================================================== -->
                     <circle cx="127" cy="23" r="19" fill="#bae6fd" stroke="#0284c7" stroke-width="2" filter="url(#shadow)"/>
                     <text x="127" y="27.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#0369a1">기권</text>
 
                     <circle cx="127" cy="81" r="19" fill="#bbf7d0" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
                     <text x="127" y="85.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#15803d">생물권</text>
 
-                    <circle cx="46" cy="130" r="19" fill="#fed7aa" stroke="#ea580c" stroke-width="2" filter="url(#shadow)"/>
-                    <text x="46" y="134.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#c2410c">지권</text>
+                    <circle cx="46" cy="128" r="19" fill="#fed7aa" stroke="#ea580c" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="46" y="132.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#c2410c">지권</text>
 
-                    <circle cx="208" cy="130" r="19" fill="#fde68a" stroke="#d97706" stroke-width="2" filter="url(#shadow)"/>
-                    <text x="208" y="134.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#b45309">수권</text>
+                    <circle cx="208" cy="128" r="19" fill="#fde68a" stroke="#d97706" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="208" y="132.5" font-size="10.5" font-weight="900" text-anchor="middle" fill="#b45309">수권</text>
                 </svg>
             </div>
             <div style="flex: 1; display: flex; flex-direction: column;">

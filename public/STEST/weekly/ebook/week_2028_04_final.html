@@ -2830,7 +2830,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             z-index: 10 !important;
 }</style>
     <style>/* === [Style] quiz_04.html (page-scope-quiz_04) === */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Roboto:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
 .page-scope-quiz_04 html, .page-scope-quiz_04 body {
     width: 100%;
@@ -2848,39 +2848,45 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 }
 
 .page-scope-quiz_04 {
-  background-color: #f1f5f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-}
-.page-scope-quiz_04 .a4-page, .page-scope-quiz_04.a4-page {
-  background-color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: relative;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            width: 500px;
-            height: 707px;
-            overflow: hidden;
+  --primary: #4A90E2;
+            --secondary: #F39C12;
+            --success: #2ECC71;
+            --danger: #E74C3C;
+            --bg-color: #F8F9FA;
+            --text-dark: #1e293b;
+            --card-bg: #FFFFFF;
 }
 .page-scope-quiz_04 .quiz-container {
   width: 100% !important;
             font-family: 'Noto Sans KR', sans-serif;
-            color: #334155;
+            color: var(--text-dark);
             padding: 10px 20px;
             box-sizing: border-box;
-            background-color: #f8fafc;
+            background-color: var(--bg-color);
             height: 100%;
-            display: block !important;
+            display: block;
             column-count: 1 !important;
             flex: 1 1 100% !important;
 }
+.page-scope-quiz_04 .header {
+  text-align: center;
+            margin-bottom: 20px;
+            width: 100% !important;
+            display: block;
+}
+.page-scope-quiz_04 .header h1 {
+  font-weight: 900;
+            color: var(--primary);
+            font-size: 18px;
+            margin: 0 0 5px 0;
+}
+.page-scope-quiz_04 .header p {
+  color: #64748b;
+            font-size: 11px;
+            margin: 0;
+}
 .page-scope-quiz_04 .unit-title {
-  background-color: #0284c7;
+  background-color: var(--primary);
             color: white;
             display: inline-block;
             padding: 4px 12px;
@@ -2895,14 +2901,14 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 }
 .page-scope-quiz_04 .card {
   width: 100% !important;
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             border-radius: 10px;
             padding: 12px 14px;
             margin-bottom: 12px;
             box-sizing: border-box !important;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border-left: 4px solid #0284c7;
-            display: block !important;
+            border-left: 4px solid var(--primary);
+            display: block;
             page-break-inside: avoid;
             float: none !important;
             clear: both !important;
@@ -2924,11 +2930,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             margin-bottom: 8px;
             line-height: 1.4;
             word-break: keep-all;
-            display: flex !important;
+            display: flex;
 }
 .page-scope-quiz_04 .q-num {
   font-weight: 900;
-            color: #0284c7;
+            color: var(--primary);
             margin-right: 4px;
             flex-shrink: 0;
 }
@@ -2936,7 +2942,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
   flex: 1;
 }
 .page-scope-quiz_04 .btn-group {
-  display: flex !important;
+  display: flex;
             gap: 10px;
             width: 100% !important;
 }
@@ -2956,7 +2962,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             background-color: #E8F0FE;
             color: transparent;
             text-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
-            border: 1px dashed #0284c7;
+            border: 1px dashed var(--primary);
             padding: 1px 10px;
             border-radius: 6px;
             font-weight: 700;
@@ -2972,12 +2978,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            color: #0284c7;
+            color: var(--primary);
             text-shadow: none;
             font-size: 10px;
 }
 .page-scope-quiz_04 .blank.revealed {
-  color: #0284c7 !important;
+  color: var(--primary) !important;
             text-shadow: none !important;
             background-color: transparent !important;
             border: none !important;
@@ -2986,133 +2992,16 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-quiz_04 .blank.revealed::after {
   display: none;
 }
-.page-scope-quiz_04 .quiz-container {
-  width: 100% !important;
-            height: 100% !important;
-            font-family: 'Noto Sans KR', sans-serif;
-            color: #334155;
-            padding: 8px 18px !important;
-            box-sizing: border-box !important;
-            background-color: #f8fafc;
-            display: flex !important;
-            flex-direction: column !important;
-            flex-wrap: nowrap !important; 
-            overflow: hidden !important;
-}
-.page-scope-quiz_04 .theme4-p8 .quiz-container {
-  padding: 8px 18px !important;
-}
-.page-scope-quiz_04 .theme4-p8 .page-header {
-  padding-bottom: 6px !important;
-            margin-bottom: 6px !important;
-            border-bottom: 2px solid #0f172a !important;
-}
-.page-scope-quiz_04 .theme4-p8 .unit-title {
-  padding: 3px 10px !important;
-            font-size: 11px !important;
-            margin: 0 0 6px 0 !important;
-            display: inline-block !important;
-            background-color: #0284c7 !important;
-            color: #ffffff !important;
-            border-radius: 10px !important;
-            font-weight: 700 !important;
-}
-.page-scope-quiz_04 .theme4-p8 .card {
-  border-radius: 8px !important;
-            padding: 7px 12px !important;
-            margin-bottom: 6px !important;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.03) !important;
-            border-left: 3.5px solid #0284c7 !important;
-            background-color: #ffffff !important;
-            box-sizing: border-box !important;
-}
-.page-scope-quiz_04 .theme4-p8 .q-type {
-  font-size: 8.5px !important;
-            margin-bottom: 2px !important;
-            font-weight: 900 !important;
-            color: #94a3b8 !important;
-}
-.page-scope-quiz_04 .theme4-p8 .q-text {
-  font-size: 10.5px !important;
-            margin-bottom: 4px !important;
-            line-height: 1.35 !important;
-}
-.page-scope-quiz_04 .theme4-p8 .btn-group {
-  display: flex !important;
-            gap: 8px !important;
-}
-.page-scope-quiz_04 .theme4-p8 .ox-btn {
-  flex: 1 !important;
-            padding: 3.5px 0 !important;
-            font-size: 11px !important;
-            border-radius: 5px !important;
-            border: 1px solid #cbd5e1 !important;
-            background: #f8fafc !important;
-            text-align: center !important;
-}
-.page-scope-quiz_04 .theme4-p8 .blank {
-  padding: 1px 8px !important;
-            border-radius: 4px !important;
-            min-width: 32px !important;
-}
-.page-scope-quiz_04 .theme4-p9 .quiz-container {
-  padding: 6px 16px !important;
-}
-.page-scope-quiz_04 .theme4-p9 .page-header {
-  padding-bottom: 4px !important;
-            margin-bottom: 4px !important;
-            border-bottom: 2px solid #0f172a !important;
-}
-.page-scope-quiz_04 .theme4-p9 .card {
-  border-radius: 7px !important;
-            padding: 4.5px 10px !important;
-            margin-bottom: 4px !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
-            border-left: 3px solid #0284c7 !important;
-            background-color: #ffffff !important;
-            box-sizing: border-box !important;
-}
-.page-scope-quiz_04 .theme4-p9 .q-type {
-  font-size: 8px !important;
-            margin-bottom: 1px !important;
-            font-weight: 900 !important;
-            color: #94a3b8 !important;
-}
-.page-scope-quiz_04 .theme4-p9 .q-text {
-  font-size: 9.8px !important;
-            margin-bottom: 2px !important;
-            line-height: 1.28 !important;
-}
-.page-scope-quiz_04 .theme4-p9 .btn-group {
-  display: flex !important;
-            gap: 6px !important;
-}
-.page-scope-quiz_04 .theme4-p9 .ox-btn {
-  flex: 1 !important;
-            padding: 2.5px 0 !important;
-            font-size: 10px !important;
-            border-radius: 4px !important;
-            border: 1px solid #cbd5e1 !important;
-            background: #f8fafc !important;
-            text-align: center !important;
-}
-.page-scope-quiz_04 .theme4-p9 .blank {
-  padding: 1px 6px !important;
-            border-radius: 3px !important;
-            min-width: 28px !important;
-}
-.page-scope-quiz_04 .theme4-p9 .answer-key {
-  font-size: 7.6px !important;
-            line-height: 1.35 !important;
-            color: #334155 !important;
-            background: #ffffff !important;
-            padding: 5px 8px !important;
-            border-radius: 5px !important;
-            margin-top: 3px !important;
-            border: 1px dashed #cbd5e1 !important;
-            text-align: left !important;
-            word-break: keep-all !important;
-            box-sizing: border-box !important;
+.page-scope-quiz_04 .answer-key {
+  font-size: 9px;
+            line-height: 1.5;
+            color: #94a3b8;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px dashed #cbd5e1;
+            text-align: left;
 }</style>
 </head>
 <body>
@@ -5433,422 +5322,323 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
     </div>
     <div class="page-wrapper page-scope-quiz_04 page-scope-p24" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
         <div class="quiz-container">
             <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
                 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
                 <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
             <div class="unit-title">지구 시스템의 구성요소 (Theme 1)</div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>1.</span> <span class='q-content'>지구 시스템은 기권, 수권, 암석권, <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>생물권</span>, 외권으로 구성된다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>대기권 중 오존층이 존재하여 자외선을 흡수하는 층은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>성층권</span>이다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>3.</span> <span class='q-content'>수권에서 가장 큰 부피를 차지하는 것은 해수이고, 육수 중 가장 큰 비율을 차지하는 것은 빙하이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>암석권은 지각과 상부 맨틀의 일부를 포함하는 단단한 부분이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>5.</span> <span class='q-content'>생물권은 기권, 수권, 암석권에 걸쳐 넓게 분포한다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
         </div>
     <div class="page-num">- 24 -</div></div>
     </div>
     <div class="page-wrapper page-scope-quiz_04 page-scope-p25" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
         <div class="quiz-container">
             <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
                 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
                 <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-            
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>6.</span> <span class='q-content'>지구 자기장은 우주선과 태양풍으로부터 지구 생명체를 보호하는 역할을 하며 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>외권</span>에 포함된다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>7.</span> <span class='q-content'>대기권은 높이에 따른 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>기온</span> 변화를 기준으로 4개의 층으로 구분한다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>8.</span> <span class='q-content'>대류 현상이 일어나며 기상 현상이 발생하는 대기권의 층은 중간권이다.</span></div>
                 <div class="btn-group" data-answer="X">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>9.</span> <span class='q-content'>바닷물은 깊이에 따른 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>수온</span> 분포를 기준으로 혼합층, 수온 약층, 심해층으로 구분한다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>10.</span> <span class='q-content'>심해층은 위도나 계절에 관계없이 수온이 낮고 일정하게 유지된다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>지구 시스템의 에너지원 중 가장 많은 양을 차지하는 것은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>태양 복사 에너지</span>이다.</span></div>
-            </div>
         </div>
     <div class="page-num">- 25 -</div></div>
     </div>
     <div class="page-wrapper page-scope-quiz_04 page-scope-p26" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
         <div class="quiz-container">
             <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
                 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
                 <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-            
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>지구 내부 에너지는 방사성 원소의 붕괴열과 지구 형성 과정에서 축적된 열에 의해 발생한다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>13.</span> <span class='q-content'>화산 활동과 지진은 주로 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>지구 내부 에너지</span>에 의해 발생한다.</span></div>
             </div>
-
             <div class="unit-title">지구 시스템의 상호 작용 : 물질 순환과 에너지 흐름 (Theme 2)</div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>14.</span> <span class='q-content'>조력 에너지는 밀물과 썰물을 일으키며 해안 지형의 변화를 가져온다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>15.</span> <span class='q-content'>식물의 광합성은 기권의 이산화 탄소를 흡수하여 생물권으로 이동시키는 탄소 순환의 예이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>16.</span> <span class='q-content'>물의 순환은 주로 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>태양 복사 에너지</span>를 원동력으로 하여 일어난다.</span></div>
+            <div class="card">
+                <span class="q-type">빈칸 채우기</span>
+                <div class="q-text"><span class='q-num'>17.</span> <span class='q-content'>화산재가 대기로 방출되어 기온이 하강하는 것은 암석권과 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>기권</span>의 상호 작용이다.</span></div>
             </div>
         </div>
     <div class="page-num">- 26 -</div></div>
     </div>
     <div class="page-wrapper page-scope-quiz_04 page-scope-p27" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
         <div class="quiz-container">
             <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
                 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
                 <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-            
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>17.</span> <span class='q-content'>화산재가 대기로 방출되어 기온이 하강하는 것은 암석권과 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>기권</span>의 상호 작용이다.</span></div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>18.</span> <span class='q-content'>해수의 표층 순환은 대기의 순환과 마찰에 의해 발생하므로 기권과 수권의 상호 작용이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>19.</span> <span class='q-content'>화석 연료의 연소로 대기 중 이산화 탄소 농도가 증가하는 것은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>암석권</span>에서 기권으로의 탄소 이동이다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>20.</span> <span class='q-content'>버섯바위가 형성되는 것은 바람에 날린 모래가 바위를 깎는 현상으로, 기권과 암석권의 상호 작용이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>21.</span> <span class='q-content'>암석권은 여러 개의 조각으로 나뉘어 있는데, 이 조각들을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>판</span>이라고 한다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>22.</span> <span class='q-content'>판은 지각과 상부 맨틀의 일부를 포함하며 두께가 약 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>100</span>km이다.</span></div>
+            <div class="card">
+                <span class="q-type">빈칸 채우기</span>
+                <div class="q-text"><span class='q-num'>23.</span> <span class='q-content'>판을 이동시키는 원동력은 맨틀의 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>대류</span>이다.</span></div>
             </div>
         </div>
     <div class="page-num">- 27 -</div></div>
     </div>
     <div class="page-wrapper page-scope-quiz_04 page-scope-p28" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
         <div class="quiz-container">
             <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
                 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
                 <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-            
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>23.</span> <span class='q-content'>판을 이동시키는 원동력은 맨틀의 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>대류</span>이다.</span></div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>24.</span> <span class='q-content'>연약권은 암석권 아래에서 부분 용융 상태로 존재하며 맨틀 대류가 일어나는 층이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>25.</span> <span class='q-content'>해양판은 대륙판보다 두께가 얇고 밀도는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>크다</span>.</span></div>
             </div>
-
+            <div class="unit-title">지권의 변화와 판 구조론 (Theme 3)</div>
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>26.</span> <span class='q-content'>발산형 경계에서는 새로운 판이 생성되며, 대표적인 지형으로 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>해령</span>과 열곡대가 있다.</span></div>
             </div>
-
-            <div class="unit-title">판구조론과 지각 변동 (Theme 3)</div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>수렴형 경계 중 해양판과 대륙판이 충돌하는 곳에서는 밀도가 큰 대륙판이 해양판 아래로 섭입한다.</span></div>
                 <div class="btn-group" data-answer="X">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-        </div>
-    <div class="page-num">- 28 -</div></div>
-    </div>
-    <div class="page-wrapper page-scope-quiz_04 page-scope-p29" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
-        <div class="quiz-container">
-            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
-            </div>
-            
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>28.</span> <span class='q-content'>해구는 해양판이 다른 판 아래로 섭입하는 경계에서 형성되는 깊은 골짜기이다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>29.</span> <span class='q-content'>습곡 산맥은 주로 수렴형 경계에서 판과 판이 충돌할 때 횡압력을 받아 형성된다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
+        </div>
+    <div class="page-num">- 28 -</div></div>
+    </div>
+    <div class="page-wrapper page-scope-quiz_04 page-scope-p29" style="margin-top: 40px; display: flex; justify-content: center;">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
+        <div class="quiz-container">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>30.</span> <span class='q-content'>보존형 경계에서는 판이 생성되거나 소멸되지 않고 어긋나며 이동한다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>산안드레아스 단층은 판이 어긋나는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>보존형 경계</span>의 대표적인 예이다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>32.</span> <span class='q-content'>발산형 경계인 해령에서는 주로 천발 지진과 화산 활동이 활발하게 일어난다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-        </div>
-    <div class="page-num">- 29 -</div></div>
-    </div>
-    <div class="page-wrapper page-scope-quiz_04 page-scope-p30" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page">
-        <div class="quiz-container">
-            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
-            </div>
-            
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>33.</span> <span class='q-content'>섭입대에서는 해구에서 대륙 쪽으로 갈수록 지진 발생 깊이가 점점 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>깊어진다</span>.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>보존형 경계인 변환 단층에서는 천발 지진과 함께 화산 활동이 활발하게 일어난다.</span></div>
                 <div class="btn-group" data-answer="X">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>35.</span> <span class='q-content'>히말라야 산맥은 대륙판과 대륙판이 충돌하는 수렴형 경계에서 형성되었다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
+        </div>
+    <div class="page-num">- 29 -</div></div>
+    </div>
+    <div class="page-wrapper page-scope-quiz_04 page-scope-p30" style="margin-top: 40px; display: flex; justify-content: center;">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
+        <div class="quiz-container">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>36.</span> <span class='q-content'>질량이 있는 모든 물체 사이에 상호 작용하는 끌어당기는 힘을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>중력</span>이라고 한다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>37.</span> <span class='q-content'>지구 표면 근처에서 자유 낙하하는 물체는 질량에 관계없이 가속도가 일정하다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>중력 가속도의 크기는 약 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>9.8</span>m/s²이다.</span></div>
-            </div>
-        </div>
-    <div class="page-num">- 30 -</div></div>
-    </div>
-    <div class="page-wrapper page-scope-quiz_04 page-scope-p31" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page theme4-p8">
-        <div class="quiz-container">
-            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a;">
-                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
-            </div>
             <div class="unit-title">중력장 내의 운동 (Theme 4)</div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>39.</span> <span class='q-content'>공기 저항을 무시할 때, 수평 방향으로 던진 물체의 수평 방향 속도는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>일정하다</span>.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>40.</span> <span class='q-content'>수평 방향으로 던진 물체의 연직 방향 운동은 자유 낙하 운동과 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>같다</span>.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>41.</span> <span class='q-content'>높은 곳에서 수평으로 던진 물체는 던진 속력이 클수록 지면에 도달하는 데 걸리는 시간이 길어진다.</span></div>
                 <div class="btn-group" data-answer="X">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
+        </div>
+    <div class="page-num">- 30 -</div></div>
+    </div>
+    <div class="page-wrapper page-scope-quiz_04 page-scope-p31" style="margin-top: 40px; display: flex; justify-content: center;">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
+        <div class="quiz-container">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>공기 저항이 없을 때 깃털과 쇠구슬을 같은 높이에서 동시에 가만히 놓으면 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>동시에</span> 지면에 도달한다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>뉴턴의 사고실험에서 포탄을 수평 방향으로 일정한 속력 이상으로 던지면 포탄은 지구 주위를 계속 돌 수 있다.</span></div>
                 <div class="btn-group" data-answer="O">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
-            </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>44.</span> <span class='q-content'>물체의 질량이 클수록, 두 물체 사이 거리가 가까울수록 중력의 크기는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>커진다</span>.</span></div>
-            </div>
-        </div>
-    <div class="page-num">- 31 -</div></div>
-    </div>
-    <div class="page-wrapper page-scope-quiz_04 page-scope-p32" style="margin-top: 40px; display: flex; justify-content: center;">
-        <div class="a4-page theme4-p9">
-        <div class="quiz-container">
-            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a;">
-                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
-            </div>
-            
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>물체의 무게는 그 물체에 작용하는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>중력</span>의 크기를 의미한다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>46.</span> <span class='q-content'>달의 중력은 지구의 약 1/6이므로, 달에서 물체의 질량은 지구에서보다 작아진다.</span></div>
                 <div class="btn-group" data-answer="X">
                     <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
                     <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-                </div>
+        </div>
+    <div class="page-num">- 31 -</div></div>
+    </div>
+    <div class="page-wrapper page-scope-quiz_04 page-scope-p32" style="margin-top: 40px; display: flex; justify-content: center;">
+        <div class="a4-page spread-page" style="margin-top: 40px;">
+        <div class="quiz-container">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+                <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 04</div>
             </div>
-
             <div class="card">
                 <span class="q-type">빈칸 채우기</span>
                 <div class="q-text"><span class='q-num'>47.</span> <span class='q-content'>수평으로 던진 물체의 궤적은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>포물선</span> 모양을 나타낸다.</span></div>
             </div>
-
             <div class="card">
                 <span class="q-type">O / X 퀴즈</span>
                 <div class="q-text"><span class='q-num'>48.</span> <span class='q-content'>같은 높이에서 가만히 떨어뜨린 물체와 수평으로 던진 물체는 연직 방향으로는 같은 가속도로 운동한다.</span></div>
@@ -5877,7 +5667,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             </div>
 
             <!-- 정답표 -->
-            <div class="answer-key"><b>[정답표]</b> <b>1.</b> 생물권 <b>2.</b> 성층권 <b>3.</b> O <b>4.</b> O <b>5.</b> O <b>6.</b> 외권 <b>7.</b> 기온 <b>8.</b> X <b>9.</b> 수온 <b>10.</b> O <b>11.</b> 태양 복사 에너지 <b>12.</b> O <b>13.</b> 지구 내부 에너지 <b>14.</b> O <b>15.</b> O <b>16.</b> 태양 복사 에너지 <b>17.</b> 기권 <b>18.</b> O <b>19.</b> 암석권 <b>20.</b> O <b>21.</b> 판 <b>22.</b> 100 <b>23.</b> 대류 <b>24.</b> O <b>25.</b> 크다 <b>26.</b> 해령 <b>27.</b> X <b>28.</b> O <b>29.</b> O <b>30.</b> O <b>31.</b> 보존형 경계 <b>32.</b> O <b>33.</b> 깊어진다 <b>34.</b> X <b>35.</b> O <b>36.</b> 중력 <b>37.</b> O <b>38.</b> 9.8 <b>39.</b> 일정하다 <b>40.</b> 같다 <b>41.</b> X <b>42.</b> 동시에 <b>43.</b> O <b>44.</b> 커진다 <b>45.</b> 중력 <b>46.</b> X <b>47.</b> 포물선 <b>48.</b> O <b>49.</b> O <b>50.</b> O</div>
+            <div class="answer-key"><b>[정답표]</b><br><b>1.</b> 생물권 <b>2.</b> 성층권 <b>3.</b> O <b>4.</b> O <b>5.</b> O <b>6.</b> 외권 <b>7.</b> 기온 <b>8.</b> X <b>9.</b> 수온 <b>10.</b> O <b>11.</b> 태양 복사 에너지 <b>12.</b> O <b>13.</b> 지구 내부 에너지 <b>14.</b> O <b>15.</b> O <b>16.</b> 태양 복사 에너지 <b>17.</b> 기권 <b>18.</b> O <b>19.</b> 암석권 <b>20.</b> O <b>21.</b> 판 <b>22.</b> 100 <b>23.</b> 대류 <b>24.</b> O <b>25.</b> 크다 <b>26.</b> 해령 <b>27.</b> X <b>28.</b> O <b>29.</b> O <b>30.</b> O <b>31.</b> 보존형 경계 <b>32.</b> O <b>33.</b> 깊어진다 <b>34.</b> X <b>35.</b> O <b>36.</b> 중력 <b>37.</b> O <b>38.</b> 9.8 <b>39.</b> 일정하다 <b>40.</b> 같다 <b>41.</b> X <b>42.</b> 동시에 <b>43.</b> O <b>44.</b> 커진다 <b>45.</b> 중력 <b>46.</b> X <b>47.</b> 포물선 <b>48.</b> O <b>49.</b> O <b>50.</b> O</div>
         </div>
     <div class="page-num">- 32 -</div></div>
     </div>

@@ -904,8 +904,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     font-weight: 900 !important;
     font-size: 13px !important;
     padding: 0 !important;
-    margin-bottom: 3px !important;
-    display: block;
+    margin-bottom: 3px !important; display: block;
 }
 .bridge-page-new .handwriting {
     background: transparent !important;
@@ -1039,7 +1038,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 /* ========================================================
    GLOBAL OVERRIDE: 100% REMOVE BACKGROUND IMAGE FROM TUTOR'S SCHEMA
    ======================================================== */
-.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {
+.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {padding: 8px 8px 5px 8px !important; 
     background-image: none !important;
     background-size: auto !important;
     background-color: #ffffff !important; }
@@ -1049,18 +1048,35 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 }
 
 /* ========================================================
-   GLOBAL OVERRIDE: PURE WHITE BACKGROUND FOR TUTOR'S SCHEMA
+   GLOBAL OVERRIDE: TUTOR'S SCHEMA SPACING & TYPOGRAPHY
    ======================================================== */
-.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {
+.tutor-note, .tutor-schema, .bridge-page-new .tutor-note, .schema-box, .tutor-box {padding: 8px 8px 5px 8px !important; 
     background-image: none !important;
     background-size: auto !important;
     background-color: #ffffff !important;
+}
+.tutor-badge {
+    margin-bottom: 3px !important; display: inline-block !important;
 }
 .tutor-note .handwriting, .tutor-note .schema-list, .tutor-note p, .tutor-note li, .tutor-schema p, .tutor-text {
     font-family: 'SlowSlow', 'NeuriNeuri', 'Nanum Pen Script', cursive, sans-serif !important;
     background-image: none !important;
     background-color: transparent !important;
 }
+
+.tutor-note sub, .tutor-note sup, .tutor-schema sub, .tutor-schema sup {
+    font-size: 0.72em !important;
+    line-height: 0 !important;
+    position: relative !important;
+    vertical-align: baseline !important;
+}
+.tutor-note sub, .tutor-schema sub {
+    bottom: -0.2em !important;
+}
+.tutor-note sup, .tutor-schema sup {
+    top: -0.4em !important;
+}
+
     </style>
 
     <!-- Master Transparent Page Number Style -->

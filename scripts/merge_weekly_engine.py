@@ -355,11 +355,26 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
     </style>
 
     <!-- Master Transparent Page Number Style -->
+    <!-- Master Standard Page Number Style (Unified to Page 3 standard) -->
+    <!-- Master Standard Page Number Style (Unified to Page 3 standard) -->
     <style id="master-page-num-style">
-/* Global Master Page Number Styling (100% Seamless & Transparent) */
-.page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num {{
+.concept-page, .concept-spread, .page-left, .page-right {{
+    height: 707px !important;
+    width: 500px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+}}
+
+#main-content .page-num,
+.flipbook .page-num,
+.a4-page .page-num,
+.concept-page .page-num,
+.spread-page .page-num,
+.toc-page .page-num,
+.bridge-page .page-num,
+[class*="page-scope-"] .page-num {{
     position: absolute !important;
-    bottom: 12px !important;
+    bottom: 10px !important;
     left: 0 !important;
     width: 100% !important;
     text-align: center !important;
@@ -375,23 +390,8 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    z-index: 10 !important;
+    z-index: 100 !important;
     pointer-events: none !important;
-}}
-
-/* Ensure PageFlip inactive pages remain strictly hidden */
-.stf__item[style*="display: none"], .stf__item[style*="display:none"] {{
-    display: none !important;
-}}
-
-/* Force absolute positioning, strict 500x707 dimensions, zero margins on all PageFlip items */
-.stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {{
-    position: absolute !important;
-    top: 0 !important;
-    width: 500px !important;
-    height: 707px !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
 }}
     </style>
 

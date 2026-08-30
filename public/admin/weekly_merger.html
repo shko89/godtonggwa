@@ -1132,7 +1132,14 @@
     </style>
 
     <style id="master-page-num-style">
-.page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num {
+.concept-page, .concept-spread, .page-left, .page-right {
+    height: 707px !important;
+    width: 500px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+}
+
+.page-num, .a4-page .page-num, .concept-page .page-num, .spread-page .page-num, .toc-page .page-num, .bridge-page .page-num, [class*="page-scope-"] .page-num {
     position: absolute !important;
     bottom: 10px !important;
     left: 0 !important;
@@ -1150,19 +1157,8 @@
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    z-index: 10 !important;
+    z-index: 100 !important;
     pointer-events: none !important;
-}
-.stf__item[style*="display: none"], .stf__item[style*="display:none"] {
-    display: none !important;
-}
-.stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {
-    position: absolute !important;
-    top: 0 !important;
-    width: 500px !important;
-    height: 707px !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
 }
     </style>
 

@@ -52,7 +52,12 @@ def scope_css_rules(css_text, scope_class):
                     scoped_list.append(f".{scope_class} {sel}")
             
             if scoped_list:
-                out.append(f"{', '.join(sorted(list(set(scoped_list))))} {{\n  {declarations}\n}}")
+                is_page_root = any(s in selectors_str for s in ['.a4-page', '.concept-page', '.spread-page', 'body', 'html'])
+                clean_decl = declarations
+                if is_page_root:
+                    clean_decl = re.sub(r'(display|position)\s*:\s*([^;!]+)\s*!important', r'\1: \2', clean_decl, flags=re.I)
+
+                out.append(f"{', '.join(sorted(list(set(scoped_list))))} {{\n  {clean_decl}\n}}")
         return '\n'.join(out)
 
     result_blocks = []
@@ -74,7 +79,6 @@ def scope_css_rules(css_text, scope_class):
     if last_idx < len(clean):
         result_blocks.append(process_block(clean[last_idx:]))
 
-    # Add standard .a4-page wrapper style for this scope
     wrapper_std = f"""
 .{scope_class} html, .{scope_class} body {{
     width: 100%;
@@ -82,14 +86,13 @@ def scope_css_rules(css_text, scope_class):
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif !important;
 }}
-.{scope_class} .a4-page, .{scope_class}.a4-page, .{scope_class} .concept-page, .{scope_class} .spread-page {{
+#main-content .{scope_class} .a4-page, #main-content .{scope_class}.a4-page {{
     width: 500px !important;
     height: 707px !important;
     background-color: #ffffff;
-    position: relative !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-    overflow: hidden !important;
+    box-sizing: border-box;
+    margin: 0;
+    overflow: hidden;
 }}
 """
     return f"{'\n'.join(top_level_rules)}\n{wrapper_std}\n{'\n'.join(result_blocks)}"

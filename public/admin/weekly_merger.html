@@ -58,6 +58,23 @@
             border: 2px dashed #38bdf8 !important;
         }
     </style>
+    <!-- Master St.PageFlip Strict Overrides (Must be at the very bottom of head) -->
+    <style id="st-pageflip-strict-overrides">
+        .stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {
+            position: absolute !important;
+            top: 0 !important;
+            width: 500px !important;
+            height: 707px !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .stf__item[style*="display: none"], .stf__item[style*="display:none"], .stf__item.--hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
 </head>
 <body class="min-h-screen flex flex-col relative">
 
@@ -1150,6 +1167,23 @@
     </style>
 
 ` + scopedStyles.map(s => '    <style>' + s + '</style>').join('\n') + `
+    <!-- Master St.PageFlip Strict Overrides (Must be at the very bottom of head) -->
+    <style id="st-pageflip-strict-overrides">
+        .stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {
+            position: absolute !important;
+            top: 0 !important;
+            width: 500px !important;
+            height: 707px !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .stf__item[style*="display: none"], .stf__item[style*="display:none"], .stf__item.--hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -1811,6 +1845,23 @@ document.addEventListener('DOMContentLoaded', () => {
         .page-scope-preview .a4-page { width: 500px !important; height: 707px !important; background: #fff; position: relative; }
         ` + WEEKLY_COMMON_CSS + `
         ` + scoped + `
+    </style>
+    <!-- Master St.PageFlip Strict Overrides (Must be at the very bottom of head) -->
+    <style id="st-pageflip-strict-overrides">
+        .stf__item, .stf__item.a4-page, .stf__item.concept-page, .stf__item.spread-page, .stf__item[class*="page-scope-"] {
+            position: absolute !important;
+            top: 0 !important;
+            width: 500px !important;
+            height: 707px !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .stf__item[style*="display: none"], .stf__item[style*="display:none"], .stf__item.--hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
     </style>
 </head>
 <body>

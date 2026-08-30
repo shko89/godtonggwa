@@ -24,7 +24,7 @@ def scope_css_rules(css_text, scope_class):
     
     clean = re.sub(r'@(-webkit-|-moz-|-o-|-ms-)?keyframes\s+[^{]+\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}', extract_top, clean, flags=re.DOTALL)
     clean = re.sub(r'@font-face\s*\{[^{}]*\}', extract_top, clean, flags=re.DOTALL)
-    clean = re.sub(r'@import\s+[^;]+;', extract_top, clean)
+    clean = re.sub(r'@import\s+(?:url\([^\)]*\)|["\'][^"\']*["\'])[^;]*;', extract_top, clean, flags=re.I)
 
     def process_block(rules_text):
         out = []
@@ -190,13 +190,22 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
 
     scoped_styles_list = []
     page_wrappers_list = []
+    
+    # Process unique file styles once using file stem scope (Exact Week 3 Architecture!)
+    file_styles_scoped = {}
+    for fname, sub_idx, title, page_html, raw_styles in final_pages:
+        stem = os.path.splitext(fname)[0]
+        file_scope = f"page-scope-{stem}"
+        if raw_styles and file_scope not in file_styles_scoped:
+            scoped_css = scope_css_rules(raw_styles, file_scope)
+            file_styles_scoped[file_scope] = f"/* === [Style] {fname} ({file_scope}) === */\n{scoped_css}"
+            scoped_styles_list.append(file_styles_scoped[file_scope])
 
     for seq, (fname, sub_idx, title, page_html, raw_styles) in enumerate(final_pages, start=1):
-        scope_class = f"page-scope-p{seq:02d}"
-
-        if raw_styles:
-            scoped_css = scope_css_rules(raw_styles, scope_class)
-            scoped_styles_list.append(f"/* === [Style] Page {seq}: {fname} ({title}) === */\n{scoped_css}")
+        stem = os.path.splitext(fname)[0]
+        file_scope = f"page-scope-{stem}"
+        page_scope = f"page-scope-p{seq:02d}"
+        combined_scope = f"{file_scope} {page_scope}"
 
         for img_name, data_url in img_cache.items():
             if img_name in page_html:
@@ -207,7 +216,7 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
         final_num = "" if is_cover_or_blank else f"- {seq:02d} -"
 
         if 'class="page-num"' in page_html or "class='page-num'" in page_html:
-            page_html = re.sub(r'<div[^>]*class=[\'"][^\'"]*page-num[^\'"]*[\'"][^>]*>[\s\S]*?</div>', 
+            page_html = re.sub(r'<div[^>]*class=["\'][^"\']*page-num[^"\']*["\'][^>]*>[\s\S]*?</div>', 
                                f'<div class="page-num">{final_num}</div>' if final_num else '', page_html)
         elif final_num:
             last_close = page_html.rfind('</div>')
@@ -216,9 +225,9 @@ def merge_week_perfect(folder_path, sequence_files, vol_num, output_path):
 
         # First page hard density
         if seq == 1 and 'data-density="hard"' not in page_html:
-            page_html = re.sub(r'<div([^>]*class=[\'"][^\'"]*a4-page[^\'"]*[\'"])', r'<div\1 data-density="hard"', page_html)
+            page_html = re.sub(r'<div([^>]*class=["\'][^"\']*a4-page[^"\']*["\'])', r'<div\1 data-density="hard"', page_html)
 
-        page_wrappers_list.append(f'    <div class="page-wrapper {scope_class}" style="margin-top: 40px; display: flex; justify-content: center;">\n        {page_html}\n    </div>')
+        page_wrappers_list.append(f'    <div class="page-wrapper {combined_scope}" style="margin-top: 40px; display: flex; justify-content: center;">\n        {page_html}\n    </div>')
 
     # Master template exactly matching Week 3
     master_template = f"""<!DOCTYPE html>

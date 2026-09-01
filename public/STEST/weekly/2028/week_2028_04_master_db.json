@@ -1,0 +1,793 @@
+{
+  "week_2028_04_prep_q01": {
+    "id": "week_2028_04_prep_q01",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prep",
+    "examQNum": 1,
+    "imageFile": "week_2028_04_prep_q01.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052524Z"
+  },
+  "week_2028_04_prac_q01": {
+    "id": "week_2028_04_prac_q01",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 1,
+    "imageFile": "week_2028_04_prac_q01.webp",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052568Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_04_prac_q02": {
+    "id": "week_2028_04_prac_q02",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 2,
+    "imageFile": "week_2028_04_prac_q02.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052585Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_04_prac_q03": {
+    "id": "week_2028_04_prac_q03",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 3,
+    "imageFile": "week_2028_04_prac_q03.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052597Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_04_prac_q04": {
+    "id": "week_2028_04_prac_q04",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 4,
+    "imageFile": "week_2028_04_prac_q04.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052607Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_04_prac_q05": {
+    "id": "week_2028_04_prac_q05",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 5,
+    "imageFile": "week_2028_04_prac_q05.webp",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052622Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_04_prac_q06": {
+    "id": "week_2028_04_prac_q06",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 6,
+    "imageFile": "week_2028_04_prac_q06.webp",
+    "correctAnswer": "1",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052633Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_04_prac_q07": {
+    "id": "week_2028_04_prac_q07",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 7,
+    "imageFile": "week_2028_04_prac_q07.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052642Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_04_prac_q08": {
+    "id": "week_2028_04_prac_q08",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "prac",
+    "examQNum": 8,
+    "imageFile": "week_2028_04_prac_q08.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052651Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_04_mock_q01": {
+    "id": "week_2028_04_mock_q01",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "week_2028_04_mock_q01.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052661Z"
+  },
+  "week_2028_04_mock_q02": {
+    "id": "week_2028_04_mock_q02",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "week_2028_04_mock_q02.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052672Z"
+  },
+  "week_2028_04_mock_q03": {
+    "id": "week_2028_04_mock_q03",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "week_2028_04_mock_q03.webp",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052681Z"
+  },
+  "week_2028_04_mock_q04": {
+    "id": "week_2028_04_mock_q04",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "week_2028_04_mock_q04.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052691Z"
+  },
+  "week_2028_04_mock_q05": {
+    "id": "week_2028_04_mock_q05",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "week_2028_04_mock_q05.webp",
+    "correctAnswer": "1",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052702Z"
+  },
+  "week_2028_04_mock_q06": {
+    "id": "week_2028_04_mock_q06",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "week_2028_04_mock_q06.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052711Z"
+  },
+  "week_2028_04_mock_q07": {
+    "id": "week_2028_04_mock_q07",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "week_2028_04_mock_q07.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052719Z"
+  },
+  "week_2028_04_mock_q08": {
+    "id": "week_2028_04_mock_q08",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "week_2028_04_mock_q08.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052728Z"
+  },
+  "week_2028_04_mock_q09": {
+    "id": "week_2028_04_mock_q09",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "week_2028_04_mock_q09.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052737Z"
+  },
+  "week_2028_04_mock_q10": {
+    "id": "week_2028_04_mock_q10",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "week_2028_04_mock_q10.webp",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052746Z"
+  },
+  "week_2028_04_mock_q11": {
+    "id": "week_2028_04_mock_q11",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "week_2028_04_mock_q11.webp",
+    "correctAnswer": "1",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052755Z"
+  },
+  "week_2028_04_mock_q12": {
+    "id": "week_2028_04_mock_q12",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "week_2028_04_mock_q12.webp",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052764Z"
+  },
+  "week_2028_04_mock_q13": {
+    "id": "week_2028_04_mock_q13",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "week_2028_04_mock_q13.webp",
+    "correctAnswer": "5",
+    "score": 2.5,
+    "difficulty": 4,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052773Z"
+  },
+  "week_2028_04_mock_q14": {
+    "id": "week_2028_04_mock_q14",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "week_2028_04_mock_q14.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052782Z"
+  },
+  "week_2028_04_mock_q15": {
+    "id": "week_2028_04_mock_q15",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "week_2028_04_mock_q15.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052793Z"
+  },
+  "week_2028_04_mock_q16": {
+    "id": "week_2028_04_mock_q16",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "week_2028_04_mock_q16.webp",
+    "correctAnswer": "3",
+    "score": 2.5,
+    "difficulty": 4,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052802Z"
+  },
+  "week_2028_04_mock_q17": {
+    "id": "week_2028_04_mock_q17",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "week_2028_04_mock_q17.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "역학적 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052811Z"
+  },
+  "week_2028_04_mock_q18": {
+    "id": "week_2028_04_mock_q18",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "week_2028_04_mock_q18.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052820Z"
+  },
+  "week_2028_04_mock_q19": {
+    "id": "week_2028_04_mock_q19",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "week_2028_04_mock_q19.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052829Z"
+  },
+  "week_2028_04_mock_q20": {
+    "id": "week_2028_04_mock_q20",
+    "sourceExamId": "week_2028_04",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "week_2028_04_mock_q20.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구 시스템"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "규산염 사면체",
+      "반도체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T00:47:29.052839Z"
+  }
+}

@@ -29,22 +29,51 @@
             margin: 0 !important;
         }
 
-        #flipbook-container {
-            position: fixed;
-            top: 50px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            height: auto;
-            background-color: #cbd5e1;
-            z-index: 1000;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+        #flipbook-container, #zoom-wrapper, #scale-wrapper, #flipbook, .stf__item, .a4-page {
+            touch-action: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
         }
+        .ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar, #top-nav, #toc-drawer {
+            touch-action: manipulation !important;
+        }
+
+        
+        #top-nav {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 50px !important;
+            background: rgba(15, 23, 42, 0.96) !important;
+            backdrop-filter: blur(8px) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 0 16px !important;
+            z-index: 999999 !important;
+            box-sizing: border-box !important;
+        }
+        #flipbook-container {
+            position: fixed !important;
+            top: 50px !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            background-color: #cbd5e1 !important;
+            z-index: 1000 !important;
+            overflow: hidden !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-direction: column !important;
+            padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+            box-sizing: border-box !important;
+        }
+
         #zoom-wrapper {
             position: relative;
             width: 100%;
@@ -70,68 +99,29 @@
             margin: 0;
         }
 
-        
-        @media (max-width: 640px) {
-            .zoom-btn { display: none !important; }
-            #close-flipbook-btn { 
-                top: 12px !important; 
-                right: 12px !important; 
-                padding: 7px 13px !important; 
-                font-size: 13px !important; 
-            }
-            #drawing-toolbar {
-                bottom: 12px !important;
-                padding: 6px 12px !important;
-            }
+        .toc-jump-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: #1e293b;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .toc-jump-item:hover, .toc-jump-item:active {
+            background: #334155;
+            border-color: #38bdf8;
+            transform: translateX(4px);
         }
 
-        /* Floating Drawing Toolbar Styling */
-        #drawing-toolbar {
-            display: flex !important; 
-            position: fixed !important; 
-            bottom: 25px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            background-color: #1e293b !important; 
-            padding: 10px 16px !important; 
-            border-radius: 30px !important; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4) !important; 
-            z-index: 2000 !important; 
-            gap: 10px !important; 
-            align-items: center !important; 
-            max-width: 95vw !important; 
-            overflow-x: auto !important;
+        @media (max-width: 640px) {
+            .zoom-btn { display: none !important; }
+            #btn-toc-toggle { padding: 4px 8px !important; font-size: 12px !important; }
+            #page-jump-pill { font-size: 11px !important; padding: 3px 8px !important; }
         }
-        #drawing-tools {
-            display: none; 
-            align-items: center; 
-            gap: 8px; 
-            flex-wrap: nowrap;
-        }
-        .pen-btn {
-            width: 30px !important; 
-            height: 30px !important; 
-            border-radius: 50% !important; 
-            border: 2px solid transparent !important; 
-            cursor: pointer !important; 
-            flex-shrink: 0 !important;
-        }
-        .tool-btn {
-            background: transparent !important; 
-            color: white !important; 
-            border: 1px solid #475569 !important; 
-            padding: 6px 12px !important; 
-            border-radius: 6px !important; 
-            font-size: 13px !important; 
-            cursor: pointer !important; 
-            white-space: nowrap !important; 
-            flex-shrink: 0 !important;
-        }
-        .tool-btn.active {
-            background: #475569 !important;
-        }
-        #drawing-toolbar::-webkit-scrollbar { display: none; }
-        #drawing-toolbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
     
     <!-- Weekly Master Common Styles -->
@@ -381,7 +371,41 @@ p, .body-text, .q-text, .bogi-items, .compass-desc, .learning-desc, .concept-blo
 .bogi-desc { flex: 1; word-break: keep-all; text-align: justify; }
 .a4-page .page-num, .concept-page .page-num { position: absolute !important; bottom: 15px !important; margin-bottom: 0 !important; padding-bottom: 0 !important; }
 img { pointer-events: none; }
-#flipbook-container { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #cbd5e1; z-index: 10000; overflow: hidden; align-items: center; justify-content: center; }
+#top-nav {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 50px !important;
+    background: rgba(15, 23, 42, 0.96) !important;
+    backdrop-filter: blur(8px) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 16px !important;
+    z-index: 999999 !important;
+    box-sizing: border-box !important;
+}
+
+#flipbook-container {
+    position: fixed !important;
+    top: 50px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    background-color: #cbd5e1 !important;
+    z-index: 1000 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    box-sizing: border-box !important;
+}
 #zoom-wrapper { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
 #scale-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); transform-origin: center center; width: 1000px; height: 707px; }
 #flipbook { width: 100%; height: 100%; position: relative; top: 0; left: 0; transform: none; margin: 0; }
@@ -3089,46 +3113,159 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </head>
 <body>
 
-<!-- Flipbook E-Book Viewer Container (100% 1·2주차 표준 구조) -->
-<div id="flipbook-container">
-    
-    <!-- Top Left: Zoom In / Out Buttons -->
-    <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 1100;">
-        <button class="zoom-btn" onclick="zoomFlipbook(0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 확대 (+)</button>
-        <button class="zoom-btn" onclick="zoomFlipbook(-0.2)" style="padding: 10px 15px; font-size: 16px; background-color: #f8fafc; border: 2px solid #0284c7; border-radius: 8px; cursor: pointer; color: #0284c7; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🔍 축소 (-)</button>
+<!-- Top Navigation Bar (50px Fixed Header) -->
+<div id="top-nav" style="position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10000; box-sizing: border-box;">
+    <!-- Left Section -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button onclick="window.closeEbook(event)" ontouchstart="window.closeEbook(event)" style="background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);">
+            <span style="font-size: 13px; font-weight: 900;">✖</span> 닫기
+        </button>
+        <div style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; color: #38bdf8; letter-spacing: 0.5px;">
+            GOTONGGWA <span style="background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px;">VOL.05</span>
+        </div>
+        <button id="btn-toc-toggle" onclick="window.toggleTocDrawer(event)" ontouchstart="window.toggleTocDrawer(event)" style="background: #1e293b; border: 1px solid #0284c7; color: #38bdf8; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); transition: all 0.2s;">
+            <span style="font-size: 14px;">📑</span> 목차
+        </button>
     </div>
+    
+    <!-- Right Section -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="btn-mode-toggle" onclick="window.toggleDrawingMode(event)" ontouchstart="window.toggleDrawingMode(event)" style="background: #38bdf8; border: none; color: #0f172a; padding: 6px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 800; cursor: pointer;">
+            📖 보기 모드
+        </button>
+        <div id="drawing-tools" style="display: none; align-items: center; gap: 6px; background: #1e293b; padding: 3px 8px; border-radius: 6px; border: 1px solid #334155;">
+            <button class="pen-btn active" onclick="window.setPen('#0f172a', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #0f172a; border: 2px solid white; cursor: pointer;"></button>
+            <button class="pen-btn" onclick="window.setPen('#ef4444', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #ef4444; border: 2px solid transparent; cursor: pointer;"></button>
+            <button class="pen-btn" onclick="window.setPen('#2563eb', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #2563eb; border: 2px solid transparent; cursor: pointer;"></button>
+            <button class="pen-btn" onclick="window.setPen('rgba(250, 204, 21, 0.4)', this, true, event)" style="background: #fde047; color: #854d0e; border: 1px solid #facc15; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">형광펜</button>
+            <button onclick="window.setEraser(this, event)" style="background: #334155; color: #f8fafc; border: 1px solid #475569; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">지우개</button>
+            <button onclick="window.clearAllCanvas(event)" style="background: #475569; color: #f8fafc; border: 1px solid #64748b; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">전체 지우기</button>
+        </div>
+        <div id="page-jump-pill" onclick="window.togglePageJumpModal(event)" ontouchstart="window.togglePageJumpModal(event)" style="font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 700; color: #94a3b8; background: #1e293b; padding: 4px 14px; border-radius: 20px; border: 1px solid #334155; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <span id="current-page-num" style="color: #38bdf8; font-weight: 900;">1</span> / <span id="total-page-num">42</span> P
+        </div>
+    </div>
+</div>
 
-    <!-- Top Right: Red Close Button (이전 화면으로 돌아가기) -->
-    <button id="close-flipbook-btn" onclick="window.closeEbook(event)" ontouchstart="window.closeEbook(event)" style="position: absolute; top: 20px; right: 20px; padding: 10px 18px; font-size: 16px; background-color: #ef4444; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: 800; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35); z-index: 1100; display: flex; align-items: center; gap: 6px; letter-spacing: -0.5px;">
-        <span style="font-size: 16px; font-weight: 900;">✖</span> 닫기
-    </button>
+<!-- TOC Overlay & Sliding Drawer -->
+<div id="toc-overlay" onclick="window.closeTocDrawer()" ontouchstart="window.closeTocDrawer()" style="display: none; position: fixed; top: 50px; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(2px); z-index: 10001; opacity: 0; transition: opacity 0.2s;"></div>
+<div id="toc-drawer" style="position: fixed; top: 50px; left: 0; bottom: 0; width: 320px; max-width: 85vw; background: #0f172a; border-right: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 10px 0 30px rgba(0,0,0,0.6); z-index: 10002; transform: translateX(-100%); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-sizing: border-box;">
+    <div style="padding: 16px 20px; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">📑</span>
+            <span style="font-size: 15px; font-weight: 900; color: #f8fafc; letter-spacing: -0.5px;">빠른 목차 이동</span>
+        </div>
+        <button onclick="window.closeTocDrawer()" ontouchstart="window.closeTocDrawer()" style="background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; line-height: 1;">✕</button>
+    </div>
+    <div style="padding: 14px 16px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px;">
+        
+<div class="toc-jump-item" onclick="window.goToPage(1)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">COVER</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">겉표지</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">01 P</span>
+</div>
 
-    <!-- Flipbook Canvas Wrapper -->
+
+<div class="toc-jump-item" onclick="window.goToPage(3)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">INDEX</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">차례 및 학습 가이드</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">03 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(4)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 맵 (Concept Map)</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(5)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">BRIDGE</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵 (큰 그림)</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">05 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(6)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 01</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">충격량과 운동량</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">06 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(11)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 02</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">충돌과 안전장치</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">11 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(15)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 03</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">생명 시스템의 기본 단위</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">15 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(22)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 04</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">물질대사와 효소</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">22 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(27)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 05</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">유전자와 단백질</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">27 P</span>
+</div>
+
+
+<div class="toc-jump-item" onclick="window.goToPage(33)">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN (퀴즈 1~50)</span>
+    </div>
+    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">33 P</span>
+</div>
+
+    </div>
+</div>
+
+<!-- Direct Page Jump Popover -->
+<div id="page-jump-popover" style="display: none; position: fixed; top: 55px; right: 20px; background: #0f172a; border: 1px solid #38bdf8; padding: 10px 14px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 10002; gap: 8px; align-items: center;">
+    <span style="color: #94a3b8; font-size: 12px; font-weight: bold;">페이지:</span>
+    <input id="page-jump-input" type="number" min="1" max="42" placeholder="1~42" style="width: 60px; background: #1e293b; border: 1px solid #475569; color: #38bdf8; font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 900; padding: 4px 6px; border-radius: 6px; text-align: center; outline: none;" onkeydown="if(event.key==='Enter') window.submitPageJump()">
+    <span style="color: #64748b; font-size: 12px; font-family: 'Roboto'; font-weight: bold;">/ 42 P</span>
+    <button onclick="window.submitPageJump()" ontouchstart="window.submitPageJump()" style="background: #0284c7; border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: background 0.2s;">이동</button>
+</div>
+
+<!-- Flipbook E-Book Viewer Container -->
+<div id="flipbook-container">
     <div id="zoom-wrapper">
         <div id="scale-wrapper">
             <div id="flipbook">
                 <!-- Cloned pages injected here -->
             </div>
-        </div>
-    </div>
-
-    <!-- Floating Drawing Toolbar (보기 모드 / 쓰기 모드) inside Container -->
-    <div id="drawing-toolbar">
-        <div class="drag-handle" style="cursor: move; padding: 0 8px; color: #94a3b8; font-size: 20px; user-select: none; display: flex; align-items: center; justify-content: center; touch-action: none;">⠿</div>
-        <button id="btn-mode-toggle" onclick="toggleDrawingMode(event)" style="background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 900; font-size: 14px; cursor: pointer; flex-shrink: 0; white-space: nowrap;">📖 보기 모드</button>
-        <div id="drawing-tools">
-            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
-            <button class="pen-btn" onclick="setPen('#0f172a', this, false, event)" style="background: #0f172a; border-color: white;"></button>
-            <button class="pen-btn" onclick="setPen('#dc2626', this, false, event)" style="background: #dc2626;"></button>
-            <button class="pen-btn" onclick="setPen('#0284c7', this, false, event)" style="background: #0284c7;"></button>
-            <button class="pen-btn" onclick="setPen('rgba(253, 224, 71, 0.4)', this, true, event)" style="background: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 14px;">🖍️</button>
-            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
-            <button class="tool-btn" onclick="setThickness(1, this, event)">얇게</button>
-            <button class="tool-btn active" onclick="setThickness(2.5, this, event)">보통</button>
-            <button class="tool-btn" onclick="setThickness(5, this, event)">두껍</button>
-            <div style="width: 2px; height: 24px; background: #475569; margin: 0 5px; flex-shrink: 0;"></div>
-            <button class="tool-btn" onclick="setEraser(this, event)">부분지우개</button>
-            <button onclick="clearAllCanvas(event)" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; flex-shrink: 0; white-space: nowrap;">초기화</button>
         </div>
     </div>
 </div>
@@ -6304,6 +6441,86 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 // ==========================================
 // 1. Close Button Logic (Reliable Navigation)
 // ==========================================
+
+// ==========================================
+// TOC Navigation & Page Jump Popover
+// ==========================================
+window.toggleTocDrawer = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
+    const drawer = document.getElementById('toc-drawer');
+    const overlay = document.getElementById('toc-overlay');
+    if (!drawer || !overlay) return;
+    const isOpen = drawer.style.transform === 'translateX(0px)';
+    if (isOpen) {
+        window.closeTocDrawer();
+    } else {
+        window.openTocDrawer();
+    }
+};
+
+window.openTocDrawer = function() {
+    const drawer = document.getElementById('toc-drawer');
+    const overlay = document.getElementById('toc-overlay');
+    if (drawer) drawer.style.transform = 'translateX(0px)';
+    if (overlay) {
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.style.opacity = '1', 10);
+    }
+};
+
+window.closeTocDrawer = function() {
+    const drawer = document.getElementById('toc-drawer');
+    const overlay = document.getElementById('toc-overlay');
+    if (drawer) drawer.style.transform = 'translateX(-100%)';
+    if (overlay) {
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 200);
+    }
+};
+
+window.goToPage = function(pageNum) {
+    if (!pageFlip) return;
+    const targetIdx = Math.max(0, pageNum - 1);
+    pageFlip.flip(targetIdx);
+    window.closeTocDrawer();
+    window.closePageJumpModal();
+};
+
+window.togglePageJumpModal = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
+    const pop = document.getElementById('page-jump-popover');
+    if (!pop) return;
+    if (pop.style.display === 'flex') {
+        pop.style.display = 'none';
+    } else {
+        pop.style.display = 'flex';
+        const input = document.getElementById('page-jump-input');
+        if (input) {
+            if (pageFlip) input.value = pageFlip.getCurrentPageIndex() + 1;
+            input.focus();
+        }
+    }
+};
+
+window.closePageJumpModal = function() {
+    const pop = document.getElementById('page-jump-popover');
+    if (pop) pop.style.display = 'none';
+};
+
+window.submitPageJump = function() {
+    const input = document.getElementById('page-jump-input');
+    if (!input || !pageFlip) return;
+    const val = parseInt(input.value, 10);
+    const maxP = pageFlip.getPageCount();
+    if (!isNaN(val) && val >= 1 && val <= maxP) {
+        window.goToPage(val);
+    }
+};
+
 window.closeEbook = function(e) {
     if (e) {
         try { e.stopPropagation(); } catch(err){}
@@ -6384,56 +6601,83 @@ window.toggleDrawingMode = function(e) {
     const canvases = document.querySelectorAll('.draw-layer');
 
     if (isDrawingMode) {
-        btn.innerText = "✍️ 쓰기 모드";
-        btn.style.background = "#f59e0b";
-        tools.style.display = "flex";
-        canvases.forEach(c => c.style.pointerEvents = "auto");
+        if (btn) {
+            btn.textContent = '✏️ 쓰기 모드';
+            btn.style.backgroundColor = '#f59e0b';
+            btn.style.color = '#ffffff';
+        }
+        if (tools) tools.style.display = 'flex';
+        canvases.forEach(cvs => {
+            cvs.style.pointerEvents = 'auto';
+        });
     } else {
-        btn.innerText = "📖 보기 모드";
-        btn.style.background = "#38bdf8";
-        tools.style.display = "none";
-        canvases.forEach(c => c.style.pointerEvents = "none");
+        if (btn) {
+            btn.textContent = '📖 보기 모드';
+            btn.style.backgroundColor = '#38bdf8';
+            btn.style.color = '#0f172a';
+        }
+        if (tools) tools.style.display = 'none';
+        canvases.forEach(cvs => {
+            cvs.style.pointerEvents = 'none';
+        });
     }
 };
 
-window.setPen = function(color, btnElem, isHl = false, e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
-    currentPenColor = color;
-    isHighlighter = isHl;
+window.setPen = function(color, btn, isHl, e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
     isEraserMode = false;
+    isHighlighter = !!isHl;
+    currentPenColor = color;
     document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
+    if (btn) btn.style.borderColor = '#ffffff';
     document.querySelectorAll('.tool-btn').forEach(b => {
-        if (b.innerText === '부분지우개') b.classList.remove('active');
+        if (b.textContent.includes('지우개')) b.classList.remove('active');
     });
-    btnElem.style.borderColor = 'white';
 };
 
-window.setThickness = function(w, btnElem, e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
+window.setThickness = function(w, btn, e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
     currentPenWidth = w;
     document.querySelectorAll('.tool-btn').forEach(b => {
-        if (['얇게', '보통', '두껍'].includes(b.innerText)) b.classList.remove('active');
+        if (['얇게', '보통', '두껍'].includes(b.textContent)) b.classList.remove('active');
     });
-    btnElem.classList.add('active');
+    if (btn) btn.classList.add('active');
 };
 
-window.setEraser = function(btnElem, e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
+window.setEraser = function(btn, e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
     isEraserMode = true;
-    document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
-    document.querySelectorAll('.tool-btn').forEach(b => {
-        if (b.innerText === '부분지우개') b.classList.remove('active');
-    });
-    btnElem.classList.add('active');
+    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
 };
 
 window.clearAllCanvas = function(e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
-    if (!confirm("모든 필기를 지우시겠습니까?")) return;
-    document.querySelectorAll('.draw-layer').forEach(canvas => {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
+    if (!pageFlip) return;
+    const currIdx = pageFlip.getCurrentPageIndex();
+    const pages = document.querySelectorAll('#flipbook .stf__item');
+    if (pages[currIdx]) {
+        const cvs = pages[currIdx].querySelector('.draw-layer');
+        if (cvs) {
+            const ctx = cvs.getContext('2d');
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+        }
+    }
+    if (pages[currIdx + 1]) {
+        const cvs = pages[currIdx + 1].querySelector('.draw-layer');
+        if (cvs) {
+            const ctx = cvs.getContext('2d');
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+        }
+    }
 };
 
 function setupCanvasDrawing(canvas) {
@@ -6456,10 +6700,8 @@ function setupCanvasDrawing(canvas) {
 
     function handlePointerDown(e) {
         if (!isDrawingMode) return;
-        if (!e.isPrimary) return; 
-
-        // 손가락 터치는 줌/이동을 위해 필기 무시 (펜/마우스만 허용)
-        if (e.pointerType === 'touch') return; 
+        if (!e.isPrimary) return;
+        if (e.pointerType === 'touch') return;
 
         e.stopPropagation();
         if (e.cancelable) e.preventDefault();
@@ -6486,31 +6728,26 @@ function setupCanvasDrawing(canvas) {
         const pos = getPos(e);
         lastX = pos.x;
         lastY = pos.y;
-        
+
         ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(pos.x + 0.01, pos.y);
-        ctx.stroke();
+        ctx.arc(lastX, lastY, ctx.lineWidth / 2, 0, Math.PI * 2);
+        ctx.fillStyle = ctx.strokeStyle;
+        ctx.fill();
     }
 
     function handlePointerMove(e) {
-        if (!isDrawingMode || !isDrawing) return;
-        if (!e.isPrimary) return;
-        
-        if (e.pointerType === 'touch') {
-            isDrawing = false;
-            return;
-        }
-        
+        if (!isDrawing || !isDrawingMode) return;
+        if (e.pointerType === 'touch') return;
+
         e.stopPropagation();
         if (e.cancelable) e.preventDefault();
-        
+
         const pos = getPos(e);
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
-        
+
         lastX = pos.x;
         lastY = pos.y;
     }
@@ -6519,136 +6756,16 @@ function setupCanvasDrawing(canvas) {
         if (!isDrawing) return;
         isDrawing = false;
         try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
-        e.stopPropagation();
     }
 
-    let lastPenDownTime = 0;
-    let isStylusActive = false;
-
-    canvas.addEventListener('pointerdown', (e) => {
-        if (e.pointerType === 'pen' || e.pointerType === 'mouse') {
-            lastPenDownTime = Date.now();
-        }
-        handlePointerDown(e);
-    }, {passive: false});
-    canvas.addEventListener('pointermove', handlePointerMove, {passive: false});
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    canvas.addEventListener('pointermove', handlePointerMove);
     canvas.addEventListener('pointerup', handlePointerUp);
     canvas.addEventListener('pointercancel', handlePointerUp);
-    
-    canvas.addEventListener('touchstart', (e) => {
-        if (!isDrawingMode) return;
-        let isIOSStylus = (e.touches.length > 0 && e.touches[0].touchType === 'stylus');
-        let isWinStylus = (Date.now() - lastPenDownTime) < 100;
-        
-        if (isIOSStylus || isWinStylus) {
-            isStylusActive = true;
-            e.stopPropagation();
-            if (e.cancelable) e.preventDefault();
-        } else {
-            isStylusActive = false;
-        }
-    }, {passive: false});
-    
-    function blockStylusTouch(e) {
-        if (isDrawingMode && isStylusActive) {
-            e.stopPropagation();
-            if (e.cancelable && e.type === 'touchmove') e.preventDefault();
-        }
-    }
-    
-    canvas.addEventListener('touchmove', blockStylusTouch, {passive: false});
-    canvas.addEventListener('touchend', blockStylusTouch);
-    canvas.addEventListener('touchcancel', blockStylusTouch);
-    
-    function blockMouse(e) {
-        if (isDrawingMode) e.stopPropagation();
-    }
-    canvas.addEventListener('mousedown', blockMouse);
-    canvas.addEventListener('mousemove', blockMouse);
-    canvas.addEventListener('mouseup', blockMouse);
-    canvas.addEventListener('click', blockMouse);
 }
 
 // ==========================================
-// 4. Toolbar Drag Logic
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const dragToolbar = document.getElementById('drawing-toolbar');
-    if (!dragToolbar) return;
-
-    let isDraggingTb = false;
-    let tbStartX = 0, tbStartY = 0, tbInitX = 0, tbInitY = 0;
-
-    function startDragTb(e) {
-        // 버튼 클릭 시에는 드래그 대신 버튼 기능 실행
-        if (e.target.closest('button, input, select, textarea')) return;
-
-        isDraggingTb = true;
-        let clientX = e.clientX;
-        let clientY = e.clientY;
-        if (e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        }
-        tbStartX = clientX;
-        tbStartY = clientY;
-        const rect = dragToolbar.getBoundingClientRect();
-        tbInitX = rect.left;
-        tbInitY = rect.top;
-        
-        dragToolbar.style.setProperty('transform', 'none', 'important');
-        dragToolbar.style.setProperty('bottom', 'auto', 'important');
-        dragToolbar.style.setProperty('left', tbInitX + 'px', 'important');
-        dragToolbar.style.setProperty('top', tbInitY + 'px', 'important');
-        
-        e.stopPropagation();
-        if (e.cancelable) e.preventDefault();
-    }
-
-    function moveDragTb(e) {
-        if (!isDraggingTb) return;
-        let clientX = e.clientX;
-        let clientY = e.clientY;
-        if (e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        }
-        const dx = clientX - tbStartX;
-        const dy = clientY - tbStartY;
-        
-        const rect = dragToolbar.getBoundingClientRect();
-        let newLeft = Math.max(5, Math.min(window.innerWidth - rect.width - 5, tbInitX + dx));
-        let newTop = Math.max(5, Math.min(window.innerHeight - rect.height - 5, tbInitY + dy));
-        
-        dragToolbar.style.setProperty('left', newLeft + 'px', 'important');
-        dragToolbar.style.setProperty('top', newTop + 'px', 'important');
-        
-        e.stopPropagation();
-        if (e.cancelable) e.preventDefault();
-    }
-
-    function stopDragTb(e) {
-        if (isDraggingTb) {
-            isDraggingTb = false;
-            if (e) {
-                try { e.stopPropagation(); } catch(err){}
-            }
-        }
-    }
-
-    dragToolbar.addEventListener('mousedown', startDragTb);
-    window.addEventListener('mousemove', moveDragTb, {passive: false});
-    window.addEventListener('mouseup', stopDragTb);
-    
-    dragToolbar.addEventListener('touchstart', startDragTb, {passive: false});
-    window.addEventListener('touchmove', moveDragTb, {passive: false});
-    window.addEventListener('touchend', stopDragTb);
-    window.addEventListener('touchcancel', stopDragTb);
-});
-
-// ==========================================
-// ==========================================
-// 5. Standard 1·2 Week Standardized Flipbook & Zoom Engine
+// 4. St.PageFlip Viewer & Touch System
 // ==========================================
 let pageFlip = null;
 let currentZoom = 1.0;
@@ -6693,19 +6810,20 @@ function resizeFlipbook() {
 }
 
 function zoomFlipbook(delta) {
-    currentZoom += delta;
-    if (currentZoom < 0.6) currentZoom = 0.6;
-    if (currentZoom > 3.5) currentZoom = 3.5;
+    currentZoom = Math.min(Math.max(currentZoom + delta, 0.6), 3.5);
+    if (currentZoom <= 1.05) {
+        panX = 0;
+        panY = 0;
+    }
     resizeFlipbook();
 }
 
 function initFlipbookEngine() {
     const fbElement = document.getElementById('flipbook');
+    const scaleWrapper = document.getElementById('scale-wrapper');
     if (!fbElement || pageFlip) return;
 
-    // Use strictly top-level page-wrappers from #main-content
     const topWrappers = Array.from(document.querySelectorAll('#main-content > .page-wrapper'));
-
     fbElement.innerHTML = '';
 
     topWrappers.forEach(w => {
@@ -6717,13 +6835,12 @@ function initFlipbookEngine() {
         clone.style.margin = "0";
         if (clone.id) clone.id = clone.id + '-clone';
 
-        // Preserve page-scope class from parent wrapper
         Array.from(w.classList).forEach(cls => {
             if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {
                 clone.classList.add(cls);
             }
         });
-        
+
         const cvs = document.createElement('canvas');
         cvs.className = 'draw-layer';
         cvs.width = 1000;
@@ -6742,6 +6859,12 @@ function initFlipbookEngine() {
         fbElement.appendChild(clone);
     });
 
+    const isPortrait = isPortraitMode();
+    if (scaleWrapper) {
+        scaleWrapper.style.width = (isPortrait ? 500 : 1000) + 'px';
+        scaleWrapper.style.height = '707px';
+    }
+
     pageFlip = new St.PageFlip(fbElement, {
         width: 500,
         height: 707,
@@ -6759,14 +6882,22 @@ function initFlipbookEngine() {
 
     pageFlip.loadFromHTML(Array.from(fbElement.children));
     
+    pageFlip.on('flip', (e) => {
+        const pNumEl = document.getElementById('current-page-num');
+        if (pNumEl) {
+            pNumEl.textContent = (e.data + 1);
+        }
+    });
+    
     pageFlip.on('changeOrientation', () => {
         resizeFlipbook();
     });
 }
 
 function setupViewerEvents() {
+    const fbContainer = document.getElementById('flipbook-container');
     const scaleWrapper = document.getElementById('scale-wrapper');
-    if (!scaleWrapper) return;
+    if (!fbContainer || !scaleWrapper) return;
 
     let touchMode = null;
     let touchStartTime = 0;
@@ -6781,13 +6912,18 @@ function setupViewerEvents() {
         return Math.hypot(dx, dy);
     }
 
-    scaleWrapper.addEventListener('touchstart', (e) => {
+    fbContainer.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+            return;
+        }
+
         touchStartTime = Date.now();
 
         if (e.touches.length === 2) {
             touchMode = 'pinch';
             initialPinchDist = getDistance(e.touches[0], e.touches[1]);
             zoomAtPinchStart = currentZoom;
+            if (e.cancelable) e.preventDefault();
         } else if (e.touches.length === 1) {
             touchMode = 'single';
             startTouchX = e.touches[0].clientX;
@@ -6797,9 +6933,9 @@ function setupViewerEvents() {
         }
     }, { passive: false });
 
-    scaleWrapper.addEventListener('touchmove', (e) => {
+    fbContainer.addEventListener('touchmove', (e) => {
         if (e.touches.length === 2 && touchMode === 'pinch') {
-            e.preventDefault();
+            if (e.cancelable) e.preventDefault();
             const currentDist = getDistance(e.touches[0], e.touches[1]);
             if (initialPinchDist > 0) {
                 const ratio = currentDist / initialPinchDist;
@@ -6811,40 +6947,61 @@ function setupViewerEvents() {
             const moveY = e.touches[0].clientY - startTouchY;
             const dist = Math.hypot(moveX, moveY);
 
-            if (currentZoom > 1.1 || dist > 15) {
-                if (currentZoom > 1.1) {
-                    e.preventDefault();
-                    panX = startPanX + moveX;
-                    panY = startPanY + moveY;
-                    resizeFlipbook();
-                }
+            if (currentZoom > 1.1) {
+                if (e.cancelable) e.preventDefault();
+                panX = startPanX + moveX;
+                panY = startPanY + moveY;
+                resizeFlipbook();
+            } else if (dist > 15) {
+                if (e.cancelable) e.preventDefault();
             }
         }
     }, { passive: false });
 
-    scaleWrapper.addEventListener('touchend', (e) => {
+    fbContainer.addEventListener('touchend', (e) => {
         const touchDuration = Date.now() - touchStartTime;
 
         if (touchMode === 'single' && e.changedTouches.length === 1) {
             const endX = e.changedTouches[0].clientX;
             const endY = e.changedTouches[0].clientY;
-            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
+            const moveX = endX - startTouchX;
+            const moveY = endY - startTouchY;
+            const dist = Math.hypot(moveX, moveY);
 
-            if (dist < 15 && touchDuration < 300 && pageFlip) {
+            // 1. Swipe Navigation
+            if (currentZoom <= 1.1 && dist > 35 && pageFlip) {
+                if (moveX < -30) {
+                    pageFlip.flipNext();
+                    touchMode = null;
+                    return;
+                } else if (moveX > 30) {
+                    pageFlip.flipPrev();
+                    touchMode = null;
+                    return;
+                }
+            }
+
+            // 2. Tap Click Navigation
+            if (dist < 15 && touchDuration < 400 && pageFlip && !isDrawingMode) {
                 const target = document.elementFromPoint(endX, endY);
                 if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
                     touchMode = null;
                     return;
                 }
-                const rect = scaleWrapper.getBoundingClientRect();
-                const relativeX = endX - rect.left;
 
-                if (relativeX < rect.width / 2) {
-                    pageFlip.flipPrev();
-                } else {
+                const rect = scaleWrapper.getBoundingClientRect();
+                const currIdx = pageFlip.getCurrentPageIndex();
+
+                if (currIdx === 0) {
                     pageFlip.flipNext();
+                } else {
+                    const relativeX = endX - rect.left;
+                    if (relativeX < rect.width / 2) {
+                        pageFlip.flipPrev();
+                    } else {
+                        pageFlip.flipNext();
+                    }
                 }
-                e.preventDefault();
             }
         }
         touchMode = null;
@@ -6853,6 +7010,9 @@ function setupViewerEvents() {
     let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
 
     scaleWrapper.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+            return;
+        }
         isMouseDown = true;
         isMouseDrag = false;
         mouseStartX = e.clientX;
@@ -6876,15 +7036,24 @@ function setupViewerEvents() {
     });
 
     window.addEventListener('mouseup', (e) => {
-        if (isMouseDown && !isMouseDrag && pageFlip) {
+        if (isMouseDown && !isMouseDrag && pageFlip && !isDrawingMode) {
             if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
                 isMouseDown = false;
                 return;
             }
             const rect = scaleWrapper.getBoundingClientRect();
-            const relativeX = e.clientX - rect.left;
-            if (relativeX < rect.width / 2) pageFlip.flipPrev();
-            else pageFlip.flipNext();
+            const currIdx = pageFlip.getCurrentPageIndex();
+
+            if (currIdx === 0) {
+                pageFlip.flipNext();
+            } else {
+                const relativeX = e.clientX - rect.left;
+                if (relativeX < rect.width / 2) {
+                    pageFlip.flipPrev();
+                } else {
+                    pageFlip.flipNext();
+                }
+            }
         }
         isMouseDown = false;
     });
@@ -6892,7 +7061,6 @@ function setupViewerEvents() {
     window.addEventListener('resize', resizeFlipbook);
     window.addEventListener('orientationchange', resizeFlipbook);
 
-    // Keyboard Arrow Keys
     window.addEventListener('keydown', (e) => {
         if (!pageFlip) return;
         if (e.key === 'ArrowLeft' || e.key === 'PageUp') pageFlip.flipPrev();
@@ -6905,6 +7073,7 @@ window.toggleFlipbook = function() {
     if (!fbContainer) return;
 
     fbContainer.style.display = "flex";
+    document.body.style.display = "block";
     document.body.style.overflow = "hidden";
 
     if (!pageFlip) {

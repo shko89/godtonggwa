@@ -108,7 +108,29 @@ body { display: none; /* Authenticated user check before showing */
             }
         }
         
-</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script>
+
+        #flipbook-container, #zoom-wrapper, #scale-wrapper, #flipbook, .stf__item, .a4-page {
+            touch-action: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+        }
+        .ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar {
+            touch-action: manipulation !important;
+        }
+        @media (max-width: 640px) {
+            .zoom-btn { display: none !important; }
+            #close-flipbook-btn { 
+                top: 12px !important; 
+                right: 12px !important; 
+                padding: 7px 13px !important; 
+                font-size: 13px !important; 
+            }
+            #drawing-toolbar {
+                bottom: 12px !important;
+                padding: 6px 12px !important;
+            }
+        }
+        </style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script>
     MathJax = {
       tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
     };
@@ -11401,7 +11423,7 @@ body {
     background-color: transparent !important;
 }
 </style></head>
-<body><div style="position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10000; box-sizing: border-box;">
+<body><div id="top-nav" style="position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10000; box-sizing: border-box;">
 <div style="display: flex; align-items: center; gap: 12px;">
 <button onclick="window.closeEbook(event)" style="background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);">
 <span style="font-size: 13px; font-weight: 900;">✖</span> 닫기
@@ -13840,9 +13862,90 @@ body {
 </div>
 <!-- PageFlip & Interactive Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-<script>// ==========================================
+<script>
+// ==========================================
 // 1. Close Button Logic (Reliable Navigation)
 // ==========================================
+
+// ==========================================
+// TOC Navigation & Page Jump Popover
+// ==========================================
+window.toggleTocDrawer = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
+    const drawer = document.getElementById('toc-drawer');
+    const overlay = document.getElementById('toc-overlay');
+    if (!drawer || !overlay) return;
+    const isOpen = drawer.style.transform === 'translateX(0px)';
+    if (isOpen) {
+        window.closeTocDrawer();
+    } else {
+        window.openTocDrawer();
+    }
+};
+
+window.openTocDrawer = function() {
+    const drawer = document.getElementById('toc-drawer');
+    const overlay = document.getElementById('toc-overlay');
+    if (drawer) drawer.style.transform = 'translateX(0px)';
+    if (overlay) {
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.style.opacity = '1', 10);
+    }
+};
+
+window.closeTocDrawer = function() {
+    const drawer = document.getElementById('toc-drawer');
+    const overlay = document.getElementById('toc-overlay');
+    if (drawer) drawer.style.transform = 'translateX(-100%)';
+    if (overlay) {
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 200);
+    }
+};
+
+window.goToPage = function(pageNum) {
+    if (!pageFlip) return;
+    const targetIdx = Math.max(0, pageNum - 1);
+    pageFlip.flip(targetIdx);
+    window.closeTocDrawer();
+    window.closePageJumpModal();
+};
+
+window.togglePageJumpModal = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
+    const pop = document.getElementById('page-jump-popover');
+    if (!pop) return;
+    if (pop.style.display === 'flex') {
+        pop.style.display = 'none';
+    } else {
+        pop.style.display = 'flex';
+        const input = document.getElementById('page-jump-input');
+        if (input) {
+            if (pageFlip) input.value = pageFlip.getCurrentPageIndex() + 1;
+            input.focus();
+        }
+    }
+};
+
+window.closePageJumpModal = function() {
+    const pop = document.getElementById('page-jump-popover');
+    if (pop) pop.style.display = 'none';
+};
+
+window.submitPageJump = function() {
+    const input = document.getElementById('page-jump-input');
+    if (!input || !pageFlip) return;
+    const val = parseInt(input.value, 10);
+    const maxP = pageFlip.getPageCount();
+    if (!isNaN(val) && val >= 1 && val <= maxP) {
+        window.goToPage(val);
+    }
+};
+
 window.closeEbook = function(e) {
     if (e) {
         try { e.stopPropagation(); } catch(err){}
@@ -13852,8 +13955,15 @@ window.closeEbook = function(e) {
         window.close();
         return;
     }
+    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1)) {
+        window.location.href = document.referrer;
+        return;
+    }
     if (window.history && window.history.length > 1) {
         window.history.back();
+        setTimeout(function() {
+            window.location.href = "../../exam.html";
+        }, 300);
         return;
     }
     window.location.href = "../../exam.html";
@@ -13898,7 +14008,7 @@ window.revealBlank = function(el, event) {
 };
 
 // ==========================================
-// 3. Drawing Engine
+// 3. Drawing Engine (보기 모드 & 쓰기/필기 모드)
 // ==========================================
 let isDrawingMode = false;
 let currentPenColor = '#0f172a';
@@ -13916,36 +14026,66 @@ window.toggleDrawingMode = function(e) {
     const canvases = document.querySelectorAll('.draw-layer');
 
     if (isDrawingMode) {
-        btn.innerText = "✍️ 쓰기 모드";
-        btn.style.background = "#f59e0b";
-        tools.style.display = "flex";
-        canvases.forEach(c => c.style.pointerEvents = "auto");
+        if (btn) {
+            btn.textContent = '✏️ 쓰기 모드';
+            btn.style.backgroundColor = '#f59e0b';
+            btn.style.color = '#ffffff';
+        }
+        if (tools) tools.style.display = 'flex';
+        canvases.forEach(cvs => {
+            cvs.style.pointerEvents = 'auto';
+        });
     } else {
-        btn.innerText = "📖 보기 모드";
-        btn.style.background = "#38bdf8";
-        tools.style.display = "none";
-        canvases.forEach(c => c.style.pointerEvents = "none");
+        if (btn) {
+            btn.textContent = '📖 보기 모드';
+            btn.style.backgroundColor = '#38bdf8';
+            btn.style.color = '#0f172a';
+        }
+        if (tools) tools.style.display = 'none';
+        canvases.forEach(cvs => {
+            cvs.style.pointerEvents = 'none';
+        });
     }
 };
 
-window.setPen = function(color, btnElem, isHl = false, e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
-    currentPenColor = color;
-    isHighlighter = isHl;
+window.setPen = function(color, btn, isHl, e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
     isEraserMode = false;
+    isHighlighter = !!isHl;
+    currentPenColor = color;
     document.querySelectorAll('.pen-btn').forEach(b => b.style.borderColor = 'transparent');
-    if (btnElem && btnElem.classList.contains('pen-btn')) {
-        btnElem.style.borderColor = 'white';
+    if (btn) btn.style.borderColor = '#ffffff';
+    document.querySelectorAll('.tool-btn').forEach(b => {
+        if (b.textContent.includes('지우개')) b.classList.remove('active');
+    });
+};
+
+window.setThickness = function(w, btn, e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
     }
+    currentPenWidth = w;
+    document.querySelectorAll('.tool-btn').forEach(b => {
+        if (['얇게', '보통', '두껍'].includes(b.textContent)) b.classList.remove('active');
+    });
+    if (btn) btn.classList.add('active');
 };
 
-window.setEraser = function(btnElem, e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
+window.setEraser = function(btn, e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
     isEraserMode = true;
+    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
 };
 
-window.clearCurrentPageCanvas = function(e) {
-    if (e) { try { e.stopPropagation(); } catch(err){} }
+window.clearAllCanvas = function(e) {
+    if (e) {
+        try { e.stopPropagation(); } catch(err){}
+    }
     if (!pageFlip) return;
     const currIdx = pageFlip.getCurrentPageIndex();
     const pages = document.querySelectorAll('#flipbook .stf__item');
@@ -13956,180 +14096,111 @@ window.clearCurrentPageCanvas = function(e) {
             ctx.clearRect(0, 0, cvs.width, cvs.height);
         }
     }
+    if (pages[currIdx + 1]) {
+        const cvs = pages[currIdx + 1].querySelector('.draw-layer');
+        if (cvs) {
+            const ctx = cvs.getContext('2d');
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+        }
+    }
 };
 
-function setupCanvasDrawing(cvs) {
-    const ctx = cvs.getContext('2d');
+function setupCanvasDrawing(canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     let isDrawing = false;
-    let lastX = 0, lastY = 0;
+    let lastX = 0;
+    let lastY = 0;
 
-    function getCoords(e) {
-        const rect = cvs.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        const scaleX = cvs.width / rect.width;
-        const scaleY = cvs.height / rect.height;
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         return {
-            x: (clientX - rect.left) * scaleX,
-            y: (clientY - rect.top) * scaleY
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY
         };
     }
 
-    function startDraw(e) {
+    function handlePointerDown(e) {
         if (!isDrawingMode) return;
+        if (!e.isPrimary) return;
+        if (e.pointerType === 'touch') return;
+
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+
         isDrawing = true;
-        const pos = getCoords(e);
+        try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+
+        if (isEraserMode) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = currentPenWidth * 8; 
+            ctx.strokeStyle = 'rgba(0,0,0,1)';
+        } else {
+            if (isHighlighter) {
+                ctx.globalCompositeOperation = 'multiply';
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = currentPenColor;
+            } else {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = currentPenWidth * 2; 
+                ctx.strokeStyle = currentPenColor;
+            }
+        }
+
+        const pos = getPos(e);
         lastX = pos.x;
         lastY = pos.y;
+
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, ctx.lineWidth / 2, 0, Math.PI * 2);
+        ctx.fillStyle = ctx.strokeStyle;
+        ctx.fill();
     }
 
-    function draw(e) {
+    function handlePointerMove(e) {
         if (!isDrawing || !isDrawingMode) return;
-        const pos = getCoords(e);
+        if (e.pointerType === 'touch') return;
+
+        e.stopPropagation();
+        if (e.cancelable) e.preventDefault();
+
+        const pos = getPos(e);
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(pos.x, pos.y);
-        if (isEraserMode) {
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineWidth = 25;
-        } else if (isHighlighter) {
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.strokeStyle = currentPenColor;
-            ctx.lineWidth = 18;
-            ctx.lineCap = 'square';
-        } else {
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.strokeStyle = currentPenColor;
-            ctx.lineWidth = currentPenWidth * 2;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-        }
         ctx.stroke();
+
         lastX = pos.x;
         lastY = pos.y;
     }
 
-    function stopDraw() {
+    function handlePointerUp(e) {
+        if (!isDrawing) return;
         isDrawing = false;
+        try { canvas.releasePointerCapture(e.pointerId); } catch(err){}
     }
 
-    cvs.addEventListener('mousedown', startDraw);
-    cvs.addEventListener('mousemove', draw);
-    window.addEventListener('mouseup', stopDraw);
-
-    cvs.addEventListener('touchstart', startDraw, { passive: true });
-    cvs.addEventListener('touchmove', draw, { passive: true });
-    window.addEventListener('touchend', stopDraw);
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    canvas.addEventListener('pointermove', handlePointerMove);
+    canvas.addEventListener('pointerup', handlePointerUp);
+    canvas.addEventListener('pointercancel', handlePointerUp);
 }
 
 // ==========================================
-// 4. StPageFlip Engine & Click-to-Turn Navigation
+// 4. St.PageFlip Viewer & Touch System
 // ==========================================
 let pageFlip = null;
 let currentZoom = 1.0;
 let panX = 0;
 let panY = 0;
 
-function initFlipbookEngine() {
-    const fbElement = document.getElementById('flipbook');
-    const mainContent = document.getElementById('main-content');
-    if (!fbElement || pageFlip) return;
-    if (typeof St === 'undefined' || !St.PageFlip) {
-        setTimeout(initFlipbookEngine, 50);
-        return;
-    }
-
-    const topWrappers = Array.from(document.querySelectorAll('#main-content > .page-wrapper'));
-    fbElement.innerHTML = '';
-
-    topWrappers.forEach((w, idx) => {
-        const a4Page = w.querySelector('.a4-page') || w.querySelector('.concept-page') || w.querySelector('.spread-page') || w.firstElementChild;
-        if (!a4Page) return;
-
-        const clone = a4Page.cloneNode(true);
-        clone.style.boxShadow = "none";
-        clone.style.margin = "0"; clone.style.marginTop = "0"; clone.style.top = "0";
-        clone.style.marginTop = "0";
-        clone.style.marginBottom = "0";
-        clone.style.top = "0";
-        clone.style.left = "0";
-        clone.style.width = "500px";
-        clone.style.height = "707px";
-        if (clone.id) clone.id = clone.id + '-clone';
-
-        Array.from(w.classList).forEach(cls => {
-            if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {
-                clone.classList.add(cls);
-            }
-        });
-        
-        const cvs = document.createElement('canvas');
-        cvs.className = 'draw-layer';
-        cvs.width = 1000;
-        cvs.height = 1414;
-        cvs.style.width = '100%';
-        cvs.style.height = '100%';
-        cvs.style.position = 'absolute';
-        cvs.style.top = '0';
-        cvs.style.left = '0';
-        cvs.style.zIndex = '999';
-        cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
-        setupCanvasDrawing(cvs);
-        clone.appendChild(cvs);
-
-        fbElement.appendChild(clone);
-    });
-
-    pageFlip = new St.PageFlip(fbElement, {
-        width: 500,
-        height: 707,
-        size: "fixed",
-        minWidth: 300,
-        maxWidth: 1000,
-        minHeight: 400,
-        maxHeight: 1000,
-        maxShadowOpacity: 0.5,
-        showCover: true,
-        mobileScrollSupport: false,
-        useMouseEvents: false,
-        usePortrait: true
-    });
-
-    pageFlip.loadFromHTML(Array.from(fbElement.children));
-
-    pageFlip.on('flip', (e) => {
-        updatePageStatus(e.data);
-    });
-
-    resizeFlipbook();
-}
-
-function updatePageStatus(pageIdx) {
-    const total = 38;
-    const statusText = document.getElementById('page-status-text');
-    if (!statusText) return;
-    
-    if (pageIdx === 0) {
-        statusText.textContent = '01';
-    } else {
-        const leftP = pageIdx;
-        const rightP = Math.min(pageIdx + 1, total);
-        statusText.textContent = String(leftP).padStart(2, '0') + '-' + String(rightP).padStart(2, '0');
-    }
-}
-
-function zoomFlipbook(delta) {
-    currentZoom += delta;
-    if (currentZoom < 0.6) currentZoom = 0.6;
-    if (currentZoom > 3.5) currentZoom = 3.5;
-    resizeFlipbook();
-}
-
-function resetZoom() {
-    currentZoom = 1.0;
-    panX = 0;
-    panY = 0;
-    resizeFlipbook();
+function isPortraitMode() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return (h > w) || (w < 768);
 }
 
 function resizeFlipbook() {
@@ -14163,13 +14234,210 @@ function resizeFlipbook() {
     }
 }
 
-function setupViewerEvents() {
+function zoomFlipbook(delta) {
+    currentZoom = Math.min(Math.max(currentZoom + delta, 0.6), 3.5);
+    if (currentZoom <= 1.05) {
+        panX = 0;
+        panY = 0;
+    }
+    resizeFlipbook();
+}
+
+function initFlipbookEngine() {
+    const fbElement = document.getElementById('flipbook');
     const scaleWrapper = document.getElementById('scale-wrapper');
-    if (!scaleWrapper) return;
+    if (!fbElement || pageFlip) return;
+
+    const topWrappers = Array.from(document.querySelectorAll('#main-content > .page-wrapper'));
+    fbElement.innerHTML = '';
+
+    topWrappers.forEach(w => {
+        const a4Page = w.querySelector('.a4-page') || w.querySelector('.concept-page') || w.querySelector('.spread-page') || w.firstElementChild;
+        if (!a4Page) return;
+
+        const clone = a4Page.cloneNode(true);
+        clone.style.boxShadow = "none";
+        clone.style.margin = "0";
+        if (clone.id) clone.id = clone.id + '-clone';
+
+        Array.from(w.classList).forEach(cls => {
+            if (cls.startsWith('page-scope-') && !clone.classList.contains(cls)) {
+                clone.classList.add(cls);
+            }
+        });
+
+        const cvs = document.createElement('canvas');
+        cvs.className = 'draw-layer';
+        cvs.width = 1000;
+        cvs.height = 1414;
+        cvs.style.width = '100%';
+        cvs.style.height = '100%';
+        cvs.style.position = 'absolute';
+        cvs.style.top = '0';
+        cvs.style.left = '0';
+        cvs.style.zIndex = '999';
+        cvs.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
+        cvs.style.touchAction = 'pinch-zoom';
+        setupCanvasDrawing(cvs);
+        clone.appendChild(cvs);
+
+        fbElement.appendChild(clone);
+    });
+
+    const isPortrait = isPortraitMode();
+    if (scaleWrapper) {
+        scaleWrapper.style.width = (isPortrait ? 500 : 1000) + 'px';
+        scaleWrapper.style.height = '707px';
+    }
+
+    pageFlip = new St.PageFlip(fbElement, {
+        width: 500,
+        height: 707,
+        size: "fixed",
+        minWidth: 300,
+        maxWidth: 1000,
+        minHeight: 400,
+        maxHeight: 1000,
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        mobileScrollSupport: false,
+        useMouseEvents: false,
+        usePortrait: true
+    });
+
+    pageFlip.loadFromHTML(Array.from(fbElement.children));
+    
+    pageFlip.on('flip', (e) => {
+        const pNumEl = document.getElementById('current-page-num');
+        if (pNumEl) {
+            pNumEl.textContent = (e.data + 1);
+        }
+    });
+    
+    pageFlip.on('changeOrientation', () => {
+        resizeFlipbook();
+    });
+}
+
+function setupViewerEvents() {
+    const fbContainer = document.getElementById('flipbook-container');
+    const scaleWrapper = document.getElementById('scale-wrapper');
+    if (!fbContainer || !scaleWrapper) return;
+
+    let touchMode = null;
+    let touchStartTime = 0;
+    let startTouchX = 0, startTouchY = 0;
+    let startPanX = 0, startPanY = 0;
+    let initialPinchDist = 0;
+    let zoomAtPinchStart = 1;
+
+    function getDistance(t1, t2) {
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.hypot(dx, dy);
+    }
+
+    fbContainer.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+            return;
+        }
+
+        touchStartTime = Date.now();
+
+        if (e.touches.length === 2) {
+            touchMode = 'pinch';
+            initialPinchDist = getDistance(e.touches[0], e.touches[1]);
+            zoomAtPinchStart = currentZoom;
+            if (e.cancelable) e.preventDefault();
+        } else if (e.touches.length === 1) {
+            touchMode = 'single';
+            startTouchX = e.touches[0].clientX;
+            startTouchY = e.touches[0].clientY;
+            startPanX = panX;
+            startPanY = panY;
+        }
+    }, { passive: false });
+
+    fbContainer.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && touchMode === 'pinch') {
+            if (e.cancelable) e.preventDefault();
+            const currentDist = getDistance(e.touches[0], e.touches[1]);
+            if (initialPinchDist > 0) {
+                const ratio = currentDist / initialPinchDist;
+                currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
+                resizeFlipbook();
+            }
+        } else if (e.touches.length === 1 && touchMode === 'single') {
+            const moveX = e.touches[0].clientX - startTouchX;
+            const moveY = e.touches[0].clientY - startTouchY;
+            const dist = Math.hypot(moveX, moveY);
+
+            if (currentZoom > 1.1) {
+                if (e.cancelable) e.preventDefault();
+                panX = startPanX + moveX;
+                panY = startPanY + moveY;
+                resizeFlipbook();
+            } else if (dist > 15) {
+                if (e.cancelable) e.preventDefault();
+            }
+        }
+    }, { passive: false });
+
+    fbContainer.addEventListener('touchend', (e) => {
+        const touchDuration = Date.now() - touchStartTime;
+
+        if (touchMode === 'single' && e.changedTouches.length === 1) {
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const moveX = endX - startTouchX;
+            const moveY = endY - startTouchY;
+            const dist = Math.hypot(moveX, moveY);
+
+            // 1. Swipe Navigation
+            if (currentZoom <= 1.1 && dist > 35 && pageFlip) {
+                if (moveX < -30) {
+                    pageFlip.flipNext();
+                    touchMode = null;
+                    return;
+                } else if (moveX > 30) {
+                    pageFlip.flipPrev();
+                    touchMode = null;
+                    return;
+                }
+            }
+
+            // 2. Tap Click Navigation
+            if (dist < 15 && touchDuration < 400 && pageFlip && !isDrawingMode) {
+                const target = document.elementFromPoint(endX, endY);
+                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+                    touchMode = null;
+                    return;
+                }
+
+                const rect = scaleWrapper.getBoundingClientRect();
+                const currIdx = pageFlip.getCurrentPageIndex();
+
+                if (currIdx === 0) {
+                    pageFlip.flipNext();
+                } else {
+                    const relativeX = endX - rect.left;
+                    if (relativeX < rect.width / 2) {
+                        pageFlip.flipPrev();
+                    } else {
+                        pageFlip.flipNext();
+                    }
+                }
+            }
+        }
+        touchMode = null;
+    });
 
     let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
 
     scaleWrapper.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
+            return;
+        }
         isMouseDown = true;
         isMouseDrag = false;
         mouseStartX = e.clientX;
@@ -14192,48 +14460,19 @@ function setupViewerEvents() {
         }
     });
 
-    // 💡 페이지 클릭 시 좌우 이동
     window.addEventListener('mouseup', (e) => {
         if (isMouseDown && !isMouseDrag && pageFlip && !isDrawingMode) {
-            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn')) {
+            if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-toolbar')) {
                 isMouseDown = false;
                 return;
             }
             const rect = scaleWrapper.getBoundingClientRect();
-            const relativeX = e.clientX - rect.left;
-            if (relativeX < rect.width / 2) {
-                pageFlip.flipPrev();
-            } else {
+            const currIdx = pageFlip.getCurrentPageIndex();
+
+            if (currIdx === 0) {
                 pageFlip.flipNext();
-            }
-        }
-        isMouseDown = false;
-    });
-
-    // 터치 기기 탭 넘김
-    let touchStartTime = 0, startTouchX = 0, startTouchY = 0;
-    scaleWrapper.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-            touchStartTime = Date.now();
-            startTouchX = e.touches[0].clientX;
-            startTouchY = e.touches[0].clientY;
-        }
-    }, { passive: true });
-
-    scaleWrapper.addEventListener('touchend', (e) => {
-        const touchDuration = Date.now() - touchStartTime;
-        if (e.changedTouches.length === 1 && !isDrawingMode) {
-            const endX = e.changedTouches[0].clientX;
-            const endY = e.changedTouches[0].clientY;
-            const dist = Math.hypot(endX - startTouchX, endY - startTouchY);
-
-            if (dist < 15 && touchDuration < 300 && pageFlip) {
-                const target = document.elementFromPoint(endX, endY);
-                if (target && target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn')) {
-                    return;
-                }
-                const rect = scaleWrapper.getBoundingClientRect();
-                const relativeX = endX - rect.left;
+            } else {
+                const relativeX = e.clientX - rect.left;
                 if (relativeX < rect.width / 2) {
                     pageFlip.flipPrev();
                 } else {
@@ -14241,120 +14480,43 @@ function setupViewerEvents() {
                 }
             }
         }
+        isMouseDown = false;
     });
 
     window.addEventListener('resize', resizeFlipbook);
     window.addEventListener('orientationchange', resizeFlipbook);
 
-    // 키보드 방향키
     window.addEventListener('keydown', (e) => {
         if (!pageFlip) return;
-        if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-            pageFlip.flipPrev();
-        } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
-            pageFlip.flipNext();
-        }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') pageFlip.flipPrev();
+        else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') pageFlip.flipNext();
     });
 }
 
+window.toggleFlipbook = function() {
+    const fbContainer = document.getElementById('flipbook-container');
+    if (!fbContainer) return;
+
+    fbContainer.style.display = "flex";
+    document.body.style.display = "block";
+    document.body.style.overflow = "hidden";
+
+    if (!pageFlip) {
+        initFlipbookEngine();
+        setupViewerEvents();
+    }
+
+    currentZoom = 1.0;
+    panX = 0;
+    panY = 0;
+    resizeFlipbook();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    initFlipbookEngine();
-    setupViewerEvents();
+    window.toggleFlipbook();
 });
+</script>
 
-// ==========================================
-// TOC Drawer & Direct Page Jump Functions
-// ==========================================
-window.toggleTocDrawer = function(e) {
-    if (e) {
-        try { e.stopPropagation(); } catch(err){}
-        try { e.preventDefault(); } catch(err){}
-    }
-    const drawer = document.getElementById('toc-drawer');
-    const overlay = document.getElementById('toc-overlay');
-    if (!drawer || !overlay) return;
-    
-    window.closePageJumpModal();
-    const isOpen = drawer.style.transform === 'translateX(0px)' || drawer.style.transform === 'translateX(0)';
-    if (isOpen) {
-        window.closeTocDrawer();
-    } else {
-        overlay.style.display = 'block';
-        setTimeout(() => {
-            overlay.style.opacity = '1';
-            drawer.style.transform = 'translateX(0)';
-        }, 10);
-    }
-};
 
-window.closeTocDrawer = function() {
-    const drawer = document.getElementById('toc-drawer');
-    const overlay = document.getElementById('toc-overlay');
-    if (!drawer || !overlay) return;
-    drawer.style.transform = 'translateX(-100%)';
-    overlay.style.opacity = '0';
-    setTimeout(() => { overlay.style.display = 'none'; }, 250);
-};
-
-window.togglePageJumpModal = function(e) {
-    if (e) {
-        try { e.stopPropagation(); } catch(err){}
-        try { e.preventDefault(); } catch(err){}
-    }
-    const pop = document.getElementById('page-jump-popover');
-    if (!pop) return;
-    window.closeTocDrawer();
-    const isShown = pop.style.display === 'flex';
-    if (isShown) {
-        window.closePageJumpModal();
-    } else {
-        pop.style.display = 'flex';
-        const input = document.getElementById('page-jump-input');
-        if (input) {
-            if (pageFlip) {
-                input.value = pageFlip.getCurrentPageIndex() + 1;
-            }
-            setTimeout(() => { input.focus(); input.select(); }, 50);
-        }
-    }
-};
-
-window.closePageJumpModal = function() {
-    const pop = document.getElementById('page-jump-popover');
-    if (pop) pop.style.display = 'none';
-};
-
-window.submitPageJump = function() {
-    const input = document.getElementById('page-jump-input');
-    if (!input) return;
-    const target = parseInt(input.value, 10);
-    if (isNaN(target) || target < 1 || target > 38) {
-        alert('1부터 38 사이의 페이지 번호를 입력해주세요.');
-        return;
-    }
-    window.goToPage(target);
-};
-
-window.goToPage = function(pageNum) {
-    if (!pageFlip) return;
-    pageNum = parseInt(pageNum, 10);
-    if (isNaN(pageNum) || pageNum < 1 || pageNum > 38) return;
-    
-    window.closeTocDrawer();
-    window.closePageJumpModal();
-
-    // StPageFlip uses 0-based page index
-    pageFlip.flip(pageNum - 1);
-};
-
-// Global click listener to dismiss drawer / popover when clicking outside
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('#toc-drawer') && !e.target.closest('#btn-toc-toggle')) {
-        window.closeTocDrawer();
-    }
-    if (!e.target.closest('#page-jump-popover') && !e.target.closest('#page-jump-pill')) {
-        window.closePageJumpModal();
-    }
-});</script>
 </body>
 </html>

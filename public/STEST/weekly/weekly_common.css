@@ -287,3 +287,42 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .tutor-note sup, .tutor-schema sup {
     top: -0.4em !important;
 }
+
+
+/* Answer key - Exact Match to User Design (quiz_04 standard) */
+.ans-key-card {
+    border: 2px dashed #0284c7 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    padding: 12px 16px !important;
+    margin-top: 12px !important;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.06) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+.ans-key-title {
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    color: #0284c7 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border-bottom: 1.5px solid #bae6fd !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 10px !important;
+    letter-spacing: -0.2px !important;
+}
+.ans-key-title .bullet {
+    font-size: 11px !important;
+    color: #0284c7 !important;
+}
+.ans-key-content {
+    font-size: 9.3px !important;
+    line-height: 1.8 !important;
+    color: #334155 !important;
+    word-break: keep-all !important;
+}
+.ans-key-content b {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+}

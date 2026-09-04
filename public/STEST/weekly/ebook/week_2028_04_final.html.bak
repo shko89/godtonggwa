@@ -1076,248 +1076,176 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     <!-- Scoped Component Styles -->
 <style id="page05-custom-styles">
 /* === [Style] 지구 시스템 Ⅰ 대단원 인트로 (P05) === */
-@font-face {
-    font-family: 'SlowSlow';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/SlowSlow.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+@font-face { font-family: 'SlowSlow';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/SlowSlow.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap; }
+.page-scope-page05 html, .page-scope-page05html, .page-scope-page05 body, .page-scope-page05body {
+  width: 100%;
+            margin: 0;
+            padding: 20px 0;
+            font-family: 'Noto Sans KR', sans-serif !important;
+            background-color: #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 }
-
-.page-scope-page05 html, .page-scope-page05 body {
-    width: 100%;
-    margin: 0;
-    padding: 20px 0;
-    font-family: 'Noto Sans KR', sans-serif !important;
-    background-color: #cbd5e1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.page-scope-page05 .a4-page, .page-scope-page05.a4-page {
+  width: 500px !important;
+            height: 707px !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            padding: 30px 24px 20px 24px;
+            display: flex;
+            flex-direction: column;
+            word-break: keep-all !important;
 }
-
-.page-scope-page05 .a4-page {
-    width: 500px !important;
-    height: 707px !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    position: relative !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-    padding: 20px 22px 34px 22px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    word-break: keep-all !important;
+.page-scope-page05 .page-header, .page-scope-page05.page-header {
+  flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
 }
-
-.page-scope-page05 .page-header {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 2px solid #cbd5e1;
-    padding-bottom: 6px;
-    margin-bottom: 8px;
+.page-scope-page05 .header-brand, .page-scope-page05.header-brand {
+  font-family: 'Roboto';
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: #94a3b8;
 }
-
-.page-scope-page05 .header-brand {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900;
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: #94a3b8;
+.page-scope-page05 .bridge-title, .page-scope-page05.bridge-title {
+  font-size: 23px;
+            font-weight: 900;
+            color: #0284c7;
+            margin: 0;
+            line-height: 1.1;
+            letter-spacing: -0.8px;
 }
-
-.page-scope-page05 .bridge-title {
-    font-size: 22px;
-    font-weight: 900;
-    color: #0284c7;
-    margin: 0;
-    line-height: 1.1;
-    letter-spacing: -0.8px;
+.page-scope-page05 .bridge-sub, .page-scope-page05.bridge-sub {
+  font-size: 11.5px;
+            font-weight: 700;
+            color: #475569;
+            margin-top: 3px;
+            margin-bottom: 10px;
 }
-
-.page-scope-page05 .bridge-sub {
-    font-size: 11px;
-    font-weight: 700;
-    color: #475569;
-    margin-top: 3px;
-    margin-bottom: 8px;
+.page-scope-page05 .grid-container, .page-scope-page05.grid-container {
+  flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
 }
-
-.page-scope-page05 .grid-container {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 0;
+.page-scope-page05 .quadrant, .page-scope-page05.quadrant {
+  flex: 1; 
+            min-height: 0; 
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 6px 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+            box-sizing: border-box;
 }
-
-.page-scope-page05 .quadrant {
-    flex: 1; 
-    min-height: 0; 
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 6px 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-    display: flex;
-    gap: 8px;
-    align-items: stretch;
-    box-sizing: border-box;
+.page-scope-page05 .quadrant-header, .page-scope-page05.quadrant-header {
+  margin-bottom: 3px;
 }
-
-.page-scope-page05 .quadrant-header {
-    margin-top: 0px;
-    margin-bottom: 12px;
+.page-scope-page05 .quadrant-title, .page-scope-page05.quadrant-title {
+  font-size: 12px;
+            font-weight: 900;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
 }
-
-.page-scope-page05 .quadrant-title {
-    font-size: 11.5px;
-    font-weight: 900;
-    color: #0f172a;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    line-height: 1.2;
-    margin-top: 0px;
-    margin-bottom: 2px;
+.page-scope-page05 .quadrant-num, .page-scope-page05.quadrant-num {
+  font-family: 'Roboto';
+            color: #0284c7;
 }
-
-.page-scope-page05 .quadrant-num {
-    font-family: 'Roboto', sans-serif;
-    color: #0284c7;
+.page-scope-page05 .quadrant-desc, .page-scope-page05.quadrant-desc {
+  font-size: 8.5px;
+            color: #64748b;
+            margin-top: 1px;
 }
-
-.page-scope-page05 .quadrant-desc {
-    font-size: 8.5px;
-    color: #64748b;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    line-height: 1.2;
+.page-scope-page05 .mini-table, .page-scope-page05.mini-table {
+  width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            font-size: 8.5px;
+            line-height: 1.35;
+            table-layout: fixed;
 }
-
-.page-scope-page05 .tutor-note {
-    margin-top: 11px !important;
-    padding: 14px 8px 6px 8px !important;
-    position: relative !important;
-    box-sizing: border-box !important;
+.page-scope-page05 .mini-table th, .page-scope-page05.mini-table th {
+  background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 900;
+            padding: 2.5px 4px;
+            border: 1px solid #cbd5e1;
+            text-align: center;
+            font-size: 8.8px;
 }
-
-.page-scope-page05 .tutor-badge {
-    position: absolute !important;
-    top: -9px !important;
-    left: -1.5px !important;
-    background: #0284c7 !important;
-    color: white !important;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 10px !important;
-    padding: 1.5px 6px !important;
-    border-radius: 4px 4px 0 0 !important;
-    margin: 0 !important;
-    display: inline-block !important;
+.page-scope-page05 .mini-table td, .page-scope-page05.mini-table td {
+  padding: 2px 4px;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            font-size: 8.5px;
 }
-
-.page-scope-page05 .tutor-note .schema-list {
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none !important;
+.page-scope-page05 .mini-table tr:nth-child(even), .page-scope-page05.mini-table tr:nth-child(even) {
+  background-color: #f8fafc;
 }
-
-.page-scope-page05 .tutor-note .schema-list li {
-    font-size: 9px !important;
-    line-height: 1.35 !important;
-    margin-bottom: 1.5px !important;
+.page-scope-page05 .mini-table b, .page-scope-page05.mini-table b {
+  color: #0f172a;
 }
-
-.page-scope-page05 .tutor-note .handwriting {
-    font-size: 9px !important;
-    line-height: 1.35 !important;
-    margin: 0 !important;
+.page-scope-page05 .tag-blue, .page-scope-page05.tag-blue {
+  color: #0284c7;
+            font-weight: 700;
 }
-
-.page-scope-page05 .mini-table {
-    width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-    font-size: 8.3px;
-    line-height: 1.35;
-    table-layout: fixed;
+.page-scope-page05 .tag-red, .page-scope-page05.tag-red {
+  color: #dc2626;
+            font-weight: 700;
 }
-
-.page-scope-page05 .mini-table th {
-    background-color: #f1f5f9;
-    color: #334155;
-    font-weight: 900;
-    padding: 2.5px 4px;
-    border: 1px solid #cbd5e1;
-    text-align: center;
-    font-size: 8.6px;
+.page-scope-page05 .svg-wrapper, .page-scope-page05.svg-wrapper {
+  width: 230px;
+            flex-shrink: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 6px; 
+            position: relative;
 }
-
-.page-scope-page05 .mini-table td {
-    padding: 2px 4px;
-    border: 1px solid #e2e8f0;
-    color: #334155;
-    font-size: 8.3px;
+.page-scope-page05 .svg-wrapper svg, .page-scope-page05.svg-wrapper svg, .page-scope-page05 .svg-wrapper img, .page-scope-page05.svg-wrapper img {
+  width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
 }
-
-.page-scope-page05 .mini-table tr:nth-child(even) {
-    background-color: #f8fafc;
-}
-
-.page-scope-page05 .mini-table b {
-    color: #0f172a;
-}
-
-.page-scope-page05 .tag-blue {
-    color: #0284c7;
-    font-weight: 700;
-}
-
-.page-scope-page05 .tag-red {
-    color: #dc2626;
-    font-weight: 700;
-}
-
-.page-scope-page05 .svg-wrapper {
-    width: 240px;
-    flex-shrink: 0; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    background: #ffffff; 
-    border: 1px solid #e2e8f0; 
-    border-radius: 6px; 
-    position: relative;
-}
-
-.page-scope-page05 .svg-wrapper img {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.page-scope-page05 .page-num {
-    position: absolute !important;
-    bottom: 12px !important;
-    left: 0 !important;
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 11px !important;
-    color: #64748b !important;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 700 !important;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    z-index: 20 !important;
-    pointer-events: none !important;
-}
-</style>
+.page-scope-page05 .page-num, .page-scope-page05.page-num {
+  position: absolute ;
+            bottom: 10px !important;
+            left: 0 !important;
+            width: 100% !important;
+            text-align: center !important;
+            font-size: 10.5px !important;
+            color: #64748b !important;
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 700 !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            z-index: 10 !important;
+}</style>
 
 <style id="page06-custom-styles">
 /* === [Style] SECTION 01 개념 (지구 시스템 구성요소) (P06-07) === */
@@ -7003,41 +6931,54 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
 <div class="page-wrapper page-scope-quiz_04" style="margin-top: 40px; display: flex; justify-content: center;">
 <div data-density="hard" class="a4-page spread-page">
-    <div class="quiz-container">
-        <div class="page-header">
-            <div class="header-brand">[개념 SCAN]</div>
-            <div class="header-vol">VOL. 04</div>
-        </div>
-        <div class="card">
-            <span class="q-type">O / X 퀴즈</span>
-            <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>인공위성은 지구의 중력을 구심력으로 하여 지구 주위를 원운동한다.</span></div>
-            <div class="btn-group" data-answer="O">
-                <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-                <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        <div class="quiz-container">
+            <div class="page-header">
+                <div class="header-brand">[개념 SCAN]</div>
+                <div class="header-vol">VOL. 04</div>
+            </div>
+            <div class="card">
+                <span class="q-type">O / X 퀴즈</span>
+                <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>인공위성은 지구의 중력을 구심력으로 하여 지구 주위를 원운동한다.</span></div>
+                <div class="btn-group" data-answer="O">
+                    <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+                    <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+                </div>
+            </div>
+            <div class="card">
+                <span class="q-type">O / X 퀴즈</span>
+                <div class="q-text"><span class='q-num'>50.</span> <span class='q-content'>중력은 지구 시스템에서 대류 현상, 물의 순환, 대기의 순환 등을 일으키는 중요한 역할을 한다.</span></div>
+                <div class="btn-group" data-answer="O">
+                    <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+                    <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+                </div>
+            </div>
+                        <div class="ans-key-card">
+                <div class="ans-key-title">
+                    <span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
+                </div>
+                <div class="ans-key-content">
+                    <b>1.</b> 생물권 &nbsp;<b>2.</b> 성층권 &nbsp;<b>3.</b> O &nbsp;<b>4.</b> O &nbsp;<b>5.</b> O &nbsp;<b>6.</b> 외권 &nbsp;<b>7.</b> 기온 &nbsp;<b>8.</b> X &nbsp;<b>9.</b> 수온 &nbsp;<b>10.</b> O<br>
+                    <b>11.</b> 태양 복사 에너지 &nbsp;<b>12.</b> O &nbsp;<b>13.</b> 지구 내부 에너지 &nbsp;<b>14.</b> O &nbsp;<b>15.</b> O &nbsp;<b>16.</b> 태양 복사 에너지 &nbsp;<b>17.</b> 기권 &nbsp;<b>18.</b> O &nbsp;<b>19.</b> 암석권 &nbsp;<b>20.</b> O<br>
+                    <b>21.</b> 판 &nbsp;<b>22.</b> 100 &nbsp;<b>23.</b> 대류 &nbsp;<b>24.</b> O &nbsp;<b>25.</b> 크다 &nbsp;<b>26.</b> 해령 &nbsp;<b>27.</b> X &nbsp;<b>28.</b> O &nbsp;<b>29.</b> O &nbsp;<b>30.</b> O<br>
+                    <b>31.</b> 보존형 경계 &nbsp;<b>32.</b> O &nbsp;<b>33.</b> 깊어진다 &nbsp;<b>34.</b> X &nbsp;<b>35.</b> O &nbsp;<b>36.</b> 중력 &nbsp;<b>37.</b> O &nbsp;<b>38.</b> 9.8 &nbsp;<b>39.</b> 일정하다 &nbsp;<b>40.</b> 같다<br>
+                    <b>41.</b> X &nbsp;<b>42.</b> 동시에 &nbsp;<b>43.</b> O &nbsp;<b>44.</b> 커진다 &nbsp;<b>45.</b> 중력 &nbsp;<b>46.</b> X &nbsp;<b>47.</b> 포물선 &nbsp;<b>48.</b> O &nbsp;<b>49.</b> O &nbsp;<b>50.</b> O
+                </div>
+            </div>
+                <div class="ans-key-content">
+                    <b>1.</b> 생물권 &nbsp;<b>2.</b> 성층권 &nbsp;<b>3.</b> O &nbsp;<b>4.</b> O &nbsp;<b>5.</b> O &nbsp;<b>6.</b> 외권 &nbsp;<b>7.</b> 기온 &nbsp;<b>8.</b> X &nbsp;<b>9.</b> 수온 &nbsp;<b>10.</b> O<br>
+                    <b>11.</b> 태양 복사 에너지 &nbsp;<b>12.</b> O &nbsp;<b>13.</b> 지구 내부 에너지 &nbsp;<b>14.</b> O &nbsp;<b>15.</b> O &nbsp;<b>16.</b> 태양 복사 에너지<br>
+                    <b>17.</b> 기권 &nbsp;<b>18.</b> O &nbsp;<b>19.</b> 암석권 &nbsp;<b>20.</b> O<br>
+                    <b>21.</b> 판 &nbsp;<b>22.</b> 100 &nbsp;<b>23.</b> 대류 &nbsp;<b>24.</b> O &nbsp;<b>25.</b> 크다 &nbsp;<b>26.</b> 해령 &nbsp;<b>27.</b> X &nbsp;<b>28.</b> O &nbsp;<b>29.</b> O &nbsp;<b>30.</b> O<br>
+                    <b>31.</b> 보존형 경계 &nbsp;<b>32.</b> O &nbsp;<b>33.</b> 깊어진다 &nbsp;<b>34.</b> X &nbsp;<b>35.</b> O &nbsp;<b>36.</b> 중력 &nbsp;<b>37.</b> O &nbsp;<b>38.</b> 9.8 &nbsp;<b>39.</b> 일정하다<br>
+                    <b>40.</b> 같다<br>
+                    <b>41.</b> X &nbsp;<b>42.</b> 동시에 &nbsp;<b>43.</b> O &nbsp;<b>44.</b> 커진다 &nbsp;<b>45.</b> 중력 &nbsp;<b>46.</b> X &nbsp;<b>47.</b> 포물선 &nbsp;<b>48.</b> O &nbsp;<b>49.</b> O &nbsp;<b>50.</b> O
+                </div>
             </div>
         </div>
-        <div class="card">
-            <span class="q-type">O / X 퀴즈</span>
-            <div class="q-text"><span class='q-num'>50.</span> <span class='q-content'>중력은 지구 시스템에서 대류 현상, 물의 순환, 대기의 순환 등을 일으키는 중요한 역할을 한다.</span></div>
-            <div class="btn-group" data-answer="O">
-                <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-                <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-            </div>
-        </div>
-        <div class="ans-key-card">
-            <div class="ans-key-title">
-                <span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
-            </div>
-            <div class="ans-key-content">
-                <b>1.</b> 생물권 &nbsp;<b>2.</b> 성층권 &nbsp;<b>3.</b> O &nbsp;<b>4.</b> O &nbsp;<b>5.</b> O &nbsp;<b>6.</b> 외권 &nbsp;<b>7.</b> 기온 &nbsp;<b>8.</b> X &nbsp;<b>9.</b> 수온 &nbsp;<b>10.</b> O<br>
-                <b>11.</b> 태양 복사 에너지 &nbsp;<b>12.</b> O &nbsp;<b>13.</b> 지구 내부 에너지 &nbsp;<b>14.</b> O &nbsp;<b>15.</b> O &nbsp;<b>16.</b> 태양 복사 에너지 &nbsp;<b>17.</b> 기권 &nbsp;<b>18.</b> O &nbsp;<b>19.</b> 암석권 &nbsp;<b>20.</b> O<br>
-                <b>21.</b> 판 &nbsp;<b>22.</b> 100 &nbsp;<b>23.</b> 대류 &nbsp;<b>24.</b> O &nbsp;<b>25.</b> 크다 &nbsp;<b>26.</b> 해령 &nbsp;<b>27.</b> X &nbsp;<b>28.</b> O &nbsp;<b>29.</b> O &nbsp;<b>30.</b> O<br>
-                <b>31.</b> 보존형 경계 &nbsp;<b>32.</b> O &nbsp;<b>33.</b> 깊어진다 &nbsp;<b>34.</b> X &nbsp;<b>35.</b> O &nbsp;<b>36.</b> 중력 &nbsp;<b>37.</b> O &nbsp;<b>38.</b> 9.8 &nbsp;<b>39.</b> 일정하다 &nbsp;<b>40.</b> 같다<br>
-                <b>41.</b> X &nbsp;<b>42.</b> 동시에 &nbsp;<b>43.</b> O &nbsp;<b>44.</b> 커진다 &nbsp;<b>45.</b> 중력 &nbsp;<b>46.</b> X &nbsp;<b>47.</b> 포물선 &nbsp;<b>48.</b> O &nbsp;<b>49.</b> O &nbsp;<b>50.</b> O
-            </div>
-        </div>
-    </div>
-    <div class="page-num">- 40 -</div>
+
+    
+<div class="page-num">- 40 -</div>
+</div>
 </div>
 </div>
 

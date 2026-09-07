@@ -2279,6 +2279,10 @@ body {
 }
 
 </style>
+    <!-- KaTeX Math Rendering Library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
 
@@ -2302,7 +2306,7 @@ body {
 <button class="pen-btn active" onclick="window.setPen('#0f172a', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #0f172a; border: 2px solid white; cursor: pointer;"></button>
 <button class="pen-btn" onclick="window.setPen('#ef4444', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #ef4444; border: 2px solid transparent; cursor: pointer;"></button>
 <button class="pen-btn" onclick="window.setPen('#2563eb', this, false, event)" style="width: 20px; height: 20px; border-radius: 50%; background: #2563eb; border: 2px solid transparent; cursor: pointer;"></button>
-<button class="pen-btn" onclick="window.setPen('rgba(250, 204, 21, 0.4)', this, true, event)" style="background: #fde047; color: #854d0e; border: 1px solid #facc15; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">형광펜</button>
+<button class="pen-btn" onclick="window.setPen('rgba(250, 204, 21, 0.4)', this, true, event)" style="background: #fde047; color: #854d0e; border: 1px solid #facc15; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer; width: auto !important; height: auto !important;">형광펜</button>
 <button onclick="window.setEraser(this, event)" style="background: #334155; color: #f8fafc; border: 1px solid #475569; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">지우개</button>
 <button onclick="window.clearCurrentPageCanvas(event)" style="background: #475569; color: #f8fafc; border: 1px solid #64748b; font-size: 10px; font-weight: bold; border-radius: 4px; padding: 2px 6px; cursor: pointer;">전체 지우기</button>
 </div>
@@ -4847,6 +4851,27 @@ body {
 <script>
 
 // ==========================================
+// ==========================================
+// KaTeX Math Rendering Helper
+// ==========================================
+function renderAllMath() {
+    if (typeof renderMathInElement === 'function') {
+        try {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                throwOnError: false
+            });
+        } catch(e) {
+            console.warn('KaTeX render error:', e);
+        }
+    }
+}
+
 // 1. Close Button & Navigation
 // ==========================================
 window.closeEbook = function(e) {
@@ -5009,10 +5034,17 @@ let currentPenWidth = 2.5;
 let isHighlighter = false;
 let isEraserMode = false;
 
+let lastModeToggleTime = 0;
 window.toggleDrawingMode = function(e) {
     if (e) {
-        try { e.stopPropagation(); } catch(err){}
+        try {
+            e.stopPropagation();
+            if (e.cancelable && e.type === 'touchstart') e.preventDefault();
+        } catch(err){}
     }
+    const now = Date.now();
+    if (now - lastModeToggleTime < 350) return;
+    lastModeToggleTime = now;
     isDrawingMode = !isDrawingMode;
     const btn = document.getElementById('btn-mode-toggle');
     const tools = document.getElementById('drawing-tools');
@@ -5167,10 +5199,34 @@ function setupCanvasDrawing(canvas) {
     }
 
     function handlePointerUp(e) {
+        if (isDrawingMode) {
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        }
         if (!isDrawing) return;
         isDrawing = false;
         try { if (canvas.releasePointerCapture) canvas.releasePointerCapture(e.pointerId); } catch(err){}
     }
+
+    // Touch event isolation to prevent any touch gestures on canvas from bubbling to viewer
+    canvas.addEventListener('touchstart', (e) => {
+        if (isDrawingMode) {
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        }
+    }, { passive: false });
+    canvas.addEventListener('touchmove', (e) => {
+        if (isDrawingMode) {
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        }
+    }, { passive: false });
+    canvas.addEventListener('touchend', (e) => {
+        if (isDrawingMode) {
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        }
+    }, { passive: false });
 
     canvas.addEventListener('pointerdown', handlePointerDown);
     canvas.addEventListener('pointermove', handlePointerMove);
@@ -5242,6 +5298,7 @@ function resetZoom() {
 }
 
 function initFlipbookEngine() {
+    try { renderAllMath(); } catch(e){}
     const fbElement = document.getElementById('flipbook');
     const scaleWrapper = document.getElementById('scale-wrapper');
     const mc = document.getElementById('main-content');
@@ -5362,6 +5419,19 @@ function setupViewerEvents() {
             return;
         }
 
+        // In Drawing Mode: Only allow 2-finger pinch zoom, block single touch gestures
+        if (isDrawingMode) {
+            if (e.touches.length === 2) {
+                touchMode = 'pinch';
+                initialPinchDist = getDistance(e.touches[0], e.touches[1]);
+                zoomAtPinchStart = currentZoom;
+                if (e.cancelable) e.preventDefault();
+            } else {
+                touchMode = null;
+            }
+            return;
+        }
+
         touchStartTime = Date.now();
 
         if (e.touches.length === 2) {
@@ -5379,6 +5449,21 @@ function setupViewerEvents() {
     }, { passive: false });
 
     fbContainer.addEventListener('touchmove', (e) => {
+        if (isDrawingMode) {
+            if (e.touches.length === 2 && touchMode === 'pinch') {
+                if (e.cancelable) e.preventDefault();
+                const currentDist = getDistance(e.touches[0], e.touches[1]);
+                if (initialPinchDist > 0) {
+                    const ratio = currentDist / initialPinchDist;
+                    currentZoom = Math.min(Math.max(zoomAtPinchStart * ratio, 0.6), 3.5);
+                    resizeFlipbook();
+                }
+            } else {
+                touchMode = null;
+            }
+            return;
+        }
+
         if (e.touches.length === 2 && touchMode === 'pinch') {
             if (e.cancelable) e.preventDefault();
             const currentDist = getDistance(e.touches[0], e.touches[1]);
@@ -5404,6 +5489,11 @@ function setupViewerEvents() {
     }, { passive: false });
 
     fbContainer.addEventListener('touchend', (e) => {
+        if (isDrawingMode) {
+            touchMode = null;
+            return;
+        }
+
         const touchDuration = Date.now() - touchStartTime;
 
         if (touchMode === 'single' && e.changedTouches.length === 1) {
@@ -5461,6 +5551,7 @@ function setupViewerEvents() {
     let isMouseDown = false, mouseStartX = 0, mouseStartY = 0, mouseStartPanX = 0, mouseStartPanY = 0, isMouseDrag = false;
 
     scaleWrapper.addEventListener('mousedown', (e) => {
+        if (isDrawingMode) return;
         if (Date.now() - lastTouchEndTime < 500) return;
         if (e.target.closest('.ox-btn, .blank, button, input, select, textarea, a, .zoom-btn, #close-flipbook-btn, #drawing-tools, #top-nav')) {
             return;
@@ -5474,7 +5565,7 @@ function setupViewerEvents() {
     });
 
     window.addEventListener('mousemove', (e) => {
-        if (!isMouseDown) return;
+        if (isDrawingMode || !isMouseDown) return;
         const moveX = e.clientX - mouseStartX;
         const moveY = e.clientY - mouseStartY;
 
@@ -5489,6 +5580,10 @@ function setupViewerEvents() {
     });
 
     window.addEventListener('mouseup', (e) => {
+        if (isDrawingMode) {
+            isMouseDown = false;
+            return;
+        }
         if (Date.now() - lastTouchEndTime < 500) {
             isMouseDown = false;
             return;
@@ -5549,6 +5644,7 @@ window.toggleFlipbook = function() {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    try { renderAllMath(); } catch(e){}
     window.toggleFlipbook();
 });
 

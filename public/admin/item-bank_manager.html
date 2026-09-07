@@ -277,7 +277,7 @@ window.addEventListener('wheel', (e) => {
             appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
         };
         const appId = 'godtonggwa_v1';
-        const ADMIN_EMAIL = "godtonggwa@gmail.com"; 
+        const ADMIN_EMAILS = ["godtonggwa@gmail.com", "hanchem92@naver.com"]; 
 
         const app = initializeApp(firebaseConfig);
         const appCheck = initializeAppCheck(app, {
@@ -299,7 +299,7 @@ window.addEventListener('wheel', (e) => {
             const loginGate = document.getElementById('login-gate');
             const mainDashboard = document.getElementById('main-dashboard');
             
-            if (user && user.email === ADMIN_EMAIL) {
+            if (user && user.email && ADMIN_EMAILS.map(e => e.toLowerCase()).includes(user.email.toLowerCase())) {
                 loginGate.classList.add('hidden');
                 mainDashboard.classList.remove('hidden');
                 document.getElementById('admin-info').innerText = user.email.split('@')[0] + " (ADMIN)";
@@ -317,7 +317,7 @@ window.addEventListener('wheel', (e) => {
             const email = document.getElementById('admin-email').value.trim();
             const password = document.getElementById('admin-password').value.trim();
             if(!email || !password) return alert("이메일과 비밀번호를 입력하세요.");
-            if(email !== ADMIN_EMAIL) return alert("관리자 이메일 주소가 아닙니다.");
+            if(!ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email.toLowerCase())) return alert("관리자 이메일 주소가 아닙니다.");
 
             try {
                 document.getElementById('loading-overlay').classList.remove('hidden');

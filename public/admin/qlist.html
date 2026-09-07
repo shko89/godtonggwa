@@ -177,7 +177,9 @@ window.addEventListener('wheel', (e) => {
             if (user && user.email) {
                 try {
                     const adminDoc = await getDoc(doc(db_fs, "settings", "admin"));
-                    if (adminDoc.exists() && adminDoc.data().adminEmail === user.email) {
+                    const adminData = adminDoc.exists() ? adminDoc.data() : {};
+                    const allowedAdmins = [...(Array.isArray(adminData.adminEmails) ? adminData.adminEmails : []), adminData.adminEmail, adminData.adminEmail2, "godtonggwa@gmail.com", "hanchem92@naver.com"].filter(Boolean).map(e => String(e).toLowerCase().trim());
+                    if (user.email && allowedAdmins.includes(user.email.toLowerCase().trim())) {
                         loginSection.classList.add('hidden'); loading.classList.remove('hidden');
                         document.getElementById('display-email').innerText = user.email;
                         startQListSync(); loadLocalPDF();

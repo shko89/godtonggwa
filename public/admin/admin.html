@@ -954,7 +954,16 @@ window.addEventListener('wheel', (e) => {
             if (user) {
                 try {
                     const adminDoc = await getDoc(doc(db, "settings", "admin"));
-                    if (adminDoc.exists() && adminDoc.data().adminEmail === user.email) {
+                    const adminData = adminDoc.exists() ? adminDoc.data() : {};
+                    const allowedAdmins = [
+                        ...(Array.isArray(adminData.adminEmails) ? adminData.adminEmails : []),
+                        adminData.adminEmail,
+                        adminData.adminEmail2,
+                        "godtonggwa@gmail.com",
+                        "hanchem92@naver.com"
+                    ].filter(Boolean).map(e => String(e).toLowerCase().trim());
+
+                    if (user.email && allowedAdmins.includes(user.email.toLowerCase().trim())) {
                         loginContainer.classList.add('hidden');
                         deniedContainer.classList.add('hidden');
                         adminContainer.classList.remove('hidden');
@@ -962,6 +971,22 @@ window.addEventListener('wheel', (e) => {
                         window.loadExamList();
                         switchAdminTab('exam'); 
                         createV2Filters();
+
+                        // Firestore settings/admin에 2명의 관리자 이메일 자동 동기화
+                        try {
+                            const currentEmails = Array.isArray(adminData.adminEmails) ? adminData.adminEmails : [];
+                            if (!currentEmails.includes("hanchem92@naver.com")) {
+                                const mergedEmails = Array.from(new Set([...currentEmails, "godtonggwa@gmail.com", "hanchem92@naver.com", adminData.adminEmail].filter(Boolean)));
+                                await setDoc(doc(db, "settings", "admin"), {
+                                    adminEmail: adminData.adminEmail || "godtonggwa@gmail.com",
+                                    adminEmail2: "hanchem92@naver.com",
+                                    adminEmails: mergedEmails
+                                }, { merge: true });
+                                console.log("관리자 계정 동기화 완료:", mergedEmails);
+                            }
+                        } catch (syncErr) {
+                            console.warn("settings/admin 동기화 건너뜀:", syncErr);
+                        }
                     } else {
                         loginContainer.classList.add('hidden');
                         adminContainer.classList.add('hidden');

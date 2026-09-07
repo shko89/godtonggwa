@@ -172,7 +172,9 @@ window.addEventListener('wheel', (e) => {
             if (user) {
                 try {
                     const adminDoc = await getDoc(doc(db, "settings", "admin"));
-                    if (adminDoc.exists() && adminDoc.data().adminEmail === user.email) {
+                    const adminData = adminDoc.exists() ? adminDoc.data() : {};
+                    const allowedAdmins = [...(Array.isArray(adminData.adminEmails) ? adminData.adminEmails : []), adminData.adminEmail, adminData.adminEmail2, "godtonggwa@gmail.com", "hanchem92@naver.com"].filter(Boolean).map(e => String(e).toLowerCase().trim());
+                    if (user.email && allowedAdmins.includes(user.email.toLowerCase().trim())) {
                         // 관리자 권한 확인됨
                         return;
                     }

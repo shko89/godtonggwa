@@ -1,0 +1,945 @@
+{
+  "week_2028_08_prep_q01": {
+    "id": "week_2028_08_prep_q01",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prep",
+    "examQNum": 1,
+    "imageFile": "2028_pretest_q05.webp",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생태계 구성 요소와 생물 간 상호작용"
+    },
+    "behavioralDomain": "자료 해석 및 탐구",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "생산자",
+      "소비자",
+      "분해자",
+      "작용과 반작용"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_prep_q02": {
+    "id": "week_2028_08_prep_q02",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prep",
+    "examQNum": 2,
+    "imageFile": "2028_pretest_q01.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "먹이 관계와 생태 피라미드 (생태계 평형)"
+    },
+    "behavioralDomain": "자료 해석 및 탐구",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "먹이 그물",
+      "생체량 피라미드",
+      "생태계 평형"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_prep_q03": {
+    "id": "week_2028_08_prep_q03",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prep",
+    "examQNum": 3,
+    "imageFile": "2028_pretest_q25.webp",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "대기 대순환과 해양의 상호작용"
+    },
+    "behavioralDomain": "자료 해석 및 탐구",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "대기 대순환",
+      "표층 순환",
+      "무역풍"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_prep_q04": {
+    "id": "week_2028_08_prep_q04",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prep",
+    "examQNum": 4,
+    "imageFile": "week_2028_08_prep_q01.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "복사 평형 상태의 지구 열수지"
+    },
+    "behavioralDomain": "자료 해석 및 탐구",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지구 열수지",
+      "복사 평형",
+      "온실효과"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_prac_q01": {
+    "id": "week_2028_08_prac_q01",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 1,
+    "imageFile": "week_2028_08_prac_q01.webp",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생태계 구성 요소와 상호작용"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "생태계 구성 요소와 상호작용"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_08_prac_q02": {
+    "id": "week_2028_08_prac_q02",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 2,
+    "imageFile": "week_2028_08_prac_q02.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "양엽과 음엽의 울타리 조직 발달"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "양엽과 음엽의 울타리 조직 발달"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_08_prac_q03": {
+    "id": "week_2028_08_prac_q03",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 3,
+    "imageFile": "week_2028_08_prac_q03.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "해양 생체량 피라미드 탐구"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "해양 생체량 피라미드 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_08_prac_q04": {
+    "id": "week_2028_08_prac_q04",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 4,
+    "imageFile": "week_2028_08_prac_q04.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "먹이 그물과 생태계 평형 회복"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "먹이 그물과 생태계 평형 회복"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_08_prac_q05": {
+    "id": "week_2028_08_prac_q05",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 5,
+    "imageFile": "week_2028_08_prac_q05.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "적도 태평양 대기-해양 순환과 엘니뇨"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "적도 태평양 대기-해양 순환과 엘니뇨"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_08_prac_q06": {
+    "id": "week_2028_08_prac_q06",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 6,
+    "imageFile": "week_2028_08_prac_q06.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "대기 대순환 회전 원판 실험"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "대기 대순환 회전 원판 실험"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_08_prac_q07": {
+    "id": "week_2028_08_prac_q07",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 7,
+    "imageFile": "week_2028_08_prac_q07.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "지구온난화 온실기체 상자 실험"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "지구온난화 온실기체 상자 실험"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_08_prac_q08": {
+    "id": "week_2028_08_prac_q08",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "prac",
+    "examQNum": 8,
+    "imageFile": "week_2028_08_prac_q08.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "사헬 지대 식생과 지표 반사율 변화"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "실전 체화",
+      "사헬 지대 식생과 지표 반사율 변화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_08_mock_q01": {
+    "id": "week_2028_08_mock_q01",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "week_2028_08_mock_q01.webp",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "적도 동태평양 해역의 표층 수온 편차와 엘니뇨/라니냐"
+    },
+    "behavioralDomain": "자료 해석 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "엘니뇨",
+      "무역풍",
+      "수온 편차",
+      "수온약층",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q02": {
+    "id": "week_2028_08_mock_q02",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "week_2028_08_mock_q02.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "수심에 따른 빛의 파장 투과량과 해조류의 수직 분포"
+    },
+    "behavioralDomain": "자료 분석 및 이해",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "해조류 분포",
+      "빛의 파장",
+      "투과율",
+      "홍조류",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q03": {
+    "id": "week_2028_08_mock_q03",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "week_2028_08_mock_q03.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "전 세계 사막 분포와 사헬 지대의 사막화 요인"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "사막화",
+      "사헬 지대",
+      "아열대 고압대",
+      "지표 반사율",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q04": {
+    "id": "week_2028_08_mock_q04",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "week_2028_08_mock_q04.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생태계 평형 회복 과정과 먹이 사슬 상호작용"
+    },
+    "behavioralDomain": "자료 해석 및 추론",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "생태계 평형",
+      "먹이 사슬",
+      "음성 피드백",
+      "포식과 피식",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q05": {
+    "id": "week_2028_08_mock_q05",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "week_2028_08_mock_q05.webp",
+    "correctAnswer": "1",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "광주기성과 일조 조건에 따른 식물의 개화 조절"
+    },
+    "behavioralDomain": "탐구 설계 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "광주기성",
+      "단일식물",
+      "장일식물",
+      "한계 암기",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q06": {
+    "id": "week_2028_08_mock_q06",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "week_2028_08_mock_q06.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생태계 영양 단계별 에너지양과 에너지 효율 계산"
+    },
+    "behavioralDomain": "계산 및 이해",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "에너지 효율",
+      "에너지 피라미드",
+      "영양 단계",
+      "열에너지 방출",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q07": {
+    "id": "week_2028_08_mock_q07",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "week_2028_08_mock_q07.webp",
+    "correctAnswer": "3",
+    "score": 2.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "복사 평형 열수지와 전 지구 해수면 상승 요인"
+    },
+    "behavioralDomain": "자료 해석 및 종합",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "복사 평형",
+      "대기 재복사",
+      "온실효과",
+      "해수의 열팽창",
+      "육지 빙하",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q08": {
+    "id": "week_2028_08_mock_q08",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "week_2028_08_mock_q08.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "적도 부근 태평양의 해양 및 대기 순환 (엘니뇨/평상시)"
+    },
+    "behavioralDomain": "현상 이해 및 비교",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "엘니뇨",
+      "라니냐",
+      "무역풍",
+      "수온약층 깊이",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q09": {
+    "id": "week_2028_08_mock_q09",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "week_2028_08_mock_q09.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "전 지구 평균 기온과 해수면 높이 변화 추이"
+    },
+    "behavioralDomain": "자료 해석 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "지구온난화",
+      "해수면 상승",
+      "해수의 열팽창",
+      "서식지 감소",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q10": {
+    "id": "week_2028_08_mock_q10",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "week_2028_08_mock_q10.webp",
+    "correctAnswer": "2",
+    "score": 2.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "해양 생태계 먹이 사슬과 개체군 수 변동 분석"
+    },
+    "behavioralDomain": "논리적 추론 및 분석",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "먹이 사슬",
+      "영양 단계",
+      "개체수 변동",
+      "에너지 흐름",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q11": {
+    "id": "week_2028_08_mock_q11",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "week_2028_08_mock_q11.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "빛과 온도에 대한 생물의 적응 (양엽·음엽 및 여우의 형태)"
+    },
+    "behavioralDomain": "개념 이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "양엽과 음엽",
+      "울타리 조직",
+      "환경 적응",
+      "베르그만 법칙",
+      "알렌 법칙",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q12": {
+    "id": "week_2028_08_mock_q12",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "week_2028_08_mock_q12.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생태계 구성 요소 사이의 작용, 반작용, 상호작용"
+    },
+    "behavioralDomain": "개념 분류 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "작용",
+      "반작용",
+      "상호작용",
+      "분서",
+      "생태계 구성요소",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q13": {
+    "id": "week_2028_08_mock_q13",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "week_2028_08_mock_q13.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "대기 유무에 따른 행성의 복사 평형과 온실효과"
+    },
+    "behavioralDomain": "원리 이해 및 비교",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "복사 평형",
+      "온실효과",
+      "대기 재복사",
+      "표면 온도",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q14": {
+    "id": "week_2028_08_mock_q14",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "week_2028_08_mock_q14.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "페루 연안 해역의 표층 수온 편차와 엘니뇨 현상"
+    },
+    "behavioralDomain": "자료 종합 및 추론",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "페루 연안",
+      "안초비",
+      "엘니뇨",
+      "용승 약화",
+      "수온약층",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q15": {
+    "id": "week_2028_08_mock_q15",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "week_2028_08_mock_q15.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생물과 환경의 상호작용 (비버의 반작용과 가족 생활)"
+    },
+    "behavioralDomain": "개념 적용 및 오류 분석",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "비버",
+      "반작용",
+      "개체군 내 상호작용",
+      "소비자",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q16": {
+    "id": "week_2028_08_mock_q16",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "week_2028_08_mock_q16.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "숲의 층상 구조와 높이별 상대적 빛의 세기"
+    },
+    "behavioralDomain": "자료 해석 및 종합",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "층상 구조",
+      "교목층",
+      "아교목층",
+      "초본층",
+      "양엽과 음엽",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q17": {
+    "id": "week_2028_08_mock_q17",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "week_2028_08_mock_q17.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "생태계 먹이 사슬과 먹이 그물의 평형 유지 비교"
+    },
+    "behavioralDomain": "구조 비교 및 분석",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "먹이 그물",
+      "생태계 평형 안정성",
+      "영양 단계 복합 지위",
+      "소비자 지위",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q18": {
+    "id": "week_2028_08_mock_q18",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "week_2028_08_mock_q18.webp",
+    "correctAnswer": "2",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생태계와 환경",
+      "chapter": "생태계와 환경",
+      "topic": "단일식물과 장일식물의 개화 조건 (암기 분절 실험)"
+    },
+    "behavioralDomain": "실험 결과 해석",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "광주기성",
+      "단일 식물",
+      "장일 식물",
+      "암기 분절",
+      "야간 섬광",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q19": {
+    "id": "week_2028_08_mock_q19",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "week_2028_08_mock_q19.webp",
+    "correctAnswer": "1",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "북반구 대양의 표층 해류 순환 실험 모델링"
+    },
+    "behavioralDomain": "모형 실험 분석",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "대기 대순환",
+      "아열대 순환",
+      "편서풍",
+      "한류의 영향",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  },
+  "week_2028_08_mock_q20": {
+    "id": "week_2028_08_mock_q20",
+    "sourceExamId": "week_2028_08",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "week_2028_08_mock_q20.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "지구 환경 변화",
+      "chapter": "생태계와 환경",
+      "topic": "지구 온난화의 진행 과정과 피드백 메커니즘"
+    },
+    "behavioralDomain": "개념 비판 및 종합 판단",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "지구온난화 피드백",
+      "기체 용해도",
+      "해수면 상승 원인",
+      "지표 반사율",
+      "Fit 20 모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-09-25T14:30:00.000Z"
+  }
+}

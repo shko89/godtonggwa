@@ -2011,12 +2011,6 @@ body {
 }
 
 /* Unified Cover Bottom Layout (Matching Week 3 Standard) */
-.cover-page, .a4-page.cover-page, #cover-page, #cover-page-clone {
-    height: 707px !important;
-    position: relative !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-}
 .cover-page .bottom-section, #cover-page .bottom-section, #cover-page-clone .bottom-section {
     position: absolute !important;
     bottom: 0 !important;
@@ -2027,12 +2021,12 @@ body {
     min-height: 175px !important;
     max-height: 175px !important;
     background-color: #0f172a !important;
-    padding: 24px 40px 20px 40px !important;
+    padding: 12px 40px 16px 40px !important;
     box-sizing: border-box !important;
     z-index: 10 !important;
     display: flex !important;
     justify-content: space-between !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     border-top: 4px solid #38bdf8 !important;
     margin: 0 !important;
 }
@@ -2054,20 +2048,27 @@ body {
     font-weight: 900 !important;
     line-height: 0.9 !important;
     color: #38bdf8 !important;
+    align-self: center !important;
+    margin: 0 !important;
 }
 .cover-page .week-theme {
     text-align: right !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
     color: #f8fafc !important;
     line-height: 1.4 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    height: 100% !important;
-    padding-bottom: 24px !important;
-    box-sizing: border-box !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-.cover-page .data-driven-system, .cover-page .bottom-section .data-driven-system {
+.cover-page .week-theme > br {
+    display: none !important;
+}
+.cover-page .data-driven-system, 
+.cover-page .bottom-section .data-driven-system,
+.cover-page .week-theme > span:last-child {
     position: absolute !important;
     bottom: 16px !important;
     right: 40px !important;
@@ -2283,6 +2284,19 @@ body {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+/* Quiz Absolute Safety Protection & Transparent Page Number */
+.quiz-container {
+    padding-bottom: 42px !important;
+}
+.page-num {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    pointer-events: none !important;
+}
+</style>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
 
@@ -2360,8 +2374,8 @@ body {
         </div>
         <div class="toc-jump-item" onclick="window.goToPage(4)">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">BRIDGE</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵 (큰 그림)</span>
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
         </div>
@@ -2372,26 +2386,12 @@ body {
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">06 P</span>
         </div>
-        <div class="toc-jump-item" onclick="window.goToPage(10)">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">PROB 01</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 확인 문제 01</span>
-            </div>
-            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">10 P</span>
-        </div>
         <div class="toc-jump-item" onclick="window.goToPage(12)">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 02</span>
                 <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">기본량과 유도량</span>
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">12 P</span>
-        </div>
-        <div class="toc-jump-item" onclick="window.goToPage(16)">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">PROB 02</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 확인 문제 02</span>
-            </div>
-            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">16 P</span>
         </div>
         <div class="toc-jump-item" onclick="window.goToPage(18)">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -2400,13 +2400,6 @@ body {
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">18 P</span>
         </div>
-        <div class="toc-jump-item" onclick="window.goToPage(22)">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">PROB 03</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 확인 문제 03</span>
-            </div>
-            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">22 P</span>
-        </div>
         <div class="toc-jump-item" onclick="window.goToPage(24)">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 04</span>
@@ -2414,17 +2407,10 @@ body {
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">24 P</span>
         </div>
-        <div class="toc-jump-item" onclick="window.goToPage(28)">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">PROB 04</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 확인 문제 04</span>
-            </div>
-            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">28 P</span>
-        </div>
         <div class="toc-jump-item" onclick="window.goToPage(30)">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN (퀴즈 1~50)</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">30 P</span>
         </div>
@@ -2968,7 +2954,7 @@ body {
 <div class="exp-detail" data-scope="page15" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
 <p data-scope="page15" style="margin-top: 0; margin-bottom: 10px; font-weight: 700; color: #0f172a;">[A~D 분석]</p>
 <p data-scope="page15" style="margin-top: 0; margin-bottom: 15px; word-break: keep-all">
-                            A는 10⁻¹⁰초/m 단위의 미시 세계이므로 <b data-scope="page15">세슘 원자</b>, B는 10⁰초/m 단위(초, 미터 단위의 일상적 규모)이므로 <b data-scope="page15">사람</b>, C는 10¹⁷초/10⁷m 단위이므로 <b data-scope="page15">지구</b>, D는 가장 거대한 규모(10¹⁸초/10²⁶m 이상)이므로 <b data-scope="page15">우주</b>이다.
+                            좌표 평면의 공간 규모와 시간 규모로부터 A는 <b data-scope="page15">세슘 원자</b>, B는 <b data-scope="page15">사람</b>, C는 <b data-scope="page15">지구</b>, D는 <b data-scope="page15">우주</b>이다.
                         </p>
 <div class="bogi-exp" data-scope="page15" style="display: flex; gap: 10px; margin-bottom: 8px;">
 <div class="bogi-mark" data-scope="page15" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div>
@@ -2976,7 +2962,7 @@ body {
 </div>
 <div class="bogi-exp" data-scope="page15" style="display: flex; gap: 10px; margin-bottom: 8px;">
 <div class="bogi-mark" data-scope="page15" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄴ. (X)</div>
-<div class="bogi-text" data-scope="page15" style="flex: 1; word-break: keep-all">B(사람)의 시간 규모(수명)는 대략 100년(약 3×10⁹초)이다. 이는 지구의 공전 주기(1년)보다는 길지만, 목성(약 12년), 해왕성(약 165년) 등 태양계 행성들의 전반적인 공전 주기와 비교했을 때 '훨씬 큰 값'이라고 볼 수 없다.</div>
+<div class="bogi-text" data-scope="page15" style="flex: 1; word-break: keep-all">B(사람)의 시간 규모(수명)는 대략 100년(약 3×10<sup>9</sup>초)이다. 이는 지구의 공전 주기(1년)보다는 길지만, 목성(약 12년), 해왕성(약 165년) 등 태양계 행성들의 전반적인 공전 주기와 비교했을 때 '훨씬 큰 값'이라고 볼 수 없다.</div>
 </div>
 <div class="bogi-exp" data-scope="page15" style="display: flex; gap: 10px; margin-bottom: 0;">
 <div class="bogi-mark" data-scope="page15" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄷ. (X)</div>
@@ -3775,7 +3761,7 @@ body {
 <span data-scope="page10-1" style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">1. 측정 표준과 오차</span>
 </div>
 <div class="handwriting" data-scope="page10-1" style="margin-bottom: 8px; margin-left: 10px">
-                    • <strong data-scope="page10-1">측정</strong> : 물리량을 수치와 단위로 나타냄 (필연적으로 <span data-scope="page10-1" style="color:#b91c1c;">오차</span> 발��!)<br data-scope="page10-1"/>
+                    • <strong data-scope="page10-1">측정</strong> : 물리량을 수치와 단위로 나타냄 (필연적으로 <span data-scope="page10-1" style="color:#b91c1c;">오차</span> 발생!)<br data-scope="page10-1"/>
                     • <strong data-scope="page10-1">측정 표준</strong> : 측정의 절대 기준. 장소와 시간에 따라 <span class="highlight-marker" data-scope="page10-1">변하지 않아야 함</span>.
                 </div>
 <div class="handwriting" data-scope="page10-1" style="margin-bottom: 2px;">

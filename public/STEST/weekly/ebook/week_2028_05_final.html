@@ -254,7 +254,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 .hw-table td { padding: 1px 3px; border: 1px solid #94a3b8; }
 .highlight-marker { background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(253, 224, 71, 0.6) 50%); display: inline; }
 .tip-sticky { background-color: #fef08a; padding: 5px 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.1); transform: rotate(-2deg); margin-top: 4px; font-family: inherit; font-weight: 700; font-size: 10px; color: #000; line-height: 1.25; border: 1px solid #fde047; }
-.page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: \'Roboto\'; font-weight: 700; background: rgba(255,255,255,0.9); padding: 5px 0; z-index: 10; }
+.page-num { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #64748b; font-family: 'Roboto'; font-weight: 700; background: transparent; padding: 0; z-index: 10; pointer-events: none; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 2px; text-align: center; }
 .data-table th { background-color: #e0f2fe; color: #0369a1; padding: 4px; border: 1px solid #bae6fd; font-weight: 700; }
 .data-table td { padding: 3px; border: 1px solid #bae6fd; color: #334155; font-weight: 500; }
@@ -1244,12 +1244,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     min-height: 175px !important;
     max-height: 175px !important;
     background-color: #0f172a !important;
-    padding: 24px 40px 20px 40px !important;
+    padding: 12px 40px 16px 40px !important;
     box-sizing: border-box !important;
     z-index: 10 !important;
     display: flex !important;
     justify-content: space-between !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     border-top: 4px solid #38bdf8 !important;
     margin: 0 !important;
 }
@@ -1271,6 +1271,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     font-weight: 900 !important;
     line-height: 0.9 !important;
     color: #38bdf8 !important;
+    align-self: center !important;
+    margin: 0 !important;
 }
 .cover-page .week-theme {
     text-align: right !important;
@@ -1279,12 +1281,17 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     line-height: 1.4 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    height: 100% !important;
-    padding-bottom: 24px !important;
-    box-sizing: border-box !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-.cover-page .data-driven-system, .cover-page .bottom-section .data-driven-system {
+.cover-page .week-theme > br {
+    display: none !important;
+}
+.cover-page .data-driven-system, 
+.cover-page .bottom-section .data-driven-system,
+.cover-page .week-theme > span:last-child {
     position: absolute !important;
     bottom: 16px !important;
     right: 40px !important;
@@ -1387,12 +1394,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     min-height: 175px !important;
     max-height: 175px !important;
     background-color: #0f172a !important;
-    padding: 24px 40px 20px 40px !important;
+    padding: 12px 40px 16px 40px !important;
     box-sizing: border-box !important;
     z-index: 10 !important;
     display: flex !important;
     justify-content: space-between !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     border-top: 4px solid #38bdf8 !important;
     margin: 0 !important;
 }
@@ -1414,6 +1421,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     font-weight: 900 !important;
     line-height: 0.9 !important;
     color: #38bdf8 !important;
+    align-self: center !important;
+    margin: 0 !important;
 }
 .cover-page .week-theme {
     text-align: right !important;
@@ -1422,12 +1431,17 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     line-height: 1.4 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    height: 100% !important;
-    padding-bottom: 24px !important;
-    box-sizing: border-box !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-.cover-page .data-driven-system, .cover-page .bottom-section .data-driven-system {
+.cover-page .week-theme > br {
+    display: none !important;
+}
+.cover-page .data-driven-system, 
+.cover-page .bottom-section .data-driven-system,
+.cover-page .week-theme > span:last-child {
     position: absolute !important;
     bottom: 16px !important;
     right: 40px !important;
@@ -3589,95 +3603,81 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 /* === [Style] 개념 SCAN 퀴즈 1~50 & 정답표 === */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Roboto:wght@700;900&display=swap');
         
-        :root { --primary: #0284c7;
-            --secondary: #F39C12;
-            --success: #2ECC71;
-            --danger: #E74C3C;
-            --bg-color: #F8F9FA;
-            --text-dark: #1e293b;
-            --card-bg: #FFFFFF; }
-.page-scope-quiz_05 {
-  background-color: #cbd5e1;
+        body { background-color: #f1f5f9;
             margin: 0;
-            padding: 20px 0;
-            font-family: 'Noto Sans KR', sans-serif !important;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
-}
+            font-family: 'Noto Sans KR', sans-serif; }
 .page-scope-quiz_05 .a4-page, .page-scope-quiz_05.a4-page {
-  width: 500px !important;
-            height: 707px !important;
-            background-color: var(--bg-color) !important;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  background-color: #f8fafc !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             position: relative;
-            box-sizing: border-box !important;
-            overflow: hidden !important;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            word-break: keep-all !important;
+            width: 500px;
+            height: 707px;
+            overflow: hidden;
 }
 .page-scope-quiz_05 .quiz-container, .page-scope-quiz_05.quiz-container {
   width: 100% !important;
             font-family: 'Noto Sans KR', sans-serif;
-            color: var(--text-dark);
-            padding: 10px 20px 25px 20px;
+            color: #334155;
+            padding: 10px 20px 42px 20px;
             box-sizing: border-box;
-            background-color: var(--bg-color);
+            background-color: #f8fafc;
             height: 100%;
             display: flex ;
             flex-direction: column !important;
-            flex-wrap: nowrap !important;
-            overflow: hidden !important;
-}
-.page-scope-quiz_05 .page-header, .page-scope-quiz_05.page-header {
-  display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-bottom: 3px solid #0f172a;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-            flex-shrink: 0;
-}
-.page-scope-quiz_05 .header-brand, .page-scope-quiz_05.header-brand {
-  font-family: 'Roboto';
-            font-weight: 900;
-            font-size: 14px;
-            letter-spacing: 2px;
-            color: #64748b;
-}
-.page-scope-quiz_05 .header-vol, .page-scope-quiz_05.header-vol {
-  font-family: 'Roboto';
-            font-weight: 700;
-            font-size: 14px;
-            color: #0f172a;
+            column-count: 1 !important;
+            flex: 1 1 100% !important;
 }
 .page-scope-quiz_05 .unit-title, .page-scope-quiz_05.unit-title {
-  background-color: var(--primary);
+  background-color: #0284c7;
             color: white;
             display: inline-block;
-            padding: 3px 12px;
-            border-radius: 12px;
-            font-size: 11.5px;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            box-shadow: 0 2px 4px rgba(2, 132, 199, 0.3);
-            flex-shrink: 0;
             align-self: flex-start;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 0 0 7px 0;
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+            flex-shrink: 0;
+}
+.page-scope-quiz_05 .card + .unit-title, .page-scope-quiz_05.card + .unit-title {
+  margin-top: 10px !important;
+            margin-bottom: 7px !important;
 }
 .page-scope-quiz_05 .card, .page-scope-quiz_05.card {
   width: 100% !important;
-            background-color: var(--card-bg);
+            background-color: #ffffff;
             border-radius: 10px;
-            padding: 9px 14px;
+            padding: 8px 14px;
             margin-bottom: 7px;
             box-sizing: border-box !important;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border-left: 4px solid var(--primary);
+            border-left: 4px solid #0284c7;
             display: block ;
             page-break-inside: avoid;
+            float: none !important;
+            clear: both !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
             flex-shrink: 0;
+}
+.page-scope-quiz_05 .card:last-child, .page-scope-quiz_05.card:last-child {
+  margin-bottom: 0;
+}
+.page-scope-quiz_05 .density-comfort .card, .page-scope-quiz_05.density-comfort .card {
+  padding: 10px 14px;
+            margin-bottom: 10px;
+}
+.page-scope-quiz_05 .density-comfort .unit-title, .page-scope-quiz_05.density-comfort .unit-title {
+  margin-bottom: 9px;
 }
 .page-scope-quiz_05 .q-type, .page-scope-quiz_05.q-type {
   font-size: 9px;
@@ -3691,15 +3691,18 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
   width: 100% !important;
             font-size: 11px;
             font-weight: 500;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             line-height: 1.4;
             word-break: keep-all;
-            display: flex;
-            color: #1e293b;
+            display: flex ;
+            color: #334155;
+}
+.page-scope-quiz_05 .card-blank .q-text, .page-scope-quiz_05.card-blank .q-text {
+  margin-bottom: 0;
 }
 .page-scope-quiz_05 .q-num, .page-scope-quiz_05.q-num {
   font-weight: 900;
-            color: var(--primary);
+            color: #0284c7;
             margin-right: 4px;
             flex-shrink: 0;
 }
@@ -3707,14 +3710,14 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
   flex: 1;
 }
 .page-scope-quiz_05 .btn-group, .page-scope-quiz_05.btn-group {
-  display: flex;
+  display: flex ;
             gap: 10px;
             width: 100% !important;
-            margin-top: 3px;
+            margin-top: 2px;
 }
 .page-scope-quiz_05 .ox-btn, .page-scope-quiz_05.ox-btn {
   flex: 1;
-            padding: 5px 0;
+            padding: 4px 0;
             font-size: 12px;
             font-weight: 900;
             background-color: #F1F2F6;
@@ -3722,15 +3725,14 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             border-radius: 6px;
             color: #94a3b8;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
 }
 .page-scope-quiz_05 .blank, .page-scope-quiz_05.blank {
   display: inline-block;
             background-color: #E8F0FE;
             color: transparent;
-            text-shadow: 0 0 8px rgba(2, 132, 199, 0.7);
-            border: 1px dashed var(--primary);
+            text-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
+            border: 1px dashed #0284c7;
             padding: 1px 10px;
             border-radius: 6px;
             font-weight: 700;
@@ -3739,7 +3741,6 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             user-select: none;
             min-width: 40px;
             text-align: center;
-            cursor: pointer;
 }
 .page-scope-quiz_05 .blank::after, .page-scope-quiz_05.blank::after {
   content: '?';
@@ -3747,12 +3748,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            color: var(--primary);
+            color: #0284c7;
             text-shadow: none;
             font-size: 10px;
 }
 .page-scope-quiz_05 .blank.revealed, .page-scope-quiz_05.blank.revealed {
-  color: var(--primary) !important;
+  color: #0284c7 !important;
             text-shadow: none !important;
             background-color: transparent !important;
             border: none !important;
@@ -3761,45 +3762,24 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-quiz_05 .blank.revealed::after, .page-scope-quiz_05.blank.revealed::after {
   display: none;
 }
-.page-scope-quiz_05 .ans-key-card, .page-scope-quiz_05.ans-key-card {
-  border: 2px dashed #0284c7;
-            border-radius: 12px;
-            background: #ffffff;
-            padding: 14px 16px;
-            margin-top: 14px;
-            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.06);
-            box-sizing: border-box;
-            width: 100%;
+.page-scope-quiz_05 .answer-key, .page-scope-quiz_05.answer-key {
+  font-size: 9px;
+            line-height: 1.5;
+            color: #94a3b8;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px dashed #cbd5e1;
+            text-align: left;
+            flex-shrink: 0;
 }
-.page-scope-quiz_05 .ans-key-title, .page-scope-quiz_05.ans-key-title {
-  font-size: 13px;
-            font-weight: 900;
-            color: #0284c7;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1.5px solid #bae6fd;
-            padding-bottom: 6px;
-            margin-bottom: 10px;
-            letter-spacing: -0.2px;
-}
-.page-scope-quiz_05 .ans-key-title .bullet, .page-scope-quiz_05.ans-key-title .bullet {
-  font-size: 11px;
-            color: #0284c7;
-}
-.page-scope-quiz_05 .ans-key-content, .page-scope-quiz_05.ans-key-content {
-  font-size: 9.3px;
-            line-height: 1.8;
-            color: #334155;
-            word-break: keep-all;
-}
-.page-scope-quiz_05 .ans-key-content b, .page-scope-quiz_05.ans-key-content b {
+.page-scope-quiz_05 .answer-key b, .page-scope-quiz_05.answer-key b {
   color: #0f172a;
-            font-weight: 800;
 }
-.page-scope-quiz_05 .page-num, .page-scope-quiz_05.page-num {
+.page-scope-quiz_05 .page-num, .page-scope-quiz_05.page-num, .page-scope-quiz_05 .a4-page .page-num, .page-scope-quiz_05.a4-page .page-num {
   position: absolute ;
-            bottom: 10px !important;
+            bottom: 12px !important;
             left: 0 !important;
             width: 100% !important;
             text-align: center !important;
@@ -3809,8 +3789,13 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             font-weight: 700 !important;
             background: transparent !important;
             background-color: transparent !important;
+            box-shadow: none !important;
             border: none !important;
             padding: 0 !important;
+            margin: 0 !important;
+            z-index: 10 !important;
+            pointer-events: none !important;
+            line-height: 16px !important;
 }
 </style>
 
@@ -3854,14 +3839,20 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             pointer-events: none !important;
         }
 
-        /* 2. Full-Bleed Background for Quiz & Concept Scan Pages ONLY (#F8F9FA Edge-to-Edge) */
+        /* 2. Full-Bleed Background for Quiz & Concept Scan Pages ONLY (#f8fafc Edge-to-Edge) */
         [class*="page-scope-quiz"] .a4-page,
         [class*="page-scope-quiz"].a4-page,
         [class*="page-scope-quiz"] .spread-page,
         [class*="page-scope-quiz"].spread-page,
         .concept-scan-page {
-            background-color: var(--bg-color, #F8F9FA) !important;
+            background-color: var(--bg-color, #f8fafc) !important;
             padding: 0 !important;
+        }
+
+        /* 3. Drawing Tools Button Size Overrides (Prevent highlighter text overflow) */
+        #drawing-tools .pen-btn:not([style*="20px"]) {
+            width: auto !important;
+            height: auto !important;
         }
     </style>
 
@@ -4013,7 +4004,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="toc-jump-item" onclick="window.goToPage(3)">
     <div style="display: flex; align-items: center; gap: 10px;">
         <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">INDEX</span>
-        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">주간 학습 가이드</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">차례 및 학습 가이드</span>
     </div>
     <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">03 P</span>
 </div>
@@ -4021,19 +4012,10 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
 <div class="toc-jump-item" onclick="window.goToPage(4)">
     <div style="display: flex; align-items: center; gap: 10px;">
-        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">BRIDGE 1</span>
-        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵 (큰 그림)</span>
+        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
     </div>
     <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
-</div>
-
-
-<div class="toc-jump-item" onclick="window.goToPage(5)">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">BRIDGE 2</span>
-        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">지구 시스템 Ⅱ</span>
-    </div>
-    <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">05 P</span>
 </div>
 
 
@@ -4085,7 +4067,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="toc-jump-item" onclick="window.goToPage(34)">
     <div style="display: flex; align-items: center; gap: 10px;">
         <span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
-        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN (퀴즈 1~50)</span>
+        <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
     </div>
     <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">34 P</span>
 </div>
@@ -4875,7 +4857,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right">
                         <div class="csat-prob">
-                            <img src="image/week_2028_05_prep_q01.webp" alt="SECTION 01 Prep 문항">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prep_q01.webp?alt=media" alt="SECTION 01 Prep 문항">
                         </div>
                     </div>
                 </div>
@@ -4952,7 +4934,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="image/week_2028_05_prac_q01.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q01.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -4962,7 +4944,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="image/week_2028_05_prac_q02.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q02.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -5433,7 +5415,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="image/week_2028_05_prac_q03.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q03.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -5443,7 +5425,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="image/week_2028_05_prac_q04.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q04.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -6049,7 +6031,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right">
                         <div class="csat-prob">
-                            <img src="image/week_2028_05_prep_q02.webp" alt="SECTION 03 Prep 문항">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prep_q02.webp?alt=media" alt="SECTION 03 Prep 문항">
                         </div>
                     </div>
                 </div>
@@ -6126,7 +6108,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="image/week_2028_05_prac_q05.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q05.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -6136,7 +6118,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="image/week_2028_05_prac_q06.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q06.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -6508,7 +6490,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right">
                         <div class="csat-prob">
-                            <img src="image/week_2028_05_prep_q03.webp" alt="SECTION 04 Prep 문항">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prep_q03.webp?alt=media" alt="SECTION 04 Prep 문항">
                         </div>
                     </div>
                 </div>
@@ -6585,7 +6567,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="image/week_2028_05_prac_q07.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q07.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -6595,7 +6577,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="image/week_2028_05_prac_q08.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q08.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -7028,7 +7010,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="image/week_2028_05_prac_q09.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q09.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -7038,7 +7020,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="image/week_2028_05_prac_q10.webp" style="width: 100%; height: auto; object-fit: contain;"/>
+<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_05%2Fweek_2028_05_prac_q10.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -7119,55 +7101,50 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-dense">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
-            <div class="unit-title">Ⅰ. 지각과 생명체의 구성 물질 (Theme 1)</div>
-            
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>1.</span> <span class='q-content'>지각을 구성하는 원소 중 가장 많은 질량을 차지하는 것은 산소(O)이며, 그 다음은 규소(Si)이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
+    <div class="unit-title">생명 시스템의 기본 단위와 세포 구조 (Theme 1)</div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>1.</span> <span class='q-content'>생명체를 구성하는 구조적·기능적 기본 단위를 세포라고 한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>유전 물질인 DNA를 보관하고 있으며, 생명 활동을 총괄 지휘하는 세포 소기관은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>핵</span>이다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>3.</span> <span class='q-content'>마이토콘드리아(미토콘드리아)는 산소를 이용하여 유기물을 분해하고 생명 활동에 필요한 에너지(ATP)를 생산하는 세포 호흡의 장소이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>DNA의 유전 정보에 따라 아미노산을 연결하여 단백질을 합성하는 소기관을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>라이보솜</span>(리보솜)이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>5.</span> <span class='q-content'>소포체는 리보솜에서 합성된 단백질을 가공하고 골지체나 세포 내 다른 부위로 수송하는 통로 역할을 한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>6.</span> <span class='q-content'>소포체로부터 전달받은 단백질과 지질을 최종 변형·포장하여 세포 밖으로 분비하거나 다른 부위로 보내는 소기관은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>골지체</span>이다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>지각을 구성하는 대부분의 암석은 규소와 산소가 결합하여 이루어진 <span class='blank' onclick='revealBlank(this, event)'>규산염</span> 광물로 이루어져 있다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>3.</span> <span class='q-content'>규산염 사면체는 중심의 산소(O) 1개 주위에 4개의 규소(Si)가 결합한 구조이다.</span></div>
-                <div class="btn-group" data-answer="X">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>규산염 사면체는 1개의 규소 이온(Si⁴⁺)과 4개의 산소 이온(O²⁻)이 결합하여 전체적으로 <span class='blank' onclick='revealBlank(this, event)'>음(-)</span>전하(-4)를 띤다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>5.</span> <span class='q-content'>감람석은 규산염 사면체가 산소를 공유하지 않고 독립적으로 마그네슘, 철 이온과 결합한 독립형 구조 광물이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>6.</span> <span class='q-content'>규산염 사면체가 양쪽의 산소 2개를 공유하여 한 줄로 길게 연결된 구조를 <span class='blank' onclick='revealBlank(this, event)'>단사슬</span> 구조라고 하며, 대표 광물로 휘석이 있다.</span></div>
-            </div>
         </div>
         
     
@@ -7176,56 +7153,49 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-dense">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>7.</span> <span class='q-content'>엽록체는 빛에너지를 흡수하여 이산화 탄소와 물로부터 포도당을 합성하는 광합성의 장소로, 동물 세포에는 존재하지 않는다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>8.</span> <span class='q-content'>식물 세포의 세포막 바깥쪽에 존재하며 세포의 형태를 단단하게 유지하고 보호해 주는 구조물은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>세포벽</span>이다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>9.</span> <span class='q-content'>액포는 물, 색소, 노폐물 등을 저장하는 소기관으로, 주로 성숙한 식물 세포에서 크게 발달한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>10.</span> <span class='q-content'>세포 내부를 채우고 있으며 핵과 세포 소기관들이 위치하는 젤 상태의 공간을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>세포질</span>이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>동물 세포는 세포벽과 엽록체가 없으며, 식물 세포와 동물 세포 모두 핵, 미토콘드리아, 세포막을 공통으로 가지고 있다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>세포 내부와 외부 환경을 경계 짓고 물질의 출입을 선택적으로 조절하는 막 구조물을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>세포막</span>이라고 한다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>7.</span> <span class='q-content'>석영과 장석은 규산염 사면체의 산소 4개를 모두 이웃한 사면체와 공유하는 망상 구조 광물이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>8.</span> <span class='q-content'>생명체를 구성하는 유기물은 <span class='blank' onclick='revealBlank(this, event)'>탄소</span> 원자를 기본 골격으로 하여 수소, 산소, 질소 등이 결합한 화합물이다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>9.</span> <span class='q-content'>탄소(C)는 원자가 전자가 4개이므로 최대 4개의 다른 원자와 공유 결합을 형성할 수 있다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>10.</span> <span class='q-content'>탄소 원자끼리 결합할 때 전자쌍을 2개 공유하여 형성되는 결합을 <span class='blank' onclick='revealBlank(this, event)'>2중</span> 결합이라고 한다.</span></div>
-            </div>
-
-            <div class="unit-title" style="margin-top:2px;">Ⅱ. 단위체의 결합에 의한 고분자 형성 (Theme 2)</div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>단백질과 핵산은 기본이 되는 작은 단위체가 반복적으로 결합하여 형성된 고분자 화합물이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>단백질을 구성하는 기본 단위체는 <span class='blank' onclick='revealBlank(this, event)'>아미노산</span>이며, 생명체에는 약 20종류가 존재한다.</span></div>
-            </div>
         </div>
         
     
@@ -7234,54 +7204,50 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-dense">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
+    <div class="unit-title">세포막의 구조와 물질 출입 (Theme 2)</div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>13.</span> <span class='q-content'>세포막은 친수성 머리와 소수성 꼬리를 가진 인지질이 2중층을 이루고, 그 사이에 단백질이 파묻히거나 관통해 있는 구조이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>14.</span> <span class='q-content'>세포막을 이루는 인지질 분자는 물과 잘 섞이는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>친수성</span> 머리와 물을 밀어내는 소수성 꼬리로 이루어져 있다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>15.</span> <span class='q-content'>세포막은 물질의 종류, 크기, 전하 등에 따라 물질의 투과성을 다르게 조절하는 선택적 투과성을 가진다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>16.</span> <span class='q-content'>농도가 높은 쪽에서 낮은 쪽으로 물질의 분자가 스스로 퍼져 나가는 현상을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>확산</span>이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>17.</span> <span class='q-content'>산소(O₂)나 이산화 탄소(CO₂)와 같이 크기가 매우 작고 지용성인 기체 분자는 막단백질의 도움 없이 인지질 2중층을 직접 통과하는 단순 확산으로 이동한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>18.</span> <span class='q-content'>포도당, 아미노산, 이온과 같이 전하를 띠거나 수용성인 물질이 세포막의 특정한 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>막단백질</span>을 통해 농도 차에 의해 이동하는 방식을 촉진 확산이라고 한다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>13.</span> <span class='q-content'>두 아미노산이 결합할 때 물(H₂O) 분자 1개가 빠져나오며 형성되는 결합을 펩타이드 결합이라고 한다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>14.</span> <span class='q-content'>아미노산들이 펩타이드 결합으로 길게 연결된 사슬을 <span class='blank' onclick='revealBlank(this, event)'>폴리펩타이드</span>라고 한다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>15.</span> <span class='q-content'>단백질의 독특한 입체 구조와 고유한 생체 기능은 아미노산의 종류와 배열 순서에 의해 결정된다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>16.</span> <span class='q-content'>핵산(DNA, RNA)을 구성하는 기본 단위체는 <span class='blank' onclick='revealBlank(this, event)'>뉴클레오타이드</span>이다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>17.</span> <span class='q-content'>뉴클레오타이드는 인산, 당, 염기가 1 : 1 : 1의 개수비로 결합하여 형성된다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>18.</span> <span class='q-content'>DNA의 5탄당은 디옥시리보스이고, RNA의 5탄당은 <span class='blank' onclick='revealBlank(this, event)'>리보스</span>이다.</span></div>
-            </div>
         </div>
         
     
@@ -7290,56 +7256,49 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-dense">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>19.</span> <span class='q-content'>단순 확산과 촉진 확산은 모두 고농도에서 저농도로 물질이 이동하므로 세포의 에너지(ATP)를 소모하지 않는다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>20.</span> <span class='q-content'>물과 같은 용매 분자가 반투과성 막을 통해 용질의 농도가 낮은 쪽에서 높은 쪽으로 이동하는 현상을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>삼투</span>라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>21.</span> <span class='q-content'>동물 세포인 적혈구를 증류수와 같은 저장액에 넣으면 물이 세포 안으로 유입되어 부풀어 오르다가 터지는 용혈 현상이 일어난다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>22.</span> <span class='q-content'>적혈구를 고농도의 소금물(고장액)에 넣으면 세포 속의 물이 밖으로 빠져나가 적혈구의 부피가 줄어들고 찌그러지는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>수축</span> 현상이 일어난다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>23.</span> <span class='q-content'>식물 세포를 고장액에 넣으면 세포막 안쪽의 원형질이 수축하여 단단한 세포벽으로부터 분리되는 원형질 분리가 일어난다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>24.</span> <span class='q-content'>식물 세포를 증류수(저장액)에 넣으면 물이 유입되어 세포가 팽팽해지지만, 단단한 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>세포벽</span>이 지탱해 주므로 동물 세포처럼 터지지 않는다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>19.</span> <span class='q-content'>DNA 이중 나선에서 아데닌(A)은 유라실(U)과, 구아닌(G)은 사이토신(C)과 상보적으로 결합한다.</span></div>
-                <div class="btn-group" data-answer="X">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>20.</span> <span class='q-content'>유전 정보를 저장하며 2중 나선 구조를 이루는 핵산은 <span class='blank' onclick='revealBlank(this, event)'>DNA</span>이다.</span></div>
-            </div>
-
-            <div class="unit-title" style="margin-top:2px;">Ⅲ. 신소재의 개발과 활용 (Theme 3)</div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>21.</span> <span class='q-content'>초전도체는 특정 온도(임계 온도) 이하에서 전기 저항이 0이 되는 물질이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>22.</span> <span class='q-content'>초전도체가 외부 자기장을 밀어내어 자석 위에 공중 부양하는 현상을 <span class='blank' onclick='revealBlank(this, event)'>마이스너</span> 효과라고 한다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>23.</span> <span class='q-content'>그래핀은 탄소 원자들이 6각형 벌집 모양으로 결합한 2차원 평면 구조의 신소재이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>24.</span> <span class='q-content'>탄소 원자가 원통 모양으로 말려 있는 구조로, 강철보다 강도가 강하고 열·전기 전도성이 우수한 신소재는 <span class='blank' onclick='revealBlank(this, event)'>탄소나노튜브</span>이다.</span></div>
-            </div>
         </div>
         
     
@@ -7348,54 +7307,50 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-dense">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
+    <div class="unit-title">생체 촉매와 물질대사 (Theme 3)</div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>25.</span> <span class='q-content'>생명체 내에서 생명 유지를 위해 일어나는 모든 화학 반응을 물질대사라고 하며, 반드시 효소가 관여한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>26.</span> <span class='q-content'>저분자 물질을 에너지를 흡수(흡열)하여 고분자 물질로 합성하는 물질대사 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>동화 작용</span>이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>세포 호흡은 포도당과 같은 고분자 유기물을 이산화 탄소와 물로 분해하며 에너지를 방출하는 대표적인 이화 작용이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>28.</span> <span class='q-content'>화학 반응이 일어나기 위해 반응물 분자가 도달해야 하는 최소한의 문턱 에너지를 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>활성화 에너지</span>라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>29.</span> <span class='q-content'>효소는 화학 반응의 활성화 에너지를 낮추어 줌으로써 체온 정도의 비교적 낮은 온도에서도 생체 화학 반응이 빠르게 일어나도록 돕는다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>30.</span> <span class='q-content'>효소가 촉매 작용을 하더라도 반응물과 생성물 사이의 에너지 차이인 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>반응열</span>은 변하지 않는다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>25.</span> <span class='q-content'>풀러렌(C₆₀)은 탄소 원자 60개가 축구공 모양으로 결합한 구조로, 내부에 약품을 넣어 전달체로 활용할 수 있다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>26.</span> <span class='q-content'>도마뱀붙이 발바닥의 미세 털 구조를 모방하여 접착제 없이도 뗐다 붙일 수 있는 <span class='blank' onclick='revealBlank(this, event)'>게코</span> 테이프를 개발하였다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>도꼬마리 열매의 갈고리 구조를 모방하여 쉽게 탈부착할 수 있는 벨크로 테이프를 제작하였다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>28.</span> <span class='q-content'>물에 젖지 않는 연잎 표면의 미세 돌기 구조를 모방하여 개발한 표면 가공 기술은 <span class='blank' onclick='revealBlank(this, event)'>초소수성</span>(방수) 코팅이다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>29.</span> <span class='q-content'>액정(LCD)은 전압에 따라 분자 배열이 변하여 빛의 투과율을 조절하는 성질을 이용한 디스플레이 신소재이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>30.</span> <span class='q-content'>홍합이 파도 속에서도 바위에 달라붙을 때 분비하는 단백질을 모방하여 물속에서도 붙는 <span class='blank' onclick='revealBlank(this, event)'>홍합 접착제</span>를 개발하였다.</span></div>
-            </div>
         </div>
         
     
@@ -7404,55 +7359,49 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-dense">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
-            <div class="unit-title">Ⅳ. 생체 촉매와 물질대사 (Theme 4)</div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>효소의 주성분은 단백질이므로, 열에 의해 입체 구조가 변성되면 촉매 기능을 상실한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>32.</span> <span class='q-content'>효소는 자신의 활성 부위의 입체 구조와 정확히 들어맞는 특정 기질과만 결합하여 작용하는데, 이를 효소의 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>기질 특이성</span>이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>33.</span> <span class='q-content'>침 속의 아밀레이스는 녹말만 분해하고 단백질은 분해하지 못하는 것은 기질 특이성의 대표적 사례이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>위 속에서 작용하는 소화 효소인 펩신은 강한 산성인 약 pH <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>2</span> 부근에서 가장 높은 활성을 나타낸다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>35.</span> <span class='q-content'>효소는 반응 과정에서 기질을 생성물로 변환시킨 후 자신은 소모되지 않으므로 새로운 기질과 반복하여 재사용될 수 있다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>36.</span> <span class='q-content'>식혜를 만들 때 엿기름 속의 아밀레이스를 이용하거나 된장, 치즈 등의 발효 식품을 제조하는 것은 실생활에서 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>효소</span>를 활용한 대표적 예시이다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>생명체 내에서 일어나는 모든 화학 반응을 물질대사라고 하며, 체온 범위에서 반드시 효소가 관여한다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>32.</span> <span class='q-content'>저분자 물질을 고분자 물질로 합성하며 에너지를 흡수(흡열)하는 반응을 <span class='blank' onclick='revealBlank(this, event)'>동화</span> 작용이라고 한다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>33.</span> <span class='q-content'>세포 호흡은 포도당을 분해하여 에너지를 방출(발열)하는 이화 작용의 대표적인 사례이다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>화학 반응이 일어나기 위해 반응물이 흡수해야 하는 최소한의 에너지를 <span class='blank' onclick='revealBlank(this, event)'>활성화</span> 에너지라고 한다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>35.</span> <span class='q-content'>효소는 화학 반응의 활성화 에너지를 낮추어 반응 속도를 빠르게 만들어 준다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>36.</span> <span class='q-content'>효소는 자신의 입체 구조에 들어맞는 특정 기질과만 결합하여 작용하는데, 이를 효소의 <span class='blank' onclick='revealBlank(this, event)'>기질 특이성</span>이라고 한다.</span></div>
-            </div>
         </div>
         
     
@@ -7461,56 +7410,46 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-comfort">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
+    <div class="unit-title">세포 내 정보의 흐름과 유전 질환 (Theme 4)</div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>37.</span> <span class='q-content'>세포 내에서 유전 정보는 DNA에서 RNA를 거쳐 단백질로 전달된다는 원리를 생명 중심 원리라고 한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>핵 속 DNA의 유전 정보(염기 서열)를 복사하여 mRNA로 합성하는 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>전사</span>라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>39.</span> <span class='q-content'>전사 과정에서 DNA 염기 아데닌(A)에 대응하여 mRNA에는 타이민(T) 대신 유라실(U)이 상보적으로 결합한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>40.</span> <span class='q-content'>세포질의 리보솜에서 mRNA의 염기 서열 정보에 따라 아미노산을 차례로 연결하여 단백질을 합성하는 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>번역</span>이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>41.</span> <span class='q-content'>DNA의 연속된 3개의 염기 조합을 3염기 조합이라 하고, 이에 대응하는 mRNA의 3개 염기 조합을 코돈이라고 한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>37.</span> <span class='q-content'>효소를 사용하면 화학 반응의 반응열(반응물과 생성물의 에너지 차이)이 증가한다.</span></div>
-                <div class="btn-group" data-answer="X">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>효소의 주성분은 <span class='blank' onclick='revealBlank(this, event)'>단백질</span>이므로 고온(55℃ 이상)에서 입체 구조가 변성되어 활성을 영구 상실한다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>39.</span> <span class='q-content'>펩신(위, pH 2), 아밀레이스(침, pH 7), 트립신(소장, pH 8)은 각각 최적 pH가 서로 다르다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>40.</span> <span class='q-content'>효소는 반응 과정에서 자신은 소모되거나 변하지 않으므로, 반응이 끝난 후 새로운 기질과 <span class='blank' onclick='revealBlank(this, event)'>재사용</span>될 수 있다.</span></div>
-            </div>
-
-            <div class="unit-title" style="margin-top:2px;">Ⅴ. 세포 내 정보의 흐름 (Theme 5)</div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>41.</span> <span class='q-content'>핵 속 DNA 정보가 mRNA로 전달되는 과정을 전사라 하고, 세포질 리보솜에서 단백질이 합성되는 과정을 번역이라 한다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>DNA의 연속된 3개 염기 조합을 3염기 조합이라 하고, 이에 대응하는 mRNA의 3개 염기 조합을 <span class='blank' onclick='revealBlank(this, event)'>코돈</span>이라고 한다.</span></div>
-            </div>
         </div>
         
     
@@ -7519,54 +7458,41 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div class="a4-page spread-page">
+<div class="a4-page density-comfort">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>번역의 시작 신호이자 메싸이오닌(아미노산)을 지정하는 개시 코돈의 염기 서열은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>AUG</span>이다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>총 64종류의 코돈 중 3종류(UAA, UAG, UGA)는 어떤 아미노산도 지정하지 않고 단백질 합성 종결 신호로 작용하는 종결 코돈이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>44.</span> <span class='q-content'>하나의 아미노산은 1개 이상의 코돈에 의해 지정될 수 있으므로, 20가지 아미노산은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>61</span>종류의 코돈에 의해 번역된다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>세균부터 사람에 이르기까지 지구상의 거의 모든 생명체는 동일한 코돈 체계를 공유하고 있는데, 이를 유전부호의 보편성이라고 한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>46.</span> <span class='q-content'>유전부호의 보편성 덕분에 사람의 인슐린 유전자를 대장균에 삽입해도 사람과 동일한 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>인슐린</span> 단백질을 대량으로 합성할 수 있다.</span></div>
+    </div>
 
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>총 64가지 코돈은 모두 각각 하나의 아미노산을 지정한다.</span></div>
-                <div class="btn-group" data-answer="X">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>44.</span> <span class='q-content'>번역을 시작하는 신호이자 메싸이오닌을 지정하는 개시 코돈의 염기 서열은 <span class='blank' onclick='revealBlank(this, event)'>AUG</span>이다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>대장균에 사람의 인슐린 유전자를 삽입하면 사람과 100% 동일한 인슐린 단백질이 정상적으로 합성된다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>46.</span> <span class='q-content'>거의 모든 생명체가 동일한 코돈 체계를 공유하는 특성을 유전부호의 <span class='blank' onclick='revealBlank(this, event)'>보편성</span>이라고 한다.</span></div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>47.</span> <span class='q-content'>낫 모양 적혈구 빈혈증은 헤모글로빈 유전자의 염기 1개 치환으로 아미노산(글루탐산 ➔ 발린)이 바뀌어 발생한다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>48.</span> <span class='q-content'>낫 모양 적혈구 돌연변이는 염기 치환이므로 정상 헤모글로빈과 비교할 때 전체 아미노산 개수는 <span class='blank' onclick='revealBlank(this, event)'>같다</span>(불변이다).</span></div>
-            </div>
         </div>
         
     
@@ -7575,39 +7501,37 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 
 <div class="page-wrapper page-scope-quiz_05" style="margin-top: 40px; display: flex; justify-content: center;">
-<div data-density="hard" class="a4-page spread-page">
+<div data-density="hard" class="a4-page density-comfort">
         <div class="quiz-container">
-            <div class="page-header">
-                <div class="header-brand">[개념 SCAN]</div>
-                <div class="header-vol">VOL. 05</div>
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">
+                <div class="header-brand" style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+                <div class="header-vol" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 05</div>
             </div>
-
-            <div class="card">
-                <span class="q-type">O / X 퀴즈</span>
-                <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>낫 모양 적혈구 유전자를 가진 이형접합자(HbᴬHbˢ)는 말라리아에 저항성을 가져 말라리아 다발 지역에서 자연선택되었다.</span></div>
-                <div class="btn-group" data-answer="O">
-                    <div class="ox-btn" onclick="checkOX(this, 'O')">O</div>
-                    <div class="ox-btn" onclick="checkOX(this, 'X')">X</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <span class="q-type">빈칸 채우기</span>
-                <div class="q-text"><span class='q-num'>50.</span> <span class='q-content'>페닐알라닌 분해 효소 결핍으로 체내에 페닐알라닌이 축적되어 중추신경계 손상을 유발하는 유전병은 <span class='blank' onclick='revealBlank(this, event)'>페닐케톤뇨증</span>이다.</span></div>
-            </div>
-
-            <div class="ans-key-card">
-                <div class="ans-key-title">
-                    <span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
-                </div>
-                <div class="ans-key-content">
-                    <b>1.</b> O &nbsp;<b>2.</b> 규산염 &nbsp;<b>3.</b> X &nbsp;<b>4.</b> 음(-) &nbsp;<b>5.</b> O &nbsp;<b>6.</b> 단사슬 &nbsp;<b>7.</b> O &nbsp;<b>8.</b> 탄소 &nbsp;<b>9.</b> O &nbsp;<b>10.</b> 2중<br>
-                    <b>11.</b> O &nbsp;<b>12.</b> 아미노산 &nbsp;<b>13.</b> O &nbsp;<b>14.</b> 폴리펩타이드 &nbsp;<b>15.</b> O &nbsp;<b>16.</b> 뉴클레오타이드 &nbsp;<b>17.</b> O &nbsp;<b>18.</b> 리보스 &nbsp;<b>19.</b> X &nbsp;<b>20.</b> DNA<br>
-                    <b>21.</b> O &nbsp;<b>22.</b> 마이스너 &nbsp;<b>23.</b> O &nbsp;<b>24.</b> 탄소나노튜브 &nbsp;<b>25.</b> O &nbsp;<b>26.</b> 게코 &nbsp;<b>27.</b> O &nbsp;<b>28.</b> 초소수성 &nbsp;<b>29.</b> O &nbsp;<b>30.</b> 홍합 접착제<br>
-                    <b>31.</b> O &nbsp;<b>32.</b> 동화 &nbsp;<b>33.</b> O &nbsp;<b>34.</b> 활성화 &nbsp;<b>35.</b> O &nbsp;<b>36.</b> 기질 특이성 &nbsp;<b>37.</b> X &nbsp;<b>38.</b> 단백질 &nbsp;<b>39.</b> O &nbsp;<b>40.</b> 재사용<br>
-                    <b>41.</b> O &nbsp;<b>42.</b> 코돈 &nbsp;<b>43.</b> X &nbsp;<b>44.</b> AUG &nbsp;<b>45.</b> O &nbsp;<b>46.</b> 보편성 &nbsp;<b>47.</b> O &nbsp;<b>48.</b> 같다 &nbsp;<b>49.</b> O &nbsp;<b>50.</b> 페닐케톤뇨증
-                </div>
-            </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>47.</span> <span class='q-content'>유전부호의 보편성은 지구상의 모든 생명체가 공통 조상으로부터 진화해 왔음을 강력하게 뒷받침하는 증거이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>48.</span> <span class='q-content'>헤모글로빈 유전자의 염기 1개가 바뀌어 아미노산 중 글루탐산 대신 발린이 지정됨으로써 비정상적인 적혈구가 형성되는 유전 질환을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>낫 모양 적혈구 빈혈증</span>이라고 한다.</span></div>
+    </div>
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>낫 모양 적혈구 빈혈증은 단 1개의 염기 치환 돌연변이에 의해 단백질의 입체 구조와 기능이 완전히 달라질 수 있음을 보여주는 대표적 사례이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+    <div class="card card-blank">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>50.</span> <span class='q-content'>페닐알라닌을 타이로신으로 전환하는 효소의 유전자에 이상이 생겨 체내에 페닐알라닌이 축적되고 뇌 손상을 유발하는 유전병을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>페닐케톤뇨증</span>이라고 한다.</span></div>
+    </div>
+    <div class="answer-key"><b>[정답표]</b><br><b>1.</b> O <b>2.</b> 핵 <b>3.</b> O <b>4.</b> 라이보솜 <b>5.</b> O <b>6.</b> 골지체 <b>7.</b> O <b>8.</b> 세포벽 <b>9.</b> O <b>10.</b> 세포질 <b>11.</b> O <b>12.</b> 세포막 <b>13.</b> O <b>14.</b> 친수성 <b>15.</b> O <b>16.</b> 확산 <b>17.</b> O <b>18.</b> 막단백질 <b>19.</b> O <b>20.</b> 삼투 <b>21.</b> O <b>22.</b> 수축 <b>23.</b> O <b>24.</b> 세포벽 <b>25.</b> O <b>26.</b> 동화 작용 <b>27.</b> O <b>28.</b> 활성화 에너지 <b>29.</b> O <b>30.</b> 반응열 <b>31.</b> O <b>32.</b> 기질 특이성 <b>33.</b> O <b>34.</b> 2 <b>35.</b> O <b>36.</b> 효소 <b>37.</b> O <b>38.</b> 전사 <b>39.</b> O <b>40.</b> 번역 <b>41.</b> O <b>42.</b> AUG <b>43.</b> O <b>44.</b> 61 <b>45.</b> O <b>46.</b> 인슐린 <b>47.</b> O <b>48.</b> 낫 모양 적혈구 빈혈증 <b>49.</b> O <b>50.</b> 페닐케톤뇨증</div>
         </div>
         
     

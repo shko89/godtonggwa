@@ -1,0 +1,790 @@
+{
+  "week_2028_07_prep_q01": {
+    "id": "week_2028_07_prep_q01",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prep",
+    "examQNum": 1,
+    "imageFile": "week_2028_07_prep_q01.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "주제 1"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전대비"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_prep_q02": {
+    "id": "week_2028_07_prep_q02",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prep",
+    "examQNum": 2,
+    "imageFile": "week_2028_07_prep_q02.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "주제 2"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전대비"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_prac_q01": {
+    "id": "week_2028_07_prac_q01",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 1,
+    "imageFile": "week_2028_07_prac_q01.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 1"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_07_prac_q02": {
+    "id": "week_2028_07_prac_q02",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 2,
+    "imageFile": "week_2028_07_prac_q02.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 2"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_07_prac_q03": {
+    "id": "week_2028_07_prac_q03",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 3,
+    "imageFile": "week_2028_07_prac_q03.webp",
+    "correctAnswer": "4",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 3"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_07_prac_q04": {
+    "id": "week_2028_07_prac_q04",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 4,
+    "imageFile": "week_2028_07_prac_q04.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 4"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_07_prac_q05": {
+    "id": "week_2028_07_prac_q05",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 5,
+    "imageFile": "week_2028_07_prac_q05.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 5"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_07_prac_q06": {
+    "id": "week_2028_07_prac_q06",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 6,
+    "imageFile": "week_2028_07_prac_q06.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 6"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_07_prac_q07": {
+    "id": "week_2028_07_prac_q07",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 7,
+    "imageFile": "week_2028_07_prac_q07.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 7"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_07_prac_q08": {
+    "id": "week_2028_07_prac_q08",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "prac",
+    "examQNum": 8,
+    "imageFile": "week_2028_07_prac_q08.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "단원",
+      "topic": "실전체화 8"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지7주차",
+      "실전체화"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_07_mock_q01": {
+    "id": "week_2028_07_mock_q01",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "week_2028_07_mock_q01.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 1"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q02": {
+    "id": "week_2028_07_mock_q02",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "week_2028_07_mock_q02.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 2"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q03": {
+    "id": "week_2028_07_mock_q03",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "week_2028_07_mock_q03.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 3"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q04": {
+    "id": "week_2028_07_mock_q04",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "week_2028_07_mock_q04.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 4"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q05": {
+    "id": "week_2028_07_mock_q05",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "week_2028_07_mock_q05.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 5"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q06": {
+    "id": "week_2028_07_mock_q06",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "week_2028_07_mock_q06.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 6"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q07": {
+    "id": "week_2028_07_mock_q07",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "week_2028_07_mock_q07.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 7"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q08": {
+    "id": "week_2028_07_mock_q08",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "week_2028_07_mock_q08.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 8"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q09": {
+    "id": "week_2028_07_mock_q09",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "week_2028_07_mock_q09.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 9"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q10": {
+    "id": "week_2028_07_mock_q10",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "week_2028_07_mock_q10.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 10"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q11": {
+    "id": "week_2028_07_mock_q11",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "week_2028_07_mock_q11.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 11"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q12": {
+    "id": "week_2028_07_mock_q12",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "week_2028_07_mock_q12.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 12"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q13": {
+    "id": "week_2028_07_mock_q13",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "week_2028_07_mock_q13.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 13"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q14": {
+    "id": "week_2028_07_mock_q14",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "week_2028_07_mock_q14.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 14"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q15": {
+    "id": "week_2028_07_mock_q15",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "week_2028_07_mock_q15.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 15"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q16": {
+    "id": "week_2028_07_mock_q16",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "week_2028_07_mock_q16.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 16"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q17": {
+    "id": "week_2028_07_mock_q17",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "week_2028_07_mock_q17.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 17"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q18": {
+    "id": "week_2028_07_mock_q18",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "week_2028_07_mock_q18.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 18"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q19": {
+    "id": "week_2028_07_mock_q19",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "week_2028_07_mock_q19.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 19"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_07_mock_q20": {
+    "id": "week_2028_07_mock_q20",
+    "sourceExamId": "week_2028_07",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "week_2028_07_mock_q20.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "WEEK 07",
+      "chapter": "모의고사",
+      "topic": "Fit20 문항 20"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지7주차",
+      "Fit20"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  }
+}

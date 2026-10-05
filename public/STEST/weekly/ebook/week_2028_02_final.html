@@ -555,12 +555,12 @@ body {
     min-height: 175px !important;
     max-height: 175px !important;
     background-color: #0f172a !important;
-    padding: 24px 40px 20px 40px !important;
+    padding: 12px 40px 16px 40px !important;
     box-sizing: border-box !important;
     z-index: 10 !important;
     display: flex !important;
     justify-content: space-between !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     border-top: 4px solid #38bdf8 !important;
     margin: 0 !important;
 }
@@ -582,20 +582,27 @@ body {
     font-weight: 900 !important;
     line-height: 0.9 !important;
     color: #38bdf8 !important;
+    align-self: center !important;
+    margin: 0 !important;
 }
 .cover-page .week-theme {
     text-align: right !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
     color: #f8fafc !important;
     line-height: 1.4 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
-    height: 100% !important;
-    padding-bottom: 24px !important;
-    box-sizing: border-box !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-.cover-page .data-driven-system, .cover-page .bottom-section .data-driven-system {
+.cover-page .week-theme > br {
+    display: none !important;
+}
+.cover-page .data-driven-system, 
+.cover-page .bottom-section .data-driven-system,
+.cover-page .week-theme > span:last-child {
     position: absolute !important;
     bottom: 16px !important;
     right: 40px !important;
@@ -1098,6 +1105,19 @@ body {
 }
 
 </style>
+<style>
+/* Quiz Absolute Safety Protection & Transparent Page Number */
+.quiz-container {
+    padding-bottom: 42px !important;
+}
+.page-num {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    pointer-events: none !important;
+}
+</style>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
 
@@ -1175,17 +1195,10 @@ body {
         </div>
         <div class="toc-jump-item" onclick="window.goToPage(4)">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">BRIDGE 1</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원의 큰 그림</span>
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
-        </div>
-        <div class="toc-jump-item" onclick="window.goToPage(5)">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">BRIDGE 2</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">탐구 파이프라인</span>
-            </div>
-            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">05 P</span>
         </div>
         <div class="toc-jump-item" onclick="window.goToPage(6)">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -1218,7 +1231,7 @@ body {
         <div class="toc-jump-item" onclick="window.goToPage(37)">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
-                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN (퀴즈 1~50)</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
             </div>
             <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">37 P</span>
         </div>

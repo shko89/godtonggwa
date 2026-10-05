@@ -1,0 +1,825 @@
+{
+  "week_2028_10_prep_q01": {
+    "id": "week_2028_10_prep_q01",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prep",
+    "examQNum": 1,
+    "imageFile": "week_2028_10_prep_q01.webp",
+    "correctAnswer": "4",
+    "score": 2,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "인공지능(AI) 머신러닝 학습 데이터셋과 판별 정확도"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "수능나침반",
+      "인공지능",
+      "머신러닝",
+      "말라리아모기"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_prep_q02": {
+    "id": "week_2028_10_prep_q02",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prep",
+    "examQNum": 2,
+    "imageFile": "week_2028_10_prep_q02.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "생성형 AI와 딥페이크 기술의 사회적 쟁점(SSI)"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "수능나침반",
+      "생성형AI",
+      "딥페이크",
+      "과학윤리",
+      "SSI"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_prac_q01": {
+    "id": "week_2028_10_prac_q01",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 1,
+    "imageFile": "week_2028_10_prac_q01.webp",
+    "correctAnswer": "1",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "감염병 매개 모기와 기온 환경 요인 분석"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_10_prac_q02": {
+    "id": "week_2028_10_prac_q02",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 2,
+    "imageFile": "week_2028_10_prac_q02.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "병원체의 특징(세균 vs 바이러스)과 항생제 내성 세균의 자연선택"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_10_prac_q03": {
+    "id": "week_2028_10_prac_q03",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 3,
+    "imageFile": "week_2028_10_prac_q03.webp",
+    "correctAnswer": "1",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "자율주행 센서 융합(카메라 vs 라이다)과 AI 제어"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_10_prac_q04": {
+    "id": "week_2028_10_prac_q04",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 4,
+    "imageFile": "week_2028_10_prac_q04.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "태양광 발전 빅데이터 분석 및 지능형 전력망(스마트 그리드)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_10_prac_q05": {
+    "id": "week_2028_10_prac_q05",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 5,
+    "imageFile": "week_2028_10_prac_q05.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "로봇",
+      "topic": "사물 인터넷(IoT) 대기 센서 네트워크와 이상치 정제"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "로봇"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_10_prac_q06": {
+    "id": "week_2028_10_prac_q06",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 6,
+    "imageFile": "week_2028_10_prac_q06.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "로봇",
+      "topic": "스마트 빌딩 AI 방역 로봇 시스템 및 과학 윤리"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "로봇"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_10_prac_q07": {
+    "id": "week_2028_10_prac_q07",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 7,
+    "imageFile": "week_2028_10_prac_q07.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "유전자 편집 기술(체세포 vs 생식세포/배아)과 생명 윤리"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "left"
+  },
+  "week_2028_10_prac_q08": {
+    "id": "week_2028_10_prac_q08",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "prac",
+    "examQNum": 8,
+    "imageFile": "week_2028_10_prac_q08.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "자율주행 인공지능의 도덕적 딜레마(트롤리 문제)와 과학기술 윤리"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주간지10주차",
+      "실전체화",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "layoutPosition": "right"
+  },
+  "week_2028_10_mock_q01": {
+    "id": "week_2028_10_mock_q01",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "week_2028_10_mock_q01.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "감염병 신속 진단 키트와 빅데이터 기반 방역 역학 조사"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q02": {
+    "id": "week_2028_10_mock_q02",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "week_2028_10_mock_q02.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "로봇",
+      "topic": "자율주행 서빙 로봇의 센서 인식과 사회적 영향"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "로봇"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q03": {
+    "id": "week_2028_10_mock_q03",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "week_2028_10_mock_q03.webp",
+    "correctAnswer": "1",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "국가 공인 대기오염 측정소 vs IoT 기반 간이 센서망 비교"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q04": {
+    "id": "week_2028_10_mock_q04",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "week_2028_10_mock_q04.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "유전자변형 농산물(GMO) 도입을 둘러싼 사회적 쟁점(SSI)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q05": {
+    "id": "week_2028_10_mock_q05",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "week_2028_10_mock_q05.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "신속항원검사 키트의 발색 원리와 검사 결과 판정"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q06": {
+    "id": "week_2028_10_mock_q06",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "week_2028_10_mock_q06.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "로봇",
+      "topic": "AI 방역 로봇의 다차원 알고리즘 평가 및 사회적 합의"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "로봇"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q07": {
+    "id": "week_2028_10_mock_q07",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "week_2028_10_mock_q07.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "국가 에너지 전환 빅데이터 분석과 탄소 배출 추이"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q08": {
+    "id": "week_2028_10_mock_q08",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "week_2028_10_mock_q08.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "로봇",
+      "topic": "스마트 팜의 IoT/AI 제어 구조와 농업 환경 변화"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "로봇"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q09": {
+    "id": "week_2028_10_mock_q09",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "week_2028_10_mock_q09.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "감염병 진단 방식 비교: 분자 진단(PCR) vs 면역 진단(신속항원)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q10": {
+    "id": "week_2028_10_mock_q10",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "week_2028_10_mock_q10.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "융합 과학 기술 기반 태풍 예측 및 재난 대응 시스템"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q11": {
+    "id": "week_2028_10_mock_q11",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "week_2028_10_mock_q11.webp",
+    "correctAnswer": "3",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "지진 전조 현상(미소 지진 및 지표면 변위) 빅데이터 탐구"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q12": {
+    "id": "week_2028_10_mock_q12",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "week_2028_10_mock_q12.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "인공지능(AI) 기반 자율 무기 시스템의 운용 방식과 윤리적 쟁점"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q13": {
+    "id": "week_2028_10_mock_q13",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "week_2028_10_mock_q13.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "바이러스 구조(단백질 껍질, 핵산)와 분자 진단 vs 면역 진단"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q14": {
+    "id": "week_2028_10_mock_q14",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "week_2028_10_mock_q14.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "탄소 중립 사회의 발전 방식별 환경 영향과 사회적 쟁점(SSI)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q15": {
+    "id": "week_2028_10_mock_q15",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "week_2028_10_mock_q15.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "호흡기 감염병 확산 예측 빅데이터 모델과 사회적 쟁점(SSI)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q16": {
+    "id": "week_2028_10_mock_q16",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "week_2028_10_mock_q16.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "과학 연구 윤리 위반 행위(위조, 변조, 표절)의 구분"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q17": {
+    "id": "week_2028_10_mock_q17",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "week_2028_10_mock_q17.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "감염병과 병원체",
+      "topic": "백신의 면역 원리(1·2차 면역)와 집단 면역(Herd Immunity)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "감염병과 병원체"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q18": {
+    "id": "week_2028_10_mock_q18",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "week_2028_10_mock_q18.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "로봇",
+      "topic": "기존 전력망 vs 정보 통신 기술(ICT) 융합 스마트 그리드"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "로봇"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q19": {
+    "id": "week_2028_10_mock_q19",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "week_2028_10_mock_q19.webp",
+    "correctAnswer": "5",
+    "score": 2,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "인공지능과 과학 탐구",
+      "topic": "태양 활동(흑점 수) 빅데이터와 지구 자기장 교란/우주 날씨"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "인공지능과 과학 탐구"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  },
+  "week_2028_10_mock_q20": {
+    "id": "week_2028_10_mock_q20",
+    "sourceExamId": "week_2028_10",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "week_2028_10_mock_q20.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "과학기술과 인류 문명",
+      "chapter": "과학기술과 윤리",
+      "topic": "유전자 변형 생물(GMO)의 과학기술적 유용성과 생태계/윤리적 쟁점"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "주간지10주차",
+      "Fit20",
+      "과학기술과 윤리"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    }
+  }
+}

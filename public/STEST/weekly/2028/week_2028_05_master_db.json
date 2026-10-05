@@ -1,0 +1,914 @@
+{
+  "week_2028_05_prep_q01": {
+    "id": "week_2028_05_prep_q01",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prep",
+    "examQNum": 1,
+    "imageFile": "week_2028_05_prep_q01.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템",
+      "chapter": "역학과 에너지",
+      "topic": "충돌과 운동량·충격량"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "충돌",
+      "충격량",
+      "평균 힘",
+      "운동량 보존"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_prep_q02": {
+    "id": "week_2028_05_prep_q02",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prep",
+    "examQNum": 2,
+    "imageFile": "week_2028_05_prep_q02.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생명 시스템",
+      "chapter": "세포와 생명 연속성",
+      "topic": "세포 소기관과 단백질 분비 경로"
+    },
+    "behavioralDomain": "실험 설계 및 탐구",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "소포체",
+      "골지체",
+      "라이보솜",
+      "방사성 동위원소"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_prep_q03": {
+    "id": "week_2028_05_prep_q03",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prep",
+    "examQNum": 3,
+    "imageFile": "week_2028_05_prep_q03.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "생명 시스템",
+      "chapter": "물질대사와 효소",
+      "topic": "동화 작용과 이화 작용"
+    },
+    "behavioralDomain": "개념 이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "동화 작용",
+      "이화 작용",
+      "효소",
+      "흡열 반응"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_prac_q01": {
+    "id": "week_2028_05_prac_q01",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 1,
+    "imageFile": "week_2028_05_prac_q01.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "충돌과 운동량 보존"
+    },
+    "behavioralDomain": "자료 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "운동량 보존",
+      "벽 충돌"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_05_prac_q02": {
+    "id": "week_2028_05_prac_q02",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 2,
+    "imageFile": "week_2028_05_prac_q02.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "운동량-시간 그래프"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "운동량-시간 그래프",
+      "충격량"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_05_prac_q03": {
+    "id": "week_2028_05_prac_q03",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 3,
+    "imageFile": "week_2028_05_prac_q03.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "팔로스루 동작과 충격량"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "팔로스루",
+      "충돌 시간"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_05_prac_q04": {
+    "id": "week_2028_05_prac_q04",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 4,
+    "imageFile": "week_2028_05_prac_q04.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "안전벨트와 충격력 완화"
+    },
+    "behavioralDomain": "적용 및 문제해결",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "안전벨트",
+      "관성",
+      "충격력"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_05_prac_q05": {
+    "id": "week_2028_05_prac_q05",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 5,
+    "imageFile": "week_2028_05_prac_q05.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "진핵세포 소기관 (핵, 미토콘드리아)"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "핵",
+      "미토콘드리아",
+      "2중막"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_05_prac_q06": {
+    "id": "week_2028_05_prac_q06",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 6,
+    "imageFile": "week_2028_05_prac_q06.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "세포막 물질 수송 (확산)"
+    },
+    "behavioralDomain": "자료 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "단순 확산",
+      "촉진 확산",
+      "세포막"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_05_prac_q07": {
+    "id": "week_2028_05_prac_q07",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 7,
+    "imageFile": "week_2028_05_prac_q07.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "효소의 기질 특이성 탐구"
+    },
+    "behavioralDomain": "탐구 설계",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "펩신",
+      "기질 특이성",
+      "효소"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_05_prac_q08": {
+    "id": "week_2028_05_prac_q08",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 8,
+    "imageFile": "week_2028_05_prac_q08.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "효소-기질 복합체 모형"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "효소-기질 복합체",
+      "활성화 에너지"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_05_prac_q09": {
+    "id": "week_2028_05_prac_q09",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 9,
+    "imageFile": "week_2028_05_prac_q09.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "유전 정보의 흐름 (전사·번역)"
+    },
+    "behavioralDomain": "자료 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "코돈",
+      "전사",
+      "번역"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "left"
+  },
+  "week_2028_05_prac_q10": {
+    "id": "week_2028_05_prac_q10",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "prac",
+    "examQNum": 10,
+    "imageFile": "week_2028_05_prac_q10.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 안전 / 세포와 유전",
+      "topic": "DNA 염기 상보성 규칙"
+    },
+    "behavioralDomain": "추론 및 탐구",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "샤가프 법칙",
+      "상보적 결합"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z",
+    "layoutPosition": "right"
+  },
+  "week_2028_05_mock_q01": {
+    "id": "week_2028_05_mock_q01",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "week_2028_05_mock_q01.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "작용-반작용과 충격량"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "작용-반작용과 충격량",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q02": {
+    "id": "week_2028_05_mock_q02",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "week_2028_05_mock_q02.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "세포 내 전사·번역 장소"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "세포 내 전사·번역 장소",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q03": {
+    "id": "week_2028_05_mock_q03",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "week_2028_05_mock_q03.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "충돌 시간과 평균 힘"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "충돌 시간과 평균 힘",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q04": {
+    "id": "week_2028_05_mock_q04",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "week_2028_05_mock_q04.webp",
+    "correctAnswer": "1",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "세포막 유동 모자이크 모형"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "세포막 유동 모자이크 모형",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q05": {
+    "id": "week_2028_05_mock_q05",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "week_2028_05_mock_q05.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "두 물체의 1차원 충돌"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "두 물체의 1차원 충돌",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q06": {
+    "id": "week_2028_05_mock_q06",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "week_2028_05_mock_q06.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "세포 소기관의 기능"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "세포 소기관의 기능",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q07": {
+    "id": "week_2028_05_mock_q07",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "week_2028_05_mock_q07.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "물질 이동 속도와 확산"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "물질 이동 속도와 확산",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q08": {
+    "id": "week_2028_05_mock_q08",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "week_2028_05_mock_q08.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "번지점프와 충격력"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "번지점프와 충격력",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q09": {
+    "id": "week_2028_05_mock_q09",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "week_2028_05_mock_q09.webp",
+    "correctAnswer": "4",
+    "score": 2.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "코돈 돌연변이와 효소 활성"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "코돈 돌연변이와 효소 활성",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q10": {
+    "id": "week_2028_05_mock_q10",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "week_2028_05_mock_q10.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "차량 충돌과 뉴턴 법칙"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "차량 충돌과 뉴턴 법칙",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q11": {
+    "id": "week_2028_05_mock_q11",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "week_2028_05_mock_q11.webp",
+    "correctAnswer": "4",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "진핵세포 모형 (식물 세포)"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "진핵세포 모형 (식물 세포)",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q12": {
+    "id": "week_2028_05_mock_q12",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "week_2028_05_mock_q12.webp",
+    "correctAnswer": "3",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "자유 낙하와 바닥 충격량"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "자유 낙하와 바닥 충격량",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q13": {
+    "id": "week_2028_05_mock_q13",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "week_2028_05_mock_q13.webp",
+    "correctAnswer": "5",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "유전 정보의 흐름과 돌연변이"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "유전 정보의 흐름과 돌연변이",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q14": {
+    "id": "week_2028_05_mock_q14",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "week_2028_05_mock_q14.webp",
+    "correctAnswer": "3",
+    "score": 2.5,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "수평 투사 운동과 자유 낙하"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "수평 투사 운동과 자유 낙하",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q15": {
+    "id": "week_2028_05_mock_q15",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "week_2028_05_mock_q15.webp",
+    "correctAnswer": "2",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "효소의 활성화 에너지"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "효소의 활성화 에너지",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q16": {
+    "id": "week_2028_05_mock_q16",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "week_2028_05_mock_q16.webp",
+    "correctAnswer": "1",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "물풍선 받기와 충격력 한계"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "물풍선 받기와 충격력 한계",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q17": {
+    "id": "week_2028_05_mock_q17",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "week_2028_05_mock_q17.webp",
+    "correctAnswer": "5",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "독성 물질 분해 효소 돌연변이"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "독성 물질 분해 효소 돌연변이",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q18": {
+    "id": "week_2028_05_mock_q18",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "week_2028_05_mock_q18.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "1차원 완전 비탄성 충돌"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "1차원 완전 비탄성 충돌",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q19": {
+    "id": "week_2028_05_mock_q19",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "week_2028_05_mock_q19.webp",
+    "correctAnswer": "4",
+    "score": 1.5,
+    "difficulty": 2,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "세포 소기관 상호작용"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "세포 소기관 상호작용",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  },
+  "week_2028_05_mock_q20": {
+    "id": "week_2028_05_mock_q20",
+    "sourceExamId": "week_2028_05",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "week_2028_05_mock_q20.webp",
+    "correctAnswer": "3",
+    "score": 2.0,
+    "difficulty": 3,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "역학적 시스템 / 생명 시스템",
+      "chapter": "역학과 에너지 / 세포와 유전",
+      "topic": "추락 방지망의 충격 완화"
+    },
+    "behavioralDomain": "이해 및 적용",
+    "qType": "선택형(5지선다)",
+    "tags": [
+      "추락 방지망의 충격 완화",
+      "모의고사"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-08-31T23:18:00.000Z"
+  }
+}

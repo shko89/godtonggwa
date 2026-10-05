@@ -1707,6 +1707,7 @@ window.addEventListener('wheel', (e) => {
             safeSetValue('edit-subtitle', '');
             safeSetValue('edit-price', 5000);
             safeSetValue('edit-date', '');
+            safeSetValue('edit-package-id', '');
             tempExamQuestions = Array(25).fill(null);
             
             if (docId) {
@@ -1722,6 +1723,7 @@ window.addEventListener('wheel', (e) => {
                         safeSetValue('edit-price', d.price || 5000);
                         if(d.date) safeSetValue('edit-date', d.date.split('T')[0]);
                         safeSetValue('edit-service-type', d.serviceType || 'SEASON_MOCK');
+                        safeSetValue('edit-package-id', d.packageId || '');
                         document.getElementById('edit-auth-required').checked = d.isAuthRequired !== undefined ? d.isAuthRequired : true;
                         document.getElementById('edit-content-visible').checked = d.isContentVisible !== undefined ? d.isContentVisible : false;
 
@@ -1832,11 +1834,12 @@ window.addEventListener('wheel', (e) => {
                 const numId = (orderInput !== '' && !isNaN(orderInput)) ? Number(orderInput) : (Number(docId.replace(/[^0-9]/g, '')) || 0);
 
                 const serviceType = document.getElementById('edit-service-type').value;
+                const packageId = document.getElementById('edit-package-id').value.trim();
                 const isAuthRequired = document.getElementById('edit-auth-required').checked;
                 const isContentVisible = document.getElementById('edit-content-visible').checked;
 
-                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null, serviceType, isAuthRequired, isContentVisible }, { merge: true });
-                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString(), serviceType, isAuthRequired, isContentVisible }, { merge: true });
+                await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null, serviceType, packageId, isAuthRequired, isContentVisible }, { merge: true });
+                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString(), serviceType, packageId, isAuthRequired, isContentVisible }, { merge: true });
                 await customAlert("저장 완료"); closeEditModal(); window.loadExamList(); 
             } catch (e) { await customAlert("실패: " + e.message); }
         };

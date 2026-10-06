@@ -1,0 +1,2372 @@
+{
+  "week_2028_01": {
+    "examId": "week_2028_01",
+    "week": 1,
+    "title": "1주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 31,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_01_mock_q01",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "정보와 신호",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_01_mock_q02",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "측정과 어림",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_01_mock_q03",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_01_mock_q04",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_01_mock_q05",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "정보와 신호",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_01_mock_q06",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "측정과 어림",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_01_mock_q07",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_01_mock_q08",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_01_mock_q09",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "정보와 신호",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_01_mock_q10",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "측정과 어림",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_01_mock_q11",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "측정과 어림",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_01_mock_q12",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_01_mock_q13",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "정보와 신호",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_01_mock_q14",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "정보와 신호",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_01_mock_q15",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "측정과 어림",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_01_mock_q16",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_01_mock_q17",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_01_mock_q18",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_01_mock_q19",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 2,
+        "imageFile": "week_2028_01_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_01_mock_q20",
+        "answer": 3,
+        "score": 2.5,
+        "domain": "통합과학",
+        "topic": "기본량과 단위",
+        "difficulty": 4,
+        "imageFile": "week_2028_01_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_02": {
+    "examId": "week_2028_02",
+    "week": 2,
+    "title": "2주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 35.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_02_mock_q01",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_02_mock_q02",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소의 주기성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_02_mock_q03",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_02_mock_q04",
+        "answer": 2,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "별의 진화",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_02_mock_q05",
+        "answer": 3,
+        "score": 2,
+        "domain": "화학",
+        "topic": "원소의 주기성",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_02_mock_q06",
+        "answer": 3,
+        "score": 2.5,
+        "domain": "화학",
+        "topic": "원소의 주기성",
+        "difficulty": 4,
+        "imageFile": "week_2028_02_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_02_mock_q07",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_02_mock_q08",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_02_mock_q09",
+        "answer": 2,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "별의 진화",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_02_mock_q10",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소의 주기성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_02_mock_q11",
+        "answer": 5,
+        "score": 2,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_02_mock_q12",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "별의 진화",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_02_mock_q13",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소의 주기성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_02_mock_q14",
+        "answer": 4,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "별의 진화",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_02_mock_q15",
+        "answer": 5,
+        "score": 2.5,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_02_mock_q16",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_02_mock_q17",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "원소의 주기성",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_02_mock_q18",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "별의 진화",
+        "difficulty": 2,
+        "imageFile": "week_2028_02_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_02_mock_q19",
+        "answer": 1,
+        "score": 2,
+        "domain": "화학",
+        "topic": "원소 형성",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_02_mock_q20",
+        "answer": 4,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "별의 진화",
+        "difficulty": 3,
+        "imageFile": "week_2028_02_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_03": {
+    "examId": "week_2028_03",
+    "week": 3,
+    "title": "3주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 33.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_03_mock_q01",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "화학 결합",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_03_mock_q02",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "물질의 전기적 성질",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_03_mock_q03",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "화학 결합",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_03_mock_q04",
+        "answer": 2,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 3,
+        "imageFile": "week_2028_03_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_03_mock_q05",
+        "answer": 4,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 3,
+        "imageFile": "week_2028_03_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_03_mock_q06",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_03_mock_q07",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_03_mock_q08",
+        "answer": 4,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 3,
+        "imageFile": "week_2028_03_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_03_mock_q09",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_03_mock_q10",
+        "answer": 4,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 3,
+        "imageFile": "week_2028_03_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_03_mock_q11",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "화학 결합",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_03_mock_q12",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_03_mock_q13",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "물질의 전기적 성질",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_03_mock_q14",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_03_mock_q15",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_03_mock_q16",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "화학 결합",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_03_mock_q17",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_03_mock_q18",
+        "answer": 5,
+        "score": 2.5,
+        "domain": "물리학",
+        "topic": "물질의 전기적 성질",
+        "difficulty": 4,
+        "imageFile": "week_2028_03_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_03_mock_q19",
+        "answer": 2,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 3,
+        "imageFile": "week_2028_03_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_03_mock_q20",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지각과 생명체 구성 물질의 규칙성",
+        "difficulty": 2,
+        "imageFile": "week_2028_03_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_04": {
+    "examId": "week_2028_04",
+    "week": 4,
+    "title": "4주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 36.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_04_mock_q01",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_04_mock_q02",
+        "answer": 3,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_04_mock_q03",
+        "answer": 4,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "역학적 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_04_mock_q04",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_04_mock_q05",
+        "answer": 1,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_04_mock_q06",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_04_mock_q07",
+        "answer": 5,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "역학적 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_04_mock_q08",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_04_mock_q09",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "역학적 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_04_mock_q10",
+        "answer": 2,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_04_mock_q11",
+        "answer": 1,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_04_mock_q12",
+        "answer": 2,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_04_mock_q13",
+        "answer": 5,
+        "score": 2.5,
+        "domain": "물리학",
+        "topic": "역학적 시스템",
+        "difficulty": 4,
+        "imageFile": "week_2028_04_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_04_mock_q14",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_04_mock_q15",
+        "answer": 3,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_04_mock_q16",
+        "answer": 3,
+        "score": 2.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 4,
+        "imageFile": "week_2028_04_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_04_mock_q17",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "역학적 시스템",
+        "difficulty": 3,
+        "imageFile": "week_2028_04_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_04_mock_q18",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_04_mock_q19",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_04_mock_q20",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "지구과학",
+        "topic": "지구 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_04_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_05": {
+    "examId": "week_2028_05",
+    "week": 5,
+    "title": "5주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 34.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_05_mock_q01",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "작용-반작용과 충격량",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_05_mock_q02",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "세포 내 전사·번역 장소",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_05_mock_q03",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "충돌 시간과 평균 힘",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_05_mock_q04",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "세포막 유동 모자이크 모형",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_05_mock_q05",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "두 물체의 1차원 충돌",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_05_mock_q06",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "세포 소기관의 기능",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_05_mock_q07",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "물질 이동 속도와 확산",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_05_mock_q08",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "번지점프와 충격력",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_05_mock_q09",
+        "answer": 4,
+        "score": 2.5,
+        "domain": "물리학",
+        "topic": "코돈 돌연변이와 효소 활성",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_05_mock_q10",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "차량 충돌과 뉴턴 법칙",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_05_mock_q11",
+        "answer": 4,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "진핵세포 모형 (식물 세포)",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_05_mock_q12",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "자유 낙하와 바닥 충격량",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_05_mock_q13",
+        "answer": 5,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "유전 정보의 흐름과 돌연변이",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_05_mock_q14",
+        "answer": 3,
+        "score": 2.5,
+        "domain": "물리학",
+        "topic": "수평 투사 운동과 자유 낙하",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_05_mock_q15",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "효소의 활성화 에너지",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_05_mock_q16",
+        "answer": 1,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "물풍선 받기와 충격력 한계",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_05_mock_q17",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "독성 물질 분해 효소 돌연변이",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_05_mock_q18",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "1차원 완전 비탄성 충돌",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_05_mock_q19",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "세포 소기관 상호작용",
+        "difficulty": 2,
+        "imageFile": "week_2028_05_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_05_mock_q20",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "추락 방지망의 충격 완화",
+        "difficulty": 3,
+        "imageFile": "week_2028_05_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_06": {
+    "examId": "week_2028_06",
+    "week": 6,
+    "title": "6주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 34.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_06_mock_q01",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 1번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q01.webp",
+        "explanation": {
+          "no": 1,
+          "topic": "표준 화석과 시상 화석의 특징 및 비교",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">지질 시대를 알려주는 <b>표준 화석</b>(㉠)은 생존 기간이 짧고 분포 면적이 넓어야 합니다(삼엽충, 암모나이트, 공룡 등). 반면 퇴적 당시의 환경을 알려주는 <b>시상 화석</b>(㉡)은 생존 기간이 길고 특정 환경에만 서식해야 합니다(산호, 고사리 등).</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">암모나이트는 중생대 바다에 번성했던 대표적인 표준 화석이므로 ㉠에 해당합니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">삼엽충은 고생대 바다를 대표하는 표준 화석(㉠)으로 고생대에 퇴적된 지층에서 발견됩니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">㉡(시상 화석)은 생존 기간이 길어 지질 시대를 구분하는 데는 부적합하며, 지층이 퇴적될 당시의 <b>퇴적 환경</b>(기후, 수심 등)을 알려줍니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 2,
+        "id": "week_2028_06_mock_q02",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 2번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q02.webp",
+        "explanation": {
+          "no": 2,
+          "topic": "대기 중 산소 농도 변화와 오존층 형성",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">선캄브리아 시대(가)에 남세균의 광합성으로 대기 중 산소($O_2$) 농도가 증가하기 시작했습니다. 고생대(나)에 이르러 대기 중 산소가 충분히 축적되면서 성층권에 <b>오존층($O_3$)</b>이 형성되었고, 유해 자외선이 차단됨으로써 비로소 생물이 육상으로 진출할 수 있었습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">(가) 선캄브리아 시대에 바다에서 광합성을 통해 산소를 생성하고 대기로 방출한 주된 생물은 남세균(시아노박테리아)입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">(나) 고생대에 대기 중 산소 농도가 지속적으로 증가하면서 성층권에 오존층이 형성되었습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">오존층이 유해 자외선을 차단해 준 덕분에 해양 생물이 육상으로 진출한 사건은 (가)가 아니라 <b>(나) 고생대 중기(실루리아기)</b>에 일어났습니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 3,
+        "id": "week_2028_06_mock_q03",
+        "answer": 3,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 3번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q03.webp",
+        "explanation": {
+          "no": 3,
+          "topic": "기린 목의 진화 학설 (용불용설 vs 자연선택설)",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">라마르크의 <b>용불용설</b>(가)은 후천적으로 얻은 획득 형질이 유전된다고 주장하였으나, 유전되지 않음이 밝혀졌습니다. 다윈의 <b>자연선택설</b>(나)은 원래 다양한 변이를 가진 개체들 중에서 환경(높은 곳의 먹이)에 유리한 형질을 가진 개체가 살아남아 자손을 더 많이 남긴다는 원리입니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">(가) 용불용설에서는 생물이 일생 동안 자주 사용하여 획득한 형질이 다음 세대로 유전된다고 보았습니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">(나) 자연선택설에서는 같은 종 내에서 목 길이에 선천적인 차이가 존재하는 것을 유전적 변이로 설명합니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">자연선택설에서 변이는 환경 변화 이전에 <b>무작위로 미리 발생</b>해 있는 것이며, 환경 변화가 특정 방향의 돌연변이를 직접 유도하는 것이 아닙니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 4,
+        "id": "week_2028_06_mock_q04",
+        "answer": 1,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 4번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q04.webp",
+        "explanation": {
+          "no": 4,
+          "topic": "생태계 내 종 다양성과 유전적 다양성 비교",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ①</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\"><b>유전적 다양성</b>은 같은 종 내에서 나타나는 유전적 변이의 다양함(예: 날개 색깔 종류 수)을 뜻하며, <b>종 다양성</b>은 특정 지역에 서식하는 종의 수와 각 종의 비율이 균등한 정도를 뜻합니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">나방 A의 날개 색깔 종류 수가 (가)는 15가지, (나)는 2가지이므로, 나방 A 집단의 유전적 다양성은 (나)보다 (가)에서 더 높습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">곤충의 종 다양성은 서식 종이 1종뿐인 (가)보다 5종이 고르게(각 20%) 서식하는 <b>(나)가 훨씬 높습니다</b>. (X)</span>\n            </div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">종 다양성이 낮은 (가)는 먹이 그물이 단순하여 급격한 환경 변화 시 생태계 전체가 파괴될 위험이 <b>(나)보다 (가)가 더 큽니다</b>. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 5,
+        "id": "week_2028_06_mock_q05",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 5번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q05.webp",
+        "explanation": {
+          "no": 5,
+          "topic": "지층 누중의 법칙과 표준/시상 화석의 적용",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ①</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">지층의 역전이 없으므로 최하부 A층 → B층 → 최상부 C층 순서로 퇴적되었습니다. 산호(A층)는 온난하고 얕은 바다(시상 화석), 암모나이트·고사리(B층)는 중생대 지층, 화폐석(C층)은 신생대 바다(표준 화석)를 나타냅니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">A층에서 발견된 산호는 따뜻하고 수심이 얕은 청정한 바다 환경에서만 서식하는 시상 화석입니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">지층 누중의 법칙에 의해 최상부에 위치한 C층(신생대)은 아래에 있는 B층(중생대)보다 <b>나중에(더 최근에)</b> 퇴적되었습니다. (X)</span>\n            </div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">삼엽충은 고생대 표준 화석이므로 신생대에 퇴적된 C층에서는 <b>결코 산출될 수 없습니다</b>. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 6,
+        "id": "week_2028_06_mock_q06",
+        "answer": 4,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 6번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q06.webp",
+        "explanation": {
+          "no": 6,
+          "topic": "항생제 내성 세균 집단의 자연선택",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ④</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">항생제 내성 유전자는 항생제 투여 전 돌연변이에 의해 이미 드물게 존재하던 형질입니다. 항생제를 투여하면 비내성균이 사멸하고 내성균이 살아남아 번식하므로 집단 내 내성균의 비율이 증가하는 <b>자연선택</b>이 일어납니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">항생제가 존재하는 환경 압력 하에서 비내성균이 도태되고 수가 감소한 것은 자연선택의 결과입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">동일한 항생제를 지속해서 사용하면 내성균이 생존에 유리하므로 세대를 거듭할수록 내성균의 비율은 더욱 증가합니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄱ.</span>\n                <span class=\"fact-check-text\">항생제가 내성 유전자를 만들어준 것이 아니라, <b>돌연변이에 의해 이미 존재하던</b> 내성균이 선택된 것입니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 7,
+        "id": "week_2028_06_mock_q07",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 7번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q07.webp",
+        "explanation": {
+          "no": 7,
+          "topic": "생물다양성의 산업적 가치와 생체 모방",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ④</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">생물다양성은 의약품(페니실린, 택솔), 생체 모방 기술(수영복, 방수 페인트), 홍수 조절 등 인류에게 막대한 가치를 제공합니다. 단일 품종 재배는 유전적 다양성을 파괴하므로 보전과 거리가 멉니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">상어 비늘 돌기와 연잎 표면 구조를 모방한 기술은 자연 생물의 특성을 공학에 적용한 생체 모방의 대표 사례입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">생태학적으로 풍부한 자연 습지를 인공 저수지로 대체하면 다양한 생물의 서식지가 파괴되어 종 다양성이 크게 감소합니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄱ.</span>\n                <span class=\"fact-check-text\">단일 품종만을 선별 재배하는 것은 유전적 다양성을 급감시키고 병충해에 취약하게 하므로 <b>생물다양성 보전에 정면으로 위배</b>됩니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 8,
+        "id": "week_2028_06_mock_q08",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 8번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q08.webp",
+        "explanation": {
+          "no": 8,
+          "topic": "지질 시대의 수륙 분포 변화와 대멸종",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">고생대 말(나)에 모든 대륙이 하나로 뭉쳐 초대륙 <b>판게아</b>를 형성했습니다. 중생대(가)에는 판게아가 분리되면서 대서양이 열리기 시작했고, 신생대(다)에는 대륙들이 현재와 유사한 위치로 이동했습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">오래된 시대 순서는 판게아 형성기인 고생대 말(나) → 판게아 분리 시작 중생대(가) → 현재와 유사한 신생대(다)입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">(가) 중생대 육지에서는 공룡이, 바다에서는 암모나이트가 크게 번성하였습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">(나) 고생대 말에는 판게아 형성으로 대륙붕(얕은 바다) 면적이 급감하고 기후가 한랭해져 해양 생물의 <b>역사상 최대 대멸종</b>이 발생했습니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 9,
+        "id": "week_2028_06_mock_q09",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 9번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q09.webp",
+        "explanation": {
+          "no": 9,
+          "topic": "지질 시대의 시대별 주요 특징 분류",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">A는 고생대(삼엽충, 양치식물 산림), B는 중생대(공룡, 암모나이트, 겉씨식물), C는 신생대(포유류, 속씨식물, 화폐석)입니다. 판게아 분리로 형성된 대서양과 인도양은 신생대(C)로 갈수록 넓어졌습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">'삼엽충이 번성하였는가?'는 고생대(A)를 구분하는 분류 기준 (가)로 적절합니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">대서양과 인도양은 중생대(B)에 분리가 시작되어 신생대(C)에 지속적으로 확장되었으므로 C 시기가 B 시기보다 넓습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">양치식물이 거대한 산림을 이룬 시기는 B(중생대)가 아니라 <b>A(고생대 석탄기)</b>입니다. 중생대에는 겉씨식물이 번성했습니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 10,
+        "id": "week_2028_06_mock_q10",
+        "answer": 1,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 10번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q10.webp",
+        "explanation": {
+          "no": 10,
+          "topic": "화석 생성 과정의 모형 실험 해석",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ①</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">찰흙에 조개껍데기 자국을 낸 형태는 생물의 겉모양이 암석에 찍힌 <b>몰드(mold)</b>에 해당하며, 그 빈 공간에 석고 반죽을 부어 굳힌 것은 지하수의 광물질이 침투하여 채워진 <b>캐스트(cast)</b>에 해당합니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">석고 반죽은 생물 유해가 분해되어 남은 빈 공간에 스며들어 원래 형태대로 굳어지는 지하수의 광물질 역할을 합니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">(라)는 원래 생물체의 성분이 보존된 것이 아니라, <b>광물질(석고)로 치환된 캐스트 모형</b>입니다. (X)</span>\n            </div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">이 탐구는 마그마가 굳는 화성 활동이 아니라 <b>퇴적암에서 화석이 형성되는 과정</b>을 모형화한 것입니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 11,
+        "id": "week_2028_06_mock_q11",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 11번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q11.webp",
+        "explanation": {
+          "no": 11,
+          "topic": "소행성 충돌과 대멸종의 메커니즘",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">중생대 말(백악기 말) 거대한 소행성 충돌로 막대한 양의 먼지와 연무가 대기를 차단하여 햇빛이 도달하지 못했습니다. 그 결과 식물 광합성이 중단되어 먹이 그물이 붕괴되었고 공룡과 암모나이트가 멸종했습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">A.</span>\n            <span class=\"fact-check-text\">소행성 충돌 시 발생한 미세 분진과 그을음이 대기를 뒤덮어 장기간 일조량을 급감시켰습니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">B.</span>\n            <span class=\"fact-check-text\">광합성량 급감으로 1차 생산자가 사라지자 초식 공룡과 육식 공룡을 비롯한 전 지구적 먹이 그물이 연쇄 붕괴되었습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">C.</span>\n                <span class=\"fact-check-text\">삼엽충은 중생대 말이 아니라 <b>고생대 말(페름기 말)</b> 대멸종 때 이미 멸종했습니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 12,
+        "id": "week_2028_06_mock_q12",
+        "answer": 5,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 12번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q12.webp",
+        "explanation": {
+          "no": 12,
+          "topic": "자연선택 탐구 설계와 변인 통제",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ⑤</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">가설 검증 시 조작 변인은 '배경판의 색'이어야 합니다. 배경색 외의 빛의 세기, 온도, 포식자의 활동 시간 등 다른 조건은 모두 일정하게 유지(통제 변인)해야 과학적으로 타당한 결론을 도출할 수 있습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">배경판의 색을 다르게 설정한 것은 배경색이 나방 생존율에 미치는 영향을 알아보기 위한 핵심 조작 변인입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">배경판마다 빛의 세기와 온도를 다르게 설정한 ㉠은 통제 변인을 지키지 못한 중대한 <b>탐구 설계 오류</b>입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">가설 검증을 위해 최종적으로 측정하고 비교해야 할 종속 변인은 각 배경판에서 살아남은 나방의 색깔별 비율입니다. (O)</span>\n        </div>\n"
+        }
+      },
+      {
+        "num": 13,
+        "id": "week_2028_06_mock_q13",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 13번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q13.webp",
+        "explanation": {
+          "no": 13,
+          "topic": "지질 시대별 육상 식물군의 변천사",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">육상 식물군은 <b>양치식물(㉠)</b>(고생대 번성) → <b>겉씨식물(㉡)</b>(중생대 번성) → <b>속씨식물(㉢)</b>(신생대 번성) 순으로 진화·번성하였습니다. 중생대(B)는 지질 시대를 통틀어 전반적으로 온난하여 유일하게 빙하기가 없었습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">겉씨식물(㉡)이 번성한 중생대(B)는 전 지구적으로 매우 온난하여 유일하게 빙하기가 존재하지 않았던 시대입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">고생대(A) 말에 일어난 페름기 대멸종으로 번성하던 양치식물(㉠)과 수많은 해양 생물이 대량 멸종하였습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">공룡이 멸종한 시기는 C(신생대) 말이 아니라 <b>B(중생대) 말</b>이며, 속씨식물(㉢)은 멸종하지 않고 신생대에 크게 번성하였습니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 14,
+        "id": "week_2028_06_mock_q14",
+        "answer": 5,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 14번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q14.webp",
+        "explanation": {
+          "no": 14,
+          "topic": "유전적 다양성과 환경 적응 및 자연선택",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ⑤</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">유전적 다양성이 높은 집단은 다양한 대립유전자를 가진 개체들로 구성되어 있어, 전염병이나 기후 급변 등의 환경 압력이 가해져도 저항성을 가진 개체가 살아남아 자연선택됨으로써 집단의 멸종을 방지할 수 있습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">질병 발생 시 모든 개체가 전멸한 A 집단은 유전적 다양성이 낮고, 생존 개체가 남은 B 집단은 유전적 다양성이 높습니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">질병이라는 환경 변화 속에서 저항성을 가진 개체만 살아남아 자손을 남겼으므로 B 집단에서는 자연선택이 일어났습니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">유전적 다양성이 높은 집단일수록 유리한 변이를 가진 개체가 포함될 확률이 높아 환경 급변 시 멸종될 확률이 낮습니다. (O)</span>\n        </div>\n"
+        }
+      },
+      {
+        "num": 15,
+        "id": "week_2028_06_mock_q15",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 15번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q15.webp",
+        "explanation": {
+          "no": 15,
+          "topic": "대멸종의 원인과 생물다양성 및 지질 시대 구분",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ⑤</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">고생대 말 초대륙 <b>판게아</b>(㉠) 형성과 화산 폭발, 소행성 충돌 등 급격한 환경 변화는 대멸종을 유발했습니다. 대멸종은 지질 시대를 구분하는 기준이 되며, 멸종 후 생태계의 빈자리를 살아남은 생물들이 채우며 적응 방산하여 <b>생물다양성</b>(㉡)이 비약적으로 증가했습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">고생대 말 모든 대륙이 하나로 합쳐져 대륙붕 면적을 급감시킨 초대륙은 '판게아(㉠)'입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">멸종으로 비워진 생태적 지위를 채우며 새로운 종들이 분화하여 증가한 것은 '생물다양성(㉡)'입니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">대멸종으로 인한 생물계의 급격한 변화(화석의 급변)는 지질 시대를 구분하는 가장 핵심적인 기준입니다. (O)</span>\n        </div>\n"
+        }
+      },
+      {
+        "num": 16,
+        "id": "week_2028_06_mock_q16",
+        "answer": 3,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 16번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q16.webp",
+        "explanation": {
+          "no": 16,
+          "topic": "생태계의 종 다양성과 생태계 평형 유지",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">종 다양성은 <b>종의 수</b>(종 풍부도)와 <b>개체수 비율의 균등함</b>(종 균등도)이 모두 높을수록 높습니다. 종 다양성이 높을수록 생태계의 먹이 그물이 복잡하게 얽혀 특정 종이 감소해도 대체 먹이가 존재하므로 생태계 평형이 안정적으로 유지됩니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">생태계 Ⅰ과 Ⅱ 모두 A, B, C, D 총 4종의 식물이 서식하므로 종의 수는 서로 같습니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">종 다양성이 높은 Ⅱ는 Ⅰ보다 먹이 그물이 복잡하므로 급격한 환경 변화에도 생태계 평형이 훨씬 안정적으로 유지됩니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">Ⅰ은 A종이 70% 이상 편중된 반면, Ⅱ는 4종이 각각 25%로 고르게 분포하므로 <b>종 다양성은 Ⅱ가 Ⅰ보다 높습니다</b>. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 17,
+        "id": "week_2028_06_mock_q17",
+        "answer": 3,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 17번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q17.webp",
+        "explanation": {
+          "no": 17,
+          "topic": "가뭄 환경에서 핀치 새의 자연선택",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ③</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">갈라파고스 핀치 새 집단 내에는 원래 부리 크기에 다양한 유전적 변이가 있었습니다. 가뭄으로 크고 단단한 씨앗만 남았을 때, 단단한 씨앗을 깨뜨릴 수 있는 큰 부리 개체들이 생존과 번식에 유리하여 자연선택되었습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">동일한 핀치 새 종 내에서 개체마다 부리 깊이가 다양하게 나타나는 것은 유전적 다양성(변이)에 해당합니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">부리 깊이가 큰 개체들이 살아남아 자손을 남기므로 세대가 거듭되면 집단의 평균 부리 깊이는 가뭄 전보다 커집니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄴ.</span>\n                <span class=\"fact-check-text\">가뭄 환경이 돌연변이를 '유도'한 것이 아니라, <b>이미 집단 내에 존재하던 변이</b> 중에서 큰 부리가 환경에 유리하여 선택된 것입니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 18,
+        "id": "week_2028_06_mock_q18",
+        "answer": 2,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "Fit 20 18번",
+        "difficulty": 2,
+        "imageFile": "week_2028_06_mock_q18.webp",
+        "explanation": {
+          "no": 18,
+          "topic": "화석 산출 범위와 지층의 퇴적 환경 해석",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ②</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\"><b>표준 화석</b>은 생존 기간이 짧고 분포 면적이 넓어야 하며, <b>시상 화석</b>은 생존 기간이 길고 특정 환경 조건에서만 서식해야 합니다. 역전되지 않은 지층 단면에서 아래 지층(Ⅰ)이 위 지층(Ⅱ)보다 먼저 퇴적되었습니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">Ⅰ 지층에서 산출되는 화석 A는 온난하고 수심이 얕은 바다에만 서식하는 전형적인 시상 화석(산호 등)이므로 당시 해양 환경을 알려줍니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄱ.</span>\n                <span class=\"fact-check-text\">C는 여러 지질 시대에 걸쳐 생존 기간이 매우 길므로 시대를 알려주는 <b>표준 화석으로 부적합</b>합니다. 생존 기간이 짧은 B가 표준 화석에 적합합니다. (X)</span>\n            </div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">Ⅱ 지층에서 산출되는 화석 B는 중생대 표준 화석이므로 포유류와 속씨식물이 번성한 <b>신생대</b>와 일치하지 않습니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 19,
+        "id": "week_2028_06_mock_q19",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 19번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q19.webp",
+        "explanation": {
+          "no": 19,
+          "topic": "생물다양성의 세 가지 수준 분석",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ②</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">생물다양성은 <b>유전적 다양성</b>(나: 같은 종 내 개체의 형질 차이), <b>종 다양성</b>(가: 한 생태계 내 서식하는 종의 다양함), <b>생태계 다양성</b>(다: 열대우림, 사막, 습지 등 다양한 서식지 유형)의 세 수준으로 나뉩니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">유전적 다양성(나)이 높은 집단일수록 다양한 환경 변화나 새로운 전염병이 발생했을 때 살아남는 개체가 존재하므로 멸종 위험이 낮습니다. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄱ.</span>\n                <span class=\"fact-check-text\">습지에 왜가리, 붕어, 개구리 등 다양한 생물 종이 함께 어우러져 살아가는 (가)는 유전적 다양성이 아니라 <b>종 다양성</b>입니다. (X)</span>\n            </div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄷ.</span>\n                <span class=\"fact-check-text\">단일 품종만을 넓은 면적에 대량 재배하는 방식은 유전적 변이를 획일화하여 <b>유전적 다양성을 급감시키는 원인</b>입니다. (X)</span>\n            </div>\n        </div>\n"
+        }
+      },
+      {
+        "num": 20,
+        "id": "week_2028_06_mock_q20",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit 20 20번",
+        "difficulty": 1,
+        "imageFile": "week_2028_06_mock_q20.webp",
+        "explanation": {
+          "no": 20,
+          "topic": "지구 시스템 상호작용과 대멸종 메커니즘",
+          "content": "\n        <div class=\"ans-correct-title\">정답: ⑤</div>\n        <div class=\"concept-box\">\n            <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>\n            <div class=\"concept-content\">대규모 화산 활동이나 급격한 온난화(기권)는 해수 수온 상승(수권)을 유발하여 기체의 용해도를 떨어뜨리고, 해수 중 용존 산소량을 <b>감소</b>(㉡)시켜 해양 생물의 대량 멸종을 초래합니다. 이는 기권, 수권, 생물권이 밀접하게 연결된 지구 시스템 상호작용의 전형입니다.</div>\n        </div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">대기 온도가 상승하여 해양 표층 수온을 높이고 가스 교환에 영향을 주는 것은 '기권과 수권의 상호작용(㉠)'에 해당합니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">수온이 상승하면 기체의 용해도가 낮아지므로 해수 속 용존 산소량의 '감소(㉡)'가 일어납니다. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">대규모 화산 분출과 온난화, 무산소 사건에 따른 환경 변화 과정은 지구 시스템 상호작용을 통한 대멸종의 핵심 기전입니다. (O)</span>\n        </div>\n"
+        }
+      }
+    ]
+  },
+  "week_2028_07": {
+    "examId": "week_2028_07",
+    "week": 7,
+    "title": "7주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 30,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_07_mock_q01",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 1",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_07_mock_q02",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 2",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_07_mock_q03",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 3",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_07_mock_q04",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 4",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_07_mock_q05",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 5",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_07_mock_q06",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 6",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_07_mock_q07",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 7",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_07_mock_q08",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 8",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_07_mock_q09",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 9",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_07_mock_q10",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 10",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_07_mock_q11",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 11",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_07_mock_q12",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 12",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_07_mock_q13",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 13",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_07_mock_q14",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 14",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_07_mock_q15",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 15",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_07_mock_q16",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 16",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_07_mock_q17",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 17",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_07_mock_q18",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 18",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_07_mock_q19",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 19",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_07_mock_q20",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "Fit20 문항 20",
+        "difficulty": 2,
+        "imageFile": "week_2028_07_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_08": {
+    "examId": "week_2028_08",
+    "week": 8,
+    "title": "8주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 36.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_08_mock_q01",
+        "answer": 4,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "적도 동태평양 해역의 표층 수온 편차와 엘니뇨/라니냐",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_08_mock_q02",
+        "answer": 3,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "수심에 따른 빛의 파장 투과량과 해조류의 수직 분포",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_08_mock_q03",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "전 세계 사막 분포와 사헬 지대의 사막화 요인",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_08_mock_q04",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "생태계 평형 회복 과정과 먹이 사슬 상호작용",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_08_mock_q05",
+        "answer": 1,
+        "score": 2,
+        "domain": "화학",
+        "topic": "광주기성과 일조 조건에 따른 식물의 개화 조절",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_08_mock_q06",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "생태계 영양 단계별 에너지양과 에너지 효율 계산",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_08_mock_q07",
+        "answer": 3,
+        "score": 2.5,
+        "domain": "생명과학",
+        "topic": "복사 평형 열수지와 전 지구 해수면 상승 요인",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_08_mock_q08",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "적도 부근 태평양의 해양 및 대기 순환 (엘니뇨/평상시)",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_08_mock_q09",
+        "answer": 3,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "전 지구 평균 기온과 해수면 높이 변화 추이",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_08_mock_q10",
+        "answer": 2,
+        "score": 2.5,
+        "domain": "생명과학",
+        "topic": "해양 생태계 먹이 사슬과 개체군 수 변동 분석",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_08_mock_q11",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "빛과 온도에 대한 생물의 적응 (양엽·음엽 및 여우의 형태)",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_08_mock_q12",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "생태계 구성 요소 사이의 작용, 반작용, 상호작용",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_08_mock_q13",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "대기 유무에 따른 행성의 복사 평형과 온실효과",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_08_mock_q14",
+        "answer": 5,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "페루 연안 해역의 표층 수온 편차와 엘니뇨 현상",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_08_mock_q15",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "생물과 환경의 상호작용 (비버의 반작용과 가족 생활)",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_08_mock_q16",
+        "answer": 5,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "숲의 층상 구조와 높이별 상대적 빛의 세기",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_08_mock_q17",
+        "answer": 1,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "생태계 먹이 사슬과 먹이 그물의 평형 유지 비교",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_08_mock_q18",
+        "answer": 2,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "단일식물과 장일식물의 개화 조건 (암기 분절 실험)",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_08_mock_q19",
+        "answer": 1,
+        "score": 2,
+        "domain": "생명과학",
+        "topic": "북반구 대양의 표층 해류 순환 실험 모델링",
+        "difficulty": 3,
+        "imageFile": "week_2028_08_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_08_mock_q20",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "지구 온난화의 진행 과정과 피드백 메커니즘",
+        "difficulty": 2,
+        "imageFile": "week_2028_08_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_09": {
+    "examId": "week_2028_09",
+    "week": 9,
+    "title": "9주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 34.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_09_mock_q01",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "태양 중심부의 수소 핵융합 반응과 질량 결손",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_09_mock_q02",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "열기관의 에너지 보존 법칙과 열효율의 한계",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_09_mock_q03",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "태양 전지의 광전 효과와 태양광 발전 원리",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_09_mock_q04",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "전자기 유도와 렌츠 법칙 및 상대 운동",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_09_mock_q05",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "수소 연료 전지의 산화·환원 반응과 친환경 특성",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_09_mock_q06",
+        "answer": 5,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "열기관의 열효율 정량 계산과 열역학 제2법칙",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_09_mock_q07",
+        "answer": 4,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "자석 낙하 시 렌츠 법칙에 의한 전자기 유도와 제동력",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_09_mock_q08",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "풍력 발전과 태양광 발전의 발전 원리 및 친환경성",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_09_mock_q09",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "에너지 소비효율 등급 라벨 해석과 에너지 절약",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_09_mock_q10",
+        "answer": 2,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "태양 내부의 층상 구조와 플라스마 상태 및 에너지 전달",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_09_mock_q11",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "해양 에너지 발전(조력 발전과 파력 발전)의 비교",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_09_mock_q12",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "전자기 유도 실험의 변인 통제와 유도 전류 크기 요인",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_09_mock_q13",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "핵융합 발전(토카막 자기장 가둠)과 D-T 융합 반응",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_09_mock_q14",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "수력·조력·태양광 발전의 메커니즘과 분류",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_09_mock_q15",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "태양 전지판의 입사각에 따른 발전 효율 탐구",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_09_mock_q16",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "스마트폰 무선 충전기와 교통카드(RFID)의 전자기 유도",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_09_mock_q17",
+        "answer": 5,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "조력 발전과 파력 발전의 출력 변동성과 예측 가능성",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_09_mock_q18",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "기존 전력망과 지능형 전력망(스마트 그리드)의 비교",
+        "difficulty": 3,
+        "imageFile": "week_2028_09_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_09_mock_q19",
+        "answer": 2,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "전자기 유도 낙하 실험과 패러데이 법칙 정량 해석",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_09_mock_q20",
+        "answer": 4,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "발전 방식별 에너지 전환 효율 계산 및 전기 생산량 비교",
+        "difficulty": 4,
+        "imageFile": "week_2028_09_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  },
+  "week_2028_10": {
+    "examId": "week_2028_10",
+    "week": 10,
+    "title": "10주차 Fit 20 실전 모의고사",
+    "questionCount": 20,
+    "totalScore": 33.5,
+    "questions": [
+      {
+        "num": 1,
+        "id": "week_2028_10_mock_q01",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "감염병 신속 진단 키트와 빅데이터 기반 방역 역학 조사",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q01.webp",
+        "explanation": ""
+      },
+      {
+        "num": 2,
+        "id": "week_2028_10_mock_q02",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "자율주행 서빙 로봇의 센서 인식과 사회적 영향",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q02.webp",
+        "explanation": ""
+      },
+      {
+        "num": 3,
+        "id": "week_2028_10_mock_q03",
+        "answer": 1,
+        "score": 2,
+        "domain": "지구과학",
+        "topic": "국가 공인 대기오염 측정소 vs IoT 기반 간이 센서망 비교",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q03.webp",
+        "explanation": ""
+      },
+      {
+        "num": 4,
+        "id": "week_2028_10_mock_q04",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "유전자변형 농산물(GMO) 도입을 둘러싼 사회적 쟁점(SSI)",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q04.webp",
+        "explanation": ""
+      },
+      {
+        "num": 5,
+        "id": "week_2028_10_mock_q05",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "신속항원검사 키트의 발색 원리와 검사 결과 판정",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q05.webp",
+        "explanation": ""
+      },
+      {
+        "num": 6,
+        "id": "week_2028_10_mock_q06",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "AI 방역 로봇의 다차원 알고리즘 평가 및 사회적 합의",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q06.webp",
+        "explanation": ""
+      },
+      {
+        "num": 7,
+        "id": "week_2028_10_mock_q07",
+        "answer": 3,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "국가 에너지 전환 빅데이터 분석과 탄소 배출 추이",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q07.webp",
+        "explanation": ""
+      },
+      {
+        "num": 8,
+        "id": "week_2028_10_mock_q08",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "스마트 팜의 IoT/AI 제어 구조와 농업 환경 변화",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q08.webp",
+        "explanation": ""
+      },
+      {
+        "num": 9,
+        "id": "week_2028_10_mock_q09",
+        "answer": 4,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "감염병 진단 방식 비교: 분자 진단(PCR) vs 면역 진단(신속항원)",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q09.webp",
+        "explanation": ""
+      },
+      {
+        "num": 10,
+        "id": "week_2028_10_mock_q10",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "융합 과학 기술 기반 태풍 예측 및 재난 대응 시스템",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q10.webp",
+        "explanation": ""
+      },
+      {
+        "num": 11,
+        "id": "week_2028_10_mock_q11",
+        "answer": 3,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "지진 전조 현상(미소 지진 및 지표면 변위) 빅데이터 탐구",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q11.webp",
+        "explanation": ""
+      },
+      {
+        "num": 12,
+        "id": "week_2028_10_mock_q12",
+        "answer": 5,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "인공지능(AI) 기반 자율 무기 시스템의 운용 방식과 윤리적 쟁점",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q12.webp",
+        "explanation": ""
+      },
+      {
+        "num": 13,
+        "id": "week_2028_10_mock_q13",
+        "answer": 2,
+        "score": 1.5,
+        "domain": "화학",
+        "topic": "바이러스 구조(단백질 껍질, 핵산)와 분자 진단 vs 면역 진단",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q13.webp",
+        "explanation": ""
+      },
+      {
+        "num": 14,
+        "id": "week_2028_10_mock_q14",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "탄소 중립 사회의 발전 방식별 환경 영향과 사회적 쟁점(SSI)",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q14.webp",
+        "explanation": ""
+      },
+      {
+        "num": 15,
+        "id": "week_2028_10_mock_q15",
+        "answer": 5,
+        "score": 2,
+        "domain": "화학",
+        "topic": "호흡기 감염병 확산 예측 빅데이터 모델과 사회적 쟁점(SSI)",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q15.webp",
+        "explanation": ""
+      },
+      {
+        "num": 16,
+        "id": "week_2028_10_mock_q16",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "통합과학",
+        "topic": "과학 연구 윤리 위반 행위(위조, 변조, 표절)의 구분",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q16.webp",
+        "explanation": ""
+      },
+      {
+        "num": 17,
+        "id": "week_2028_10_mock_q17",
+        "answer": 5,
+        "score": 2,
+        "domain": "통합과학",
+        "topic": "백신의 면역 원리(1·2차 면역)와 집단 면역(Herd Immunity)",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q17.webp",
+        "explanation": ""
+      },
+      {
+        "num": 18,
+        "id": "week_2028_10_mock_q18",
+        "answer": 3,
+        "score": 1.5,
+        "domain": "물리학",
+        "topic": "기존 전력망 vs 정보 통신 기술(ICT) 융합 스마트 그리드",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q18.webp",
+        "explanation": ""
+      },
+      {
+        "num": 19,
+        "id": "week_2028_10_mock_q19",
+        "answer": 5,
+        "score": 2,
+        "domain": "물리학",
+        "topic": "태양 활동(흑점 수) 빅데이터와 지구 자기장 교란/우주 날씨",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q19.webp",
+        "explanation": ""
+      },
+      {
+        "num": 20,
+        "id": "week_2028_10_mock_q20",
+        "answer": 5,
+        "score": 1.5,
+        "domain": "생명과학",
+        "topic": "유전자 변형 생물(GMO)의 과학기술적 유용성과 생태계/윤리적 쟁점",
+        "difficulty": 2,
+        "imageFile": "week_2028_10_mock_q20.webp",
+        "explanation": ""
+      }
+    ]
+  }
+}

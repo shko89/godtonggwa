@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- White-Label Replacement Engine -->
+    <script src="./whitelabel_engine.js"></script>
     <style>
         :root {
             --primary: #0284c7;
@@ -385,8 +387,8 @@
     <!-- Top Toolbar -->
     <div class="top-toolbar">
         <div class="toolbar-left">
-            <div class="brand-logo">
-                GODTONGGWA <span class="brand-badge">E-BOOK</span>
+            <div class="brand-logo" id="viewer-brand-logo">
+                <span id="viewer-brand-name">GODTONGGWA</span> <span class="brand-badge">E-BOOK</span>
             </div>
             <select id="weekSelect" class="custom-select" onchange="changeWeek(this.value)">
                 <option value="5주차">5주차 주간지</option>
@@ -404,6 +406,9 @@
         </div>
 
         <div class="toolbar-right">
+            <button class="btn-icon" onclick="window.WhiteLabel.openSettingsModal()" style="border-color: #38bdf8; color: #38bdf8; background: rgba(56, 189, 248, 0.1);">
+                🎨 학원 브랜딩 설정
+            </button>
             <button class="btn-icon" onclick="zoomFit()">🔍 맞춤</button>
             <button class="btn-icon" onclick="zoomIn()">➕ 확대</button>
             <button class="btn-icon" onclick="zoomOut()">➖ 축소</button>
@@ -516,6 +521,11 @@
                     } else if (a4Pages.length === 1) {
                         a4Pages[0].style.margin = '0';
                         a4Pages[0].style.boxShadow = 'none';
+                    }
+
+                    // White-Label B2B 치환 적용
+                    if (window.WhiteLabel && doc.body) {
+                        window.WhiteLabel.applyToDOM(doc.body);
                     }
                 } catch (e) {
                     console.debug('[Viewer] Iframe hook:', e);

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2028 통합과학 주간지 B2B 화이트레이블 상용 솔루션 안내</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- White-Label & License Activator Engines (상대경로 준수) -->
+    <script src="./whitelabel_engine.js"></script>
+    <script src="./b2b_license_activator.js"></script>
+    
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --accent: #10b981;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-white: #ffffff;
+            --text-sub: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0284c7 100%);
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-premium {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin: 0 0 16px 0;
+            line-height: 1.25;
+            color: #ffffff;
+        }
+
+        .hero-title span {
+            color: #38bdf8;
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 0 auto 36px auto;
+            font-weight: 400;
+        }
+
+        .cta-button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: #0284c7;
+            color: white;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 900;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.5);
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #10b981;
+            color: white;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 900;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 30px;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            color: #ffffff;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-sub);
+            margin: 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #0284c7;
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+        }
+
+        .feature-desc {
+            font-size: 14.5px;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1.5px solid #0284c7;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .demo-box h3 {
+            font-size: 24px;
+            font-weight: 900;
+            margin: 0 0 12px 0;
+            color: #38bdf8;
+        }
+
+        .form-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #cbd5e1;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #0f172a;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #0284c7;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Nav Bar -->
+    <div style="background-color: #0b1120; border-bottom: 1px solid #1e293b; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+        <a href="../../index.html" style="color: #94a3b8; text-decoration: none; font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            ← 갓통과 메인 홈으로 돌아가기
+        </a>
+        <div style="font-size: 13px; color: #38bdf8; font-weight: 800;">
+            🏢 갓통과 for Business 파트너스 센터
+        </div>
+    </div>
+
+    <!-- Hero Header Section -->
+    <div class="hero-section">
+        <div class="badge-premium">🏫 학원장 & 과학 선생님 전용 1등급 B2B 에듀테크 솔루션</div>
+        <h1 class="hero-title">
+            "원장님 학원의 브랜드로 배포하는<br><span>2028 개정통합과학 10주차 주간지 앱</span>"
+        </h1>
+        <p class="hero-sub">
+            원작자 명칭 노출 0%! 불법 캡처 및 계정 공유는 완벽하게 차단하고,<br>
+            선생님 자체 학원 로고와 이름으로 제작된 10주차 완벽 주간지 서비스를 수강생들에게 선물하세요.
+        </p>
+
+        <div class="cta-button-group" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+            <a href="./b2b_admin_console.html" class="btn-primary" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">🏫 학원/강사 관리자 콘솔 (/admin)</a>
+            <a href="./b2b_mobile_omr.html?tenant=daechi_mirae&w=1" class="btn-secondary" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">📱 학생 모바일 OMR 실시간 응시</a>
+            <a href="./ebook_viewer.html" class="btn-secondary" style="background: #334155;">📖 주간지 전자책 뷰어</a>
+        </div>
+    </div>
+
+    <!-- 4 Key Security Features -->
+    <div class="container">
+        <div class="section-header">
+            <h2>무단 유출 0%! 선생님을 위한 4대 독점 보안 기술</h2>
+            <p>소중한 주간지 콘텐츠와 학원의 브랜드 가치를 완벽하게 보호합니다.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">1. 100% 화이트레이블 (White-Label)</div>
+                <div class="feature-desc">
+                    원작자 명칭 노출이 100% 제거됩니다. 선생님이 입력한 학원 로고와 선생님 성함으로 앱 타이틀, 표지, 워터마크가 자동 커스터마이징됩니다.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-title">2. 유출 추적 동적 워터마크 (Dynamic Watermark)</div>
+                <div class="feature-desc">
+                    <code>[선생님 학원명 | 수강생 이름 | 접속 IP | 날짜]</code> 반투명 문구가 전자책 전 페이지에 실시간 각인되어 카메라 촬영/캡처 유출을 100% 추적 억제합니다.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔑</div>
+                <div class="feature-title">3. 1계정-1기기 접속 제한 (Single Session)</div>
+                <div class="feature-desc">
+                    친구끼리 아이디를 공유하더라도, 다른 기기에서 로그인하는 순간 이전 접속 기기가 즉시 자동 로그아웃 조치되어 무단 계정 판매 및 공유를 차단합니다.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">4. 1초 무중단 클라우드 자동 업데이트</div>
+                <div class="feature-desc">
+                    오탈자 수정이나 문제 교체 시 클릭 한 번으로 모든 수강생 앱에 즉시 최신화됩니다. 앱 재배포나 수강생의 재설치가 전혀 필요 없습니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- B2B Service Lineup & Roadmap -->
+        <div style="margin-top: 60px;">
+            <div class="section-header">
+                <h2>🏛️ 갓통과 B2B 에듀테크 서비스 라인업 &amp; 로드맵</h2>
+                <p>학원 및 선생님의 수업 경쟁력을 높여드릴 전용 솔루션이 순차적으로 확장 제공됩니다.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #0284c7; border-radius: 16px; padding: 24px; position: relative;">
+                    <span style="position: absolute; top: 16px; right: 16px; background: #0284c7; color: white; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">✅ 즉시 도입 가능</span>
+                    <div style="font-size: 28px; margin-bottom: 12px;">📖</div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: white; margin: 0 0 8px 0;">[1호] 겨울방학 10주차 주간지 &amp; 성적관리 패키지</h3>
+                    <p style="font-size: 13.5px; color: #94a3b8; margin: 0; line-height: 1.6;">
+                        2028 개정통합과학 전 단원 핵심 개념 전자책 + 핏(Fit) 20 문항 + 자동 성적 리포트 + 화이트레이블 전용 앱 솔루션.
+                    </p>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.5); border: 1px dashed #475569; border-radius: 16px; padding: 24px; position: relative;">
+                    <span style="position: absolute; top: 16px; right: 16px; background: #334155; color: #94a3b8; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">🚀 2027 1학기 출시 예정</span>
+                    <div style="font-size: 28px; margin-bottom: 12px;">📝</div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: #cbd5e1; margin: 0 0 8px 0;">[2호] 학원 맞춤형 모의고사 출제 &amp; 문제은행</h3>
+                    <p style="font-size: 13.5px; color: #64748b; margin: 0; line-height: 1.6;">
+                        단원별 난이도별 커스텀 시험지 생성, 학원 전용 로고 인쇄 및 수능 모의고사 흑백 삽화 문제은행 출력 시스템.
+                    </p>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.5); border: 1px dashed #475569; border-radius: 16px; padding: 24px; position: relative;">
+                    <span style="position: absolute; top: 16px; right: 16px; background: #334155; color: #94a3b8; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">🚀 개발 진행 중</span>
+                    <div style="font-size: 28px; margin-bottom: 12px;">📊</div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: #cbd5e1; margin: 0 0 8px 0;">[3호] 학원 수강생 통합 성적 &amp; 취약점 분석 대시보드</h3>
+                    <p style="font-size: 13.5px; color: #64748b; margin: 0; line-height: 1.6;">
+                        학원 전체 수강생의 단원별 오답률 실시간 모니터링, 학부모 전송용 성적표 PDF 자동 생성 클리닉 솔루션.
+                    </p>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.5); border: 1px dashed #475569; border-radius: 16px; padding: 24px; position: relative;">
+                    <span style="position: absolute; top: 16px; right: 16px; background: #334155; color: #94a3b8; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">🏷️ 상시 제휴</span>
+                    <div style="font-size: 28px; margin-bottom: 12px;">🖨️</div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: #cbd5e1; margin: 0 0 8px 0;">[4호] 학원 전용 교재 인쇄 &amp; 커스텀 바인딩 제휴</h3>
+                    <p style="font-size: 13.5px; color: #64748b; margin: 0; line-height: 1.6;">
+                        전자책뿐만 아니라 실물 주간지 교재를 학원 로고 표지로 인쇄 배송받아 수업할 수 있는 실물 교재 제휴 서비스.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Demo Container -->
+        <div class="demo-box">
+            <h3>🎮 실제 백엔드 연동 라이브 시스템 직접 체험하기</h3>
+            <p style="color: #cbd5e1; margin-bottom: 24px;">지금 클릭하여 포털과 학생 앱이 어떻게 실시간 구동되는지 직접 체험해 보세요!</p>
+            <div class="cta-button-group">
+                <a href="./b2b_admin_console.html" target="_blank" class="btn-primary">🏫 선생님 관리자 콘솔 (/admin)</a>
+                <a href="./b2b_mobile_omr.html?tenant=daechi_mirae&w=1" target="_blank" class="btn-secondary">📱 학생 모바일 OMR 실시간 응시</a>
+                <a href="./teacher_portal.html" target="_blank" class="btn-secondary" style="background: #334155;">📖 주간지 브랜딩 포털</a>
+            </div>
+        </div>
+
+        <!-- Winter Marketing Kit & Onboarding Download Center -->
+        <div style="margin-top: 70px;">
+            <div class="section-header">
+                <h2>📦 학원 원생 모집 마케팅 키트 &amp; 강사 온보딩 센터</h2>
+                <p>도입 즉시 원생을 모집할 수 있도록 학부모 안내문 양식과 고해상도 홍보 포스터 템플릿을 제공합니다.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <div style="background: rgba(30, 41, 59, 0.8); border: 1.5px solid #0284c7; border-radius: 16px; padding: 24px;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">📄</div>
+                    <h3 style="font-size: 17px; font-weight: 800; color: white; margin: 0 0 8px 0;">학부모 배부용 공식 특강 안내문 (가정통신문)</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 0 0 16px 0; line-height: 1.5;">
+                        10주차 주간지 커리큘럼, 모바일 OMR 및 카카오 알림톡 관리 체계가 완벽 정리된 A4 인쇄 및 복사용 서식.
+                    </p>
+                    <a href="./marketing/parent_newsletter_template.html" target="_blank" class="btn-primary" style="padding:8px 16px; font-size:13px; text-decoration:none; display:inline-block;">가정통신문 서식 열기 ➔</a>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.8); border: 1.5px solid #0284c7; border-radius: 16px; padding: 24px;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🎨</div>
+                    <h3 style="font-size: 17px; font-weight: 800; color: white; margin: 0 0 8px 0;">화이트라벨 특강 홍보 포스터 생성기</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 0 0 16px 0; line-height: 1.5;">
+                        학원 로고와 강사명만 입력하면 즉시 렌더링되는 A4/카드뉴스 규격 프리미엄 다크 테마 특강 포스터 디자인.
+                    </p>
+                    <a href="./marketing/promo_poster_template.html" target="_blank" class="btn-primary" style="padding:8px 16px; font-size:13px; text-decoration:none; display:inline-block;">포스터 생성기 열기 ➔</a>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; border-radius: 16px; padding: 24px;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🚀</div>
+                    <h3 style="font-size: 17px; font-weight: 800; color: white; margin: 0 0 8px 0;">강사 3분 온보딩 퀵 매뉴얼</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 0 0 16px 0; line-height: 1.5;">
+                        브랜딩 등록부터 엑셀 명단 복사-붙여넣기, 시험 후 알림톡 원클릭 발송까지 4단계 실무 운영법.
+                    </p>
+                    <a href="./marketing/teacher_quick_manual.html" target="_blank" class="btn-secondary" style="padding:8px 16px; font-size:13px; text-decoration:none; display:inline-block; background:#334155;">온보딩 가이드 보기 ➔</a>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; border-radius: 16px; padding: 24px;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🖨️</div>
+                    <h3 style="font-size: 17px; font-weight: 800; color: white; margin: 0 0 8px 0;">학생 책상 배부용 모바일 OMR 1장 응시 카드</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 0 0 16px 0; line-height: 1.5;">
+                        시험 당일 학생 책상에 부착하거나 시험지에 동봉하여 1분 만에 답안 마킹을 유도하는 인쇄용 미니 안내 카드.
+                    </p>
+                    <a href="./marketing/student_omr_guide_card.html" target="_blank" class="btn-secondary" style="padding:8px 16px; font-size:13px; text-decoration:none; display:inline-block; background:#334155;">1장 안내 카드 인쇄 ➔</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- B2B Inquiry Form -->
+        <div style="margin-top: 80px;" id="apply-section">
+            <div class="section-header">
+                <h2>B2B 도입 문의 및 무료 라이선스 체험 신청</h2>
+                <p>선생님 학원 규모에 맞는 수강권 플랜을 선택하시면 즉시 체험 라이선스 키가 발급됩니다.</p>
+            </div>
+
+            <div class="form-card">
+                <div class="form-group">
+                    <label>선생님 성함</label>
+                    <input type="text" id="inpInqTeacher" class="form-control" placeholder="예: 김철수 선생님" value="김과학 선생님">
+                </div>
+                <div class="form-group">
+                    <label>학원명 및 지역</label>
+                    <input type="text" id="inpInqAcademy" class="form-control" placeholder="예: 대치 미래과학 학원" value="대치 미래탐구 과학 전문관">
+                </div>
+                <div class="form-group">
+                    <label>예상 수강생 인원수</label>
+                    <select id="selInqSeats" class="form-control">
+                        <option value="30">30명 수강권 플랜</option>
+                        <option value="50" selected>50명 수강권 플랜</option>
+                        <option value="100">100명 이상 수강권 플랜</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>연락처 (휴대폰 번호)</label>
+                    <input type="text" id="inpInqPhone" class="form-control" placeholder="010-0000-0000" value="010-1234-5678">
+                </div>
+                <button type="button" class="btn-submit" onclick="handleTrialApplication()">👉 B2B 도입 상담 및 시범 라이선스 즉시 발급</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function handleTrialApplication() {
+        const teacher = document.getElementById('inpInqTeacher').value.trim();
+        const academy = document.getElementById('inpInqAcademy').value.trim();
+        const seats = parseInt(document.getElementById('selInqSeats').value, 10) || 50;
+        const phone = document.getElementById('inpInqPhone').value.trim();
+
+        if (!teacher || !academy || !phone) {
+            alert('성함, 학원명, 연락처를 모두 입력해 주세요.');
+            return;
+        }
+
+        // Generate trial license key via activator engine
+        let key = 'GT28-50S-TRIAL-202703-9A2F';
+        if (window.B2BLicenseActivator) {
+            key = window.B2BLicenseActivator.generateLicenseKey('TRIAL', seats, '2027-03-31');
+        }
+
+        // Store inquiry in storage
+        const inquiries = JSON.parse(localStorage.getItem('b2b_inquiries') || '[]');
+        inquiries.push({
+            teacher, academy, seats, phone, key, appliedAt: new Date().toISOString()
+        });
+        localStorage.setItem('b2b_inquiries', JSON.stringify(inquiries));
+
+        alert(
+            `🎉 [B2B 라이선스 발급 완료]\n\n` +
+            `선생님, ${academy} 전용 30일 무료 체험 라이선스가 즉시 발급되었습니다!\n\n` +
+            `🔑 발급된 라이선스 키:\n${key}\n\n` +
+            `[선생님 관리자 콘솔 ➔ 2. 수강생 명단 관리 ➔ 키 등록]에 위 키를 입력하시면 ${seats}석 정원이 즉시 활성화됩니다.`
+        );
+    }
+</script>
+</body>
+</html>

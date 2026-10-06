@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원작자 전용 주간지 1-Click 무중단 동기화 대시보드</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #059669;
+            --primary-dark: #047857;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #064e3b;
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #6ee7b7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sync-banner {
+            background-color: #ecfdf5;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sync-info h2 {
+            margin: 0 0 6px 0;
+            font-size: 20px;
+            color: #065f46;
+        }
+
+        .sync-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #047857;
+        }
+
+        .btn-sync {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.1s, background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-sync:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13.5px;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-sub);
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        code {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #0f172a;
+        }
+
+        .status-pill {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-brand">
+            👑 원작자 전용 주간지 1-Click 동기화 대시보드
+        </div>
+        <div style="font-size: 14px; color: #a7f3d0;">
+            10주차 과정 무중단 콘텐츠 라이브 업데이터
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Main Sync Control Banner -->
+        <div class="sync-banner">
+            <div class="sync-info">
+                <h2>⚡ 무중단 클라우드 콘텐츠 동기화</h2>
+                <p>컴퓨터의 로컬 주간지 파일(HTML/JSON/CSS)을 수정한 후 클릭 한 번으로 전 수강생 앱에 앱 업데이트 없이 즉시 반영합니다.</p>
+                <div style="margin-top: 10px; font-size: 13px; color: #047857;" id="manifest-meta-info">
+                    현재 동기화 버전: <code>로딩 중...</code> | 마지막 동기화 일시: <code>-</code>
+                </div>
+            </div>
+            <button class="btn-sync" onclick="trigger1ClickSync()">
+                🚀 1-Click 무중단 동기화 실행
+            </button>
+        </div>
+
+        <!-- Scanned File List Card -->
+        <div class="card">
+            <div class="card-title">
+                📦 패키징 대상 10주차 파일 현황
+                <span class="status-pill" id="file-count-pill">파일 0개 검증됨</span>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>파일명</th>
+                        <th>상대 경로</th>
+                        <th>용량 (Size)</th>
+                        <th>MD5 무결성 해시 (Integrity)</th>
+                    </tr>
+                </thead>
+                <tbody id="file-table-body">
+                    <!-- Javascript generated -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8080/api";
+
+        async function fetchManifestInfo() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/content-manifest`);
+                const data = await res.json();
+                if (data.success && data.manifest) {
+                    renderManifest(data.manifest);
+                }
+            } catch(err) {
+                console.error("Manifest API error:", err);
+            }
+        }
+
+        function renderManifest(manifest) {
+            document.getElementById('manifest-meta-info').innerHTML = `
+                현재 동기화 버전: <code>Version ${manifest.version}</code> | 마지막 동기화 일시: <code>${manifest.last_updated}</code>
+            `;
+            document.getElementById('file-count-pill').textContent = `파일 ${manifest.files.length}개 실시간 동기화 준비됨`;
+
+            const tbody = document.getElementById('file-table-body');
+            tbody.innerHTML = '';
+            manifest.files.forEach(f => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${f.file_name}</strong></td>
+                    <td><code>${f.rel_path}</code></td>
+                    <td>${(f.size_bytes / 1024).toFixed(1)} KB</td>
+                    <td><code>${f.hash}</code></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function trigger1ClickSync() {
+            if (!confirm('로컬 폴더의 최신 주간지 콘텐츠로 무중단 라이브 동기화를 진행하시겠습니까?\n(앱 재배포 없이 모든 수강생 앱에 즉시 적용됩니다.)')) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/sync-content`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`✅ ${data.message}\n\n새로운 버젼: ${data.manifest.version}\n앱 업데이트 없이 모든 선생님/수강생 앱에 즉시 최신 주간지가 반출됩니다!`);
+                    renderManifest(data.manifest);
+                } else {
+                    alert('동기화 실패');
+                }
+            } catch(err) {
+                alert('동기화 서버 통신 오류');
+            }
+        }
+
+        window.onload = fetchManifestInfo;
+    </script>
+</body>
+</html>

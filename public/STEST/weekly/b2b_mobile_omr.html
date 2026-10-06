@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Fit 20 모의고사 모바일 OMR 답안 제출</title>
+    <!-- Google Fonts: Nanum Gothic (표준 준수) & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- White-Label, Grading, Messaging & Cloud Sync Engines (상대경로 준수) -->
+    <script src="./whitelabel_engine.js"></script>
+    <script src="./b2b_grading_engine.js"></script>
+    <script src="./b2b_messaging.js"></script>
+    <script src="./b2b_cloud_sync.js"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 540px;
+            min-height: 100vh;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        /* --- Header: White-Label Academy Branding --- */
+        .tenant-header {
+            background: #ffffff;
+            border-bottom: 1.5px solid var(--border);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .branding-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .academy-logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .academy-emblem-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        .branding-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .academy-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.3;
+        }
+
+        .teacher-badge {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .header-extra {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .week-pill {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* --- View 1: Student Auth Screen --- */
+        .auth-view {
+            padding: 30px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-banner {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .hero-icon {
+            font-size: 46px;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .hero-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px;
+            font-size: 15px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            transition: all 0.2s;
+            outline: none;
+            background: #fdfdfd;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+            background: #ffffff;
+        }
+
+        .auth-notice-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-top: 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 12px;
+            color: #166534;
+            line-height: 1.5;
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+            transition: all 0.2s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-auth-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* --- View 2: OMR Marking Screen --- */
+        .omr-view {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .omr-sticky-status {
+            background: #ffffff;
+            border-bottom: 1.5px solid var(--border);
+            padding: 12px 20px;
+            position: sticky;
+            top: 73px;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-display {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 17px;
+            font-weight: 700;
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #fee2e2;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            width: 0%;
+            transition: width 0.2s ease-out;
+        }
+
+        .unmarked-chips-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+        }
+        .unmarked-chips-wrap::-webkit-scrollbar { display: none; }
+
+        .chip-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .unmarked-chip {
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+        .unmarked-chip:active { background: #fca5a5; }
+
+        .omr-list {
+            padding: 16px 18px 120px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .question-card.marked {
+            border-color: #cbd5e1;
+            background: #fbfcfe;
+        }
+
+        .question-card.active-target {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .q-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .q-num {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+            width: 28px;
+        }
+
+        .domain-tag {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .domain-phy { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .domain-che { background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+        .domain-bio { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+        .domain-esc { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
+
+        .q-topic {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+        }
+
+        .q-score-badge {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+
+        .radio-options-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .radio-btn-item {
+            position: relative;
+        }
+
+        .radio-btn-item input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            margin: 0;
+            z-index: 2;
+        }
+
+        .radio-btn-circle {
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            font-size: 15px;
+            font-weight: 800;
+            color: #64748b;
+            background: #ffffff;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .radio-btn-item input[type="radio"]:checked + .radio-btn-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+            transform: scale(1.06);
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
+        }
+
+        /* Bottom Sticky Bar for OMR submission */
+        .omr-bottom-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 540px;
+            background: #ffffff;
+            border-top: 1.5px solid var(--border);
+            padding: 12px 20px 24px 20px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.06);
+            z-index: 50;
+        }
+
+        .btn-clear-answers {
+            height: 48px;
+            padding: 0 16px;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-submit-omr {
+            flex: 1;
+            height: 48px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15.5px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-submit-omr:active { transform: scale(0.98); }
+
+        /* --- View 3: Multi-dimensional Report Screen --- */
+        .report-view {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            padding: 20px 18px 80px 18px;
+            background: #f8fafc;
+        }
+
+        .report-hero-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            color: #ffffff;
+            margin-bottom: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .report-hero-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .report-student-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 16px 0;
+            color: #ffffff;
+        }
+
+        .score-display-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .score-col {
+            text-align: center;
+        }
+
+        .score-col:first-child {
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .score-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: #38bdf8;
+            letter-spacing: -0.5px;
+        }
+
+        .score-max-unit {
+            font-size: 13px;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        /* Dual Benchmarks: Isolated Academy vs Combined National */
+        .dual-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat-box {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 14px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-box.academy-box {
+            border-top: 4px solid var(--primary);
+        }
+
+        .stat-box.national-box {
+            border-top: 4px solid var(--secondary);
+        }
+
+        .stat-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-main-num {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .stat-sub-detail {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* 4 Domains Balance Card */
+        .domain-balance-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 16px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-h3 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .domain-bar-row {
+            margin-bottom: 12px;
+        }
+        .domain-bar-row:last-child { margin-bottom: 0; }
+
+        .bar-label-group {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .domain-track {
+            height: 9px;
+            background: #f1f5f9;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .domain-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fill-phy { background: #2563eb; }
+        .fill-che { background: #9333ea; }
+        .fill-bio { background: #16a34a; }
+        .fill-esc { background: #ea580c; }
+
+        /* Question Analysis Accordion Table */
+        .accordion-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .item-row {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+        .item-row:last-child { border-bottom: none; }
+
+        .item-summary {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        .item-summary:active { background: #f8fafc; }
+
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-mark {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .result-mark.correct { background: #dcfce7; color: #15803d; }
+        .result-mark.wrong { background: #fee2e2; color: #b91c1c; }
+
+        .item-info-txt {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-q-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .item-q-meta {
+            font-size: 11.5px;
+            color: var(--text-muted);
+        }
+
+        .item-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .correct-rate-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .rate-high { background: #dcfce7; color: #166534; }
+        .rate-mid { background: #fef3c7; color: #92400e; }
+        .rate-low { background: #fee2e2; color: #991b1b; }
+
+        .toggle-arrow {
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+        .item-row.open .toggle-arrow { transform: rotate(180deg); }
+
+        .item-detail-body {
+            display: none;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border-top: 1px dashed var(--border);
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: #334155;
+        }
+        .item-row.open .item-detail-body { display: block; }
+
+        .explanation-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+        }
+
+        /* Parent Kakao Notification Box */
+        .kakao-alert-card {
+            background: #fefce8;
+            border: 1.5px solid #fef08a;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .kakao-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #854d0e;
+            margin-bottom: 6px;
+        }
+
+        .kakao-desc {
+            font-size: 12px;
+            color: #713f12;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Action Buttons */
+        .report-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-retake {
+            flex: 1;
+            height: 48px;
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 800;
+            color: #475569;
+            cursor: pointer;
+        }
+
+        .btn-print {
+            flex: 1;
+            height: 48px;
+            background: var(--primary);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        /* Modal Dialog */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            animation: modalPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .modal-msg {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+            white-space: pre-line;
+        }
+
+        .modal-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-modal-cancel {
+            padding: 10px 18px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-modal-confirm {
+            padding: 10px 18px;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* Kakao Talk Simulation Modal */
+        .kakao-preview-card {
+            background: #fae100;
+            border-radius: 12px;
+            padding: 14px;
+            color: #371d1e;
+            font-size: 12.5px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: #ffffff; }
+            .tenant-header, .omr-bottom-action-bar, .report-btn-group, .kakao-alert-card { display: none !important; }
+            .mobile-container { max-width: 100%; box-shadow: none; }
+            .report-view { display: flex !important; padding: 0; }
+            .item-detail-body { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+    <!-- White-Label Tenant Header -->
+    <header class="tenant-header" id="tenantHeader">
+        <div class="branding-wrap">
+            <div id="academyEmblem" class="academy-emblem-icon">🔬</div>
+            <img id="academyLogo" class="academy-logo-img" style="display:none;" alt="학원 로고">
+            <div class="branding-info">
+                <span class="academy-name" id="academyNameDisplay">대치 미래탐구 과학 전문관</span>
+                <span class="teacher-badge" id="teacherNameDisplay">김과학 선생님 수능 특강</span>
+            </div>
+        </div>
+        <div class="header-extra">
+            <span class="week-pill" id="weekPillDisplay">Fit 20 제1회</span>
+        </div>
+    </header>
+
+    <!-- VIEW 1: 간편 인증 화면 (Zero-Registration Simple Auth) -->
+    <section class="auth-view" id="authView">
+        <div class="hero-banner">
+            <span class="hero-icon">✍️</span>
+            <h1 class="hero-title" id="authExamTitle">Fit 20 모의고사 모바일 OMR</h1>
+            <p class="hero-subtitle" id="authExamSubtitle">별도의 회원가입 없이 학생 이름과 휴대폰 번호 뒷자리로 즉시 응시합니다.</p>
+        </div>
+
+        <div class="auth-card">
+            <div class="form-group">
+                <label class="form-label">수강생 이름</label>
+                <input type="text" id="inputStudentName" class="form-input" placeholder="이름을 입력하세요 (예: 홍길동)" autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">휴대폰 번호 뒷자리 (4자리)</label>
+                <input type="tel" id="inputPhoneLast4" class="form-input" maxlength="4" placeholder="휴대폰 뒷 4자리 (예: 5678)" inputmode="numeric">
+            </div>
+
+            <button type="button" class="btn-auth-submit" id="btnStartExam" onclick="handleStudentAuth()">
+                <span>OMR 답안지 열기</span> ➔
+            </button>
+
+            <div class="auth-notice-box">
+                <span style="font-size:16px;">🔒</span>
+                <div>
+                    <strong>수강생 본인 인증 &amp; 성적 보안</strong><br>
+                    학원에 등록된 수강생 명단과 일치해야 시험 응시 및 성적표 발급이 가능합니다.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIEW 2: 20문항 모바일 OMR 마킹 뷰 -->
+    <section class="omr-view" id="omrView">
+        <!-- Sticky Timer & Progress Status -->
+        <div class="omr-sticky-status">
+            <div class="status-row">
+                <div class="timer-display" id="timerBox">
+                    <span>⏱️</span>
+                    <span id="timerText">30:00</span>
+                </div>
+                <div class="progress-text" id="progressCountText">0 / 20문항 완료</div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+            <div class="unmarked-chips-wrap" id="unmarkedChipsWrap" style="display:none;">
+                <span class="chip-label">미마킹:</span>
+                <div id="unmarkedChipsList" style="display:flex; gap:4px;"></div>
+            </div>
+        </div>
+
+        <!-- 20 Question Cards Container -->
+        <div class="omr-list" id="omrQuestionList">
+            <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Fixed Bottom Action Bar -->
+        <div class="omr-bottom-action-bar">
+            <button type="button" class="btn-clear-answers" onclick="resetAllMarks()">초기화</button>
+            <button type="button" class="btn-submit-omr" onclick="confirmAndSubmit()">
+                <span>채점 및 성적표 제출</span> ➔
+            </button>
+        </div>
+    </section>
+
+    <!-- VIEW 3: 실시간 다차원 성적 분석 리포트 -->
+    <section class="report-view" id="reportView">
+        <!-- Hero Score Summary -->
+        <div class="report-hero-card">
+            <div class="report-hero-badge">채점 완료 ‧ 2028 수능 통합과학 표준</div>
+            <h2 class="report-student-title" id="reportStudentTitle">홍길동 수강생의 성적 분석표</h2>
+            <div class="score-display-grid">
+                <div class="score-col">
+                    <div class="score-label">원점수 (배점 만점)</div>
+                    <div class="score-value" id="reportRawScore">-- <span class="score-max-unit">/ --점</span></div>
+                </div>
+                <div class="score-col">
+                    <div class="score-label">100점 환산 점수</div>
+                    <div class="score-value" id="reportScaledScore" style="color:#4ade80;">-- <span class="score-max-unit">점</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dual Benchmarks: Isolated Academy vs Combined National -->
+        <div class="dual-stats-grid">
+            <div class="stat-box academy-box">
+                <div class="stat-title">🏛️ 우리 학원 내 성적</div>
+                <div class="stat-main-num" id="reportAcademyRank">--위</div>
+                <div class="stat-sub-detail">
+                    <div>응시 인원: <span id="reportAcademyTotal">--</span>명</div>
+                    <div>학원 평균: <span id="reportAcademyAvg">--</span>점</div>
+                    <div>학원 최고: <span id="reportAcademyHighest">--</span>점</div>
+                </div>
+            </div>
+
+            <div class="stat-box national-box">
+                <div class="stat-title">🌐 전국 누적 벤치마크</div>
+                <div class="stat-main-num" id="reportNationalGrade">--등급</div>
+                <div class="stat-sub-detail">
+                    <div>상위 누적: <span id="reportNationalPercentile">--</span>%</div>
+                    <div>전국 평균: <span id="reportNationalAvg">--</span>점</div>
+                    <div>표본: <span id="reportNationalSample">1,500</span>명</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Domains Balance Card -->
+        <div class="domain-balance-card">
+            <h3 class="section-h3">📊 통합과학 4대 영역별 성취도</h3>
+            
+            <div class="domain-bar-row">
+                <div class="bar-label-group">
+                    <span style="color:#2563eb;">물리학 영역</span>
+                    <span id="txtPhyRate">0%</span>
+                </div>
+                <div class="domain-track">
+                    <div class="domain-fill fill-phy" id="barPhy" style="width:0%;"></div>
+                </div>
+            </div>
+
+            <div class="domain-bar-row">
+                <div class="bar-label-group">
+                    <span style="color:#9333ea;">화학 영역</span>
+                    <span id="txtCheRate">0%</span>
+                </div>
+                <div class="domain-track">
+                    <div class="domain-fill fill-che" id="barChe" style="width:0%;"></div>
+                </div>
+            </div>
+
+            <div class="domain-bar-row">
+                <div class="bar-label-group">
+                    <span style="color:#16a34a;">생명과학 영역</span>
+                    <span id="txtBioRate">0%</span>
+                </div>
+                <div class="domain-track">
+                    <div class="domain-fill fill-bio" id="barBio" style="width:0%;"></div>
+                </div>
+            </div>
+
+            <div class="domain-bar-row">
+                <div class="bar-label-group">
+                    <span style="color:#ea580c;">지구과학 영역</span>
+                    <span id="txtEscRate">0%</span>
+                </div>
+                <div class="domain-track">
+                    <div class="domain-fill fill-esc" id="barEsc" style="width:0%;"></div>
+                </div>
+            </div>
+
+            <div id="domainDiagnosisAdvice" style="margin-top:14px; font-size:12px; color:#475569; background:#f8fafc; padding:10px; border-radius:8px; line-height:1.5;">
+                <!-- Auto feedback -->
+            </div>
+        </div>
+
+        <!-- Question By Question Accordion List -->
+        <div class="accordion-card">
+            <div style="padding:14px 16px; background:#f8fafc; border-bottom:1.5px solid var(--border); font-size:13.5px; font-weight:800; color:var(--text-main); display:flex; justify-content:space-between; align-items:center;">
+                <span>📝 20문항 상세 정오표 &amp; 핵심 해설</span>
+                <span style="font-size:11.5px; font-weight:normal; color:#64748b;">(클릭 시 해설 보기)</span>
+            </div>
+            <div id="reportItemAccordionList">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+
+        <!-- Kakao Parent Notification Card -->
+        <div class="kakao-alert-card" id="kakaoParentCard">
+            <div class="kakao-header">
+                <span>📱</span>
+                <span>학부모 안심 성적 리포트 전송 연동</span>
+            </div>
+            <p class="kakao-desc">
+                채점 결과가 학부모님 등록 번호(<strong id="parentPhoneMasked">010-****-****</strong>)로 자동 연결되었습니다.<br>
+                선생님 관리자 콘솔에서 원클릭으로 알림톡을 발송할 수 있습니다.
+            </p>
+            <button type="button" onclick="showKakaoPreviewModal()" style="margin-top:10px; background:#fae100; color:#371d1e; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">
+                💬 카카오 알림톡 전송 예시 미리보기
+            </button>
+        </div>
+
+        <!-- Report Bottom Actions -->
+        <div class="report-btn-group">
+            <button type="button" class="btn-retake" onclick="handleRetakeExam()">🔄 다시 응시하기</button>
+            <button type="button" class="btn-print" onclick="window.print()">🖨️ 성적표 인쇄 / PDF 저장</button>
+        </div>
+    </section>
+</div>
+
+<!-- General Confirmation Modal -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+        <h3 class="modal-title" id="modalTitle">확인</h3>
+        <p class="modal-msg" id="modalMsg">내용</p>
+        <div class="modal-btn-row">
+            <button type="button" class="btn-modal-cancel" id="btnModalCancel" onclick="closeModal()">취소</button>
+            <button type="button" class="btn-modal-confirm" id="btnModalConfirm" onclick="confirmModalAction()">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- Kakao Talk Preview Modal -->
+<div class="modal-overlay" id="kakaoModal">
+    <div class="modal-box">
+        <h3 class="modal-title" style="display:flex; align-items:center; gap:6px;">
+            <span style="background:#fae100; color:#371d1e; padding:2px 8px; border-radius:6px; font-size:13px;">알림톡</span>
+            학부모 안심 성적 리포트
+        </h3>
+        <div class="kakao-preview-card" id="kakaoMessageContent">
+            <!-- Dynamic Kakao Talk Content -->
+        </div>
+        <div class="modal-btn-row">
+            <button type="button" class="btn-modal-confirm" onclick="document.getElementById('kakaoModal').style.display='none'">닫기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * B2B Mobile OMR Client Application
+ */
+(function() {
+    'use strict';
+
+    // State Variables
+    let currentTenant = 'daechi_mirae';
+    let currentWeekNum = 1;
+    let currentExamMeta = null;
+    let allExamMetadata = null;
+    let activeStudent = null;
+    let studentMarks = new Array(20).fill(0);
+    let timerInterval = null;
+    let remainingSeconds = 30 * 60; // 30 minutes
+    let modalActionCallback = null;
+    let isParentView = false;
+    let parentTokenData = null;
+
+    // Domain styling mappings
+    const domainClassMap = {
+        '물리학': { tag: 'domain-phy', fill: 'fill-phy' },
+        '화학': { tag: 'domain-che', fill: 'fill-che' },
+        '생명과학': { tag: 'domain-bio', fill: 'fill-bio' },
+        '지구과학': { tag: 'domain-esc', fill: 'fill-esc' }
+    };
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+        parseUrlParameters();
+        loadTenantBranding();
+        await loadExamMetadata();
+        setupInputAutoCapitalize();
+
+        // 학부모 전용 다이렉트 성적표 열람 모드인 경우
+        if (isParentView && parentTokenData) {
+            initParentDirectReport();
+        }
+    });
+
+    function parseUrlParameters() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('tenant')) currentTenant = params.get('tenant');
+        if (params.get('w')) currentWeekNum = parseInt(params.get('w'), 10) || 1;
+        if (currentWeekNum < 1 || currentWeekNum > 10) currentWeekNum = 1;
+
+        const preName = params.get('name');
+        const preLast4 = params.get('last4');
+        if (preName) document.getElementById('inputStudentName').value = decodeURIComponent(preName);
+        if (preLast4) document.getElementById('inputPhoneLast4').value = preLast4;
+
+        // 학부모 다이렉트 열람 토큰 검증
+        const view = params.get('view');
+        const token = params.get('token');
+        if (view === 'parent' && token && window.B2BMessaging) {
+            const verified = window.B2BMessaging.verifyParentToken(token);
+            if (verified) {
+                isParentView = true;
+                parentTokenData = verified;
+                if (verified.w) currentWeekNum = parseInt(verified.w, 10);
+            }
+        }
+
+        document.getElementById('weekPillDisplay').innerText = `Fit 20 제${currentWeekNum}회`;
+    }
+
+    function loadTenantBranding() {
+        // Load custom tenant settings from localStorage if available
+        let tenantConfig = null;
+        try {
+            const raw = localStorage.getItem(`b2b_academy_${currentTenant}`);
+            if (raw) tenantConfig = JSON.parse(raw);
+        } catch (e) {
+            console.warn('Tenant config parse error:', e);
+        }
+
+        if (!tenantConfig) {
+            // Default demo tenant
+            tenantConfig = {
+                academyId: currentTenant,
+                academyName: '대치 미래탐구 과학 전문관',
+                teacherName: '김과학 선생님',
+                slogan: '2028 수능 통합과학 1등급 완성',
+                logoUrl: '',
+                themeColor: '#0284c7'
+            };
+        }
+
+        // Apply DOM Branding (화이트라벨링)
+        document.getElementById('academyNameDisplay').innerText = tenantConfig.academyName || '과학 전문 학원';
+        document.getElementById('teacherNameDisplay').innerText = `${tenantConfig.teacherName || '담당 강사'} ‧ 수능 모의고사`;
+        
+        if (tenantConfig.logoUrl) {
+            const logoImg = document.getElementById('academyLogo');
+            logoImg.src = tenantConfig.logoUrl;
+            logoImg.style.display = 'block';
+            document.getElementById('academyEmblem').style.display = 'none';
+        }
+
+        if (tenantConfig.themeColor) {
+            document.documentElement.style.setProperty('--primary', tenantConfig.themeColor);
+        }
+    }
+
+    async function loadExamMetadata() {
+        try {
+            // Load 10-week Fit 20 metadata from relative JSON
+            const res = await fetch('./b2b_fit20_metadata.json');
+            allExamMetadata = await res.json();
+            
+            const weekKey = `week_2028_${String(currentWeekNum).padStart(2, '0')}`;
+            currentExamMeta = allExamMetadata[weekKey];
+
+            if (!currentExamMeta) {
+                console.warn(`Week ${currentWeekNum} not found, falling back to week 1`);
+                currentExamMeta = allExamMetadata['week_2028_01'];
+            }
+
+            document.getElementById('authExamTitle').innerText = `${currentExamMeta.title || `Fit 20 제${currentWeekNum}회`} OMR`;
+            document.getElementById('authExamSubtitle').innerText = `총 20문항 (만점 ${currentExamMeta.totalScore}점) ‧ 스마트폰 간편 마킹`;
+        } catch (err) {
+            console.error('Metadata fetch error:', err);
+            // Fallback mock questions if offline
+            currentExamMeta = createFallbackExamMeta(currentWeekNum);
+        }
+    }
+
+    function createFallbackExamMeta(week) {
+        const questions = [];
+        const domains = ['물리학', '화학', '생명과학', '지구과학'];
+        for (let i = 1; i <= 20; i++) {
+            questions.push({
+                num: i,
+                id: `mock_w${week}_q${i}`,
+                answer: (i % 5) + 1,
+                score: (i % 3 === 0) ? 2.0 : 1.5,
+                domain: domains[(i - 1) % 4],
+                topic: `핵심 개념 ${i}`,
+                difficulty: (i % 5 === 0) ? 3 : 2,
+                explanation: `본 문항은 ${domains[(i-1)%4]} 영역의 주요 출제 유형입니다.`
+            });
+        }
+        return {
+            examId: `week_2028_${String(week).padStart(2, '0')}`,
+            week: week,
+            title: `Fit 20 제${week}회 실전 모의고사`,
+            totalScore: 35.0,
+            questions: questions
+        };
+    }
+
+    function setupInputAutoCapitalize() {
+        const phoneInput = document.getElementById('inputPhoneLast4');
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+    }
+
+    /**
+     * 학생 간편 인증 및 종량제(Roster) 보호 로직
+     */
+    window.handleStudentAuth = function() {
+        const name = document.getElementById('inputStudentName').value.trim();
+        const last4 = document.getElementById('inputPhoneLast4').value.trim();
+
+        if (!name) {
+            showModal('확인 필요', '수강생 이름을 입력해 주세요.');
+            return;
+        }
+        if (last4.length !== 4) {
+            showModal('확인 필요', '휴대폰 번호 뒷자리 4자리를 정확히 입력해 주세요.');
+            return;
+        }
+
+        // 종량제 수강생 명단(Roster) 조회
+        let roster = [];
+        try {
+            const raw = localStorage.getItem(`b2b_students_${currentTenant}`);
+            if (raw) roster = JSON.parse(raw);
+        } catch(e) {}
+
+        let matched = null;
+        if (roster && roster.length > 0) {
+            matched = roster.find(s => s.studentName === name && String(s.studentPhoneLast4) === last4);
+            if (!matched) {
+                showModal('수강생 인증 실패', 
+                    `⚠️ 등록되지 않은 수강생 정보입니다.\n\n[입력된 정보: ${name} / ${last4}]\n학원에 등록된 이름 및 전화번호 뒷자리를 확인하시거나, 담당 선생님께 명단 등록을 요청해 주세요.`
+                );
+                return;
+            }
+        } else {
+            // 데모/초기 접속 시 가상 등록 처리
+            matched = {
+                studentId: `${currentTenant}_${last4}_${name}`,
+                studentName: name,
+                studentPhoneLast4: last4,
+                parentPhone: '010-0000-0000',
+                academyId: currentTenant
+            };
+        }
+
+        activeStudent = matched;
+
+        // OMR 마킹 뷰로 전환
+        document.getElementById('authView').style.display = 'none';
+        document.getElementById('omrView').style.display = 'flex';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        renderOmrQuestionList();
+        startExamTimer();
+    };
+
+    /**
+     * OMR 20문항 카드 리스트 렌더링
+     */
+    function renderOmrQuestionList() {
+        const container = document.getElementById('omrQuestionList');
+        container.innerHTML = '';
+
+        const questions = currentExamMeta.questions || [];
+
+        questions.forEach((q, idx) => {
+            const qNum = idx + 1;
+            const domInfo = domainClassMap[q.domain] || { tag: 'domain-phy' };
+
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `qCard_${qNum}`;
+
+            card.innerHTML = `
+                <div class="q-header">
+                    <div class="q-left">
+                        <span class="q-num">${String(qNum).padStart(2, '0')}</span>
+                        <span class="domain-tag ${domInfo.tag}">${q.domain}</span>
+                        <span class="q-topic">${q.topic || ''}</span>
+                    </div>
+                    <span class="q-score-badge">${q.score}점</span>
+                </div>
+                <div class="radio-options-grid">
+                    ${[1, 2, 3, 4, 5].map(opt => `
+                        <label class="radio-btn-item">
+                            <input type="radio" name="omr_ans_${qNum}" value="${opt}" onchange="handleSelectAnswer(${qNum}, ${opt})">
+                            <div class="radio-btn-circle">${['①', '②', '③', '④', '⑤'][opt - 1]}</div>
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        updateProgress();
+    }
+
+    /**
+     * 답안 선택 핸들러
+     */
+    window.handleSelectAnswer = function(qNum, selectedVal) {
+        studentMarks[qNum - 1] = selectedVal;
+        
+        const card = document.getElementById(`qCard_${qNum}`);
+        if (card) card.classList.add('marked');
+
+        updateProgress();
+    };
+
+    function updateProgress() {
+        const markedCount = studentMarks.filter(v => v > 0).length;
+        const total = 20;
+        const percent = Math.round((markedCount / total) * 100);
+
+        document.getElementById('progressCountText').innerText = `${markedCount} / ${total}문항 완료 (${percent}%)`;
+        document.getElementById('progressBarFill').style.width = `${percent}%`;
+
+        // 미마킹 칩스 업데이트
+        const unmarkedWrap = document.getElementById('unmarkedChipsWrap');
+        const chipsList = document.getElementById('unmarkedChipsList');
+        const unmarkedNums = [];
+        studentMarks.forEach((val, i) => {
+            if (val === 0) unmarkedNums.push(i + 1);
+        });
+
+        if (unmarkedNums.length > 0 && markedCount > 0) {
+            unmarkedWrap.style.display = 'flex';
+            chipsList.innerHTML = unmarkedNums.slice(0, 8).map(n => 
+                `<span class="unmarked-chip" onclick="scrollToQuestion(${n})">${n}번</span>`
+            ).join('');
+            if (unmarkedNums.length > 8) {
+                chipsList.innerHTML += `<span class="unmarked-chip">+${unmarkedNums.length - 8}</span>`;
+            }
+        } else {
+            unmarkedWrap.style.display = 'none';
+        }
+    }
+
+    window.scrollToQuestion = function(qNum) {
+        const target = document.getElementById(`qCard_${qNum}`);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.classList.add('active-target');
+            setTimeout(() => target.classList.remove('active-target'), 1200);
+        }
+    };
+
+    function startExamTimer() {
+        const timerText = document.getElementById('timerText');
+        clearInterval(timerInterval);
+
+        timerInterval = setInterval(() => {
+            if (remainingSeconds <= 0) {
+                clearInterval(timerInterval);
+                showModal('시험 시간 종료', '30분의 시험 시간이 종료되어 답안을 자동 제출합니다.', () => {
+                    executeGradingAndShowReport();
+                });
+                return;
+            }
+            remainingSeconds--;
+            const mins = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+            const secs = String(remainingSeconds % 60).padStart(2, '0');
+            timerText.innerText = `${mins}:${secs}`;
+        }, 1000);
+    }
+
+    window.resetAllMarks = function() {
+        showModal('답안 초기화', '마킹한 모든 답안을 초기화하시겠습니까?', () => {
+            studentMarks.fill(0);
+            const radios = document.querySelectorAll('input[type="radio"]');
+            radios.forEach(r => r.checked = false);
+            const cards = document.querySelectorAll('.question-card');
+            cards.forEach(c => c.classList.remove('marked'));
+            updateProgress();
+        });
+    };
+
+    /**
+     * 답안 제출 확인 및 채점 실행
+     */
+    window.confirmAndSubmit = function() {
+        const unmarkedCount = studentMarks.filter(v => v === 0).length;
+        if (unmarkedCount > 0) {
+            showModal('미마킹 문항 확인', 
+                `아직 마킹하지 않은 문항이 ${unmarkedCount}개 남아있습니다.\n이대로 채점 및 성적표를 제출하시겠습니까?`, 
+                () => { executeGradingAndShowReport(); }
+            );
+        } else {
+            showModal('답안 제출 및 채점', 
+                '모든 문항의 마킹이 완료되었습니다.\n제출 즉시 실시간 채점 및 성적 분석표가 생성됩니다.', 
+                () => { executeGradingAndShowReport(); }
+            );
+        }
+    };
+
+    /**
+     * 채점 엔진 호출 및 다차원 성적표 뷰 렌더링
+     */
+    function executeGradingAndShowReport() {
+        clearInterval(timerInterval);
+
+        // 1. 기존 학원 제출 데이터 로드 (학원 격리 통계 산출용)
+        let academyStats = { submissions: [] };
+        try {
+            const raw = localStorage.getItem(`b2b_submissions_${currentTenant}`);
+            if (raw) academyStats.submissions = JSON.parse(raw);
+        } catch(e) {}
+
+        // 2. 전국 누적 벤치마크 표본 데이터 생성 (통합 통계용)
+        const nationalBenchmark = {
+            totalCandidates: 1540,
+            nationalAverage: 21.8,
+            scoreHistogram: [
+                { score: 35, count: 42 },
+                { score: 30, count: 185 },
+                { score: 25, count: 420 },
+                { score: 20, count: 510 },
+                { score: 15, count: 260 },
+                { score: 10, count: 123 }
+            ]
+        };
+
+        // 3. 핵심 채점 엔진 호출
+        const studentContext = {
+            academyId: currentTenant,
+            studentName: activeStudent.studentName,
+            studentPhoneLast4: activeStudent.studentPhoneLast4
+        };
+
+        const report = window.B2BGradingEngine.gradeSubmission(
+            currentExamMeta,
+            studentMarks,
+            studentContext,
+            academyStats,
+            nationalBenchmark
+        );
+
+        // 4. 로컬스토리지 및 B2BCloudSync 클라우드 동기화
+        academyStats.submissions.push({
+            studentId: activeStudent.studentId,
+            studentName: activeStudent.studentName,
+            studentPhoneLast4: activeStudent.studentPhoneLast4,
+            parentPhone: activeStudent.parentPhone || '',
+            week: currentWeekNum,
+            rawScore: report.scores.rawScore,
+            maxScore: report.scores.maxScore,
+            scaledScore: report.scores.scaledScore,
+            grade: report.nationalBenchmark.grade,
+            submittedAt: report.submittedAt
+        });
+        try {
+            localStorage.setItem(`b2b_submissions_${currentTenant}`, JSON.stringify(academyStats.submissions));
+        } catch(e) {}
+
+        if (window.B2BCloudSync) {
+            window.B2BCloudSync.submitExamRecord(null, currentTenant, {
+                studentId: activeStudent.studentId,
+                studentName: activeStudent.studentName,
+                studentPhoneLast4: activeStudent.studentPhoneLast4,
+                parentPhone: activeStudent.parentPhone || '',
+                week: currentWeekNum,
+                rawScore: report.scores.rawScore,
+                maxScore: report.scores.maxScore,
+                scaledScore: report.scores.scaledScore,
+                grade: report.nationalBenchmark.grade,
+                gradingResult: report.gradingResult,
+                areaScores: report.areaScores,
+                itemDetails: report.itemDetails
+            });
+        }
+
+        // 5. 뷰 전환
+        document.getElementById('omrView').style.display = 'none';
+        document.getElementById('reportView').style.display = 'flex';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        renderReportView(report);
+    }
+
+    /**
+     * 학원 발송 알림톡 토큰 검증 후 학부모 전용 다이렉트 성적표 뷰 초기화
+     */
+    function initParentDirectReport() {
+        document.getElementById('authView').style.display = 'none';
+        document.getElementById('omrView').style.display = 'none';
+        document.getElementById('reportView').style.display = 'flex';
+
+        // 학부모 전용 안내 배너 추가
+        const reportViewEl = document.getElementById('reportView');
+        if (!document.getElementById('parentDirectBanner')) {
+            const banner = document.createElement('div');
+            banner.id = 'parentDirectBanner';
+            banner.style.cssText = 'background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; padding:12px 16px; border-radius:12px; font-weight:800; font-size:13px; text-align:center; margin-bottom:16px; display:flex; align-items:center; justify-content:center; gap:8px;';
+            banner.innerHTML = '<span>📱</span> <span>학부모 안심 성적 리포트 다이렉트 열람 모드 (인증 완료)</span>';
+            reportViewEl.insertBefore(banner, reportViewEl.firstChild);
+        }
+
+        // 학부모 화면에서는 재응시 버튼 숨김
+        const retakeBtn = document.querySelector('.btn-retake');
+        if (retakeBtn) retakeBtn.style.display = 'none';
+
+        // 제출된 성적 데이터 검색
+        let roster = [];
+        try {
+            roster = JSON.parse(localStorage.getItem(`b2b_students_${currentTenant}`) || '[]');
+        } catch(e) {}
+        let subs = [];
+        try {
+            subs = JSON.parse(localStorage.getItem(`b2b_submissions_${currentTenant}`) || '[]');
+        } catch(e) {}
+
+        const targetSub = subs.find(s => s.week === currentWeekNum && (s.studentId === parentTokenData.s || s.rawScore === parentTokenData.r));
+        const studentInfo = roster.find(r => r.studentId === parentTokenData.s) || {
+            studentName: targetSub ? targetSub.studentName : '수강생',
+            studentPhoneLast4: targetSub ? targetSub.studentPhoneLast4 : '0000',
+            parentPhone: targetSub ? targetSub.parentPhone : '010-0000-0000'
+        };
+
+        activeStudent = studentInfo;
+
+        let academyStats = { submissions: subs };
+        let nationalBenchmark = window.B2BCloudSync ? window.B2BCloudSync.getDefaultNationalBenchmark(currentWeekNum) : null;
+        
+        const maxScore = (currentExamMeta && currentExamMeta.totalScore) || 31.0;
+        const targetRaw = (parentTokenData && parentTokenData.r !== undefined) ? Number(parentTokenData.r) : (targetSub ? targetSub.rawScore : 28.5);
+        
+        const questions = (currentExamMeta && currentExamMeta.questions) || [];
+        const simMarks = questions.map((q, idx) => {
+            return (idx < Math.round((targetRaw / maxScore) * 20)) ? q.answer : ((q.answer % 5) + 1);
+        });
+
+        const report = window.B2BGradingEngine.gradeSubmission(
+            currentExamMeta,
+            simMarks,
+            { academyId: currentTenant, studentName: studentInfo.studentName, studentPhoneLast4: studentInfo.studentPhoneLast4 },
+            academyStats,
+            nationalBenchmark
+        );
+
+        renderReportView(report);
+    }
+
+    /**
+     * 성적 리포트 상세 DOM 채우기
+     */
+    function renderReportView(report) {
+        document.getElementById('reportStudentTitle').innerText = `${report.studentInfo.studentName} 학생의 성적 분석표`;
+        
+        // 점수 요약
+        document.getElementById('reportRawScore').innerHTML = `${report.scores.rawScore} <span class="score-max-unit">/ ${report.scores.maxScore}점</span>`;
+        document.getElementById('reportScaledScore').innerHTML = `${report.scores.scaledScore} <span class="score-max-unit">점</span>`;
+
+        // 학원 내부 독립 지표
+        document.getElementById('reportAcademyRank').innerText = `${report.academyStats.rank}위`;
+        document.getElementById('reportAcademyTotal').innerText = report.academyStats.totalStudents;
+        document.getElementById('reportAcademyAvg').innerText = report.academyStats.average;
+        document.getElementById('reportAcademyHighest').innerText = report.academyStats.highest;
+
+        // 전국 누적 통합 벤치마크
+        document.getElementById('reportNationalGrade').innerText = `${report.nationalBenchmark.grade}등급`;
+        document.getElementById('reportNationalPercentile').innerText = report.nationalBenchmark.percentile;
+        document.getElementById('reportNationalAvg').innerText = report.nationalBenchmark.average;
+        document.getElementById('reportNationalSample').innerText = report.nationalBenchmark.totalSample.toLocaleString();
+
+        // 4대 영역별 성취도 바 차트
+        const aScores = report.areaScores;
+        const phy = aScores['물리학'] || 0;
+        const che = aScores['화학'] || 0;
+        const bio = aScores['생명과학'] || 0;
+        const esc = aScores['지구과학'] || 0;
+
+        document.getElementById('txtPhyRate').innerText = `${phy}%`;
+        document.getElementById('barPhy').style.width = `${phy}%`;
+
+        document.getElementById('txtCheRate').innerText = `${che}%`;
+        document.getElementById('barChe').style.width = `${che}%`;
+
+        document.getElementById('txtBioRate').innerText = `${bio}%`;
+        document.getElementById('barBio').style.width = `${bio}%`;
+
+        document.getElementById('txtEscRate').innerText = `${esc}%`;
+        document.getElementById('barEsc').style.width = `${esc}%`;
+
+        // 취약 영역 진단 코멘트
+        const rates = [
+            { name: '물리학', val: phy },
+            { name: '화학', val: che },
+            { name: '생명과학', val: bio },
+            { name: '지구과학', val: esc }
+        ].sort((a,b) => a.val - b.val);
+
+        const lowest = rates[0];
+        const highest = rates[3];
+        const adviceEl = document.getElementById('domainDiagnosisAdvice');
+        adviceEl.innerHTML = `
+            💡 <strong>영역 밸런스 진단:</strong><br>
+            ${highest.name} 영역(${highest.val}%)에서 매우 우수한 정답률을 보였습니다. 
+            반면 <strong>${lowest.name} 영역(${lowest.val}%)</strong>의 오답 비중이 상대적으로 높아, 해당 단원 개념 및 계산 유형의 집중 클리닉이 권장됩니다.
+        `;
+
+        // 20문항 상세 정오표 & 아코디언 해설 렌더링
+        const accordionWrap = document.getElementById('reportItemAccordionList');
+        accordionWrap.innerHTML = '';
+
+        report.itemDetails.forEach(item => {
+            const isCor = item.isCorrect;
+            const rateBadge = item.nationalCorrectRate >= 70 ? 'rate-high' : (item.nationalCorrectRate >= 45 ? 'rate-mid' : 'rate-low');
+            
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            row.id = `itemRow_${item.num}`;
+
+            // 해설 텍스트 생성 (없을 경우 핵심 개념 자동 안내)
+            const explanationText = item.explanation || 
+                `[출제 영역] ${item.domain} - ${item.topic}\n` +
+                `[난이도] ${item.difficulty === 3 ? '고난도 킬러 문항' : item.difficulty === 2 ? '중간 변별력 문항' : '기본 개념 문항'}\n` +
+                `[정답] ${item.correctAnswer}번 (배점 ${item.score}점)\n` +
+                `[핵심 풀이] 본 문항은 2028 개정 교육과정 ${item.topic} 단원의 대표 기출 변형 수능형 문항으로, 정답은 ${item.correctAnswer}번입니다.`;
+
+            row.innerHTML = `
+                <div class="item-summary" onclick="toggleItemRow(${item.num})">
+                    <div class="item-left">
+                        <div class="result-mark ${isCor ? 'correct' : 'wrong'}">
+                            ${isCor ? 'O' : 'X'}
+                        </div>
+                        <div class="item-info-txt">
+                            <span class="item-q-title">${String(item.num).padStart(2, '0')}번 ‧ ${item.topic || item.domain}</span>
+                            <span class="item-q-meta">내 답안: <strong>${item.submittedAnswer || '미마킹'}</strong> | 정답: <strong>${item.correctAnswer}</strong> (${item.score}점)</span>
+                        </div>
+                    </div>
+                    <div class="item-right">
+                        <span class="correct-rate-badge ${rateBadge}">정답률 ${item.nationalCorrectRate}%</span>
+                        <span class="toggle-arrow">▼</span>
+                    </div>
+                </div>
+                <div class="item-detail-body">
+                    <div style="font-weight:700; color:#1e293b; margin-bottom:4px;">📖 문항 분석 및 해설</div>
+                    <div class="explanation-box" style="white-space:pre-line;">${explanationText}</div>
+                </div>
+            `;
+
+            accordionWrap.appendChild(row);
+        });
+
+        // 학부모 번호 마스킹 처리
+        const rawParent = activeStudent.parentPhone || '010-0000-0000';
+        const parts = rawParent.split('-');
+        if (parts.length === 3) {
+            document.getElementById('parentPhoneMasked').innerText = `${parts[0]}-****-${parts[2]}`;
+        } else {
+            document.getElementById('parentPhoneMasked').innerText = '학부모 등록 번호';
+        }
+
+        // 카카오 알림톡 프리뷰 데이터 준비
+        window.currentReportData = report;
+    }
+
+    window.toggleItemRow = function(num) {
+        const row = document.getElementById(`itemRow_${num}`);
+        if (row) row.classList.toggle('open');
+    };
+
+    /**
+     * 카카오 알림톡 미리보기 모달
+     */
+    window.showKakaoPreviewModal = function() {
+        if (!window.currentReportData) return;
+        const rep = window.currentReportData;
+        const tenantCfg = JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}');
+        const acadName = tenantCfg.academyName || '대치 미래탐구 과학 전문관';
+        const teacherName = tenantCfg.teacherName || '김과학 선생님';
+
+        const content = document.getElementById('kakaoMessageContent');
+        content.innerHTML = `
+            <strong>[${acadName} ‧ 성적 알림]</strong><br><br>
+            안녕하세요, ${rep.studentInfo.studentName} 학생 학부모님.<br>
+            ${teacherName}의 [Fit 20 제${rep.week}회 모의고사] 채점이 완료되어 성적 분석표를 안내해 드립니다.<br><br>
+            ━━━━━━━━━━━━━━━━━<br>
+            • 수강생: ${rep.studentInfo.studentName} 학생<br>
+            • 원점수: ${rep.scores.rawScore} / ${rep.scores.maxScore}점<br>
+            • 100점 환산: ${rep.scores.scaledScore}점<br>
+            • 학원 내 석차: ${rep.academyStats.rank}위 (총 ${rep.academyStats.totalStudents}명)<br>
+            • 2028 전국 예상 등급: ${rep.nationalBenchmark.grade}등급 (상위 ${rep.nationalBenchmark.percentile}%)<br>
+            ━━━━━━━━━━━━━━━━━<br><br>
+            자세한 문항별 해설과 4대 영역 밸런스는 모바일 성적표 상세 링크를 통해 언제든지 열람하실 수 있습니다.
+        `;
+
+        document.getElementById('kakaoModal').style.display = 'flex';
+    };
+
+    window.handleRetakeExam = function() {
+        showModal('다시 응시', '현재 답안을 지우고 처음부터 다시 응시하시겠습니까?', () => {
+            studentMarks.fill(0);
+            remainingSeconds = 30 * 60;
+            document.getElementById('reportView').style.display = 'none';
+            document.getElementById('omrView').style.display = 'flex';
+            renderOmrQuestionList();
+            startExamTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    };
+
+    // Generic Modal Helper
+    function showModal(title, msg, onConfirm = null) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalMsg').innerText = msg;
+        modalActionCallback = onConfirm;
+
+        const cancelBtn = document.getElementById('btnModalCancel');
+        if (!onConfirm) {
+            cancelBtn.style.display = 'none';
+        } else {
+            cancelBtn.style.display = 'inline-block';
+        }
+
+        document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    window.closeModal = function() {
+        document.getElementById('confirmModal').style.display = 'none';
+        modalActionCallback = null;
+    };
+
+    window.confirmModalAction = function() {
+        document.getElementById('confirmModal').style.display = 'none';
+        if (typeof modalActionCallback === 'function') {
+            modalActionCallback();
+        }
+        modalActionCallback = null;
+    };
+
+})();
+</script>
+
+</body>
+</html>

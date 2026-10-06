@@ -1,0 +1,109 @@
+{
+  "version": 1790919845,
+  "last_updated": "2026-10-02 14:44:05",
+  "total_weeks": 10,
+  "files": [
+    {
+      "file_name": "ebook_viewer.html",
+      "rel_path": "ebook_viewer.html",
+      "size_bytes": 24345,
+      "hash": "d0e69b178ed28adb300966bdffc74096"
+    },
+    {
+      "file_name": "weekly_common.css",
+      "rel_path": "weekly_common.css",
+      "size_bytes": 31193,
+      "hash": "827484c7f8ba2883b67565e87e268151"
+    },
+    {
+      "file_name": "week_2028_01_master_db.json",
+      "rel_path": "2028/week_2028_01_master_db.json",
+      "size_bytes": 22562,
+      "hash": "23bceb0e3922bb7ac9c5f7d29de6d92f"
+    },
+    {
+      "file_name": "week_2028_02_master_db.json",
+      "rel_path": "2028/week_2028_02_master_db.json",
+      "size_bytes": 21908,
+      "hash": "5630a4f934d4d813cbf0b68b0b5b630c"
+    },
+    {
+      "file_name": "week_2028_03_master_db.json",
+      "rel_path": "2028/week_2028_03_master_db.json",
+      "size_bytes": 21658,
+      "hash": "7ba0ed8ab2989ededd084822d4d4085f"
+    },
+    {
+      "file_name": "week_2028_04_master_db.json",
+      "rel_path": "2028/week_2028_04_master_db.json",
+      "size_bytes": 21370,
+      "hash": "6d4633384e9d451a545ea53c6a05464b"
+    },
+    {
+      "file_name": "week_2028_01_final.html",
+      "rel_path": "ebook/week_2028_01_final.html",
+      "size_bytes": 496421,
+      "hash": "771c1b9e5e39480d901a9fb874a66ebf"
+    },
+    {
+      "file_name": "week_2028_02_final.html",
+      "rel_path": "ebook/week_2028_02_final.html",
+      "size_bytes": 294828,
+      "hash": "ac9c50a4de10ca850e8306c032bcd8aa"
+    },
+    {
+      "file_name": "week_2028_03_final.html",
+      "rel_path": "ebook/week_2028_03_final.html",
+      "size_bytes": 532574,
+      "hash": "c6cc9a328bc8ccfc0c9ebc09ffbf4e5c"
+    },
+    {
+      "file_name": "week_2028_04_final.html",
+      "rel_path": "ebook/week_2028_04_final.html",
+      "size_bytes": 437749,
+      "hash": "ff2fd921003462ae82aa6b8e912838fa"
+    },
+    {
+      "file_name": "week_2028_05_final.html",
+      "rel_path": "ebook/week_2028_05_final.html",
+      "size_bytes": 451497,
+      "hash": "c273b4d7de2d703d2450800872eb3634"
+    },
+    {
+      "file_name": "template_compass.html",
+      "rel_path": "templates/template_compass.html",
+      "size_bytes": 5598,
+      "hash": "639906072dc70be0206431e23cb5d7b9"
+    },
+    {
+      "file_name": "template_flyleaf.html",
+      "rel_path": "templates/template_flyleaf.html",
+      "size_bytes": 1104,
+      "hash": "6278a41a3c2f4a362777f45f5ec70194"
+    },
+    {
+      "file_name": "template_memo.html",
+      "rel_path": "templates/template_memo.html",
+      "size_bytes": 2255,
+      "hash": "17e9c293565a9bc590fa3bd7b3f6d603"
+    },
+    {
+      "file_name": "template_review.html",
+      "rel_path": "templates/template_review.html",
+      "size_bytes": 3431,
+      "hash": "4381a5df609e3ce0f8424d38c4449c6a"
+    },
+    {
+      "file_name": "index.html",
+      "rel_path": "timeattack/index.html",
+      "size_bytes": 598,
+      "hash": "025b0273caab00018172565fec236fb9"
+    },
+    {
+      "file_name": "index-BzST-F2o.css",
+      "rel_path": "timeattack/assets/index-BzST-F2o.css",
+      "size_bytes": 315,
+      "hash": "36892562e0de81894766ee2cefa0ef44"
+    }
+  ]
+}

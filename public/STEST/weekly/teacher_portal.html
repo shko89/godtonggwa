@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>선생님 전용 수강생 & 화이트레이블 관리 포털</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- White-Label Replacement Engine -->
+    <script src="./whitelabel_engine.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #0f172a;
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-info {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .seat-badge {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-sub);
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .week-toggle-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .week-chip {
+            background-color: #f1f5f9;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .week-chip.active {
+            background-color: #e0f2fe;
+            border-color: var(--primary-color);
+            color: var(--primary-dark);
+        }
+
+        .notice-banner {
+            grid-column: 1 / -1;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 14px 20px;
+            color: #166534;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-brand">
+            🎓 선생님 전용 관리자 포털 (B2B Live API 연동)
+        </div>
+        <div class="navbar-info">
+            로그인한 학원: <strong id="nav-teacher-name">로딩 중...</strong>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="notice-banner">
+            💡 <strong>B2B 백엔드 REST API 연동 완료:</strong> 본 관리자 포털은 <code>http://localhost:8080/api</code> 라이브 백엔드 서버와 실시간 통신하며, 설정한 커스텀 브랜딩 및 수강생 제한 인원이 DB에 자동 동기화됩니다.
+        </div>
+
+        <!-- Left Column: Branding Settings & Week Access Control -->
+        <div>
+            <!-- Custom Branding Card (3대 명칭 100% 화이트레이블) -->
+            <div class="card">
+                <div class="card-title">
+                    🎨 학원 자체 브랜딩 & 명칭 치환 설정
+                </div>
+                <p style="font-size: 12.5px; color: var(--text-sub); margin: 0 0 16px 0; line-height: 1.5;">
+                    아래 항목을 입력하시면 전자책과 Fit 20 모의고사에서 <strong>'갓통과', 'GODTONGGWA', '갓쌤'</strong>이 즉시 학원명과 선생님 성함으로 100% 자동 치환됩니다.
+                </p>
+                <div class="form-group">
+                    <label>🏛️ 학원명 / 브랜드 주간지 타이틀 <span style="font-size: 11px; color: #0284c7;">('갓통과' 대체)</span></label>
+                    <input type="text" id="brand-name-input" class="form-control" placeholder="예: 대치 미래과학, 목동 1등급관">
+                </div>
+                <div class="form-group">
+                    <label>🌐 영문 브랜드명 <span style="font-size: 11px; color: #0284c7;">('GODTONGGWA' 대체)</span></label>
+                    <input type="text" id="english-name-input" class="form-control" placeholder="예: MIRAE SCIENCE">
+                </div>
+                <div class="form-group">
+                    <label>👨‍🏫 선생님 성함 / 호칭 <span style="font-size: 11px; color: #0284c7;">('갓쌤' 대체)</span></label>
+                    <input type="text" id="teacher-name-input" class="form-control" placeholder="예: 김철수 선생님, 철수쌤">
+                </div>
+                
+                <!-- 실시간 치환 미리보기 안내 -->
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #166534; line-height: 1.6;">
+                    <strong>🔍 치환 효과 미리보기:</strong><br>
+                    • Fit 20 모의고사 첫화면: <strong>[학원명] WEEKLY / Fit 20</strong><br>
+                    • 실전 암기장: <strong>[선생님명]의 실전 암기장 &amp; 출제 포인트</strong><br>
+                    • 100% 가이드: <strong>[영문명] 100% 활용 가이드</strong>
+                </div>
+
+                <button class="btn" style="width: 100%;" onclick="saveBrandingApi()">💾 브랜딩 저장 & 전체 서비스 즉시 반영</button>
+
+                <!-- 빠른 테스트 링크 -->
+                <div style="display: flex; gap: 8px; margin-top: 12px;">
+                    <a href="./ebook_viewer.html" target="_blank" style="flex: 1; text-align: center; background: #e0f2fe; color: #0369a1; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; text-decoration: none;">📖 전자책 확인</a>
+                    <a href="./timeattack/index.html?examId=week_2028_01" target="_blank" style="flex: 1; text-align: center; background: #fef3c7; color: #92400e; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; text-decoration: none;">⏱️ Fit 20 확인</a>
+                    <a href="./student_app.html" target="_blank" style="flex: 1; text-align: center; background: #f1f5f9; color: #475569; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; text-decoration: none;">🎓 학생앱 확인</a>
+                </div>
+            </div>
+
+            <!-- Weekly Release Control Card -->
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-title">
+                    📅 주차별 공개 제어 (1~10주차)
+                </div>
+                <p style="font-size: 13px; color: var(--text-sub); margin: 0;">학생들에게 공개할 주차를 선택하세요 (클릭 시 토글):</p>
+                <div class="week-toggle-grid" id="week-grid">
+                    <!-- Javascript generated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Student Account Management -->
+        <div class="card">
+            <div class="card-title">
+                👥 수강생 계정 관리
+                <span class="seat-badge" id="seat-count-badge">구매한 수강권: 0 / 0명</span>
+            </div>
+
+            <!-- Add Student Form -->
+            <div style="background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin-bottom: 20px; display: flex; gap: 12px; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-sub); display: block; margin-bottom: 4px;">수강생 이름</label>
+                    <input type="text" id="new-student-name" class="form-control" placeholder="예: 이수진">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-sub); display: block; margin-bottom: 4px;">학생 아이디</label>
+                    <input type="text" id="new-student-id" class="form-control" placeholder="예: student_03">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-sub); display: block; margin-bottom: 4px;">비밀번호</label>
+                    <input type="password" id="new-student-pw" class="form-control" value="demo1234">
+                </div>
+                <button class="btn" onclick="addStudentApi()">+ 학생 등록</button>
+            </div>
+
+            <!-- Student Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>수강생 이름</th>
+                        <th>아이디</th>
+                        <th>마지막 접속 세션</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody id="student-table-body">
+                    <!-- Javascript generated -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8080/api";
+        const ACADEMY_ID = "academy_daechi_01";
+
+        let currentAcademy = null;
+        let currentStudents = [];
+
+        async function fetchTeacherInfo() {
+            try {
+                const res = await fetch(`${API_BASE}/teacher/info?academy_id=${ACADEMY_ID}`);
+                const data = await res.json();
+                if (data.success) {
+                    currentAcademy = data.academy;
+                    currentStudents = data.students;
+                    renderPortal();
+                }
+            } catch (err) {
+                console.error("API Error:", err);
+            }
+        }
+
+        function renderPortal() {
+            const localCfg = window.WhiteLabel ? window.WhiteLabel.getBranding() : {};
+            const brandVal = (currentAcademy && currentAcademy.brand_name) || localCfg.brandName || '대치 미래과학';
+            const teacherVal = (currentAcademy && currentAcademy.teacher_name) || localCfg.teacherName || '김철수 선생님';
+            const englishVal = (currentAcademy && currentAcademy.english_name) || localCfg.englishName || 'MIRAE SCIENCE';
+
+            document.getElementById('nav-teacher-name').textContent = `${teacherVal} (${brandVal})`;
+            document.getElementById('brand-name-input').value = brandVal;
+            document.getElementById('teacher-name-input').value = teacherVal;
+            document.getElementById('english-name-input').value = englishVal;
+            if (currentAcademy) {
+                document.getElementById('seat-count-badge').textContent = `구매한 수강권: ${currentStudents.length} / ${currentAcademy.purchased_seats}명`;
+            }
+
+            // Render Week Chips
+            const weekGrid = document.getElementById('week-grid');
+            weekGrid.innerHTML = '';
+            const unlocked = (currentAcademy && currentAcademy.unlocked_weeks) || [1,2,3,4,5,6,7,8,9,10];
+            for (let w = 1; w <= 10; w++) {
+                const chip = document.createElement('div');
+                const isUnlocked = unlocked.includes(w);
+                chip.className = `week-chip ${isUnlocked ? 'active' : ''}`;
+                chip.textContent = `${w}주차 ${isUnlocked ? '🔓' : '🔒'}`;
+                weekGrid.appendChild(chip);
+            }
+
+            // Render Student Table
+            const tbody = document.getElementById('student-table-body');
+            tbody.innerHTML = '';
+            currentStudents.forEach(st => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${st.student_name}</strong></td>
+                    <td><code>${st.student_id}</code></td>
+                    <td style="font-size: 13px; color: #475569;">${st.last_login_at || '미접속'} (${st.last_login_ip || '-'})</td>
+                    <td><span style="color:#166534; font-weight:bold; font-size:12px;">정상 (1기기)</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function saveBrandingApi() {
+            const brand_name = document.getElementById('brand-name-input').value.trim() || '대치 미래과학';
+            const english_name = document.getElementById('english-name-input').value.trim() || 'MIRAE SCIENCE';
+            const teacher_name = document.getElementById('teacher-name-input').value.trim() || '김철수 선생님';
+
+            // 1. WhiteLabel 엔진을 통해 브라우저 및 모든 서비스에 즉시 영구 저장
+            if (window.WhiteLabel) {
+                window.WhiteLabel.setBranding({
+                    brandName: brand_name,
+                    englishName: english_name,
+                    teacherName: teacher_name
+                });
+            }
+
+            // 2. 백엔드 REST API 서버 동기화
+            try {
+                const res = await fetch(`${API_BASE}/teacher/branding`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        academy_id: ACADEMY_ID,
+                        brand_name: brand_name,
+                        english_name: english_name,
+                        teacher_name: teacher_name
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`✅ [100% 화이트레이블 브랜딩 저장 완료]\n\n• 학원명: ${brand_name}\n• 영문명: ${english_name}\n• 선생님: ${teacher_name}\n\n전자책과 Fit 20 모의고사의 '갓통과/GODTONGGWA/갓쌤'이 즉시 치환 적용되었습니다!`);
+                    fetchTeacherInfo();
+                    return;
+                }
+            } catch(err) {
+                // API 서버가 꺼져 있어도 로컬 저장으로 100% 동작
+            }
+            alert(`✅ [로컬 화이트레이블 브랜딩 저장 완료]\n\n• 학원명: ${brand_name}\n• 영문명: ${english_name}\n• 선생님: ${teacher_name}\n\n브라우저 및 PC 앱에 즉시 적용되었습니다! 아래 [전자책 확인] 및 [Fit 20 확인] 버튼을 눌러 테스트해 보세요.`);
+            renderPortal();
+        }
+
+        async function addStudentApi() {
+            const name = document.getElementById('new-student-name').value.trim();
+            const id = document.getElementById('new-student-id').value.trim();
+            const pw = document.getElementById('new-student-pw').value.trim();
+
+            if (!name || !id) {
+                alert('학생 이름과 아이디를 입력하세요.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/teacher/students/add`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        academy_id: ACADEMY_ID,
+                        student_id: id,
+                        student_name: name,
+                        password: pw
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`수강생 [${name}] 계정이 라이브 DB에 등록되었습니다!`);
+                    document.getElementById('new-student-name').value = '';
+                    document.getElementById('new-student-id').value = '';
+                    fetchTeacherInfo();
+                } else {
+                    alert(`등록 실패: ${data.message}`);
+                }
+            } catch(err) {
+                alert('서버 통신 오류');
+            }
+        }
+
+        window.onload = fetchTeacherInfo;
+    </script>
+</body>
+</html>

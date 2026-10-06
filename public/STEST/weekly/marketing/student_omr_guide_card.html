@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit 20 모의고사 학생용 모바일 OMR 1장 응시 안내 카드</title>
+    <!-- Google Fonts: Nanum Gothic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Nanum Gothic', sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .top-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 650px) {
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+
+        /* 1 Mini Card (A5 or Desk card size) */
+        .omr-card {
+            background: #ffffff;
+            border: 2px solid #0f172a;
+            border-radius: 12px;
+            padding: 22px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-badge {
+            background: #0284c7;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        .guide-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 12.5px;
+            line-height: 1.45;
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .card-footer {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #475569;
+            line-height: 1.4;
+        }
+
+        @media print {
+            body { background: #ffffff; padding: 0; }
+            .top-toolbar { display: none !important; }
+            .page-container { max-width: 100%; margin: 0; }
+            .cards-grid { gap: 14px; }
+            .omr-card { box-shadow: none; border-color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="top-toolbar">
+            <div style="font-weight:800; font-size:14px;">🖨️ 학생 책상 배부용 1장 응시 안내 카드 (A4 1장에 4장 인쇄)</div>
+            <button onclick="window.print()" style="background:#0284c7; color:#fff; border:none; padding:6px 14px; border-radius:6px; font-weight:800; cursor:pointer;">
+                A4 인쇄하기
+            </button>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Card 1 -->
+            <div class="omr-card">
+                <div class="card-header">
+                    <h3 class="card-title">Fit 20 모바일 OMR 답안 제출</h3>
+                    <span class="card-badge">스마트폰 1분 제출</span>
+                </div>
+                <div class="guide-steps">
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div><strong>스마트폰 카메라로 QR 스캔</strong><br>별도 앱 설치 없이 기본 카메라로 시험지 상단 QR코드를 비춥니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div><strong>수강생 간편 본인 확인</strong><br>본인 이름과 휴대폰 뒷자리 4자리를 입력하고 입장합니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div><strong>20문항 라디오 버튼 터치 마킹</strong><br>1~20번 문항의 정답을 터치하여 마킹합니다. (미마킹 알림 제공)</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div><strong>[채점 및 성적표 제출] 터치</strong><br>제출 즉시 본인 점수, 학원 석차, 4대 영역 밸런스가 화면에 뜹니다!</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    📱 시험 완료 즉시 학부모님 카카오톡으로도 성적 분석표가 자동 전송됩니다.
+                </div>
+            </div>
+
+            <!-- Card 2 (Duplicate for A4 printing) -->
+            <div class="omr-card">
+                <div class="card-header">
+                    <h3 class="card-title">Fit 20 모바일 OMR 답안 제출</h3>
+                    <span class="card-badge">스마트폰 1분 제출</span>
+                </div>
+                <div class="guide-steps">
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div><strong>스마트폰 카메라로 QR 스캔</strong><br>별도 앱 설치 없이 기본 카메라로 시험지 상단 QR코드를 비춥니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div><strong>수강생 간편 본인 확인</strong><br>본인 이름과 휴대폰 뒷자리 4자리를 입력하고 입장합니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div><strong>20문항 라디오 버튼 터치 마킹</strong><br>1~20번 문항의 정답을 터치하여 마킹합니다. (미마킹 알림 제공)</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div><strong>[채점 및 성적표 제출] 터치</strong><br>제출 즉시 본인 점수, 학원 석차, 4대 영역 밸런스가 화면에 뜹니다!</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    📱 시험 완료 즉시 학부모님 카카오톡으로도 성적 분석표가 자동 전송됩니다.
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="omr-card">
+                <div class="card-header">
+                    <h3 class="card-title">Fit 20 모바일 OMR 답안 제출</h3>
+                    <span class="card-badge">스마트폰 1분 제출</span>
+                </div>
+                <div class="guide-steps">
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div><strong>스마트폰 카메라로 QR 스캔</strong><br>별도 앱 설치 없이 기본 카메라로 시험지 상단 QR코드를 비춥니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div><strong>수강생 간편 본인 확인</strong><br>본인 이름과 휴대폰 뒷자리 4자리를 입력하고 입장합니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div><strong>20문항 라디오 버튼 터치 마킹</strong><br>1~20번 문항의 정답을 터치하여 마킹합니다. (미마킹 알림 제공)</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div><strong>[채점 및 성적표 제출] 터치</strong><br>제출 즉시 본인 점수, 학원 석차, 4대 영역 밸런스가 화면에 뜹니다!</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    📱 시험 완료 즉시 학부모님 카카오톡으로도 성적 분석표가 자동 전송됩니다.
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="omr-card">
+                <div class="card-header">
+                    <h3 class="card-title">Fit 20 모바일 OMR 답안 제출</h3>
+                    <span class="card-badge">스마트폰 1분 제출</span>
+                </div>
+                <div class="guide-steps">
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div><strong>스마트폰 카메라로 QR 스캔</strong><br>별도 앱 설치 없이 기본 카메라로 시험지 상단 QR코드를 비춥니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div><strong>수강생 간편 본인 확인</strong><br>본인 이름과 휴대폰 뒷자리 4자리를 입력하고 입장합니다.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div><strong>20문항 라디오 버튼 터치 마킹</strong><br>1~20번 문항의 정답을 터치하여 마킹합니다. (미마킹 알림 제공)</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div><strong>[채점 및 성적표 제출] 터치</strong><br>제출 즉시 본인 점수, 학원 석차, 4대 영역 밸런스가 화면에 뜹니다!</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    📱 시험 완료 즉시 학부모님 카카오톡으로도 성적 분석표가 자동 전송됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

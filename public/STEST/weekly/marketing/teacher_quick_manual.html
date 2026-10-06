@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 B2B SaaS 강사 3분 온보딩 퀵 매뉴얼</title>
+    <!-- Google Fonts: Nanum Gothic & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary: #10b981;
+            --bg-page: #f8fafc;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-page);
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 20px 80px 20px;
+        }
+
+        .header-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 16px;
+            padding: 36px 30px;
+            color: #ffffff;
+            margin-bottom: 36px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        /* Step Cards */
+        .step-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 26px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .step-card { grid-template-columns: 1fr; }
+        }
+
+        .step-num-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step-badge {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-size: 22px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+        }
+
+        .step-time {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #64748b;
+        }
+
+        .step-content h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .step-content p {
+            margin: 0 0 14px 0;
+            font-size: 13.5px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .step-box-info {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 12.5px;
+            color: #334155;
+        }
+
+        .step-box-info strong { color: #0284c7; }
+
+        .btn-launch {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #0284c7;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .btn-launch:hover { background: #0369a1; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Hero Header -->
+        <div class="header-hero">
+            <span class="hero-badge">선생님 전용 퀵 가이드</span>
+            <h1 class="hero-title">🚀 3분 만에 끝내는 Fit 20 모의고사 &amp; 알림톡 운영법</h1>
+            <p class="hero-desc">복잡한 설정 없이 로고 등록, 엑셀 명단 붙여넣기, 모바일 채점, 학부모 알림톡까지 3분 안에 완료됩니다.</p>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-card">
+            <div class="step-num-col">
+                <div class="step-badge">1</div>
+                <span class="step-time">소요: 30초</span>
+            </div>
+            <div class="step-content">
+                <h3>학원 로고 &amp; 강사 브랜딩 설정</h3>
+                <p>관리자 콘솔 [1. 학원 브랜딩] 탭에서 학원명, 강사명, 슬로건을 입력하고 학원 로고(PNG)를 업로드하세요. 학생 모바일 화면과 성적표에서 '갓통과' 명칭이 100% 제거되고 선생님 브랜드로 단독 노출됩니다.</p>
+                <div class="step-box-info">
+                    💡 <strong>Tip:</strong> 대표 브랜드 컬러(예: 네이비, 스카이블루)를 선택하면 학생 OMR 버튼 테마까지 자동 변경됩니다.
+                </div>
+                <a href="../b2b_admin_console.html" target="_blank" class="btn-launch">콘솔 1탭 바로가기 ➔</a>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+            <div class="step-num-col">
+                <div class="step-badge">2</div>
+                <span class="step-time">소요: 1분</span>
+            </div>
+            <div class="step-content">
+                <h3>수강생 명단 엑셀 일괄 복사-붙여넣기</h3>
+                <p>학원 관리 엑셀에서 <code>[학생이름, 학생전화번호, 학부모전화번호]</code> 열을 그대로 복사하여 [2. 수강생 명단 관리] 탭 텍스트 박스에 붙여넣고 [일괄 등록] 버튼을 누르세요. 전화번호 정규화 및 간편인증 4자리가 자동 생성됩니다.</p>
+                <div class="step-box-info">
+                    🔒 <strong>종량제 보안:</strong> 등록된 명단의 학생만 OMR 채점이 승인되어, 무단 유출 및 인원 수 거짓 산정을 원천 방어합니다.
+                </div>
+                <a href="../b2b_admin_console.html" target="_blank" class="btn-launch">콘솔 2탭 바로가기 ➔</a>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+            <div class="step-num-col">
+                <div class="step-badge">3</div>
+                <span class="step-time">소요: 1분</span>
+            </div>
+            <div class="step-content">
+                <h3>학생 OMR 링크 배부 (QR코드 / 단톡방)</h3>
+                <p>시험 당일, 회차를 선택하고 [📋 링크 복사] 또는 [💬 공지문구 복사]를 눌러 학생 카톡방에 링크를 공유하세요. 지필 시험인 경우 [3. 개인화 인쇄 센터]에서 학생 이름과 QR이 찍힌 시험지 커버를 출력해 배부합니다.</p>
+                <div class="step-box-info">
+                    📱 <strong>간편 응시:</strong> 학생은 앱 설치 없이 링크를 터치하고 [이름 + 전화번호 뒷자리 4자리]만 입력하면 즉시 20문항 마킹이 가능합니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+            <div class="step-num-col">
+                <div class="step-badge" style="background:#dcfce7; color:#15803d;">4</div>
+                <span class="step-time">소요: 10초</span>
+            </div>
+            <div class="step-content">
+                <h3>시험 종료 즉시 [학부모 알림톡 일괄 발송]</h3>
+                <p>학생들의 모바일 채점이 끝나면 관리자 콘솔 [4. 반별 성적 현황표] 탭에서 성적 일람표와 학원 평균을 확인한 뒤, 상단 <strong>[📱 학부모 알림톡 일괄 발송]</strong> 버튼을 1번만 클릭하세요.</p>
+                <div class="step-box-info">
+                    💬 <strong>학부모 케어:</strong> 학부모님 카카오톡으로 원점수, 학원 석차, 전국 예상 등급, 4대 영역 분석 링크가 1초 만에 자동 전송됩니다.
+                </div>
+                <a href="../b2b_admin_console.html" target="_blank" class="btn-launch">콘솔 4탭 바로가기 ➔</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

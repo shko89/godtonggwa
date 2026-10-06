@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 B2B 학원/강사 관리자 콘솔</title>
+    <!-- Google Fonts: Nanum Gothic (표준 준수) & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- QRCode CDN with SVG Fallback -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- White-Label, Excel Parser, Grading, Messaging, Cloud Sync & License Engines (상대경로 준수) -->
+    <script src="./whitelabel_engine.js"></script>
+    <script src="./b2b_excel_parser.js"></script>
+    <script src="./b2b_grading_engine.js"></script>
+    <script src="./b2b_messaging.js"></script>
+    <script src="./b2b_cloud_sync.js"></script>
+    <script src="./b2b_license_activator.js"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #f0f9ff;
+            --secondary: #10b981;
+            --bg-dark: #0f172a;
+            --bg-subtle: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-subtle);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navigation Bar */
+        .admin-nav {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo-badge {
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        .nav-tenant-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .tenant-chip {
+            background: rgba(255,255,255,0.12);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #38bdf8;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        /* Main Layout */
+        .admin-main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 20px 80px 20px;
+            flex: 1;
+        }
+
+        /* Tabs Header */
+        .tabs-header {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 24px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tabs-header::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Tab Content Panes */
+        .tab-pane {
+            display: none;
+            flex-direction: column;
+            gap: 24px;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        .tab-pane.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card Elements */
+        .card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 14px;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 4px 0 0 0;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 860px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            background: #ffffff;
+        }
+
+        .form-textarea {
+            height: 120px;
+            padding: 12px 14px;
+            resize: vertical;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 800;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { background: #e2e8f0; }
+
+        .btn-success {
+            background: var(--secondary);
+            color: #ffffff;
+        }
+        .btn-success:hover { background: #059669; }
+
+        /* Stat Metric Cards */
+        .metric-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .metric-label {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .metric-badge {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        /* Table Design */
+        .table-wrap {
+            overflow-x: auto;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        table.admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+            background: #ffffff;
+        }
+
+        table.admin-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 800;
+            padding: 12px 14px;
+            border-bottom: 1.5px solid var(--border);
+            white-space: nowrap;
+        }
+
+        table.admin-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            color: #334155;
+            white-space: nowrap;
+        }
+
+        table.admin-table tr:last-child td { border-bottom: none; }
+        table.admin-table tr:hover td { background: #fbfcfe; }
+
+        .tag-status {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .tag-done { background: #dcfce7; color: #15803d; }
+        .tag-pending { background: #fef3c7; color: #92400e; }
+
+        /* QR Code Container */
+        .qr-display-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #f8fafc;
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .qr-canvas-holder {
+            background: #ffffff;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 16px;
+        }
+
+        /* Infographic Steps */
+        .security-step-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            position: relative;
+        }
+
+        .step-num-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 6px 0;
+        }
+
+        .step-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Printable OMR Preview Modal */
+        .print-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .print-modal-box {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        /* A4 Print Sheet Container */
+        .printable-a4-sheet {
+            border: 2px solid #0f172a;
+            padding: 24px;
+            background: #ffffff;
+            font-family: 'Nanum Gothic', sans-serif;
+            color: #000000;
+        }
+
+        .sheet-top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .sheet-branding h2 {
+            margin: 0 0 4px 0;
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .sheet-branding p {
+            margin: 0;
+            font-size: 12px;
+            color: #333333;
+        }
+
+        .sheet-qr-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sheet-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid #000000;
+            margin-bottom: 20px;
+        }
+
+        .meta-cell {
+            padding: 6px 10px;
+            font-size: 12px;
+            border-right: 1px solid #000000;
+        }
+        .meta-cell:last-child { border-right: none; }
+        .meta-cell strong { display: block; font-size: 10px; color: #555555; }
+
+        @media print {
+            body * { visibility: hidden; }
+            .printable-a4-sheet, .printable-a4-sheet * { visibility: visible; }
+            .printable-a4-sheet {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                padding: 0;
+            }
+            .print-modal-box { box-shadow: none; padding: 0; max-height: none; }
+            .modal-header-actions { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Admin Navigation Bar -->
+    <nav class="admin-nav">
+        <div class="nav-brand">
+            <span class="nav-logo-badge">B2B SaaS</span>
+            <span class="nav-title">학원 &amp; 강사 전용 멀티테넌트 통합 콘솔</span>
+        </div>
+        <div class="nav-tenant-info">
+            <span>소속:</span>
+            <span class="tenant-chip" id="currentTenantChip">대치 미래탐구 (daechi_mirae)</span>
+            <button type="button" class="btn-action btn-secondary" onclick="exportFullDatabaseJson()" style="padding:4px 10px; font-size:12px;">
+                💾 DB 백업
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="admin-main">
+        <!-- Pilot Staging Sandbox Banner -->
+        <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1.5px solid #0284c7; border-radius: var(--radius-lg); padding: 16px 20px; color: #ffffff; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 26px;">🚀</span>
+                <div>
+                    <div style="font-size: 14.5px; font-weight: 800; color: #38bdf8;">파트너 학원 현장 파일럿 5분 시뮬레이션 모드</div>
+                    <div style="font-size: 12px; color: #cbd5e1;">클릭 한 번으로 샘플 명단 등록 ➔ 가상 채점 ➔ 알림톡 연동까지 전 과정을 3초 만에 셋업합니다.</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-action btn-primary" onclick="runOneClickPilotSimulation()" style="font-size: 12.5px; padding: 7px 14px;">
+                    ⚡ 파일럿 시나리오 1초 자동 세팅
+                </button>
+                <a href="./marketing/parent_newsletter_template.html" target="_blank" class="btn-action btn-secondary" style="font-size: 12.5px; padding: 7px 14px; text-decoration: none; color: #cbd5e1;">
+                    📦 원생모집 키트 ➔
+                </a>
+            </div>
+        </div>
+
+        <!-- 4 Core Service Tabs -->
+        <div class="tabs-header">
+            <button type="button" class="tab-btn active" onclick="switchAdminTab('branding', this)">
+                <span>🏫</span> 1. 학원 브랜딩 &amp; QR 생성
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAdminTab('roster', this)">
+                <span>👥</span> 2. 수강생 명단 &amp; 라이선스 관리
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAdminTab('printing', this)">
+                <span>🖨️</span> 3. 개인화 인쇄 &amp; 복제 방지 센터
+            </button>
+            <button type="button" class="tab-btn" onclick="switchAdminTab('grades', this)">
+                <span>📊</span> 4. 반별 성적 현황표 &amp; 알림톡
+            </button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 1: 학원 브랜딩 & 학생 접속 QR 생성 -->
+        <!-- ========================================== -->
+        <div class="tab-pane active" id="tab-branding">
+            <div class="grid-2">
+                <!-- Academy Profile Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">🎨 학원 화이트라벨링 프로필</h3>
+                            <p class="card-subtitle">학생용 OMR 뷰 및 성적표에 노출될 자체 브랜드를 설정합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">학원명</label>
+                        <input type="text" id="cfgAcademyName" class="form-input" value="대치 미래탐구 과학 전문관">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">대표 강사명</label>
+                        <input type="text" id="cfgTeacherName" class="form-input" value="김과학 선생님">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">홍보 슬로건</label>
+                        <input type="text" id="cfgSlogan" class="form-input" value="2028 수능 통합과학 1등급 완성 특강">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">학원 로고 이미지 (PNG/JPG)</label>
+                        <input type="file" id="cfgLogoFile" accept="image/*" class="form-input" style="padding-top:7px;" onchange="handleLogoUpload(event)">
+                        <div id="logoPreviewWrap" style="margin-top:10px; display:flex; align-items:center; gap:10px;">
+                            <img id="logoPreviewImg" style="width:48px; height:48px; border-radius:8px; border:1px solid #cbd5e1; object-fit:cover; display:none;" alt="로고 미리보기">
+                            <span id="logoPreviewStatus" style="font-size:12px; color:#64748b;">기본 엠블럼 사용 중</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">테마 메인 컬러</label>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="color" id="cfgThemeColor" value="#0284c7" style="width:50px; height:40px; border:none; cursor:pointer;">
+                            <span style="font-size:13px; color:#64748b;">모바일 OMR 상단 헤더 및 버튼 테마</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-action btn-primary" onclick="saveTenantProfile()">
+                        💾 브랜딩 설정 저장
+                    </button>
+                </div>
+
+                <!-- Student QR & Link Generator Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">📱 학생 응시용 모바일 OMR 링크 &amp; QR</h3>
+                            <p class="card-subtitle">회차별로 학생들에게 배부할 고유 접속 링크와 QR코드를 생성합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">응시 회차 선택</label>
+                        <select id="selQrWeek" class="form-select" onchange="generateStudentQrCode()">
+                            <option value="1">Fit 20 제1회 실전 모의고사</option>
+                            <option value="2">Fit 20 제2회 실전 모의고사</option>
+                            <option value="3">Fit 20 제3회 실전 모의고사</option>
+                            <option value="4">Fit 20 제4회 실전 모의고사</option>
+                            <option value="5">Fit 20 제5회 실전 모의고사</option>
+                            <option value="6">Fit 20 제6회 실전 모의고사</option>
+                            <option value="7">Fit 20 제7회 실전 모의고사</option>
+                            <option value="8">Fit 20 제8회 실전 모의고사</option>
+                            <option value="9">Fit 20 제9회 실전 모의고사</option>
+                            <option value="10">Fit 20 제10회 실전 모의고사</option>
+                        </select>
+                    </div>
+
+                    <div class="qr-display-box">
+                        <div class="qr-canvas-holder" id="qrContainer">
+                            <!-- QR Code rendered here -->
+                        </div>
+                        <div style="font-size:12px; color:#64748b; margin-bottom:12px;" id="qrLinkText">
+                            ./b2b_mobile_omr.html?tenant=daechi_mirae&amp;w=1
+                        </div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+                            <button type="button" class="btn-action btn-primary" onclick="copyStudentExamLink()">
+                                📋 링크 복사
+                            </button>
+                            <button type="button" class="btn-action btn-secondary" onclick="openStudentViewInNewTab()">
+                                🚀 학생 뷰 열기
+                            </button>
+                            <button type="button" class="btn-action btn-secondary" onclick="copyNoticeTemplate()">
+                                💬 공지문구 복사
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kakao Alimtalk & SMS (Aligo) Integration Card -->
+            <div class="card" style="margin-top:20px;">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">📱 학부모 카카오 알림톡 &amp; 문자(Aligo) 실서버 API 연동</h3>
+                        <p class="card-subtitle">성적 채점 완료 시 학부모 스마트폰으로 발송될 알림톡 및 대체 문자(Failover) 발송 계정을 설정합니다.</p>
+                    </div>
+                </div>
+
+                <div class="grid-4">
+                    <div class="form-group">
+                        <label class="form-label">알리고 API Key</label>
+                        <input type="password" id="cfgAligoApiKey" class="form-input" placeholder="발급받은 API Key" value="demo_aligo_key_1234">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">알리고 User ID</label>
+                        <input type="text" id="cfgAligoUserId" class="form-input" placeholder="알리고 아이디" value="godtonggwa_admin">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">발신 프로필 키 (Sender Key)</label>
+                        <input type="text" id="cfgAligoSenderKey" class="form-input" placeholder="카카오 발신 프로필 키" value="sender_key_fit20_science">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">등록 발신 번호</label>
+                        <input type="text" id="cfgAligoSenderPhone" class="form-input" placeholder="학원 대표 전화번호" value="02-1234-5678">
+                    </div>
+                </div>
+
+                <div style="background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; margin-bottom:14px; font-size:12.5px; line-height:1.6; color:#475569;">
+                    <strong>💬 카카오 승인 정식 템플릿 코드: <code>TG_FIT20_REPORT</code></strong><br>
+                    • 본문 변수: <code>#{학원명}</code>, <code>#{학생명}</code>, <code>#{원점수}</code>, <code>#{만점}</code>, <code>#{환산점수}</code>, <code>#{석차}</code>, <code>#{등급}</code>, <code>#{성적표URL}</code><br>
+                    • <strong>스마트 Failover 지원:</strong> 학부모가 카카오톡 미설치자이거나 알림톡 수신 차단 상태인 경우 장문 LMS/SMS 문자로 자동 우회 발송됩니다.
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:8px;">
+                    <button type="button" class="btn-action btn-secondary" onclick="testSingleAlimtalk()">
+                        🧪 테스트 알림톡 1건 발송 (미리보기)
+                    </button>
+                    <button type="button" class="btn-action btn-primary" onclick="saveAligoConfig()">
+                        💾 알림톡 API 설정 저장
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: 수강생 명단 & 라이선스(종량제) 관리 -->
+        <!-- ========================================== -->
+        <div class="tab-pane" id="tab-roster">
+            <!-- Seat License Gauge Card -->
+            <div class="grid-3">
+                <div class="metric-card">
+                    <span class="metric-label">보유 종량제 라이선스</span>
+                    <span class="metric-value" id="seatQuotaVal">50 석</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+                        <span class="metric-badge">수강생 1인당 계약</span>
+                        <button type="button" class="btn-action btn-secondary" onclick="promptActivateLicenseKey()" style="padding:2px 8px; font-size:11px;">🔑 키 등록 / 정원 확장</button>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">현재 등록 수강생</span>
+                    <span class="metric-value" id="seatUsedVal" style="color:#0284c7;">0 명</span>
+                    <span class="metric-badge" id="seatUsagePercent">0% 사용 중</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">잔여 등록 가능 좌석</span>
+                    <span class="metric-value" id="seatRemainVal" style="color:#10b981;">50 석</span>
+                    <span class="metric-badge">정원 초과 시 추가 라이선스 필요</span>
+                </div>
+            </div>
+
+            <!-- Batch Excel Paste Import Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">📋 엑셀 수강생 명단 일괄 붙여넣기 (Batch Parser)</h3>
+                        <p class="card-subtitle">학원 관리 엑셀의 [이름, 학생 번호, 학부모 번호] 열을 그대로 복사하여 붙여넣으세요.</p>
+                    </div>
+                    <button type="button" class="btn-action btn-secondary" onclick="fillSampleRoster()">
+                        🧪 테스트 샘플 명단 채우기
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">붙여넣기 텍스트 (탭 / 쉼표 구분 지원)</label>
+                    <textarea id="txtExcelInput" class="form-textarea" placeholder="이수진	010-1234-5678	010-9876-5432
+박민우	010-2345-6789	010-8765-4321
+최서연	010-3456-7890	010-7654-3210"></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div id="parseSummaryText" style="font-size:13px; font-weight:700; color:#0284c7;">
+                        명단을 입력하고 아래 버튼을 누르면 실시간 등록됩니다.
+                    </div>
+                    <button type="button" class="btn-action btn-primary" onclick="executeBatchStudentRegistration()">
+                        ➕ 수강생 명단 일괄 등록
+                    </button>
+                </div>
+            </div>
+
+            <!-- Student List Table Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">👥 등록된 수강생 목록 (<span id="tableCountDisplay">0</span>명)</h3>
+                        <p class="card-subtitle">등록된 학생만 모바일 OMR에 인증(이름+뒷자리 4자리)하여 응시할 수 있습니다.</p>
+                    </div>
+                    <button type="button" class="btn-action btn-secondary" onclick="clearAllStudents()" style="color:#ef4444;">
+                        🗑️ 전체 초기화
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>학생 이름</th>
+                                <th>학생 연락처</th>
+                                <th>뒷 4자리(인증키)</th>
+                                <th>학부모 연락처</th>
+                                <th>고유 발급 시리얼 토큰</th>
+                                <th>응시 현황</th>
+                                <th>관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align:center; padding:30px; color:#94a3b8;">
+                                    등록된 수강생이 없습니다. 상단 엑셀 붙여넣기로 명단을 등록해 주세요.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: 개인화 인쇄 & 복제 방지 센터 -->
+        <!-- ========================================== -->
+        <div class="tab-pane" id="tab-printing">
+            <!-- 3-Tier Anti-Piracy Architecture Infographic -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">🛡️ 불법 복사 및 종량제 인원 속임 원천 차단 체계</h3>
+                        <p class="card-subtitle">학원에서 시험지 PDF를 복사기로 무단 복제하여 타 학생에게 배부하는 행위를 시스템적으로 무력화합니다.</p>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="security-step-card">
+                        <span class="step-num-badge">방어 1단계</span>
+                        <h4 class="step-title">개인화 시리얼 워터마크</h4>
+                        <p class="step-desc">
+                            PDF 출력 시 학생별 이름과 고유 시리얼 번호(SN-2028-W01-XXXX)가 시험지 상단 및 배경에 인쇄되어 유출자를 즉시 특정합니다.
+                        </p>
+                    </div>
+
+                    <div class="security-step-card">
+                        <span class="step-num-badge">방어 2단계</span>
+                        <h4 class="step-title">1:1 맞춤형 OMR QR코드</h4>
+                        <p class="step-desc">
+                            시험지마다 해당 학생 전용 OMR QR이 각인됩니다. 1장을 100장 복사하더라도 타 학생은 개별 모바일 채점을 진행할 수 없습니다.
+                        </p>
+                    </div>
+
+                    <div class="security-step-card">
+                        <span class="step-num-badge">방어 3단계</span>
+                        <h4 class="step-title">OMR 토큰 &amp; 리포트 락인</h4>
+                        <p class="step-desc">
+                            종량제 명단에 등록되지 않은 학생은 모바일 채점 및 학부모 알림톡 리포트가 차단되므로, 학부모의 성적표 요구가 자연스러운 감사관 역할을 합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personalized Print Generator Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">🖨️ 수강생 개인화 시험지 &amp; OMR 출력 센터</h3>
+                        <p class="card-subtitle">나눔고딕(NanumGothic) 폰트 규격의 A4 실전 시험지/OMR 커버를 학생별로 맞춤 인쇄합니다.</p>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label class="form-label">출력 회차</label>
+                        <select id="selPrintWeek" class="form-select">
+                            <option value="1">Fit 20 제1회 실전 모의고사</option>
+                            <option value="2">Fit 20 제2회 실전 모의고사</option>
+                            <option value="3">Fit 20 제3회 실전 모의고사</option>
+                            <option value="4">Fit 20 제4회 실전 모의고사</option>
+                            <option value="5">Fit 20 제5회 실전 모의고사</option>
+                            <option value="6">Fit 20 제6회 실전 모의고사</option>
+                            <option value="7">Fit 20 제7회 실전 모의고사</option>
+                            <option value="8">Fit 20 제8회 실전 모의고사</option>
+                            <option value="9">Fit 20 제9회 실전 모의고사</option>
+                            <option value="10">Fit 20 제10회 실전 모의고사</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">출력 대상 수강생</label>
+                        <select id="selPrintStudent" class="form-select">
+                            <option value="all">전체 수강생 일괄 인쇄 (순차 생성)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="display:flex; align-items:flex-end;">
+                        <button type="button" class="btn-action btn-primary" style="width:100%; height:44px;" onclick="openPrintModal()">
+                            🖨️ 개인화 OMR 시험지 미리보기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 10 Weeks E-book quick links -->
+                <div style="margin-top:16px; padding:16px; background:#f8fafc; border-radius:var(--radius-md); border:1px solid var(--border);">
+                    <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">📖 10회분 주간지 전자책 원본 열람</div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        ${[1,2,3,4,5,6,7,8,9,10].map(w => `
+                            <a href="./ebook/week_2028_${String(w).padStart(2,'0')}_final.html" target="_blank" class="btn-action btn-secondary" style="font-size:12px; padding:6px 12px; text-decoration:none;">
+                                ${w}주차 전자책 ➔
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: 반별 성적 현황표 & 알림톡 발송 -->
+        <!-- ========================================== -->
+        <div class="tab-pane" id="tab-grades">
+            <!-- Filter & Action Controls -->
+            <div class="card" style="padding:16px 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="font-weight:800; font-size:14px;">조회 회차:</span>
+                        <select id="selGradeFilterWeek" class="form-select" style="width:240px; height:38px;" onchange="renderGradeAnalytics()">
+                            <option value="1">Fit 20 제1회 실전 모의고사</option>
+                            <option value="2">Fit 20 제2회 실전 모의고사</option>
+                            <option value="3">Fit 20 제3회 실전 모의고사</option>
+                            <option value="4">Fit 20 제4회 실전 모의고사</option>
+                            <option value="5">Fit 20 제5회 실전 모의고사</option>
+                            <option value="6">Fit 20 제6회 실전 모의고사</option>
+                            <option value="7">Fit 20 제7회 실전 모의고사</option>
+                            <option value="8">Fit 20 제8회 실전 모의고사</option>
+                            <option value="9">Fit 20 제9회 실전 모의고사</option>
+                            <option value="10">Fit 20 제10회 실전 모의고사</option>
+                        </select>
+                    </div>
+
+                    <div style="display:flex; gap:8px;">
+                        <button type="button" class="btn-action btn-secondary" onclick="generateSimulatedSubmissions()">
+                            🧪 데모 응시 데이터 자동 생성
+                        </button>
+                        <button type="button" class="btn-action btn-success" onclick="exportGradesToCsv()">
+                            📊 성적표 엑셀(CSV) 다운로드
+                        </button>
+                        <button type="button" class="btn-action btn-primary" onclick="executeBatchKakaoNotifications()">
+                            📱 학부모 알림톡 일괄 발송
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metric Summary Cards -->
+            <div class="grid-4">
+                <div class="metric-card">
+                    <span class="metric-label">총 응시자 수</span>
+                    <span class="metric-value" id="statExamCount">0 명</span>
+                    <span class="metric-badge" id="statExamSubmitRate">응시율 0%</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">학원 평균 점수 (원점수)</span>
+                    <span class="metric-value" id="statExamAvg">0.0 점</span>
+                    <span class="metric-badge" id="statExamMaxScore">/ 31.0점 만점</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">100점 환산 평균</span>
+                    <span class="metric-value" id="statExamScaledAvg" style="color:#0284c7;">0.0 점</span>
+                    <span class="metric-badge">학원 표준 성취도</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">학원 최고점 / 전국 평균</span>
+                    <span class="metric-value" id="statExamTopScore" style="color:#10b981;">0.0 점</span>
+                    <span class="metric-badge" id="statNationalDiff">전국 평균 21.8점</span>
+                </div>
+            </div>
+
+            <!-- Grade Grid Table Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">📝 수강생별 성적 상세 일람표</h3>
+                        <p class="card-subtitle">학원 내부 석차는 독립 계산되며, 전국 예상 등급은 전국 통합 표본 기준으로 산출됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>석차</th>
+                                <th>학생명</th>
+                                <th>원점수 (배점)</th>
+                                <th>100점 환산</th>
+                                <th>2028 예상 등급</th>
+                                <th>전국 백분위</th>
+                                <th>응시 시각</th>
+                                <th>학부모 알림톡</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradeTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align:center; padding:30px; color:#94a3b8;">
+                                    해당 회차에 제출된 성적 데이터가 없습니다. 모바일 OMR에서 답안을 제출하거나 데모 생성 버튼을 눌러주세요.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Printable OMR Preview Modal (A4 Standard) -->
+    <div class="print-modal-overlay" id="printModalOverlay">
+        <div class="print-modal-box">
+            <div class="modal-header-actions" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+                <h3 style="margin:0; font-size:17px; font-weight:800;">🖨️ 개인화 OMR 시험지 인쇄 미리보기</h3>
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn-action btn-secondary" onclick="closePrintModal()">닫기</button>
+                    <button type="button" class="btn-action btn-primary" onclick="window.print()">인쇄하기 (A4)</button>
+                </div>
+            </div>
+
+            <!-- Individualized Printable A4 Sheet -->
+            <div class="printable-a4-sheet" id="printableA4Sheet">
+                <div class="sheet-top-header">
+                    <div class="sheet-branding">
+                        <h2 id="sheetAcademyDisplay">대치 미래탐구 과학 전문관</h2>
+                        <p id="sheetTeacherDisplay">김과학 선생님 수능 특강 ‧ Fit 20 제1회 실전 모의고사</p>
+                    </div>
+                    <div class="sheet-qr-box">
+                        <div id="sheetQrHolder" style="width:72px; height:72px; border:1px solid #000; padding:4px; display:flex; align-items:center; justify-content:center;">
+                            <!-- Individual Student QR rendered here -->
+                        </div>
+                        <span style="font-size:9px; font-weight:800;">스마트폰 모바일 마킹</span>
+                    </div>
+                </div>
+
+                <div class="sheet-meta-grid">
+                    <div class="meta-cell">
+                        <strong>수강생 이름</strong>
+                        <span id="sheetStudentNameDisplay">이수진</span>
+                    </div>
+                    <div class="meta-cell">
+                        <strong>인증키 (휴대폰 뒷자리)</strong>
+                        <span id="sheetStudentKeyDisplay">5678</span>
+                    </div>
+                    <div class="meta-cell">
+                        <strong>고유 시리얼 번호</strong>
+                        <span id="sheetSerialDisplay">SN-2028-W01-5678</span>
+                    </div>
+                    <div class="meta-cell">
+                        <strong>만점 배점</strong>
+                        <span id="sheetMaxScoreDisplay">31.0점 만점 (20문항)</span>
+                    </div>
+                </div>
+
+                <!-- Printable OMR Form Sample Grid (20 Questions) -->
+                <div style="border:1px solid #000; padding:12px; margin-bottom:14px;">
+                    <div style="font-size:12px; font-weight:800; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:4px;">
+                        [Fit 20 모의고사 답안 기록란] 스마트폰 카메라로 우측 상단 QR을 스캔하면 터치로 즉시 제출됩니다.
+                    </div>
+                    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; font-size:11px;">
+                        ${Array.from({length: 20}, (_, i) => `
+                            <div style="display:flex; align-items:center; justify-content:space-between; border:1px solid #eee; padding:3px 6px;">
+                                <span style="font-weight:700;">${i+1}번</span>
+                                <span style="letter-spacing:2px; font-size:10px; color:#444;">①②③④⑤</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Anti-Piracy Watermark Notice -->
+                <div style="font-size:10.5px; color:#555; text-align:center; line-height:1.4; border-top:1px dashed #aaa; padding-top:8px;">
+                    ⚠️ 본 시험지는 저작권법의 보호를 받으며, 수강생 <span id="sheetNoticeStudentName">이수진</span> 개인에게만 라이선스가 부여되었습니다.<br>
+                    무단 복제, 스캔 및 배포 시 워터마크와 고유 시리얼 번호를 통해 법적 조치가 취해집니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+/**
+ * B2B Admin Console Controller
+ */
+(function() {
+    'use strict';
+
+    let currentTenant = 'daechi_mirae';
+    let currentWeekNum = 1;
+    let studentsRoster = [];
+    let submissionsList = [];
+    let examMetadata = null;
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        loadTenantProfile();
+        loadAligoConfig();
+        await loadExamMetadata();
+        loadStudentsRoster();
+        loadSubmissions();
+        generateStudentQrCode();
+        renderGradeAnalytics();
+    });
+
+    // 1. Tab Switching
+    window.switchAdminTab = function(tabId, btn) {
+        document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        const target = document.getElementById(`tab-${tabId}`);
+        if (target) target.classList.add('active');
+        if (btn) btn.classList.add('active');
+
+        if (tabId === 'grades') renderGradeAnalytics();
+        if (tabId === 'printing') updatePrintDropdown();
+    };
+
+    window.runOneClickPilotSimulation = function() {
+        // 1. 샘플 수강생 6명 자동 채우기 및 등록
+        window.fillSampleRoster();
+        window.executeBatchStudentRegistration();
+
+        // 2. 1주차 모의 응시 성적 데이터 자동 생성
+        window.generateSimulatedSubmissions();
+
+        // 3. 반별 성적 탭으로 전환
+        const gradesBtn = document.querySelectorAll('.tab-btn')[3];
+        window.switchAdminTab('grades', gradesBtn);
+
+        alert(
+            '🎉 [파트너 학원 파일럿 시연 세팅 완료]\n\n' +
+            '1. 수강생 6명 자동 등록 완료 (학생 연락처 & 학부모 번호 매핑)\n' +
+            '2. 제1회 Fit 20 모의고사 가상 응시 및 실시간 채점 완료\n' +
+            '3. [4. 반별 성적 현황표] 탭으로 자동 이동되었습니다.\n\n' +
+            '이제 상단 [📱 학부모 알림톡 일괄 발송]을 눌러 실제 학부모 카카오톡 전송 흐름을 시연해 보세요!'
+        );
+    };
+
+    // 2. Load and Save Tenant Profile
+    function loadTenantProfile() {
+        let cfg = null;
+        try {
+            const raw = localStorage.getItem(`b2b_academy_${currentTenant}`);
+            if (raw) cfg = JSON.parse(raw);
+        } catch(e) {}
+
+        if (!cfg) {
+            cfg = {
+                academyId: currentTenant,
+                academyName: '대치 미래탐구 과학 전문관',
+                teacherName: '김과학 선생님',
+                slogan: '2028 수능 통합과학 1등급 완성 특강',
+                logoUrl: '',
+                themeColor: '#0284c7'
+            };
+        }
+
+        document.getElementById('cfgAcademyName').value = cfg.academyName || '';
+        document.getElementById('cfgTeacherName').value = cfg.teacherName || '';
+        document.getElementById('cfgSlogan').value = cfg.slogan || '';
+        document.getElementById('cfgThemeColor').value = cfg.themeColor || '#0284c7';
+        document.getElementById('currentTenantChip').innerText = `${cfg.academyName} (${currentTenant})`;
+
+        if (cfg.logoUrl) {
+            const img = document.getElementById('logoPreviewImg');
+            img.src = cfg.logoUrl;
+            img.style.display = 'block';
+            document.getElementById('logoPreviewStatus').innerText = '커스텀 로고 적용됨';
+        }
+    }
+
+    window.handleLogoUpload = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64 = e.target.result;
+            const img = document.getElementById('logoPreviewImg');
+            img.src = base64;
+            img.style.display = 'block';
+            document.getElementById('logoPreviewStatus').innerText = `${file.name} (저장 대기 중)`;
+            window.tempUploadedLogo = base64;
+        };
+        reader.readAsDataURL(file);
+    };
+
+    window.saveTenantProfile = function() {
+        const academyName = document.getElementById('cfgAcademyName').value.trim() || '과학 전문관';
+        const teacherName = document.getElementById('cfgTeacherName').value.trim() || '담당 강사';
+        const slogan = document.getElementById('cfgSlogan').value.trim();
+        const themeColor = document.getElementById('cfgThemeColor').value;
+
+        let existing = {};
+        try {
+            existing = JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}');
+        } catch(e) {}
+
+        const updated = {
+            ...existing,
+            academyId: currentTenant,
+            academyName: academyName,
+            teacherName: teacherName,
+            slogan: slogan,
+            themeColor: themeColor,
+            logoUrl: window.tempUploadedLogo || existing.logoUrl || ''
+        };
+
+        localStorage.setItem(`b2b_academy_${currentTenant}`, JSON.stringify(updated));
+        if (window.B2BCloudSync) {
+            window.B2BCloudSync.saveAcademyProfile(null, currentTenant, updated);
+        }
+        document.getElementById('currentTenantChip').innerText = `${academyName} (${currentTenant})`;
+        alert('학원 브랜딩 설정이 성공적으로 저장되었습니다!');
+    };
+
+    function loadAligoConfig() {
+        let cfg = null;
+        try {
+            const raw = localStorage.getItem(`b2b_aligo_config_${currentTenant}`);
+            if (raw) cfg = JSON.parse(raw);
+        } catch(e) {}
+        if (cfg) {
+            if (cfg.apiKey) document.getElementById('cfgAligoApiKey').value = cfg.apiKey;
+            if (cfg.userId) document.getElementById('cfgAligoUserId').value = cfg.userId;
+            if (cfg.senderKey) document.getElementById('cfgAligoSenderKey').value = cfg.senderKey;
+            if (cfg.senderPhone) document.getElementById('cfgAligoSenderPhone').value = cfg.senderPhone;
+        }
+    }
+
+    window.saveAligoConfig = function() {
+        const config = {
+            apiKey: document.getElementById('cfgAligoApiKey').value.trim(),
+            userId: document.getElementById('cfgAligoUserId').value.trim(),
+            senderKey: document.getElementById('cfgAligoSenderKey').value.trim(),
+            senderPhone: document.getElementById('cfgAligoSenderPhone').value.trim(),
+            updatedAt: new Date().toISOString()
+        };
+        localStorage.setItem(`b2b_aligo_config_${currentTenant}`, JSON.stringify(config));
+        alert('알리고(Aligo) 알림톡 API 연동 계정 정보가 안전하게 저장되었습니다!');
+    };
+
+    window.testSingleAlimtalk = async function() {
+        const aligoCfg = JSON.parse(localStorage.getItem(`b2b_aligo_config_${currentTenant}`) || '{}');
+        const acadCfg = JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}');
+        const sampleStudent = studentsRoster[0] || { studentName: '이수진', parentPhone: '010-9876-5432', studentPhoneLast4: '5678', studentId: 'sample' };
+        
+        const token = window.B2BMessaging ? window.B2BMessaging.generateParentToken(currentTenant, sampleStudent.studentId, 1, 28.5) : 'demo_token';
+        const reportUrl = new URL(`./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=1&token=${token}&view=parent`, window.location.href).href;
+
+        const res = await window.B2BMessaging.sendAlimtalk(aligoCfg, {
+            recipientPhone: sampleStudent.parentPhone || '010-9876-5432',
+            templateData: {
+                academyName: acadCfg.academyName || '대치 미래탐구 과학 전문관',
+                teacherName: acadCfg.teacherName || '김과학 선생님',
+                studentName: sampleStudent.studentName,
+                week: '1',
+                rawScore: '28.5',
+                maxScore: '31.0',
+                scaledScore: '91.9',
+                rank: '1',
+                totalStudents: '35',
+                grade: '1',
+                percentile: '4.2',
+                reportUrl: reportUrl
+            }
+        });
+
+        alert(`[알림톡 테스트 발송 결과: 성공]\n\n수신 번호: ${res.recipient || sampleStudent.parentPhone}\n메시지 상태: ${res.message}\n\n[발송 본문 미리보기]\n${res.previewBody || ''}`);
+    };
+
+    // 3. Load Exam Metadata
+    async function loadExamMetadata() {
+        try {
+            const res = await fetch('./b2b_fit20_metadata.json');
+            examMetadata = await res.json();
+        } catch(e) {
+            console.warn('Metadata load error:', e);
+        }
+    }
+
+    // 4. Generate Student QR Code
+    window.generateStudentQrCode = function() {
+        const week = document.getElementById('selQrWeek').value || 1;
+        const targetUrl = `./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${week}`;
+        
+        document.getElementById('qrLinkText').innerText = targetUrl;
+        const container = document.getElementById('qrContainer');
+        container.innerHTML = '';
+
+        if (typeof QRCode !== 'undefined') {
+            new QRCode(container, {
+                text: window.location.origin ? `${window.location.origin}/${targetUrl.replace('./', '')}` : targetUrl,
+                width: 140,
+                height: 140,
+                colorDark: '#0f172a',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        } else {
+            // Fallback placeholder
+            container.innerHTML = `<div style="width:140px; height:140px; display:flex; align-items:center; justify-content:center; background:#eee; font-size:12px;">QR 생성 완료</div>`;
+        }
+    };
+
+    window.copyStudentExamLink = function() {
+        const week = document.getElementById('selQrWeek').value || 1;
+        const fullUrl = new URL(`./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${week}`, window.location.href).href;
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            alert('학생 모바일 OMR 링크가 클립보드에 복사되었습니다!\n\n' + fullUrl);
+        });
+    };
+
+    window.openStudentViewInNewTab = function() {
+        const week = document.getElementById('selQrWeek').value || 1;
+        window.open(`./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${week}`, '_blank');
+    };
+
+    window.copyNoticeTemplate = function() {
+        const week = document.getElementById('selQrWeek').value || 1;
+        const acad = document.getElementById('cfgAcademyName').value;
+        const fullUrl = new URL(`./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${week}`, window.location.href).href;
+
+        const text = `[${acad}] Fit 20 제${week}회 모의고사 모바일 OMR 안내\n\n` +
+            `안녕하세요! 이번 주차 과제 모의고사 제출 안내드립니다.\n` +
+            `아래 링크에 접속하여 본인 이름과 전화번호 뒷자리 4자리를 입력하고 20문항 답안을 마킹해 주세요.\n\n` +
+            `👉 응시 링크: ${fullUrl}\n\n` +
+            `제출 즉시 본인 성적 분석 및 4대 영역 리포트가 발급됩니다.`;
+
+        navigator.clipboard.writeText(text).then(() => {
+            alert('수강생 단톡방 공지 문구가 클립보드에 복사되었습니다!');
+        });
+    };
+
+    // 5. Student Roster Management
+    function loadStudentsRoster() {
+        try {
+            const raw = localStorage.getItem(`b2b_students_${currentTenant}`);
+            studentsRoster = raw ? JSON.parse(raw) : [];
+        } catch(e) {
+            studentsRoster = [];
+        }
+        renderRosterUI();
+    }
+
+    function saveStudentsRoster() {
+        try {
+            localStorage.setItem(`b2b_students_${currentTenant}`, JSON.stringify(studentsRoster));
+        } catch(e) {}
+        renderRosterUI();
+    }
+
+    function renderRosterUI() {
+        const used = studentsRoster.length;
+        let acadCfg = {};
+        try {
+            acadCfg = JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}');
+        } catch(e) {}
+        const quota = acadCfg.seatQuota || 50;
+        const remain = Math.max(0, quota - used);
+        const pct = Math.round((used / quota) * 100);
+
+        document.getElementById('seatQuotaVal').innerText = `${quota} 석`;
+        document.getElementById('seatUsedVal').innerText = `${used} 명`;
+        document.getElementById('seatRemainVal').innerText = `${remain} 석`;
+        document.getElementById('seatUsagePercent').innerText = `${pct}% 사용 중`;
+
+    window.promptActivateLicenseKey = function() {
+        const key = prompt('발급받으신 갓통과 B2B 라이선스 키를 입력하세요:\n(예: GT28-50S-DAECHI-202703-9A2F)');
+        if (!key) return;
+
+        if (window.B2BLicenseActivator) {
+            const res = window.B2BLicenseActivator.activateLicense(currentTenant, key);
+            if (res.success) {
+                alert(`🎉 ${res.message}\n현재 라이선스 정원: ${res.seatQuota}석으로 확장되었습니다.`);
+                renderRosterUI();
+            } else {
+                alert(`⚠️ 라이선스 활성화 실패: ${res.message}`);
+            }
+        }
+    };
+
+        document.getElementById('tableCountDisplay').innerText = used;
+
+        const tbody = document.getElementById('studentTableBody');
+        if (studentsRoster.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:30px; color:#94a3b8;">등록된 수강생이 없습니다. 상단 엑셀 붙여넣기로 명단을 등록해 주세요.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = studentsRoster.map((s, idx) => {
+            const serialToken = `SN-2028-${s.studentPhoneLast4}`;
+            const sub = submissionsList.find(sub => sub.studentPhoneLast4 === s.studentPhoneLast4);
+            const statusTag = sub ? `<span class="tag-status tag-done">응시완료 (${sub.rawScore}점)</span>` : `<span class="tag-status tag-pending">미응시</span>`;
+
+            return `
+                <tr>
+                    <td><strong>${idx + 1}</strong></td>
+                    <td><strong>${s.studentName}</strong></td>
+                    <td>${s.studentPhone || '-'}</td>
+                    <td><span style="font-family:monospace; font-weight:800; color:#0284c7;">${s.studentPhoneLast4}</span></td>
+                    <td>${s.parentPhone || '-'}</td>
+                    <td><span style="font-family:monospace; font-size:11px; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${serialToken}</span></td>
+                    <td>${statusTag}</td>
+                    <td>
+                        <button type="button" onclick="deleteStudentRecord('${s.studentId}')" style="background:none; border:none; color:#ef4444; font-weight:800; cursor:pointer;">삭제</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    window.executeBatchStudentRegistration = function() {
+        const raw = document.getElementById('txtExcelInput').value;
+        if (!raw.trim()) {
+            alert('등록할 엑셀 데이터를 입력해 주세요.');
+            return;
+        }
+
+        const parseResult = window.B2BExcelParser.parseStudentRows(raw, currentTenant);
+        if (!parseResult.success) {
+            alert('수강생 데이터 파싱 오류:\n' + parseResult.errors.join('\n'));
+            return;
+        }
+
+        // 중복 방지 병합
+        let addedCount = 0;
+        parseResult.students.forEach(newS => {
+            const exists = studentsRoster.some(s => s.studentPhoneLast4 === newS.studentPhoneLast4 && s.studentName === newS.studentName);
+            if (!exists) {
+                studentsRoster.push(newS);
+                addedCount++;
+            }
+        });
+
+        saveStudentsRoster();
+        document.getElementById('txtExcelInput').value = '';
+        document.getElementById('parseSummaryText').innerText = `총 ${parseResult.parsedCount}명 분석 완료 (${addedCount}명 신규 등록)`;
+        alert(`수강생 ${addedCount}명이 성공적으로 등록되었습니다!`);
+    };
+
+    window.fillSampleRoster = function() {
+        document.getElementById('txtExcelInput').value = 
+`이수진	010-1234-5678	010-9876-5432
+박민우	010-2345-6789	010-8765-4321
+최서연	010-3456-7890	010-7654-3210
+정준호	010-4567-8901	010-6543-2109
+한지민	010-5678-9012	010-5432-1098
+강동원	010-6789-0123	010-4321-0987`;
+        document.getElementById('parseSummaryText').innerText = '샘플 데이터 6명이 입력되었습니다. [수강생 명단 일괄 등록] 버튼을 누르세요.';
+    };
+
+    window.deleteStudentRecord = function(studentId) {
+        if (!confirm('해당 수강생을 명단에서 삭제하시겠습니까?')) return;
+        studentsRoster = studentsRoster.filter(s => s.studentId !== studentId);
+        saveStudentsRoster();
+    };
+
+    window.clearAllStudents = function() {
+        if (!confirm('정말로 모든 수강생 명단을 초기화하시겠습니까?')) return;
+        studentsRoster = [];
+        saveStudentsRoster();
+    };
+
+    // 6. Submissions & Grades Analytics
+    function loadSubmissions() {
+        try {
+            const raw = localStorage.getItem(`b2b_submissions_${currentTenant}`);
+            submissionsList = raw ? JSON.parse(raw) : [];
+        } catch(e) {
+            submissionsList = [];
+        }
+    }
+
+    window.renderGradeAnalytics = function() {
+        loadSubmissions();
+        const selWeek = parseInt(document.getElementById('selGradeFilterWeek').value, 10) || 1;
+        const weekSubmissions = submissionsList.filter(s => s.week === selWeek);
+
+        const count = weekSubmissions.length;
+        const totalRoster = studentsRoster.length || 1;
+        const submitRate = Math.round((count / totalRoster) * 100);
+
+        let avg = 0;
+        let scaledAvg = 0;
+        let topScore = 0;
+
+        if (count > 0) {
+            const rawScores = weekSubmissions.map(s => s.rawScore);
+            const scaledScores = weekSubmissions.map(s => s.scaledScore);
+            avg = Math.round((rawScores.reduce((a,b)=>a+b, 0) / count) * 10) / 10;
+            scaledAvg = Math.round((scaledScores.reduce((a,b)=>a+b, 0) / count) * 10) / 10;
+            topScore = Math.max(...rawScores);
+        }
+
+        document.getElementById('statExamCount').innerText = `${count} 명`;
+        document.getElementById('statExamSubmitRate').innerText = `응시율 ${submitRate}%`;
+        document.getElementById('statExamAvg').innerText = `${avg} 점`;
+        document.getElementById('statExamScaledAvg').innerText = `${scaledAvg} 점`;
+        document.getElementById('statExamTopScore').innerText = `${topScore} 점`;
+
+        // Render Table
+        const tbody = document.getElementById('gradeTableBody');
+        if (count === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:30px; color:#94a3b8;">해당 회차에 제출된 성적 데이터가 없습니다. 모바일 OMR에서 답안을 제출하거나 데모 생성 버튼을 눌러주세요.</td></tr>`;
+            return;
+        }
+
+        // Sort descending by raw score
+        weekSubmissions.sort((a,b) => b.rawScore - a.rawScore);
+
+        tbody.innerHTML = weekSubmissions.map((s, idx) => {
+            const rank = idx + 1;
+            const percentile = Math.max(1, Math.round(((rank) / (count + 1)) * 1000) / 10);
+            const kakaoStatus = s.kakaoSent ? `<span class="tag-status tag-done">발송 완료</span>` : `<span class="tag-status tag-pending">미발송</span>`;
+
+            return `
+                <tr>
+                    <td><strong>${rank}위</strong></td>
+                    <td><strong>${s.studentName}</strong></td>
+                    <td>${s.rawScore} / ${s.maxScore || 31.0}점</td>
+                    <td><strong style="color:#0284c7;">${s.scaledScore}점</strong></td>
+                    <td><span class="tag-status tag-done">${s.grade || 2}등급</span></td>
+                    <td>상위 ${percentile}%</td>
+                    <td>${s.submittedAt ? new Date(s.submittedAt).toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}) : '-'}</td>
+                    <td>${kakaoStatus}</td>
+                </tr>
+            `;
+        }).join('');
+    };
+
+    window.generateSimulatedSubmissions = function() {
+        if (studentsRoster.length === 0) {
+            window.fillSampleRoster();
+            window.executeBatchStudentRegistration();
+        }
+
+        const selWeek = parseInt(document.getElementById('selGradeFilterWeek').value, 10) || 1;
+        const weekKey = `week_2028_${String(selWeek).padStart(2,'0')}`;
+        const maxScore = (examMetadata && examMetadata[weekKey]) ? examMetadata[weekKey].totalScore : 31.0;
+
+        // Generate sample submissions for roster
+        studentsRoster.forEach((s, idx) => {
+            const ratio = 0.55 + (idx * 0.07); // various score distribution
+            const rawScore = Math.min(maxScore, Math.round((maxScore * Math.min(0.98, ratio)) * 10) / 10);
+            const scaledScore = Math.round((rawScore / maxScore) * 1000) / 10;
+            const grade = scaledScore >= 90 ? 1 : (scaledScore >= 80 ? 2 : (scaledScore >= 70 ? 3 : 4));
+
+            submissionsList = submissionsList.filter(sub => !(sub.studentId === s.studentId && sub.week === selWeek));
+            submissionsList.push({
+                studentId: s.studentId,
+                studentName: s.studentName,
+                studentPhoneLast4: s.studentPhoneLast4,
+                parentPhone: s.parentPhone,
+                week: selWeek,
+                rawScore: rawScore,
+                maxScore: maxScore,
+                scaledScore: scaledScore,
+                grade: grade,
+                kakaoSent: false,
+                submittedAt: new Date(Date.now() - (idx * 15 * 60 * 1000)).toISOString()
+            });
+        });
+
+        localStorage.setItem(`b2b_submissions_${currentTenant}`, JSON.stringify(submissionsList));
+        renderGradeAnalytics();
+        renderRosterUI();
+        alert(`수강생 ${studentsRoster.length}명의 제${selWeek}회 모의고사 응시 데이터가 자동 생성되었습니다!`);
+    };
+
+    window.exportGradesToCsv = function() {
+        const selWeek = parseInt(document.getElementById('selGradeFilterWeek').value, 10) || 1;
+        const weekSubmissions = submissionsList.filter(s => s.week === selWeek);
+
+        if (weekSubmissions.length === 0) {
+            alert('다운로드할 성적 데이터가 없습니다.');
+            return;
+        }
+
+        weekSubmissions.sort((a,b) => b.rawScore - a.rawScore);
+
+        let csvContent = "\uFEFF"; // UTF-8 BOM
+        csvContent += "석차,수강생이름,휴대폰뒷자리,원점수,만점배점,100점환산점수,예상등급,제출시각\n";
+
+        weekSubmissions.forEach((s, idx) => {
+            csvContent += `${idx + 1},${s.studentName},${s.studentPhoneLast4},${s.rawScore},${s.maxScore || 31.0},${s.scaledScore},${s.grade}등급,${s.submittedAt || ''}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `fit20_grade_week_${selWeek}_${currentTenant}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    window.executeBatchKakaoNotifications = async function() {
+        const selWeek = parseInt(document.getElementById('selGradeFilterWeek').value, 10) || 1;
+        const weekSubmissions = submissionsList.filter(s => s.week === selWeek);
+
+        if (weekSubmissions.length === 0) {
+            alert('발송 대상 성적 데이터가 없습니다. 먼저 모의 응시 데이터를 생성하거나 OMR 답안을 제출해 주세요.');
+            return;
+        }
+
+        const aligoCfg = JSON.parse(localStorage.getItem(`b2b_aligo_config_${currentTenant}`) || '{}');
+        const acadCfg = JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}');
+        let successCount = 0;
+
+        for (const s of weekSubmissions) {
+            const token = window.B2BMessaging ? window.B2BMessaging.generateParentToken(currentTenant, s.studentId, selWeek, s.rawScore) : 'token';
+            const reportUrl = new URL(`./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${selWeek}&token=${token}&view=parent`, window.location.href).href;
+
+            const res = await window.B2BMessaging.sendAlimtalk(aligoCfg, {
+                recipientPhone: s.parentPhone || '010-0000-0000',
+                templateData: {
+                    academyName: acadCfg.academyName || '과학 전문 학원',
+                    teacherName: acadCfg.teacherName || '담당 강사',
+                    studentName: s.studentName,
+                    week: String(selWeek),
+                    rawScore: String(s.rawScore),
+                    maxScore: String(s.maxScore || 31.0),
+                    scaledScore: String(s.scaledScore),
+                    rank: String(weekSubmissions.indexOf(s) + 1),
+                    totalStudents: String(weekSubmissions.length),
+                    grade: String(s.grade || 2),
+                    percentile: '8.5',
+                    reportUrl: reportUrl
+                }
+            });
+
+            if (res.success) {
+                s.kakaoSent = true;
+                successCount++;
+            }
+        }
+
+        localStorage.setItem(`b2b_submissions_${currentTenant}`, JSON.stringify(submissionsList));
+        renderGradeAnalytics();
+
+        alert(`🎉 총 ${successCount}명의 학부모님께 카카오 알림톡(Aligo 규격 템플릿: TG_FIT20_REPORT) 발송이 완료되었습니다!\n\n• 카카오톡 미수신 학부모는 장문 LMS 문자로 자동 대체 발송(Failover)되었습니다.\n• 각 알림톡 본문에 학부모 전용 다이렉트 성적표 열람 보안 토큰 링크가 포함되었습니다.`);
+    };
+
+    // 7. Individualized Printing Center
+    function updatePrintDropdown() {
+        const sel = document.getElementById('selPrintStudent');
+        sel.innerHTML = '<option value="all">전체 수강생 일괄 인쇄 (순차 생성)</option>';
+        studentsRoster.forEach(s => {
+            sel.innerHTML += `<option value="${s.studentId}">${s.studentName} (${s.studentPhoneLast4})</option>`;
+        });
+    }
+
+    window.openPrintModal = function() {
+        const week = document.getElementById('selPrintWeek').value || 1;
+        const studentId = document.getElementById('selPrintStudent').value;
+        const cfg = JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}');
+
+        let targetStudent = studentsRoster[0] || { studentName: '이수진', studentPhoneLast4: '5678' };
+        if (studentId !== 'all') {
+            const found = studentsRoster.find(s => s.studentId === studentId);
+            if (found) targetStudent = found;
+        }
+
+        document.getElementById('sheetAcademyDisplay').innerText = cfg.academyName || '대치 미래탐구 과학 전문관';
+        document.getElementById('sheetTeacherDisplay').innerText = `${cfg.teacherName || '김과학 선생님'} 수능 특강 ‧ Fit 20 제${week}회 실전 모의고사`;
+        document.getElementById('sheetStudentNameDisplay').innerText = targetStudent.studentName;
+        document.getElementById('sheetStudentKeyDisplay').innerText = targetStudent.studentPhoneLast4;
+        document.getElementById('sheetSerialDisplay').innerText = `SN-2028-W${String(week).padStart(2,'0')}-${targetStudent.studentPhoneLast4}`;
+        document.getElementById('sheetNoticeStudentName').innerText = targetStudent.studentName;
+
+        // Render Personalized QR
+        const qrHolder = document.getElementById('sheetQrHolder');
+        qrHolder.innerHTML = '';
+        const targetUrl = `./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${week}&name=${encodeURIComponent(targetStudent.studentName)}&last4=${targetStudent.studentPhoneLast4}`;
+        
+        if (typeof QRCode !== 'undefined') {
+            new QRCode(qrHolder, {
+                text: targetUrl,
+                width: 64,
+                height: 64,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        }
+
+        document.getElementById('printModalOverlay').style.display = 'flex';
+    };
+
+    window.closePrintModal = function() {
+        document.getElementById('printModalOverlay').style.display = 'none';
+    };
+
+    window.exportFullDatabaseJson = function() {
+        const data = {
+            tenant: JSON.parse(localStorage.getItem(`b2b_academy_${currentTenant}`) || '{}'),
+            students: studentsRoster,
+            submissions: submissionsList,
+            exportedAt: new Date().toISOString()
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `b2b_backup_${currentTenant}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+})();
+</script>
+
+</body>
+</html>

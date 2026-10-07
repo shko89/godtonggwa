@@ -17,25 +17,71 @@
 
     // 기본 브랜딩 설정 (설정되지 않았을 때의 기본값)
     const DEFAULT_CONFIG = {
-        brandName: '대치 미래과학',         // '갓통과' 대체
-        englishName: 'MIRAE SCIENCE',      // 'godtonggwa' / 'GODTONGGWA' 대체
-        teacherName: '김철수 선생님'        // '갓쌤' 대체
+        brandName: '갓통과',             // 기본 브랜드명
+        englishName: 'GODTONGGWA',       // 영문 브랜드명
+        teacherName: '갓쌤'              // 기본 담당 선생님 호칭
     };
 
-    // 1. 브랜딩 설정 불러오기
+    // 1. 브랜딩 설정 불러오기 (URL B2B 명시적 파라미터 우선 지원)
+    function isB2BContext() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('b2b') || urlParams.has('brand') || urlParams.has('teacher') || urlParams.has('eng')) {
+                return true;
+            }
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes('b2b_promo_landing')) {
+                return false;
+            }
+            if (path.includes('b2b_') || path.includes('whitelabel')) {
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function getBranding() {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (raw) {
-                const parsed = JSON.parse(raw);
-                return {
-                    brandName: parsed.brandName || DEFAULT_CONFIG.brandName,
-                    englishName: parsed.englishName || DEFAULT_CONFIG.englishName,
-                    teacherName: parsed.teacherName || DEFAULT_CONFIG.teacherName
-                };
+            const isB2B = isB2BContext();
+            const urlParams = new URLSearchParams(window.location.search);
+            const pBrand = urlParams.get('brand');
+            const pEng = urlParams.get('eng');
+            const pTeacher = urlParams.get('teacher');
+
+            // B2B 컨텍스트가 아닌 공식 서비스 접속 시 무조건 갓통과 원본 유지 & 오염 방지
+            if (!isB2B) {
+                // 이전 잔재 오염 제거
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw && raw.includes('대치')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+                return Object.assign({}, DEFAULT_CONFIG);
             }
+
+            const raw = localStorage.getItem(STORAGE_KEY);
+            const parsed = raw ? JSON.parse(raw) : {};
+
+            const finalBrand = (pBrand || parsed.brandName || DEFAULT_CONFIG.brandName).trim();
+            const finalEng = (pEng || parsed.englishName || (pBrand ? pBrand : DEFAULT_CONFIG.englishName)).trim();
+            const finalTeacher = (pTeacher || parsed.teacherName || DEFAULT_CONFIG.teacherName).trim();
+
+            if (pBrand || pTeacher || pEng) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        brandName: finalBrand,
+                        englishName: finalEng,
+                        teacherName: finalTeacher
+                    }));
+                } catch (e) {}
+            }
+
+            return {
+                brandName: finalBrand,
+                englishName: finalEng,
+                teacherName: finalTeacher
+            };
         } catch (e) {
-            console.warn('[WhiteLabel] LocalStorage read failed:', e);
+            console.warn('[WhiteLabel] Read failed:', e);
         }
         return Object.assign({}, DEFAULT_CONFIG);
     }
@@ -136,22 +182,27 @@
                 updated = true;
             }
 
-            // 'GODTONGGWA' -> eName (대문자)
+            // 'GOTONGGWA' / 'GODTONGGWA' -> eName 또는 bName (대문자)
+            const engUpper = (eName || bName).toUpperCase();
+            if (val.includes('GOTONGGWA')) {
+                val = val.replace(/GOTONGGWA/g, engUpper);
+                updated = true;
+            }
             if (val.includes('GODTONGGWA')) {
-                val = val.replace(/GODTONGGWA/g, eName.toUpperCase());
+                val = val.replace(/GODTONGGWA/g, engUpper);
                 updated = true;
             }
 
-            // 'GodTongGwa' -> eName
-            if (val.includes('GodTongGwa')) {
-                val = val.replace(/GodTongGwa/g, eName);
+            // 'GodTongGwa' / 'Gotonggwa' -> eName 또는 bName
+            if (val.includes('GodTongGwa') || val.includes('Gotonggwa')) {
+                val = val.replace(/GodTongGwa/g, (eName || bName)).replace(/Gotonggwa/g, (eName || bName));
                 updated = true;
             }
 
             // 'godtonggwa' -> eName (도메인/이메일 제외)
-            if (/godtonggwa/i.test(val)) {
+            if (/go[td]tonggwa/i.test(val)) {
                 if (!val.includes('.firebase') && !val.includes('@') && !val.includes('http')) {
-                    val = val.replace(/godtonggwa/gi, eName);
+                    val = val.replace(/go[td]tonggwa/gi, (eName || bName));
                     updated = true;
                 }
             }
@@ -383,9 +434,9 @@
         const pf = document.getElementById('wl-prev-fit');
         const pc = document.getElementById('wl-prev-coach');
         const pe = document.getElementById('wl-prev-eng');
-        if (pf) pf.textContent = `${cur.brandName || '대치 미래과학'} WEEKLY`;
-        if (pc) pc.textContent = `${cur.teacherName || '김철수 선생님'}의 실전 암기장`;
-        if (pe) pe.textContent = (cur.englishName || 'MIRAE SCIENCE').toUpperCase();
+        if (pf) pf.textContent = `${cur.brandName || '갓통과'} WEEKLY`;
+        if (pc) pc.textContent = `${cur.teacherName || '갓쌤'}의 실전 암기장`;
+        if (pe) pe.textContent = (cur.englishName || 'GODTONGGWA').toUpperCase();
     }
 
     // 9. 화면 우측 상단 플로팅 설정 버튼 렌더링
@@ -442,15 +493,17 @@
 
     // 11. 초기화 실행
     function init() {
+        if (!isB2BContext()) {
+            // 공식 서비스 (B2B 모드가 아님): 치환 및 플로팅 버튼 일체 비활성화 (100% 갓통과 원본 유지)
+            return;
+        }
+
         const cur = getBranding();
         applyToDOM(document.body, cur);
         applyToTitle(cur);
         setupMutationObserver();
 
-        // 관리/테스트 페이지 및 주간지/모의고사 페이지에서 플로팅 버튼 자동 활성화
-        const path = window.location.pathname.toLowerCase();
-        const shouldShowFloating = path.includes('weekly') || path.includes('timeattack') || path.includes('ebook') || path.includes('portal') || path.includes('student');
-        if (shouldShowFloating && !window.NO_WHITELABEL_FLOATING) {
+        if (!window.NO_WHITELABEL_FLOATING) {
             renderFloatingButton();
         }
     }

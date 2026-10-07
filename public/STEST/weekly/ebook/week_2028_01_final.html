@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <!DOCTYPE html>
 
 <html lang="ko">
 <head>
-    <!-- 100% White-Label Replacement Engine -->
-    <script src="../whitelabel_engine.js"></script><script type="module">
+    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -33,36 +32,21 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // 1주차 주간지는 전 국민 & 제휴 학원 무료 체험 오픈 콘텐츠입니다.
+    // 비로그인 또는 무료 회원이라도 차단하지 않고 자유롭게 열람을 허용합니다.
+    document.body.style.display = 'flex';
+
     onAuthStateChanged(auth, async (user) => {
-        if (!user || user.isAnonymous) {
-            alert("로그인이 필요하거나 접근 권한이 없습니다.");
-            window.location.href = "../../exam.html";
-            return;
-        }
-        try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            const pkgDoc = await getDoc(doc(db, "users", user.uid, "packages", "weekly_winter_2028"));
-            const myPkgDoc = await getDoc(doc(db, "users", user.uid, "my_packages", "weekly_winter_2028"));
-            
-            const userData = userDoc.exists() ? userDoc.data() : {};
-            const isPaid = userData.role === 'admin' || 
-                           userData.isPaid === true || 
-                           userData.hasAllPass === true || 
-                           userData.hasWeeklyPass === true || 
-                           userData.subscriptions?.weekly_magazine?.isActive === true || 
-                           userData.subscriptions?.all_pass?.isActive === true || 
-                           (pkgDoc.exists() && pkgDoc.data().status === 'active') || 
-                           (myPkgDoc.exists() && myPkgDoc.data().status === 'active');
-                           
-            if (!isPaid) {
-                alert("갓통과 주간지(WEEKLY) 유료 서비스 신청자만 접근 가능합니다.");
-                window.location.href = "../../exam.html";
-                return;
+        if (user && !user.isAnonymous) {
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    // 로그인된 회원 정보 확인 완료
+                }
+            } catch (err) {
+                console.warn("User data fetch warning:", err);
             }
-            document.body.style.display = 'flex';
-        } catch (err) {
-            console.error("Auth verification error:", err);
-            document.body.style.display = 'flex';
         }
     });
 
@@ -81,7 +65,7 @@
 <meta charset="utf-8"/>
 <link href="../weekly_common.css" rel="stylesheet"/>
 <style>
-body { display: none; /* Authenticated user check before showing */
+body { display: flex; /* Free trial instant display */
     background-color: #cbd5e1;
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0;

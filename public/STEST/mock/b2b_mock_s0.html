@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODTONGGWA MOCK - 시즌0 실물 봉투 모의고사 (4회분) B2B</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #0b1120; 
+            color: #f8fafc;
+            line-height: 1.6;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        /* 어절 단위 줄바꿈 유지 */
+        h1, h2, h3, h4, p, span, a, button, label {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        /* 부드러운 스크롤 */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- 상단 글로벌 네비게이션 바 -->
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="/b2b_promo_landing.html" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center group-hover:bg-slate-700 transition-colors">
+                        <i data-lucide="arrow-left" class="w-4 h-4 text-slate-400 group-hover:text-white"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-400 group-hover:text-white">B2B 허브</span>
+                </a>
+                <div class="h-4 w-px bg-slate-700 hidden sm:block"></div>
+                <div class="flex items-center gap-2">
+                    <span class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-amber-400 via-orange-300 to-yellow-300 bg-clip-text text-transparent">
+                        GODTONGGWA ENVELOPE MOCK B2B
+                    </span>
+                    <span class="text-[11px] font-bold text-amber-400 bg-amber-950/80 border border-amber-500/30 px-2 py-0.5 rounded-full hidden sm:inline-block">
+                        시즌0 실물 직배송
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="#spec-section" class="text-xs sm:text-sm font-bold text-amber-300 hover:text-white px-3 py-1.5 hidden md:flex items-center gap-1">
+                    <i data-lucide="package" class="w-4 h-4"></i>
+                    패키지 스펙
+                </a>
+                <a href="#process-section" class="text-xs sm:text-sm font-bold text-amber-300 hover:text-white px-3 py-1.5 hidden md:flex items-center gap-1">
+                    <i data-lucide="workflow" class="w-4 h-4"></i>
+                    운영 프로세스
+                </a>
+                <a href="#quote-section" class="text-xs sm:text-sm font-black bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-amber-500/20 active:scale-95 transition-all">
+                    단체 공급 견적 신청
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================== -->
+    <!-- 1. 타이틀 섹션 (b2b_weekly.html 규격 유지) -->
+    <!-- ============================================================== -->
+    <header class="relative overflow-hidden py-16 sm:py-24 border-b border-slate-800 bg-gradient-to-b from-slate-900/90 via-amber-950/20 to-transparent">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
+            <!-- 상단 뱃지 -->
+            <div class="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-400/30 text-amber-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold mb-6 shadow-sm">
+                <i data-lucide="package" class="w-4 h-4 text-amber-400"></i>
+                [3호] 실물 봉투 시험지 배송 • 2028 수능 예시문항 완벽 분석
+            </div>
+
+            <!-- 메인 타이틀 -->
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight sm:leading-tight max-w-4xl mx-auto">
+                "학원 인쇄비 ZERO! 실제 수능과 동일한<br>
+                <span class="bg-gradient-to-r from-amber-400 via-orange-300 to-yellow-300 bg-clip-text text-transparent">
+                    2028 수능 실전 봉투 모의고사 시즌0 (4회분)"
+                </span>
+            </h1>
+
+            <p class="mt-6 text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                인쇄 번거로움 ZERO! 실제 수능과 100% 동일한 8절 규격·신문용지 실물 시험지 4회분 학원 직배송<br class="hidden sm:inline">
+                스마트폰 1초 모바일 OMR 자동 채점 + 심층 해설집 + AI 취약 단원 분석 성적표를 원스톱으로 제공합니다.
+            </p>
+
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <a href="#spec-section" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-black px-6 py-3.5 rounded-xl text-sm sm:text-base shadow-xl shadow-amber-500/25 active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="box" class="w-4 h-4"></i>
+                    실물 패키지 구성 보기
+                </a>
+                <a href="#process-section" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-6 py-3.5 rounded-xl text-sm sm:text-base active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="workflow" class="w-4 h-4 text-emerald-400"></i>
+                    4단계 학원 운영 프로세스
+                </a>
+                <a href="#quote-section" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-6 py-3.5 rounded-xl text-sm sm:text-base shadow-xl shadow-emerald-600/25 active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                    단체 공급 할인 견적 신청
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- ============================================================== -->
+        <!-- 2. 실물 패키지 4대 구성 스펙 안내 -->
+        <!-- ============================================================== -->
+        <section id="spec-section" class="py-16 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-black text-amber-400 uppercase tracking-wider bg-amber-500/10 border border-amber-400/30 px-3 py-1 rounded-full">
+                    Physical Package Specifications
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-3">
+                    📦 실제 수능 100% 동일 규격 실물 패키지
+                </h2>
+                <p class="text-sm text-slate-400 mt-2">
+                    봉투를 뜯는 순간 수능 시험장의 긴장감이 재현됩니다. 원내 복사기 인쇄물과는 차원이 다른 몰입감을 선사합니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- SPEC 1 -->
+                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
+                            <i data-lucide="newspaper" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                            8절 대형 수능 시험지<br>(4회분 완벽 수록)
+                        </h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            A4 복사용지가 아닌 실제 수능과 100% 동일한 8절 대형 신문용지 재질로 제작되어 수능 실전 적응력을 극대화합니다.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] font-bold text-amber-400">
+                        ✓ 8절 규격 / 4회분 개별 편철
+                    </div>
+                </div>
+
+                <!-- SPEC 2 -->
+                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
+                            <i data-lucide="check-square" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                            실물 수능 OMR 카드<br>(컴싸 마킹 훈련)
+                        </h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            컴퓨터용 사인펜으로 직접 마킹하는 실물 수능 규격 OMR 카드가 동봉되어 시험 당일 마킹 실수와 시간 안배를 훈련합니다.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] font-bold text-emerald-400">
+                        ✓ 정규 OMR 카드 4회분 전원 제공
+                    </div>
+                </div>
+
+                <!-- SPEC 3 -->
+                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center mb-4">
+                            <i data-lucide="book-open" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                            문항별 심층 해설집<br>(출제의도 &amp; 함정 분석)
+                        </h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            2028 개정 통합과학 신유형과 킬러 문항을 완벽 분석한 정밀 해설서가 책자 형태로 함께 동봉되어 자율 복습을 완성합니다.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] font-bold text-sky-400">
+                        ✓ 전 문항 풀이 &amp; 출제 포인트 수록
+                    </div>
+                </div>
+
+                <!-- SPEC 4 -->
+                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-4">
+                            <i data-lucide="tag" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug">
+                            학원 전용 브랜딩 라벨<br>(원장님 학원 로고 각인)
+                        </h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            봉투 전면에 부착할 수 있는 학원 고유 브랜딩 라벨 스티커를 지원하여, 학원 자체 실전 모의고사로 배포하실 수 있습니다.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] font-bold text-purple-400">
+                        ✓ 화이트레이블 맞춤 스티커 동봉
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- 3. 4단계 실물 봉투 모의고사 운영 프로세스 -->
+        <!-- ============================================================== -->
+        <section id="process-section" class="py-16 sm:py-20 bg-slate-900/60 border-y border-slate-800">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-xs font-black text-amber-400 uppercase tracking-wider bg-amber-500/10 border border-amber-400/30 px-3 py-1 rounded-full">
+                        4-Step Operational Flow
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-3">
+                        🚀 4단계 실물 봉투 모의고사 운영 프로세스
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-2">
+                        인쇄 준비 0분! 학원으로 배송된 봉투를 개봉하고 스마트폰 1초 채점만 진행하면 모든 과정이 끝납니다.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- STEP 1 -->
+                    <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl relative shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-amber-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                    STEP 1 (원내 수령)
+                                </span>
+                                <i data-lucide="truck" class="w-5 h-5 text-amber-400"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                                수능 규격 봉투 패키지<br>원내 안전 직배송
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                                학원 주문 수량에 맞춰 8절 실물 시험지 4회분과 OMR 카드가 박스 단위로 학원에 직배송됩니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div class="bg-slate-900 border border-emerald-500/30 p-6 rounded-3xl relative shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                    STEP 2 (실전 시행)
+                                </span>
+                                <i data-lucide="clock" class="w-5 h-5 text-emerald-400"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                                시험장 분위기 그대로<br>40분 타임어택 시행
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                                인쇄 및 철작업 없이 봉투를 즉시 배부하여 수능 시험장과 동일한 긴장감 속에 시험을 진행합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3 -->
+                    <div class="bg-slate-900 border border-sky-500/30 p-6 rounded-3xl relative shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-sky-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                    STEP 3 (1초 채점)
+                                </span>
+                                <i data-lucide="smartphone" class="w-5 h-5 text-sky-400"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                                모바일 OMR QR 스캔<br>1초 자동 채점 완료
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                                학생이 시험지 표지의 QR을 스캔하고 답안을 입력하면 조교 채점 업무 없이 즉시 점수가 산출됩니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4 -->
+                    <div class="bg-slate-900 border border-purple-500/30 p-6 rounded-3xl relative shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-purple-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                    STEP 4 (AI 분석표)
+                                </span>
+                                <i data-lucide="send" class="w-5 h-5 text-purple-400"></i>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                                AI 약점 분석 리포트<br>학부모 카카오톡 전송
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                                학생별 취약 단원 분석표와 등급 예측 리포트가 학원 로고가 포함된 모바일 링크로 학부모님께 자동 전달됩니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- 4. 학원 운영비 지출 부담 0원! (ACADEMY BUSINESS & ROI MODEL) -->
+        <!-- ============================================================== -->
+        <section id="roi-section" class="py-16 sm:py-20 border-b border-slate-800 bg-slate-900/40">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                <span class="inline-flex items-center gap-1.5 text-xs font-black text-amber-400 uppercase tracking-wider bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full mb-4 shadow-sm">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                    MASS PRINTING ECONOMY &amp; PROFIT
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-black text-white mt-1 leading-tight tracking-tight">
+                    학원 복사기 렌탈비·용지비보다 저렴한 압도적 경제성!<br>
+                    <span class="bg-gradient-to-r from-amber-400 via-orange-300 to-yellow-300 bg-clip-text text-transparent">
+                        학부모 교재비 수납을 통한 학원 순마진 창출 구조
+                    </span>
+                </h2>
+                <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed max-w-2xl mx-auto">
+                    일반 학원에서 8절 규격 고품질 시험지를 소량 외주 인쇄하거나 복사기로 직접 출력하면 인건비와 소모품 비용이 막대합니다.<br class="hidden sm:inline">
+                    대량 윤전 인쇄 방식을 통해 파격적인 B2B 도매 단가로 공급해 드리며, 학부모 모의고사비 수납으로 전액 충당하고 <strong>원생 1인당 순이익</strong>이 학원에 남습니다.
+                </p>
+                <div class="mt-8">
+                    <a href="#quote-section" class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-black text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-amber-500/25 active:scale-95 transition-all">
+                        <i data-lucide="file-check-2" class="w-4 h-4"></i>
+                        실물 봉투 모의고사 단체 할인 견적서 신청하기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- 5. 맞춤 견적서 & 단체 발주 신청 메뉴 -->
+        <!-- ============================================================== -->
+        <section id="quote-section" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <!-- Background glow -->
+                <div class="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center mb-10 relative z-10">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-black text-amber-400 uppercase tracking-wider bg-amber-500/10 border border-amber-500/30 px-3.5 py-1.5 rounded-full mb-3">
+                        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                        Season 0 Bulk Order &amp; Quote
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">
+                        시즌0 실물 봉투 모의고사 단체 공급 견적 신청
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-xl mx-auto">
+                        학원 규모와 원하시는 발주 부수를 입력해 주시면, 수량별 파격 단체 도매 공급 견적서와 <strong>[시즌0 실물 샘플 미리보기 패키지]</strong>를 전달해 드립니다.
+                    </p>
+                </div>
+
+                <!-- 견적 신청 입력 폼 -->
+                <form id="quoteForm" onsubmit="event.preventDefault(); handleRequestEnvelopeQuote();" class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm relative z-10">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">선생님 / 원장님 성함 <span class="text-amber-400">*</span></label>
+                        <input type="text" id="inpQuoteTeacher" required placeholder="예: 김철수 원장" value="김과학 원장" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">학원명 및 지역 <span class="text-amber-400">*</span></label>
+                        <input type="text" id="inpQuoteAcademy" required placeholder="예: GODTONGGWA 과학 전문관" value="GODTONGGWA 과학 전문관" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">희망 발주 부수 (4회분 1세트 기준) <span class="text-amber-400">*</span></label>
+                        <select id="selQuoteCopies" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500 font-bold">
+                            <option value="30">30부 세트 (단과 / 교습소 플랜)</option>
+                            <option value="50" selected>50부 세트 (중형 전문학원 플랜 - BEST)</option>
+                            <option value="100">100부 이상 대형 발주 플랜 (최대 추가 할인)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">희망 배송 완료일 <span class="text-amber-400">*</span></label>
+                        <select id="selQuoteDeliveryDate" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500">
+                            <option value="immediate" selected>[즉시 발송] 2영업일 이내 출고 희망</option>
+                            <option value="next_week">차주 화요일까지 수령 희망</option>
+                            <option value="consult">학원 개강 일정에 맞춰 협의 희망</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">연락처 (휴대폰 번호) <span class="text-amber-400">*</span></label>
+                        <input type="tel" id="inpQuotePhone" required placeholder="010-0000-0000" value="010-1234-5678" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">이메일 주소 (견적서 수신용) <span class="text-amber-400">*</span></label>
+                        <input type="email" id="inpQuoteEmail" required placeholder="director@academy.com" value="director@academy.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold text-slate-300 mb-1.5">학원 배송지 주소 (선택 / 견적 발송 후 확인 가능)</label>
+                        <input type="text" id="inpQuoteAddress" placeholder="예: 서울특별시 강남구 대치동 000 학원빌딩 3층" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-amber-500 text-xs sm:text-sm">
+                    </div>
+
+                    <!-- 신청 CTA 버튼 -->
+                    <div class="sm:col-span-2 mt-2">
+                        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-400 hover:to-orange-400 text-white font-black py-4 rounded-xl text-base shadow-xl shadow-amber-500/25 active:scale-98 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                            <span>👉 시즌0 실물 봉투 모의고사 단체 할인 견적서 받기</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- 하단 신뢰 및 보안 안내 -->
+                <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-400 space-y-1 relative z-10">
+                    <p>🔒 입력하신 정보는 도매 견적 발송 및 택배 배송 상담 목적으로만 안전하게 처리됩니다.</p>
+                    <p>※ 정식 주문 시 학원 로고가 인쇄된 화이트레이블 봉투 스티커 라벨이 무상 지원됩니다.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 견적 완료 모달 -->
+    <div id="quoteResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-amber-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
+                <i data-lucide="check-circle-2" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-xl font-black text-white mb-2">
+                시즌0 실물 봉투 모의고사 견적 신청 완료
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed" id="modalQuoteSummary">
+                원장님, 실물 봉투 모의고사 단체 공급 견적 신청이 정상 접수되었습니다.
+            </p>
+
+            <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 text-xs text-slate-300 space-y-2 mb-6">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">신청 학원:</span>
+                    <strong class="text-white" id="modalResAcademy">-</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">담당 원장/강사:</span>
+                    <span class="text-white" id="modalResTeacher">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">희망 발주 부수:</span>
+                    <span class="text-amber-400 font-bold" id="modalResCopies">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">출고 일정:</span>
+                    <span class="text-white" id="modalResDate">-</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <a href="/package_info.html" target="_blank" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black py-3.5 rounded-xl text-sm shadow-lg shadow-amber-600/20 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="package" class="w-4 h-4"></i>
+                    <span>📦 실전 모의고사 전체 상세 안내 열기 ➔</span>
+                </a>
+                <button type="button" onclick="closeQuoteModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 푸터 -->
+    <footer class="border-t border-slate-800 py-10 bg-slate-950 text-slate-500 text-xs text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="font-bold text-slate-400 mb-2">GODTONGGWA ENVELOPE MOCK B2B (2028 수능 실전 봉투 모의고사 솔루션)</p>
+            <p>© GODTONGGWA • 2028 개정 교육과정 8절 수능 규격 실물 봉투 모의고사 에듀테크</p>
+        </div>
+    </footer>
+
+    <!-- 스크립트 -->
+    <script>
+        function handleRequestEnvelopeQuote() {
+            const teacher = document.getElementById('inpQuoteTeacher').value.trim();
+            const academy = document.getElementById('inpQuoteAcademy').value.trim();
+            const copies = document.getElementById('selQuoteCopies').value;
+            const delDate = document.getElementById('selQuoteDeliveryDate').value;
+            const phone = document.getElementById('inpQuotePhone').value.trim();
+            const email = document.getElementById('inpQuoteEmail').value.trim();
+
+            if (!teacher || !academy || !phone || !email) {
+                alert('선생님 성함, 학원명, 연락처, 이메일을 모두 입력해 주세요.');
+                return;
+            }
+
+            const delDateName = delDate === 'immediate' 
+                ? '즉시 출고 (2영업일 내)' 
+                : (delDate === 'next_week' ? '차주 화요일 수령' : '일정 협의');
+
+            document.getElementById('modalResAcademy').innerText = academy;
+            document.getElementById('modalResTeacher').innerText = teacher;
+            document.getElementById('modalResCopies').innerText = copies + '부 세트';
+            document.getElementById('modalResDate').innerText = delDateName;
+            document.getElementById('modalQuoteSummary').innerText = 
+                `${academy} (${teacher}) 전용 시즌0 실물 봉투 모의고사 B2B 특별 도매 견적서가 연락처(${phone}) 및 이메일(${email})로 10분 내 발송됩니다.`;
+
+            const modal = document.getElementById('quoteResultModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeQuoteModal() {
+            const modal = document.getElementById('quoteResultModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

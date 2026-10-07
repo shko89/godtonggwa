@@ -101,8 +101,127 @@
         };
     }
 
+    /**
+     * 학원별 인쇄 라이선스 현황 조회
+     * 기본값: 계약 좌석수와 동일한 50부 기본 부여
+     */
+    function getPrintLicense(tenantId) {
+        let academyCfg = {};
+        try {
+            const raw = localStorage.getItem(`b2b_academy_${tenantId}`);
+            if (raw) academyCfg = JSON.parse(raw);
+        } catch(e) {}
+
+        const totalPrints = academyCfg.printTotalQuota !== undefined ? academyCfg.printTotalQuota : 50;
+        const usedPrints = academyCfg.printUsedCount || 0;
+        const remainingPrints = Math.max(0, totalPrints - usedPrints);
+        const logs = academyCfg.printLogs || [];
+
+        return {
+            totalPrints: totalPrints,
+            usedPrints: usedPrints,
+            remainingPrints: remainingPrints,
+            logs: logs
+        };
+    }
+
+    /**
+     * 인쇄 라이선스 부수 차감 및 고유 일련번호(Serial) 발급
+     * @param {string} tenantId - 학원 테넌트 ID
+     * @param {number} week - 주차 (1~10)
+     * @param {number} copies - 인쇄 부수
+     * @param {string} brandName - 학원명
+     */
+    function deductPrintLicense(tenantId, week, copies, brandName = '학원') {
+        copies = parseInt(copies, 10) || 1;
+        if (copies <= 0) {
+            return { success: false, message: '출력 부수는 1부 이상이어야 합니다.' };
+        }
+
+        let academyCfg = {};
+        try {
+            const raw = localStorage.getItem(`b2b_academy_${tenantId}`);
+            if (raw) academyCfg = JSON.parse(raw);
+        } catch(e) {}
+
+        const totalPrints = academyCfg.printTotalQuota !== undefined ? academyCfg.printTotalQuota : 50;
+        let usedPrints = academyCfg.printUsedCount || 0;
+        const remainingPrints = Math.max(0, totalPrints - usedPrints);
+
+        if (remainingPrints < copies) {
+            return {
+                success: false,
+                remainingPrints: remainingPrints,
+                message: `잔여 출력 라이선스가 부족합니다. (신청: ${copies}부 / 잔여: ${remainingPrints}부)\n관리자에게 추가 라이선스 충전을 요청하세요.`
+            };
+        }
+
+        // 고유 시리얼 번호 대역 생성 (예: PUB-DM28-W01-001 ~ 025)
+        const prefix = (tenantId || 'ACADEMY').replace(/[^a-zA-Z0-9]/g, '').slice(0, 4).toUpperCase();
+        const startNum = usedPrints + 1;
+        const endNum = usedPrints + copies;
+        const serialStart = `PUB-${prefix}28-W${String(week).padStart(2,'0')}-${String(startNum).padStart(3,'0')}`;
+        const serialEnd = `PUB-${prefix}28-W${String(week).padStart(2,'0')}-${String(endNum).padStart(3,'0')}`;
+        const serialDisplay = copies === 1 ? serialStart : `${serialStart} ~ #${String(endNum).padStart(3,'0')}`;
+
+        // 차감 반영
+        usedPrints += copies;
+        academyCfg.printTotalQuota = totalPrints;
+        academyCfg.printUsedCount = usedPrints;
+        if (!academyCfg.printLogs) academyCfg.printLogs = [];
+
+        const newLog = {
+            id: 'PLOG-' + Date.now(),
+            timestamp: new Date().toISOString(),
+            week: week,
+            copies: copies,
+            serialRange: serialDisplay,
+            brandName: brandName,
+            remainingAfter: totalPrints - usedPrints,
+            status: 'VERIFIED'
+        };
+        academyCfg.printLogs.unshift(newLog);
+
+        localStorage.setItem(`b2b_academy_${tenantId}`, JSON.stringify(academyCfg));
+
+        return {
+            success: true,
+            copies: copies,
+            remainingPrints: totalPrints - usedPrints,
+            serialStart: serialStart,
+            serialEnd: serialEnd,
+            serialDisplay: serialDisplay,
+            log: newLog,
+            message: `성공적으로 ${copies}부 인쇄 승인 및 시리얼 발급이 완료되었습니다. (잔여: ${totalPrints - usedPrints}부)`
+        };
+    }
+
+    /**
+     * 인쇄 라이선스 추가 충전
+     */
+    function rechargePrintLicense(tenantId, addCount = 50) {
+        let academyCfg = {};
+        try {
+            const raw = localStorage.getItem(`b2b_academy_${tenantId}`);
+            if (raw) academyCfg = JSON.parse(raw);
+        } catch(e) {}
+
+        const currentTotal = academyCfg.printTotalQuota !== undefined ? academyCfg.printTotalQuota : 50;
+        academyCfg.printTotalQuota = currentTotal + addCount;
+        localStorage.setItem(`b2b_academy_${tenantId}`, JSON.stringify(academyCfg));
+
+        return {
+            success: true,
+            totalPrints: academyCfg.printTotalQuota,
+            addedCount: addCount
+        };
+    }
+
     exports.generateLicenseKey = generateLicenseKey;
     exports.verifyLicenseKey = verifyLicenseKey;
     exports.activateLicense = activateLicense;
+    exports.getPrintLicense = getPrintLicense;
+    exports.deductPrintLicense = deductPrintLicense;
+    exports.rechargePrintLicense = rechargePrintLicense;
 
 })(typeof module !== 'undefined' && module.exports ? module.exports : (window.B2BLicenseActivator = {}));

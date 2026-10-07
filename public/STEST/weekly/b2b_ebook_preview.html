@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 WEEKLY - B2B 학원 브랜드 맞춤 전자책 뷰어</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #0b1120; margin: 0; padding: 0; overflow: hidden; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col">
+
+    <!-- 상단 B2B 브랜딩 제어 바 -->
+    <header class="bg-slate-900 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between shrink-0 z-50">
+        <div class="flex items-center gap-3">
+            <span class="bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 text-[11px] font-black px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
+                B2B 화이트레이블 실시간 체험 모드
+            </span>
+            <div class="text-xs sm:text-sm text-slate-300 font-bold flex items-center gap-2">
+                <span>학원명: <strong id="dispBrand" class="text-white bg-slate-800 px-2 py-0.5 rounded border border-slate-700">대치 미래과학</strong></span>
+                <span class="text-slate-600">|</span>
+                <span>선생님: <strong id="dispTeacher" class="text-emerald-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">김철수 선생님</strong></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button onclick="promptChangeBrand()" class="text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-3 py-1.5 rounded-lg font-bold flex items-center gap-1 transition-colors">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                <span>브랜딩 변경</span>
+            </button>
+            <button onclick="window.close()" class="text-xs bg-slate-800 hover:bg-rose-900 text-slate-300 hover:text-white px-3 py-1.5 rounded-lg font-bold transition-colors">
+                닫기
+            </button>
+        </div>
+    </header>
+
+    <!-- 원본 전자책을 로드하는 격리된 B2B 샌드박스 iframe -->
+    <main class="flex-1 relative bg-slate-950">
+        <iframe id="ebookFrame" src="./ebook/week_2028_01_final.html" class="w-full h-full border-none" allowfullscreen></iframe>
+    </main>
+
+    <script>
+        // URL 파라미터에서 학원 브랜딩 추출
+        const params = new URLSearchParams(window.location.search);
+        let brandName = params.get('brand') || '대치 미래과학';
+        let teacherName = params.get('teacher') || '김철수 선생님';
+        let engName = params.get('eng') || (brandName ? brandName : 'MIRAE SCIENCE');
+
+        function updateHeaderDisplay() {
+            document.getElementById('dispBrand').innerText = brandName;
+            document.getElementById('dispTeacher').innerText = teacherName;
+            document.title = `${brandName} WEEKLY - 1주차 전자책 (화이트레이블)`;
+        }
+        updateHeaderDisplay();
+
+        // iframe 내부 원본 문서에 B2B 실시간 변환 적용 (원본 파일 손상 0%)
+        const frame = document.getElementById('ebookFrame');
+
+        function applyWhitelabelToIframe() {
+            try {
+                const doc = frame.contentDocument || frame.contentWindow.document;
+                if (!doc || !doc.body) return;
+
+                const bName = brandName || '갓통과';
+                const eName = (engName || bName).toUpperCase();
+                const tName = teacherName || '담당 선생님';
+
+                // 텍스트 노드 탐색 및 치환
+                const walker = doc.createTreeWalker(
+                    doc.body,
+                    NodeFilter.SHOW_TEXT,
+                    {
+                        acceptNode: function(node) {
+                            if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+                            const tag = node.parentElement.tagName.toUpperCase();
+                            if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+                            return NodeFilter.FILTER_ACCEPT;
+                        }
+                    },
+                    false
+                );
+
+                const nodes = [];
+                let curr;
+                while ((curr = walker.nextNode())) {
+                    nodes.push(curr);
+                }
+
+                nodes.forEach(node => {
+                    let val = node.nodeValue;
+                    if (!val) return;
+                    let changed = false;
+
+                    // 1. 갓쌤 치환
+                    if (val.includes('갓쌤의')) { val = val.replace(/갓쌤의/g, `${tName}의`); changed = true; }
+                    if (val.includes("갓쌤's") || val.includes("갓쌤’s")) { val = val.replace(/갓쌤['’]s/g, `${tName}'s`); changed = true; }
+                    if (val.includes('갓쌤')) { val = val.replace(/갓쌤/g, tName); changed = true; }
+
+                    // 2. 갓통과 치환
+                    if (val.includes('갓통과')) { val = val.replace(/갓통과/g, bName); changed = true; }
+
+                    // 3. 영문 대문자 GOTONGGWA / GODTONGGWA 치환
+                    if (val.includes('GOTONGGWA')) { val = val.replace(/GOTONGGWA/g, eName); changed = true; }
+                    if (val.includes('GODTONGGWA')) { val = val.replace(/GODTONGGWA/g, eName); changed = true; }
+
+                    // 4. 대소문자 혼합
+                    if (/go[td]tonggwa/i.test(val)) {
+                        if (!val.includes('.firebase') && !val.includes('@') && !val.includes('http')) {
+                            val = val.replace(/go[td]tonggwa/gi, (engName || bName));
+                            changed = true;
+                        }
+                    }
+
+                    if (changed) {
+                        node.nodeValue = val;
+                    }
+                });
+
+                if (doc.title) {
+                    doc.title = doc.title.replace(/갓통과/g, bName);
+                }
+            } catch (err) {
+                console.warn('Iframe replacement notice:', err);
+            }
+        }
+
+        frame.addEventListener('load', () => {
+            applyWhitelabelToIframe();
+
+            // 초기 렌더링 지연 대응 (300ms, 800ms, 1500ms 후 추가 확인)
+            [300, 800, 1500].forEach(delay => {
+                setTimeout(applyWhitelabelToIframe, delay);
+            });
+
+            // 3D 플립북 페이지 넘김 등 동적 변화 실시간 감지
+            try {
+                const doc = frame.contentDocument || frame.contentWindow.document;
+                if (doc && doc.body) {
+                    const observer = new MutationObserver(() => {
+                        applyWhitelabelToIframe();
+                    });
+                    observer.observe(doc.body, { childList: true, subtree: true });
+                }
+            } catch (e) {}
+        });
+
+        // 브랜딩 실시간 변경 팝업
+        function promptChangeBrand() {
+            const nb = prompt('변경할 학원명을 입력해 주세요:', brandName);
+            if (!nb) return;
+            const nt = prompt('변경할 담당 선생님 성함을 입력해 주세요:', teacherName);
+            if (!nt) return;
+            brandName = nb.trim();
+            teacherName = nt.trim();
+            engName = brandName;
+            updateHeaderDisplay();
+            // 원본에서 새 브랜딩으로 깨끗하게 치환되도록 iframe 리로드
+            frame.src = `./ebook/week_2028_01_final.html?t=${Date.now()}`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

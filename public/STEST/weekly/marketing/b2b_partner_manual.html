@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 WEEKLY B2B 파트너 공식 운영 매뉴얼 &amp; 도입 가이드북</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --gray-bg: #f8fafc;
+            --border: #cbd5e1;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        h1, h2, h3, h4, p, span, th, td, li {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        /* Top Action Bar */
+        .control-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #334155;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .control-title {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary { background: #0284c7; color: #ffffff; }
+        .btn-primary:hover { background: #0369a1; }
+        .btn-secondary { background: #334155; color: #f1f5f9; }
+        .btn-secondary:hover { background: #475569; }
+
+        /* Document Container (A4 / Book style) */
+        .doc-container {
+            max-width: 900px;
+            margin: 30px auto 60px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            padding: 48px 56px;
+        }
+
+        @media (max-width: 768px) {
+            .doc-container { padding: 24px 20px; margin: 15px; }
+            .control-bar { flex-direction: column; gap: 8px; align-items: flex-start; }
+        }
+
+        /* Hero Header */
+        .manual-hero {
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 24px;
+            margin-bottom: 36px;
+        }
+
+        .manual-tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .manual-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0 0 10px 0;
+            line-height: 1.35;
+        }
+
+        .manual-sub {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin: 0;
+        }
+
+        /* Chapter Styles */
+        .chapter-box {
+            margin-bottom: 40px;
+        }
+
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 5px solid var(--primary);
+            padding-left: 14px;
+            margin: 0 0 18px 0;
+        }
+
+        .chapter-header h2 {
+            font-size: 19px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .chapter-intro {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        /* Tables */
+        table.spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            margin: 14px 0 24px 0;
+            border-top: 2px solid #0f172a;
+            border-bottom: 2px solid #0f172a;
+        }
+
+        table.spec-table th {
+            background: #f8fafc;
+            padding: 10px 8px;
+            font-weight: 800;
+            border-bottom: 1px solid #cbd5e1;
+            text-align: center;
+        }
+
+        table.spec-table td {
+            padding: 9px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        /* Step Process Cards */
+        .step-block {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+
+        .step-badge {
+            display: inline-block;
+            background: #0284c7;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+
+        .step-block h4 {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 8px 0;
+        }
+
+        .step-block p {
+            font-size: 13px;
+            color: #475569;
+            margin: 0 0 8px 0;
+            line-height: 1.6;
+        }
+
+        .step-tip {
+            background: #ffffff;
+            border-left: 3px solid #10b981;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #065f46;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Security Cards */
+        .sec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin: 16px 0;
+        }
+
+        @media (max-width: 640px) {
+            .sec-grid { grid-template-columns: 1fr; }
+        }
+
+        .sec-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .sec-card h5 {
+            margin: 0 0 6px 0;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sec-card p {
+            margin: 0;
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* Demo Buttons */
+        .demo-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 14px 0 24px 0;
+        }
+
+        .demo-btn {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .demo-btn:hover {
+            background: #1e293b;
+            color: #ffffff;
+        }
+
+        /* Footer */
+        .manual-footer {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 24px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Print Settings */
+        @media print {
+            body { background: #ffffff; }
+            .control-bar { display: none !important; }
+            .doc-container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Control Header -->
+    <div class="control-bar">
+        <div class="control-title">
+            <span>📘</span> 갓통과 WEEKLY B2B 파트너 공식 운영 매뉴얼 &amp; 도입 가이드북
+        </div>
+        <div class="control-actions">
+            <a href="../b2b_weekly.html" class="btn-ctrl btn-secondary">
+                ➔ B2B 주간지 랜딩으로 가기
+            </a>
+            <button type="button" class="btn-ctrl btn-primary" onclick="window.print()">
+                🖨️ A4 / PDF 매뉴얼 인쇄
+            </button>
+        </div>
+    </div>
+
+    <!-- Printable Paper Sheet -->
+    <div class="doc-container">
+        
+        <!-- Header Hero -->
+        <div class="manual-hero">
+            <span class="manual-tag">CONFIDENTIAL ‧ 제휴 학원장 및 강사용 공식 매뉴얼</span>
+            <h1 class="manual-title">2028 개정 통합과학 10주차 주간지 &amp; Fit 20<br>B2B SaaS 솔루션 표준 운영 가이드</h1>
+            <p class="manual-sub">
+                발행: 갓통과 에듀테크 파트너스 센터 • 문서 버전: 2028-V1.0 • 수신: 제휴 학원 원장님 및 담당 강사님
+            </p>
+        </div>
+
+        <!-- Chapter 1 -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <h2>제1장. 솔루션 구성 개요 및 10주 커리큘럼 명세</h2>
+            </div>
+            <p class="chapter-intro">
+                본 솔루션은 2028 수능 통합과학 필수화에 발맞추어, 학원에서 <strong>원작자 명칭 노출 0%</strong>로 자체 브랜딩하여 수강생에게 배포할 수 있는 10주 완성 올인원 교육 패키지입니다.
+            </p>
+
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th style="width:10%;">회차</th>
+                        <th style="width:26%;">대단원 주제</th>
+                        <th style="width:40%;">주간지 주요 학습 개념 (Section 1~4/5)</th>
+                        <th style="width:12%;">융합 영역</th>
+                        <th style="width:12%;">Fit 20 평가</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center"><strong>1주차</strong></td>
+                        <td><strong>과학의 기초</strong> (수능 과학 언어)</td>
+                        <td>시간과 공간의 규모 ‧ 기본량과 유도량 ‧ 측정과 어림 ‧ 정보와 신호</td>
+                        <td align="center">물리 ‧ 과학탐구</td>
+                        <td align="center">1회 (31.0점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>2주차</strong></td>
+                        <td><strong>물질의 규칙성 Ⅰ</strong> (원소 형성)</td>
+                        <td>스펙트럼과 우주의 원소 ‧ 빅뱅과 원소 생성 ‧ 별의 진화 ‧ 원소의 주기성</td>
+                        <td align="center">물리 ‧ 화학 ‧ 지구</td>
+                        <td align="center">2회 (35.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>3주차</strong></td>
+                        <td><strong>물질의 규칙성 Ⅱ</strong> (화학 결합)</td>
+                        <td>화학 결합 ‧ 지각 구성 물질(규산염) ‧ 생명체 구성 물질 ‧ 물질의 전기적 성질</td>
+                        <td align="center">화학 ‧ 물리 ‧ 생명</td>
+                        <td align="center">3회 (33.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>4주차</strong></td>
+                        <td><strong>지구 시스템 &amp; 역학</strong></td>
+                        <td>지구 시스템 구성과 상호작용 ‧ 물질 순환 ‧ 판 구조론과 지권 ‧ 중력장 운동</td>
+                        <td align="center">지구과학 ‧ 물리</td>
+                        <td align="center">4회 (36.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>5주차</strong></td>
+                        <td><strong>시스템과 상호작용</strong></td>
+                        <td>충격량과 운동량 ‧ 충돌 안전 ‧ 생명 시스템 단위 ‧ 물질대사 ‧ 유전 정보</td>
+                        <td align="center">물리 ‧ 생명과학</td>
+                        <td align="center">5회 (34.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>6주차</strong></td>
+                        <td><strong>변화와 다양성 Ⅰ</strong> (진화)</td>
+                        <td>지질시대 생물과 화석 ‧ 환경 변화와 대멸종 ‧ 변이와 자연선택 ‧ 진화</td>
+                        <td align="center">지구과학 ‧ 생명</td>
+                        <td align="center">6회 (34.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>7주차</strong></td>
+                        <td><strong>변화와 다양성 Ⅱ</strong> (화학)</td>
+                        <td>산화와 환원 ‧ 산과 염기 ‧ 중화 반응 ‧ 생활 속 중화 ‧ 물질 변화 에너지 출입</td>
+                        <td align="center">화학</td>
+                        <td align="center">7회 (30.0점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>8주차</strong></td>
+                        <td><strong>생태계와 환경 변화</strong></td>
+                        <td>생태계 상호관계 ‧ 생태계 평형(먹이 사슬) ‧ 대기·해양 상호작용 ‧ 온난화</td>
+                        <td align="center">생명과학 ‧ 지구</td>
+                        <td align="center">8회 (36.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>9주차</strong></td>
+                        <td><strong>에너지 전환과 활용</strong></td>
+                        <td>태양 에너지 생성(수소 핵융합) ‧ 전자기 유도 현상 ‧ 에너지 효율</td>
+                        <td align="center">물리 ‧ 지구과학</td>
+                        <td align="center">9회 (34.5점)</td>
+                    </tr>
+                    <tr>
+                        <td align="center"><strong>10주차</strong></td>
+                        <td><strong>과학과 미래 사회</strong></td>
+                        <td>감염병 진단·추적 ‧ 빅데이터 활용 ‧ 인공지능·로봇·IoT ‧ 과학 기술 사회적 쟁점</td>
+                        <td align="center">융합 ‧ 생명 ‧ 정보</td>
+                        <td align="center">10회 (33.5점)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Chapter 2 -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <h2>제2장. 4단계 실전 운영 프로세스</h2>
+            </div>
+
+            <div class="step-block">
+                <span class="step-badge">STEP 1 (강사/원장)</span>
+                <h4>1. 학원 브랜딩 등록, 엑셀 명단 업로드 &amp; 주간지 고화질 인쇄</h4>
+                <p>
+                    관리자 콘솔(<code>/admin</code>)에 접속하여 학원명, 대표 강사명, 학원 로고(PNG)를 등록합니다. 그 후 기존 학원 관리 엑셀의 <strong>[이름, 학생 전화번호, 학부모 전화번호]</strong> 3개 열을 복사하여 붙여넣으면 10초 만에 수강생 등록이 완료됩니다.<br>
+                    종이 교재로 수업하시는 경우, 콘솔 [3. 개인화 인쇄 센터]에서 회차와 부수를 입력하고 <strong>출판용 600~1200 DPI A4 벡터 고화질</strong>로 승인 즉시 인쇄합니다.
+                </p>
+                <div class="step-tip">
+                    💡 <strong>Tip:</strong> 학생의 전화번호 뒤 4자리가 모바일 OMR의 간편 로그인 비밀번호로 자동 세팅되며, 주간지 인쇄 시 계약된 출력 라이선스 부수(예: 50부)가 실시간으로 안전하게 차감됩니다.
+                </div>
+            </div>
+
+            <div class="step-block">
+                <span class="step-badge">STEP 2 (수강생)</span>
+                <h4>2. 회원가입 없는 스마트폰 모바일 OMR (1초 자동 채점)</h4>
+                <p>
+                    학생들은 번거로운 회원가입 절차 없이 교실 빔프로젝터에 띄워진 QR코드를 카메라로 스캔하고, <strong>[이름 + 전화번호 뒤 4자리]</strong>만 입력하면 즉시 20문항 마킹을 진행할 수 있습니다.
+                </p>
+                <div class="step-tip">
+                    ⏱️ <strong>실시간 채점:</strong> 마킹 완료 즉시 원점수(총점 기준), 100점 환산점수, 문항별 아코디언 오답 해설이 학생 화면에 제공됩니다.
+                </div>
+            </div>
+
+            <div class="step-block">
+                <span class="step-badge">STEP 3 (학생/학부모)</span>
+                <h4>3. 다차원 모바일 성적표 (전국 백분위 &amp; 밸런스 분석)</h4>
+                <p>
+                    학원 내 석차뿐 아니라 전국의 누적 응시 데이터가 실시간 집계된 <strong>전국 누적 백분위 및 예상 등급</strong>이 산출됩니다. 물리학·화학·생명과학·지구과학 4대 영역 밸런스 방사형 차트가 제공되어 취약 영역을 정밀 진단합니다.
+                </p>
+                <div class="step-tip">
+                    🔒 <strong>무로그인 보안 토큰:</strong> 일회용 보안 서명 토큰 링크가 적용되어 학부모님은 앱 설치나 로그인 없이 터치 1번에 자녀 성적표를 열람합니다.
+                </div>
+            </div>
+
+            <div class="step-block">
+                <span class="step-badge">STEP 4 (원장/학부모)</span>
+                <h4>4. 원클릭 카카오 알림톡 프리미엄 성적 발송</h4>
+                <p>
+                    시험이 종료되면 강사 콘솔에서 <strong>[📱 카카오 알림톡 일괄 발송]</strong> 버튼을 단 한 번만 클릭합니다. 카카오 공식 알림톡 템플릿(<code>TG_FIT20_REPORT</code>)으로 학부모 스마트폰에 자녀 성적 리포트가 즉각 발송됩니다. (수신 실패 시 LMS 자동 우회)
+                </p>
+                <div class="step-tip">
+                    💬 <strong>학부모 락인:</strong> 매주 시험 종료 즉시 발송되는 투명한 성적표로 학부모 신뢰가 형성되어, 3월 신학기 정규반 재등록률이 극대화됩니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 3 -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <h2>제3장. 무단 유출 0%! 6대 독점 보안 &amp; 콘텐츠 보호 기술</h2>
+            </div>
+            <p class="chapter-intro">
+                선생님의 브랜드 가치와 고품질 주간지 콘텐츠가 외부로 무단 유출되지 않도록 최첨단 에듀테크 보안 기술이 적용되어 있습니다.
+            </p>
+
+            <div class="sec-grid">
+                <div class="sec-card">
+                    <h5><i data-lucide="palette" style="width:16px;"></i> 1. 100% 화이트레이블</h5>
+                    <p>'갓통과' 본사 명칭이 전면 제거되고, 선생님의 학원 로고와 이름으로 앱 타이틀, 표지, 시험지, 성적표가 자동 커스텀됩니다.</p>
+                </div>
+                <div class="sec-card">
+                    <h5><i data-lucide="printer" style="width:16px;"></i> 2. 웹 뷰어 고화질 인쇄 &amp; 라이선스 차감</h5>
+                    <p>PDF 파일 원본 유출 없이 계약된 부수(예: 50부) 내에서만 출판용 600~1200 DPI A4 벡터 인쇄가 승인되며 실시간 차감됩니다.</p>
+                </div>
+                <div class="sec-card">
+                    <h5><i data-lucide="tag" style="width:16px;"></i> 3. 업계 표준 세련된 출판 푸터 워터마크</h5>
+                    <p>본문을 절대 침범하지 않고 A4 하단 여백(9mm)에 7.5pt Roboto Mono로 <code>[학원명 연구팀] ‧ PUB-ID: ... ‧ VERIFIED</code>가 각인되어 복사기 불법 복제를 원천 방어합니다.</p>
+                </div>
+                <div class="sec-card">
+                    <h5><i data-lucide="shield-alert" style="width:16px;"></i> 4. 유출 추적 동적 워터마크 (디지털 열람)</h5>
+                    <p>[학원명 | 학생명 | 접속 IP | 일시] 워터마크가 전자책 및 시험지 전 페이지에 실시간 각인되어 화면 캡처 및 유출을 차단합니다.</p>
+                </div>
+                <div class="sec-card">
+                    <h5><i data-lucide="lock" style="width:16px;"></i> 5. 1계정-1기기 동시 접속 차단</h5>
+                    <p>학생 간 아이디 공유 방지를 위해 다른 기기에서 로그인 시 기존 접속이 즉시 강제 로그아웃 처리됩니다.</p>
+                </div>
+                <div class="sec-card">
+                    <h5><i data-lucide="zap" style="width:16px;"></i> 6. 1초 무중단 클라우드 최신화</h5>
+                    <p>오탈자 수정이나 문항 패치 발생 시 클릭 1회로 모든 수강생 화면에 실시간 자동 반영됩니다. (재설치/재인쇄 불필요)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 4 -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <h2>제4장. 라이브 시스템 체험관 링크 &amp; 접속 안내</h2>
+            </div>
+            <p class="chapter-intro">
+                아래 링크를 통해 별도의 회원가입 없이 실제 백엔드 연동 화면을 PC와 모바일에서 즉시 테스트해보실 수 있습니다.
+            </p>
+
+            <div class="demo-bar">
+                <a href="../b2b_admin_console.html" target="_blank" class="demo-btn">
+                    <i data-lucide="layout-dashboard" style="width:16px;"></i> 강사 관리자 콘솔 (/admin)
+                </a>
+                <a href="../b2b_ebook_preview.html?brand=대치미래과학" target="_blank" class="demo-btn">
+                    <i data-lucide="book-open-check" style="width:16px;"></i> 1주차 주간지 전자책 B2B 체험
+                </a>
+                <a href="../b2b_fit20_preview.html?brand=대치미래과학" target="_blank" class="demo-btn">
+                    <i data-lucide="play-circle" style="width:16px;"></i> Fit 20 모바일 시험 B2B 체험
+                </a>
+                <a href="../b2b_print_viewer.html?brand=대치미래과학&week=1" target="_blank" class="demo-btn">
+                    <i data-lucide="printer" style="width:16px;"></i> 주간지 정품 고화질 인쇄 뷰어
+                </a>
+                <a href="../b2b_mobile_omr.html?tenant=daechi_mirae&w=1" target="_blank" class="demo-btn">
+                    <i data-lucide="smartphone" style="width:16px;"></i> 학생 모바일 OMR 체험
+                </a>
+            </div>
+        </div>
+
+        <!-- Chapter 5 -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <h2>제5장. 학원 현장 마케팅 킷 4종 100% 활용 가이드</h2>
+            </div>
+            <p class="chapter-intro">
+                도입 즉시 신규 특강 수강생을 모집하고 학부모 안내를 완료할 수 있도록 4대 마케팅 지원 도구를 제공합니다.
+            </p>
+
+            <ul style="font-size:13px; color:#334155; line-height:1.8; padding-left:20px;">
+                <li><strong>학부모 가정통신문 생성기:</strong> 학원명, 강사명, 개강일을 입력하면 A4 규격 공식 안내문으로 자동 렌더링되며, 카톡/문자 단체 공지용 텍스트도 원클릭 복사됩니다.</li>
+                <li><strong>특강 홍보 포스터 생성기:</strong> 학원 로고와 홍보 문구를 조합하여 원내 부착용 포스터 및 인스타그램/블로그용 카드뉴스를 즉시 생성합니다.</li>
+                <li><strong>강사 3분 온보딩 퀵 매뉴얼:</strong> 신규 채용 강사나 조교도 3분 만에 시스템 조작을 마스터할 수 있는 초간단 업무 지침서입니다.</li>
+                <li><strong>학생 책상용 OMR 안내 카드:</strong> 시험 당일 책상에 부착하여 1분 만에 답안 마킹을 유도하는 미니 인쇄 카드 서식입니다.</li>
+            </ul>
+        </div>
+
+        <!-- Chapter 6 -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <h2>제6장. 학원 교재비 수납 및 법률(학원법 제15조) 안내</h2>
+            </div>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:18px 20px; font-size:13px; line-height:1.7;">
+                • <strong>합법적 분리 수납 근거:</strong> 학원의 설립·운영 및 과외교습에 관한 법률 제15조에 의거, 시·도 교육청의 분당 교습비 상한선과 별개로 <strong>'교재비 및 모의고사비(기타경비)'</strong>는 실비 범위 내에서 학부모에게 분리 수납하는 것이 100% 합법입니다.<br>
+                • <strong>권장 수납 가이드:</strong> 10주 특강 기준 학부모 교재비로 <strong>1인당 100,000원 ~ 120,000원(주당 1.0만~1.2만 원 선)</strong>을 수납하시면, 본사 도매 공급가를 전액 충당하고 학생 1인당 5.5만~7.5만 원의 순마진이 학원에 남습니다.
+            </div>
+        </div>
+
+        <!-- Manual Footer -->
+        <div class="manual-footer">
+            <p><strong>갓통과 for Business (통합과학 에듀테크 파트너스 센터)</strong></p>
+            <p>© 갓통과 • 2028 개정 교육과정 10주차 주간지 &amp; Fit 20 모의고사 화이트레이블 솔루션</p>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

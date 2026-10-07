@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODTONGGWA MOCK - 2027 시즌1 전국 연합 실전 모의고사 B2B</title>
+    
+    <!-- 스타일링을 위한 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 아이콘 라이브러리 Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #0b1120; 
+            color: #f8fafc;
+            line-height: 1.6;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        /* 어절 단위 줄바꿈 유지 */
+        h1, h2, h3, h4, p, span, a, button, label {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        /* 부드러운 스크롤 */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- 상단 글로벌 네비게이션 바 -->
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="/b2b_promo_landing.html" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group">
+                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center group-hover:bg-slate-700 transition-colors">
+                        <i data-lucide="arrow-left" class="w-4 h-4 text-slate-400 group-hover:text-white"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-400 group-hover:text-white">B2B 허브</span>
+                </a>
+                <div class="h-4 w-px bg-slate-700 hidden sm:block"></div>
+                <div class="flex items-center gap-2">
+                    <span class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
+                        GODTONGGWA MOCK B2B
+                    </span>
+                    <span class="text-[11px] font-bold text-purple-400 bg-purple-950/80 border border-purple-500/30 px-2 py-0.5 rounded-full hidden sm:inline-block">
+                        2027 시즌1 전국 연합
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="#process-section" class="text-xs sm:text-sm font-bold text-purple-300 hover:text-white px-3 py-1.5 hidden md:flex items-center gap-1">
+                    <i data-lucide="workflow" class="w-4 h-4"></i>
+                    운영 프로세스
+                </a>
+                <a href="#demo-section" class="text-xs sm:text-sm font-bold text-purple-300 hover:text-white px-3 py-1.5 hidden md:flex items-center gap-1">
+                    <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
+                    라이브 체험
+                </a>
+                <a href="#quote-section" class="text-xs sm:text-sm font-black bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-purple-600/20 active:scale-95 transition-all">
+                    시즌1 도입 신청
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================== -->
+    <!-- 1. 타이틀 섹션 (b2b_weekly.html 규격 유지) -->
+    <!-- ============================================================== -->
+    <header class="relative overflow-hidden py-16 sm:py-24 border-b border-slate-800 bg-gradient-to-b from-slate-900/90 via-purple-950/20 to-transparent">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
+            <!-- 상단 뱃지 -->
+            <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-400/30 text-purple-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold mb-6 shadow-sm">
+                <i data-lucide="calendar" class="w-4 h-4 text-purple-400"></i>
+                [2호] 2027 시즌1 모집 중 • 전국 파트너 학원 동시 시행
+            </div>
+
+            <!-- 메인 타이틀 -->
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight sm:leading-tight max-w-4xl mx-auto">
+                "원내 평가를 넘어 전국 단위 1등급을 입증하는<br>
+                <span class="bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-300 bg-clip-text text-transparent">
+                    2027 시즌1 전국 연합 실전 모의고사"
+                </span>
+            </h1>
+
+            <p class="mt-6 text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                전국 파트너 학원 동시 시행 + 실시간 통합 등급컷·백분위 + 모바일 OMR 1초 채점 + 화이트레이블 성적표<br class="hidden sm:inline">
+                단순 원내 시험의 한계를 넘어, 전국 수천 명 데이터 기반의 객관적 지표로 학부모 상담과 재등록을 압도하세요.
+            </p>
+
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <a href="#process-section" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black px-6 py-3.5 rounded-xl text-sm sm:text-base shadow-xl shadow-purple-600/25 active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="workflow" class="w-4 h-4"></i>
+                    4단계 연합 모의고사 프로세스
+                </a>
+                <a href="#demo-section" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-6 py-3.5 rounded-xl text-sm sm:text-base active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
+                    성적표 &amp; OMR 직접 체험
+                </a>
+                <a href="#quote-section" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-6 py-3.5 rounded-xl text-sm sm:text-base shadow-xl shadow-emerald-600/25 active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                    시즌1 제휴 견적 신청
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- ============================================================== -->
+        <!-- 2. 4단계 전국 연합 모의고사 운영 프로세스 -->
+        <!-- ============================================================== -->
+        <section id="process-section" class="py-16 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-black text-purple-400 uppercase tracking-wider bg-purple-500/10 border border-purple-400/30 px-3 py-1 rounded-full">
+                    Nationwide Mock Exam Flow
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white mt-3">
+                    🚀 4단계 전국 연합 모의고사 운영 프로세스
+                </h2>
+                <p class="text-sm text-slate-400 mt-2">
+                    시험지 준비부터 모바일 OMR 실시간 마킹, 전국 단위 백분위 산출, 카카오 알림톡 전송까지 원스톱 완결!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- STEP 1 -->
+                <div class="bg-slate-900 border border-purple-500/30 p-6 rounded-3xl relative shadow-xl hover:border-purple-400/60 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-purple-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                STEP 1 (시행 준비)
+                            </span>
+                            <i data-lucide="building-2" class="w-5 h-5 text-purple-400"></i>
+                        </div>
+
+                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                            학원 맞춤 브랜딩 &amp;<br>시험 일정 등록
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                            원작자 명칭 노출 0%! 학원 로고와 원장님 명의로 시험지와 OMR이 자동 화이트라벨링되며 학원 시험 일정에 맞춰 자유롭게 세팅합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="bg-slate-900 border border-emerald-500/30 p-6 rounded-3xl relative shadow-xl hover:border-emerald-400/60 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                STEP 2 (실전 응시)
+                            </span>
+                            <i data-lucide="smartphone" class="w-5 h-5 text-emerald-400"></i>
+                        </div>
+
+                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                            온·오프라인 동시 지원<br>1초 모바일 OMR 채점
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                            학원 내 지필 시험지 풀이 후 스마트폰으로 1초 만에 답안을 마킹하거나, 비대면 원격 시험 모드로 동시 응시할 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="bg-slate-900 border border-pink-500/30 p-6 rounded-3xl relative shadow-xl hover:border-pink-400/60 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-pink-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                STEP 3 (빅데이터 분석)
+                            </span>
+                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-pink-400"></i>
+                        </div>
+
+                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                            전국 누적 백분위 &amp;<br>실시간 1등급 컷 산출
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                            전국 수천 명 응시생 백데이터를 기반으로 실시간 등급컷, 백분위, 문항별 정답률 및 취약 유형을 과학적으로 진단합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- STEP 4 -->
+                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl relative shadow-xl hover:border-amber-400/60 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-amber-600 text-white font-black text-xs px-3 py-1 rounded-full">
+                                STEP 4 (상담 &amp; 브랜딩)
+                            </span>
+                            <i data-lucide="send" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+
+                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
+                            학부모 카카오 알림톡 &amp;<br>공식 시행처 브랜딩
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                            학원 로고가 찍힌 다차원 분석표를 학부모 카톡으로 자동 발송하며, '전국 연합 공식 시행처' 타이틀로 학원 신뢰도를 극대화합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- 3. 라이브 시스템 직접 체험관 -->
+        <!-- ============================================================== -->
+        <section id="demo-section" class="py-16 bg-slate-900/60 border-y border-slate-800">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="bg-gradient-to-br from-slate-900 via-purple-950/70 to-indigo-950 border border-purple-500/30 rounded-3xl p-8 sm:p-12 text-center shadow-2xl">
+                    <div class="max-w-3xl mx-auto">
+                        <span class="bg-purple-500/20 text-purple-300 text-xs font-black px-3.5 py-1 rounded-full border border-purple-400/30 mb-4 inline-block">
+                            ⚡ 실시간 연동 시스템 체험
+                        </span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                            전국 연합 OMR과 원장님 분석 콘솔을 직접 체험해 보세요
+                        </h2>
+                        <p class="text-sm sm:text-base text-slate-300 mt-3 mb-8">
+                            회원가입 없이 즉시 테스트 데이터를 조회하고 우리 학원 브랜드 치환 결과를 확인하실 수 있습니다.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <a href="/STEST/weekly/b2b_admin_console.html" target="_blank" class="bg-slate-800/90 hover:bg-slate-700 text-purple-300 border border-slate-700 p-5 rounded-2xl font-bold text-sm shadow-md flex flex-col items-center gap-2 active:scale-95 transition-all">
+                                <i data-lucide="layout-dashboard" class="w-6 h-6 text-purple-400"></i>
+                                <span>원장님 통합 콘솔 (/admin)</span>
+                                <span class="text-[11px] text-slate-400 font-normal">반별 성적 집계 &amp; 알림톡 발송</span>
+                            </a>
+                            <a href="/STEST/weekly/b2b_mobile_omr.html?tenant=demo&w=mock1" target="_blank" class="bg-slate-800/90 hover:bg-slate-700 text-emerald-300 border border-slate-700 p-5 rounded-2xl font-bold text-sm shadow-md flex flex-col items-center gap-2 active:scale-95 transition-all">
+                                <i data-lucide="smartphone" class="w-6 h-6 text-emerald-400"></i>
+                                <span>학생 모바일 OMR 1초 마킹</span>
+                                <span class="text-[11px] text-slate-400 font-normal">스마트폰 QR 스캔 실전 응시</span>
+                            </a>
+                            <button type="button" onclick="openReportOptionModal()" class="bg-slate-800/90 hover:bg-slate-700 text-pink-300 border border-slate-700 p-5 rounded-2xl font-bold text-sm shadow-md flex flex-col items-center gap-2 active:scale-95 transition-all text-center w-full">
+                                <i data-lucide="file-text" class="w-6 h-6 text-pink-400"></i>
+                                <span>전국 연합 AI 성적 리포트</span>
+                                <span class="text-[11px] text-slate-400 font-normal">학원 로고 치환 성적표 체험</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- 4. 학원 운영비 지출 부담 0원! (ACADEMY BUSINESS & ROI MODEL) -->
+        <!-- ============================================================== -->
+        <section id="roi-section" class="py-16 sm:py-20 border-b border-slate-800 bg-slate-900/40">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                <span class="inline-flex items-center gap-1.5 text-xs font-black text-purple-400 uppercase tracking-wider bg-purple-500/10 border border-purple-500/30 px-3.5 py-1.5 rounded-full mb-4 shadow-sm">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                    ACADEMY REVENUE &amp; BRAND VALUE
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-black text-white mt-1 leading-tight tracking-tight">
+                    학원 지출 비용 0원!<br>
+                    <span class="bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-300 bg-clip-text text-transparent">
+                        모의고사 응시료 수납을 통한 학원 순수익 &amp; 브랜드 권위 창출
+                    </span>
+                </h2>
+                <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed max-w-2xl mx-auto">
+                    전국 연합 모의고사는 학원 예산이 소모되는 비용이 아닙니다.<br class="hidden sm:inline">
+                    학부모 응시료 수납으로 B2B 도매 공급가를 전액 충당하고, <strong>학생 1인당 순마진</strong>이 학원 수익으로 귀속됩니다.<br class="hidden sm:inline">
+                    더불어 <strong>'전국 연합 공식 모의고사 공식 인증 시행처'</strong>라는 독점 타이틀로 인근 학원과의 원생 유치 경쟁에서 압도적 우위를 점하세요.
+                </p>
+                <div class="mt-8">
+                    <a href="#quote-section" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-purple-600/25 active:scale-95 transition-all">
+                        <i data-lucide="file-check-2" class="w-4 h-4"></i>
+                        시즌1 전국 연합 모의고사 도입 신청하기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- 5. 맞춤 견적서 & 시즌1 신청 메뉴 -->
+        <!-- ============================================================== -->
+        <section id="quote-section" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <!-- Background glow -->
+                <div class="absolute -top-24 -right-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center mb-10 relative z-10">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-black text-purple-400 uppercase tracking-wider bg-purple-500/10 border border-purple-500/30 px-3.5 py-1.5 rounded-full mb-3">
+                        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                        2027 Season 1 Application &amp; Quote
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">
+                        2027 시즌1 전국 연합 모의고사 도입 신청
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-xl mx-auto">
+                        학원 규모와 원하시는 시행 방식(지필 시험지/온라인 모바일)을 선택해 주시면, 최적의 B2B 공급 단가 견적서와 <strong>[시행 요강 및 공식 인증 시행처 안내서]</strong>를 전달해 드립니다.
+                    </p>
+                </div>
+
+                <!-- 견적 신청 입력 폼 -->
+                <form id="quoteForm" onsubmit="event.preventDefault(); handleRequestMockQuote();" class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm relative z-10">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">선생님 / 원장님 성함 <span class="text-purple-400">*</span></label>
+                        <input type="text" id="inpQuoteTeacher" required placeholder="예: 김철수 원장" value="김과학 원장" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">학원명 및 지역 <span class="text-purple-400">*</span></label>
+                        <input type="text" id="inpQuoteAcademy" required placeholder="예: GODTONGGWA 과학 전문관" value="GODTONGGWA 과학 전문관" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">시즌1 예상 응시생 규모 <span class="text-purple-400">*</span></label>
+                        <select id="selQuoteSeats" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500 font-bold">
+                            <option value="30">30명 응시 플랜 (단과 / 교습소용)</option>
+                            <option value="50" selected>50명 응시 플랜 (중형 전문학원 표준 - BEST)</option>
+                            <option value="100">100명 이상 응시 플랜 (대형관 / 학원 연합)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">도입 희망 시행 형태 <span class="text-purple-400">*</span></label>
+                        <select id="selQuoteExamType" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500">
+                            <option value="hybrid" selected>[추천] 온·오프라인 하이브리드 (원내 지필 시험 + 모바일 OMR 1초 채점)</option>
+                            <option value="paper_only">원내 오프라인 지필 인쇄 시행 (전국 등급컷 일괄 집계)</option>
+                            <option value="digital_only">100% 비대면 온라인 모바일 응시</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">연락처 (휴대폰 번호) <span class="text-purple-400">*</span></label>
+                        <input type="tel" id="inpQuotePhone" required placeholder="010-0000-0000" value="010-1234-5678" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1.5">이메일 주소 (견적서 &amp; 시행 요강 수신용) <span class="text-purple-400">*</span></label>
+                        <input type="email" id="inpQuoteEmail" required placeholder="director@academy.com" value="director@academy.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold text-slate-300 mb-1.5">추가 문의사항 또는 희망 개강/시행 일정 (선택)</label>
+                        <textarea id="inpQuoteNote" rows="2" placeholder="예: 3월 학평 직전 2월 말 전국 연합 모의고사 원내 전원 응시 계획 중입니다." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white outline-none focus:border-purple-500 text-xs sm:text-sm"></textarea>
+                    </div>
+
+                    <!-- 신청 CTA 버튼 -->
+                    <div class="sm:col-span-2 mt-2">
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black py-4 rounded-xl text-base shadow-xl shadow-purple-600/25 active:scale-98 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                            <span>👉 2027 시즌1 견적서 &amp; 전국 연합 시행 요강 신청하기</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- 하단 신뢰 및 보안 안내 -->
+                <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-400 space-y-1 relative z-10">
+                    <p>🔒 입력하신 정보는 제휴 상담 및 전국 연합 모의고사 발송 목적으로만 안전하게 처리됩니다.</p>
+                    <p>※ 정식 도입 시 시험지 표지 및 모바일 성적표에 원장님 학원 로고가 100% 화이트라벨링됩니다.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 견적 완료 모달 -->
+    <div id="quoteResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-purple-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-4">
+                <i data-lucide="check-circle-2" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-xl font-black text-white mb-2">
+                시즌1 제휴 견적 및 시행 요강 신청 완료
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed" id="modalQuoteSummary">
+                원장님, 전국 연합 모의고사 도입 신청이 정상 접수되었습니다.
+            </p>
+
+            <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 text-xs text-slate-300 space-y-2 mb-6">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">신청 학원:</span>
+                    <strong class="text-white" id="modalResAcademy">-</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">담당 원장/강사:</span>
+                    <span class="text-white" id="modalResTeacher">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">응시생 규모:</span>
+                    <span class="text-purple-400 font-bold" id="modalResSeats">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">시행 형태:</span>
+                    <span class="text-white" id="modalResDelivery">-</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <a href="/STEST/weekly/marketing/b2b_partner_manual.html" target="_blank" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-black py-3.5 rounded-xl text-sm shadow-lg shadow-purple-600/20 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="book-open-check" class="w-4 h-4"></i>
+                    <span>📘 공식 상세 운영 매뉴얼 지금 바로 열람하기 ➔</span>
+                </a>
+                <button type="button" onclick="closeQuoteModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 성적표 화이트레이블 맞춤 체험 모달 -->
+    <div id="reportOptionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-purple-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeReportOptionModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
+                    <i data-lucide="award" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-black text-purple-400 bg-purple-950/80 border border-purple-500/30 px-2.5 py-0.5 rounded-full inline-block mb-1">
+                        전국 연합 화이트레이블 성적표 체험
+                    </span>
+                    <h3 class="text-xl font-black text-white">
+                        우리 학원 브랜드로 성적표 보기
+                    </h3>
+                </div>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed">
+                원장님의 <strong>학원명과 강사명</strong>을 입력해 보세요. 전국 연합 모의고사 성적표의 제호와 직인, 취약점 코칭 문구가 원장님의 브랜드로 즉시 100% 자동 치환되어 렌더링됩니다!
+            </p>
+
+            <div class="space-y-4 mb-5 text-sm">
+                <div>
+                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
+                        <span>🏛️ 학원명 / 자체 브랜드명 <span class="text-purple-400">*</span></span>
+                    </label>
+                    <input type="text" id="optReportBrand" value="미래과학 아카데미" placeholder="예: 미래과학 아카데미, 대찬학원" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500 font-bold">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
+                        <span>👨‍🏫 담당 선생님 / 원장님 성함 <span class="text-purple-400">*</span></span>
+                    </label>
+                    <input type="text" id="optReportTeacher" value="김철수 원장" placeholder="예: 김철수 원장, 박대표 강사" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500 font-bold">
+                </div>
+            </div>
+
+            <div class="space-y-2.5">
+                <button type="button" onclick="launchWhitelabelReport()" class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black py-4 rounded-xl text-base shadow-xl shadow-purple-600/25 active:scale-98 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <span>👉 우리 학원 브랜드로 모바일 성적 리포트 열기</span>
+                </button>
+                <button type="button" onclick="closeReportOptionModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold py-2.5 rounded-xl text-xs transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 푸터 -->
+    <footer class="border-t border-slate-800 py-10 bg-slate-950 text-slate-500 text-xs text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="font-bold text-slate-400 mb-2">GODTONGGWA MOCK B2B (2027 시즌1 전국 연합 실전 모의고사 솔루션)</p>
+            <p>© GODTONGGWA • 2028 개정 교육과정 통합과학 전국 연합 실전 모의고사 에듀테크</p>
+        </div>
+    </footer>
+
+    <!-- 스크립트 -->
+    <script>
+        function openReportOptionModal() {
+            const qTeacher = document.getElementById('inpQuoteTeacher')?.value.trim();
+            const qAcademy = document.getElementById('inpQuoteAcademy')?.value.trim();
+            if (qAcademy && qAcademy !== 'GODTONGGWA 과학 전문관') {
+                document.getElementById('optReportBrand').value = qAcademy;
+            }
+            if (qTeacher && qTeacher !== '김과학 원장') {
+                document.getElementById('optReportTeacher').value = qTeacher;
+            }
+
+            const modal = document.getElementById('reportOptionModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeReportOptionModal() {
+            const modal = document.getElementById('reportOptionModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function launchWhitelabelReport() {
+            const brand = document.getElementById('optReportBrand').value.trim() || '미래과학 아카데미';
+            const teacher = document.getElementById('optReportTeacher').value.trim() || '김철수 원장';
+
+            const url = `/STEST/weekly/b2b_fit20_preview.html?brand=${encodeURIComponent(brand)}&teacher=${encodeURIComponent(teacher)}&eng=${encodeURIComponent(brand)}`;
+            window.open(url, '_blank');
+            closeReportOptionModal();
+        }
+
+        function handleRequestMockQuote() {
+            const teacher = document.getElementById('inpQuoteTeacher').value.trim();
+            const academy = document.getElementById('inpQuoteAcademy').value.trim();
+            const seats = document.getElementById('selQuoteSeats').value;
+            const examType = document.getElementById('selQuoteExamType').value;
+            const phone = document.getElementById('inpQuotePhone').value.trim();
+            const email = document.getElementById('inpQuoteEmail').value.trim();
+
+            if (!teacher || !academy || !phone || !email) {
+                alert('선생님 성함, 학원명, 연락처, 이메일을 모두 입력해 주세요.');
+                return;
+            }
+
+            const examTypeName = examType === 'hybrid' 
+                ? '온·오프라인 하이브리드 (지필+모바일OMR)' 
+                : (examType === 'paper_only' ? '원내 오프라인 지필 인쇄' : '100% 온라인 모바일');
+
+            document.getElementById('modalResAcademy').innerText = academy;
+            document.getElementById('modalResTeacher').innerText = teacher;
+            document.getElementById('modalResSeats').innerText = seats + '명 응시 플랜';
+            document.getElementById('modalResDelivery').innerText = examTypeName;
+            document.getElementById('modalQuoteSummary').innerText = 
+                `${academy} (${teacher}) 전용 2027 시즌1 B2B 공급 견적서와 공식 시행 요강이 연락처(${phone}) 및 이메일(${email})로 10분 내 발송됩니다.`;
+
+            const modal = document.getElementById('quoteResultModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeQuoteModal() {
+            const modal = document.getElementById('quoteResultModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

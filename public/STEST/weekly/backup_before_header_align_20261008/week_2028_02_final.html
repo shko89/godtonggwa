@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <!DOCTYPE html>
 
@@ -133,53 +132,7 @@ body { display: none; /* Authenticated user check before showing */
                 padding: 6px 12px !important;
             }
         }
-        
-/* ========================================================
-   [표준 지침] 4P - 5P CONCEPT BRIDGE 양면 펼침면 헤더/구분선 완벽 수평 정렬
-   ======================================================== */
-/* 1. 4페이지 & 5페이지 컨테이너 상단 여백 30px 통일 */
-.page-scope-page04 .a4-page, .page-scope-p4 .a4-page, .page-scope-page04-1 .a4-page,
-.a4-page[data-scope*="page04"], .a4-page.bridge-page, #bridge-page,
-.page-scope-page05 .a4-page, .page-scope-p5 .a4-page, .page-scope-page05-1 .a4-page,
-.a4-page[data-scope*="page05"], .a4-page.bridge-page-new, #bridge-page-new {
-    padding-top: 30px !important;
-    box-sizing: border-box !important;
-}
-
-/* 2. 4페이지 & 5페이지 헤더 높이, 구분선, 패딩 완전 일치 (상단 기준선 58px 일치) */
-.page-scope-page04 .page-header, .page-scope-p4 .page-header, .page-scope-page04-1 .page-header,
-.a4-page[data-scope*="page04"] .page-header, .a4-page.bridge-page .page-header, #bridge-page .page-header,
-.page-scope-page05 .page-header, .page-scope-p5 .page-header, .page-scope-page05-1 .page-header,
-.a4-page[data-scope*="page05"] .page-header, .a4-page.bridge-page-new .page-header, #bridge-page-new .page-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-end !important;
-    border-bottom: 2px solid #cbd5e1 !important;
-    padding-top: 0 !important;
-    padding-bottom: 8px !important;
-    margin-top: 0 !important;
-    margin-bottom: 20px !important;
-    height: 28px !important;
-    box-sizing: border-box !important;
-    flex-shrink: 0 !important;
-}
-
-/* 3. 4페이지 & 5페이지 브랜드명 폰트/사이즈/행간/색상 완전 일치 */
-.page-scope-page04 .header-brand, .page-scope-p4 .header-brand, .page-scope-page04-1 .header-brand,
-.a4-page[data-scope*="page04"] .header-brand, .a4-page.bridge-page .header-brand, #bridge-page .header-brand,
-.page-scope-page05 .header-brand, .page-scope-p5 .header-brand, .page-scope-page05-1 .header-brand,
-.a4-page[data-scope*="page05"] .header-brand, .a4-page.bridge-page-new .header-brand, #bridge-page-new .header-brand {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 13px !important;
-    letter-spacing: 2px !important;
-    line-height: 1.2 !important;
-    color: #475569 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-    </style>
+        </style>
 <style>
 @media print {
     @page { size: A4; margin: 0; }
@@ -1165,8 +1118,8 @@ body {
     pointer-events: none !important;
 }
 </style>
-<!-- [공통 수정] 1. 3페이지 점선 상자 제거 & 2. 암기장 모눈종이 배경 제거 -> 흰색 배경 통일 -->
-<style id="common-fixes-standard">
+    <!-- [공통 수정] 1. 3페이지 점선 상자 제거 & 2. 암기장 모눈종이 배경 제거 -> 흰색 배경 통일 -->
+    <style id="common-fixes-standard">
         /* 1. 3페이지 점선 상자(editable outline) 완전 제거 */
         .editable, [contenteditable="true"], [contenteditable="false"] {
             outline: none !important;
@@ -1194,6 +1147,7 @@ body {
     </style>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
+
 <div id="top-nav" style="position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10000; box-sizing: border-box;">
 <div style="display: flex; align-items: center; gap: 12px;">
 <button onclick="window.closeEbook(event)" style="background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);">
@@ -1229,102 +1183,107 @@ body {
 <button onclick="resetZoom()" style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">맞춤</button>
 </div>
 </div>
+
+
 <div id="flipbook-container" style="display: none;">
-<div id="zoom-wrapper">
-<div id="scale-wrapper">
-<div id="flipbook"></div>
+    <div id="zoom-wrapper">
+        <div id="scale-wrapper">
+            <div id="flipbook"></div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+
 <!-- TOC Overlay & Drawer -->
 <div id="toc-overlay" onclick="window.closeTocDrawer()" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10001; display: none; opacity: 0; transition: opacity 0.2s;"></div>
 <div id="toc-drawer" style="position: fixed; top: 50px; left: 0; bottom: 0; width: 320px; max-width: 85vw; background: #0f172a; border-right: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 10px 0 30px rgba(0,0,0,0.6); z-index: 10002; transform: translateX(-100%); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-sizing: border-box;">
-<!-- Drawer Header -->
-<div style="padding: 16px 20px; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="font-size: 16px;">📑</span>
-<span style="font-size: 15px; font-weight: 900; color: #f8fafc; letter-spacing: -0.5px;">빠른 목차 이동</span>
+    <!-- Drawer Header -->
+    <div style="padding: 16px 20px; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">📑</span>
+            <span style="font-size: 15px; font-weight: 900; color: #f8fafc; letter-spacing: -0.5px;">빠른 목차 이동</span>
+        </div>
+        <button onclick="window.closeTocDrawer()" style="background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; line-height: 1;">✕</button>
+    </div>
+    <!-- Drawer Content (TOC Item List) -->
+    <div style="padding: 14px 16px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px;">
+        <div class="toc-jump-item" onclick="window.goToPage(1)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">COVER</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">겉표지</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">01 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(3)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">INDEX</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">차례 및 학습 가이드</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">03 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(4)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(6)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 01</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">스펙트럼과 우주의 원소</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">06 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(12)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 02</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">빅뱅과 우주 초기의 진화</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">12 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(18)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 03</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">별의 진화와 원소 생성</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">18 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(28)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 04</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">원소의 주기성</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">28 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(37)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">37 P</span>
+        </div>
+    </div>
 </div>
-<button onclick="window.closeTocDrawer()" style="background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; line-height: 1;">✕</button>
-</div>
-<!-- Drawer Content (TOC Item List) -->
-<div style="padding: 14px 16px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px;">
-<div class="toc-jump-item" onclick="window.goToPage(1)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">COVER</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">겉표지</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">01 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(3)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">INDEX</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">차례 및 학습 가이드</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">03 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(4)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(6)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 01</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">스펙트럼과 우주의 원소</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">06 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(12)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 02</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">빅뱅과 우주 초기의 진화</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">12 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(18)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 03</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">별의 진화와 원소 생성</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">18 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(28)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 04</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">원소의 주기성</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">28 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(37)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">37 P</span>
-</div>
-</div>
-</div>
+
 <!-- Page Jump Modal -->
 <div id="page-jump-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10003; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-<div style="background: #0f172a; border: 1px solid #38bdf8; border-radius: 12px; padding: 24px; width: 280px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); text-align: center; color: white;">
-<div style="font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #38bdf8;">📖 페이지 직접 이동</div>
-<div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
-<input id="modal-page-input" max="45" min="1" onkeydown="if(event.key==='Enter') window.submitModalPageJump()" placeholder="1~45" style="width: 100px; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: white; font-size: 16px; font-weight: 700; text-align: center; outline: none;" type="number"/>
-<span style="font-size: 14px; color: #94a3b8;">/ 45 P</span>
+    <div style="background: #0f172a; border: 1px solid #38bdf8; border-radius: 12px; padding: 24px; width: 280px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); text-align: center; color: white;">
+        <div style="font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #38bdf8;">📖 페이지 직접 이동</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
+            <input id="modal-page-input" type="number" min="1" max="45" placeholder="1~45" style="width: 100px; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: white; font-size: 16px; font-weight: 700; text-align: center; outline: none;" onkeydown="if(event.key==='Enter') window.submitModalPageJump()" />
+            <span style="font-size: 14px; color: #94a3b8;">/ 45 P</span>
+        </div>
+        <div style="display: flex; gap: 8px; justify-content: center;">
+            <button onclick="window.submitModalPageJump()" style="flex: 1; background: #0284c7; border: none; color: white; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">이동</button>
+            <button onclick="window.closePageJumpModal()" style="flex: 1; background: #334155; border: none; color: #94a3b8; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">취소</button>
+        </div>
+    </div>
 </div>
-<div style="display: flex; gap: 8px; justify-content: center;">
-<button onclick="window.submitModalPageJump()" style="flex: 1; background: #0284c7; border: none; color: white; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">이동</button>
-<button onclick="window.closePageJumpModal()" style="flex: 1; background: #334155; border: none; color: #94a3b8; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">취소</button>
-</div>
-</div>
-</div>
+
 <!-- Main Content Store for Flipbook Engine -->
 <div id="main-content" style="display: none;">
 <div class="page-wrapper page-scope-p1">
-<div class="a4-page cover-page" data-density="hard" id="cover-page">
+<div data-density="hard" class="a4-page cover-page" id="cover-page">
 <div class="top-section">
 <div class="brand">GOTONGGWA</div>
 <h1 class="title">갓통과<br/>WEEKLY</h1>
@@ -1357,11 +1316,14 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p2">
 <div class="a4-page blank-page" id="blank-page-2" style="background-color: #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative; height: 707px;">
 <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #cbd5e1; font-weight: bold; font-size: 24px;"></div>
+
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p3">
 <div class="a4-page toc-page" id="toc-page">
 <div class="page-header">
@@ -1441,6 +1403,7 @@ body {
 <div class="page-num">- 03 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p4">
 <div class="a4-page bridge-page" id="bridge-page">
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px;">
@@ -1505,6 +1468,7 @@ body {
 <div class="page-num">- 04 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p5">
 <div class="a4-page bridge-page-new" id="bridge-page-new">
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px;">
@@ -1607,7 +1571,7 @@ body {
 </div>
 </div>
 <div class="svg-container" style="flex: 1; min-height: 95px;">
-<svg height="100%" viewbox="0 0 360 120" width="100%">
+<svg height="100%" viewBox="0 0 360 120" width="100%">
 <defs>
 <marker id="arrow-dark" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="0" viewbox="0 -5 10 10"><path d="M 0 -3 L 10 0 L 0 3 Z" fill="#0f172a"></path></marker>
 </defs>
@@ -1620,12 +1584,15 @@ body {
 <rect fill="#bfdbfe" height="75" stroke="#3b82f6" stroke-width="1.5" width="20" x="305" y="25"></rect>
 <text fill="#1d4ed8" font-size="8px" font-weight="900" text-anchor="middle" x="315" y="68">17족</text>
 <text fill="#1d4ed8" font-size="7px" font-weight="900" text-anchor="middle" x="315" y="79">할로젠</text>
+
 <!-- 족 (세로줄) Header & Arrow -->
 <text fill="#0f172a" font-family="Noto Sans KR" font-size="8.5px" font-weight="900" text-anchor="middle" x="85" y="14">족 (세로줄)</text>
 <line marker-end="url(#arrow-dark)" stroke="#0f172a" stroke-width="1.8" x1="85" x2="85" y1="17" y2="25"></line>
+
 <!-- 주기 (가로줄) Left Text & Arrow -->
 <text fill="#0f172a" font-family="Noto Sans KR" font-size="8px" font-weight="900" text-anchor="middle" x="38" y="55">주기 (가로줄)</text>
 <line marker-end="url(#arrow-dark)" stroke="#0f172a" stroke-width="1.8" x1="15" x2="68" y1="62" y2="62"></line>
+
 <!-- Bottom Center Title -->
 <text fill="#0f172a" font-family="Noto Sans KR" font-size="10px" font-weight="900" text-anchor="middle" x="200" y="114">주기율표 구조와 주요 족</text>
 </g>
@@ -1636,6 +1603,7 @@ body {
 <div class="page-num">- 05 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p6">
 <div class="concept-spread" id="concept-spread-draft" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 좌측 페이지 (데이터) ================= -->
@@ -1713,6 +1681,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p7">
 <div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 우측 페이지 (강사 도식/암기장) ================= -->
@@ -1819,6 +1788,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p8">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
@@ -1850,6 +1820,7 @@ body {
 <div class="page-num">- 08 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p9">
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
@@ -1904,6 +1875,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p10">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -1937,6 +1909,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p11">
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -2007,6 +1980,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p12">
 <div class="concept-spread" id="concept-spread-draft2" style="display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 좌측 페이지 (데이터) ================= -->
@@ -2101,6 +2075,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p13">
 <div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= 우측 페이지 (강사 도식/암기장) ================= -->
@@ -2196,6 +2171,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p14">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
@@ -2227,6 +2203,7 @@ body {
 <div class="page-num">- 14 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p15">
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
@@ -2257,6 +2234,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p16">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -2290,6 +2268,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p17">
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -2360,6 +2339,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p18">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 8 (Left) ================= -->
@@ -2437,6 +2417,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p19">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 9 (Right) ================= -->
@@ -2503,6 +2484,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p20">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 10 (Left) ================= -->
@@ -2571,6 +2553,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p21">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 11 (Right) ================= -->
@@ -2649,6 +2632,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p22">
 <div class="concept-spread" style="display: flex;">
 <!-- ================= Page 12 (Left) ================= -->
@@ -2717,6 +2701,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p23">
 <div class="concept-spread" style="display: flex; border: 1px solid #94a3b8; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 <!-- ================= Page 13 (Right) ================= -->
@@ -2738,6 +2723,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p24">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
@@ -2769,6 +2755,7 @@ body {
 <div class="page-num">- 24 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p25">
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
@@ -2823,6 +2810,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p26">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -2856,6 +2844,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p27">
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -2926,6 +2915,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p28">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 14 ================= -->
@@ -3015,6 +3005,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p29">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 15 ================= -->
@@ -3171,6 +3162,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p30">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 16 ================= -->
@@ -3243,6 +3235,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p31">
 <div class="concept-spread" style="display: flex; background: #ffffff;">
 <!-- ================= Page 17 ================= -->
@@ -3308,6 +3301,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p32">
 <div class="concept-spread" style="display: flex;">
 <!-- ================= Page 18 ================= -->
@@ -3381,6 +3375,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p33">
 <div class="a4-page spread-page" id="page-17">
 <div class="full-page-content">
@@ -3412,6 +3407,7 @@ body {
 <div class="page-num">- 33 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p34">
 <div class="a4-page spread-page" id="page-18">
 <div class="full-page-content">
@@ -3466,6 +3462,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p35">
 <div class="a4-page spread-page" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column;">
@@ -3499,6 +3496,7 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p36">
 <div class="a4-page spread-page" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -3569,365 +3567,437 @@ body {
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p37">
 <div class="a4-page spread-page">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+    <div class="unit-title">Ⅰ. 스펙트럼과 우주의 원소 (Theme 1)</div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>1.</span> <span class='q-content'>백열등이나 고온의 별처럼 고온·고밀도의 광원에서 나오는 빛을 분광기로 관찰하면 무지개처럼 연속된 색의 띠인 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>연속</span> 스펙트럼이 나타난다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>고온의 기체가 특정 파장의 빛을 방출하여 검은 바탕에 밝은 색 선으로 나타나는 것을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>방출</span> 스펙트럼이라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>3.</span> <span class='q-content'>백색광이 저온의 기체를 통과할 때 기체가 특정 파장의 빛을 흡수하여 연속 스펙트럼에 검은색 선이 나타나는 것을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>흡수</span> 스펙트럼이라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>원소마다 전자의 에너지 준위가 다르기 때문에, 원소의 종류에 따라 스펙트럼 선의 위치와 개수, 굵기가 고유하다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>5.</span> <span class='q-content'>별빛의 흡수 스펙트럼을 분석하여 원소의 고유 스펙트럼과 비교하면 별의 대기를 구성하는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>원소</span>의 종류를 알 수 있다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>6.</span> <span class='q-content'>스펙트럼에 나타난 선의 굵기(선폭)를 측정하면 천체를 구성하는 원소의 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>질량비</span>(함량비)를 알아낼 수 있다.</span></div>
+    </div>
 </div>
-<div class="unit-title">Ⅰ. 스펙트럼과 우주의 원소 (Theme 1)</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">1.</span> <span class="q-content">백열등이나 고온의 별처럼 고온·고밀도의 광원에서 나오는 빛을 분광기로 관찰하면 무지개처럼 연속된 색의 띠인 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">연속</span> 스펙트럼이 나타난다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">2.</span> <span class="q-content">고온의 기체가 특정 파장의 빛을 방출하여 검은 바탕에 밝은 색 선으로 나타나는 것을 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">방출</span> 스펙트럼이라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">3.</span> <span class="q-content">백색광이 저온의 기체를 통과할 때 기체가 특정 파장의 빛을 흡수하여 연속 스펙트럼에 검은색 선이 나타나는 것을 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">흡수</span> 스펙트럼이라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">4.</span> <span class="q-content">원소마다 전자의 에너지 준위가 다르기 때문에, 원소의 종류에 따라 스펙트럼 선의 위치와 개수, 굵기가 고유하다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">5.</span> <span class="q-content">별빛의 흡수 스펙트럼을 분석하여 원소의 고유 스펙트럼과 비교하면 별의 대기를 구성하는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">원소</span>의 종류를 알 수 있다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">6.</span> <span class="q-content">스펙트럼에 나타난 선의 굵기(선폭)를 측정하면 천체를 구성하는 원소의 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">질량비</span>(함량비)를 알아낼 수 있다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 37 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p38">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>7.</span> <span class='q-content'>우주 전역에서 관측되는 천체들의 스펙트럼을 분석한 결과 수소와 헬륨의 질량비는 약 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>3:1</span>로 나타난다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>8.</span> <span class='q-content'>수소와 헬륨의 질량비가 약 3:1이라는 사실은 빅뱅 우주론의 결정적인 증거이다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>9.</span> <span class='q-content'>태양의 연속 스펙트럼에 나타나는 수많은 흡수선을 발견자의 이름을 따서 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>프라운호퍼</span>선이라고 부른다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>10.</span> <span class='q-content'>같은 종류의 기체 원소는 방출 스펙트럼의 밝은 선 위치와 흡수 스펙트럼의 검은 선 위치가 정확히 일치한다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>기체 방전관에서 나오는 빛을 분광기로 관찰하면 무지개 모양의 연속 스펙트럼이 관찰된다.</span></div>
+        <div class="btn-group" data-answer="X">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>우주 전체를 구성하는 원소 질량의 약 98% 이상을 차지하는 가장 풍부한 두 원소는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>수소</span>와 헬륨이다.</span></div>
+    </div>
 </div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">7.</span> <span class="q-content">우주 전역에서 관측되는 천체들의 스펙트럼을 분석한 결과 수소와 헬륨의 질량비는 약 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">3:1</span>로 나타난다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">8.</span> <span class="q-content">수소와 헬륨의 질량비가 약 3:1이라는 사실은 빅뱅 우주론의 결정적인 증거이다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">9.</span> <span class="q-content">태양의 연속 스펙트럼에 나타나는 수많은 흡수선을 발견자의 이름을 따서 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">프라운호퍼</span>선이라고 부른다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">10.</span> <span class="q-content">같은 종류의 기체 원소는 방출 스펙트럼의 밝은 선 위치와 흡수 스펙트럼의 검은 선 위치가 정확히 일치한다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">11.</span> <span class="q-content">기체 방전관에서 나오는 빛을 분광기로 관찰하면 무지개 모양의 연속 스펙트럼이 관찰된다.</span></div>
-<div class="btn-group" data-answer="X">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">12.</span> <span class="q-content">우주 전체를 구성하는 원소 질량의 약 98% 이상을 차지하는 가장 풍부한 두 원소는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">수소</span>와 헬륨이다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 38 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p39">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+    <div class="unit-title">Ⅱ. 빅뱅과 우주 초기의 원소 생성 (Theme 2)</div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>13.</span> <span class='q-content'>약 138억 년 전 고온·고밀도의 한 점에서 대폭발이 일어나 우주가 시작되어 계속 팽창하고 있다는 이론을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>빅뱅</span> 우주론이라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>14.</span> <span class='q-content'>빅뱅 직후 우주가 팽창하며 온도가 낮아지는 과정에서 가장 먼저 생성된 기본 입자는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>쿼크</span>와 전자이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>15.</span> <span class='q-content'>양성자는 위 쿼크 2개와 아래 쿼크 1개가 결합하여 전하량 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>+1</span>을 갖는다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>16.</span> <span class='q-content'>중성자는 위 쿼크 1개와 아래 쿼크 2개가 결합하여 전하량 0을 갖는다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>17.</span> <span class='q-content'>우주 초기 온도가 낮아지면서 질량이 무거운 중성자가 양성자로 변환되어 양성자와 중성자의 개수비는 약 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>7:1</span>이 되었다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>18.</span> <span class='q-content'>빅뱅 후 약 3분이 되었을 때 양성자 2개와 중성자 2개가 결합하여 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>헬륨</span> 원자핵이 생성되었다.</span></div>
+    </div>
 </div>
-<div class="unit-title">Ⅱ. 빅뱅과 우주 초기의 원소 생성 (Theme 2)</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">13.</span> <span class="q-content">약 138억 년 전 고온·고밀도의 한 점에서 대폭발이 일어나 우주가 시작되어 계속 팽창하고 있다는 이론을 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">빅뱅</span> 우주론이라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">14.</span> <span class="q-content">빅뱅 직후 우주가 팽창하며 온도가 낮아지는 과정에서 가장 먼저 생성된 기본 입자는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">쿼크</span>와 전자이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">15.</span> <span class="q-content">양성자는 위 쿼크 2개와 아래 쿼크 1개가 결합하여 전하량 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">+1</span>을 갖는다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">16.</span> <span class="q-content">중성자는 위 쿼크 1개와 아래 쿼크 2개가 결합하여 전하량 0을 갖는다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">17.</span> <span class="q-content">우주 초기 온도가 낮아지면서 질량이 무거운 중성자가 양성자로 변환되어 양성자와 중성자의 개수비는 약 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">7:1</span>이 되었다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">18.</span> <span class="q-content">빅뱅 후 약 3분이 되었을 때 양성자 2개와 중성자 2개가 결합하여 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">헬륨</span> 원자핵이 생성되었다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 39 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p40">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>19.</span> <span class='q-content'>빅뱅 후 약 38만 년, 우주의 온도가 약 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>3000</span>K로 낮아졌을 때 원자핵과 전자가 결합하여 최초의 중성 원자가 형성되었다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>20.</span> <span class='q-content'>중성 원자가 형성되면서 전자의 방해를 받지 않고 우주 공간으로 퍼져 나간 빛을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>우주 배경 복사</span>라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>21.</span> <span class='q-content'>우주 배경 복사는 우주 팽창으로 파장이 길어져 현재는 약 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>2.7</span>K의 흑체 복사에 해당하는 마이크로파로 관측된다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>22.</span> <span class='q-content'>우주 배경 복사를 최초로 발견하여 빅뱅 우주론을 확립한 과학자는 펜지어스와 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>윌슨</span>이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>23.</span> <span class='q-content'>빅뱅 우주론을 지지하는 두 가지 핵심 관측 증거는 수소와 헬륨의 질량비(3:1)와 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>우주 배경 복사</span>이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>24.</span> <span class='q-content'>빅뱅 이후 우주가 팽창함에 따라 우주의 질량은 일정하게 유지되지만 밀도와 온도는 계속 감소하였다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
 </div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">19.</span> <span class="q-content">빅뱅 후 약 38만 년, 우주의 온도가 약 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">3000</span>K로 낮아졌을 때 원자핵과 전자가 결합하여 최초의 중성 원자가 형성되었다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">20.</span> <span class="q-content">중성 원자가 형성되면서 전자의 방해를 받지 않고 우주 공간으로 퍼져 나간 빛을 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">우주 배경 복사</span>라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">21.</span> <span class="q-content">우주 배경 복사는 우주 팽창으로 파장이 길어져 현재는 약 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">2.7</span>K의 흑체 복사에 해당하는 마이크로파로 관측된다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">22.</span> <span class="q-content">우주 배경 복사를 최초로 발견하여 빅뱅 우주론을 확립한 과학자는 펜지어스와 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">윌슨</span>이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">23.</span> <span class="q-content">빅뱅 우주론을 지지하는 두 가지 핵심 관측 증거는 수소와 헬륨의 질량비(3:1)와 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">우주 배경 복사</span>이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">24.</span> <span class="q-content">빅뱅 이후 우주가 팽창함에 따라 우주의 질량은 일정하게 유지되지만 밀도와 온도는 계속 감소하였다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-</div>
+
 <div class="page-num">- 40 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p41">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+    <div class="unit-title">Ⅲ. 별의 진화와 원소 생성 (Theme 3)</div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>25.</span> <span class='q-content'>수소와 헬륨 등으로 이루어진 성간 물질이 모인 성운이 중력 수축하여 중심부 온도가 상승하면서 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>원시별</span>이 탄생한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>26.</span> <span class='q-content'>중심부 온도가 약 1000만 K에 도달하여 수소 핵융합 반응을 일으키는 별의 일생에서 가장 긴 단계를 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>주계열성</span>이라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>주계열성은 중심부 수소 핵융합에 의한 내부 압력과 중심을 향하는 중력이 평형을 이루어 크기가 일정하게 유지된다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>28.</span> <span class='q-content'>수소 핵융합 반응은 4개의 수소 원자핵이 융합하여 1개의 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>헬륨</span> 원자핵을 만든다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>29.</span> <span class='q-content'>태양 정도의 질량을 가진 별은 중심부 수소가 고갈되면 수축과 팽창을 거쳐 붉고 거대한 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>적색 거성</span>으로 진화한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>30.</span> <span class='q-content'>적색 거성의 중심부에서는 헬륨 핵융합 반응이 일어나 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>탄소</span>와 산소 원자핵이 생성된다.</span></div>
+    </div>
 </div>
-<div class="unit-title">Ⅲ. 별의 진화와 원소 생성 (Theme 3)</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">25.</span> <span class="q-content">수소와 헬륨 등으로 이루어진 성간 물질이 모인 성운이 중력 수축하여 중심부 온도가 상승하면서 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">원시별</span>이 탄생한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">26.</span> <span class="q-content">중심부 온도가 약 1000만 K에 도달하여 수소 핵융합 반응을 일으키는 별의 일생에서 가장 긴 단계를 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">주계열성</span>이라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">27.</span> <span class="q-content">주계열성은 중심부 수소 핵융합에 의한 내부 압력과 중심을 향하는 중력이 평형을 이루어 크기가 일정하게 유지된다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">28.</span> <span class="q-content">수소 핵융합 반응은 4개의 수소 원자핵이 융합하여 1개의 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">헬륨</span> 원자핵을 만든다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">29.</span> <span class="q-content">태양 정도의 질량을 가진 별은 중심부 수소가 고갈되면 수축과 팽창을 거쳐 붉고 거대한 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">적색 거성</span>으로 진화한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">30.</span> <span class="q-content">적색 거성의 중심부에서는 헬륨 핵융합 반응이 일어나 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">탄소</span>와 산소 원자핵이 생성된다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 41 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p42">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>태양 정도 질량의 별은 진화 마지막에 외층이 행성상 성운으로 방출되고 중심부는 수축하여 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>백색 왜성</span>이 된다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>32.</span> <span class='q-content'>태양 질량의 10배 이상 무거운 별은 초거성 중심부에서 핵융합 반응이 거듭되어 가장 안정한 원소인 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>철</span>(Fe)까지 생성된다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>33.</span> <span class='q-content'>철보다 무거운 금(Au), 납(Pb), 우라늄(U) 등의 원소는 거대한 별이 폭발하는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>초신성 폭발</span> 과정에서 생성된다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>초신성 폭발 후 중심부에 남은 초고밀도 천체는 별의 질량에 따라 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>중성자별</span> 또는 블랙홀이 된다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>35.</span> <span class='q-content'>태양계 성운에서 미행성체들이 충돌·병합하여 지구와 행성들이 형성되었으며, 태양계 형성 이후 태양 중심부 수소 핵융합을 제외하면 새로운 원소는 생성되지 않았다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>36.</span> <span class='q-content'>원시 지구는 미행성체 충돌열로 마그마 바다를 형성하였으며, 무거운 철과 니켈이 가라앉아 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>핵</span>을 이루고 가벼운 물질이 떠올라 맨틀과 지각을 형성하였다.</span></div>
+    </div>
 </div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">31.</span> <span class="q-content">태양 정도 질량의 별은 진화 마지막에 외층이 행성상 성운으로 방출되고 중심부는 수축하여 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">백색 왜성</span>이 된다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">32.</span> <span class="q-content">태양 질량의 10배 이상 무거운 별은 초거성 중심부에서 핵융합 반응이 거듭되어 가장 안정한 원소인 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">철</span>(Fe)까지 생성된다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">33.</span> <span class="q-content">철보다 무거운 금(Au), 납(Pb), 우라늄(U) 등의 원소는 거대한 별이 폭발하는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">초신성 폭발</span> 과정에서 생성된다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">34.</span> <span class="q-content">초신성 폭발 후 중심부에 남은 초고밀도 천체는 별의 질량에 따라 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">중성자별</span> 또는 블랙홀이 된다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">35.</span> <span class="q-content">태양계 성운에서 미행성체들이 충돌·병합하여 지구와 행성들이 형성되었으며, 태양계 형성 이후 태양 중심부 수소 핵융합을 제외하면 새로운 원소는 생성되지 않았다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">36.</span> <span class="q-content">원시 지구는 미행성체 충돌열로 마그마 바다를 형성하였으며, 무거운 철과 니켈이 가라앉아 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">핵</span>을 이루고 가벼운 물질이 떠올라 맨틀과 지각을 형성하였다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 42 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p43">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+    <div class="unit-title">Ⅳ. 원소의 주기성 (Theme 4)</div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>37.</span> <span class='q-content'>화학적 성질이 비슷한 세 원소에서 중간 원소의 원자량이 나머지 두 원소의 평균값과 비슷하다는 세 쌍 원소설을 제안한 과학자는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>되베라이너</span>이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>원소들을 원자량 순으로 나열할 때 8번째마다 화학적 성질이 비슷한 원소가 나타난다는 옥타브설을 주장한 과학자는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>뉴랜즈</span>이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>39.</span> <span class='q-content'>당시 발견된 원소들을 원자량 순서로 배열하고, 미발견 원소의 자리를 빈칸으로 남겨 성질을 예측한 최초의 주기율표를 만든 과학자는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>멘델레예프</span>이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>40.</span> <span class='q-content'>원소들의 주기적 성질이 원자량이 아니라 원자핵 속 양성자의 수인 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>원자 번호</span> 순서에 따라 나타남을 밝혀 현대 주기율표의 기틀을 마련한 과학자는 모즐리이다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>41.</span> <span class='q-content'>현대 주기율표는 가로줄인 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>주기</span>(1~7주기)와 세로줄인 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>족</span>(1~18족)으로 구성된다.</span></div>
+    </div>
 </div>
-<div class="unit-title">Ⅳ. 원소의 주기성 (Theme 4)</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">37.</span> <span class="q-content">화학적 성질이 비슷한 세 원소에서 중간 원소의 원자량이 나머지 두 원소의 평균값과 비슷하다는 세 쌍 원소설을 제안한 과학자는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">되베라이너</span>이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">38.</span> <span class="q-content">원소들을 원자량 순으로 나열할 때 8번째마다 화학적 성질이 비슷한 원소가 나타난다는 옥타브설을 주장한 과학자는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">뉴랜즈</span>이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">39.</span> <span class="q-content">당시 발견된 원소들을 원자량 순서로 배열하고, 미발견 원소의 자리를 빈칸으로 남겨 성질을 예측한 최초의 주기율표를 만든 과학자는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">멘델레예프</span>이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">40.</span> <span class="q-content">원소들의 주기적 성질이 원자량이 아니라 원자핵 속 양성자의 수인 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">원자 번호</span> 순서에 따라 나타남을 밝혀 현대 주기율표의 기틀을 마련한 과학자는 모즐리이다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">41.</span> <span class="q-content">현대 주기율표는 가로줄인 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">주기</span>(1~7주기)와 세로줄인 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">족</span>(1~18족)으로 구성된다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 43 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p44">
 <div class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>같은 주기의 원소들은 전자가 채워지는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>전자 껍질</span> 수가 서로 같다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>같은 족의 원소들은 가장 바깥 전자 껍질에 존재하는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>원자가 전자</span> 수가 같아 화학적 성질이 비슷하다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>44.</span> <span class='q-content'>주기율표의 18족 원소(He, Ne, Ar)는 비활성 기체로 원자가 전자 수가 0이며 화학적으로 매우 안정하다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>1족 원소 중 수소(H)를 제외한 리튬(Li), 소듐(Na), 포타슘(K) 등의 금속 원소를 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>알칼리</span> 금속이라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>46.</span> <span class='q-content'>알칼리 금속은 물과 격렬하게 반응하여 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>수소</span> 기체를 발생시키고 용액을 염기성으로 만든다.</span></div>
+    </div>
 </div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">42.</span> <span class="q-content">같은 주기의 원소들은 전자가 채워지는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">전자 껍질</span> 수가 서로 같다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">43.</span> <span class="q-content">같은 족의 원소들은 가장 바깥 전자 껍질에 존재하는 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">원자가 전자</span> 수가 같아 화학적 성질이 비슷하다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">44.</span> <span class="q-content">주기율표의 18족 원소(He, Ne, Ar)는 비활성 기체로 원자가 전자 수가 0이며 화학적으로 매우 안정하다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">45.</span> <span class="q-content">1족 원소 중 수소(H)를 제외한 리튬(Li), 소듐(Na), 포타슘(K) 등의 금속 원소를 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">알칼리</span> 금속이라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">46.</span> <span class="q-content">알칼리 금속은 물과 격렬하게 반응하여 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">수소</span> 기체를 발생시키고 용액을 염기성으로 만든다.</span></div>
-</div>
-</div>
+
 <div class="page-num">- 44 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-p45">
-<div class="a4-page spread-page" data-density="hard" style="margin-top: 40px;">
+<div data-density="hard" class="a4-page spread-page" style="margin-top: 40px;">
 <div class="quiz-container">
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
-<div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
-<div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">47.</span> <span class="q-content">알칼리 금속은 원자 번호가 클수록(주기가 아래로 갈수록) 전자를 잃기 쉬워 반응성이 더 커진다.</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">48.</span> <span class="q-content">17족 원소인 플루오린(F), 염소(Cl), 브로민(Br), 아이오딘(I) 등을 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">할로젠</span> 원소라고 한다.</span></div>
-</div>
-<div class="card">
-<span class="q-type">O / X 퀴즈</span>
-<div class="q-text"><span class="q-num">49.</span> <span class="q-content">할로젠 원소는 전자 1개를 얻어 -1가 음이온이 되기 쉬우며, 원자 번호가 작을수록 반응성이 크다(F &gt; Cl &gt; Br &gt; I).</span></div>
-<div class="btn-group" data-answer="O">
-<div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
-<div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
-</div>
-</div>
-<div class="card">
-<span class="q-type">빈칸 채우기</span>
-<div class="q-text"><span class="q-num">50.</span> <span class="q-content">실온에서 할로젠 원소 중 플루오린(F₂)과 염소(Cl₂)는 기체, 브로민(Br₂)은 액체, 아이오딘(I₂)은 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">고체</span> 상태로 존재한다.</span></div>
-</div>
-<div class="ans-key-card">
-<div class="ans-key-title">
-<span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #0f172a; padding-bottom: 10px; margin-bottom: 10px;">
+        <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 14px; letter-spacing: 2px; color: #64748b;">[개념 SCAN]</div>
+        <div class="header-vol" style="font-family: 'Roboto'; font-weight: 700; font-size: 14px; color: #0f172a;">VOL. 02</div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>47.</span> <span class='q-content'>알칼리 금속은 원자 번호가 클수록(주기가 아래로 갈수록) 전자를 잃기 쉬워 반응성이 더 커진다.</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>48.</span> <span class='q-content'>17족 원소인 플루오린(F), 염소(Cl), 브로민(Br), 아이오딘(I) 등을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>할로젠</span> 원소라고 한다.</span></div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">O / X 퀴즈</span>
+        <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>할로젠 원소는 전자 1개를 얻어 -1가 음이온이 되기 쉬우며, 원자 번호가 작을수록 반응성이 크다(F > Cl > Br > I).</span></div>
+        <div class="btn-group" data-answer="O">
+            <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
+            <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="q-type">빈칸 채우기</span>
+        <div class="q-text"><span class='q-num'>50.</span> <span class='q-content'>실온에서 할로젠 원소 중 플루오린(F₂)과 염소(Cl₂)는 기체, 브로민(Br₂)은 액체, 아이오딘(I₂)은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>고체</span> 상태로 존재한다.</span></div>
+    </div>
+
+    <div class="ans-key-card">
+                <div class="ans-key-title">
+                    <span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
                 </div>
-<div class="ans-key-content">
-<b>1.</b> 연속  <b>2.</b> 방출  <b>3.</b> 흡수  <b>4.</b> O  <b>5.</b> 원소  <b>6.</b> 질량비  <b>7.</b> 3:1  <b>8.</b> O  <b>9.</b> 프라운호퍼  <b>10.</b> O<br/>
-<b>11.</b> X  <b>12.</b> 수소  <b>13.</b> 빅뱅  <b>14.</b> 쿼크  <b>15.</b> +1  <b>16.</b> O  <b>17.</b> 7:1  <b>18.</b> 헬륨  <b>19.</b> 3000  <b>20.</b> 우주 배경 복사<br/>
-<b>21.</b> 2.7  <b>22.</b> 윌슨  <b>23.</b> 우주 배경 복사  <b>24.</b> O  <b>25.</b> 원시별  <b>26.</b> 주계열성  <b>27.</b> O  <b>28.</b> 헬륨  <b>29.</b> 적색 거성  <b>30.</b> 탄소<br/>
-<b>31.</b> 백색 왜성  <b>32.</b> 철  <b>33.</b> 초신성 폭발  <b>34.</b> 중성자별  <b>35.</b> O  <b>36.</b> 핵  <b>37.</b> 되베라이너  <b>38.</b> 뉴랜즈  <b>39.</b> 멘델레예프  <b>40.</b> 원자 번호<br/>
-<b>41.</b> 주기, 족  <b>42.</b> 전자 껍질  <b>43.</b> 원자가 전자  <b>44.</b> O  <b>45.</b> 알칼리  <b>46.</b> 수소  <b>47.</b> O  <b>48.</b> 할로젠  <b>49.</b> O  <b>50.</b> 고체
+                <div class="ans-key-content">
+                    <b>1.</b> 연속 &nbsp;<b>2.</b> 방출 &nbsp;<b>3.</b> 흡수 &nbsp;<b>4.</b> O &nbsp;<b>5.</b> 원소 &nbsp;<b>6.</b> 질량비 &nbsp;<b>7.</b> 3:1 &nbsp;<b>8.</b> O &nbsp;<b>9.</b> 프라운호퍼 &nbsp;<b>10.</b> O<br>
+                    <b>11.</b> X &nbsp;<b>12.</b> 수소 &nbsp;<b>13.</b> 빅뱅 &nbsp;<b>14.</b> 쿼크 &nbsp;<b>15.</b> +1 &nbsp;<b>16.</b> O &nbsp;<b>17.</b> 7:1 &nbsp;<b>18.</b> 헬륨 &nbsp;<b>19.</b> 3000 &nbsp;<b>20.</b> 우주 배경 복사<br>
+                    <b>21.</b> 2.7 &nbsp;<b>22.</b> 윌슨 &nbsp;<b>23.</b> 우주 배경 복사 &nbsp;<b>24.</b> O &nbsp;<b>25.</b> 원시별 &nbsp;<b>26.</b> 주계열성 &nbsp;<b>27.</b> O &nbsp;<b>28.</b> 헬륨 &nbsp;<b>29.</b> 적색 거성 &nbsp;<b>30.</b> 탄소<br>
+                    <b>31.</b> 백색 왜성 &nbsp;<b>32.</b> 철 &nbsp;<b>33.</b> 초신성 폭발 &nbsp;<b>34.</b> 중성자별 &nbsp;<b>35.</b> O &nbsp;<b>36.</b> 핵 &nbsp;<b>37.</b> 되베라이너 &nbsp;<b>38.</b> 뉴랜즈 &nbsp;<b>39.</b> 멘델레예프 &nbsp;<b>40.</b> 원자 번호<br>
+                    <b>41.</b> 주기, 족 &nbsp;<b>42.</b> 전자 껍질 &nbsp;<b>43.</b> 원자가 전자 &nbsp;<b>44.</b> O &nbsp;<b>45.</b> 알칼리 &nbsp;<b>46.</b> 수소 &nbsp;<b>47.</b> O &nbsp;<b>48.</b> 할로젠 &nbsp;<b>49.</b> O &nbsp;<b>50.</b> 고체
                 </div>
-</div>
+            </div>
+
 <div class="page-num">- 45 -</div>
 </div>
 </div>
 </div>
+
+
+
 <!-- PageFlip Engine Script -->
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 <script>
@@ -4707,5 +4777,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-</div></body>
-</html></html>
+
+</body>
+</html>

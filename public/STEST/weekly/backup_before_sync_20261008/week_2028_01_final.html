@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 <html lang="ko">
 <!DOCTYPE html>
 
 <html lang="ko">
-<head><script type="module">
+<head>
+    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -32,36 +32,21 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // 1주차 주간지는 전 국민 & 제휴 학원 무료 체험 오픈 콘텐츠입니다.
+    // 비로그인 또는 무료 회원이라도 차단하지 않고 자유롭게 열람을 허용합니다.
+    document.body.style.display = 'flex';
+
     onAuthStateChanged(auth, async (user) => {
-        if (!user || user.isAnonymous) {
-            alert("로그인이 필요하거나 접근 권한이 없습니다.");
-            window.location.href = "../../exam.html";
-            return;
-        }
-        try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            const pkgDoc = await getDoc(doc(db, "users", user.uid, "packages", "weekly_winter_2028"));
-            const myPkgDoc = await getDoc(doc(db, "users", user.uid, "my_packages", "weekly_winter_2028"));
-            
-            const userData = userDoc.exists() ? userDoc.data() : {};
-            const isPaid = userData.role === 'admin' || 
-                           userData.isPaid === true || 
-                           userData.hasAllPass === true || 
-                           userData.hasWeeklyPass === true || 
-                           userData.subscriptions?.weekly_magazine?.isActive === true || 
-                           userData.subscriptions?.all_pass?.isActive === true || 
-                           (pkgDoc.exists() && pkgDoc.data().status === 'active') || 
-                           (myPkgDoc.exists() && myPkgDoc.data().status === 'active');
-                           
-            if (!isPaid) {
-                alert("갓통과 주간지(WEEKLY) 유료 서비스 신청자만 접근 가능합니다.");
-                window.location.href = "../../exam.html";
-                return;
+        if (user && !user.isAnonymous) {
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    // 로그인된 회원 정보 확인 완료
+                }
+            } catch (err) {
+                console.warn("User data fetch warning:", err);
             }
-            document.body.style.display = 'flex';
-        } catch (err) {
-            console.error("Auth verification error:", err);
-            document.body.style.display = 'flex';
         }
     });
 
@@ -80,7 +65,7 @@
 <meta charset="utf-8"/>
 <link href="../weekly_common.css" rel="stylesheet"/>
 <style>
-body { display: none; /* Authenticated user check before showing */
+body { display: flex; /* Free trial instant display */
     background-color: #cbd5e1;
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
@@ -133,53 +118,7 @@ body { display: none; /* Authenticated user check before showing */
                 padding: 6px 12px !important;
             }
         }
-        
-/* ========================================================
-   [표준 지침] 4P - 5P CONCEPT BRIDGE 양면 펼침면 헤더/구분선 완벽 수평 정렬
-   ======================================================== */
-/* 1. 4페이지 & 5페이지 컨테이너 상단 여백 30px 통일 */
-.page-scope-page04 .a4-page, .page-scope-p4 .a4-page, .page-scope-page04-1 .a4-page,
-.a4-page[data-scope*="page04"], .a4-page.bridge-page, #bridge-page,
-.page-scope-page05 .a4-page, .page-scope-p5 .a4-page, .page-scope-page05-1 .a4-page,
-.a4-page[data-scope*="page05"], .a4-page.bridge-page-new, #bridge-page-new {
-    padding-top: 30px !important;
-    box-sizing: border-box !important;
-}
-
-/* 2. 4페이지 & 5페이지 헤더 높이, 구분선, 패딩 완전 일치 (상단 기준선 58px 일치) */
-.page-scope-page04 .page-header, .page-scope-p4 .page-header, .page-scope-page04-1 .page-header,
-.a4-page[data-scope*="page04"] .page-header, .a4-page.bridge-page .page-header, #bridge-page .page-header,
-.page-scope-page05 .page-header, .page-scope-p5 .page-header, .page-scope-page05-1 .page-header,
-.a4-page[data-scope*="page05"] .page-header, .a4-page.bridge-page-new .page-header, #bridge-page-new .page-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-end !important;
-    border-bottom: 2px solid #cbd5e1 !important;
-    padding-top: 0 !important;
-    padding-bottom: 8px !important;
-    margin-top: 0 !important;
-    margin-bottom: 20px !important;
-    height: 28px !important;
-    box-sizing: border-box !important;
-    flex-shrink: 0 !important;
-}
-
-/* 3. 4페이지 & 5페이지 브랜드명 폰트/사이즈/행간/색상 완전 일치 */
-.page-scope-page04 .header-brand, .page-scope-p4 .header-brand, .page-scope-page04-1 .header-brand,
-.a4-page[data-scope*="page04"] .header-brand, .a4-page.bridge-page .header-brand, #bridge-page .header-brand,
-.page-scope-page05 .header-brand, .page-scope-p5 .header-brand, .page-scope-page05-1 .header-brand,
-.a4-page[data-scope*="page05"] .header-brand, .a4-page.bridge-page-new .header-brand, #bridge-page-new .header-brand {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 13px !important;
-    letter-spacing: 2px !important;
-    line-height: 1.2 !important;
-    color: #475569 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-    </style>
+        </style>
 <style id="consolidated-weekly-common-styles">
 .header-title:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { text-align: center; color: #0f172a; }
 .header-title h1:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { font-size: 32px; margin: 0 0 10px 0; font-weight: 900; }
@@ -199,13 +138,13 @@ body { display: none; /* Authenticated user check before showing */
         }
 .btn-download:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]):hover { background-color: #1e293b; }
 .editable:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) {
-            outline: none !important;
+            outline: 1px dashed rgba(125, 125, 125, 0.4);
             cursor: text;
             transition: all 0.2s;
         }
 .editable:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]):hover, .editable:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]):focus {
-            outline: none !important;
-            background-color: transparent !important;
+            outline: 2px dashed #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.1);
         }
 .page-wrapper:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) {
             display: flex;
@@ -343,8 +282,8 @@ body { display: none; /* Authenticated user check before showing */
 .scale-label:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { position: absolute; bottom: 12px; transform: translateX(-50%); font-family: 'Roboto'; font-size: 11px; font-weight: 700; color: #475569; }
 .scale-item:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { position: absolute; top: 12px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; text-align: center; line-height: 1.2; }
 .page-right:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { padding: 40px 35px 50px 35px;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
@@ -374,8 +313,8 @@ body { display: none; /* Authenticated user check before showing */
 .diagram-desc:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { font-size: 10px; color: #475569; }
 .diagram-arrow:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { color: #0284c7; font-size: 18px; font-weight: 900; margin: 2px 0; }
 .page-right:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { padding: 40px 35px 50px 35px;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
@@ -404,8 +343,8 @@ body { display: none; /* Authenticated user check before showing */
 .fermi-step:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { margin-bottom: 1px; display: flex; align-items: flex-start; }
 .fermi-num:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { font-weight: 900; color: #0284c7; margin-right: 8px; font-family: 'Roboto'; }
 .page-right:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { padding: 40px 35px 50px 35px;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
@@ -435,8 +374,8 @@ body { display: none; /* Authenticated user check before showing */
 .diagram-desc:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { font-size: 10px; color: #475569; }
 .diagram-arrow:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { color: #0284c7; font-size: 16px; font-weight: 900; margin: 2px 0; }
 .page-right:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { padding: 40px 35px 50px 35px;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
@@ -904,13 +843,13 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
             margin-top: auto; 
         }</style>
 <style>.editable[data-scope="page06-1"] {
-            outline: none !important;
+            outline: 1px dashed rgba(125, 125, 125, 0.4);
             cursor: text;
             transition: all 0.2s;
         }
 .editable[data-scope="page06-1"]:hover, .editable[data-scope="page06-1"]:focus {
-            outline: none !important;
-            background-color: transparent !important;
+            outline: 2px dashed #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.1);
         }
 .a4-page[data-scope="page06-1"] {
             width: 500px;
@@ -978,8 +917,8 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
             display: flex;
             flex-direction: column;
             word-break: keep-all;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title[data-scope="page06-1"] { margin-top: 0; font-size: 16px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
@@ -1043,8 +982,8 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
             padding: 40px 35px 50px 35px;
             display: flex;
             flex-direction: column;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title[data-scope="page10-1"] { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
@@ -1107,8 +1046,8 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
             padding: 30px 25px 35px 25px; 
             display: flex;
             flex-direction: column;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title[data-scope="page012-1"] { margin-top: 0; font-size: 18px; color: #0f172a; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
@@ -1136,13 +1075,13 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
         }
 .btn-download[data-scope="page35"]:hover { background-color: #1e293b; }
 .editable[data-scope="page35"] {
-            outline: none !important;
+            outline: 1px dashed rgba(125, 125, 125, 0.4);
             cursor: text;
             transition: all 0.2s;
         }
 .editable[data-scope="page35"]:hover, .editable[data-scope="page35"]:focus {
-            outline: none !important;
-            background-color: transparent !important;
+            outline: 2px dashed #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.1);
         }
 .page-wrapper[data-scope="page35"] {
             display: flex;
@@ -1280,8 +1219,8 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
 .scale-label[data-scope="page35"] { position: absolute; bottom: 12px; transform: translateX(-50%); font-family: 'Roboto'; font-size: 11px; font-weight: 700; color: #475569; }
 .scale-item[data-scope="page35"] { position: absolute; top: 12px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; text-align: center; line-height: 1.2; }
 .page-right[data-scope="page35"] { padding: 40px 35px 50px 35px;
-            background-color: #ffffff;
-            background-image: none !important;
+            background-color: #fafaf9;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
             background-size: 20px 20px;
         }
 .schema-title[data-scope="page35"] { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
@@ -1658,7 +1597,7 @@ p[data-scope="page35"], .body-text[data-scope="page35"], .q-text[data-scope="pag
     body { background-color: #ffffff !important; padding: 0 !important; margin: 0 !important; }
     .a4-page { box-shadow: none !important; margin: 0 auto !important; page-break-after: always; }
 
-    .editable, [contenteditable="false"] {
+    .editable, [contenteditable="true"] {
         outline: none !important;
         border: none !important;
         box-shadow: none !important;
@@ -2327,10 +2266,10 @@ body {
 }
 
 </style>
-<!-- KaTeX Math Rendering Library -->
-<link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <!-- KaTeX Math Rendering Library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <style>
 /* Quiz Absolute Safety Protection & Transparent Page Number */
 .quiz-container {
@@ -2344,58 +2283,9 @@ body {
     pointer-events: none !important;
 }
 </style>
-<!-- [공통 수정 1 & 2] 3페이지 점선 상자 제거 & 암기장 모눈종이 배경 제거 -->
-<style>
-        .editable, [contenteditable="false"] {
-            outline: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: transparent !important;
-            cursor: default !important;
-        }
-        .editable:hover, .editable:focus,
-        [contenteditable="false"]:hover, [contenteditable="false"]:focus {
-            outline: none !important;
-            background-color: transparent !important;
-            box-shadow: none !important;
-        }
-        .concept-page, .page-right, .memorization-page {
-            background-color: #ffffff !important;
-            background-image: none !important;
-        }
-        .handwriting {
-            background-image: none !important;
-        }
-    </style>
-<!-- [공통 수정] 1. 3페이지 점선 상자 제거 & 2. 암기장 모눈종이 배경 제거 -> 흰색 배경 통일 -->
-<style id="common-fixes-standard">
-        /* 1. 3페이지 점선 상자(editable outline) 완전 제거 */
-        .editable, [contenteditable="true"], [contenteditable="false"] {
-            outline: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: transparent !important;
-            cursor: default !important;
-        }
-        .editable:hover, .editable:focus,
-        [contenteditable]:hover, [contenteditable]:focus {
-            outline: none !important;
-            background-color: transparent !important;
-            box-shadow: none !important;
-        }
-
-        /* 2. 갓쌤의 실전 암기장 모눈종이 배경 제거 -> 타 페이지와 동일한 순백색(#ffffff) 통일 */
-        .concept-page, .page-right, .memorization-page {
-            background-color: #ffffff !important;
-            background-image: none !important;
-        }
-        .handwriting {
-            background-image: none !important;
-            background-color: #ffffff !important;
-        }
-    </style>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
+
 <div id="top-nav" style="position: fixed; top: 0; left: 0; right: 0; height: 50px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 10000; box-sizing: border-box;">
 <div style="display: flex; align-items: center; gap: 12px;">
 <button onclick="window.closeEbook(event)" style="background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);">
@@ -2431,98 +2321,103 @@ body {
 <button onclick="resetZoom()" style="background: #1e293b; border: 1px solid #334155; color: #f8fafc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">맞춤</button>
 </div>
 </div>
+
+
 <div id="flipbook-container" style="display: none;">
-<div id="zoom-wrapper">
-<div id="scale-wrapper">
-<div id="flipbook"></div>
+    <div id="zoom-wrapper">
+        <div id="scale-wrapper">
+            <div id="flipbook"></div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+
 <!-- TOC Overlay & Drawer -->
 <div id="toc-overlay" onclick="window.closeTocDrawer()" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10001; display: none; opacity: 0; transition: opacity 0.2s;"></div>
 <div id="toc-drawer" style="position: fixed; top: 50px; left: 0; bottom: 0; width: 320px; max-width: 85vw; background: #0f172a; border-right: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 10px 0 30px rgba(0,0,0,0.6); z-index: 10002; transform: translateX(-100%); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-sizing: border-box;">
-<!-- Drawer Header -->
-<div style="padding: 16px 20px; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="font-size: 16px;">📑</span>
-<span style="font-size: 15px; font-weight: 900; color: #f8fafc; letter-spacing: -0.5px;">빠른 목차 이동</span>
+    <!-- Drawer Header -->
+    <div style="padding: 16px 20px; border-bottom: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">📑</span>
+            <span style="font-size: 15px; font-weight: 900; color: #f8fafc; letter-spacing: -0.5px;">빠른 목차 이동</span>
+        </div>
+        <button onclick="window.closeTocDrawer()" style="background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; line-height: 1;">✕</button>
+    </div>
+    <!-- Drawer Content (TOC Item List) -->
+    <div style="padding: 14px 16px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px;">
+        <div class="toc-jump-item" onclick="window.goToPage(1)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">COVER</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">겉표지</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">01 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(3)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">INDEX</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">차례 및 학습 가이드</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">03 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(4)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(6)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 01</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">시간과 공간의 규모</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">06 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(12)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 02</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">기본량과 유도량</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">12 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(18)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 03</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">측정과 어림</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">18 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(24)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 04</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">정보와 신호</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">24 P</span>
+        </div>
+        <div class="toc-jump-item" onclick="window.goToPage(30)">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
+                <span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
+            </div>
+            <span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">30 P</span>
+        </div>
+    </div>
 </div>
-<button onclick="window.closeTocDrawer()" style="background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px; line-height: 1;">✕</button>
-</div>
-<!-- Drawer Content (TOC Item List) -->
-<div style="padding: 14px 16px; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px;">
-<div class="toc-jump-item" onclick="window.goToPage(1)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">COVER</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">겉표지</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">01 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(3)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">INDEX</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">차례 및 학습 가이드</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">03 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(4)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0284c7; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">MAP</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">단원 로드맵</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">04 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(6)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 01</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">시간과 공간의 규모</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">06 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(12)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 02</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">기본량과 유도량</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">12 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(18)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 03</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">측정과 어림</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">18 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(24)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #0ea5e9; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SEC 04</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">정보와 신호</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">24 P</span>
-</div>
-<div class="toc-jump-item" onclick="window.goToPage(30)">
-<div style="display: flex; align-items: center; gap: 10px;">
-<span class="toc-badge" style="background: #f59e0b; color: white; font-family: 'Roboto'; font-weight: 900; font-size: 11px; padding: 2px 6px; border-radius: 4px;">SCAN</span>
-<span class="toc-title" style="font-size: 13px; font-weight: 700; color: #f1f5f9;">개념 SCAN(퀴즈 1~50)</span>
-</div>
-<span class="toc-pnum" style="font-family: 'Roboto'; font-size: 12px; color: #64748b; font-weight: 700;">30 P</span>
-</div>
-</div>
-</div>
+
 <!-- Page Jump Modal -->
 <div id="page-jump-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10003; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-<div style="background: #0f172a; border: 1px solid #38bdf8; border-radius: 12px; padding: 24px; width: 280px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); text-align: center; color: white;">
-<div style="font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #38bdf8;">📖 페이지 직접 이동</div>
-<div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
-<input id="modal-page-input" max="38" min="1" onkeydown="if(event.key==='Enter') window.submitModalPageJump()" placeholder="1~38" style="width: 100px; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: white; font-size: 16px; font-weight: 700; text-align: center; outline: none;" type="number"/>
-<span style="font-size: 14px; color: #94a3b8;">/ 38P</span>
+    <div style="background: #0f172a; border: 1px solid #38bdf8; border-radius: 12px; padding: 24px; width: 280px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); text-align: center; color: white;">
+        <div style="font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #38bdf8;">📖 페이지 직접 이동</div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
+            <input id="modal-page-input" type="number" min="1" max="38" placeholder="1~38" style="width: 100px; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: white; font-size: 16px; font-weight: 700; text-align: center; outline: none;" onkeydown="if(event.key==='Enter') window.submitModalPageJump()" />
+            <span style="font-size: 14px; color: #94a3b8;">/ 38P</span>
+        </div>
+        <div style="display: flex; gap: 8px; justify-content: center;">
+            <button onclick="window.submitModalPageJump()" style="flex: 1; background: #0284c7; border: none; color: white; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">이동</button>
+            <button onclick="window.closePageJumpModal()" style="flex: 1; background: #334155; border: none; color: #94a3b8; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">취소</button>
+        </div>
+    </div>
 </div>
-<div style="display: flex; gap: 8px; justify-content: center;">
-<button onclick="window.submitModalPageJump()" style="flex: 1; background: #0284c7; border: none; color: white; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">이동</button>
-<button onclick="window.closePageJumpModal()" style="flex: 1; background: #334155; border: none; color: #94a3b8; padding: 8px 0; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer;">취소</button>
-</div>
-</div>
-</div>
+
 <!-- Main Content Store for Flipbook Engine -->
 <div id="main-content" style="display: none;">
 <div class="page-wrapper page-scope-page01">
@@ -2550,42 +2445,45 @@ body {
 </svg>
 </div>
 <div class="bottom-section" data-scope="page01">
-<div class="week-num editable cover-week-val" contenteditable="false" data-scope="page01">01</div>
+<div class="week-num editable cover-week-val" contenteditable="true" data-scope="page01">01</div>
 <div class="week-theme" data-scope="page01">
-<strong class="editable cover-theme-val" contenteditable="false" data-scope="page01" style="display:inline-block; min-width: 150px;">과학의 기초<br/>수능 과학의 새로운 언어</strong><br data-scope="page01"/>
-<span class="editable" contenteditable="false" style="display:inline-block; min-width: 150px; display:none;"></span><br/>
+<strong class="editable cover-theme-val" contenteditable="true" data-scope="page01" style="display:inline-block; min-width: 150px;">과학의 기초<br/>수능 과학의 새로운 언어</strong><br data-scope="page01"/>
+<span class="editable" contenteditable="true" style="display:inline-block; min-width: 150px; display:none;"></span><br/>
 <span class="data-driven-system" data-scope="page01">Data-driven Learning System</span>
 </div>
 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page02">
 <div class="a4-page" data-scope="page02">
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page03">
 <div class="a4-page toc-page" data-scope="page03" id="toc-page">
 <div class="page-header" data-scope="page03">
 <div class="header-brand" data-scope="page03">GOTONGGWA WEEKLY</div>
-<div class="header-vol editable toc-vol-val" contenteditable="false" data-scope="page03">VOL. 01</div>
+<div class="header-vol editable toc-vol-val" contenteditable="true" data-scope="page03">VOL. 01</div>
 </div>
 <div class="title-section" data-scope="page03">
 <h2 class="index-title" data-scope="page03">INDEX</h2>
-<div class="week-sub editable toc-theme-val" contenteditable="false" data-scope="page03">WEEK 01. [과학의 기초] 수능 과학의 새로운 언어</div>
+<div class="week-sub editable toc-theme-val" contenteditable="true" data-scope="page03">WEEK 01. [과학의 기초] 수능 과학의 새로운 언어</div>
 </div>
 <!-- New Intro Section -->
 <div class="intro-section" data-scope="page03" style="background-color: #f0f9ff; border-left: 4px solid #0284c7; padding: 10px 15px; border-radius: 4px; margin-bottom: 15px;">
 <h3 data-scope="page03" style="font-size: 12px; font-weight: 900; color: #0284c7; margin: 0 0 4px 0;">WEEK 01 학습 목표 &amp; 출제 포인트</h3>
-<p class="editable" contenteditable="false" data-scope="page03" style="font-size: 10px; color: #334155; margin: 0; line-height: 1.5; font-weight: 500; text-align: justify; word-break: keep-all;">
+<p class="editable" contenteditable="true" data-scope="page03" style="font-size: 10px; color: #334155; margin: 0; line-height: 1.5; font-weight: 500; text-align: justify; word-break: keep-all;">
                     첫 단원 '과학의 기초'는 2028 수능에 새롭게 도입된 영역입니다. 역학이나 화학 킬러 문항처럼 고난도의 계산을 요구하지는 않지만, '오차'와 '아날로그/디지털 신호'를 다루는 낯선 자료 해석 문항에서 실수를 유발할 수 있습니다. 갓통과와 함께 수능 과학의 새로운 언어에 완벽히 적응해 봅시다.
                 </p>
 </div>
-<div class="toc-list" data-scope="page03"><div class="toc-item"><div class="item-left"><div class="item-num">01</div><div class="item-text"><h3 class="editable" contenteditable="false">시간과 공간의 규모</h3><p class="editable" contenteditable="false">미시 세계부터 거시 세계까지, 우주의 크기 가늠하기</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="false">06</div></div><div class="toc-item"><div class="item-left"><div class="item-num">02</div><div class="item-text"><h3 class="editable" contenteditable="false">기본량과 유도량</h3><p class="editable" contenteditable="false">과학의 언어, 7가지 기본 물리량과 단위 체계</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="false">12</div></div><div class="toc-item"><div class="item-left"><div class="item-num">03</div><div class="item-text"><h3 class="editable" contenteditable="false">측정과 어림</h3><p class="editable" contenteditable="false">오차의 원인과 불확실성</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="false">18</div></div><div class="toc-item"><div class="item-left"><div class="item-num">04</div><div class="item-text"><h3 class="editable" contenteditable="false">정보와 신호</h3><p class="editable" contenteditable="false">센서의 역할과 아날로그/디지털 신호 변환</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="false">24</div></div><div class="toc-item"><div class="item-left"><div class="item-num">05</div><div class="item-text"><h3 class="editable" contenteditable="false">개념 스캔</h3><p class="editable" contenteditable="false">개념 SCAN 퀴즈 1~50 &amp; 정답표</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="false">30</div></div></div>
+<div class="toc-list" data-scope="page03"><div class="toc-item"><div class="item-left"><div class="item-num">01</div><div class="item-text"><h3 class="editable" contenteditable="true">시간과 공간의 규모</h3><p class="editable" contenteditable="true">미시 세계부터 거시 세계까지, 우주의 크기 가늠하기</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="true">06</div></div><div class="toc-item"><div class="item-left"><div class="item-num">02</div><div class="item-text"><h3 class="editable" contenteditable="true">기본량과 유도량</h3><p class="editable" contenteditable="true">과학의 언어, 7가지 기본 물리량과 단위 체계</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="true">12</div></div><div class="toc-item"><div class="item-left"><div class="item-num">03</div><div class="item-text"><h3 class="editable" contenteditable="true">측정과 어림</h3><p class="editable" contenteditable="true">오차의 원인과 불확실성</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="true">18</div></div><div class="toc-item"><div class="item-left"><div class="item-num">04</div><div class="item-text"><h3 class="editable" contenteditable="true">정보와 신호</h3><p class="editable" contenteditable="true">센서의 역할과 아날로그/디지털 신호 변환</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="true">24</div></div><div class="toc-item"><div class="item-left"><div class="item-num">05</div><div class="item-text"><h3 class="editable" contenteditable="true">개념 스캔</h3><p class="editable" contenteditable="true">개념 SCAN 퀴즈 1~50 &amp; 정답표</p></div></div><div class="dots"></div><div class="item-page editable" contenteditable="true">30</div></div></div>
 <br/>
-<div class="system-guide" data-scope="page03"><div class="guide-title"><span>⚡</span> GODTONGGWA 100% 활용 가이드</div><p class="guide-desc editable" contenteditable="false" style="text-align: justify; word-break: keep-all;">본 주간지는 단순 문제집이 아닙니다. 개념 학습과 실전 암기장 정리 후 개념 SCAN 퀴즈를 풀고, 갓통과 앱에 <strong>모의고사 OMR</strong>을 제출하세요. 약점 분석 시스템이 취약 행동 영역을 실시간으로 분석하여 <strong>개별 맞춤형 성적 리포트</strong>를 제공합니다.</p></div>
+<div class="system-guide" data-scope="page03"><div class="guide-title"><span>⚡</span> GODTONGGWA 100% 활용 가이드</div><p class="guide-desc editable" contenteditable="true" style="text-align: justify; word-break: keep-all;">본 주간지는 단순 문제집이 아닙니다. 개념 학습과 실전 암기장 정리 후 개념 SCAN 퀴즈를 풀고, 갓통과 앱에 <strong>모의고사 OMR</strong>을 제출하세요. 약점 분석 시스템이 취약 행동 영역을 실시간으로 분석하여 <strong>개별 맞춤형 성적 리포트</strong>를 제공합니다.</p></div>
 <div class="page-num">- 03 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page04-1">
 <div class="a4-page bridge-page" data-scope="page04-1">
 <!-- Header -->
@@ -2659,6 +2557,7 @@ body {
 <div class="page-num">- 04 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page05-1">
 <div class="a4-page bridge-page-new" data-scope="page05-1" id="bridge-page-new">
 <div class="page-header" data-scope="page05-1">
@@ -2792,6 +2691,7 @@ body {
 <div class="page-num">- 05 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page06-1">
 <div class="a4-page page-left" data-scope="page06-1">
 <div class="data-header" data-scope="page06-1">
@@ -2913,6 +2813,7 @@ body {
 <div class="page-num">- 06 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page06-1">
 <div class="a4-page page-right" data-scope="page06-1">
 <h3 class="schema-title editable" data-scope="page06-1">갓쌤의 실전 암기장 ✍️</h3>
@@ -2982,6 +2883,7 @@ body {
 <div class="page-num">- 07 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page14">
 <div class="a4-page spread-page" data-scope="page14" id="page-scale-q">
 <div class="full-page-content" data-scope="page14">
@@ -3012,6 +2914,7 @@ body {
 </div>
 <div class="page-num">- 08 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page15">
 <div class="a4-page spread-page" data-scope="page15" id="page-scale-a">
 <div class="full-page-content" data-scope="page15">
@@ -3037,7 +2940,7 @@ body {
 <div class="exp-detail" data-scope="page15" style="font-size: 10.5px; line-height: 1.5; color: #334155;">
 <p data-scope="page15" style="margin-top: 0; margin-bottom: 10px; font-weight: 700; color: #0f172a;">[A~D 분석]</p>
 <p data-scope="page15" style="margin-top: 0; margin-bottom: 15px; word-break: keep-all">
-                            A는 10⁻¹⁰초/m 단위의 미시 세계이므로 <b data-scope="page15">세슘 원자</b>, B는 10⁰초/m 단위(초, 미터 단위의 일상적 규모)이므로 <b data-scope="page15">사람</b>, C는 10¹⁷초/10⁷m 단위이므로 <b data-scope="page15">지구</b>, D는 가장 거대한 규모(10¹⁸초/10²⁶m 이상)이므로 <b data-scope="page15">우주</b>이다.
+                            좌표 평면의 공간 규모와 시간 규모로부터 A는 <b data-scope="page15">세슘 원자</b>, B는 <b data-scope="page15">사람</b>, C는 <b data-scope="page15">지구</b>, D는 <b data-scope="page15">우주</b>이다.
                         </p>
 <div class="bogi-exp" data-scope="page15" style="display: flex; gap: 10px; margin-bottom: 8px;">
 <div class="bogi-mark" data-scope="page15" style="font-weight: 900; color: #16a34a; flex: 0 0 45px;">ㄱ. (O)</div>
@@ -3045,7 +2948,7 @@ body {
 </div>
 <div class="bogi-exp" data-scope="page15" style="display: flex; gap: 10px; margin-bottom: 8px;">
 <div class="bogi-mark" data-scope="page15" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄴ. (X)</div>
-<div class="bogi-text" data-scope="page15" style="flex: 1; word-break: keep-all">B(사람)의 시간 규모(수명)는 대략 100년(약 3×10⁹초)이다. 이는 지구의 공전 주기(1년)보다는 길지만, 목성(약 12년), 해왕성(약 165년) 등 태양계 행성들의 전반적인 공전 주기와 비교했을 때 '훨씬 큰 값'이라고 볼 수 없다.</div>
+<div class="bogi-text" data-scope="page15" style="flex: 1; word-break: keep-all">B(사람)의 시간 규모(수명)는 대략 100년(약 3×10<sup>9</sup>초)이다. 이는 지구의 공전 주기(1년)보다는 길지만, 목성(약 12년), 해왕성(약 165년) 등 태양계 행성들의 전반적인 공전 주기와 비교했을 때 '훨씬 큰 값'이라고 볼 수 없다.</div>
 </div>
 <div class="bogi-exp" data-scope="page15" style="display: flex; gap: 10px; margin-bottom: 0;">
 <div class="bogi-mark" data-scope="page15" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄷ. (X)</div>
@@ -3055,13 +2958,14 @@ body {
 </div>
 <div class="learning-method" data-scope="page15" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" data-scope="page15" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page15" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page15" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         시간과 공간의 스케일을 다룰 때는 막연한 크기보다 구체적인 사례(지구의 나이, 우주의 크기 등)를 기준점으로 삼는 것이 좋습니다. 로그 스케일 그래프에서는 격자 한 칸이 10배, 100배를 의미한다는 점을 절대 잊지 마세요!
                     </p>
 </div>
 </div>
 <div class="page-num">- 09 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page16">
 <div class="a4-page spread-page" data-scope="page16" id="page-15" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page16" style="flex: 1; display: flex; flex-direction: column;">
@@ -3075,7 +2979,7 @@ body {
 <div class="csat-prob" data-scope="page16" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 1" data-scope="page16" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q01.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page16" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page16" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page16" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page16" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">
                                 원자핵을 도는 전자(미시 세계)와 태양을 도는 지구(거시 세계)는 겉보기엔 비슷해 보여도 관찰 규모와 지배하는 힘이 완전히 다릅니다. 미시와 거시의 구분을 명확히 해두세요!
@@ -3087,7 +2991,7 @@ body {
 <div class="csat-prob" data-scope="page16" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 2" data-scope="page16" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q02.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page16" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page16" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page16" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page16" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">
                                 안드로메다 은하처럼 거시 세계를 다룰 때는 나노미터(nm)가 아닌 광년(ly) 단위가 적합하며, 우리가 관측하는 별빛은 '과거의 모습'이라는 점을 잊지 마세요!
@@ -3098,6 +3002,7 @@ body {
 </div>
 <div class="page-num">- 10 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page17">
 <div class="a4-page spread-page" data-scope="page17" id="page-16" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page17" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -3154,7 +3059,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page17" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page17" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page17" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page17" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     미시 세계(원자 구조)를 지배하는 힘은 <strong data-scope="page17">전자기력</strong>, 거시 세계(우주 스케일)를 지배하는 힘은 <strong data-scope="page17">중력</strong>이라는 핵심 원리를 반드시 연결하여 기억해야 합니다.
                                 </p>
 </div>
@@ -3203,7 +3108,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page17" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page17" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page17" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page17" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     거시 세계의 천체를 관측할 때 <strong data-scope="page17">'거리가 곧 과거의 시간'</strong>이라는 점을 묻는 선지는 통합과학에서 우주를 다룰 때 자주 출제되는 핵심 포인트입니다.
                                 </p>
 </div>
@@ -3315,6 +3220,7 @@ body {
             </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page08"><div class="a4-page concept-page page-left" data-scope="page08">
 <div class="data-header" data-scope="page08">
 <div data-scope="page08" style="font-family: 'Roboto'; font-weight: 900; font-size: 12px; color: #0284c7; margin-bottom: 5px;">SECTION 02</div>
@@ -3360,6 +3266,7 @@ body {
 </div>
 <div class="page-num" data-scope="page08">- 12 -</div>
 </div></div>
+
 <div class="page-wrapper page-scope-page09"><div class="a4-page concept-page page-right" data-scope="page09">
 <h3 class="schema-title" data-scope="page09">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" data-scope="page09" style="margin-bottom: 3px; margin-top: 5px;">
@@ -3421,6 +3328,7 @@ body {
             </div>
 <div class="page-num" data-scope="page09">- 13 -</div>
 </div></div>
+
 <div class="page-wrapper page-scope-page18">
 <div class="a4-page spread-page" data-scope="page18" id="page-17">
 <div class="full-page-content" data-scope="page18">
@@ -3452,6 +3360,7 @@ body {
 <div class="page-num">- 14 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page19">
 <div class="a4-page spread-page" data-scope="page19" id="page-18">
 <div class="full-page-content" data-scope="page19">
@@ -3498,13 +3407,14 @@ body {
 </div>
 <div class="learning-method" data-scope="page19" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
 <div class="learning-title" data-scope="page19" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page19" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page19" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         물리 공식을 무작정 암기하기보다, 주어진 <strong data-scope="page19">단위들을 수학의 미지수처럼 약분하고 곱해보는 습관</strong>을 들이세요. 새로운 물리량의 실체를 파악하는 가장 빠르고 정확한 방법입니다.
                     </p>
 </div>
 </div>
 <div class="page-num">- 15 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page20">
 <div class="a4-page spread-page" data-scope="page20" id="page-19" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page20" style="flex: 1; display: flex; flex-direction: column;">
@@ -3518,7 +3428,7 @@ body {
 <div class="csat-prob" data-scope="page20" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 1" data-scope="page20" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q03.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page20" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page20" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page20" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page20" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">속도-시간 그래프에서 빗금 친 면적은 이동 거리(변위)를 의미하며 이는 유도량입니다! 면적이나 기울기를 구할 때 기본량과 유도량을 혼동하지 않도록 주의하세요.</div>
 </div>
@@ -3528,7 +3438,7 @@ body {
 <div class="csat-prob" data-scope="page20" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 2" data-scope="page20" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q04.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page20" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page20" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page20" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page20" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">속력의 단위(km/h)는 일상생활에서 흔히 쓰이지만 SI 단위계의 표준 단위는 m/s입니다. 익숙한 단위라고 무심코 SI 표준 단위로 착각하는 함정에 빠지지 마세요!</div>
 </div>
@@ -3537,6 +3447,7 @@ body {
 </div>
 <div class="page-num">- 16 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page21">
 <div class="a4-page spread-page" data-scope="page21" id="page-20" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page21" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -3593,7 +3504,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page21" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page21" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page21" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page21" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     기본량과 유도량의 구분을 단순히 암기하는 것을 넘어, <strong data-scope="page21">역학적 그래프(v-t)의 기하학적 의미(기울기, 면적)</strong>와 연결하여 물리량을 해석하는 복합적 사고가 필요합니다.
                                 </p>
 </div>
@@ -3642,7 +3553,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page21" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page21" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page21" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page21" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     물리량의 <strong data-scope="page21">차원(Dimension)</strong>을 이해하면 전혀 달라 보이는 운동량과 충격량이 결국 동일한 단위 구조를 갖는다는 것을 쉽게 파악할 수 있습니다.
                                 </p>
 </div>
@@ -3781,6 +3692,7 @@ body {
                 </div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page10-1"><div class="a4-page concept-page page-left" data-scope="page10-1">
 <div class="data-header" data-scope="page10-1">
 <div data-scope="page10-1" style="font-family: 'Roboto'; font-weight: 900; font-size: 12px; color: #0284c7; margin-bottom: 5px;">SECTION 03</div>
@@ -3828,13 +3740,14 @@ body {
 </div>
 <div class="page-num" data-scope="page10-1">- 18 -</div>
 </div></div>
+
 <div class="page-wrapper page-scope-page10-1"><div class="a4-page concept-page page-right" data-scope="page10-1">
 <h3 class="schema-title" data-scope="page10-1">갓쌤의 실전 암기장 ✍️</h3>
 <div class="handwriting" data-scope="page10-1" style="margin-top: 8px; margin-bottom: 2px;">
 <span data-scope="page10-1" style="color:#b91c1c; font-weight:bold; font-size: 11.0px;">1. 측정 표준과 오차</span>
 </div>
 <div class="handwriting" data-scope="page10-1" style="margin-bottom: 8px; margin-left: 10px">
-                    • <strong data-scope="page10-1">측정</strong> : 물리량을 수치와 단위로 나타냄 (필연적으로 <span data-scope="page10-1" style="color:#b91c1c;">오차</span> 발��!)<br data-scope="page10-1"/>
+                    • <strong data-scope="page10-1">측정</strong> : 물리량을 수치와 단위로 나타냄 (필연적으로 <span data-scope="page10-1" style="color:#b91c1c;">오차</span> 발생!)<br data-scope="page10-1"/>
                     • <strong data-scope="page10-1">측정 표준</strong> : 측정의 절대 기준. 장소와 시간에 따라 <span class="highlight-marker" data-scope="page10-1">변하지 않아야 함</span>.
                 </div>
 <div class="handwriting" data-scope="page10-1" style="margin-bottom: 2px;">
@@ -3914,6 +3827,7 @@ body {
                 </div>
 <div class="page-num" data-scope="page10-1">- 19 -</div>
 </div></div>
+
 <div class="page-wrapper page-scope-page22">
 <div class="a4-page spread-page" data-scope="page22" id="page-21">
 <div class="full-page-content" data-scope="page22">
@@ -3944,6 +3858,7 @@ body {
 </div>
 <div class="page-num">- 20 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page23">
 <div class="a4-page spread-page" data-scope="page23" id="page-22">
 <div class="full-page-content" data-scope="page23">
@@ -3990,13 +3905,14 @@ body {
 </div>
 <div class="learning-method" data-scope="page23" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 15px;">
 <div class="learning-title" data-scope="page23" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page23" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page23" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         기본적인 개념인 '변화 흐름'과 '한계점'을 정확히 이해하고 있는지 묻는 문항입니다. 단순 순서 암기를 넘어, 이전 표준이 <strong data-scope="page23">어떤 물리적 한계</strong>를 가졌는지 인과관계를 파악하세요.
                     </p>
 </div>
 </div>
 <div class="page-num">- 21 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page24">
 <div class="a4-page spread-page" data-scope="page24" id="page-23" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page24" style="flex: 1; display: flex; flex-direction: column;">
@@ -4010,7 +3926,7 @@ body {
 <div class="csat-prob" data-scope="page24" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 1" data-scope="page24" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q05.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page24" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page24" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page24" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page24" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">미세한 길이를 여러 번 감아 측정할 때, 횟수가 늘어날수록 한 가닥에 대한 평균 측정 오차율은 줄어듭니다! 10번보다 100번 감을 때 정밀도가 더 높아지는 측정의 원리를 기억하세요.</div>
 </div>
@@ -4020,7 +3936,7 @@ body {
 <div class="csat-prob" data-scope="page24" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 2" data-scope="page24" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q06.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page24" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page24" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page24" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page24" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">측정값 자체는 객관적 사실이지만, 이를 바탕으로 '나쁨'을 판정하는 기준 수치는 사회적 합의에 따라 달라질 수 있습니다. 객관적 측정과 사회적 기준을 명확히 구분해야 합니다!</div>
 </div>
@@ -4029,6 +3945,7 @@ body {
 </div>
 <div class="page-num">- 22 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page25">
 <div class="a4-page spread-page" data-scope="page25" id="page-24" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page25" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -4085,7 +4002,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page25" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
 <strong data-scope="page25">오차율 감소의 원리</strong>를 묻는 전형적인 탐구 문제입니다. 감는 횟수가 늘어날수록 눈금을 한 번 읽을 때 발생하는 고정된 한계 오차가 전체에서 차지하는 비율이 희석된다는 점을 기억하세요.
                                 </p>
 </div>
@@ -4134,7 +4051,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page25" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     과학에서 말하는 <strong data-scope="page25">'측정 표준(단위의 기준)'</strong>과 일상생활의 <strong data-scope="page25">'합의에 의한 표준(규격, 기준치)'</strong>을 구별하는 것은 통합과학의 가장 기초적인 학습 목표입니다.
                                 </p>
 </div>
@@ -4144,6 +4061,7 @@ body {
 </div>
 <div class="page-num">- 23 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page012-1">
 <div class="a4-page page-left" data-scope="page012-1">
 <div class="data-header" data-scope="page012-1">
@@ -4199,6 +4117,7 @@ body {
 <div class="page-num">- 24 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page012-1">
 <div class="a4-page page-right" data-scope="page012-1">
 <h3 class="schema-title" data-scope="page012-1">갓쌤의 실전 암기장 ✍️</h3>
@@ -4285,6 +4204,7 @@ body {
 <div class="page-num">- 25 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-page26">
 <div class="a4-page spread-page" data-scope="page26" id="page-25">
 <div class="full-page-content" data-scope="page26">
@@ -4315,6 +4235,7 @@ body {
 </div>
 <div class="page-num">- 26 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page27">
 <div class="a4-page spread-page" data-scope="page27" id="page-26">
 <div class="full-page-content" data-scope="page27">
@@ -4361,13 +4282,14 @@ body {
 </div>
 <div class="learning-method" data-scope="page27" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 15px;">
 <div class="learning-title" data-scope="page27" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page27" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page27" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
                         단순히 아날로그/디지털의 단어 뜻만 외우지 말고, '왜 현대 통신이 아날로그에서 디지털로 넘어갔는지(잡음에 강하고 복원이 쉬움)' 그 <strong data-scope="page27">근본적인 이유(인과관계)</strong>를 묻는 것이 출제자의 의도입니다.
                     </p>
 </div>
 </div>
 <div class="page-num">- 27 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page28">
 <div class="a4-page spread-page" data-scope="page28" id="page-27" style="display: flex; flex-direction: column;">
 <div class="full-page-content" data-scope="page28" style="flex: 1; display: flex; flex-direction: column;">
@@ -4381,7 +4303,7 @@ body {
 <div class="csat-prob" data-scope="page28" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 1" data-scope="page28" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q07.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page28" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page28" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page28" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page28" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">표본화 주기가 짧을수록(자주 쪼개어 측정할수록) 원본과 가까워져 오차가 줄어들지만, 처리해야 할 디지털 데이터 용량은 기하급수적으로 커진다는 상충 관계를 잊지 마세요!</div>
 </div>
@@ -4391,7 +4313,7 @@ body {
 <div class="csat-prob" data-scope="page28" style="text-align: center; margin-bottom: 20px;">
 <img alt="변형 문항 2" data-scope="page28" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_01%2Fweek_2028_01_prac_q08.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
-<div class="trap-box editable" contenteditable="false" data-scope="page28" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
+<div class="trap-box editable" contenteditable="true" data-scope="page28" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page28" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
 <div data-scope="page28" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">디지털 이미지는 아날로그 필름과 달리 무한히 복사해도 화질 열화나 손상이 전혀 발생하지 않습니다! 이것이 디지털 정보 저장 방식이 가지는 가장 강력한 장점이자 핵심입니다.</div>
 </div>
@@ -4400,6 +4322,7 @@ body {
 </div>
 <div class="page-num">- 28 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-page29">
 <div class="a4-page spread-page" data-scope="page29" id="page-28" style="display: flex; flex-direction: column; background: white;">
 <div class="full-page-content" data-scope="page29" style="flex: 1; display: flex; flex-direction: column; height: 100%;">
@@ -4456,7 +4379,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page29" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page29" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page29" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page29" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     표본화 주기가 짧을 때의 '장점(오차 감소)'과 '단점(용량 증가)'의 <strong data-scope="page29">상충 관계(Trade-off)</strong>를 명확히 인지하고 있어야 합니다.
                                 </p>
 </div>
@@ -4505,7 +4428,7 @@ body {
 </div>
 <div class="learning-method" data-scope="page29" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page29" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="false" data-scope="page29" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
+<p class="learning-desc editable" contenteditable="true" data-scope="page29" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     아날로그 매체와 디지털 매체의 가장 결정적인 차이인 <strong data-scope="page29">'복사 시 화질 열화 유무'</strong>를 묻는 단골 출제 포인트이므로 절대 틀려선 안 됩니다.
                                 </p>
 </div>
@@ -4515,6 +4438,7 @@ body {
 </div>
 <div class="page-num">- 29 -</div></div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4559,6 +4483,7 @@ body {
 <div class="page-num">- 30 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4598,6 +4523,7 @@ body {
 <div class="page-num">- 31 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4638,6 +4564,7 @@ body {
 <div class="page-num">- 32 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4681,6 +4608,7 @@ body {
 <div class="page-num">- 33 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4725,6 +4653,7 @@ body {
 <div class="page-num">- 34 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4768,6 +4697,7 @@ body {
 <div class="page-num">- 35 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4800,6 +4730,7 @@ body {
 <div class="page-num">- 36 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4843,6 +4774,7 @@ body {
 <div class="page-num">- 37 -</div>
 </div>
 </div>
+
 <div class="page-wrapper page-scope-quiz_01" style="display: flex; justify-content: center;">
 <div class="a4-page spread-page">
 <div class="quiz-container">
@@ -4871,20 +4803,21 @@ body {
 <div class="q-text"><span class="q-num">50.</span> <span class="q-content">사물인터넷(IoT), 자율주행, 인공지능 등 미래 첨단 기술은 다양한 <span class="blank" onclick='this.classList.add("revealed")' style="cursor:pointer;">센서</span>와 디지털 정보 처리 기술을 기반으로 구현된다.</span></div>
 </div>
 <div class="ans-key-card">
-<div class="ans-key-title">
-<span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
+                <div class="ans-key-title">
+                    <span class="bullet">■</span> [개념 SCAN] 1~50 전 문항 정답표
                 </div>
-<div class="ans-key-content">
-<b>1.</b> O  <b>2.</b> 미시  <b>3.</b> 거시  <b>4.</b> O  <b>5.</b> 천문단위  <b>6.</b> 규모  <b>7.</b> 광년  <b>8.</b> 세슘 원자시계  <b>9.</b> 속력  <b>10.</b> GPS<br/>
-<b>11.</b> 전자 현미경  <b>12.</b> O  <b>13.</b> 기본량  <b>14.</b> 물질량  <b>15.</b> O  <b>16.</b> kg  <b>17.</b> K  <b>18.</b> 유도량  <b>19.</b> m/s  <b>20.</b> O<br/>
-<b>21.</b> 부피  <b>22.</b> A  <b>23.</b> 기본 상수  <b>24.</b> O  <b>25.</b> 측정  <b>26.</b> 어림  <b>27.</b> O  <b>28.</b> 측정 표준  <b>29.</b> 표준 물질  <b>30.</b> O<br/>
-<b>31.</b> O  <b>32.</b> 측정 표준  <b>33.</b> ㎍/㎥  <b>34.</b> O  <b>35.</b> 미터법  <b>36.</b> 국제단위계  <b>37.</b> 신호  <b>38.</b> 정보  <b>39.</b> 센서  <b>40.</b> 조도 센서<br/>
-<b>41.</b> 아날로그  <b>42.</b> O  <b>43.</b> 디지털  <b>44.</b> O  <b>45.</b> O  <b>46.</b> 디지털  <b>47.</b> 신호  <b>48.</b> 디지털  <b>49.</b> X  <b>50.</b> 센서
+                <div class="ans-key-content">
+                    <b>1.</b> O &nbsp;<b>2.</b> 미시 &nbsp;<b>3.</b> 거시 &nbsp;<b>4.</b> O &nbsp;<b>5.</b> 천문단위 &nbsp;<b>6.</b> 규모 &nbsp;<b>7.</b> 광년 &nbsp;<b>8.</b> 세슘 원자시계 &nbsp;<b>9.</b> 속력 &nbsp;<b>10.</b> GPS<br>
+                    <b>11.</b> 전자 현미경 &nbsp;<b>12.</b> O &nbsp;<b>13.</b> 기본량 &nbsp;<b>14.</b> 물질량 &nbsp;<b>15.</b> O &nbsp;<b>16.</b> kg &nbsp;<b>17.</b> K &nbsp;<b>18.</b> 유도량 &nbsp;<b>19.</b> m/s &nbsp;<b>20.</b> O<br>
+                    <b>21.</b> 부피 &nbsp;<b>22.</b> A &nbsp;<b>23.</b> 기본 상수 &nbsp;<b>24.</b> O &nbsp;<b>25.</b> 측정 &nbsp;<b>26.</b> 어림 &nbsp;<b>27.</b> O &nbsp;<b>28.</b> 측정 표준 &nbsp;<b>29.</b> 표준 물질 &nbsp;<b>30.</b> O<br>
+                    <b>31.</b> O &nbsp;<b>32.</b> 측정 표준 &nbsp;<b>33.</b> ㎍/㎥ &nbsp;<b>34.</b> O &nbsp;<b>35.</b> 미터법 &nbsp;<b>36.</b> 국제단위계 &nbsp;<b>37.</b> 신호 &nbsp;<b>38.</b> 정보 &nbsp;<b>39.</b> 센서 &nbsp;<b>40.</b> 조도 센서<br>
+                    <b>41.</b> 아날로그 &nbsp;<b>42.</b> O &nbsp;<b>43.</b> 디지털 &nbsp;<b>44.</b> O &nbsp;<b>45.</b> O &nbsp;<b>46.</b> 디지털 &nbsp;<b>47.</b> 신호 &nbsp;<b>48.</b> 디지털 &nbsp;<b>49.</b> X &nbsp;<b>50.</b> 센서
                 </div>
-</div>
+            </div>
 <div class="page-num">- 38 -</div></div>
 </div>
 </div>
+
 <!-- PageFlip Engine Script -->
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 <script>
@@ -5688,5 +5621,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-</div></body>
-</html></html>
+
+</body>
+</html>

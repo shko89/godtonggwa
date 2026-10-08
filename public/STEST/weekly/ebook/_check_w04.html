@@ -4066,7 +4066,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     onAuthStateChanged(auth, async (user) => {
         if (!user || user.isAnonymous) {
             alert("로그인이 필요하거나 접근 권한이 없습니다.");
-            window.location.href = "../../exam.html";
+            // check
             return;
         }
         try {
@@ -4086,7 +4086,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                            
             if (!isPaid) {
                 alert("갓통과 주간지(WEEKLY) 유료 서비스 신청자만 접근 가능합니다.");
-                window.location.href = "../../exam.html";
+                // check
                 return;
             }
             document.body.style.display = 'flex';
@@ -7137,11 +7137,11 @@ window.closeEbook = function(e) {
     if (window.history && window.history.length > 1) {
         window.history.back();
         setTimeout(function() {
-            window.location.href = "../../exam.html";
+            // check
         }, 300);
         return;
     }
-    window.location.href = "../../exam.html";
+    // check
 };
 
 // ==========================================

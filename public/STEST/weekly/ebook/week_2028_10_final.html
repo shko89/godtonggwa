@@ -148,8 +148,8 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 .header-title p { font-size: 16px; color: #475569; margin: 0; }
 .btn-download { background-color: #0f172a; color: white; border: none; padding: 12px 24px; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.2s; margin: 0px 0; }
 .btn-download:hover { background-color: #1e293b; }
-.editable { outline: 1px dashed rgba(125, 125, 125, 0.4); cursor: text; transition: all 0.2s; }
-.editable:hover, .editable:focus { outline: 2px dashed #0ea5e9; background-color: rgba(14, 165, 233, 0.1); }
+.editable, [contenteditable] { outline: none !important; border: none !important; box-shadow: none !important; cursor: default; transition: all 0.2s; }
+.editable:hover, .editable:focus, [contenteditable]:hover, [contenteditable]:focus { outline: none !important; background-color: transparent !important; }
 .page-wrapper { display: flex; flex-direction: column; align-items: center; gap: 15px; }
 .a4-page { width: 500px; height: 707px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3); position: relative; box-sizing: border-box; }
 .cover-page { background-color: #ffffff; color: #0f172a; padding: 0; display: flex; flex-direction: column; justify-content: space-between; border-top: 15px solid #0284c7; }

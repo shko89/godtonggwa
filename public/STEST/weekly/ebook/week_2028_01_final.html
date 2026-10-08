@@ -1,7 +1,4 @@
-﻿<!DOCTYPE html>
-<html lang="ko">
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
     <script type="module">
@@ -34,7 +31,11 @@
 
     // 1주차 주간지는 전 국민 & 제휴 학원 무료 체험 오픈 콘텐츠입니다.
     // 비로그인 또는 무료 회원이라도 차단하지 않고 자유롭게 열람을 허용합니다.
-    document.body.style.display = 'flex';
+    if (document.body) {
+        document.body.style.display = 'flex';
+    } else {
+        document.addEventListener('DOMContentLoaded', () => { document.body.style.display = 'flex'; });
+    }
 
     onAuthStateChanged(auth, async (user) => {
         if (user && !user.isAnonymous) {
@@ -138,13 +139,15 @@ body { display: flex; /* Free trial instant display */
         }
 .btn-download:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]):hover { background-color: #1e293b; }
 .editable:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) {
-            outline: 1px dashed rgba(125, 125, 125, 0.4);
-            cursor: text;
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            cursor: default;
             transition: all 0.2s;
         }
 .editable:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]):hover, .editable:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]):focus {
-            outline: 2px dashed #0ea5e9;
-            background-color: rgba(14, 165, 233, 0.1);
+            outline: none !important;
+            background-color: transparent !important;
         }
 .page-wrapper:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-scope="page09"], [data-scope="page14"], [data-scope="page15"], [data-scope="page16"], [data-scope="page17"], [data-scope="page18"], [data-scope="page19"], [data-scope="page20"], [data-scope="page21"], [data-scope="page22"], [data-scope="page23"], [data-scope="page24"], [data-scope="page25"], [data-scope="page26"], [data-scope="page27"], [data-scope="page28"], [data-scope="page29"], [data-scope="page30"], [data-scope="page31"], [data-scope="page32"], [data-scope="page33"], [data-scope="page34"]) {
             display: flex;
@@ -843,13 +846,15 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
             margin-top: auto; 
         }</style>
 <style>.editable[data-scope="page06-1"] {
-            outline: 1px dashed rgba(125, 125, 125, 0.4);
-            cursor: text;
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            cursor: default;
             transition: all 0.2s;
         }
 .editable[data-scope="page06-1"]:hover, .editable[data-scope="page06-1"]:focus {
-            outline: 2px dashed #0ea5e9;
-            background-color: rgba(14, 165, 233, 0.1);
+            outline: none !important;
+            background-color: transparent !important;
         }
 .a4-page[data-scope="page06-1"] {
             width: 500px;
@@ -1075,13 +1080,15 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
         }
 .btn-download[data-scope="page35"]:hover { background-color: #1e293b; }
 .editable[data-scope="page35"] {
-            outline: 1px dashed rgba(125, 125, 125, 0.4);
-            cursor: text;
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            cursor: default;
             transition: all 0.2s;
         }
 .editable[data-scope="page35"]:hover, .editable[data-scope="page35"]:focus {
-            outline: 2px dashed #0ea5e9;
-            background-color: rgba(14, 165, 233, 0.1);
+            outline: none !important;
+            background-color: transparent !important;
         }
 .page-wrapper[data-scope="page35"] {
             display: flex;

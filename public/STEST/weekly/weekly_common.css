@@ -450,17 +450,29 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     padding: 2px 5px !important;
 }
 
-/* 1주차 23페이지(Section 03) 해설 텍스트 밀착 해결: 상단 10px 마진 부여 (방안 3) */
-:is(.page-scope-page25, [data-scope="page25"]) .learning-method,
-.learning-method[data-scope="page25"] {
+/* 1주차 11페이지 (Section 01) 해설 긴 쪽에 10px 마진 부여 및 좌/우 상단 높이 통일 */
+:is(.page-scope-page17, [data-scope="page17"]) .practice-col:first-child .learning-method {
+    margin-top: 103px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-page17, [data-scope="page17"]) .practice-col:last-child .learning-method {
     margin-top: 10px !important;
     margin-bottom: 5px !important;
 }
 
-/* 실전 체화 문항 정답 및 해설 페이지 코칭 상자 기본 하단 정렬 */
-:is(.page-scope-page17, .page-scope-page21, .page-scope-page29) .learning-method,
-.learning-method:is([data-scope="page17"], [data-scope="page21"], [data-scope="page29"]),
-[data-scope="page17"] .learning-method,
+/* 1주차 23페이지 (Section 03) 해설 긴 쪽에 10px 마진 부여 및 좌/우 상단 높이 통일 */
+:is(.page-scope-page25, [data-scope="page25"]) .practice-col:first-child .learning-method {
+    margin-top: 23px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-page25, [data-scope="page25"]) .practice-col:last-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 17페이지, 29페이지 코칭 상자 기본 하단 정렬 */
+:is(.page-scope-page21, .page-scope-page29) .learning-method,
+.learning-method:is([data-scope="page21"], [data-scope="page29"]),
 [data-scope="page21"] .learning-method,
 [data-scope="page29"] .learning-method {
     margin-top: auto !important;

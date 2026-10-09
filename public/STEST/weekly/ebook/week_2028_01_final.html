@@ -2409,17 +2409,29 @@ body {
     padding: 2px 5px !important;
 }
 
-/* 1주차 23페이지(Section 03) 해설 텍스트 밀착 해결: 상단 10px 마진 부여 (방안 3) */
-:is(.page-scope-page25, [data-scope="page25"]) .learning-method,
-.learning-method[data-scope="page25"] {
+/* 1주차 11페이지 (Section 01) 해설 긴 쪽에 10px 마진 부여 및 좌/우 상단 높이 통일 */
+:is(.page-scope-page17, [data-scope="page17"]) .practice-col:first-child .learning-method {
+    margin-top: 103px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-page17, [data-scope="page17"]) .practice-col:last-child .learning-method {
     margin-top: 10px !important;
     margin-bottom: 5px !important;
 }
 
-/* 실전 체화 문항 정답 및 해설 페이지 코칭 상자 기본 하단 정렬 */
-:is(.page-scope-page17, .page-scope-page21, .page-scope-page29) .learning-method,
-.learning-method:is([data-scope="page17"], [data-scope="page21"], [data-scope="page29"]),
-[data-scope="page17"] .learning-method,
+/* 1주차 23페이지 (Section 03) 해설 긴 쪽에 10px 마진 부여 및 좌/우 상단 높이 통일 */
+:is(.page-scope-page25, [data-scope="page25"]) .practice-col:first-child .learning-method {
+    margin-top: 23px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-page25, [data-scope="page25"]) .practice-col:last-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 17페이지, 29페이지 코칭 상자 기본 하단 정렬 */
+:is(.page-scope-page21, .page-scope-page29) .learning-method,
+.learning-method:is([data-scope="page21"], [data-scope="page29"]),
 [data-scope="page21"] .learning-method,
 [data-scope="page29"] .learning-method {
     margin-top: auto !important;
@@ -3200,7 +3212,7 @@ body {
 </div>
 </div>
 </div>
-<div class="learning-method" data-scope="page17" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
+<div class="learning-method" data-scope="page17" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 103px; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page17" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
 <p class="learning-desc editable" contenteditable="true" data-scope="page17" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     미시 세계(원자 구조)를 지배하는 힘은 <strong data-scope="page17">전자기력</strong>, 거시 세계(우주 스케일)를 지배하는 힘은 <strong data-scope="page17">중력</strong>이라는 핵심 원리를 반드시 연결하여 기억해야 합니다.
@@ -3249,7 +3261,7 @@ body {
 </div>
 </div>
 </div>
-<div class="learning-method" data-scope="page17" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
+<div class="learning-method" data-scope="page17" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 10px; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page17" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
 <p class="learning-desc editable" contenteditable="true" data-scope="page17" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     거시 세계의 천체를 관측할 때 <strong data-scope="page17">'거리가 곧 과거의 시간'</strong>이라는 점을 묻는 선지는 통합과학에서 우주를 다룰 때 자주 출제되는 핵심 포인트입니다.
@@ -4143,7 +4155,7 @@ body {
 </div>
 </div>
 </div>
-<div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 10px; margin-bottom: 5px;">
+<div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 23px; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page25" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
 <p class="learning-desc editable" contenteditable="true" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
 <strong data-scope="page25">오차율 감소의 원리</strong>를 묻는 전형적인 탐구 문제입니다. 감는 횟수가 늘어날수록 눈금을 한 번 읽을 때 발생하는 고정된 한계 오차가 전체에서 차지하는 비율이 희석된다는 점을 기억하세요.
@@ -5414,6 +5426,7 @@ function resetZoom() {
 
 function initFlipbookEngine() {
     try { renderAllMath(); } catch(e){}
+    try { alignCoachingBoxes(); } catch(e){}
     const fbElement = document.getElementById('flipbook');
     const scaleWrapper = document.getElementById('scale-wrapper');
     const mc = document.getElementById('main-content');
@@ -5758,8 +5771,48 @@ window.toggleFlipbook = function() {
     resizeFlipbook();
 };
 
+// 해설 텍스트 길이에 따른 코칭 상자 자동 정렬 및 상단 높이 통일 함수
+function alignCoachingBoxes() {
+    const pages = document.querySelectorAll('.a4-page');
+    pages.forEach(page => {
+        // 숨겨진 요소(#main-content 등)는 높이가 0이므로 기존 정의된 스타일 유지
+        const pageRect = page.getBoundingClientRect();
+        if (pageRect.height === 0 || pageRect.width === 0) return;
+
+        const cols = page.querySelectorAll('.practice-col');
+        if (cols.length < 2) return;
+        const leftCol = cols[0];
+        const rightCol = cols[1];
+        const leftBox = leftCol.querySelector('.learning-method');
+        const rightBox = rightCol.querySelector('.learning-method');
+        if (!leftBox || !rightBox) return;
+
+        const leftExp = leftBox.previousElementSibling;
+        const rightExp = rightBox.previousElementSibling;
+        if (!leftExp || !rightExp) return;
+
+        const leftBottom = leftExp.getBoundingClientRect().bottom - pageRect.top;
+        const rightBottom = rightExp.getBoundingClientRect().bottom - pageRect.top;
+
+        const maxBottom = Math.max(leftBottom, rightBottom);
+        // 해설 텍스트가 긴 페이지(바닥 위치 > 500px)의 경우:
+        // 더 긴 쪽에 10px 마진을 주고, 반대쪽도 상단 높이(Top)를 동일하게 통일
+        if (maxBottom > 500) {
+            const targetTop = maxBottom + 10;
+            const leftMargin = Math.max(10, Math.round(targetTop - leftBottom));
+            const rightMargin = Math.max(10, Math.round(targetTop - rightBottom));
+            
+            leftBox.style.setProperty('margin-top', leftMargin + 'px', 'important');
+            leftBox.style.setProperty('margin-bottom', '5px', 'important');
+            rightBox.style.setProperty('margin-top', rightMargin + 'px', 'important');
+            rightBox.style.setProperty('margin-bottom', '5px', 'important');
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     try { renderAllMath(); } catch(e){}
+    try { alignCoachingBoxes(); } catch(e){}
     window.toggleFlipbook();
 });
 

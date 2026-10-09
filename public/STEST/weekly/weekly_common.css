@@ -113,7 +113,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 .scale-tick { position: absolute; top: -5px; width: 2px; height: 14px; background-color: #0f172a; }
 .scale-label { position: absolute; bottom: 12px; transform: translateX(-50%); font-family: 'Roboto'; font-size: 11px; font-weight: 700; color: #475569; }
 .scale-item { position: absolute; top: 12px; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: #0f172a; white-space: nowrap; text-align: center; line-height: 1.2; }
-.page-right { padding: 40px 35px 50px 35px; background-color: #fafaf9; background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px; }
+.page-right { padding: 40px 35px 50px 35px; background-color: #ffffff; background-image: none; }
 .schema-title { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0px; }
 .handwriting { font-family: inherit; font-weight: 400; color: #1e3a8a; font-size: 10px; line-height: 1.2; }
 .hw-table { width: 100%; border-collapse: collapse; margin: 2px 0; background: rgba(255,255,255,0.9); font-family: inherit; font-weight: 500; font-size: 10px; color: #000; text-align: center; border: 2px solid #94a3b8; }
@@ -390,6 +390,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page012-1 .page-right {
     padding: 20px 25px 35px 25px !important;
     box-sizing: border-box !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
 }
 
 .schema-title:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"]),

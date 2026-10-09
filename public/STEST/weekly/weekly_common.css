@@ -328,25 +328,16 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 }
 
 /* === Section Pages (P06, P12, P18, P24) & Notes (P07, P13, P19, P25) Header Standard === */
-.page-left:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
-.page-scope-page06-1.page-left,
-.page-scope-page08.page-left,
-.page-scope-page10-1.page-left,
-.page-scope-page012-1.page-left,
-.page-scope-page06-1 .page-left,
-.page-scope-page08 .page-left,
-.page-scope-page10-1 .page-left,
-.page-scope-page012-1 .page-left {
+.page-left:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"], [data-scope="p6"], [data-scope="p12"], [data-scope="p18"], [data-scope="p28"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p6, .page-scope-p12, .page-scope-p18, .page-scope-p28).page-left,
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p6, .page-scope-p12, .page-scope-p18, .page-scope-p28) .page-left {
     padding: 20px 25px 35px 25px !important;
     box-sizing: border-box !important;
 }
 
-.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
-:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-header,
-.page-scope-page06-1.data-header,
-.page-scope-page08.data-header,
-.page-scope-page10-1.data-header,
-.page-scope-page012-1.data-header {
+.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"], [data-scope="p6"], [data-scope="p12"], [data-scope="p18"], [data-scope="p28"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p6, .page-scope-p12, .page-scope-p18, .page-scope-p28) .data-header,
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p6, .page-scope-p12, .page-scope-p18, .page-scope-p28).data-header {
     border-bottom: 2px solid #0284c7 !important;
     padding-bottom: 6px !important;
     margin-bottom: 10px !important;
@@ -359,8 +350,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 }
 
 .data-header div[style*="SECTION"],
-:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-header > div:first-child,
-.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]) > div:first-child {
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p6, .page-scope-p12, .page-scope-p18, .page-scope-p28) .data-header > div:first-child,
+.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"], [data-scope="p6"], [data-scope="p12"], [data-scope="p18"], [data-scope="p28"]) > div:first-child {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 900 !important;
     font-size: 10px !important;
@@ -369,8 +360,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     line-height: normal !important;
 }
 
-.data-title:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
-:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-title {
+.data-title:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"], [data-scope="p6"], [data-scope="p12"], [data-scope="p18"], [data-scope="p28"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p6, .page-scope-p12, .page-scope-p18, .page-scope-p28) .data-title {
     font-size: 20px !important;
     font-weight: 900 !important;
     color: #0f172a !important;
@@ -379,23 +370,17 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     line-height: normal !important;
 }
 
-.page-right:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"]),
-.page-scope-page06-1.page-right,
-.page-scope-page09.page-right,
-.page-scope-page10-1.page-right,
-.page-scope-page012-1.page-right,
-.page-scope-page06-1 .page-right,
-.page-scope-page09 .page-right,
-.page-scope-page10-1 .page-right,
-.page-scope-page012-1 .page-right {
+.page-right:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"], [data-scope="p7"], [data-scope="p13"], [data-scope="p22"], [data-scope="p23"], [data-scope="p32"]),
+:is(.page-scope-page06-1, .page-scope-page09, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p7, .page-scope-p13, .page-scope-p22, .page-scope-p23, .page-scope-p32).page-right,
+:is(.page-scope-page06-1, .page-scope-page09, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p7, .page-scope-p13, .page-scope-p22, .page-scope-p23, .page-scope-p32) .page-right {
     padding: 20px 25px 35px 25px !important;
     box-sizing: border-box !important;
     background-color: #ffffff !important;
     background-image: none !important;
 }
 
-.schema-title:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"]),
-:is(.page-scope-page06-1, .page-scope-page09, .page-scope-page10-1, .page-scope-page012-1) .schema-title {
+.schema-title:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"], [data-scope="p7"], [data-scope="p13"], [data-scope="p22"], [data-scope="p23"], [data-scope="p32"]),
+:is(.page-scope-page06-1, .page-scope-page09, .page-scope-page10-1, .page-scope-page012-1, .page-scope-p7, .page-scope-p13, .page-scope-p22, .page-scope-p23, .page-scope-p32) .schema-title {
     font-size: 20px !important;
     font-weight: 900 !important;
     color: #0f172a !important;
@@ -420,31 +405,43 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     top: 9px !important;
 }
 
-/* 1주차 실전 체화 문항 정답 및 해설 페이지 (11, 17, 23, 29p) 여백 및 정답 박스 최적화 */
-:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29) .full-page-content,
-.full-page-content:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"]),
+/* 1, 2주차 실전 체화 문항 정답 및 해설 페이지 여백 및 정답 박스 최적화 */
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29, .page-scope-p11, .page-scope-p17, .page-scope-p27, .page-scope-p36) .full-page-content,
+.full-page-content:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"], [data-scope="p11"], [data-scope="p17"], [data-scope="p27"], [data-scope="p36"]),
 [data-scope="page17"] .full-page-content,
 [data-scope="page21"] .full-page-content,
 [data-scope="page25"] .full-page-content,
-[data-scope="page29"] .full-page-content {
+[data-scope="page29"] .full-page-content,
+[data-scope="p11"] .full-page-content,
+[data-scope="p17"] .full-page-content,
+[data-scope="p27"] .full-page-content,
+[data-scope="p36"] .full-page-content {
     padding-top: 30px !important;
 }
 
-:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29) .header,
-.header:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"]),
-[data-scope="page17"] .header,
-[data-scope="page21"] .header,
-[data-scope="page25"] .header,
-[data-scope="page29"] .header {
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29, .page-scope-p11, .page-scope-p17, .page-scope-p27, .page-scope-p36) :is(.header, .prob-header),
+:is(.header, .prob-header):is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"], [data-scope="p11"], [data-scope="p17"], [data-scope="p27"], [data-scope="p36"]),
+[data-scope="page17"] .prob-header,
+[data-scope="page21"] .prob-header,
+[data-scope="page25"] .prob-header,
+[data-scope="page29"] .prob-header,
+[data-scope="p11"] .prob-header,
+[data-scope="p17"] .prob-header,
+[data-scope="p27"] .prob-header,
+[data-scope="p36"] .prob-header {
     margin-bottom: 10px !important;
 }
 
-:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29) .ans-box,
-.ans-box:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"]),
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29, .page-scope-p11, .page-scope-p17, .page-scope-p27, .page-scope-p36) .ans-box,
+.ans-box:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"], [data-scope="p11"], [data-scope="p17"], [data-scope="p27"], [data-scope="p36"]),
 [data-scope="page17"] .ans-box,
 [data-scope="page21"] .ans-box,
 [data-scope="page25"] .ans-box,
-[data-scope="page29"] .ans-box {
+[data-scope="page29"] .ans-box,
+[data-scope="p11"] .ans-box,
+[data-scope="p17"] .ans-box,
+[data-scope="p27"] .ans-box,
+[data-scope="p36"] .ans-box {
     height: 30px !important;
     box-sizing: border-box !important;
     padding: 2px 5px !important;
@@ -478,6 +475,66 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     margin-top: auto !important;
     margin-bottom: 5px !important;
 }
+
+/* === 2주차 실전 체화 문항 긴 해설 10px 마진 부여 및 좌/우 상단 높이 통일 === */
+/* 2주차 11페이지 (p11, Section 01): 우측 해설이 37px 더 긺 -> 우측 10px, 좌측 48px (상단 높이 497px 통일) */
+:is(.page-scope-p11, [data-scope="p11"]) .practice-col:first-child .learning-method {
+    margin-top: 48px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-p11, [data-scope="p11"]) .practice-col:last-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 2주차 17페이지 (p17, Section 02): 양측 해설 동일(538px) -> 좌/우 모두 10px (상단 높이 548px 통일) */
+:is(.page-scope-p17, [data-scope="p17"]) .practice-col:first-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-p17, [data-scope="p17"]) .practice-col:last-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 2주차 27페이지 (p27, Section 03): 양측 해설 동일(543px) -> 좌/우 모두 10px (상단 높이 553px 통일) */
+:is(.page-scope-p27, [data-scope="p27"]) .practice-col:first-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-p27, [data-scope="p27"]) .practice-col:last-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 2주차 36페이지 (p36, Section 04): 우측 해설이 27px 더 긺 -> 우측 10px, 좌측 37px (상단 높이 535px 통일) */
+:is(.page-scope-p36, [data-scope="p36"]) .practice-col:first-child .learning-method {
+    margin-top: 37px !important;
+    margin-bottom: 5px !important;
+}
+:is(.page-scope-p36, [data-scope="p36"]) .practice-col:last-child .learning-method {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 2주차 실전 체화 해설 및 코칭 여백/폰트 최적화 */
+:is(.page-scope-p17, .page-scope-p36) .exp-section {
+    margin-top: 5px !important;
+}
+:is(.page-scope-p17, .page-scope-p36) .exp-detail p {
+    margin-bottom: 6px !important;
+}
+:is(.page-scope-p17, .page-scope-p36) .exp-detail div[style*="display: flex"] {
+    margin-bottom: 2px !important;
+}
+:is(.page-scope-p17, .page-scope-p27, .page-scope-p36) .learning-method {
+    padding: 5px 8px !important;
+}
+:is(.page-scope-p17, .page-scope-p27, .page-scope-p36) .learning-desc {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+}
+
 
 
 

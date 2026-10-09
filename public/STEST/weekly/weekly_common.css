@@ -43,7 +43,7 @@ body { background-color: #cbd5e1; font-family: 'Noto Sans KR', sans-serif; displ
 .toc-page .item-text h3 { font-size: 14px; font-weight: 700; margin: 0 0 2px 0; color: #0f172a; }
 .toc-page .item-text p { font-size: 11px; font-weight: 400; color: #64748b; margin: 0; line-height: 1.4; }
 .toc-page .item-page { font-family: 'Roboto'; font-weight: 700; font-size: 16px; color: #0f172a; }
-.toc-page .dots { flex-grow: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 15px; position: relative; top: -6px; }
+.toc-page .dots { flex-grow: 1; border-bottom: 1.5px dotted #94a3b8; margin: 0 12px; position: relative; top: 9px; }
 .toc-page .system-guide { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0f172a; padding: 12px 18px; border-radius: 4px; margin-top: auto; }
 .toc-page .guide-title { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
 .toc-page .guide-desc { font-size: 10px; color: #475569; margin: 0; line-height: 1.5; }
@@ -411,3 +411,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     flex-shrink: 0 !important;
 }
 
+/* 3페이지 목차 인출선 (TOC Dot Leader) 수평 중앙 정렬 표준화 */
+.toc-page .dots {
+    flex-grow: 1 !important;
+    border-bottom: 1.5px dotted #94a3b8 !important;
+    margin: 0 12px !important;
+    position: relative !important;
+    top: 9px !important;
+}

@@ -2408,6 +2408,23 @@ body {
     box-sizing: border-box !important;
     padding: 2px 5px !important;
 }
+
+/* 1주차 23페이지(Section 03) 해설 텍스트 밀착 해결: 상단 10px 마진 부여 (방안 3) */
+:is(.page-scope-page25, [data-scope="page25"]) .learning-method,
+.learning-method[data-scope="page25"] {
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+/* 실전 체화 문항 정답 및 해설 페이지 코칭 상자 기본 하단 정렬 */
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page29) .learning-method,
+.learning-method:is([data-scope="page17"], [data-scope="page21"], [data-scope="page29"]),
+[data-scope="page17"] .learning-method,
+[data-scope="page21"] .learning-method,
+[data-scope="page29"] .learning-method {
+    margin-top: auto !important;
+    margin-bottom: 5px !important;
+}
 </style>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
@@ -4126,7 +4143,7 @@ body {
 </div>
 </div>
 </div>
-<div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
+<div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 10px; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page25" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
 <p class="learning-desc editable" contenteditable="true" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
 <strong data-scope="page25">오차율 감소의 원리</strong>를 묻는 전형적인 탐구 문제입니다. 감는 횟수가 늘어날수록 눈금을 한 번 읽을 때 발생하는 고정된 한계 오차가 전체에서 차지하는 비율이 희석된다는 점을 기억하세요.
@@ -4175,7 +4192,7 @@ body {
 </div>
 </div>
 </div>
-<div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
+<div class="learning-method" data-scope="page25" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: 10px; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page25" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
 <p class="learning-desc editable" contenteditable="true" data-scope="page25" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
                                     과학에서 말하는 <strong data-scope="page25">'측정 표준(단위의 기준)'</strong>과 일상생활의 <strong data-scope="page25">'합의에 의한 표준(규격, 기준치)'</strong>을 구별하는 것은 통합과학의 가장 기초적인 학습 목표입니다.

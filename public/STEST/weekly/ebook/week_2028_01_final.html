@@ -2378,6 +2378,36 @@ body {
     line-height: normal !important;
     flex-shrink: 0 !important;
 }
+
+/* 1주차 실전 체화 문항 정답 및 해설 페이지 (11, 17, 23, 29p) 여백 및 정답 박스 최적화 */
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29) .full-page-content,
+.full-page-content:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"]),
+[data-scope="page17"] .full-page-content,
+[data-scope="page21"] .full-page-content,
+[data-scope="page25"] .full-page-content,
+[data-scope="page29"] .full-page-content {
+    padding-top: 30px !important;
+}
+
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29) .header,
+.header:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"]),
+[data-scope="page17"] .header,
+[data-scope="page21"] .header,
+[data-scope="page25"] .header,
+[data-scope="page29"] .header {
+    margin-bottom: 10px !important;
+}
+
+:is(.page-scope-page17, .page-scope-page21, .page-scope-page25, .page-scope-page29) .ans-box,
+.ans-box:is([data-scope="page17"], [data-scope="page21"], [data-scope="page25"], [data-scope="page29"]),
+[data-scope="page17"] .ans-box,
+[data-scope="page21"] .ans-box,
+[data-scope="page25"] .ans-box,
+[data-scope="page29"] .ans-box {
+    height: 30px !important;
+    box-sizing: border-box !important;
+    padding: 2px 5px !important;
+}
 </style>
 </head>
 <body style="margin: 0; padding: 0; background: #0f172a; overflow: hidden;">
@@ -3116,7 +3146,7 @@ body {
 <div class="prob-header" data-scope="page17" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page17" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page17" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page17" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page17" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page17" style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -3165,7 +3195,7 @@ body {
 <div class="prob-header" data-scope="page17" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page17" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page17" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page17" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page17" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page17" style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -3561,7 +3591,7 @@ body {
 <div class="prob-header" data-scope="page21" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page21" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page21" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page21" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page21" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page21" style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -3610,7 +3640,7 @@ body {
 <div class="prob-header" data-scope="page21" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page21" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page21" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page21" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page21" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page21" style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -4059,7 +4089,7 @@ body {
 <div class="prob-header" data-scope="page25" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page25" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page25" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page25" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page25" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page25" style="font-size: 18px; font-weight: 900; color: #2563eb;">②</span>
 </div>
@@ -4108,7 +4138,7 @@ body {
 <div class="prob-header" data-scope="page25" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page25" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page25" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page25" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page25" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page25" style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -4436,7 +4466,7 @@ body {
 <div class="prob-header" data-scope="page29" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page29" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page29" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page29" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page29" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page29" style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -4485,7 +4515,7 @@ body {
 <div class="prob-header" data-scope="page29" style="margin-bottom: 6px;">
 <div class="prob-brand" data-scope="page29" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" data-scope="page29" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" data-scope="page29" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span data-scope="page29" style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span data-scope="page29" style="font-size: 18px; font-weight: 900; color: #2563eb;">④</span>
 </div>

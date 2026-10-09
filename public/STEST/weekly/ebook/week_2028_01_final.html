@@ -948,7 +948,9 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
                 box-shadow: none;
                 border: none;
                 margin: 0;
-            }</style>
+            }
+        }
+    </style>
 <style>.page-wrapper[data-scope="page10-1"] {
             display: flex;
             flex-direction: column;
@@ -1012,7 +1014,9 @@ p:is([data-scope="page01"], [data-scope="page03"], [data-scope="page08"], [data-
     .a4-page { box-shadow: none !important; margin: 0 auto !important; page-break-after: always; }
 
             body { background-color: white; padding: 0; }
-.concept-spread[data-scope="page10-1"] { border: none; box-shadow: none; }</style>
+.concept-spread[data-scope="page10-1"] { border: none; box-shadow: none; }
+        }
+    </style>
 <style>.a4-page[data-scope="page012-1"] {
             width: 500px;
             height: 707px; 
@@ -3366,6 +3370,22 @@ body {
 <td data-scope="page09" style="font-family: 'Roboto';">kg/(m·s<sup data-scope="page09">2</sup>)</td>
 </tr>
 </table>
+<!-- [실전 꿀팁] 수능 검산 치트키 : 차원 동차성의 원리 -->
+<div style="margin-top: 10px; margin-bottom: 6px; background: #f8fafc; border: 1.5px solid #0284c7; border-radius: 8px; padding: 7px 10px; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">
+        <span style="font-size: 10px; font-weight: 900; color: #0284c7; display: flex; align-items: center; gap: 4px;">
+            ⚡ 갓쌤의 1초 검산 비법 : 차원 동차성(Dimensional Homogeneity)
+        </span>
+        <span style="font-size: 8px; font-weight: 800; color: #ffffff; background: #0f172a; padding: 1.5px 5px; border-radius: 3px;">수능 치트키</span>
+    </div>
+    <div style="font-size: 9px; color: #334155; line-height: 1.45; word-break: keep-all; text-align: justify;">
+        • <strong>원리:</strong> 물리 공식에서 서로 더하거나 빼는 물리량, 그리고 등호($=$)의 <strong>좌변과 우변은 반드시 기본량 조합(단위)이 같아야</strong> 해!<br>
+        • <strong>실전 적용:</strong> 등가속도 공식 $v^2 = 2as$를 검산해 볼까?<br>
+        &nbsp;&nbsp;- 좌변 단위: $(m/s)^2 = \mathbf{m^2/s^2}$<br>
+        &nbsp;&nbsp;- 우변 단위: $(m/s^2) \times m = \mathbf{m^2/s^2}$ (계수 $2$는 무차원 상수)<br>
+        <span style="color: #b91c1c; font-weight: 700;">➔ 만약 수능 선지에서 양변의 단위가 다르면 계산할 필요도 없이 100% 오답 선지야!</span>
+    </div>
+</div>
 <!-- 포스트잇 팁 --> <div class="tip-sticky" data-scope="page09" style="margin-top: 25px;">
                 📌 <strong data-scope="page09">갓쌤의 가장 많이 낚이는 오답 함정!</strong><br data-scope="page09"/>
                 시험 문제에서 자주 나오는

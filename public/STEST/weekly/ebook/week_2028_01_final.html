@@ -2292,6 +2292,14 @@ body {
 
 /* === Section Pages (P06, P12, P18, P24) & Notes (P07, P13, P19, P25) Header Standard === */
 /* 좌측 개념 페이지 (6, 12, 18, 24) 패딩 및 헤더 통일 (6페이지 기준) */
+.page-left[data-scope="page06-1"],
+.page-left[data-scope="page08"],
+.page-left[data-scope="page10-1"],
+.page-left[data-scope="page012-1"],
+.page-scope-page06-1.page-left,
+.page-scope-page08.page-left,
+.page-scope-page10-1.page-left,
+.page-scope-page012-1.page-left,
 .page-scope-page06-1 .page-left,
 .page-scope-page08 .page-left,
 .page-scope-page10-1 .page-left,
@@ -2300,10 +2308,12 @@ body {
     box-sizing: border-box !important;
 }
 
-.page-scope-page06-1 .data-header,
-.page-scope-page08 .data-header,
-.page-scope-page10-1 .data-header,
-.page-scope-page012-1 .data-header {
+.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-header,
+.page-scope-page06-1.data-header,
+.page-scope-page08.data-header,
+.page-scope-page10-1.data-header,
+.page-scope-page012-1.data-header {
     border-bottom: 2px solid #0284c7 !important;
     padding-bottom: 6px !important;
     margin-bottom: 10px !important;
@@ -2315,11 +2325,9 @@ body {
     flex-shrink: 0 !important;
 }
 
-.page-scope-page06-1 .data-header div[style*="SECTION"],
-.page-scope-page08 .data-header div[style*="SECTION"],
-.page-scope-page10-1 .data-header div[style*="SECTION"],
-.page-scope-page012-1 .data-header div[style*="SECTION"],
-.data-header > div:first-child {
+.data-header div[style*="SECTION"],
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-header > div:first-child,
+.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]) > div:first-child {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 900 !important;
     font-size: 10px !important;
@@ -2328,10 +2336,8 @@ body {
     line-height: normal !important;
 }
 
-.page-scope-page06-1 .data-title,
-.page-scope-page08 .data-title,
-.page-scope-page10-1 .data-title,
-.page-scope-page012-1 .data-title {
+.data-title:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-title {
     font-size: 20px !important;
     font-weight: 900 !important;
     color: #0f172a !important;
@@ -2341,6 +2347,14 @@ body {
 }
 
 /* 우측 실전 암기장 페이지 (7, 13, 19, 25) 패딩 및 헤더 통일 (6-7p 양면 대칭) */
+.page-right[data-scope="page06-1"],
+.page-right[data-scope="page09"],
+.page-right[data-scope="page10-1"],
+.page-right[data-scope="page012-1"],
+.page-scope-page06-1.page-right,
+.page-scope-page09.page-right,
+.page-scope-page10-1.page-right,
+.page-scope-page012-1.page-right,
 .page-scope-page06-1 .page-right,
 .page-scope-page09 .page-right,
 .page-scope-page10-1 .page-right,
@@ -2349,10 +2363,8 @@ body {
     box-sizing: border-box !important;
 }
 
-.page-scope-page06-1 .schema-title,
-.page-scope-page09 .schema-title,
-.page-scope-page10-1 .schema-title,
-.page-scope-page012-1 .schema-title {
+.schema-title:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"]),
+:is(.page-scope-page06-1, .page-scope-page09, .page-scope-page10-1, .page-scope-page012-1) .schema-title {
     font-size: 20px !important;
     font-weight: 900 !important;
     color: #0f172a !important;

@@ -326,3 +326,86 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     color: #0f172a !important;
     font-weight: 800 !important;
 }
+
+/* === Section Pages (P06, P12, P18, P24) & Notes (P07, P13, P19, P25) Header Standard === */
+.page-left:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
+.page-scope-page06-1.page-left,
+.page-scope-page08.page-left,
+.page-scope-page10-1.page-left,
+.page-scope-page012-1.page-left,
+.page-scope-page06-1 .page-left,
+.page-scope-page08 .page-left,
+.page-scope-page10-1 .page-left,
+.page-scope-page012-1 .page-left {
+    padding: 20px 25px 35px 25px !important;
+    box-sizing: border-box !important;
+}
+
+.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-header,
+.page-scope-page06-1.data-header,
+.page-scope-page08.data-header,
+.page-scope-page10-1.data-header,
+.page-scope-page012-1.data-header {
+    border-bottom: 2px solid #0284c7 !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 10px !important;
+    height: 55px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+}
+
+.data-header div[style*="SECTION"],
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-header > div:first-child,
+.data-header:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]) > div:first-child {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 10px !important;
+    color: #0284c7 !important;
+    margin-bottom: 3px !important;
+    line-height: normal !important;
+}
+
+.data-title:is([data-scope="page06-1"], [data-scope="page08"], [data-scope="page10-1"], [data-scope="page012-1"]),
+:is(.page-scope-page06-1, .page-scope-page08, .page-scope-page10-1, .page-scope-page012-1) .data-title {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+    margin: 0 !important;
+    line-height: normal !important;
+}
+
+.page-right:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"]),
+.page-scope-page06-1.page-right,
+.page-scope-page09.page-right,
+.page-scope-page10-1.page-right,
+.page-scope-page012-1.page-right,
+.page-scope-page06-1 .page-right,
+.page-scope-page09 .page-right,
+.page-scope-page10-1 .page-right,
+.page-scope-page012-1 .page-right {
+    padding: 20px 25px 35px 25px !important;
+    box-sizing: border-box !important;
+}
+
+.schema-title:is([data-scope="page06-1"], [data-scope="page09"], [data-scope="page10-1"], [data-scope="page012-1"]),
+:is(.page-scope-page06-1, .page-scope-page09, .page-scope-page10-1, .page-scope-page012-1) .schema-title {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 0 6px 0 !important;
+    border-bottom: 2px solid #0284c7 !important;
+    height: 55px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    line-height: normal !important;
+    flex-shrink: 0 !important;
+}
+

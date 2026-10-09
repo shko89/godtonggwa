@@ -1686,12 +1686,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page07 .concept-page, .page-scope-page07.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 24px 18px 24px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -2162,12 +2161,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page09 .concept-page, .page-scope-page09.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 24px 18px 24px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -2471,12 +2469,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page11 .concept-page, .page-scope-page11.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 24px 16px 24px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -2912,12 +2909,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page13 .concept-page, .page-scope-page13.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 24px 16px 24px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -3486,12 +3482,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page16 .concept-page, .page-scope-page16.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 24px 16px 24px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex ;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -3935,6 +3930,123 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         }
     });
 </script>
+
+
+<!-- ==========================================================================
+     WEEK 5 STANDARDIZED DESIGN SYSTEM (MATCHING WEEKS 1, 2, 3, 4 STANDARDS)
+     - T1: 실전 암기장(Notes) 모눈 그리드 완전 제거 및 순백색(#ffffff) 통일
+     - T2: Section 및 Notes 헤더 6p 규격 통일 (컨테이너 패딩 20px 25px 35px 25px, 헤더 55px, 블루밑줄, 폰트 20px/10px)
+     - T3: 실전 체화 상단 압축 (상단여백 30px, 헤더마진 10px, 정답박스 30px)
+     - T4: 실전 체화 코칭 상자 하단 기준 우선 배치 + 해설 텍스트 닿을 때만 [방안 3] 스마트 자동 전환
+     ========================================================================== -->
+<style id="week5-standardized-system">
+/* --- T2: Section 개념 페이지 컨테이너 패딩 통일 --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15) :is(.page-left, .page-right, .page-full, .concept-page),
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15).page-left,
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15) .a4-page {
+    padding: 20px 25px 35px 25px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* --- T2: Section 헤더 55px, 블루 밑줄, 하단 정렬 --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15) .data-header {
+    border-bottom: 2px solid #0284c7 !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 10px !important;
+    height: 55px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+}
+
+/* --- T2: Section 라벨 볼드 10px --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15) .data-header > div:first-child,
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15) .section-label {
+    font-size: 10px !important;
+    font-weight: 900 !important;
+    color: #0284c7 !important;
+    margin-bottom: 3px !important;
+    line-height: normal !important;
+}
+
+/* --- T2: Section 메인 타이틀 볼드 20px --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10, .page-scope-page12, .page-scope-page14, .page-scope-page15) .data-title {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* --- T1 & T2: 암기장(Notes) 컨테이너 모눈 그리드 완전 제거, 화이트 배경, 6p 패딩 --- */
+:is(.page-scope-page07, .page-scope-page09, .page-scope-page11, .page-scope-page13, .page-scope-page16) .concept-page,
+:is(.page-scope-page07, .page-scope-page09, .page-scope-page11, .page-scope-page13, .page-scope-page16).concept-page {
+    padding: 20px 25px 35px 25px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* --- T2: 암기장(Notes) 헤더 55px, 블루 밑줄, 폰트 20px --- */
+:is(.page-scope-page07, .page-scope-page09, .page-scope-page11, .page-scope-page13, .page-scope-page16) .schema-title {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 0 6px 0 !important;
+    border-bottom: 2px solid #0284c7 !important;
+    height: 55px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    line-height: normal !important;
+    flex-shrink: 0 !important;
+}
+
+/* --- T3: 실전 체화 문항 정답 및 해설 페이지 상단 여백 및 정답 박스 최적화 --- */
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans, .page-scope-section04_ans, .page-scope-section05_ans) .full-page-content,
+.full-page-content:is([data-scope="section01_ans"], [data-scope="section02_ans"], [data-scope="section03_ans"], [data-scope="section04_ans"], [data-scope="section05_ans"]) {
+    padding-top: 30px !important;
+}
+
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans, .page-scope-section04_ans, .page-scope-section05_ans) :is(.header, .prob-header),
+:is(.header, .prob-header):is([data-scope="section01_ans"], [data-scope="section02_ans"], [data-scope="section03_ans"], [data-scope="section04_ans"], [data-scope="section05_ans"]) {
+    margin-bottom: 10px !important;
+}
+
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans, .page-scope-section04_ans, .page-scope-section05_ans) .ans-box,
+.ans-box:is([data-scope="section01_ans"], [data-scope="section02_ans"], [data-scope="section03_ans"], [data-scope="section04_ans"], [data-scope="section05_ans"]) {
+    height: 30px !important;
+    box-sizing: border-box !important;
+    padding: 2px 5px !important;
+}
+
+/* --- T4: 실전 체화 코칭 상자 하단 기준 우선 배치 (기본값) --- */
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans, .page-scope-section04_ans, .page-scope-section05_ans) .practice-col {
+    position: relative !important;
+    padding-bottom: 80px !important;
+}
+
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans, .page-scope-section04_ans, .page-scope-section05_ans) .learning-method {
+    position: absolute !important;
+    bottom: 0px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 0 !important;
+}
+</style>
 
 </head>
 <body>
@@ -4977,7 +5089,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -4999,7 +5111,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -5458,7 +5570,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">①</span>
 </div>
@@ -5480,7 +5592,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -5699,10 +5811,10 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="page-wrapper page-scope-page10" style="margin-top: 40px; display: flex; justify-content: center;">
 <div class="a4-page">
     <div class="concept-spread">
-        <div class="concept-page page-left" style="padding: 13px 20px 8px 20px !important;">
+        <div class="concept-page page-left" style="padding: 20px 25px 35px 25px !important;">
 
             <div>
-                <div class="data-header" style="margin-bottom: 6px !important; padding-bottom: 4px !important;">
+                <div class="data-header">
                     <div class="section-label">SECTION 03 (2/2)</div>
                     <h2 class="data-title">세포막과 물질의 이동</h2>
                 </div>
@@ -6151,7 +6263,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -6173,7 +6285,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">⑤</span>
 </div>
@@ -6610,7 +6722,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -6632,7 +6744,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -7053,7 +7165,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">①</span>
 </div>
@@ -7075,7 +7187,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -7986,7 +8098,78 @@ function resetZoom() {
     resizeFlipbook();
 }
 
+
+function alignCoachingBoxes() {
+    const pages = document.querySelectorAll('.a4-page');
+    pages.forEach(page => {
+        const pageRect = page.getBoundingClientRect();
+        if (pageRect.height === 0 || pageRect.width === 0) return;
+
+        const cols = page.querySelectorAll('.practice-col');
+        if (cols.length < 2) return;
+        const leftCol = cols[0];
+        const rightCol = cols[1];
+        const leftBox = leftCol.querySelector('.learning-method');
+        const rightBox = rightCol.querySelector('.learning-method');
+        if (!leftBox || !rightBox) return;
+
+        const leftExp = leftBox.previousElementSibling;
+        const rightExp = rightBox.previousElementSibling;
+        if (!leftExp || !rightExp) return;
+
+        const leftExpBottom = leftExp.getBoundingClientRect().bottom - pageRect.top;
+        const rightExpBottom = rightExp.getBoundingClientRect().bottom - pageRect.top;
+        const maxExpBottom = Math.max(leftExpBottom, rightExpBottom);
+
+        const leftBoxRect = leftBox.getBoundingClientRect();
+        const rightBoxRect = rightBox.getBoundingClientRect();
+        const maxBoxHeight = Math.max(leftBoxRect.height, rightBoxRect.height);
+
+        // 하단 기준선: 637px (왼쪽 문제 페이지 함정 주의보와 대칭)
+        const baselineBottom = 637;
+        const baselineTop = baselineBottom - maxBoxHeight;
+
+        // 해설 텍스트가 하단 기준 상자에 닿는지 검사 (마진 10px 미만 또는 겹침)
+        if (maxExpBottom + 10 > baselineTop) {
+            // [방안 3 적용]: 긴 해설 텍스트 바닥 + 10px 위치로 밀어내고 좌우 상단 일치
+            const targetTop = maxExpBottom + 10;
+            const leftMargin = Math.max(10, Math.round(targetTop - leftExpBottom));
+            const rightMargin = Math.max(10, Math.round(targetTop - rightExpBottom));
+            
+            leftCol.style.setProperty('position', 'static', 'important');
+            rightCol.style.setProperty('position', 'static', 'important');
+            leftCol.style.setProperty('padding-bottom', '0px', 'important');
+            rightCol.style.setProperty('padding-bottom', '0px', 'important');
+            
+            leftBox.style.setProperty('position', 'static', 'important');
+            rightBox.style.setProperty('position', 'static', 'important');
+            leftBox.style.setProperty('margin-top', leftMargin + 'px', 'important');
+            leftBox.style.setProperty('margin-bottom', '5px', 'important');
+            rightBox.style.setProperty('margin-top', rightMargin + 'px', 'important');
+            rightBox.style.setProperty('margin-bottom', '5px', 'important');
+        } else {
+            // [하단 기준 우선 배치]: 해설 텍스트가 닿지 않으므로 바닥(637px)에 단정하게 배치
+            leftCol.style.setProperty('position', 'relative', 'important');
+            rightCol.style.setProperty('position', 'relative', 'important');
+            leftCol.style.setProperty('padding-bottom', '80px', 'important');
+            rightCol.style.setProperty('padding-bottom', '80px', 'important');
+            
+            leftBox.style.setProperty('position', 'absolute', 'important');
+            rightBox.style.setProperty('position', 'absolute', 'important');
+            leftBox.style.setProperty('bottom', '0px', 'important');
+            rightBox.style.setProperty('bottom', '0px', 'important');
+            leftBox.style.setProperty('left', '0px', 'important');
+            rightBox.style.setProperty('right', '0px', 'important');
+            leftBox.style.setProperty('width', '100%', 'important');
+            rightBox.style.setProperty('width', '100%', 'important');
+            leftBox.style.setProperty('margin-top', '0px', 'important');
+            rightBox.style.setProperty('margin-top', '0px', 'important');
+        }
+    });
+}
+
 function initFlipbookEngine() {
+    try { alignCoachingBoxes(); } catch(e){}
     renderAllMath();
     const fbElement = document.getElementById('flipbook');
     const scaleWrapper = document.getElementById('scale-wrapper');

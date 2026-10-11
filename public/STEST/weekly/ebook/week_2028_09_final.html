@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <script src="../device_guard.js"></script>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1857,12 +1858,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page07 .concept-page, .page-scope-page07.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 20px 26px 20px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex ;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -2162,12 +2162,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page09 .concept-page, .page-scope-page09.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 20px 26px 20px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex ;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -2467,12 +2466,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 .page-scope-page11 .concept-page, .page-scope-page11.concept-page {
   width: 500px !important;
             height: 707px !important;
-            background-color: #fafaf9 !important;
-            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px) !important;
-            background-size: 20px 20px !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
             box-sizing: border-box !important;
             position: relative ;
-            padding: 16px 20px 26px 20px !important;
+            padding: 20px 25px 35px 25px !important;
             display: flex ;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -2871,7 +2869,15 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    onAuthStateChanged(auth, async (user) => {
+    // 로컬 파일 또는 로컬 개발 환경(file:, localhost, 127.0.0.1)에서는 인증 차단 없이 즉시 열람 허용 (화면 멈춤/alert 방지)
+    if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        if (document.body) {
+            document.body.style.display = 'flex';
+        } else {
+            document.addEventListener('DOMContentLoaded', () => { document.body.style.display = 'flex'; });
+        }
+    } else {
+        onAuthStateChanged(auth, async (user) => {
         if (!user || user.isAnonymous) {
             alert("로그인이 필요하거나 접근 권한이 없습니다.");
             window.location.href = "../../exam.html";
@@ -2897,12 +2903,30 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 window.location.href = "../../exam.html";
                 return;
             }
+
+            // B2C 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (계정 공유 방지)
+            if (window.DeviceGuard) {
+                const devCheck = await window.DeviceGuard.checkB2CDevice(db, user.uid);
+                if (!devCheck.allowed) {
+                    window.DeviceGuard.renderDeviceLimitBlockModal({
+                        title: '⚠️ 갓통과 주간지 기기 등록 한도 초과 (최대 2대)',
+                        studentName: userData.displayName || userData.name || '회원',
+                        devices: devCheck.devices || [],
+                        isB2B: false,
+                        onClose: () => { window.location.href = "../../exam.html"; }
+                    });
+                    return;
+                }
+            }
+
             document.body.style.display = 'flex';
         } catch (err) {
             console.error("Auth verification error:", err);
             document.body.style.display = 'flex';
         }
     });
+
+    }
 
     // 불펌 및 개발자 도구 방지
     document.addEventListener('contextmenu', event => event.preventDefault());
@@ -2915,6 +2939,123 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         }
     });
 </script>
+
+
+<!-- ==========================================================================
+     WEEK 9 STANDARDIZED DESIGN SYSTEM (MATCHING WEEKS 1-8 STANDARDS)
+     - T1: 실전 암기장(Notes) 모눈 그리드 완전 제거 및 순백색(#ffffff) 통일
+     - T2: Section 및 Notes 헤더 6p 규격 통일 (컨테이너 패딩 20px 25px 35px 25px, 헤더 55px, 블루밑줄, 폰트 20px/10px)
+     - T3: 실전 체화 상단 압축 (상단여백 30px, 헤더마진 10px, 정답박스 30px)
+     - T4: 실전 체화 코칭 상자 하단 기준 우선 배치 + 해설 텍스트 닿을 때만 [방안 3] 스마트 자동 전환
+     ========================================================================== -->
+<style id="week9-standardized-system">
+/* --- T2: Section 개념 페이지 컨테이너 패딩 통일 --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10) :is(.page-left, .page-right, .page-full, .concept-page),
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10).page-left,
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10) .a4-page {
+    padding: 20px 25px 35px 25px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* --- T2: Section 헤더 55px, 블루 밑줄, 하단 정렬 --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10) .data-header {
+    border-bottom: 2px solid #0284c7 !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 10px !important;
+    height: 55px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+}
+
+/* --- T2: Section 라벨 볼드 10px --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10) .data-header > div:first-child,
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10) .section-label {
+    font-size: 10px !important;
+    font-weight: 900 !important;
+    color: #0284c7 !important;
+    margin-bottom: 3px !important;
+    line-height: normal !important;
+}
+
+/* --- T2: Section 메인 타이틀 볼드 20px --- */
+:is(.page-scope-page06, .page-scope-page08, .page-scope-page10) .data-title {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* --- T1 & T2: 암기장(Notes) 컨테이너 모눈 그리드 완전 제거, 화이트 배경, 6p 패딩 --- */
+:is(.page-scope-page07, .page-scope-page09, .page-scope-page11) .concept-page,
+:is(.page-scope-page07, .page-scope-page09, .page-scope-page11).concept-page {
+    padding: 20px 25px 35px 25px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* --- T2: 암기장(Notes) 헤더 55px, 블루 밑줄, 폰트 20px --- */
+:is(.page-scope-page07, .page-scope-page09, .page-scope-page11) .schema-title {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    letter-spacing: -1px !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 0 6px 0 !important;
+    border-bottom: 2px solid #0284c7 !important;
+    height: 55px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    line-height: normal !important;
+    flex-shrink: 0 !important;
+}
+
+/* --- T3: 실전 체화 문항 정답 및 해설 페이지 상단 여백 및 정답 박스 최적화 --- */
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans) .full-page-content,
+.full-page-content:is([data-scope="section01_ans"], [data-scope="section02_ans"], [data-scope="section03_ans"]) {
+    padding-top: 30px !important;
+}
+
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans) :is(.header, .prob-header),
+:is(.header, .prob-header):is([data-scope="section01_ans"], [data-scope="section02_ans"], [data-scope="section03_ans"]) {
+    margin-bottom: 10px !important;
+}
+
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans) .ans-box,
+.ans-box:is([data-scope="section01_ans"], [data-scope="section02_ans"], [data-scope="section03_ans"]) {
+    height: 30px !important;
+    box-sizing: border-box !important;
+    padding: 2px 5px !important;
+}
+
+/* --- T4: 실전 체화 코칭 상자 하단 기준 우선 배치 (기본값) --- */
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans) .practice-col {
+    position: relative !important;
+    padding-bottom: 80px !important;
+}
+
+:is(.page-scope-section01_ans, .page-scope-section02_ans, .page-scope-section03_ans) .learning-method {
+    position: absolute !important;
+    bottom: 0px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 0 !important;
+}
+</style>
 
 </head>
 <body>
@@ -3727,7 +3868,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">④</span>
 </div>
@@ -3749,7 +3890,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">④</span>
 </div>
@@ -4084,7 +4225,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">①</span>
 </div>
@@ -4106,7 +4247,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">④</span>
 </div>
@@ -4440,7 +4581,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">왼쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">③</span>
 </div>
@@ -4462,7 +4603,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="prob-header" style="margin-bottom: 6px;">
 <div class="prob-brand" style="font-size: 11px;">오른쪽 문항 - 정답 및 해설</div>
 </div>
-<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+<div class="ans-box" style="margin-top: 2px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 8px; padding: 2px 5px; height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px;">
 <span style="font-size: 12px; font-weight: 900; color: #1e3a8a;">정답</span>
 <span style="font-size: 18px; font-weight: 900; color: #2563eb;">④</span>
 </div>
@@ -4959,22 +5100,27 @@ window.closeEbook = function(e) {
         try { e.stopPropagation(); } catch(err){}
         try { e.preventDefault(); } catch(err){}
     }
-    if (window.opener && !window.opener.closed) {
-        window.close();
-        return;
+    // 1. iframe 내부인 경우 부모 창 닫기 신호 전송 및 부모 닫기 시도
+    if (window.parent && window.parent !== window) {
+        try {
+            window.parent.postMessage('close-ebook', '*');
+            window.parent.close();
+        } catch(err){}
     }
-    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1 || document.referrer.indexOf('weekly') !== -1)) {
-        window.location.href = document.referrer;
-        return;
-    }
-    if (window.history && window.history.length > 1) {
-        window.history.back();
-        setTimeout(function() {
-            window.location.href = "../../exam.html";
-        }, 300);
-        return;
-    }
-    window.location.href = "../../exam.html";
+    // 2. 현재 창 닫기
+    window.close();
+    // 3. 브라우저 정책으로 닫기가 차단된 경우 안전하게 이전 페이지로 복귀
+    setTimeout(function() {
+        if (!window.closed) {
+            if (window.history && window.history.length > 1) {
+                window.history.back();
+            } else if (document.referrer && !document.referrer.includes('final.html') && !document.referrer.includes('ebook_preview')) {
+                window.location.href = document.referrer;
+            } else {
+                window.location.href = "../b2b_weekly.html";
+            }
+        }
+    }, 150);
 };
 
 // ==========================================
@@ -5373,7 +5519,78 @@ function resetZoom() {
     resizeFlipbook();
 }
 
+
+function alignCoachingBoxes() {
+    const pages = document.querySelectorAll('.a4-page');
+    pages.forEach(page => {
+        const pageRect = page.getBoundingClientRect();
+        if (pageRect.height === 0 || pageRect.width === 0) return;
+
+        const cols = page.querySelectorAll('.practice-col');
+        if (cols.length < 2) return;
+        const leftCol = cols[0];
+        const rightCol = cols[1];
+        const leftBox = leftCol.querySelector('.learning-method');
+        const rightBox = rightCol.querySelector('.learning-method');
+        if (!leftBox || !rightBox) return;
+
+        const leftExp = leftBox.previousElementSibling;
+        const rightExp = rightBox.previousElementSibling;
+        if (!leftExp || !rightExp) return;
+
+        const leftExpBottom = leftExp.getBoundingClientRect().bottom - pageRect.top;
+        const rightExpBottom = rightExp.getBoundingClientRect().bottom - pageRect.top;
+        const maxExpBottom = Math.max(leftExpBottom, rightExpBottom);
+
+        const leftBoxRect = leftBox.getBoundingClientRect();
+        const rightBoxRect = rightBox.getBoundingClientRect();
+        const maxBoxHeight = Math.max(leftBoxRect.height, rightBoxRect.height);
+
+        // 하단 기준선: 637px (왼쪽 문제 페이지 함정 주의보와 대칭)
+        const baselineBottom = 637;
+        const baselineTop = baselineBottom - maxBoxHeight;
+
+        // 해설 텍스트가 하단 기준 상자에 닿는지 검사 (마진 10px 미만 또는 겹침)
+        if (maxExpBottom + 10 > baselineTop) {
+            // [방안 3 적용]: 긴 해설 텍스트 바닥 + 10px 위치로 밀어내고 좌우 상단 일치
+            const targetTop = maxExpBottom + 10;
+            const leftMargin = Math.max(10, Math.round(targetTop - leftExpBottom));
+            const rightMargin = Math.max(10, Math.round(targetTop - rightExpBottom));
+            
+            leftCol.style.setProperty('position', 'static', 'important');
+            rightCol.style.setProperty('position', 'static', 'important');
+            leftCol.style.setProperty('padding-bottom', '0px', 'important');
+            rightCol.style.setProperty('padding-bottom', '0px', 'important');
+            
+            leftBox.style.setProperty('position', 'static', 'important');
+            rightBox.style.setProperty('position', 'static', 'important');
+            leftBox.style.setProperty('margin-top', leftMargin + 'px', 'important');
+            leftBox.style.setProperty('margin-bottom', '5px', 'important');
+            rightBox.style.setProperty('margin-top', rightMargin + 'px', 'important');
+            rightBox.style.setProperty('margin-bottom', '5px', 'important');
+        } else {
+            // [하단 기준 우선 배치]: 해설 텍스트가 닿지 않으므로 바닥(637px)에 단정하게 배치
+            leftCol.style.setProperty('position', 'relative', 'important');
+            rightCol.style.setProperty('position', 'relative', 'important');
+            leftCol.style.setProperty('padding-bottom', '80px', 'important');
+            rightCol.style.setProperty('padding-bottom', '80px', 'important');
+            
+            leftBox.style.setProperty('position', 'absolute', 'important');
+            rightBox.style.setProperty('position', 'absolute', 'important');
+            leftBox.style.setProperty('bottom', '0px', 'important');
+            rightBox.style.setProperty('bottom', '0px', 'important');
+            leftBox.style.setProperty('left', '0px', 'important');
+            rightBox.style.setProperty('right', '0px', 'important');
+            leftBox.style.setProperty('width', '100%', 'important');
+            rightBox.style.setProperty('width', '100%', 'important');
+            leftBox.style.setProperty('margin-top', '0px', 'important');
+            rightBox.style.setProperty('margin-top', '0px', 'important');
+        }
+    });
+}
+
 function initFlipbookEngine() {
+    try { alignCoachingBoxes(); } catch(e){}
     renderAllMath();
     const fbElement = document.getElementById('flipbook');
     const scaleWrapper = document.getElementById('scale-wrapper');
@@ -5710,6 +5927,192 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAllMath();
     window.toggleFlipbook();
 });
+
+// ==========================================
+// B2B 화이트라벨 URL 파라미터 자동 동기화 엔진
+// ==========================================
+(function initB2BAutoWhitelabel() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const bName = params.get('brand') || '';
+        const tName = params.get('teacher') || '';
+        const eName = (params.get('eng') || bName).toUpperCase();
+        if (!bName && !eName && !tName) return;
+
+        function applyWhitelabelToDom() {
+            try {
+                // 1. 상단 네비게이션바 (#top-nav) 로고 & 볼륨 치환 (닫기, 목차 버튼 보존 및 복구 가드)
+                const topNav = document.getElementById('top-nav');
+                if (topNav) {
+                    const leftBox = topNav.firstElementChild;
+                    if (leftBox) {
+                        // 닫기 버튼 보존/복구 가드
+                        if (!leftBox.querySelector('button[onclick*="closeEbook"]')) {
+                            const closeBtn = document.createElement('button');
+                            closeBtn.setAttribute('onclick', 'window.closeEbook(event)');
+                            closeBtn.style.cssText = "background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);";
+                            closeBtn.innerHTML = '<span style="font-size: 13px; font-weight: 900;">✖</span> 닫기';
+                            leftBox.insertBefore(closeBtn, leftBox.firstChild);
+                        }
+                        // 목차 버튼 보존/복구 가드
+                        if (!leftBox.querySelector('#btn-toc-toggle')) {
+                            const tocBtn = document.createElement('button');
+                            tocBtn.id = 'btn-toc-toggle';
+                            tocBtn.setAttribute('onclick', 'window.toggleTocDrawer(event)');
+                            tocBtn.style.cssText = "background: #1e293b; border: 1px solid #0284c7; color: #38bdf8; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); transition: all 0.2s;";
+                            tocBtn.innerHTML = '<span style="font-size: 14px;">📑</span> 목차';
+                            leftBox.appendChild(tocBtn);
+                        }
+                        // 가운데 로고 div만 정밀 타겟 치환
+                        const brandDiv = Array.from(leftBox.children).find(c => c.tagName === 'DIV');
+                        if (brandDiv) {
+                            const m = brandDiv.textContent.match(/VOL\.(\d+)/i);
+                            const vNum = m ? m[1] : '01';
+                            brandDiv.style.fontFamily = "'Roboto', sans-serif";
+                            brandDiv.style.fontWeight = "900";
+                            brandDiv.style.fontSize = "14px";
+                            brandDiv.style.color = "#38bdf8";
+                            brandDiv.style.letterSpacing = "0.5px";
+                            brandDiv.innerHTML = `${eName} <span style="background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">VOL.${vNum}</span>`;
+                        }
+                    }
+                }
+
+                // 2. 모든 페이지 상단 러닝 헤드 치환 (.header-brand)
+                document.querySelectorAll('.header-brand').forEach(el => {
+                    el.innerHTML = `${eName} WEEKLY`;
+                });
+
+                // 3. 표지 상단 브랜드 치환 (.brand)
+                document.querySelectorAll('.brand').forEach(el => {
+                    el.innerHTML = eName;
+                });
+
+                // 4. 표지 메인 제호 (.title) 치환 및 긴 학원명 자동 폰트 크기 조절 (줄바꿈 원천 방지)
+                function fitCoverTitle(titleEl, brandName) {
+                    if (!titleEl) return;
+                    const bn = (brandName || '갓통과').trim();
+                    if (!bn) return;
+
+                    // A4 커버 (.a4-page 500px, .top-section 좌우 40px 패딩) 가용 폭 420px
+                    // 줄바꿈 방지를 위한 안전 여유폭 405px
+                    const maxAllowedWidth = 405;
+
+                    // 1. Canvas 2D 정밀 텍스트 폭 측정 (bold 900 기준)
+                    let brandSize = 64;
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        function measure(text, size) {
+                            ctx.font = '900 ' + size + 'px "Noto Sans KR", "Nanum Gothic", sans-serif';
+                            return ctx.measureText(text).width;
+                        }
+
+                        // 2. 기본 64px에서 시작하여 가용 폭(405px)을 초과할 때만 1px씩 점진적 축소
+                        let textW = measure(bn, brandSize);
+                        while (textW > maxAllowedWidth && brandSize > 22) {
+                            brandSize -= 1;
+                            textW = measure(bn, brandSize);
+                        }
+                    } catch(err) {
+                        let units = 0;
+                        for (let i = 0; i < bn.length; i++) {
+                            const c = bn.charCodeAt(i);
+                            if (c === 32) units += 0.35;
+                            else if (c >= 0xac00 && c <= 0xd7a3) units += 1.0;
+                            else units += 0.65;
+                        }
+                        if (units * 64 * 0.95 > maxAllowedWidth) {
+                            brandSize = Math.max(22, Math.floor(maxAllowedWidth / (units * 0.95)));
+                        }
+                    }
+
+                    // 3. WEEKLY 크기 조화 (학원명이 아주 길어 작아졌을 때만 WEEKLY도 비례 축소)
+                    let weeklySize = 64;
+                    if (brandSize < 40) {
+                        weeklySize = Math.max(46, Math.round(brandSize * 1.25));
+                    }
+
+                    titleEl.style.margin = '15px 0 0 0';
+                    titleEl.style.lineHeight = '1.1';
+                    titleEl.style.letterSpacing = '-1px';
+                    titleEl.style.color = '#0f172a';
+                    titleEl.innerHTML = `
+                        <span class="cover-brand-title" style="display:inline-block; max-width:100%; font-size:${brandSize}px; font-weight:900; white-space:nowrap; letter-spacing:-1.5px; line-height:1.12; overflow:hidden; text-overflow:ellipsis;">${bn}</span>
+                        <span class="cover-weekly-text" style="display:block; font-size:${weeklySize}px; font-weight:900; white-space:nowrap; letter-spacing:-2px; line-height:1.05;">WEEKLY</span>
+                    `;
+                }
+
+                document.querySelectorAll('.cover-page .title, .title').forEach(el => {
+                    fitCoverTitle(el, bName);
+                });
+
+                // 5. 시스템 가이드 및 안내문 (.guide-title, .guide-desc)
+                document.querySelectorAll('.guide-title').forEach(el => {
+                    if (/GO[TD]TONGGWA/i.test(el.innerHTML)) {
+                        el.innerHTML = el.innerHTML.replace(/GO[TD]TONGGWA/gi, eName);
+                    }
+                    if (bName && el.innerHTML.includes('갓통과')) {
+                        el.innerHTML = el.innerHTML.replace(/갓통과/g, bName);
+                    }
+                });
+
+                // 6. TreeWalker를 통한 텍스트 노드 치환
+                const walker = document.createTreeWalker(
+                    document.body,
+                    NodeFilter.SHOW_TEXT,
+                    {
+                        acceptNode: function(node) {
+                            if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+                            const tag = node.parentElement.tagName.toUpperCase();
+                            if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+                            return NodeFilter.FILTER_ACCEPT;
+                        }
+                    },
+                    false
+                );
+
+                const nodes = [];
+                let curr;
+                while ((curr = walker.nextNode())) nodes.push(curr);
+
+                nodes.forEach(node => {
+                    let val = node.nodeValue;
+                    if (!val) return;
+                    let chg = false;
+                    if (tName) {
+                        if (val.includes('갓쌤의')) { val = val.replace(/갓쌤의/g, `${tName}의`); chg = true; }
+                        if (val.includes("갓쌤's") || val.includes("갓쌤’s")) { val = val.replace(/갓쌤['’]s/g, `${tName}'s`); chg = true; }
+                        if (val.includes('갓쌤')) { val = val.replace(/갓쌤/g, tName); chg = true; }
+                    }
+                    if (bName && val.includes('갓통과')) { val = val.replace(/갓통과/g, bName); chg = true; }
+                    if (eName && /GO[TD]TONGGWA/i.test(val)) { val = val.replace(/GO[TD]TONGGWA/gi, eName); chg = true; }
+                    if (chg) node.nodeValue = val;
+                });
+            } catch(e) {
+                console.warn('Whitelabel self-apply err:', e);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyWhitelabelToDom);
+        } else {
+            applyWhitelabelToDom();
+        }
+        setTimeout(applyWhitelabelToDom, 100);
+        setTimeout(applyWhitelabelToDom, 400);
+        setTimeout(applyWhitelabelToDom, 1000);
+        setTimeout(applyWhitelabelToDom, 2500);
+
+        window.addEventListener('load', () => {
+            applyWhitelabelToDom();
+            if (window.pageFlip && typeof window.pageFlip.on === 'function') {
+                window.pageFlip.on('flip', () => setTimeout(applyWhitelabelToDom, 30));
+            }
+        });
+    } catch(err) {}
+})();
+
 </script>
 
 

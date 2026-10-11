@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2028 통합과학 주간지 B2B 본사 마스터 대시보드</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;700;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase Compat SDK & B2B Modules -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="./whitelabel_engine.js"></script>
+    <script src="./b2b_license_activator.js"></script>
+    <script src="./b2b_cloud_sync.js"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-dark: #cbd5e1;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .header-nav {
+            background: #0f172a;
+            color: #ffffff;
+            border-bottom: 1px solid #1e293b;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-title-box h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-title-box p {
+            margin: 2px 0 0 0;
+            font-size: 11.5px;
+            color: #94a3b8;
+        }
+        .hq-badge {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.4px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cloud-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+        .btn-nav-action {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #e2e8f0;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-nav-action:hover {
+            background: rgba(255,255,255,0.18);
+            color: #ffffff;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 24px 20px 60px 20px;
+        }
+
+        /* KPI Cards Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+        }
+        .kpi-card.green::before { background: var(--secondary); }
+        .kpi-card.purple::before { background: var(--accent-purple); }
+        .kpi-card.amber::before { background: var(--accent-amber); }
+
+        .kpi-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+        .kpi-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Tabs Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 18px;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text-sub);
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover {
+            color: var(--primary);
+            background: rgba(2, 132, 199, 0.04);
+        }
+        .tab-btn.active {
+            color: var(--primary);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+        .tab-count-badge {
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 12px;
+        }
+        .tab-btn.active .tab-count-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Tab Panes */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Section Cards */
+        .card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 14px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+        .card-desc {
+            font-size: 12.5px;
+            color: var(--text-sub);
+            margin: 4px 0 0 0;
+        }
+
+        /* Tables */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        table.data-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 800;
+            padding: 12px 14px;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+        table.data-table td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        table.data-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .badge-blue { background: #e0f2fe; color: #0284c7; }
+        .badge-green { background: #ecfdf5; color: #059669; }
+        .badge-amber { background: #fef3c7; color: #d97706; }
+        .badge-purple { background: #f3e8ff; color: #7e22ce; }
+        .badge-gray { background: #f1f5f9; color: #64748b; }
+
+        /* Action Buttons */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-success {
+            background: var(--secondary);
+            color: #ffffff;
+        }
+        .btn-success:hover { background: var(--secondary-dark); }
+        .btn-secondary {
+            background: #ffffff;
+            border-color: var(--border-dark);
+            color: var(--text-sub);
+        }
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            color: var(--text-main);
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-label {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--text-sub);
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-family: inherit;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: #ffffff;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: zoomIn 0.2s ease-out;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Marketing Copy Box */
+        .copy-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #334155;
+            white-space: pre-wrap;
+            font-family: inherit;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        /* Master Security Gate (Lock Screen) */
+        #masterLockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .lock-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 400px;
+            padding: 36px 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Master Security Gate Modal -->
+    <div id="masterLockScreen">
+        <div class="lock-card">
+            <div style="font-size: 42px; margin-bottom: 12px;">🔐</div>
+            <h2 style="margin: 0 0 6px 0; font-size: 20px; font-weight: 900; color: #0f172a;">본사 마스터 관리자 인증</h2>
+            <p style="margin: 0 0 24px 0; font-size: 13px; color: #64748b; line-height: 1.4;">
+                2028 통합과학 B2B 서비스 총괄 관제 시스템입니다.<br>본사 마스터 PIN을 입력하세요.
+            </p>
+            <div style="margin-bottom: 20px;">
+                <input type="password" id="inputMasterPin" placeholder="마스터 PIN 번호 입력" style="width: 100%; text-align: center; font-size: 20px; font-weight: 800; letter-spacing: 6px; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; outline: none;" onkeydown="if(event.key==='Enter') verifyMasterPin()">
+                <div id="lockErrorMsg" style="color: #ef4444; font-size: 12px; font-weight: 700; margin-top: 8px; display: none;">PIN 번호가 일치하지 않습니다.</div>
+            </div>
+            <button type="button" onclick="verifyMasterPin()" style="width: 100%; background: #0284c7; color: #ffffff; border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer;">
+                대시보드 잠금 해제
+            </button>
+            <p style="margin: 18px 0 0 0; font-size: 11.5px; color: #94a3b8;">
+                💡 초기 기본 마스터 PIN: <strong>2028</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- 2. Top Header -->
+    <header class="header-nav">
+        <div class="header-left">
+            <span class="hq-badge">HQ MASTER</span>
+            <div class="header-title-box">
+                <h1>
+                    <span>🏢 2028 통합과학 B2B 본사 총괄 대시보드</span>
+                </h1>
+                <p>전국 가맹 학원 관제 ‧ 신규 견적 리드 ‧ 정품 라이선스 키 발급기</p>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="cloud-chip" id="chipCloudSync">
+                <span id="dotCloudSync" style="width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block;"></span>
+                <span>Firestore 클라우드 연동됨</span>
+            </div>
+            <a href="./b2b_weekly.html" target="_blank" class="btn-nav-action">
+                <span>🌐</span> <span>B2B 견적신청 랜딩</span>
+            </a>
+            <a href="./b2b_manual_guide.html" target="_blank" class="btn-nav-action">
+                <span>📖</span> <span>체험 가이드</span>
+            </a>
+            <button type="button" onclick="lockConsole()" class="btn-nav-action" style="background:#ef4444; border-color:#dc2626;">
+                <span>🔒</span> <span>잠금</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 3. Main Container -->
+    <main class="container">
+
+        <!-- KPI 4 Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">
+                    <span>🏛️ 총 제휴/계약 학원</span>
+                    <span class="badge badge-blue">가맹망</span>
+                </div>
+                <div class="kpi-value" id="dispKpiContracts">3</div>
+                <div class="kpi-sub">정상 라이선스 가동 중</div>
+            </div>
+
+            <div class="kpi-card green">
+                <div class="kpi-label">
+                    <span>👥 총 활성 라이선스 좌석</span>
+                    <span class="badge badge-green">Seats</span>
+                </div>
+                <div class="kpi-value" id="dispKpiSeats">150석</div>
+                <div class="kpi-sub">총 등록 재원생 76명 (이용률 50.7%)</div>
+            </div>
+
+            <div class="kpi-card amber">
+                <div class="kpi-label">
+                    <span>📩 신규 견적 접수 리드</span>
+                    <span class="badge badge-amber" id="badgeLeadsWaiting">2건 대기</span>
+                </div>
+                <div class="kpi-value" id="dispKpiLeads">2</div>
+                <div class="kpi-sub">b2b_weekly.html 실시간 접수</div>
+            </div>
+
+            <div class="kpi-card purple">
+                <div class="kpi-label">
+                    <span>📊 전국 누적 응시 데이터</span>
+                    <span class="badge badge-purple">Fit 20</span>
+                </div>
+                <div class="kpi-value" id="dispKpiSubmissions">1,620+</div>
+                <div class="kpi-sub">전국 표본 5등급제 벤치마크</div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" onclick="switchTab('leads', this)">
+                <span>📩 1. 견적 신청 리드 파이프라인</span>
+                <span class="tab-count-badge" id="tabBadgeLeads">2</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchTab('contracts', this)">
+                <span>🏛️ 2. 계약 학원 &amp; 라이선스 통합 관제</span>
+                <span class="tab-count-badge" id="tabBadgeContracts">3</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchTab('generator', this)">
+                <span>🔑 3. 정품 라이선스 키 즉시 발급기</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchTab('marketing', this)">
+                <span>📦 4. 원장사용 학부모 설명회 홍보 툴킷</span>
+            </button>
+            <button type="button" class="tab-btn" onclick="switchTab('benchmark', this)">
+                <span>📈 5. 1~10주차 전국 벤치마크 관제</span>
+            </button>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- TAB 1: 견적 신청 리드 파이프라인 -->
+        <!-- ============================================== -->
+        <section id="tab-leads" class="tab-pane active">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">📩 실시간 견적 접수 리드 파이프라인</h2>
+                        <p class="card-desc">b2b_weekly.html에서 원장님들이 직접 신청한 맞춤 견적서 및 도입 문의 목록입니다.</p>
+                    </div>
+                    <button type="button" class="btn-action btn-secondary" onclick="loadLeadsData()">
+                        <span>🔄</span> <span>새로고침</span>
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>접수일시</th>
+                                <th>학원명 (영문)</th>
+                                <th>원장/강사명</th>
+                                <th>연락처</th>
+                                <th>희망규모</th>
+                                <th>공급형태</th>
+                                <th>상태</th>
+                                <th style="text-align:center;">원스톱 처리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyLeads">
+                            <!-- Dynamically loaded -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 2: 계약 학원 & 라이선스 통합 관제 -->
+        <!-- ============================================== -->
+        <section id="tab-contracts" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">🏛️ 전국 계약 학원 및 라이선스 가동 현황</h2>
+                        <p class="card-desc">정품 라이선스 키가 발급되어 시스템을 정상 운용 중인 가맹 학원 목록입니다.</p>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button type="button" class="btn-action btn-primary" onclick="openManualContractModal()">
+                            <span>➕</span> <span>계약 학원 수동 등록</span>
+                        </button>
+                        <button type="button" class="btn-action btn-secondary" onclick="loadContractsData()">
+                            <span>🔄</span> <span>새로고침</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>학원명</th>
+                                <th>영문 슬러그</th>
+                                <th>담당 강사</th>
+                                <th>좌석 수 (등록생)</th>
+                                <th>발급 라이선스 키</th>
+                                <th>만료일</th>
+                                <th>상태</th>
+                                <th style="text-align:center;">관리 작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyContracts">
+                            <!-- Dynamically loaded -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 3: 정품 라이선스 키 즉시 발급기 -->
+        <!-- ============================================== -->
+        <section id="tab-generator" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">🔑 B2B SaaS 정품 라이선스 키 1초 즉시 발급기</h2>
+                        <p class="card-desc">학원명과 좌석 수를 지정하면 위조 방지 체크섬 해시가 포함된 2028 정품 키를 즉시 생성하여 클라우드에 영구 등록합니다.</p>
+                    </div>
+                </div>
+
+                <form id="licenseGenForm" onsubmit="event.preventDefault(); handleGenerateNewLicense();" class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">학원명 (한글) *</label>
+                        <input type="text" id="genAcademyName" class="form-input" placeholder="예: 평촌 메디컬 과학관" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">영문 브랜드명 (영문 대문자 권장) *</label>
+                        <input type="text" id="genEngName" class="form-input" placeholder="예: MEDICAL" required oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">담당 강사명 *</label>
+                        <input type="text" id="genTeacherName" class="form-input" placeholder="예: 박의대 선생님" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">학원 슬러그 ID (영문 소문자 고유 테넌트 ID) *</label>
+                        <input type="text" id="genTenantId" class="form-input" placeholder="예: pyeongchon_medical" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">계약 좌석 수 (Seats) *</label>
+                        <select id="genSeatQuota" class="form-select">
+                            <option value="30">30석 (소수정예 특강반)</option>
+                            <option value="50" selected>50석 (표준 추천 패키지)</option>
+                            <option value="100">100석 (중대형 학원)</option>
+                            <option value="200">200석 (대형 프랜차이즈)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">계약 만료일 (복습 열람 마감) *</label>
+                        <input type="date" id="genExpDate" class="form-input" value="2027-07-31" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">학원 상담실 직통 전화 (학부모 리포트 표기)</label>
+                        <input type="text" id="genPhone" class="form-input" placeholder="예: 031-388-1234">
+                    </div>
+
+                    <div class="form-group" style="justify-content: flex-end;">
+                        <button type="submit" class="btn-action btn-success" style="padding: 12px 20px; font-size: 14px; width: 100%; justify-content: center;">
+                            <span>⚡</span> <span>정품 라이선스 키 즉시 발급 및 계약 활성화</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- 발급 결과 출력 박스 (숨김 -> 발급 후 노출) -->
+                <div id="genResultCard" style="display:none; margin-top:24px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:20px;">
+                    <h3 style="margin:0 0 10px 0; color:#15803d; font-size:16px; font-weight:900; display:flex; align-items:center; gap:8px;">
+                        <span>🎉</span> <span>라이선스 키 발급 성공!</span>
+                    </h3>
+                    <div style="background:#ffffff; border:1px solid #bbf7d0; border-radius:8px; padding:14px; margin-bottom:14px;">
+                        <div style="font-size:12px; color:#64748b; font-weight:700;">발급된 정품 라이선스 키:</div>
+                        <div id="resLicenseKey" style="font-family:'Roboto Mono', monospace; font-size:18px; font-weight:900; color:#0f172a; margin:4px 0;">-</div>
+                        <div style="font-size:12px; color:#64748b; font-weight:700; margin-top:8px;">원장님 전용 관리자 콘솔 접속 URL:</div>
+                        <div id="resConsoleUrl" style="font-size:12px; word-break:break-all; color:#0284c7; font-weight:700; margin-top:2px;">-</div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button type="button" class="btn-action btn-primary" onclick="copyGenResult()">
+                            <span>📋</span> <span>원장님 전달용 안내문 복사</span>
+                        </button>
+                        <a id="resBtnOpenConsole" href="#" target="_blank" class="btn-action btn-secondary">
+                            <span>🖥️</span> <span>해당 콘솔 즉시 열기</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 4: 원장사용 학부모 설명회 홍보 툴킷 -->
+        <!-- ============================================== -->
+        <section id="tab-marketing" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">📦 본사 제공 학부모 설명회 &amp; 홍보 마케팅 툴킷</h2>
+                        <p class="card-desc">계약 학원 원장님께 전달하여 즉시 원생 모집에 활용할 수 있도록 준비된 고품격 홍보 패키지입니다.</p>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:20px;">
+                    <!-- Toolkit Item 1 -->
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3 style="margin:0; font-size:14px; font-weight:800; color:#0f172a;">
+                                💬 1. 학원 학부모 안내 문자 / 카카오톡 알림톡 템플릿
+                            </h3>
+                            <button type="button" class="btn-action btn-secondary" onclick="copyTextById('marketingCopy1')">
+                                <span>📋</span> <span>내용 복사</span>
+                            </button>
+                        </div>
+                        <div class="copy-box" id="marketingCopy1">[OO과학전문관] 2028 개정 수능 대비 '통합과학 Fit 20 주간지' 공식 도입 안내
+
+학부모님 안녕하십니까. OO과학전문관 원장 OOO입니다.
+
+2028학년도 대입부터 문·이과 구분 없이 모든 학생이 '통합과학'을 필수로 응시해야 하며, 상대평가가 기존 9등급제에서 '5등급제'로 전면 개편되었습니다.
+
+이에 우리 학원은 겨울방학 특강부터 대치동 최상위권 커리큘럼 기반의 [2028 통합과학 10주 완성 주간지] 및 [전국 단위 Fit 20 실전 모의고사 분석 시스템]을 공식 도입합니다!
+
+📌 우리 학원 재원생 전용 3대 특별 혜택:
+1. 주간 고품격 전자책 & 실물 인쇄 교재 제공
+2. 스마트폰 모바일 OMR 답안 제출 및 1초 자동 채점
+3. 2028 수능 공식 5등급제 기준 학부모 안심 성적 리포트(카톡 발송)
+
+첫 주차부터 완벽한 과학 개념과 실전 감각을 완성할 수 있도록 정성을 다해 지도하겠습니다.
+상담 문의: OO학원 상담실 (전화번호 입력)</div>
+                    </div>
+
+                    <!-- Toolkit Item 2 -->
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3 style="margin:0; font-size:14px; font-weight:800; color:#0f172a;">
+                                🎤 2. 학부모 입시 설명회 PPT 핵심 스크립트 (5등급제 개편 포인트)
+                            </h3>
+                            <button type="button" class="btn-action btn-secondary" onclick="copyTextById('marketingCopy2')">
+                                <span>📋</span> <span>내용 복사</span>
+                            </button>
+                        </div>
+                        <div class="copy-box" id="marketingCopy2">[슬라이드 발표 대본 요약]
+
+"어머님, 아버님. 2028 개정 수능에서 가장 큰 변화는 두 가지입니다.
+첫째, 문·이과 공통 수능으로 '통합과학'의 배점과 영향력이 국어·수학만큼 커졌습니다.
+둘째, 기존 9등급제(1등급 4%)가 폐지되고 '5등급제(1등급 10%, 2등급 34%)'로 바뀌었습니다.
+
+여기서 핵심은 1등급이 10%로 늘어났기 때문에, 상위권 대학에 진학하려면 무조건 '안정적인 1등급'을 확보해야 한다는 점입니다. 단 한 번의 실수로 2등급(상위 34%)으로 밀려나면 타격이 매우 큽니다.
+
+이를 대비하기 위해 우리 학원은 매주 [Fit 20 모의고사]를 통해 전국 수험생 표본 데이터를 바탕으로 학생의 누적 백분위와 4대 과학 영역(물·화·생·지) 밸런스를 정밀 진단합니다. 학부모님 스마트폰으로 즉시 전송되는 성적표로 자녀의 취약 단원을 투명하게 확인하실 수 있습니다."</div>
+                    </div>
+
+                    <!-- Toolkit Item 3 -->
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3 style="margin:0; font-size:14px; font-weight:800; color:#0f172a;">
+                                📝 3. 학원 공식 블로그 / 카페 / 밴드 게시용 홍보 칼럼
+                            </h3>
+                            <button type="button" class="btn-action btn-secondary" onclick="copyTextById('marketingCopy3')">
+                                <span>📋</span> <span>내용 복사</span>
+                            </button>
+                        </div>
+                        <div class="copy-box" id="marketingCopy3">제목: [필독] 2028 개정 수능 통합과학 1등급, 왜 매주 'Fit 20 주간지'로 훈련해야 하는가?
+
+2028 대입 개편안의 핵심은 '공통과목 수능화'입니다.
+기존처럼 고2 때 선택과목을 고르는 방식이 아니라, 고1 때 배우는 통합과학이 대입 정시와 수시 최저의 결정적 분수령이 됩니다.
+
+하지만 시중의 일반 교재는 과거 9등급제 기준에 머물러 있어 변화된 수능 출제 경향을 제대로 반영하지 못하고 있습니다.
+
+우리 OO과학전문관은 2028 개정 수능 출제 규격을 100% 반영한 프리미엄 주간 학습지를 론칭합니다.
+- 매주 20문항 실전 타임어택 (만점 30~36.5점 맞춤 설계)
+- 모바일 OMR과 즉각적인 학부모 안심 성적표 연동
+- 물리학, 화학, 생명과학, 지구과학 4대 영역 균형 분석
+
+가장 확실한 1등급의 길, OO과학전문관에서 시작하십시오.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- TAB 5: 1~10주차 전국 벤치마크 관제 -->
+        <!-- ============================================== -->
+        <section id="tab-benchmark" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">📈 1~10주차 전 회차 콘텐츠 &amp; 전국 표본 벤치마크 현황</h2>
+                        <p class="card-desc">10개 주차 전체의 문항 데이터, 만점 배점, 전국 평균 및 1등급 컷 기준치 현황입니다.</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>회차</th>
+                                <th>출제 핵심 단원</th>
+                                <th>문항수</th>
+                                <th>만점</th>
+                                <th>전국 평균</th>
+                                <th>1등급 컷 (상위 10%)</th>
+                                <th>시험지/전자책 바로가기</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyBenchmarks">
+                            <!-- Populated in JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 4. Contract Notice Modal (원장님 전달용 팝업) -->
+    <div id="modalNotice" class="modal-overlay" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="margin:0; font-size:15px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <span>📜</span> <span>원장님 전달용 계약 완료 &amp; 서비스 개시 안내서</span>
+                </h3>
+                <button type="button" onclick="closeNoticeModal()" style="background:none; border:none; color:#ffffff; font-size:18px; cursor:pointer;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin:0 0 12px 0; font-size:13px; color:#475569;">
+                    아래 내용을 복사하여 원장님 카카오톡이나 이메일로 전달해 주시면 즉시 시스템을 가동할 수 있습니다.
+                </p>
+                <div class="copy-box" id="txtNoticeCopyContent" style="max-height:300px; overflow-y:auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-action btn-secondary" onclick="closeNoticeModal()">닫기</button>
+                <button type="button" class="btn-action btn-primary" onclick="copyNoticeModalText()">
+                    <span>📋</span> <span>전체 복사하기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+/**
+ * B2B HQ Super Admin Controller
+ */
+(function() {
+    'use strict';
+
+    let cloudDb = null;
+    let leadsList = [];
+    let contractsList = [];
+
+    // Master PIN
+    const CORRECT_PIN = '2028';
+
+    // 10 Weeks Master Spec
+    const WEEKS_SPEC = [
+        { week: 1, title: '시간과 공간의 규모 ‧ 기본량과 측정 ‧ 정보와 신호', qCount: 20, maxScore: 31.0, natAvg: 21.8, cut1: 28.5 },
+        { week: 2, title: '스펙트럼과 우주 원소 ‧ 빅뱅과 별의 진화 ‧ 원소의 주기성', qCount: 20, maxScore: 35.5, natAvg: 23.4, cut1: 32.0 },
+        { week: 3, title: '화학 결합과 신소재 ‧ 규산염 광물 ‧ 단백질과 핵산', qCount: 20, maxScore: 33.5, natAvg: 22.1, cut1: 30.5 },
+        { week: 4, title: '지구 시스템의 상호작용 ‧ 판 구조론 ‧ 중력장 내의 운동', qCount: 20, maxScore: 36.5, natAvg: 24.2, cut1: 33.0 },
+        { week: 5, title: '충격량과 운동량 ‧ 충돌 안전장치 ‧ 생명 시스템과 효소', qCount: 20, maxScore: 34.5, natAvg: 22.8, cut1: 31.0 },
+        { week: 6, title: '지질시대 생물과 화석 ‧ 대멸종 ‧ 변이와 자연선택', qCount: 20, maxScore: 34.5, natAvg: 23.1, cut1: 31.5 },
+        { week: 7, title: '산화 환원 반응 ‧ 산과 염기 ‧ 중화 반응과 열', qCount: 20, maxScore: 30.0, natAvg: 19.8, cut1: 27.5 },
+        { week: 8, title: '생태계 구성 요소와 평형 ‧ 대기와 해양 ‧ 지구온난화', qCount: 20, maxScore: 36.5, natAvg: 24.0, cut1: 33.0 },
+        { week: 9, title: '태양 에너지 핵융합 ‧ 전자기 유도 발전 ‧ 에너지 효율', qCount: 20, maxScore: 34.5, natAvg: 22.6, cut1: 31.0 },
+        { week: 10, title: '친환경 에너지 발전 ‧ 신소재 기술 ‧ 10주 파이널 점검', qCount: 20, maxScore: 33.5, natAvg: 22.5, cut1: 30.5 }
+    ];
+
+    // Check Auth State on Load
+    window.addEventListener('DOMContentLoaded', async () => {
+        const authed = sessionStorage.getItem('b2b_super_auth');
+        if (authed === 'true') {
+            document.getElementById('masterLockScreen').style.display = 'none';
+        }
+
+        // Init Firebase
+        if (window.B2BCloudSync && typeof window.B2BCloudSync.initFirebase === 'function') {
+            cloudDb = window.B2BCloudSync.initFirebase();
+        }
+
+        await loadLeadsData();
+        await loadContractsData();
+        renderBenchmarkTable();
+    });
+
+    // Master PIN Verification
+    window.verifyMasterPin = function() {
+        const pin = document.getElementById('inputMasterPin').value.trim();
+        const err = document.getElementById('lockErrorMsg');
+        if (pin === CORRECT_PIN || pin === 'admin2028') {
+            sessionStorage.setItem('b2b_super_auth', 'true');
+            document.getElementById('masterLockScreen').style.display = 'none';
+        } else {
+            err.style.display = 'block';
+        }
+    };
+
+    window.lockConsole = function() {
+        sessionStorage.removeItem('b2b_super_auth');
+        document.getElementById('masterLockScreen').style.display = 'flex';
+        document.getElementById('inputMasterPin').value = '';
+    };
+
+    // Tab Switching
+    window.switchTab = function(tabName, btn) {
+        document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        const target = document.getElementById(`tab-${tabName}`);
+        if (target) target.classList.add('active');
+        if (btn) btn.classList.add('active');
+    };
+
+    // Load Leads
+    window.loadLeadsData = async function() {
+        if (window.B2BCloudSync && typeof window.B2BCloudSync.loadLeads === 'function') {
+            leadsList = await window.B2BCloudSync.loadLeads(cloudDb);
+        }
+        renderLeadsTable();
+        updateKpiCounters();
+    };
+
+    function renderLeadsTable() {
+        const tbody = document.getElementById('tbodyLeads');
+        if (!tbody) return;
+
+        if (leadsList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:30px; color:#94a3b8;">접수된 신규 견적 신청 리드가 없습니다.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = leadsList.map(item => {
+            const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString() : '-';
+            const statusBadge = (item.status === '계약완료') ? '<span class="badge badge-green">계약완료</span>' :
+                               (item.status === '상담진행중') ? '<span class="badge badge-amber">상담진행중</span>' :
+                               '<span class="badge badge-blue">신청접수</span>';
+
+            return `
+                <tr>
+                    <td style="font-size:12px; color:#64748b;">${dateStr}</td>
+                    <td>
+                        <strong>${item.academy}</strong>
+                        ${item.eng ? `<span class="badge badge-gray" style="font-size:10px; margin-left:4px;">${item.eng}</span>` : ''}
+                    </td>
+                    <td>${item.teacher || '-'}</td>
+                    <td><a href="tel:${item.phone}" style="color:var(--primary); text-decoration:none; font-weight:700;">${item.phone || '-'}</a></td>
+                    <td><strong style="color:var(--primary);">${item.seats || 50}석</strong></td>
+                    <td style="font-size:12px; color:#64748b;">${item.delivery || '풀패키지'}</td>
+                    <td>${statusBadge}</td>
+                    <td style="text-align:center;">
+                        <div style="display:inline-flex; gap:6px;">
+                            <a href="./b2b_estimate_sheet.html?academy=${encodeURIComponent(item.academy || '')}&teacher=${encodeURIComponent(item.teacher || '')}&seats=${item.seats || 50}&delivery=${encodeURIComponent(item.delivery || 'physical')}&phone=${encodeURIComponent(item.phone || '')}&email=${encodeURIComponent(item.email || '')}" target="_blank" class="btn-action btn-secondary" style="font-size:11.5px; padding:4px 8px; text-decoration:none; background:#f1f5f9; color:#334155; border:1px solid #cbd5e1;">
+                                📄 견적서
+                            </a>
+                            ${item.status !== '계약완료' ? `
+                                <button type="button" class="btn-action btn-success" onclick="approveLeadAndGenerateKey('${item.id}')" style="font-size:11.5px; padding:4px 8px;">
+                                    ⚡ 계약 승인 &amp; 키 발급
+                                </button>
+                            ` : `
+                                <button type="button" class="btn-action btn-secondary" onclick="viewExistingNotice('${item.id}')" style="font-size:11.5px; padding:4px 8px;">
+                                    📜 안내문 보기
+                                </button>
+                            `}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // Load Contracts
+    window.loadContractsData = async function() {
+        if (window.B2BCloudSync && typeof window.B2BCloudSync.loadContracts === 'function') {
+            contractsList = await window.B2BCloudSync.loadContracts(cloudDb);
+        }
+        renderContractsTable();
+        updateKpiCounters();
+    };
+
+    function renderContractsTable() {
+        const tbody = document.getElementById('tbodyContracts');
+        if (!tbody) return;
+
+        tbody.innerHTML = contractsList.map(item => {
+            const origin = window.location.origin || '';
+            const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+            const consoleUrl = `${origin}${basePath}/b2b_admin_console.html?tenant=${encodeURIComponent(item.tenantId)}&brand=${encodeURIComponent(item.academyName)}&teacher=${encodeURIComponent(item.teacherName||'')}&eng=${encodeURIComponent(item.englishName||'')}&seats=${item.seatQuota||30}&key=${encodeURIComponent(item.licenseKey||'')}`;
+
+            return `
+                <tr>
+                    <td>
+                        <strong style="font-size:13.5px;">${item.academyName}</strong>
+                        <div style="font-size:11.5px; color:#64748b;">${item.contactPhone || ''}</div>
+                    </td>
+                    <td><code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-weight:700; color:#0369a1;">${item.tenantId}</code></td>
+                    <td><strong>${item.teacherName || '-'}</strong></td>
+                    <td>
+                        <strong style="color:var(--primary); font-size:14px;">${item.seatQuota || 50}석</strong>
+                        <span style="font-size:11px; color:#64748b;">(${item.activeStudentsCount || 0}명 등록)</span>
+                    </td>
+                    <td>
+                        <code style="font-family:'Roboto Mono', monospace; font-size:12px; font-weight:700; color:#334155; background:#f8fafc; border:1px solid #cbd5e1; padding:3px 7px; border-radius:4px;">
+                            ${item.licenseKey || '-'}
+                        </code>
+                    </td>
+                    <td style="font-size:12px; color:#64748b;">
+                        <strong>${item.expDate || '2027-07-31'}</strong>
+                        <div style="font-size:11px; color:#059669; font-weight:700;">(성적입력: ~03/31)</div>
+                    </td>
+                    <td><span class="badge badge-green">정상가동</span></td>
+                    <td style="text-align:center;">
+                        <div style="display:inline-flex; gap:6px;">
+                            <a href="${consoleUrl}" target="_blank" class="btn-action btn-primary" style="font-size:11.5px; padding:4px 8px;">
+                                🖥️ 원장 콘솔
+                            </a>
+                            <button type="button" class="btn-action btn-secondary" onclick="copyConsoleLink('${consoleUrl}')" style="font-size:11.5px; padding:4px 8px;">
+                                📋 링크 복사
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // 1-Click Approve Lead and Generate License
+    window.approveLeadAndGenerateKey = async function(leadId) {
+        const lead = leadsList.find(l => l.id === leadId);
+        if (!lead) return;
+
+        if (!confirm(`[계약 승인 및 정품 라이선스 발급]\n\n학원명: ${lead.academy}\n강사명: ${lead.teacher}\n좌석수: ${lead.seats || 50}석\n\n정품 라이선스 키를 즉시 발급하고 계약을 활성화하시겠습니까?`)) return;
+
+        // 슬러그 생성
+        const cleanSlug = (lead.eng || lead.academy).toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 16) || `tenant_${Date.now()}`;
+        const seats = lead.seats ? parseInt(lead.seats, 10) : 30;
+        const expDate = '2027-07-31';
+
+        // 라이선스 키 생성 (2027년 7월 31일 만료)
+        let licenseKey = `GT28-${seats}S-${cleanSlug.slice(0,6).toUpperCase()}-202707-9A2F`;
+        if (window.B2BLicenseActivator && typeof window.B2BLicenseActivator.generateLicenseKey === 'function') {
+            licenseKey = window.B2BLicenseActivator.generateLicenseKey(cleanSlug, seats, expDate);
+        }
+
+        const contractData = {
+            tenantId: cleanSlug,
+            academyName: lead.academy,
+            teacherName: lead.teacher,
+            englishName: lead.eng || cleanSlug.toUpperCase(),
+            seatQuota: seats,
+            licenseKey: licenseKey,
+            status: '정상가동',
+            contractDate: new Date().toISOString().split('T')[0],
+            expDate: expDate,
+            contactPhone: lead.phone || '',
+            activeStudentsCount: 0
+        };
+
+        // 클라우드 저장
+        if (window.B2BCloudSync) {
+            await window.B2BCloudSync.saveContract(cloudDb, contractData);
+            await window.B2BCloudSync.updateLeadStatus(cloudDb, leadId, '계약완료', { licenseKey: licenseKey, tenantId: cleanSlug });
+        }
+
+        alert(`🎉 [${lead.academy}] 정품 라이선스 발급이 완료되었습니다!`);
+        await loadLeadsData();
+        await loadContractsData();
+
+        // 발송용 모달 오픈
+        openNoticeModal(contractData);
+    };
+
+    // Manual License Generation Form Handler
+    window.handleGenerateNewLicense = async function() {
+        const aName = document.getElementById('genAcademyName').value.trim();
+        const eName = document.getElementById('genEngName').value.trim();
+        const tName = document.getElementById('genTeacherName').value.trim();
+        const tenantId = document.getElementById('genTenantId').value.trim().toLowerCase();
+        const seats = parseInt(document.getElementById('genSeatQuota').value, 10) || 50;
+        const expDate = document.getElementById('genExpDate').value || '2027-03-31';
+        const phone = document.getElementById('genPhone').value.trim();
+
+        if (!aName || !tenantId) {
+            alert('학원명과 슬러그 ID를 입력하세요.');
+            return;
+        }
+
+        let key = `GT28-${seats}S-${eName.slice(0,6)}-202703-8888`;
+        if (window.B2BLicenseActivator && typeof window.B2BLicenseActivator.generateLicenseKey === 'function') {
+            key = window.B2BLicenseActivator.generateLicenseKey(tenantId, seats, expDate);
+        }
+
+        const contractData = {
+            tenantId: tenantId,
+            academyName: aName,
+            teacherName: tName,
+            englishName: eName,
+            seatQuota: seats,
+            licenseKey: key,
+            status: '정상가동',
+            contractDate: new Date().toISOString().split('T')[0],
+            expDate: expDate,
+            contactPhone: phone,
+            activeStudentsCount: 0
+        };
+
+        if (window.B2BCloudSync) {
+            await window.B2BCloudSync.saveContract(cloudDb, contractData);
+        }
+
+        // 결과 카드 표시
+        const origin = window.location.origin || '';
+        const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+        const consoleUrl = `${origin}${basePath}/b2b_admin_console.html?tenant=${encodeURIComponent(tenantId)}&brand=${encodeURIComponent(aName)}&teacher=${encodeURIComponent(tName)}&eng=${encodeURIComponent(eName)}&seats=${seats}&key=${encodeURIComponent(key)}`;
+
+        document.getElementById('resLicenseKey').innerText = key;
+        document.getElementById('resConsoleUrl').innerText = consoleUrl;
+        document.getElementById('resBtnOpenConsole').href = consoleUrl;
+        document.getElementById('genResultCard').style.display = 'block';
+
+        await loadContractsData();
+        openNoticeModal(contractData);
+    };
+
+    // Open Notice Modal
+    function openNoticeModal(data) {
+        const origin = window.location.origin || '';
+        const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+        const consoleUrl = `${origin}${basePath}/b2b_admin_console.html?tenant=${encodeURIComponent(data.tenantId)}&brand=${encodeURIComponent(data.academyName)}&teacher=${encodeURIComponent(data.teacherName||'')}&eng=${encodeURIComponent(data.englishName||'')}&seats=${data.seatQuota||30}&key=${encodeURIComponent(data.licenseKey||'')}`;
+        const manualUrl = `${origin}${basePath}/marketing/b2b_partner_manual.html?tenant=${encodeURIComponent(data.tenantId)}&brand=${encodeURIComponent(data.academyName)}&teacher=${encodeURIComponent(data.teacherName||'')}&eng=${encodeURIComponent(data.englishName||'')}&seats=${data.seatQuota||30}&key=${encodeURIComponent(data.licenseKey||'')}`;
+
+        const noticeText = `[2028 통합과학 주간지 B2B 정품 라이선스 발급 안내]\n\n` +
+            `원장님 안녕하십니까. 2028 통합과학 B2B 운영 본사입니다.\n` +
+            `신청하신 [${data.academyName}] 정품 라이선스 키가 정상 발급되어 안내드립니다.\n\n` +
+            `■ 계약 학원명: ${data.academyName}\n` +
+            `■ 담당 강사명: ${data.teacherName || '원장님'}\n` +
+            `■ 배정 좌석수: ${data.seatQuota || 50}석 (1인 1계정 보안 라이선스)\n` +
+            `■ 서비스 이용 기간: ~ ${data.expDate || '2027-07-31'} (1학기 내신 대비 보장)\n` +
+            `  • 실시간 성적 입력 & 알림톡 발송: ~ 2027.03.31 23:59 (10주 특강 공식 집계)\n` +
+            `  • 전자책 열람 & 모의고사 다시풀기 & 성적표 조회: ~ 2027.07.31 (1학기 중간·기말 복습)\n` +
+            `■ 정품 라이선스 키:\n👉 ${data.licenseKey}\n\n` +
+            `───────────────────────\n` +
+            `🖥️ 원장님 전용 관리자 콘솔 바로가기:\n👉 ${consoleUrl}\n\n` +
+            `📘 B2B 파트너 공식 운영 매뉴얼 & 마케팅 킷 4종:\n👉 ${manualUrl}\n` +
+            `───────────────────────\n\n` +
+            `위 관리자 콘솔 링크로 접속하시면 원장님 학원 브랜딩으로 즉시 맞춤 세팅되어 있으며,\n` +
+            `1~10주차 전자책 열람, 학생 모바일 OMR 링크 배부, 2028 수능 5등급제 성적표 발송 기능을 즉시 사용하실 수 있습니다.\n\n` +
+            `공식 운영 매뉴얼 링크에서는 학부모 가정통신문 인쇄기, 특강 홍보 포스터 생성기 등 4종 현장 툴킷을 바로 이용하실 수 있습니다.\n\n` +
+            `도입해 주셔서 감사드리며, 원장님의 성공적인 개강을 적극 지원하겠습니다.`;
+
+        document.getElementById('txtNoticeCopyContent').innerText = noticeText;
+        document.getElementById('modalNotice').style.display = 'flex';
+    }
+
+    window.closeNoticeModal = function() {
+        document.getElementById('modalNotice').style.display = 'none';
+    };
+
+    window.copyNoticeModalText = function() {
+        const text = document.getElementById('txtNoticeCopyContent').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('🎉 원장님 전달용 계약 안내문이 클립보드에 복사되었습니다!\n\n카카오톡으로 바로 전달하시면 됩니다.');
+            closeNoticeModal();
+        });
+    };
+
+    window.viewExistingNotice = function(leadId) {
+        const lead = leadsList.find(l => l.id === leadId);
+        if (!lead) return;
+        const tenantId = lead.tenantId || (lead.eng || lead.academy).toLowerCase().replace(/[^a-z0-9]/g, '_');
+        openNoticeModal({
+            tenantId: tenantId,
+            academyName: lead.academy,
+            teacherName: lead.teacher,
+            englishName: lead.eng,
+            seatQuota: lead.seats || 50,
+            licenseKey: lead.licenseKey || 'GT28-50S-VERIFIED-202707',
+            expDate: '2027-07-31'
+        });
+    };
+
+    window.copyConsoleLink = function(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            alert('📋 원장님 관리자 콘솔 URL이 복사되었습니다!');
+        });
+    };
+
+    window.copyGenResult = function() {
+        copyNoticeModalText();
+    };
+
+    window.copyTextById = function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            navigator.clipboard.writeText(el.innerText).then(() => {
+                alert('📋 홍보 툴킷 내용이 클립보드에 복사되었습니다!');
+            });
+        }
+    };
+
+    // Render Benchmarks Table
+    function renderBenchmarkTable() {
+        const tbody = document.getElementById('tbodyBenchmarks');
+        if (!tbody) return;
+
+        const origin = window.location.origin || '';
+        const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+
+        tbody.innerHTML = WEEKS_SPEC.map(item => {
+            const weekPad = String(item.week).padStart(2, '0');
+            const ebookUrl = `${origin}${basePath}/b2b_ebook_viewer.html?tenant=daechi_mirae&w=${item.week}&preview=true`;
+            const omrUrl = `${origin}${basePath}/timeattack/index.html?examId=week_2028_${weekPad}&b2b=true`;
+
+            return `
+                <tr>
+                    <td><strong style="color:var(--primary); font-size:14px;">제${item.week}주차</strong></td>
+                    <td><strong>${item.title}</strong></td>
+                    <td>${item.qCount}문항</td>
+                    <td><strong style="color:#0f172a;">${item.maxScore}점</strong></td>
+                    <td>${item.natAvg}점</td>
+                    <td><span style="color:#059669; font-weight:800;">${item.cut1}점</span> (상위 10%)</td>
+                    <td>
+                        <div style="display:inline-flex; gap:6px;">
+                            <a href="${ebookUrl}" target="_blank" class="btn-action btn-secondary" style="font-size:11px; padding:3px 7px;">
+                                📖 전자책
+                            </a>
+                            <a href="${omrUrl}" target="_blank" class="btn-action btn-secondary" style="font-size:11px; padding:3px 7px;">
+                                ⏱️ OMR
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // KPI Counters
+    function updateKpiCounters() {
+        const totalContracts = contractsList.length;
+        let totalSeats = 0;
+        let totalActiveStudents = 0;
+        contractsList.forEach(c => {
+            totalSeats += (c.seatQuota || 50);
+            totalActiveStudents += (c.activeStudentsCount || 0);
+        });
+
+        const waitingLeads = leadsList.filter(l => l.status !== '계약완료').length;
+
+        document.getElementById('dispKpiContracts').innerText = `${totalContracts}개 관`;
+        document.getElementById('dispKpiSeats').innerText = `${totalSeats}석`;
+        document.getElementById('dispKpiLeads').innerText = waitingLeads;
+        document.getElementById('badgeLeadsWaiting').innerText = `${waitingLeads}건 대기`;
+        document.getElementById('tabBadgeLeads').innerText = leadsList.length;
+        document.getElementById('tabBadgeContracts').innerText = totalContracts;
+    }
+
+    window.openManualContractModal = function() {
+        switchTab('generator', document.querySelectorAll('.tab-btn')[2]);
+    };
+
+})();
+</script>
+
+</body>
+</html>

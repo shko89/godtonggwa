@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>주간지 운영 체험하기 | 10분 실전 리허설 4단계</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --bg-slate: #f8fafc;
+            --card-border: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-slate);
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.65;
+            word-break: keep-all;
+        }
+
+        /* 1. Header Hero */
+        .manual-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 34px 20px 26px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(2, 132, 199, 0.25);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .header-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin: 0 0 8px 0;
+            line-height: 1.35;
+            letter-spacing: -0.8px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.55;
+        }
+
+        /* 2. Container */
+        .manual-container {
+            max-width: 780px;
+            margin: 28px auto 60px auto;
+            padding: 0 18px;
+        }
+
+        /* Step Card */
+        .step-card {
+            background: #ffffff;
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 26px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .step-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1.5px solid #f1f5f9;
+        }
+
+        .step-title {
+            font-size: 18.5px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .step-subtitle-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin: -4px 0 16px 0;
+            line-height: 1.5;
+        }
+
+        /* Numbered Flow List */
+        .flow-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: flow-counter;
+        }
+
+        .flow-item {
+            counter-increment: flow-counter;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 16px;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: #334155;
+        }
+        .flow-item:last-child { margin-bottom: 0; }
+
+        .flow-item::before {
+            content: counter(flow-counter) ".";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+            width: 24px;
+        }
+
+        /* Action Link Button */
+        .btn-action-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 800;
+            font-size: 13.5px;
+            padding: 4px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: 1px solid #bae6fd;
+            transition: all 0.2s;
+            margin: 2px 0;
+        }
+        .btn-action-link:hover {
+            background: #0284c7;
+            color: #ffffff;
+            border-color: #0284c7;
+        }
+
+        /* Highlight Pills */
+        .pill-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 5px;
+        }
+        .pill-tag.red {
+            background: #fef2f2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+        .pill-tag.green {
+            background: #f0fdf4;
+            color: #15803d;
+            border-color: #bbf7d0;
+        }
+
+        /* Sub-bullet Box */
+        .sub-bullet-box {
+            background: #f8fafc;
+            border-left: 3px solid #cbd5e1;
+            padding: 10px 14px;
+            margin: 10px 0 0 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.55;
+        }
+        .sub-bullet-box.highlight {
+            border-left-color: var(--primary);
+            background: #f0f9ff;
+            color: #0369a1;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .header-title { font-size: 21px; }
+            .step-title { font-size: 17px; }
+            .step-card { padding: 20px 16px; }
+            .flow-item { font-size: 13.5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header Hero -->
+    <header class="manual-header">
+        <div class="header-badge">
+            <span>⚡</span>
+            <span>원장님 전용 10분 실전 리허설</span>
+        </div>
+        <h1 class="header-title">
+            주간지 운영 체험하기
+        </h1>
+        <p class="header-subtitle">
+            어떤 흐름으로 운영되는지 아래 4단계를 순서대로 클릭해 보세요.<br>
+            원장님 시점과 학생 시점을 오가며 10분 만에 전체 작동 메커니즘을 확인하실 수 있습니다.
+        </p>
+    </header>
+
+    <!-- 2. Main Content Container -->
+    <main class="manual-container">
+
+        <!-- ================================================= -->
+        <!-- STEP 1: [학원 원장님 시점] 카톡 공지문 1초 복사 -->
+        <!-- ================================================= -->
+        <section class="step-card">
+            <div class="step-header">
+                <h2 class="step-title">
+                    <span>🎬</span>
+                    <span>1단계: [학원 원장님 시점] 카톡 공지문 1초 복사</span>
+                </h2>
+            </div>
+
+            <ol class="flow-list">
+                <li class="flow-item">
+                    아래 링크를 클릭하여 관리자 콘솔을 엽니다:<br>
+                    👉 <a href="./b2b_admin_console.html?demo=true&step=1" id="linkConsoleStep1" target="_blank" class="btn-action-link">관리자 콘솔 열기 (클릭) ↗</a>
+                </li>
+                <li class="flow-item">
+                    상단 탭에서 <strong>[ 📖 1. 이번 주 교재 &amp; 모의고사 배부 ]</strong>를 누릅니다.
+                </li>
+                <li class="flow-item">
+                    1주차가 선택된 상태에서 오른쪽 카톡 미리보기를 확인하고, 
+                    <strong>[ 💬 [학생 단톡방용] 카톡 공지문 1초 복사 (클릭!) ]</strong> 버튼을 눌러봅니다.
+                    
+                    <div class="sub-bullet-box highlight">
+                        • <strong>체크 포인트:</strong> 학원명(<span class="pill-tag red" id="dispCheckBrand">대치 미래탐구</span>)과 학생 전용 주소가 완벽하게 채워진 공지문이 복사됩니다.
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- ================================================= -->
+        <!-- STEP 2: [수강생 시점] 1인 1계약 인증 & 전자책 열람 -->
+        <!-- ================================================= -->
+        <section class="step-card">
+            <div class="step-header">
+                <h2 class="step-title">
+                    <span>📖</span>
+                    <span>2단계: [수강생 시점] 1인 1계약 인증 &amp; DRM 보안 전자책 열람</span>
+                </h2>
+            </div>
+            <p class="step-subtitle-desc">
+                원장님이 보낸 링크를 학생이 스마트폰이나 태블릿으로 열었을 때의 화면입니다.
+            </p>
+
+            <ol class="flow-list">
+                <li class="flow-item">
+                    아래 학생 전용 전자책 링크를 엽니다:<br>
+                    👉 <a href="./b2b_ebook_viewer.html?tenant=daechi_mirae&w=1" id="linkEbookStep2" target="_blank" class="btn-action-link">제1주차 학생 전자책 뷰어 열기 (클릭) ↗</a>
+                </li>
+                <li class="flow-item">
+                    <strong>[미등록 차단 테스트]:</strong> 아무 이름(예: <span class="pill-tag red">홍길동</span> / <span class="pill-tag red">0000</span>)을 넣고 버튼을 눌러보세요.
+                    
+                    <div class="sub-bullet-box">
+                        ➔ <em>"등록된 수강생 정보와 일치하지 않습니다. 학원에 문의하세요"</em> 라며 <strong>외부인이 즉시 차단</strong>됩니다.
+                    </div>
+                </li>
+                <li class="flow-item">
+                    <strong>[정품 학생 통과 테스트]:</strong> 계약된 학생 정보를 입력합니다.
+                    <div style="margin-top:6px; line-height:1.7;">
+                        • 수강생 이름: <span class="pill-tag green">이수진</span><br>
+                        • 휴대폰 뒷자리: <span class="pill-tag green">5678</span><br>
+                        • ➔ <strong>[ ⚡ 수강생 인증 및 전자책 열람 ]</strong> 클릭!
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- ================================================= -->
+        <!-- STEP 3: [과제 제출 시점] Fit 20 모바일 OMR 답안 마킹 & 자동 채점 -->
+        <!-- ================================================= -->
+        <section class="step-card">
+            <div class="step-header">
+                <h2 class="step-title">
+                    <span>📝</span>
+                    <span>3단계: [과제 제출 시점] Fit 20 모바일 OMR 답안 마킹 &amp; 자동 채점</span>
+                </h2>
+            </div>
+
+            <ol class="flow-list">
+                <li class="flow-item">
+                    전자책 화면 상단 오른쪽의 파란색 <strong>[ 📝 Fit 20 OMR 제출 ]</strong> 버튼을 누릅니다.<br>
+                    • (또는 직접 접속: <a href="./timeattack/index.html?examId=week_2028_01&b2b=true" id="linkOmrStep3" target="_blank" class="btn-action-link">제1회 모바일 OMR 열기 ↗</a>)
+                </li>
+                <li class="flow-item">
+                    이수진 학생 정보로 20문항 OMR 마킹 화면이 열립니다.
+                </li>
+                <li class="flow-item">
+                    문항 번호 몇 개를 가볍게 터치/클릭하여 답안을 마킹한 뒤, 맨 아래 <strong>[ 답안 제출 및 실시간 채점 ]</strong>을 누릅니다.
+                </li>
+                <li class="flow-item">
+                    제출 즉시 <strong>2028 수능 5등급제</strong> 기준 <strong>예상 등급, 원점수, 4대 영역(물/화/생/지) 레이더 차트 리포트</strong>가 뜨는 것을 확인합니다.
+                </li>
+            </ol>
+        </section>
+
+        <!-- ================================================= -->
+        <!-- STEP 4: [학원 원장님 시점] 실시간 성적 집계 & 학부모 알림톡 확인 -->
+        <!-- ================================================= -->
+        <section class="step-card">
+            <div class="step-header">
+                <h2 class="step-title">
+                    <span>📊</span>
+                    <span>4단계: [학원 원장님 시점] 실시간 성적 집계 &amp; 학부모 알림톡 확인</span>
+                </h2>
+            </div>
+
+            <ol class="flow-list">
+                <li class="flow-item">
+                    다시 <a href="./b2b_admin_console.html?demo=true&step=4" id="linkConsoleStep4" target="_blank" class="btn-action-link">관리자 콘솔 ↗</a> 탭으로 돌아옵니다.
+                </li>
+                <li class="flow-item">
+                    상단 탭에서 <strong>[ 📊 2. 성적 확인 &amp; 학부모 카톡 발송 ]</strong>을 누릅니다.
+                </li>
+                <li class="flow-item">
+                    방금 이수진 학생이 제출한 점수와 석차, 제출 시각이 실시간으로 집계된 표를 확인합니다.
+                </li>
+                <li class="flow-item">
+                    <strong>[ 📱 학부모 카카오톡 성적표 일괄 발송 ]</strong>을 눌러, 학부모 스마트폰 카카오톡으로 날아갈 성적표 알림톡 템플릿 미리보기를 확인합니다.
+                </li>
+            </ol>
+
+            <div style="margin-top:20px; background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:16px; font-size:13px; color:#166534;">
+                <div style="font-weight:800; display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                    <span>🎁</span> <span>[도입 특전] 1학기 내신(7월 31일) 무제한 복습 보장 안내</span>
+                </div>
+                <div style="font-size:12px; color:#15803d; line-height:1.5;">
+                    • 겨울방학 10주 특강 실시간 성적 집계 및 학부모 알림톡 발송은 <strong>2027년 3월 31일 23:59</strong>에 마감됩니다.<br>
+                    • 등록된 학생들의 <strong>전자책 열람, 모의고사 다시풀기, 성적표 조회는 1학기 기말고사(2027년 7월 31일)까지</strong> 무제한 지원되어 학원생들의 내신 1등급 달성에 완벽히 기여합니다.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // 1. URL 파라미터 또는 localStorage에서 견적서 신청 학원명 로드
+        const params = new URLSearchParams(window.location.search);
+        let brandName = params.get('brand') || '';
+        let teacherName = params.get('teacher') || '';
+        let engName = params.get('eng') || '';
+        let tenantId = params.get('tenant') || (brandName ? encodeURIComponent(brandName) : 'daechi_mirae');
+
+        if (!brandName) {
+            try {
+                // b2b_academy_... 키 또는 godtonggwa_b2b_brand 확인
+                const rawAcademy = localStorage.getItem(`b2b_academy_${tenantId}`);
+                if (rawAcademy) {
+                    const parsed = JSON.parse(rawAcademy);
+                    if (parsed.academyName) brandName = parsed.academyName;
+                    if (parsed.teacherName) teacherName = parsed.teacherName;
+                    if (parsed.englishName) engName = parsed.englishName;
+                }
+            } catch(e) {}
+        }
+
+        // 기본값 폴백
+        if (!brandName) brandName = '대치 미래탐구';
+        if (!teacherName) teacherName = '담당 강사';
+
+        // 2. 1단계 체크 포인트 학원명 동적 치환
+        const elBrand = document.getElementById('dispCheckBrand');
+        if (elBrand) {
+            elBrand.innerText = brandName + (engName ? ` (${engName})` : '');
+        }
+
+        // 3. 각 단계별 링크에 해당 학원 브랜드 파라미터 자동 바인딩
+        const qBrand = encodeURIComponent(brandName);
+        const qTeacher = encodeURIComponent(teacherName);
+        const qTenant = encodeURIComponent(tenantId);
+        const qEng = encodeURIComponent(engName);
+
+        let commonParams = `tenant=${qTenant}&brand=${qBrand}&teacher=${qTeacher}`;
+        if (engName) commonParams += `&eng=${qEng}`;
+
+        const link1 = document.getElementById('linkConsoleStep1');
+        if (link1) link1.href = `./b2b_admin_console.html?${commonParams}&demo=true&step=1`;
+
+        const link2 = document.getElementById('linkEbookStep2');
+        if (link2) link2.href = `./b2b_ebook_viewer.html?${commonParams}&w=1`;
+
+        // 3단계: 검증된 timeattack 모의고사 시스템으로 바로 연결
+        const link3 = document.getElementById('linkOmrStep3');
+        if (link3) link3.href = `./timeattack/index.html?examId=week_2028_01&b2b=true&brand=${qBrand}&teacher=${qTeacher}${engName ? '&eng=' + qEng : ''}`;
+
+        const link4 = document.getElementById('linkConsoleStep4');
+        if (link4) link4.href = `./b2b_admin_console.html?${commonParams}&demo=true&step=4`;
+
+    })();
+    </script>
+</body>
+</html>

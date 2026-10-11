@@ -98,10 +98,6 @@ window.addEventListener('wheel', (e) => {
                 <button onclick="location.href='./Board/board.html'" class="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors shrink-0">
                     <i data-lucide="message-square-text" class="w-5 h-5 text-indigo-600"></i>
                 </button>
-                <button class="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors shrink-0">
-                    <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-                </button>
             </div>
         </header>
 
@@ -497,7 +493,15 @@ window.addEventListener('wheel', (e) => {
 
         /* 이하 마이페이지 렌더링, 로그아웃 등 기존 로직 (원본 유지됨) */
         window.renderAnalysis = function() { location.href = 'STEST/exam.html?view=report'; }
-        window.manageSubscription = () => { if(!currentUser) return alert("로그인 필요"); alert(userData.isPaid ? "프리미엄 이용 중" : "관리자 문의 필요"); };
+        window.manageSubscription = () => { 
+            if(!currentUser) {
+                if(confirm("로그인이 필요한 서비스입니다.\n로그인 화면으로 이동하시겠습니까?")) {
+                    location.href = 'STEST/exam.html';
+                }
+                return;
+            } 
+            alert(userData && userData.isPaid ? "프리미엄 이용 중" : "관리자 문의 필요"); 
+        };
         window.openSettings = () => { alert("설정\n\nv1.3.0"); };
         window.openKakaoInquiry = () => { window.open("https://open.kakao.com/o/s2YBNObi", '_blank'); };
         window.copyToClipboard = (text) => { navigator.clipboard.writeText(text).then(() => alert('복사 완료')).catch(() => alert('복사 실패')); };
@@ -508,11 +512,30 @@ window.addEventListener('wheel', (e) => {
             document.getElementById('header-plus').style.display = 'inline-block';
             document.getElementById('header-sub').innerText = 'INTEGRATED SCIENCE';
             const userName = currentUser ? (userData?.name || currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : '수험생')) : '비회원';
-            let userPlan = userData && userData.isPaid ? '프리미엄' : '일반';
+            let userPlan = userData && userData.isPaid ? '프리미엄' : (currentUser ? '일반' : '로그인이 필요합니다');
             const loginBtn = currentUser 
                 ? `<button onclick="handleLogout()" class="text-xs text-gray-500 underline ml-auto">로그아웃</button>` 
-                : `<button onclick="location.href='STEST/exam.html'" class="text-xs text-indigo-600 font-bold ml-auto">로그인</button>`;
-            const opacityClass = currentUser ? '' : 'opacity-50 pointer-events-none';
+                : `<button onclick="location.href='STEST/exam.html'" class="text-xs text-indigo-600 font-bold ml-auto hover:underline">로그인</button>`;
+
+            const profileActionHtml = currentUser
+                ? `<div onclick="renderEditProfile()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors shadow-sm">
+                     <div class="flex items-center gap-3"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i><span class="text-sm font-medium">내 정보 수정</span></div>
+                     <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                   </div>`
+                : `<div onclick="location.href='STEST/exam.html?mode=signup'" class="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 p-4 rounded-xl flex justify-between items-center cursor-pointer hover:from-indigo-100 hover:to-blue-100 transition-all shadow-sm group">
+                     <div class="flex items-center gap-3">
+                         <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform"><i data-lucide="user-plus" class="w-4 h-4"></i></div>
+                         <div>
+                             <div class="flex items-center gap-1.5">
+                                 <span class="text-sm font-bold text-indigo-950">회원가입</span>
+                                 <span class="text-[10px] bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded-full">3초 간편가입</span>
+                             </div>
+                             <p class="text-[11px] text-indigo-600 font-medium mt-0.5">간편 가입하고 모의고사 응시 & 성적표 받기</p>
+                         </div>
+                     </div>
+                     <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-400 group-hover:translate-x-0.5 transition-transform"></i>
+                   </div>`;
+
             document.getElementById('main-content').innerHTML = `
                 <div class="fade-in space-y-4 pt-10 px-6 pb-28">
                     <h2 class="text-xl font-bold text-gray-800 flex justify-between items-center" id="mypage-user-name">마이페이지 ${loginBtn}</h2>
@@ -521,12 +544,9 @@ window.addEventListener('wheel', (e) => {
                         <div><p class="font-bold text-lg">${userName}님</p><p class="text-xs text-gray-500">${userPlan}</p></div>
                     </div>
                     <div class="space-y-3 mt-6">
-                         <div onclick="${currentUser ? 'renderEditProfile()' : 'alert(\'로그인이 필요합니다.\')'}" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors ${opacityClass}">
-                            <div class="flex items-center gap-3"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i><span class="text-sm">내 정보 수정</span></div>
-                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
-                         </div>
-                         <div onclick="manageSubscription()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                            <div class="flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i><span class="text-sm">이용권 관리</span></div>
+                         ${profileActionHtml}
+                         <div onclick="manageSubscription()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors shadow-sm">
+                            <div class="flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i><span class="text-sm font-medium">이용권 관리</span></div>
                             <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
                          </div>
                     </div>

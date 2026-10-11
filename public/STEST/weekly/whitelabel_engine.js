@@ -135,11 +135,14 @@
                 acceptNode: function(node) {
                     if (!node.parentElement) return NodeFilter.FILTER_REJECT;
                     const tag = node.parentElement.tagName.toUpperCase();
-                    // 스크립트, 스타일, 코드, 모달 내부, iframe은 제외
+                    // 스크립트, 스타일, 코드, 모달 내부, iframe 및 표지 제호(전용 크기 조절기 처리)는 제외
                     if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT', 'CODE', 'PRE'].includes(tag)) {
                         return NodeFilter.FILTER_REJECT;
                     }
                     if (node.parentElement.closest('#whitelabel-modal-overlay') || node.parentElement.closest('#whitelabel-floating-btn')) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    if (node.parentElement.closest('.cover-page .title, .title')) {
                         return NodeFilter.FILTER_REJECT;
                     }
                     return NodeFilter.FILTER_ACCEPT;
@@ -221,6 +224,66 @@
                 input.setAttribute('placeholder', ph.replace(/갓통과/g, bName).replace(/갓쌤/g, tName));
             }
         });
+
+        // 표지 메인 제호(.title) 자동 폰트 크기 계산 및 줄바꿈 방지 적용
+        rootElement.querySelectorAll('.cover-page .title, .title').forEach(el => {
+            fitCoverTitle(el, bName);
+        });
+    }
+
+    // [핵심] 긴 학원명에도 줄바꿈 없는 표지 제호 자동 폰트 크기 조절기
+    function fitCoverTitle(titleEl, brandName) {
+        if (!titleEl) return;
+        const bn = (brandName || '갓통과').trim();
+        if (!bn) return;
+
+        // A4 커버 (.a4-page 500px, .top-section 좌우 40px 패딩) 가용 폭 420px
+        // 줄바꿈 방지를 위한 안전 여유폭 405px
+        const maxAllowedWidth = 405;
+
+        // 1. Canvas 2D 정밀 텍스트 폭 측정 (bold 900 기준)
+        let brandSize = 64;
+        try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            function measure(text, size) {
+                ctx.font = '900 ' + size + 'px "Noto Sans KR", "Nanum Gothic", sans-serif';
+                return ctx.measureText(text).width;
+            }
+
+            // 2. 기본 64px에서 시작하여 가용 폭(405px)을 초과할 때만 1px씩 점진적 축소
+            let textW = measure(bn, brandSize);
+            while (textW > maxAllowedWidth && brandSize > 22) {
+                brandSize -= 1;
+                textW = measure(bn, brandSize);
+            }
+        } catch(err) {
+            let units = 0;
+            for (let i = 0; i < bn.length; i++) {
+                const c = bn.charCodeAt(i);
+                if (c === 32) units += 0.35;
+                else if (c >= 0xac00 && c <= 0xd7a3) units += 1.0;
+                else units += 0.65;
+            }
+            if (units * 64 * 0.95 > maxAllowedWidth) {
+                brandSize = Math.max(22, Math.floor(maxAllowedWidth / (units * 0.95)));
+            }
+        }
+
+        // 3. WEEKLY 크기 조화 (학원명이 아주 길어 작아졌을 때만 WEEKLY도 비례 축소)
+        let weeklySize = 64;
+        if (brandSize < 40) {
+            weeklySize = Math.max(46, Math.round(brandSize * 1.25));
+        }
+
+        titleEl.style.margin = '15px 0 0 0';
+        titleEl.style.lineHeight = '1.1';
+        titleEl.style.letterSpacing = '-1px';
+        titleEl.style.color = '#0f172a';
+        titleEl.innerHTML = `
+            <span class="cover-brand-title" style="display:inline-block; max-width:100%; font-size:${brandSize}px; font-weight:900; white-space:nowrap; letter-spacing:-1.5px; line-height:1.12; overflow:hidden; text-overflow:ellipsis;">${bn}</span>
+            <span class="cover-weekly-text" style="display:block; font-size:${weeklySize}px; font-weight:900; white-space:nowrap; letter-spacing:-2px; line-height:1.05;">WEEKLY</span>
+        `;
     }
 
     // 5. 페이지 Title 치환
@@ -503,7 +566,8 @@
         applyToTitle(cur);
         setupMutationObserver();
 
-        if (!window.NO_WHITELABEL_FLOATING) {
+        // 상용 배포 및 뷰어 화면에서 학생에게 노출되지 않도록 플로팅 버튼 기본 비활성화
+        if (window.SHOW_WHITELABEL_FLOATING === true) {
             renderFloatingButton();
         }
     }

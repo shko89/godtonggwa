@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>주간 학습 전자책 뷰어</title>
+
+    <!-- PWA & Mobile Web App Standalone Meta Tags (주소창 숨김 및 앱 모드) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- White-Label & Cloud Sync Modules -->
+    <script src="./whitelabel_engine.js"></script>
+    <script src="./security_watermark.js"></script>
+    <script src="./device_guard.js"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-dark: #0f172a;
+            --border: #334155;
+            --text-main: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            color: var(--text-main);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* 1. Main Ebook Frame (전체화면 풀사이즈) */
+        .viewer-main {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: #0f172a;
+        }
+
+        #ebookFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* 2. Floating Button Completely Hidden */
+        #whitelabel-floating-btn, .whitelabel-floating-btn {
+            display: none !important;
+        }
+
+        /* 3. Student Authentication Gate Modal (1인 1계약 라이선스 락) */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            color: #0f172a;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            padding: 32px 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: zoomIn 0.25s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .auth-logo-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            font-size: 26px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        .auth-academy-title {
+            font-size: 19px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0 0 6px 0;
+        }
+
+        .auth-sub-desc {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0 0 24px 0;
+        }
+
+        .auth-input-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .auth-input-label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .auth-input {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+        .auth-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            height: 48px;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-auth-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        .auth-security-notice {
+            margin-top: 18px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 11.5px;
+            color: #64748b;
+            line-height: 1.45;
+            text-align: left;
+        }
+
+        @media print {
+            body { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Flipbook / Ebook Viewer Container (전체 화면) -->
+    <main class="viewer-main">
+        <iframe id="ebookFrame" src="about:blank" allowfullscreen></iframe>
+    </main>
+
+    <!-- Student Auth Gate Modal (정품 등록 수강생만 통과) -->
+    <div class="auth-overlay" id="authGateModal">
+        <div class="auth-card">
+            <div class="auth-logo-badge">📖</div>
+            <h2 class="auth-academy-title" id="authGateAcademy">대치 미래탐구 과학 전문관</h2>
+            <p class="auth-sub-desc" id="authGateWeekDesc">
+                2028 수능 통합과학 주간지 제1회 전자책<br>
+                <strong>정품 라이선스 수강생 전용 열람 시스템</strong>
+            </p>
+
+            <div class="auth-input-group">
+                <label class="auth-input-label">수강생 이름</label>
+                <input type="text" id="inpAuthStudentName" class="auth-input" placeholder="이름 (예: 이수진)" autocomplete="off">
+            </div>
+
+            <div class="auth-input-group">
+                <label class="auth-input-label">휴대폰 번호 뒷자리 (4자리)</label>
+                <input type="tel" id="inpAuthStudentLast4" class="auth-input" placeholder="뒷 4자리 (예: 5678)" maxlength="4" autocomplete="off">
+            </div>
+
+            <button type="button" class="btn-auth-submit" onclick="executeStudentGateAuth()">
+                ⚡ 수강생 인증 및 전자책 열람
+            </button>
+
+            <div class="auth-security-notice">
+                🔒 <strong>1인 1계약 정품 보안 인증 안내:</strong><br>
+                • 본 전자책은 학원에 등록된 수강생만 열람이 허용됩니다.<br>
+                • 열람 시 본인 인증 워터마크가 각인되며 무단 캡처·공유 시 유출자가 즉시 추적됩니다.<br>
+                • 등록되지 않은 학생은 학원 담당 선생님에게 문의해 주세요.
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        const params = new URLSearchParams(window.location.search);
+        const currentTenant = params.get('tenant') || params.get('brand_id') || 'daechi_mirae';
+        const currentWeek = parseInt(params.get('w') || params.get('week') || '1', 10);
+        const previewMode = params.has('preview') || params.has('admin');
+
+        let academyCfg = {
+            academyId: currentTenant,
+            academyName: '과학 전문관',
+            teacherName: '담당 강사',
+            themeColor: '#0284c7'
+        };
+
+        // 1. 학원 프로필 로드
+        try {
+            const raw = localStorage.getItem(`b2b_academy_${currentTenant}`);
+            if (raw) Object.assign(academyCfg, JSON.parse(raw));
+        } catch(e) {}
+
+        // URL 파라미터 우선 덮어쓰기
+        if (params.get('brand')) academyCfg.academyName = params.get('brand');
+        if (params.get('teacher')) academyCfg.teacherName = params.get('teacher');
+        if (params.get('eng')) academyCfg.englishName = params.get('eng');
+
+        // 테마 색상 적용
+        if (academyCfg.themeColor) {
+            document.documentElement.style.setProperty('--primary', academyCfg.themeColor);
+        }
+
+        // 브라우저 탭 타이틀 & 헤더 셋업 (갓통과 명칭 노출 0%)
+        const weekStr = String(currentWeek).padStart(2, '0');
+        const bookTitleText = `${academyCfg.academyName} ‧ 2028 통합과학 주간지 제${currentWeek}회`;
+        document.title = bookTitleText;
+        const gateAcadEl = document.getElementById('authGateAcademy');
+        if (gateAcadEl) gateAcadEl.innerText = academyCfg.academyName;
+        const gateDescEl = document.getElementById('authGateWeekDesc');
+        if (gateDescEl) gateDescEl.innerHTML = `2028 수능 통합과학 주간지 제${currentWeek}회 전자책<br><strong>정품 라이선스 수강생 전용 열람 시스템</strong>`;
+
+        // 부모 창 플로팅 버튼 방지
+        const pBtn = document.getElementById('whitelabel-floating-btn');
+        if (pBtn) pBtn.remove();
+
+        // 2. 세션 인증 확인 (이미 이번 세션에서 인증한 학생인지 체크)
+        const sessionAuthKey = `b2b_ebook_auth_${currentTenant}`;
+        let activeStudent = null;
+        try {
+            const savedSession = sessionStorage.getItem(sessionAuthKey) || sessionStorage.getItem(`b2b_active_student_${currentTenant}`);
+            if (savedSession) activeStudent = JSON.parse(savedSession);
+        } catch(e) {}
+
+        // URL에 학생 정보가 파라미터로 직접 전달된 경우(원클릭 전용 링크)
+        if (!activeStudent && params.get('name') && (params.get('key') || params.get('last4'))) {
+            const urlName = params.get('name').trim();
+            const urlKey = (params.get('key') || params.get('last4')).trim();
+            if (verifyStudentAgainstRoster(urlName, urlKey)) {
+                activeStudent = { studentName: urlName, studentPhoneLast4: urlKey };
+                sessionStorage.setItem(sessionAuthKey, JSON.stringify(activeStudent));
+                sessionStorage.setItem(`b2b_active_student_${currentTenant}`, JSON.stringify(activeStudent));
+            }
+        }
+
+        // 순차적 주차 오픈 검증 (선생님이 공지한 주차까지만 순차 열람)
+        let releasedMaxWeek = 1;
+        try {
+            const rawRel = localStorage.getItem(`b2b_released_week_${currentTenant}`);
+            if (rawRel) releasedMaxWeek = parseInt(rawRel, 10);
+            else if (academyCfg && academyCfg.releasedMaxWeek) releasedMaxWeek = parseInt(academyCfg.releasedMaxWeek, 10);
+        } catch(e) {}
+
+        if (currentWeek > releasedMaxWeek && !previewMode) {
+            alert(`🔒 제${currentWeek}회차 주간지는 아직 오픈되지 않았습니다.\n(현재 학원 배부 진도: 제${releasedMaxWeek}회차까지)`);
+            window.location.replace(`./b2b_ebook_viewer.html?w=${releasedMaxWeek}&tenant=${currentTenant}`);
+            return;
+        }
+
+        // 수강생 명단에서 삭제/환불된 학생 즉시 세션 파기 및 차단
+        if (activeStudent && !previewMode) {
+            const stillValid = verifyStudentAgainstRoster(activeStudent.studentName, activeStudent.studentPhoneLast4);
+            if (!stillValid) {
+                activeStudent = null;
+                try {
+                    sessionStorage.removeItem(sessionAuthKey);
+                    sessionStorage.removeItem(`b2b_active_student_${currentTenant}`);
+                } catch(e) {}
+                alert('⚠️ 수강이 종료(환불/삭제)되었거나 명단에 없는 학생입니다.\n더 이상 전자책을 열람하실 수 없습니다.');
+            }
+        }
+
+        if (activeStudent && !previewMode && window.DeviceGuard) {
+            const devCheck = window.DeviceGuard.checkB2BStudentDevice(currentTenant, activeStudent.studentName, activeStudent.studentPhoneLast4);
+            if (!devCheck.allowed) {
+                const blockedName = activeStudent.studentName;
+                activeStudent = null;
+                sessionStorage.removeItem(sessionAuthKey);
+                sessionStorage.removeItem(`b2b_active_student_${currentTenant}`);
+                window.DeviceGuard.renderDeviceLimitBlockModal({
+                    studentName: blockedName,
+                    devices: devCheck.devices || [],
+                    isB2B: true
+                });
+            }
+        }
+
+        if (activeStudent || previewMode) {
+            unlockEbookViewer(activeStudent || { studentName: '미리보기 모드', studentPhoneLast4: '0000' });
+        } else {
+            // 학생 인증 창 대기
+            document.getElementById('authGateModal').style.display = 'flex';
+        }
+
+        // 3. 학생 인증 함수
+        window.executeStudentGateAuth = function() {
+            const name = document.getElementById('inpAuthStudentName').value.trim();
+            const last4 = document.getElementById('inpAuthStudentLast4').value.trim();
+
+            if (!name) {
+                alert('수강생 이름을 입력해 주세요.');
+                document.getElementById('inpAuthStudentName').focus();
+                return;
+            }
+            if (!last4 || last4.length < 4) {
+                alert('휴대폰 번호 뒷자리 4자리를 정확히 입력해 주세요.');
+                document.getElementById('inpAuthStudentLast4').focus();
+                return;
+            }
+
+            const matched = verifyStudentAgainstRoster(name, last4);
+            if (!matched) {
+                alert(`⚠️ 수강생 인증 실패\n\n등록된 수강생 명단과 일치하지 않습니다.\n학원에 등록된 이름(${name})과 휴대폰 뒷자리(${last4})를 확인해 주세요.\n\n(본 전자책은 학원의 정품 라이선스 등록 수강생만 열람할 수 있습니다.)`);
+                return;
+            }
+
+            // 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (친구 번호 공유 및 무단 열람 원천 차단)
+            if (window.DeviceGuard) {
+                const devCheck = window.DeviceGuard.checkB2BStudentDevice(currentTenant, matched.studentName, last4);
+                if (!devCheck.allowed) {
+                    window.DeviceGuard.renderDeviceLimitBlockModal({
+                        studentName: matched.studentName,
+                        devices: devCheck.devices || [],
+                        isB2B: true
+                    });
+                    return;
+                }
+            }
+
+            activeStudent = {
+                studentId: matched.studentId || `std_${last4}`,
+                studentName: matched.studentName,
+                studentPhoneLast4: last4,
+                parentPhone: matched.parentPhone || ''
+            };
+
+            sessionStorage.setItem(sessionAuthKey, JSON.stringify(activeStudent));
+            sessionStorage.setItem(`b2b_active_student_${currentTenant}`, JSON.stringify(activeStudent));
+            unlockEbookViewer(activeStudent);
+        };
+
+        // 로스터 명단 대조
+        function verifyStudentAgainstRoster(name, last4) {
+            let roster = [];
+            const hasRawKey = localStorage.getItem(`b2b_students_${currentTenant}`) !== null;
+            try {
+                const raw = localStorage.getItem(`b2b_students_${currentTenant}`);
+                if (raw) roster = JSON.parse(raw);
+            } catch(e) {}
+
+            // 관리자가 명단을 설정한 적이 아예 없고 대치 데모 테넌트인 경우에만 초기 샘플 제공
+            if (!hasRawKey && roster.length === 0 && currentTenant === 'daechi_mirae') {
+                roster = [
+                    { studentName: '이수진', studentPhoneLast4: '5678' },
+                    { studentName: '박민우', studentPhoneLast4: '6789' },
+                    { studentName: '최서연', studentPhoneLast4: '7890' },
+                    { studentName: '정준호', studentPhoneLast4: '8901' },
+                    { studentName: '한지민', studentPhoneLast4: '9012' },
+                    { studentName: '강동원', studentPhoneLast4: '0123' }
+                ];
+            }
+
+            return roster.find(s => s.studentName === name && String(s.studentPhoneLast4) === String(last4));
+        }
+
+        // 4. 전자책 열람 잠금 해제 & 렌더링
+        function unlockEbookViewer(student) {
+            const gateModal = document.getElementById('authGateModal');
+            if (gateModal) gateModal.style.display = 'none';
+
+            // 상단 플로팅 배너 주차 갱신
+            // Ebook 원본 iframe 로드 (B2B 파라미터 탑재)
+            const frame = document.getElementById('ebookFrame');
+            const engVal = (academyCfg.englishName || academyCfg.academyName || '').toUpperCase();
+            const qEngParam = engVal ? `&eng=${encodeURIComponent(engVal)}` : '';
+            const targetSrc = `./ebook/week_2028_${weekStr}_final.html?b2b=true&brand=${encodeURIComponent(academyCfg.academyName)}&teacher=${encodeURIComponent(academyCfg.teacherName)}${qEngParam}`;
+            frame.src = targetSrc;
+
+            frame.addEventListener('load', () => {
+                applyWhitelabelAndGuardsToIframe(frame, student);
+            });
+
+            // 만약 iframe이 캐시로 인해 즉시 로드된 경우를 위한 안전 호출
+            setTimeout(() => {
+                try {
+                    if (frame.contentDocument && frame.contentDocument.body) {
+                        applyWhitelabelAndGuardsToIframe(frame, student);
+                    }
+                } catch(e){}
+            }, 300);
+
+            // 불펌 방지 DRM 가드 가동
+            applyDrmGuards();
+        }
+
+        // 5. Iframe 내부 화이트라벨 치환 & 보안 주입 & 닫기 가로채기
+        function applyWhitelabelAndGuardsToIframe(frame, student) {
+            try {
+                const win = frame.contentWindow;
+                const doc = frame.contentDocument || (win && win.document);
+                if (!doc || !doc.body) return;
+
+                const bName = academyCfg.academyName || '과학 전문관';
+                const tName = academyCfg.teacherName || '담당 강사';
+                const eName = (academyCfg.englishName || bName).toUpperCase();
+
+                // [중요 1] iframe 내부의 '닫기' 버튼 동작을 가로채어 부모 창 종료(window.close)로 실행
+                if (win) {
+                    win.closeEbook = function(e) {
+                        if (e) {
+                            try { e.stopPropagation(); } catch(err){}
+                            try { e.preventDefault(); } catch(err){}
+                        }
+                        // 1) 탭/새창 닫기 시도
+                        window.close();
+
+                        // 2) 일반 탭이라 닫기가 차단된 경우 안전하게 이전 페이지(b2b_weekly.html 등)로 복귀
+                        setTimeout(function() {
+                            if (!window.closed) {
+                                if (window.history.length > 1) {
+                                    window.history.back();
+                                } else {
+                                    const ref = document.referrer;
+                                    if (ref && ref.includes('admin')) {
+                                        window.location.href = './b2b_admin_console.html';
+                                    } else {
+                                        window.location.href = './b2b_weekly.html';
+                                    }
+                                }
+                            }
+                        }, 100);
+                    };
+                }
+
+                // [중요 2] iframe 내부의 '학원 브랜딩 설정' 플로팅 버튼 완전 제거
+                try {
+                    const flBtn = doc.getElementById('whitelabel-floating-btn');
+                    if (flBtn) flBtn.remove();
+                    const flStyle = doc.createElement('style');
+                    flStyle.innerHTML = '#whitelabel-floating-btn, .whitelabel-floating-btn { display: none !important; }';
+                    doc.head.appendChild(flStyle);
+                } catch(err){}
+
+                // [핵심] 전자책 전체 완벽 화이트라벨 치환 실행기 (영문 브랜드 헤더 및 러닝 헤드 전수 치환)
+                function performWhitelabelReplacement() {
+                    try {
+                        // 1. 상단 네비게이션바 (#top-nav) 브랜드/볼륨 치환 (닫기, 목차 버튼 보존 및 복구 가드)
+                        const topNav = doc.getElementById('top-nav');
+                        if (topNav) {
+                            const leftBox = topNav.firstElementChild;
+                            if (leftBox) {
+                                // 닫기 버튼 보존/복구 가드
+                                if (!leftBox.querySelector('button[onclick*="closeEbook"]')) {
+                                    const closeBtn = doc.createElement('button');
+                                    closeBtn.setAttribute('onclick', 'window.closeEbook(event)');
+                                    closeBtn.style.cssText = "background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);";
+                                    closeBtn.innerHTML = '<span style="font-size: 13px; font-weight: 900;">✖</span> 닫기';
+                                    leftBox.insertBefore(closeBtn, leftBox.firstChild);
+                                }
+                                // 목차 버튼 보존/복구 가드
+                                if (!leftBox.querySelector('#btn-toc-toggle')) {
+                                    const tocBtn = doc.createElement('button');
+                                    tocBtn.id = 'btn-toc-toggle';
+                                    tocBtn.setAttribute('onclick', 'window.toggleTocDrawer(event)');
+                                    tocBtn.style.cssText = "background: #1e293b; border: 1px solid #0284c7; color: #38bdf8; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); transition: all 0.2s;";
+                                    tocBtn.innerHTML = '<span style="font-size: 14px;">📑</span> 목차';
+                                    leftBox.appendChild(tocBtn);
+                                }
+                                
+                                // 가운데 로고 div만 정밀 타겟 치환
+                                const brandDiv = Array.from(leftBox.children).find(c => c.tagName === 'DIV');
+                                if (brandDiv) {
+                                    brandDiv.style.fontFamily = "'Roboto', sans-serif";
+                                    brandDiv.style.fontWeight = "900";
+                                    brandDiv.style.fontSize = "14px";
+                                    brandDiv.style.color = "#38bdf8";
+                                    brandDiv.style.letterSpacing = "0.5px";
+                                    brandDiv.innerHTML = `${eName} <span style="background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">VOL.${weekStr}</span>`;
+                                }
+                            }
+                        }
+
+                        // 2. 전자책 모든 페이지의 상단 러닝 헤드 (.header-brand) 치환
+                        doc.querySelectorAll('.header-brand').forEach(el => {
+                            el.innerHTML = `${eName} WEEKLY`;
+                        });
+
+                        // 3. 표지 페이지 상단 영문 브랜드 (.brand) 치환
+                        doc.querySelectorAll('.brand').forEach(el => {
+                            el.innerHTML = eName;
+                        });
+
+                        // 4. 표지 메인 제호 (.title) 치환 및 긴 학원명 자동 폰트 크기 조절 (줄바꿈 원천 방지)
+                        function fitCoverTitle(titleEl, brandName) {
+                            if (!titleEl) return;
+                            const bn = (brandName || '갓통과').trim();
+                            if (!bn) return;
+
+                            // A4 커버 (.a4-page 500px, .top-section 좌우 40px 패딩) 가용 폭 420px
+                            // 줄바꿈 방지를 위한 안전 여유폭 405px
+                            const maxAllowedWidth = 405;
+
+                            // 1. Canvas 2D 정밀 텍스트 폭 측정 (bold 900 기준)
+                            let brandSize = 64;
+                            try {
+                                const canvas = doc.createElement('canvas');
+                                const ctx = canvas.getContext('2d');
+                                function measure(text, size) {
+                                    ctx.font = '900 ' + size + 'px "Noto Sans KR", "Nanum Gothic", sans-serif';
+                                    return ctx.measureText(text).width;
+                                }
+
+                                // 2. 기본 64px에서 시작하여 가용 폭(405px)을 초과할 때만 1px씩 점진적 축소
+                                let textW = measure(bn, brandSize);
+                                while (textW > maxAllowedWidth && brandSize > 22) {
+                                    brandSize -= 1;
+                                    textW = measure(bn, brandSize);
+                                }
+                            } catch(err) {
+                                let units = 0;
+                                for (let i = 0; i < bn.length; i++) {
+                                    const c = bn.charCodeAt(i);
+                                    if (c === 32) units += 0.35;
+                                    else if (c >= 0xac00 && c <= 0xd7a3) units += 1.0;
+                                    else units += 0.65;
+                                }
+                                if (units * 64 * 0.95 > maxAllowedWidth) {
+                                    brandSize = Math.max(22, Math.floor(maxAllowedWidth / (units * 0.95)));
+                                }
+                            }
+
+                            // 3. WEEKLY 크기 조화 (학원명이 아주 길어 작아졌을 때만 WEEKLY도 비례 축소)
+                            let weeklySize = 64;
+                            if (brandSize < 40) {
+                                weeklySize = Math.max(46, Math.round(brandSize * 1.25));
+                            }
+
+                            titleEl.style.margin = '15px 0 0 0';
+                            titleEl.style.lineHeight = '1.1';
+                            titleEl.style.letterSpacing = '-1px';
+                            titleEl.style.color = '#0f172a';
+                            titleEl.innerHTML = `
+                                <span class="cover-brand-title" style="display:inline-block; max-width:100%; font-size:${brandSize}px; font-weight:900; white-space:nowrap; letter-spacing:-1.5px; line-height:1.12; overflow:hidden; text-overflow:ellipsis;">${bn}</span>
+                                <span class="cover-weekly-text" style="display:block; font-size:${weeklySize}px; font-weight:900; white-space:nowrap; letter-spacing:-2px; line-height:1.05;">WEEKLY</span>
+                            `;
+                        }
+
+                        doc.querySelectorAll('.cover-page .title, .title').forEach(el => {
+                            fitCoverTitle(el, bName);
+                        });
+
+                        // 5. 목차 페이지 시스템 가이드 타이틀 & 본문 치환
+                        doc.querySelectorAll('.guide-title').forEach(el => {
+                            if (/GO[TD]TONGGWA/i.test(el.innerHTML)) {
+                                el.innerHTML = el.innerHTML.replace(/GO[TD]TONGGWA/gi, eName);
+                            }
+                            if (el.innerHTML.includes('갓통과')) {
+                                el.innerHTML = el.innerHTML.replace(/갓통과/g, bName);
+                            }
+                        });
+
+                        // 6. TreeWalker를 통한 본문 전체 심층 텍스트 치환
+                        const walker = doc.createTreeWalker(
+                            doc.body,
+                            NodeFilter.SHOW_TEXT,
+                            {
+                                acceptNode: function(node) {
+                                    if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+                                    const tag = node.parentElement.tagName.toUpperCase();
+                                    if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+                                    return NodeFilter.FILTER_ACCEPT;
+                                }
+                            },
+                            false
+                        );
+
+                        const nodes = [];
+                        let curr;
+                        while ((curr = walker.nextNode())) nodes.push(curr);
+
+                        nodes.forEach(node => {
+                            let val = node.nodeValue;
+                            if (!val) return;
+                            let chg = false;
+                            if (val.includes('갓쌤의')) { val = val.replace(/갓쌤의/g, `${tName}의`); chg = true; }
+                            if (val.includes("갓쌤's") || val.includes("갓쌤’s")) { val = val.replace(/갓쌤['’]s/g, `${tName}'s`); chg = true; }
+                            if (val.includes('갓쌤')) { val = val.replace(/갓쌤/g, tName); chg = true; }
+                            if (val.includes('갓통과')) { val = val.replace(/갓통과/g, bName); chg = true; }
+                            if (/GO[TD]TONGGWA/i.test(val)) { val = val.replace(/GO[TD]TONGGWA/gi, eName); chg = true; }
+                            if (chg) node.nodeValue = val;
+                        });
+                    } catch(e) {
+                        console.warn('performWhitelabelReplacement error:', e);
+                    }
+                }
+
+                // [중요 3] 즉시 1차 치환 + 플립북 비동기 렌더링에 맞춘 다중 주기 치환
+                performWhitelabelReplacement();
+                setTimeout(performWhitelabelReplacement, 100);
+                setTimeout(performWhitelabelReplacement, 300);
+                setTimeout(performWhitelabelReplacement, 600);
+                setTimeout(performWhitelabelReplacement, 1200);
+                setTimeout(performWhitelabelReplacement, 2500);
+
+                // [중요 4] DOM MutationObserver로 동적 DOM 추가/변경 시 즉각 자동 치환
+                try {
+                    let debounceTimer = null;
+                    const observer = new MutationObserver(() => {
+                        if (debounceTimer) clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(performWhitelabelReplacement, 50);
+                    });
+                    observer.observe(doc.body, { childList: true, subtree: true });
+                } catch(e){}
+
+                // [중요 5] 플립북 페이지 넘김 이벤트(flip) 발생 시 재치환 보장
+                if (win && win.pageFlip && typeof win.pageFlip.on === 'function') {
+                    try {
+                        win.pageFlip.on('flip', () => {
+                            setTimeout(performWhitelabelReplacement, 20);
+                        });
+                    } catch(e){}
+                }
+
+                // [대안] 본문을 가리는 대각선 워터마크 대신 상단 툴바에 비침투적 학생 정품 인증 뱃지 표시
+                try {
+                    if (student && student.studentName && doc.getElementById('top-nav')) {
+                        const topNavRight = doc.querySelector('#top-nav > div:last-child');
+                        if (topNavRight && !doc.getElementById('student-auth-badge')) {
+                            const badge = doc.createElement('div');
+                            badge.id = 'student-auth-badge';
+                            badge.style.cssText = 'background: rgba(2, 132, 199, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;';
+                            badge.innerHTML = `<span>👤</span><span>${student.studentName} (${student.studentPhoneLast4})</span>`;
+                            topNavRight.insertBefore(badge, topNavRight.firstChild);
+                        }
+                    }
+                } catch(err){}
+
+                // Iframe 내부에도 단축키 및 우클릭 금지 적용
+                doc.addEventListener('contextmenu', e => e.preventDefault());
+                doc.addEventListener('keydown', e => {
+                    if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'c' || e.key === 'u')) {
+                        e.preventDefault();
+                    }
+                    if (e.key === 'F12') e.preventDefault();
+                });
+            } catch(e) {
+                console.warn('Iframe whitelabel inject notice:', e);
+            }
+        }
+
+        // 6. DRM 보안 가드 (우클릭, 단축키 차단)
+        function applyDrmGuards() {
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('keydown', e => {
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C')) {
+                    e.preventDefault();
+                    alert('⚠️ 저작권 보호 안내: 주간지 전자책의 무단 인쇄, 복사 및 저장은 금지되어 있습니다.');
+                }
+                if (e.key === 'F12') e.preventDefault();
+            });
+        }
+
+        // 7. 전체화면 토글
+        window.toggleFullscreen = function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`전체화면 오류: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        };
+
+        })();
+    </script>
+</body>
+</html>

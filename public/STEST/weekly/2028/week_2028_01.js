@@ -73,7 +73,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄷ.</span>
-                <span class="fact-check-text">세포는 눈에 보이지 않는 미시 세계야. 그러니까 메가(M, $10^6$)같이 거대한 접두어가 아니라 <b>마이크로($\\mu$)</b>를 써야지! (X) 앗? ㄷ은 틀린 거니까 정답은 <b>② ㄴ</b> 이네! 자꾸 헷갈리게 해서 미안!</span>
+                <span class="fact-check-text">세포는 눈에 보이지 않는 미시 세계야. 그러니까 메가(M, $10^6$)같이 거대한 접두어가 아니라 <b>마이크로($\\mu$)</b>를 써야지! (X)</span>
             </div>
         </div>
 `

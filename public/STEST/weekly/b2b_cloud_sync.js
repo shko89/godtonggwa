@@ -206,10 +206,384 @@
         return getDefaultNationalBenchmark(weekNum);
     }
 
+    /**
+     * Firebase 초기화 헬퍼 (전역 인스턴스 반환)
+     */
+    function initFirebase() {
+        if (typeof firebase !== 'undefined') {
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp({
+                        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+                        authDomain: "godtonggwa.firebaseapp.com",
+                        projectId: "godtonggwa",
+                        storageBucket: "godtonggwa.firebasestorage.app",
+                        messagingSenderId: "1087434066468",
+                        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+                    });
+                }
+                return firebase.firestore();
+            } catch(e) {
+                console.warn('[CloudSync] Firebase init error:', e);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 수강생 명단 일괄 저장 (Firestore & LocalStorage)
+     */
+    async function saveStudentsRoster(dbInstance, academyId, students) {
+        const key = `b2b_students_${academyId}`;
+        try {
+            localStorage.setItem(key, JSON.stringify(students));
+        } catch(e) {}
+
+        if (dbInstance && typeof dbInstance.collection === 'function') {
+            try {
+                await dbInstance.collection('academies').doc(academyId)
+                    .collection('roster').doc('main').set({
+                        list: students,
+                        count: students.length,
+                        updatedAt: new Date().toISOString()
+                    });
+                return { success: true, cloudSynced: true };
+            } catch(err) {
+                console.warn('[CloudSync] Firestore saveStudentsRoster error:', err);
+            }
+        }
+        return { success: true, cloudSynced: false };
+    }
+
+    /**
+     * 수강생 명단 불러오기 (Firestore 우선, 실패 시 LocalStorage)
+     */
+    async function loadStudentsRoster(dbInstance, academyId) {
+        if (dbInstance && typeof dbInstance.collection === 'function') {
+            try {
+                const snap = await dbInstance.collection('academies').doc(academyId)
+                    .collection('roster').doc('main').get();
+                if (snap.exists && snap.data().list) {
+                    const list = snap.data().list;
+                    try {
+                        localStorage.setItem(`b2b_students_${academyId}`, JSON.stringify(list));
+                    } catch(e) {}
+                    return list;
+                }
+            } catch(err) {
+                console.warn('[CloudSync] Firestore loadStudentsRoster error:', err);
+            }
+        }
+
+        try {
+            const raw = localStorage.getItem(`b2b_students_${academyId}`);
+            if (raw) return JSON.parse(raw);
+        } catch(e) {}
+        return [];
+    }
+
+    /**
+     * 학원 수강생 제출 답안 목록 불러오기 (Firestore 우선)
+     */
+    async function loadSubmissions(dbInstance, academyId, weekNum) {
+        if (dbInstance && typeof dbInstance.collection === 'function') {
+            try {
+                let query = dbInstance.collection('academies').doc(academyId).collection('submissions');
+                if (weekNum) {
+                    query = query.where('week', '==', parseInt(weekNum, 10));
+                }
+                const snap = await query.get();
+                if (!snap.empty) {
+                    const list = [];
+                    snap.forEach(doc => list.push(doc.data()));
+                    if (!weekNum) {
+                        try {
+                            localStorage.setItem(`b2b_submissions_${academyId}`, JSON.stringify(list));
+                        } catch(e) {}
+                    }
+                    return list;
+                }
+            } catch(err) {
+                console.warn('[CloudSync] Firestore loadSubmissions error:', err);
+            }
+        }
+
+        try {
+            const raw = localStorage.getItem(`b2b_submissions_${academyId}`);
+            if (raw) {
+                const list = JSON.parse(raw);
+                if (weekNum) {
+                    return list.filter(s => s.week === parseInt(weekNum, 10));
+                }
+                return list;
+            }
+        } catch(e) {}
+        return [];
+    }
+
+    /**
+     * 단일 제출 기록 조회 (성적표 열람용)
+     */
+    async function getSubmissionById(dbInstance, academyId, submissionId) {
+        if (dbInstance && typeof dbInstance.collection === 'function' && academyId && submissionId) {
+            try {
+                const snap = await dbInstance.collection('academies').doc(academyId)
+                    .collection('submissions').doc(submissionId).get();
+                if (snap.exists) {
+                    return snap.data();
+                }
+            } catch(err) {
+                console.warn('[CloudSync] Firestore getSubmissionById error:', err);
+            }
+        }
+
+        if (academyId) {
+            try {
+                const raw = localStorage.getItem(`b2b_submissions_${academyId}`);
+                if (raw) {
+                    const list = JSON.parse(raw);
+                    const found = list.find(s => s.submissionId === submissionId);
+                    if (found) return found;
+                }
+            } catch(e) {}
+        }
+        return null;
+    }
+
+    /**
+     * B2B 견적 신청 리드 목록 조회 (Firestore b2b_leads)
+     */
+    async function loadLeads(dbInstance) {
+        if (dbInstance && typeof dbInstance.collection === 'function') {
+            try {
+                const snap = await dbInstance.collection('b2b_leads').get();
+                if (!snap.empty) {
+                    const list = [];
+                    snap.forEach(doc => {
+                        const data = doc.data();
+                        list.push({
+                            id: doc.id,
+                            ...data,
+                            createdAt: data.createdAt && data.createdAt.toDate ? data.createdAt.toDate().toISOString() : (data.createdAt || new Date().toISOString())
+                        });
+                    });
+                    // 최신순 정렬
+                    list.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    try { localStorage.setItem('b2b_leads_cache', JSON.stringify(list)); } catch(e){}
+                    return list;
+                }
+            } catch(err) {
+                console.warn('[CloudSync] Firestore loadLeads error:', err);
+            }
+        }
+
+        try {
+            const raw = localStorage.getItem('b2b_leads_cache');
+            if (raw) return JSON.parse(raw);
+        } catch(e) {}
+
+        // 기본 데모 시드 리드
+        return [
+            {
+                id: 'lead_demo_01',
+                academy: '서현과학전문관',
+                teacher: '김철수 선생님',
+                eng: 'SEOHYUN',
+                seats: 50,
+                delivery: '전자책 + OMR + A4 POD 패키지',
+                phone: '010-1234-5678',
+                email: 'seohyun_sci@daum.net',
+                status: '신청접수',
+                note: '겨울방학 2028 통합과학 특강 2개 반 개설 예정입니다. 맞춤 견적 희망합니다.',
+                createdAt: new Date(Date.now() - 3600000 * 4).toISOString()
+            },
+            {
+                id: 'lead_demo_02',
+                academy: '분당 정자 수능사이언스',
+                teacher: '이정자 원장님',
+                eng: 'JEONGJA',
+                seats: 100,
+                delivery: '전자책 + 실물 인쇄 POD 패키지',
+                phone: '010-9876-5432',
+                email: 'jj_science@naver.com',
+                status: '상담진행중',
+                note: '고1 예비반 전원 도입 검토 중입니다. 5등급제 성적표 샘플 확인했습니다.',
+                createdAt: new Date(Date.now() - 3600000 * 28).toISOString()
+            }
+        ];
+    }
+
+    /**
+     * 리드 상태 및 계약 승인 업데이트
+     */
+    async function updateLeadStatus(dbInstance, leadId, newStatus, extraData = {}) {
+        const updateObj = { status: newStatus, ...extraData, updatedAt: new Date().toISOString() };
+        
+        if (dbInstance && typeof dbInstance.collection === 'function' && leadId) {
+            try {
+                await dbInstance.collection('b2b_leads').doc(leadId).set(updateObj, { merge: true });
+            } catch(e) {
+                console.warn('[CloudSync] Firestore updateLeadStatus error:', e);
+            }
+        }
+
+        try {
+            const leads = JSON.parse(localStorage.getItem('b2b_leads_cache') || '[]');
+            const idx = leads.findIndex(l => l.id === leadId);
+            if (idx >= 0) {
+                leads[idx] = { ...leads[idx], ...updateObj };
+                localStorage.setItem('b2b_leads_cache', JSON.stringify(leads));
+            }
+        } catch(e) {}
+
+        return { success: true };
+    }
+
+    /**
+     * 본사 계약 학원 목록 조회
+     */
+    async function loadContracts(dbInstance) {
+        if (dbInstance && typeof dbInstance.collection === 'function') {
+            try {
+                const snap = await dbInstance.collection('b2b_contracts').get();
+                if (!snap.empty) {
+                    const list = [];
+                    snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+                    list.sort((a,b) => new Date(b.contractDate || 0) - new Date(a.contractDate || 0));
+                    try { localStorage.setItem('b2b_contracts_cache', JSON.stringify(list)); } catch(e){}
+                    return list;
+                }
+            } catch(e) {
+                console.warn('[CloudSync] Firestore loadContracts error:', e);
+            }
+        }
+
+        try {
+            const raw = localStorage.getItem('b2b_contracts_cache');
+            if (raw) return JSON.parse(raw);
+        } catch(e) {}
+
+        // 기본 활성 계약 학원 시드 데이터
+        return [
+            {
+                id: 'daechi_mirae',
+                tenantId: 'daechi_mirae',
+                academyName: '대치 미래탐구 과학 전문관',
+                teacherName: '김과학 선생님',
+                englishName: 'DAECHI_MIRAE',
+                seatQuota: 50,
+                licenseKey: 'GT28-50S-DAECHI-202703-B508',
+                status: '정상가동',
+                contractDate: '2026-10-01',
+                expDate: '2027-07-31',
+                contactPhone: '02-555-1234',
+                activeStudentsCount: 6
+            },
+            {
+                id: 'mokdong_sidae',
+                tenantId: 'mokdong_sidae',
+                academyName: '목동 시대인재 수능관',
+                teacherName: '박수능 선생님',
+                englishName: 'MOKDONG_SIDAE',
+                seatQuota: 50,
+                licenseKey: 'GT28-50S-MOKDON-202703-6058',
+                status: '정상가동',
+                contractDate: '2026-10-05',
+                expDate: '2027-07-31',
+                contactPhone: '02-2646-1234',
+                activeStudentsCount: 42
+            },
+            {
+                id: 'junggye_highest',
+                tenantId: 'junggye_highest',
+                academyName: '중계 하이스트 의치대관',
+                teacherName: '이의대 선생님',
+                englishName: 'HIGHEST',
+                seatQuota: 50,
+                licenseKey: 'GT28-50S-JUNGGY-202703-9A2E',
+                status: '정상가동',
+                contractDate: '2026-10-08',
+                expDate: '2027-07-31',
+                contactPhone: '02-930-5678',
+                activeStudentsCount: 28
+            }
+        ];
+    }
+
+    /**
+     * 신규 계약 및 라이선스 영구 저장
+     */
+    async function saveContract(dbInstance, contractData) {
+        const tenantId = contractData.tenantId;
+        const nowStr = new Date().toISOString();
+        const payload = {
+            ...contractData,
+            updatedAt: nowStr
+        };
+
+        // 1. Firestore b2b_contracts 컬렉션 저장
+        if (dbInstance && typeof dbInstance.collection === 'function' && tenantId) {
+            try {
+                await dbInstance.collection('b2b_contracts').doc(tenantId).set(payload, { merge: true });
+                // 2. academies/{tenantId} 프로필도 동시 갱신
+                await dbInstance.collection('academies').doc(tenantId).set({
+                    academyId: tenantId,
+                    academyName: contractData.academyName,
+                    teacherName: contractData.teacherName,
+                    englishName: contractData.englishName || contractData.academyName,
+                    seatQuota: contractData.seatQuota || 50,
+                    licenseKey: contractData.licenseKey,
+                    licenseExpDate: contractData.expDate,
+                    slogan: `2028 수능 통합과학 1등급 완성 특강`,
+                    contactPhone: contractData.contactPhone || '',
+                    updatedAt: nowStr
+                }, { merge: true });
+            } catch(e) {
+                console.warn('[CloudSync] Firestore saveContract error:', e);
+            }
+        }
+
+        // 3. 로컬스토리지 캐시 동기화
+        try {
+            const list = JSON.parse(localStorage.getItem('b2b_contracts_cache') || '[]');
+            const idx = list.findIndex(c => c.tenantId === tenantId);
+            if (idx >= 0) {
+                list[idx] = { ...list[idx], ...payload };
+            } else {
+                list.unshift(payload);
+            }
+            localStorage.setItem('b2b_contracts_cache', JSON.stringify(list));
+
+            // 로컬 학원 프로필도 갱신
+            localStorage.setItem(`b2b_academy_${tenantId}`, JSON.stringify({
+                academyId: tenantId,
+                academyName: contractData.academyName,
+                teacherName: contractData.teacherName,
+                englishName: contractData.englishName,
+                seatQuota: contractData.seatQuota || 50,
+                licenseKey: contractData.licenseKey,
+                licenseExpDate: contractData.expDate,
+                slogan: `2028 수능 통합과학 1등급 완성 특강`,
+                contactPhone: contractData.contactPhone || ''
+            }));
+        } catch(e) {}
+
+        return { success: true };
+    }
+
+    exports.initFirebase = initFirebase;
     exports.getDefaultNationalBenchmark = getDefaultNationalBenchmark;
     exports.saveAcademyProfile = saveAcademyProfile;
     exports.loadAcademyProfile = loadAcademyProfile;
+    exports.saveStudentsRoster = saveStudentsRoster;
+    exports.loadStudentsRoster = loadStudentsRoster;
     exports.submitExamRecord = submitExamRecord;
+    exports.loadSubmissions = loadSubmissions;
+    exports.getSubmissionById = getSubmissionById;
     exports.loadNationalBenchmark = loadNationalBenchmark;
+    exports.loadLeads = loadLeads;
+    exports.updateLeadStatus = updateLeadStatus;
+    exports.loadContracts = loadContracts;
+    exports.saveContract = saveContract;
 
 })(typeof module !== 'undefined' && module.exports ? module.exports : (window.B2BCloudSync = {}));

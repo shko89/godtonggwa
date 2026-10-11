@@ -167,7 +167,13 @@ window.addEventListener('wheel', (e) => {
                         <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg mt-4 text-base">가입 완료</button>
                     </form>
                     <div class="text-center mt-4">
-                        <button onclick="toggleAuthMode('login')" class="text-xs font-bold text-indigo-600 ml-1 hover:underline">로그인</button>
+                        <span class="text-xs text-gray-500">이미 계정이 있으신가요?</span>
+                        <button onclick="toggleAuthMode('login')" class="text-xs font-bold text-indigo-600 ml-1 hover:underline">로그인하기</button>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                        <button onclick="location.href='../index.html'" class="text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1 mx-auto py-2 px-4 rounded-full hover:bg-gray-100 transition">
+                            <i data-lucide="arrow-left" class="w-3 h-3"></i> 메인으로 돌아가기
+                        </button>
                     </div>
                 </div>
             </div>
@@ -528,6 +534,11 @@ window.addEventListener('wheel', (e) => {
                 currentUserData = null;
                 appContent.classList.add('hidden');
                 authContainer.classList.remove('hidden');
+
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('mode') === 'signup' || urlParams.get('auth') === 'signup') {
+                    if (window.toggleAuthMode) window.toggleAuthMode('signup');
+                }
             }
             loadingEl.classList.add('hidden');
             lucide.createIcons();
@@ -599,9 +610,22 @@ window.addEventListener('wheel', (e) => {
         
 
         window.toggleAuthMode = (mode) => {
-            document.getElementById('login-view').classList.toggle('hidden', mode !== 'login');
-            document.getElementById('signup-view').classList.toggle('hidden', mode !== 'signup');
+            const loginEl = document.getElementById('login-view');
+            const signupEl = document.getElementById('signup-view');
+            if (loginEl && signupEl) {
+                loginEl.classList.toggle('hidden', mode !== 'login');
+                signupEl.classList.toggle('hidden', mode !== 'signup');
+            }
+            if (window.lucide) lucide.createIcons();
         };
+
+        // 초기 URL 파라미터 체크 (?mode=signup 시 회원가입 화면 즉시 노출)
+        try {
+            const initAuthParams = new URLSearchParams(window.location.search);
+            if (initAuthParams.get('mode') === 'signup' || initAuthParams.get('auth') === 'signup') {
+                window.toggleAuthMode('signup');
+            }
+        } catch(e) { console.error(e); }
 
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -907,6 +931,17 @@ window.addEventListener('wheel', (e) => {
                             <i data-lucide="map" class="w-5 h-5 text-indigo-500"></i> 갓통과 WEEKLY 10주 완강 로드맵
                         </h3>
                         
+                        <!-- Service Period & Review Notice Banner -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/90 rounded-2xl p-4 mb-4 shadow-sm text-xs leading-relaxed">
+                            <div class="font-bold text-blue-900 flex items-center gap-1.5 mb-1 text-[13px]">
+                                <span>📢</span> <span>10주 특강 공식 성적 제출 마감: 2027년 3월 31일</span>
+                            </div>
+                            <div class="text-indigo-800 font-medium flex items-start gap-1.5">
+                                <span class="shrink-0">💡</span>
+                                <span>제출 마감 이후에도 <strong>2027년 11월 30일까지</strong> 1~10주차 전자책 열람, 문제 다시풀기, 성적표 복습은 자유롭게 이용할 수 있습니다.</span>
+                            </div>
+                        </div>
+
                         <!-- Progress Bar -->
                         <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6">
                             <div class="flex justify-between items-end mb-2">

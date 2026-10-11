@@ -26,7 +26,7 @@
      * @param {string} expDate - 만료일 (YYYY-MM-DD)
      * @returns {string} 발급된 라이선스 키 (예: GT28-50S-DAECHI-202703-9A2F)
      */
-    function generateLicenseKey(tenantId, seatQuota = 50, expDate = '2027-03-31') {
+    function generateLicenseKey(tenantId, seatQuota = 50, expDate = '2027-07-31') {
         const cleanTenant = (tenantId || 'DEMO').replace(/[^a-zA-Z0-9]/g, '').slice(0, 6).toUpperCase();
         const cleanExp = expDate.replace(/-/g, '').slice(0, 6); // YYYYMM
         const rawPayload = `GT28-${seatQuota}S-${cleanTenant}-${cleanExp}`;

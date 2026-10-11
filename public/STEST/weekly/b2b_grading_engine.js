@@ -10,18 +10,18 @@
 (function(exports) {
     'use strict';
 
-    // 1. 전국 누적 등급 컷 기준표 (수능 통합과학 표준 정규분포 백분위 기준)
-    // 1등급: 상위 4% 이내, 2등급: 11%, 3등급: 23%, 4등급: 40%, 5등급: 60%, 6등급: 77%, 7등급: 89%, 8등급: 96%, 9등급: 100%
+    // 1. 전국 누적 등급 컷 기준표 (2028 개정 수능 통합과학 공식 5등급제 백분위 기준)
+    // 1등급: 상위 10% 이내 (10%)
+    // 2등급: 상위 34% 이내 (24%)
+    // 3등급: 상위 66% 이내 (32%)
+    // 4등급: 상위 90% 이내 (24%)
+    // 5등급: 상위 100% (10%)
     function calculateGradeFromPercentile(percentile) {
-        if (percentile <= 4) return 1;
-        if (percentile <= 11) return 2;
-        if (percentile <= 23) return 3;
-        if (percentile <= 40) return 4;
-        if (percentile <= 60) return 5;
-        if (percentile <= 77) return 6;
-        if (percentile <= 89) return 7;
-        if (percentile <= 96) return 8;
-        return 9;
+        if (percentile <= 10) return 1;
+        if (percentile <= 34) return 2;
+        if (percentile <= 66) return 3;
+        if (percentile <= 90) return 4;
+        return 5;
     }
 
     /**

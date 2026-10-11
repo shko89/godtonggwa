@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Device Guard Visual Verification</title>
+</head>
+<body>
+<script>
+    // Set up mock student with 2 registered devices
+    const tenant = 'daechi_mirae';
+    const roster = [
+        {
+            studentId: 'std_01',
+            studentName: '이수진',
+            studentPhone: '010-1234-5678',
+            studentPhoneLast4: '5678',
+            parentPhone: '010-9876-5432',
+            registeredDevices: [
+                { deviceId: 'dev_iphone_1', desc: 'iPhone (iOS Safari)', registeredAt: '2026-10-01T10:00:00.000Z', lastActiveAt: '2026-10-11T12:00:00.000Z' },
+                { deviceId: 'dev_pc_2', desc: 'Windows PC (Chrome)', registeredAt: '2026-10-02T14:30:00.000Z', lastActiveAt: '2026-10-11T15:20:00.000Z' }
+            ]
+        },
+        {
+            studentId: 'std_02',
+            studentName: '박민우',
+            studentPhone: '010-2345-6789',
+            studentPhoneLast4: '6789',
+            parentPhone: '010-8765-4321',
+            registeredDevices: [
+                { deviceId: 'dev_galaxy_1', desc: 'Android 스마트폰 (Chrome)', registeredAt: '2026-10-05T09:15:00.000Z', lastActiveAt: '2026-10-10T18:00:00.000Z' }
+            ]
+        },
+        {
+            studentId: 'std_03',
+            studentName: '최서연',
+            studentPhone: '010-3456-7890',
+            studentPhoneLast4: '7890',
+            parentPhone: '010-7654-3210',
+            registeredDevices: []
+        }
+    ];
+    localStorage.setItem(`b2b_students_${tenant}`, JSON.stringify(roster));
+    localStorage.setItem('gtg_device_guard_id_v1', 'dev_third_friend_phone_3');
+
+    // Redirect to b2b_mobile_omr.html with test inputs pre-filled
+    const p = new URLSearchParams(window.location.search);
+    if (p.get('mode') === 'admin') {
+        window.location.href = './b2b_admin_console.html#students';
+    } else {
+        window.location.href = './b2b_mobile_omr.html?tenant=daechi_mirae&w=1&test_block=true';
+    }
+</script>
+</body>
+</html>

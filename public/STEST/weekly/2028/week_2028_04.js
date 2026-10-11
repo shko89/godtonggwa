@@ -14,7 +14,7 @@ window.globalExamData = {
     {
         "no": 1,
         "topic": "지구 시스템의 층상 구조",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -36,12 +36,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">(나)의 E는 바람에 의해 바닷물이 섞여 수온이 일정한 혼합층이야. 바람이 강할수록 바닷물이 더 깊은 곳까지 섞이므로 혼합층의 두께는 <b>두꺼워진다</b>는 걸 명심해! (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 2,
         "topic": "지구 시스템 구성 요소 간의 물 순환",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -63,12 +63,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">물 순환을 일으키는 가장 근원적인 에너지는 지구 내부 에너지가 아니라 <b>태양 복사 에너지</b>란다. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 3,
         "topic": "중력에 의한 수평으로 던진 물체의 운동",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ④ ㄴ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -90,12 +90,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">모눈종이 상에서 A는 바닥에 도달하기까지 4구간, B는 2구간이 지났으므로 <b>t<sub>A</sub> > t<sub>B</sub></b>가 맞아. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 4,
         "topic": "판의 경계와 지각 변동",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ④ ㄴ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -117,12 +117,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">A 하부에는 맨틀 대류의 <b>상승부</b>가 위치한단다. 하강부는 B 아래에 있어. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 5,
         "topic": "지구 시스템의 탄소 순환",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -144,12 +144,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">수권(바다)이 탄소(이산화 탄소)를 많이 흡수할수록 해양 산성화가 진행되어 해수의 산성도는 오히려 <b>높아져</b>(pH는 낮아짐). (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 6,
         "topic": "지구 시스템의 구성 요소",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -168,12 +168,12 @@ window.globalExamData = {
             <span class=\"fact-check-label\">ㄷ.</span>
             <span class=\"fact-check-text\">지진 해일(쓰나미)이 발생해 해안가 지형을 변화시키는 것은 수권(B)과 지권(C)의 상호작용이야. (O)</span>
         </div>
-        "
+        `
     },
     {
         "no": 7,
         "topic": "수평으로 던진 물체의 운동",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -192,12 +192,12 @@ window.globalExamData = {
             <span class=\"fact-check-label\">ㄷ.</span>
             <span class=\"fact-check-text\">수평 속력이 커져도 연직 방향의 중력 가속도와 높이는 변함이 없으므로 지면에 닿는 시간은 똑같이 3초야. (O)</span>
         </div>
-        "
+        `
     },
     {
         "no": 8,
         "topic": "판의 경계 (발산형 경계)",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -219,12 +219,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">200km 지점은 해령이므로 판이 <b>생성</b>되는 곳이야. 섭입은 수렴형 경계에서 일어나. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 9,
         "topic": "중력을 받는 물체의 운동",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ A, B</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -246,12 +246,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">물체의 질량이 커도 중력 가속도는 일정하므로, 공기 저항이 없다면 떨어지는 데 걸리는 시간은 <b>질량과 관계없이 같아</b>. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 10,
         "topic": "판의 이동과 경계",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ② ㄴ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -273,12 +273,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">A에서 B를 보면, A가 더 빠르므로 B는 상대적으로 뒤처지게 되어 <b>서쪽</b>으로 이동하는 것으로 보인단다. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 11,
         "topic": "지구의 열수지 (위도별 복사 에너지)",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -300,12 +300,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">위도 38°는 에너지 과잉과 부족이 0이 되는 교차점이지만, 저위도에서 고위도로 열이 통과하는 지점이므로 열수송량은 <b>최대</b>가 된단다. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 12,
         "topic": "지구 시스템의 탄소 순환",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ② ㄴ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -327,12 +327,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">탄소는 지구 시스템 내에서 권역 간에 이동할 뿐, 우주로 빠져나가지 않으므로 전체 탄소량은 <b>항상 일정하게 보존돼</b>. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 13,
         "topic": "포물선 운동과 자유 낙하 운동",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -351,12 +351,12 @@ window.globalExamData = {
             <span class=\"fact-check-label\">ㄷ.</span>
             <span class=\"fact-check-text\">B를 더 빠르게 던지면 수평 거리 L을 이동하는 데 걸리는 시간이 짧아져. 시간이 짧아지면 낙하하는 거리도 짧아지므로 더 높은 곳에서 충돌하게 돼. (O)</span>
         </div>
-        "
+        `
     },
     {
         "no": 14,
         "topic": "수렴형 경계 모형 실험",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -378,12 +378,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">밀도가 1.2인 A보다 밀도가 1.5인 B가 더 무겁기 때문에, <b>B가 A의 아래로 파고들어 가는 현상</b>이 관찰될 거야. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 15,
         "topic": "탄소 순환과 해양 산성화",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -405,12 +405,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">해수의 pH가 낮아져 산성화되면 조개류나 산호 등 해양 생물이 탄산칼슘(CaCO₃) 골격을 형성하기가 <b>매우 어려워져</b> 생태계가 위협받게 돼. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 16,
         "topic": "대기 대순환과 표층 해류",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -432,12 +432,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">쿠로시오 해류는 무역풍에 의해 동에서 서로 이동하던 바닷물이 대륙에 막혀 고위도로 꺾여 흐르는 해류이므로, <b>A구간 바람</b>이 직접적인 원인이야. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 17,
         "topic": "수평으로 던진 물체의 속도 그래프",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -459,12 +459,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">t<sub>0</sub>일 때 수평 거리는 사각형 면적(v<sub>0</sub>t<sub>0</sub>)이고, 연직 거리는 삼각형 면적인 1/2 v<sub>0</sub>t<sub>0</sub>이야. 따라서 연직 낙하 거리는 수평 이동 거리의 2배가 아니라 <b>절반(0.5배)</b>이란다. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 18,
         "topic": "권역별 탄소의 저장 형태",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -486,12 +486,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">해수의 온도가 상승하면 기체의 용해도가 낮아져 수권에서 기권(A)으로 이산화 탄소가 방출되므로, A에 저장되는 탄소량은 오히려 <b>증가해</b>. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 19,
         "topic": "판의 경계 (대륙판과 대륙판의 충돌)",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ② ㄴ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -513,12 +513,12 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">대륙판의 충돌로 지각이 매우 두꺼워지기 때문에 마그마가 생성되더라도 지표로 뚫고 나오기 힘들어 화산 활동은 <b>거의 일어나지 않아</b>. (X)</span>
             </div>
         </div>
-        "
+        `
     },
     {
         "no": 20,
         "topic": "지구 시스템의 진화 과정",
-        "content": "
+        "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">
             <div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div>
@@ -540,7 +540,7 @@ window.globalExamData = {
                 <span class=\"fact-check-text\">광합성은 이미 존재하는 탄소와 산소, 수소 원자들을 재조합하는 화학 반응일 뿐, 원자의 총량을 변화시키지는 않으므로 산소 원자의 총량은 <b>일정하게 보존된단다</b>. (X)</span>
             </div>
         </div>
-        "
+        `
     }
 ]
 };

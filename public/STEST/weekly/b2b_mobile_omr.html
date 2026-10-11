@@ -9,11 +9,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- White-Label, Grading, Messaging & Cloud Sync Engines (상대경로 준수) -->
+    <!-- Firebase Compat SDK, White-Label, Grading, Messaging & Cloud Sync Engines (상대경로 준수) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="./whitelabel_engine.js"></script>
     <script src="./b2b_grading_engine.js"></script>
     <script src="./b2b_messaging.js"></script>
     <script src="./b2b_cloud_sync.js"></script>
+    <script src="./device_guard.js"></script>
+
+    <!-- MathJax 수식 렌더링 엔진 (해설 수식 자동 표기) -->
+    <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      chtml: { scale: 0.9 }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
     <style>
         :root {
@@ -61,6 +73,458 @@
             flex-direction: column;
             box-shadow: 0 0 30px rgba(0,0,0,0.05);
             position: relative;
+            transition: max-width 0.25s ease-in-out;
+        }
+
+        @media (min-width: 900px) {
+            .mobile-container {
+                max-width: 1080px;
+            }
+            .omr-bottom-action-bar {
+                max-width: 1080px;
+            }
+        }
+
+        /* --- 응시 모드 세그먼트 탭 --- */
+        .exam-mode-tab-wrap {
+            padding: 12px 18px 8px 18px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .exam-mode-segmented-control {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: var(--radius-md);
+            gap: 6px;
+        }
+
+        .mode-tab-btn {
+            border: none;
+            background: transparent;
+            padding: 10px 12px;
+            border-radius: 9px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #64748b;
+        }
+
+        .mode-tab-btn:hover {
+            color: #0f172a;
+        }
+
+        .mode-tab-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .mode-btn-icon {
+            font-size: 16px;
+        }
+
+        .mode-btn-title {
+            font-size: 13.5px;
+            font-weight: 800;
+        }
+
+        .mode-btn-sub {
+            font-size: 10.5px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .mode-tab-btn.active .mode-btn-sub {
+            color: var(--primary-dark);
+        }
+
+        /* --- [모드 1] 빠른 OMR 마킹 안내 카드 --- */
+        .quick-mode-guide-card {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            margin: 12px 18px 0 18px;
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- [모드 2] 온라인 실전 시험 스타일 --- */
+        .online-nav-strip-card {
+            background: #ffffff;
+            border-bottom: 1.5px solid var(--border);
+            padding: 12px 18px;
+        }
+
+        .nav-strip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .nav-strip-title {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .nav-strip-status {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .online-q-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .online-q-grid {
+                grid-template-columns: repeat(10, 1fr);
+                gap: 4px;
+            }
+        }
+
+        .nav-q-btn {
+            border: 1.5px solid #e2e8f0;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 5px 0;
+            font-size: 12px;
+            font-weight: 800;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .nav-q-btn:hover {
+            border-color: #94a3b8;
+            color: #1e293b;
+        }
+
+        .nav-q-btn.current {
+            border-color: var(--primary);
+            background: #f0f9ff;
+            color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .nav-q-btn.answered {
+            background: #0284c7;
+            border-color: #0284c7;
+            color: #ffffff;
+        }
+
+        .nav-q-btn.current.answered {
+            background: #0369a1;
+            border-color: #0c4a6e;
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.35);
+        }
+
+        .nav-q-badge-val {
+            font-size: 9px;
+            line-height: 1;
+            margin-top: 2px;
+            opacity: 0.9;
+        }
+
+        /* 문항 뷰어 메인 카드 */
+        .online-question-viewer-card {
+            padding: 16px 18px 120px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: #f8fafc;
+        }
+
+        .online-q-header {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .online-q-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .online-q-num-pill {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .online-q-topic {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .online-q-header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-zoom-img {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            color: #475569;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-zoom-img:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        /* 문제 이미지 영역 */
+        .online-img-wrapper {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .online-q-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+            user-select: none;
+            -webkit-user-drag: none;
+            transition: opacity 0.2s;
+        }
+
+        .img-loading-spinner {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .spinner-circle {
+            width: 34px;
+            height: 34px;
+            border: 3px solid #e2e8f0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 5지선다 선택 영역 */
+        .online-answer-action-area {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .online-answer-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .auto-advance-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #64748b;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .auto-advance-toggle input {
+            cursor: pointer;
+        }
+
+        .online-choice-btn-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .online-choice-btn {
+            background: #f8fafc;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 6px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .choice-num-circle {
+            font-size: 18px;
+            font-weight: 800;
+            color: #334155;
+            line-height: 1;
+        }
+
+        .choice-txt {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .online-choice-btn:hover {
+            border-color: #94a3b8;
+            background: #ffffff;
+        }
+
+        .online-choice-btn.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+        }
+
+        .online-choice-btn.selected .choice-num-circle,
+        .online-choice-btn.selected .choice-txt {
+            color: #ffffff;
+        }
+
+        /* 이전 / 다음 이동 푸터 */
+        .online-nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .btn-nav-prev, .btn-nav-next {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-nav-prev:hover, .btn-nav-next:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        .btn-nav-prev:disabled, .btn-nav-next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+
+        .online-nav-indicator {
+            font-size: 13px;
+            font-weight: 800;
+            color: #475569;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* 이미지 원본 확대 팝업 모달 */
+        .zoom-modal-content {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            max-width: 92vw;
+            max-height: 92vh;
+            width: 860px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .zoom-modal-header {
+            padding: 12px 18px;
+            border-bottom: 1.5px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+        }
+
+        .btn-zoom-close {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .zoom-img-container {
+            padding: 16px;
+            overflow: auto;
+            max-height: calc(92vh - 60px);
+            background: #f8fafc;
+            text-align: center;
         }
 
         /* --- Header: White-Label Academy Branding --- */
@@ -80,9 +544,10 @@
         .branding-wrap {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
             min-width: 0;
+            margin-right: 8px;
         }
 
         .academy-logo-img {
@@ -115,7 +580,7 @@
         }
 
         .academy-name {
-            font-size: 15px;
+            font-size: 14.5px;
             font-weight: 800;
             color: var(--text-main);
             white-space: nowrap;
@@ -125,7 +590,7 @@
         }
 
         .teacher-badge {
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--primary);
             font-weight: 700;
             white-space: nowrap;
@@ -137,6 +602,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .week-pill {
@@ -147,6 +613,362 @@
             padding: 4px 10px;
             border-radius: 20px;
             white-space: nowrap;
+        }
+
+        /* 1~10 Week Navigation Pill Button */
+        .week-nav-pill-btn {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 5px 9px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(2, 132, 199, 0.35);
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+            font-family: inherit;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+        .week-nav-pill-btn:hover, .week-nav-pill-btn:active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 3px 10px rgba(2, 132, 199, 0.35);
+            transform: translateY(-1px);
+        }
+        .week-nav-pill-btn .week-tag {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 900;
+            letter-spacing: -0.2px;
+            transition: background 0.2s;
+        }
+        .week-nav-pill-btn:hover .week-tag {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+        .week-nav-pill-btn .week-arrow {
+            font-size: 11px;
+            transition: transform 0.25s ease;
+        }
+        .week-nav-pill-btn.active .week-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Quick Navigation Drawer (전 회차 바로가기 모달/드로어) */
+        .week-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            align-items: flex-end; /* Mobile: bottom-sheet */
+            justify-content: center;
+        }
+        .week-nav-overlay.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .week-nav-drawer {
+            width: 100%;
+            max-width: 540px;
+            max-height: 88vh;
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+        .week-nav-overlay.open .week-nav-drawer {
+            transform: translateY(0);
+        }
+
+        @media (min-width: 640px) {
+            .week-nav-overlay {
+                align-items: center;
+                padding: 20px;
+            }
+            .week-nav-drawer {
+                border-radius: 20px;
+                max-height: 85vh;
+                transform: scale(0.95);
+            }
+            .week-nav-overlay.open .week-nav-drawer {
+                transform: scale(1);
+            }
+        }
+
+        .drawer-header {
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            background: #f8fafc;
+        }
+        .drawer-header-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .drawer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-bottom: 6px;
+        }
+        .drawer-title {
+            font-size: 17px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0 0 4px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .drawer-subtitle {
+            font-size: 12px;
+            color: #64748b;
+            margin: 0 0 8px 0;
+        }
+        .drawer-student-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #334155;
+            font-weight: 700;
+        }
+        .drawer-close-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+        .drawer-close-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f8fafc;
+        }
+
+        .drawer-week-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+        .drawer-week-card.is-current {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+            box-shadow: 0 0 0 1.5px var(--primary), 0 4px 12px rgba(2, 132, 199, 0.12);
+        }
+        .week-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .week-card-num-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .week-badge {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: #0f172a;
+        }
+        .current-pill {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 10px;
+        }
+        .status-pill-done {
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .status-pill-yet {
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .week-card-max-score {
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .week-card-title {
+            font-size: 13px;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+        .week-card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .week-act-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 9px 8px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s ease;
+        }
+        .week-act-btn.btn-ebook {
+            background: #0ea5e9;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(14, 165, 233, 0.25);
+        }
+        .week-act-btn.btn-ebook:hover {
+            background: #0284c7;
+        }
+        .week-act-btn.btn-report {
+            background: #10b981;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+        }
+        .week-act-btn.btn-report:hover {
+            background: #059669;
+        }
+        .week-act-btn.btn-omr {
+            background: #6366f1;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
+        }
+        .week-act-btn.btn-omr:hover {
+            background: #4f46e5;
+        }
+
+        .drawer-footer {
+            padding: 12px 18px;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .drawer-footer-note {
+            font-size: 11.5px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        /* Report View Quick Navigation Card */
+        .report-drawer-trigger-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 20px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: #ffffff;
+        }
+        .report-drawer-trigger-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.28);
+        }
+        .report-drawer-trigger-card .rdt-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+        .report-drawer-trigger-card .rdt-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .report-drawer-trigger-card .rdt-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #38bdf8;
+            margin-bottom: 2px;
+        }
+        .report-drawer-trigger-card .rdt-desc {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .report-drawer-trigger-card .rdt-arrow {
+            font-size: 16px;
+            color: #38bdf8;
+            font-weight: 900;
+            padding-right: 4px;
         }
 
         /* --- View 1: Student Auth Screen --- */
@@ -798,8 +1620,99 @@
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
-            padding: 12px;
+            padding: 14px 16px;
             margin-top: 8px;
+            line-height: 1.6;
+        }
+        .explanation-box .ans-correct-title { 
+            color: #0284c7; 
+            font-size: 13.5px; 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 10px; 
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .explanation-box .concept-box { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 4px; 
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5); 
+            border-left: 4px solid #10b981; 
+            padding: 10px 14px; 
+            margin-bottom: 12px; 
+            border-radius: 6px; 
+            box-shadow: 0 1px 3px rgba(16, 185, 129, 0.1); 
+            font-family: inherit;
+        }
+        .explanation-box .concept-title { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: #065f46; 
+            font-weight: 800; 
+            font-size: 12.5px; 
+            margin: 0; 
+            line-height: 1.3; 
+        }
+        .explanation-box .concept-content { 
+            display: block; 
+            color: #047857; 
+            font-size: 12px; 
+            line-height: 1.55; 
+            word-break: keep-all; 
+            font-weight: 500; 
+            margin: 0; 
+            margin-top: 2px; 
+        }
+        .explanation-box .fact-check-title { 
+            color: #0f172a; 
+            font-size: 13px; 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 8px; 
+            margin-top: 8px; 
+        }
+        .explanation-box .fact-check-item { 
+            display: flex; 
+            gap: 6px; 
+            margin-bottom: 6px; 
+            font-size: 12px; 
+            line-height: 1.55; 
+        }
+        .explanation-box .fact-check-label { 
+            color: #059669; 
+            font-weight: 800; 
+            width: 20px; 
+            flex-shrink: 0; 
+        }
+        .explanation-box .fact-check-text { 
+            color: #334155; 
+            word-break: keep-all; 
+        }
+        .explanation-box .wrong-fact-section { 
+            margin-top: 10px; 
+            border-top: 1px dashed #cbd5e1; 
+            padding-top: 10px; 
+        }
+        .explanation-box .wrong-fact-title { 
+            color: #e11d48; 
+            font-size: 12.5px; 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 6px; 
+        }
+        .explanation-box .wrong-fact-label { 
+            color: #e11d48; 
+            font-weight: 800; 
+            width: 20px; 
+            flex-shrink: 0; 
+        }
+        .explanation-box mjx-container {
+            font-size: 95% !important;
+            margin: 0 2px !important;
         }
 
         /* Parent Kakao Notification Box */
@@ -969,9 +1882,41 @@
             </div>
         </div>
         <div class="header-extra">
-            <span class="week-pill" id="weekPillDisplay">Fit 20 제1회</span>
+            <button type="button" class="week-nav-pill-btn" id="weekPillDisplay" onclick="openWeekNavDrawer()" title="전 회차 주간지 및 성적표 바로가기 (1~10주차)">
+                <span class="week-tag">1~10회</span>
+                <span id="weekPillText">Fit 20 제1회</span>
+                <span class="week-arrow">▾</span>
+            </button>
         </div>
     </header>
+
+    <!-- Quick Navigation Drawer (1~10주차 전 회차 바로가기) -->
+    <div id="weekNavOverlay" class="week-nav-overlay" onclick="closeWeekNavDrawer(event)">
+        <div class="week-nav-drawer" onclick="event.stopPropagation()">
+            <div class="drawer-header">
+                <div class="drawer-header-info">
+                    <div class="drawer-badge">📚 전 회차 통합 학습 센터 (1~10주차)</div>
+                    <h3 class="drawer-title" id="drawerAcademyTitle">대치 미래탐구 과학 전문관</h3>
+                    <p class="drawer-subtitle">주간지 전자책 열람 ‧ OMR 모의고사 응시 ‧ 성적표 & 정밀 해설</p>
+                    <div class="drawer-student-chip" id="drawerStudentChip">
+                        <span class="student-icon">👤</span>
+                        <span id="drawerStudentNameText">수강생 미인증</span>
+                    </div>
+                </div>
+                <button type="button" class="drawer-close-btn" onclick="closeWeekNavDrawer()" aria-label="닫기">✕</button>
+            </div>
+
+            <div class="drawer-body" id="drawerWeekList">
+                <!-- 1~10주차 동적 렌더링 -->
+            </div>
+
+            <div class="drawer-footer">
+                <div class="drawer-footer-note">
+                    💡 이전 회차 전자책과 성적표/해설을 언제든지 다시 열람할 수 있습니다.
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- VIEW 1: 간편 인증 화면 (Zero-Registration Simple Auth) -->
     <section class="auth-view" id="authView">
@@ -1006,16 +1951,33 @@
         </div>
     </section>
 
-    <!-- VIEW 2: 20문항 모바일 OMR 마킹 뷰 -->
+    <!-- VIEW 2: 20문항 모바일 OMR 마킹 뷰 (빠른 마킹 vs 온라인 실전 풀기 듀얼 모드) -->
     <section class="omr-view" id="omrView">
-        <!-- Sticky Timer & Progress Status -->
+        
+        <!-- 응시 모드 선택 세그먼트 (빠른 OMR vs 온라인 실전 풀기) -->
+        <div class="exam-mode-tab-wrap">
+            <div class="exam-mode-segmented-control">
+                <button type="button" class="mode-tab-btn active" id="btnModeQuick" onclick="setExamMode('quick')">
+                    <span class="mode-btn-icon">⚡</span>
+                    <span class="mode-btn-title">빠른 OMR 마킹</span>
+                    <span class="mode-btn-sub">종이 시험지 정답 제출</span>
+                </button>
+                <button type="button" class="mode-tab-btn" id="btnModeOnline" onclick="setExamMode('online')">
+                    <span class="mode-btn-icon">🖥️</span>
+                    <span class="mode-btn-title">온라인 실전 시험</span>
+                    <span class="mode-btn-sub">문제 보며 풀기</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sticky Timer & Progress Status (두 모드 공통 실시간 연동) -->
         <div class="omr-sticky-status">
             <div class="status-row">
                 <div class="timer-display" id="timerBox">
                     <span>⏱️</span>
                     <span id="timerText">30:00</span>
                 </div>
-                <div class="progress-text" id="progressCountText">0 / 20문항 완료</div>
+                <div class="progress-text" id="progressCountText">0 / 20문항 완료 (0%)</div>
             </div>
             <div class="progress-track">
                 <div class="progress-bar-fill" id="progressBarFill"></div>
@@ -1026,9 +1988,99 @@
             </div>
         </div>
 
-        <!-- 20 Question Cards Container -->
-        <div class="omr-list" id="omrQuestionList">
-            <!-- Dynamically populated via JS -->
+        <!-- [모드 1] 빠른 OMR 마킹 패널 (20문항 리스트형) -->
+        <div class="omr-mode-panel" id="panelQuickOmr">
+            <div class="quick-mode-guide-card">
+                <span>📝 <strong>종이 시험지 마킹 모드:</strong> 인쇄된 시험지를 보고 아래 1~20번 정답 번호를 터치해 주세요.</span>
+            </div>
+            <div class="omr-list" id="omrQuestionList">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+
+        <!-- [모드 2] 온라인 실전 시험 패널 (문항별 문제 이미지 + 5지선다 버튼형) -->
+        <div class="omr-mode-panel" id="panelOnlineExam" style="display:none;">
+            <!-- 20문항 퀵 점프 네비게이터 -->
+            <div class="online-nav-strip-card">
+                <div class="nav-strip-header">
+                    <span class="nav-strip-title">🎯 20문항 바로가기</span>
+                    <span class="nav-strip-status" id="onlineNavStatus">문항 번호를 터치하면 바로 이동합니다</span>
+                </div>
+                <div class="online-q-grid" id="onlineNavGrid">
+                    <!-- JS 동적 생성 -->
+                </div>
+            </div>
+
+            <!-- 현재 문항 카드 -->
+            <div class="online-question-viewer-card">
+                <!-- 문항 헤더 (번호, 영역, 단원, 배점, 확대) -->
+                <div class="online-q-header">
+                    <div class="online-q-header-left">
+                        <span class="online-q-num-pill" id="onlineQNumBadge">Q. 01</span>
+                        <span class="domain-tag" id="onlineQDomainBadge">물리학</span>
+                        <span class="online-q-topic" id="onlineQTopicText">정보와 신호</span>
+                    </div>
+                    <div class="online-q-header-right">
+                        <span class="q-score-badge" id="onlineQScoreBadge">1.5점</span>
+                        <button type="button" class="btn-zoom-img" onclick="openImageZoomModal()" title="문제 원본 확대 보기">
+                            <span>🔍 크게 보기</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 문제 이미지 영역 -->
+                <div class="online-img-wrapper" id="onlineImgWrapper">
+                    <div class="img-loading-spinner" id="onlineImgSpinner">
+                        <div class="spinner-circle"></div>
+                        <span style="font-size:12px; color:#64748b; font-weight:700;">문제 로딩 중...</span>
+                    </div>
+                    <img id="onlineQuestionImg" src="" alt="문제 이미지" class="online-q-img" onload="handleQuestionImgLoaded()" onerror="handleQuestionImgError()">
+                </div>
+
+                <!-- 5지선다 정답 선택 버튼 바 -->
+                <div class="online-answer-action-area">
+                    <div class="online-answer-label">
+                        <span>✏️ 정답 마킹 (터치)</span>
+                        <label class="auto-advance-toggle">
+                            <input type="checkbox" id="chkAutoAdvance" checked>
+                            <span>마킹 시 다음 문항 자동 이동</span>
+                        </label>
+                    </div>
+                    <div class="online-choice-btn-grid" id="onlineChoiceBtnGrid">
+                        <button type="button" class="online-choice-btn" data-val="1" onclick="handleOnlineChoice(1)">
+                            <span class="choice-num-circle">①</span>
+                            <span class="choice-txt">1번</span>
+                        </button>
+                        <button type="button" class="online-choice-btn" data-val="2" onclick="handleOnlineChoice(2)">
+                            <span class="choice-num-circle">②</span>
+                            <span class="choice-txt">2번</span>
+                        </button>
+                        <button type="button" class="online-choice-btn" data-val="3" onclick="handleOnlineChoice(3)">
+                            <span class="choice-num-circle">③</span>
+                            <span class="choice-txt">3번</span>
+                        </button>
+                        <button type="button" class="online-choice-btn" data-val="4" onclick="handleOnlineChoice(4)">
+                            <span class="choice-num-circle">④</span>
+                            <span class="choice-txt">4번</span>
+                        </button>
+                        <button type="button" class="online-choice-btn" data-val="5" onclick="handleOnlineChoice(5)">
+                            <span class="choice-num-circle">⑤</span>
+                            <span class="choice-txt">5번</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 이전 / 다음 문항 네비게이션 버튼 -->
+                <div class="online-nav-footer">
+                    <button type="button" class="btn-nav-prev" id="btnOnlinePrev" onclick="navOnlineQuestion(-1)">
+                        <span>◀ 이전 문항</span>
+                    </button>
+                    <span class="online-nav-indicator" id="onlineNavIndicator">1 / 20</span>
+                    <button type="button" class="btn-nav-next" id="btnOnlineNext" onclick="navOnlineQuestion(1)">
+                        <span>다음 문항 ▶</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Fixed Bottom Action Bar -->
@@ -1156,6 +2208,16 @@
             </button>
         </div>
 
+        <!-- Report View Quick Navigation Card (1~10주차 바로가기) -->
+        <div class="report-drawer-trigger-card" onclick="openWeekNavDrawer()">
+            <div class="rdt-icon">📚</div>
+            <div class="rdt-info">
+                <div class="rdt-title">1~10주차 전 회차 전자책 & 성적표 바로가기</div>
+                <div class="rdt-desc">이전 주차 오답 복습 및 다른 주차 전자책/OMR 바로 이동하기 ➔</div>
+            </div>
+            <div class="rdt-arrow">➔</div>
+        </div>
+
         <!-- Report Bottom Actions -->
         <div class="report-btn-group">
             <button type="button" class="btn-retake" onclick="handleRetakeExam()">🔄 다시 응시하기</button>
@@ -1192,6 +2254,19 @@
     </div>
 </div>
 
+<!-- Question Image Full Zoom Modal -->
+<div class="modal-overlay" id="imgZoomModal" style="display:none;" onclick="closeImageZoomModal()">
+    <div class="zoom-modal-content" onclick="event.stopPropagation()">
+        <div class="zoom-modal-header">
+            <span id="zoomModalTitle" style="font-weight:800; color:#0f172a; font-size:14px;">🔍 문항 원본 고화질 확대 보기</span>
+            <button type="button" class="btn-zoom-close" onclick="closeImageZoomModal()">✕ 닫기</button>
+        </div>
+        <div class="zoom-img-container">
+            <img id="zoomModalImg" src="" alt="확대 문항 이미지" style="max-width:100%; height:auto; display:block; margin:0 auto; border-radius:6px;">
+        </div>
+    </div>
+</div>
+
 <script>
 /**
  * B2B Mobile OMR Client Application
@@ -1201,6 +2276,7 @@
 
     // State Variables
     let currentTenant = 'daechi_mirae';
+    let tenantConfig = null;
     let currentWeekNum = 1;
     let currentExamMeta = null;
     let allExamMetadata = null;
@@ -1211,6 +2287,9 @@
     let modalActionCallback = null;
     let isParentView = false;
     let parentTokenData = null;
+    let cloudDb = null;
+    let currentExamMode = 'quick'; // 'quick' (빠른 마킹) | 'online' (문제 보며 풀기)
+    let currentOnlineQuestionIdx = 0; // 0 to 19
 
     // Domain styling mappings
     const domainClassMap = {
@@ -1222,6 +2301,9 @@
 
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', async () => {
+        if (window.B2BCloudSync && typeof window.B2BCloudSync.initFirebase === 'function') {
+            cloudDb = window.B2BCloudSync.initFirebase();
+        }
         parseUrlParameters();
         loadTenantBranding();
         await loadExamMetadata();
@@ -1239,10 +2321,38 @@
         if (params.get('w')) currentWeekNum = parseInt(params.get('w'), 10) || 1;
         if (currentWeekNum < 1 || currentWeekNum > 10) currentWeekNum = 1;
 
-        const preName = params.get('name');
-        const preLast4 = params.get('last4');
+        const modeParam = params.get('mode');
+        if (modeParam === 'online' || modeParam === 'test') {
+            currentExamMode = 'online';
+        }
+
+        // 수강생 세션 복원 (기존 인증 유지)
+        if (!activeStudent) {
+            try {
+                const savedSession = sessionStorage.getItem(`b2b_active_student_${currentTenant}`) || sessionStorage.getItem(`b2b_ebook_auth_${currentTenant}`);
+                if (savedSession) activeStudent = JSON.parse(savedSession);
+            } catch(e) {}
+        }
+
+        const preName = params.get('name') || (activeStudent ? activeStudent.studentName : '');
+        const preLast4 = params.get('last4') || (activeStudent ? activeStudent.studentPhoneLast4 : '');
         if (preName) document.getElementById('inputStudentName').value = decodeURIComponent(preName);
         if (preLast4) document.getElementById('inputPhoneLast4').value = preLast4;
+
+        // URL 파라미터로 학생 정보가 완전히 전달된 경우
+        if (!activeStudent && params.get('name') && params.get('last4')) {
+            activeStudent = {
+                studentId: `${currentTenant}_${params.get('last4')}_${decodeURIComponent(params.get('name'))}`,
+                studentName: decodeURIComponent(params.get('name')),
+                studentPhoneLast4: params.get('last4'),
+                parentPhone: '010-1234-5678',
+                academyId: currentTenant
+            };
+            try {
+                sessionStorage.setItem(`b2b_active_student_${currentTenant}`, JSON.stringify(activeStudent));
+                sessionStorage.setItem(`b2b_ebook_auth_${currentTenant}`, JSON.stringify(activeStudent));
+            } catch(e) {}
+        }
 
         // 학부모 다이렉트 열람 토큰 검증
         const view = params.get('view');
@@ -1256,12 +2366,130 @@
             }
         }
 
-        document.getElementById('weekPillDisplay').innerText = `Fit 20 제${currentWeekNum}회`;
+        // 순차 오픈 주차 검증 (선생님이 공지한 주차까지만 열람 허용)
+        let releasedMaxWeek = 1;
+        try {
+            const rawW = localStorage.getItem(`b2b_released_week_${currentTenant}`);
+            if (rawW) releasedMaxWeek = parseInt(rawW, 10);
+            else if (tenantConfig && tenantConfig.releasedMaxWeek) releasedMaxWeek = parseInt(tenantConfig.releasedMaxWeek, 10);
+        } catch(e) {}
+
+        if (currentWeekNum > releasedMaxWeek && !params.has('preview') && !params.has('demo') && !isParentView) {
+            alert(`🔒 Fit 20 제${currentWeekNum}회는 아직 오픈되지 않았습니다.\n(현재 학원 커리큘럼 배부 완료: 제${releasedMaxWeek}회차까지)`);
+            currentWeekNum = releasedMaxWeek;
+        }
+
+        // 수강생 명단에서 삭제/환불된 학생 즉시 세션 파기 및 차단
+        let currentRoster = [];
+        const hasRosterKey = localStorage.getItem(`b2b_students_${currentTenant}`) !== null;
+        try {
+            const rawR = localStorage.getItem(`b2b_students_${currentTenant}`);
+            if (rawR) currentRoster = JSON.parse(rawR);
+        } catch(e) {}
+
+        if (activeStudent && !params.has('preview') && !params.has('demo')) {
+            const stillValid = currentRoster.find(s => s.studentName === activeStudent.studentName && String(s.studentPhoneLast4) === String(activeStudent.studentPhoneLast4));
+            if (hasRosterKey && !stillValid) {
+                activeStudent = null;
+                try {
+                    sessionStorage.removeItem(`b2b_active_student_${currentTenant}`);
+                    sessionStorage.removeItem(`b2b_ebook_auth_${currentTenant}`);
+                } catch(e) {}
+                alert('⚠️ 수강이 종료(환불/삭제)되었거나 명단에 없는 학생입니다.\n더 이상 서비스를 이용하실 수 없습니다.');
+                document.getElementById('authView').style.display = 'flex';
+                document.getElementById('omrView').style.display = 'none';
+                document.getElementById('reportView').style.display = 'none';
+                return;
+            }
+        }
+
+        const pillTextEl = document.getElementById('weekPillText');
+        if (pillTextEl) {
+            pillTextEl.innerText = `Fit 20 제${currentWeekNum}회`;
+        } else {
+            const pDisp = document.getElementById('weekPillDisplay');
+            if (pDisp) pDisp.innerText = `Fit 20 제${currentWeekNum}회 ▾`;
+        }
+
+        // 성적표 직접 열람 모드 (전 회차 드로어 바로가기 또는 관리자 알림톡 링크)
+        if (params.get('view') === 'report' || params.has('preview_report')) {
+            setTimeout(() => {
+                document.getElementById('authView').style.display = 'none';
+                const sName = decodeURIComponent(params.get('name') || (activeStudent && activeStudent.studentName) || '홍길동');
+                const sLast4 = params.get('last4') || (activeStudent && activeStudent.studentPhoneLast4) || '5678';
+                activeStudent = {
+                    studentId: `${currentTenant}_${sLast4}_${sName}`,
+                    studentName: sName,
+                    studentPhoneLast4: sLast4,
+                    parentPhone: '010-1234-5678',
+                    academyId: currentTenant
+                };
+                try {
+                    sessionStorage.setItem(`b2b_active_student_${currentTenant}`, JSON.stringify(activeStudent));
+                    sessionStorage.setItem(`b2b_ebook_auth_${currentTenant}`, JSON.stringify(activeStudent));
+                } catch(e) {}
+
+                // 기존 제출 기록 검색
+                let subs = [];
+                try {
+                    subs = JSON.parse(localStorage.getItem(`b2b_submissions_${currentTenant}`) || '[]');
+                } catch(e) {}
+                const targetSub = subs.find(s => s.week === currentWeekNum && (
+                    s.studentId === activeStudent.studentId || 
+                    (s.studentName === sName && String(s.studentPhoneLast4) === String(sLast4))
+                ));
+
+                const maxScore = (currentExamMeta && currentExamMeta.totalScore) || 31.0;
+                const questions = (currentExamMeta && currentExamMeta.questions) || [];
+                if (targetSub && targetSub.rawScore !== undefined) {
+                    studentMarks = questions.map((q, idx) => {
+                        return (idx < Math.round((targetSub.rawScore / maxScore) * 20)) ? q.answer : ((q.answer % 5) + 1);
+                    });
+                } else {
+                    studentMarks = questions.map((q, idx) => (idx < 17) ? q.answer : ((q.answer % 5) + 1));
+                }
+                executeGradingAndShowReport();
+            }, 300);
+        } else if (params.get('auto') === 'true') {
+            setTimeout(() => {
+                if (document.getElementById('authView').style.display !== 'none') {
+                    window.handleStudentAuth();
+                }
+            }, 350);
+        } else if (params.has('preview') || params.has('demo')) {
+            setTimeout(() => {
+                if (document.getElementById('authView').style.display !== 'none') {
+                    if (!document.getElementById('inputStudentName').value) {
+                        document.getElementById('inputStudentName').value = '원장님 (체험)';
+                        document.getElementById('inputPhoneLast4').value = '0000';
+                    }
+                    window.handleStudentAuth();
+                }
+            }, 350);
+        } else if (params.get('test_block') === 'true') {
+            if (window.DeviceGuard) {
+                window.DeviceGuard.renderDeviceLimitBlockModal({
+                    title: '⚠️ 기기 등록 한도 초과 (최대 2대)',
+                    studentName: '이수진',
+                    devices: [
+                        { desc: 'iPhone (iOS Safari)', registeredAt: '2026-10-01' },
+                        { desc: 'Windows PC (Chrome)', registeredAt: '2026-10-02' }
+                    ],
+                    isB2B: true
+                });
+            }
+        }
+
+        if (params.has('drawer') || params.has('open_drawer')) {
+            setTimeout(() => {
+                if (typeof openWeekNavDrawer === 'function') openWeekNavDrawer();
+            }, 500);
+        }
     }
 
     function loadTenantBranding() {
         // Load custom tenant settings from localStorage if available
-        let tenantConfig = null;
+        tenantConfig = null;
         try {
             const raw = localStorage.getItem(`b2b_academy_${currentTenant}`);
             if (raw) tenantConfig = JSON.parse(raw);
@@ -1280,6 +2508,15 @@
                 themeColor: '#0284c7'
             };
         }
+
+        // URL 쿼리 파라미터가 있을 경우 우선 반영 (화이트라벨 실시간 체험 지원)
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pBrand = urlParams.get('brand') || urlParams.get('academy');
+            const pTeacher = urlParams.get('teacher');
+            if (pBrand) tenantConfig.academyName = decodeURIComponent(pBrand);
+            if (pTeacher) tenantConfig.teacherName = decodeURIComponent(pTeacher);
+        } catch(e) {}
 
         // Apply DOM Branding (화이트라벨링)
         document.getElementById('academyNameDisplay').innerText = tenantConfig.academyName || '과학 전문 학원';
@@ -1369,6 +2606,7 @@
 
         // 종량제 수강생 명단(Roster) 조회
         let roster = [];
+        const hasRosterKey = localStorage.getItem(`b2b_students_${currentTenant}`) !== null;
         try {
             const raw = localStorage.getItem(`b2b_students_${currentTenant}`);
             if (raw) roster = JSON.parse(raw);
@@ -1384,7 +2622,10 @@
                 return;
             }
         } else {
-            // 데모/초기 접속 시 가상 등록 처리
+            if (hasRosterKey) {
+                showModal('수강생 인증 실패', '⚠️ 등록된 수강생 명단이 없거나 수강이 종료(환불)되었습니다.\n학원에 문의해 주세요.');
+                return;
+            }
             matched = {
                 studentId: `${currentTenant}_${last4}_${name}`,
                 studentName: name,
@@ -1396,13 +2637,273 @@
 
         activeStudent = matched;
 
+        // 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (친구 번호 공유 및 무단 열람 원천 차단)
+        if (window.DeviceGuard) {
+            const devCheck = window.DeviceGuard.checkB2BStudentDevice(currentTenant, matched.studentName, matched.studentPhoneLast4);
+            if (!devCheck.allowed) {
+                window.DeviceGuard.renderDeviceLimitBlockModal({
+                    studentName: matched.studentName,
+                    devices: devCheck.devices || [],
+                    isB2B: true
+                });
+                return;
+            }
+        }
+
+        try {
+            sessionStorage.setItem(`b2b_active_student_${currentTenant}`, JSON.stringify(activeStudent));
+            sessionStorage.setItem(`b2b_ebook_auth_${currentTenant}`, JSON.stringify(activeStudent));
+        } catch(e) {}
+
+        // 이미 이번 주차 시험을 응시한 경우 체크
+        let subs = [];
+        try {
+            subs = JSON.parse(localStorage.getItem(`b2b_submissions_${currentTenant}`) || '[]');
+        } catch(e) {}
+        const existingSub = subs.find(s => s.week === currentWeekNum && (
+            s.studentId === activeStudent.studentId ||
+            (s.studentName === activeStudent.studentName && String(s.studentPhoneLast4) === String(activeStudent.studentPhoneLast4))
+        ));
+
+        if (existingSub) {
+            document.getElementById('authView').style.display = 'none';
+            const maxScore = (currentExamMeta && currentExamMeta.totalScore) || 31.0;
+            const questions = (currentExamMeta && currentExamMeta.questions) || [];
+            studentMarks = questions.map((q, idx) => {
+                return (idx < Math.round((existingSub.rawScore / maxScore) * 20)) ? q.answer : ((q.answer % 5) + 1);
+            });
+            executeGradingAndShowReport();
+            return;
+        }
+
         // OMR 마킹 뷰로 전환
         document.getElementById('authView').style.display = 'none';
         document.getElementById('omrView').style.display = 'flex';
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         renderOmrQuestionList();
+        renderOnlineExamQuestion(currentOnlineQuestionIdx);
+        setExamMode(currentExamMode);
         startExamTimer();
+    };
+
+    /**
+     * 응시 모드 전환 ('quick': 빠른 OMR 마킹, 'online': 문제 보며 풀기)
+     */
+    window.setExamMode = function(mode) {
+        currentExamMode = mode;
+        const btnQuick = document.getElementById('btnModeQuick');
+        const btnOnline = document.getElementById('btnModeOnline');
+        const panelQuick = document.getElementById('panelQuickOmr');
+        const panelOnline = document.getElementById('panelOnlineExam');
+
+        if (mode === 'online') {
+            if (btnQuick) btnQuick.classList.remove('active');
+            if (btnOnline) btnOnline.classList.add('active');
+            if (panelQuick) panelQuick.style.display = 'none';
+            if (panelOnline) panelOnline.style.display = 'block';
+
+            renderOnlineExamQuestion(currentOnlineQuestionIdx);
+        } else {
+            if (btnQuick) btnQuick.classList.add('active');
+            if (btnOnline) btnOnline.classList.remove('active');
+            if (panelQuick) panelQuick.style.display = 'block';
+            if (panelOnline) panelOnline.style.display = 'none';
+
+            // 빠른 OMR 모드 진입 시 마킹 상태 동기화
+            for (let i = 1; i <= 20; i++) {
+                const val = studentMarks[i - 1];
+                const radio = document.querySelector(`input[name="omr_ans_${i}"][value="${val}"]`);
+                if (radio) radio.checked = true;
+                const card = document.getElementById(`qCard_${i}`);
+                if (card) {
+                    if (val > 0) card.classList.add('marked');
+                    else card.classList.remove('marked');
+                }
+            }
+        }
+        updateProgress();
+    };
+
+    /**
+     * [온라인 실전 시험] 20문항 퀵 네비게이터 그리드 렌더링
+     */
+    function renderOnlineExamNavGrid() {
+        const grid = document.getElementById('onlineNavGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        for (let i = 0; i < 20; i++) {
+            const qNum = i + 1;
+            const isCurrent = (i === currentOnlineQuestionIdx);
+            const ans = studentMarks[i];
+            const isAnswered = (ans > 0);
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `nav-q-btn ${isCurrent ? 'current' : ''} ${isAnswered ? 'answered' : ''}`;
+            const targetIdx = i;
+            btn.onclick = () => {
+                renderOnlineExamQuestion(targetIdx);
+            };
+
+            const choiceSymbol = isAnswered ? ['①', '②', '③', '④', '⑤'][ans - 1] : '';
+            btn.innerHTML = `
+                <span>${qNum}</span>
+                ${isAnswered ? `<span class="nav-q-badge-val">${choiceSymbol}</span>` : ''}
+            `;
+            grid.appendChild(btn);
+        }
+    }
+
+    /**
+     * [온라인 실전 시험] 개별 문항 렌더링 (문제 이미지, 배점, 영역, 선택지)
+     */
+    function renderOnlineExamQuestion(idx) {
+        idx = Math.max(0, Math.min(19, idx));
+        currentOnlineQuestionIdx = idx;
+
+        const questions = (currentExamMeta && currentExamMeta.questions) || [];
+        const q = questions[idx] || {
+            num: idx + 1,
+            domain: '통합과학',
+            topic: '',
+            score: 1.5,
+            imageFile: `week_2028_${String(currentWeekNum).padStart(2, '0')}_mock_q${String(idx + 1).padStart(2, '0')}.webp`
+        };
+
+        // 헤더 업데이트
+        const qNumBadge = document.getElementById('onlineQNumBadge');
+        if (qNumBadge) qNumBadge.innerText = `Q. ${String(idx + 1).padStart(2, '0')}`;
+
+        const domBadge = document.getElementById('onlineQDomainBadge');
+        if (domBadge) {
+            domBadge.innerText = q.domain || '통합과학';
+            const domInfo = domainClassMap[q.domain] || { tag: 'domain-phy' };
+            domBadge.className = `domain-tag ${domInfo.tag}`;
+        }
+
+        const topicText = document.getElementById('onlineQTopicText');
+        if (topicText) topicText.innerText = q.topic || '';
+
+        const scoreBadge = document.getElementById('onlineQScoreBadge');
+        if (scoreBadge) scoreBadge.innerText = `${q.score || 1.5}점`;
+
+        // 문제 이미지 로드
+        const weekPad = String(currentWeekNum).padStart(2, '0');
+        const examId = (currentExamMeta && currentExamMeta.examId) || `week_2028_${weekPad}`;
+        const fileName = q.imageFile || `${examId}_mock_q${String(idx + 1).padStart(2, '0')}.webp`;
+        const imgUrl = `https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2F${examId}%2F${fileName}?alt=media`;
+
+        const spinner = document.getElementById('onlineImgSpinner');
+        if (spinner) spinner.style.display = 'flex';
+
+        const qImg = document.getElementById('onlineQuestionImg');
+        if (qImg) {
+            qImg.style.opacity = '0';
+            qImg.src = imgUrl;
+        }
+
+        // 5지선다 선택지 버튼 하이라이트
+        const curAns = studentMarks[idx];
+        const choiceBtns = document.querySelectorAll('.online-choice-btn');
+        choiceBtns.forEach(btn => {
+            const val = parseInt(btn.getAttribute('data-val'), 10);
+            if (val === curAns) btn.classList.add('selected');
+            else btn.classList.remove('selected');
+        });
+
+        // 이전/다음 버튼 비활성화 상태 및 인디케이터
+        const prevBtn = document.getElementById('btnOnlinePrev');
+        if (prevBtn) prevBtn.disabled = (idx === 0);
+
+        const nextBtn = document.getElementById('btnOnlineNext');
+        if (nextBtn) nextBtn.disabled = (idx === 19);
+
+        const indicator = document.getElementById('onlineNavIndicator');
+        if (indicator) indicator.innerText = `${idx + 1} / 20`;
+
+        renderOnlineExamNavGrid();
+    }
+
+    window.handleQuestionImgLoaded = function() {
+        const spinner = document.getElementById('onlineImgSpinner');
+        if (spinner) spinner.style.display = 'none';
+        const qImg = document.getElementById('onlineQuestionImg');
+        if (qImg) qImg.style.opacity = '1';
+    };
+
+    window.handleQuestionImgError = function() {
+        const spinner = document.getElementById('onlineImgSpinner');
+        if (spinner) {
+            spinner.innerHTML = '<span style="color:#ef4444; font-weight:700;">⚠️ 문제 이미지를 불러올 수 없습니다. 인터넷 연결을 확인해 주세요.</span>';
+        }
+    };
+
+    /**
+     * [온라인 실전 시험] 답안 번호 선택 핸들러
+     */
+    window.handleOnlineChoice = function(val) {
+        studentMarks[currentOnlineQuestionIdx] = val;
+
+        // 선택 버튼 강조
+        const choiceBtns = document.querySelectorAll('.online-choice-btn');
+        choiceBtns.forEach(btn => {
+            const bVal = parseInt(btn.getAttribute('data-val'), 10);
+            if (bVal === val) btn.classList.add('selected');
+            else btn.classList.remove('selected');
+        });
+
+        // 빠른 OMR 모드의 라디오 버튼도 실시간 동기화
+        const qNum = currentOnlineQuestionIdx + 1;
+        const radio = document.querySelector(`input[name="omr_ans_${qNum}"][value="${val}"]`);
+        if (radio) radio.checked = true;
+        const card = document.getElementById(`qCard_${qNum}`);
+        if (card) card.classList.add('marked');
+
+        updateProgress();
+        renderOnlineExamNavGrid();
+
+        // 자동 이동 옵션 활성화 시 0.28초 후 다음 문항으로 이동
+        const autoAdvance = document.getElementById('chkAutoAdvance');
+        if (autoAdvance && autoAdvance.checked && currentOnlineQuestionIdx < 19) {
+            setTimeout(() => {
+                navOnlineQuestion(1);
+            }, 280);
+        }
+    };
+
+    /**
+     * [온라인 실전 시험] 문항 이동
+     */
+    window.navOnlineQuestion = function(delta) {
+        const nextIdx = currentOnlineQuestionIdx + delta;
+        if (nextIdx >= 0 && nextIdx <= 19) {
+            renderOnlineExamQuestion(nextIdx);
+        }
+    };
+
+    /**
+     * 문제 고화질 원본 확대 모달
+     */
+    window.openImageZoomModal = function() {
+        const currentImg = document.getElementById('onlineQuestionImg');
+        const zoomImg = document.getElementById('zoomModalImg');
+        const zoomTitle = document.getElementById('zoomModalTitle');
+
+        if (currentImg && zoomImg) {
+            zoomImg.src = currentImg.src;
+        }
+        if (zoomTitle) {
+            zoomTitle.innerText = `🔍 제${currentWeekNum}주차 Q. ${String(currentOnlineQuestionIdx + 1).padStart(2, '0')} 문항 원본 고화질 보기`;
+        }
+        const modal = document.getElementById('imgZoomModal');
+        if (modal) modal.style.display = 'flex';
+    };
+
+    window.closeImageZoomModal = function() {
+        const modal = document.getElementById('imgZoomModal');
+        if (modal) modal.style.display = 'none';
     };
 
     /**
@@ -1410,9 +2911,10 @@
      */
     function renderOmrQuestionList() {
         const container = document.getElementById('omrQuestionList');
+        if (!container) return;
         container.innerHTML = '';
 
-        const questions = currentExamMeta.questions || [];
+        const questions = (currentExamMeta && currentExamMeta.questions) || [];
 
         questions.forEach((q, idx) => {
             const qNum = idx + 1;
@@ -1448,7 +2950,7 @@
     }
 
     /**
-     * 답안 선택 핸들러
+     * 답안 선택 핸들러 (빠른 OMR 모드)
      */
     window.handleSelectAnswer = function(qNum, selectedVal) {
         studentMarks[qNum - 1] = selectedVal;
@@ -1456,7 +2958,18 @@
         const card = document.getElementById(`qCard_${qNum}`);
         if (card) card.classList.add('marked');
 
+        // 온라인 모드가 활성화되어 있고 현재 해당 문항인 경우 선택지 버튼 동기화
+        if (currentOnlineQuestionIdx === qNum - 1) {
+            const choiceBtns = document.querySelectorAll('.online-choice-btn');
+            choiceBtns.forEach(btn => {
+                const bVal = parseInt(btn.getAttribute('data-val'), 10);
+                if (bVal === selectedVal) btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+        }
+
         updateProgress();
+        renderOnlineExamNavGrid();
     };
 
     function updateProgress() {
@@ -1464,8 +2977,10 @@
         const total = 20;
         const percent = Math.round((markedCount / total) * 100);
 
-        document.getElementById('progressCountText').innerText = `${markedCount} / ${total}문항 완료 (${percent}%)`;
-        document.getElementById('progressBarFill').style.width = `${percent}%`;
+        const progEl = document.getElementById('progressCountText');
+        if (progEl) progEl.innerText = `${markedCount} / ${total}문항 완료 (${percent}%)`;
+        const barEl = document.getElementById('progressBarFill');
+        if (barEl) barEl.style.width = `${percent}%`;
 
         // 미마킹 칩스 업데이트
         const unmarkedWrap = document.getElementById('unmarkedChipsWrap');
@@ -1475,25 +2990,31 @@
             if (val === 0) unmarkedNums.push(i + 1);
         });
 
-        if (unmarkedNums.length > 0 && markedCount > 0) {
-            unmarkedWrap.style.display = 'flex';
-            chipsList.innerHTML = unmarkedNums.slice(0, 8).map(n => 
-                `<span class="unmarked-chip" onclick="scrollToQuestion(${n})">${n}번</span>`
-            ).join('');
-            if (unmarkedNums.length > 8) {
-                chipsList.innerHTML += `<span class="unmarked-chip">+${unmarkedNums.length - 8}</span>`;
+        if (unmarkedWrap && chipsList) {
+            if (unmarkedNums.length > 0 && markedCount > 0) {
+                unmarkedWrap.style.display = 'flex';
+                chipsList.innerHTML = unmarkedNums.slice(0, 8).map(n => 
+                    `<span class="unmarked-chip" onclick="scrollToQuestion(${n})">${n}번</span>`
+                ).join('');
+                if (unmarkedNums.length > 8) {
+                    chipsList.innerHTML += `<span class="unmarked-chip">+${unmarkedNums.length - 8}</span>`;
+                }
+            } else {
+                unmarkedWrap.style.display = 'none';
             }
-        } else {
-            unmarkedWrap.style.display = 'none';
         }
     }
 
     window.scrollToQuestion = function(qNum) {
-        const target = document.getElementById(`qCard_${qNum}`);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            target.classList.add('active-target');
-            setTimeout(() => target.classList.remove('active-target'), 1200);
+        if (currentExamMode === 'online') {
+            renderOnlineExamQuestion(qNum - 1);
+        } else {
+            const target = document.getElementById(`qCard_${qNum}`);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                target.classList.add('active-target');
+                setTimeout(() => target.classList.remove('active-target'), 1200);
+            }
         }
     };
 
@@ -1512,7 +3033,7 @@
             remainingSeconds--;
             const mins = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
             const secs = String(remainingSeconds % 60).padStart(2, '0');
-            timerText.innerText = `${mins}:${secs}`;
+            if (timerText) timerText.innerText = `${mins}:${secs}`;
         }, 1000);
     }
 
@@ -1523,6 +3044,11 @@
             radios.forEach(r => r.checked = false);
             const cards = document.querySelectorAll('.question-card');
             cards.forEach(c => c.classList.remove('marked'));
+
+            const choiceBtns = document.querySelectorAll('.online-choice-btn');
+            choiceBtns.forEach(b => b.classList.remove('selected'));
+            renderOnlineExamNavGrid();
+
             updateProgress();
         });
     };
@@ -1605,7 +3131,7 @@
         } catch(e) {}
 
         if (window.B2BCloudSync) {
-            window.B2BCloudSync.submitExamRecord(null, currentTenant, {
+            window.B2BCloudSync.submitExamRecord(cloudDb, currentTenant, {
                 studentId: activeStudent.studentId,
                 studentName: activeStudent.studentName,
                 studentPhoneLast4: activeStudent.studentPhoneLast4,
@@ -1692,10 +3218,76 @@
         renderReportView(report);
     }
 
+    let weeklyRichExplanationsCache = {};
+
+    function getTeacherDisplayTitle() {
+        let t = (tenantConfig && tenantConfig.teacherName) || '담당 강사';
+        if (t.endsWith('선생님') || t.endsWith('강사')) return t;
+        if (t.endsWith('쌤')) return t.replace(/쌤$/, ' 선생님');
+        return `${t} 선생님`;
+    }
+
+    function getAcademyDisplayTitle() {
+        return (tenantConfig && tenantConfig.academyName) || '과학 전문관';
+    }
+
+    function formatWhitelabelExplanation(rawHtml) {
+        if (!rawHtml) return '';
+        const tTitle = getTeacherDisplayTitle();
+        const aTitle = getAcademyDisplayTitle();
+        const engTitle = (tenantConfig && (tenantConfig.englishName || tenantConfig.academyName || 'SCIENCE')).toUpperCase();
+
+        let html = rawHtml;
+        // 1. [갓쌤의 1초 개념] 및 변형 치환
+        html = html.replace(/\[\s*갓쌤의\s*1초\s*개념\s*\]/gi, `[${tTitle}의 핵심 개념]`);
+        html = html.replace(/\[\s*갓쌤의[^\]]+\]/gi, `[${tTitle}의 핵심 개념]`);
+        // 2. 갓쌤 치환
+        html = html.replace(/갓쌤/g, tTitle);
+        // 3. 갓통과 치환
+        html = html.replace(/갓통과/g, aTitle);
+        // 4. GOTONGGWA 치환
+        html = html.replace(/GOTONGGWA/gi, engTitle);
+
+        return html;
+    }
+
+    async function loadWeeklyRichExplanations(weekNum) {
+        const weekPad = String(weekNum).padStart(2, '0');
+        const weekKey = `week_2028_${weekPad}`;
+        if (weeklyRichExplanationsCache[weekKey]) {
+            return weeklyRichExplanationsCache[weekKey];
+        }
+
+        return new Promise((resolve) => {
+            const prevFs = document.documentElement.style.fontSize;
+            const script = document.createElement('script');
+            const isFileProto = window.location.protocol === 'file:';
+            script.src = isFileProto ? `./2028/${weekKey}.js` : `./2028/${weekKey}.js?v=${Date.now()}`;
+            script.onload = () => {
+                // Restore html fontSize if overridden by week script
+                if (prevFs) document.documentElement.style.fontSize = prevFs;
+                else document.documentElement.style.removeProperty('font-size');
+
+                if (window.globalExamData && Array.isArray(window.globalExamData.explanations)) {
+                    weeklyRichExplanationsCache[weekKey] = window.globalExamData.explanations;
+                    resolve(weeklyRichExplanationsCache[weekKey]);
+                } else {
+                    resolve([]);
+                }
+            };
+            script.onerror = (e) => {
+                console.warn(`[RichExplanation] Could not load ./2028/${weekKey}.js:`, e);
+                resolve([]);
+            };
+            document.head.appendChild(script);
+        });
+    }
+
     /**
      * 성적 리포트 상세 DOM 채우기
      */
-    function renderReportView(report) {
+    async function renderReportView(report) {
+        window.currentReportData = report;
         document.getElementById('reportStudentTitle').innerText = `${report.studentInfo.studentName} 학생의 성적 분석표`;
         
         // 점수 요약
@@ -1750,6 +3342,17 @@
             반면 <strong>${lowest.name} 영역(${lowest.val}%)</strong>의 오답 비중이 상대적으로 높아, 해당 단원 개념 및 계산 유형의 집중 클리닉이 권장됩니다.
         `;
 
+        // 주차별 정밀 해설 데이터 비동기 로드
+        let richExplanations = [];
+        try {
+            richExplanations = await loadWeeklyRichExplanations(currentWeekNum);
+        } catch(e) {
+            console.warn('Failed to load rich explanations:', e);
+        }
+
+        const aTitle = getAcademyDisplayTitle();
+        const tTitle = getTeacherDisplayTitle();
+
         // 20문항 상세 정오표 & 아코디언 해설 렌더링
         const accordionWrap = document.getElementById('reportItemAccordionList');
         accordionWrap.innerHTML = '';
@@ -1762,12 +3365,28 @@
             row.className = 'item-row';
             row.id = `itemRow_${item.num}`;
 
-            // 해설 텍스트 생성 (없을 경우 핵심 개념 자동 안내)
-            const explanationText = item.explanation || 
-                `[출제 영역] ${item.domain} - ${item.topic}\n` +
-                `[난이도] ${item.difficulty === 3 ? '고난도 킬러 문항' : item.difficulty === 2 ? '중간 변별력 문항' : '기본 개념 문항'}\n` +
-                `[정답] ${item.correctAnswer}번 (배점 ${item.score}점)\n` +
-                `[핵심 풀이] 본 문항은 2028 개정 교육과정 ${item.topic} 단원의 대표 기출 변형 수능형 문항으로, 정답은 ${item.correctAnswer}번입니다.`;
+            // 정밀 해설 매칭 및 화이트라벨 치환
+            let explanationHtml = '';
+            const matchedExpl = richExplanations.find(e => e.no === item.num);
+            if (matchedExpl && matchedExpl.content) {
+                explanationHtml = formatWhitelabelExplanation(matchedExpl.content);
+            } else if (item.explanation) {
+                explanationHtml = formatWhitelabelExplanation(item.explanation);
+            } else {
+                // 폴백 기본 템플릿
+                explanationHtml = `
+                    <div class="ans-correct-title">정답: ${item.correctAnswer}번 (배점 ${item.score}점)</div>
+                    <div class="concept-box">
+                        <div class="concept-title"><span class="concept-icon">💡</span> [${tTitle}의 핵심 개념]</div>
+                        <div class="concept-content">본 문항은 2028 개정 교육과정 <strong>${item.topic || item.domain}</strong> 단원의 수능형 변형 핵심 문항입니다.</div>
+                    </div>
+                    <div class="fact-check-title">🎯 문항 정보</div>
+                    <div class="fact-check-item">
+                        <span class="fact-check-label">ㆍ</span>
+                        <span class="fact-check-text">출제 영역: <b>${item.domain}</b> (${item.topic}) | 난이도: <b>${item.difficulty === 3 ? '고난도 킬러 문항' : item.difficulty === 2 ? '중간 변별력 문항' : '기본 개념 문항'}</b></span>
+                    </div>
+                `;
+            }
 
             row.innerHTML = `
                 <div class="item-summary" onclick="toggleItemRow(${item.num})">
@@ -1786,13 +3405,23 @@
                     </div>
                 </div>
                 <div class="item-detail-body">
-                    <div style="font-weight:700; color:#1e293b; margin-bottom:4px;">📖 문항 분석 및 해설</div>
-                    <div class="explanation-box" style="white-space:pre-line;">${explanationText}</div>
+                    <div style="font-weight:700; color:#1e293b; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;">
+                        <span>📖 문항 분석 및 팩트체크 심층 해설</span>
+                        <span style="font-size:11px; font-weight:normal; color:#64748b;">${aTitle} 연구팀</span>
+                    </div>
+                    <div class="explanation-box">${explanationHtml}</div>
                 </div>
             `;
 
             accordionWrap.appendChild(row);
         });
+
+        // 첫 번째 틀린 문항(없으면 1번)을 기본 펼침 상태로 제공하여 심층 해설 즉시 열람 유도
+        const firstTarget = report.itemDetails.find(i => !i.isCorrect) || report.itemDetails[0];
+        if (firstTarget) {
+            const firstRow = document.getElementById(`itemRow_${firstTarget.num}`);
+            if (firstRow) firstRow.classList.add('open');
+        }
 
         // 학부모 번호 마스킹 처리
         const rawParent = activeStudent.parentPhone || '010-0000-0000';
@@ -1803,8 +3432,14 @@
             document.getElementById('parentPhoneMasked').innerText = '학부모 등록 번호';
         }
 
-        // 카카오 알림톡 프리뷰 데이터 준비
-        window.currentReportData = report;
+        // MathJax 수식 렌더링
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            try {
+                window.MathJax.typesetPromise([accordionWrap]);
+            } catch(mjErr) {
+                console.warn('MathJax typeset error:', mjErr);
+            }
+        }
     }
 
     window.toggleItemRow = function(num) {
@@ -1843,10 +3478,13 @@
     window.handleRetakeExam = function() {
         showModal('다시 응시', '현재 답안을 지우고 처음부터 다시 응시하시겠습니까?', () => {
             studentMarks.fill(0);
+            currentOnlineQuestionIdx = 0;
             remainingSeconds = 30 * 60;
             document.getElementById('reportView').style.display = 'none';
             document.getElementById('omrView').style.display = 'flex';
             renderOmrQuestionList();
+            renderOnlineExamQuestion(0);
+            setExamMode(currentExamMode);
             startExamTimer();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
@@ -1880,6 +3518,158 @@
         }
         modalActionCallback = null;
     };
+
+    // ==========================================
+    // 전 회차(1~10주차) 네비게이션 드로어 컨트롤러
+    // ==========================================
+    const WEEK_CURRICULUM = [
+        { week: 1, title: '시간과 공간의 규모 ‧ 기본량과 측정 ‧ 정보와 신호', maxScore: '31.0점' },
+        { week: 2, title: '스펙트럼과 우주 원소 ‧ 빅뱅과 별의 진화 ‧ 원소의 주기성', maxScore: '35.5점' },
+        { week: 3, title: '화학 결합과 신소재 ‧ 규산염 광물 ‧ 단백질과 핵산', maxScore: '33.5점' },
+        { week: 4, title: '지구 시스템의 상호작용 ‧ 판 구조론 ‧ 중력장 내의 운동', maxScore: '36.5점' },
+        { week: 5, title: '충격량과 운동량 ‧ 충돌 안전장치 ‧ 생명 시스템과 효소', maxScore: '34.5점' },
+        { week: 6, title: '지질시대 생물과 화석 ‧ 대멸종 ‧ 변이와 자연선택', maxScore: '34.5점' },
+        { week: 7, title: '산화 환원 반응 ‧ 산과 염기 ‧ 중화 반응과 열', maxScore: '30.0점' },
+        { week: 8, title: '생태계 구성 요소와 평형 ‧ 대기와 해양 ‧ 지구온난화', maxScore: '36.5점' },
+        { week: 9, title: '태양 에너지 핵융합 ‧ 전자기 유도 발전 ‧ 에너지 효율', maxScore: '34.5점' },
+        { week: 10, title: '감염병과 병원체 ‧ 인공지능과 로봇 ‧ 과학기술과 윤리', maxScore: '33.5점' }
+    ];
+
+    window.openWeekNavDrawer = function() {
+        renderWeekNavDrawerList();
+        const overlay = document.getElementById('weekNavOverlay');
+        if (overlay) {
+            overlay.classList.add('open');
+            const pillBtn = document.getElementById('weekPillDisplay');
+            if (pillBtn) pillBtn.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    window.closeWeekNavDrawer = function(e) {
+        if (e && e.target && e.target.id !== 'weekNavOverlay' && !e.target.classList.contains('drawer-close-btn') && !e.target.closest('.drawer-close-btn')) {
+            return;
+        }
+        const overlay = document.getElementById('weekNavOverlay');
+        if (overlay) {
+            overlay.classList.remove('open');
+            const pillBtn = document.getElementById('weekPillDisplay');
+            if (pillBtn) pillBtn.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    };
+
+    function renderWeekNavDrawerList() {
+        const listEl = document.getElementById('drawerWeekList');
+        if (!listEl) return;
+
+        // 수강생 이름 칩 갱신
+        const studentNameEl = document.getElementById('drawerStudentNameText');
+        if (studentNameEl) {
+            if (activeStudent && activeStudent.studentName) {
+                studentNameEl.innerHTML = `<strong>${activeStudent.studentName}</strong> 수강생 (인증 완료)`;
+            } else {
+                studentNameEl.innerText = '수강생 미인증 (응시 시 자동 저장)';
+            }
+        }
+
+        const academyTitleEl = document.getElementById('drawerAcademyTitle');
+        if (academyTitleEl && tenantConfig) {
+            academyTitleEl.innerText = tenantConfig.academyName || '수능 통합과학 전문관';
+        }
+
+        // 학원 로컬 저장소에서 현재 학생의 제출 이력 로드
+        let allSubs = [];
+        try {
+            allSubs = JSON.parse(localStorage.getItem(`b2b_submissions_${currentTenant}`) || '[]');
+        } catch(e) {}
+
+        const studentSubs = activeStudent ? allSubs.filter(s => 
+            (s.studentId && activeStudent.studentId && s.studentId === activeStudent.studentId) ||
+            (s.studentName === activeStudent.studentName && String(s.studentPhoneLast4) === String(activeStudent.studentPhoneLast4))
+        ) : [];
+
+        const brandParam = tenantConfig ? encodeURIComponent(tenantConfig.academyName || '') : '';
+        const teacherParam = tenantConfig ? encodeURIComponent(tenantConfig.teacherName || '') : '';
+        const nameParam = activeStudent ? encodeURIComponent(activeStudent.studentName || '') : '';
+        const last4Param = activeStudent ? encodeURIComponent(activeStudent.studentPhoneLast4 || '') : '';
+
+        let html = '';
+        let releasedMaxWeek = 1;
+        try {
+            const rawW = localStorage.getItem(`b2b_released_week_${currentTenant}`);
+            if (rawW) releasedMaxWeek = parseInt(rawW, 10);
+            else if (tenantConfig && tenantConfig.releasedMaxWeek) releasedMaxWeek = parseInt(tenantConfig.releasedMaxWeek, 10);
+        } catch(e) {}
+
+        WEEK_CURRICULUM.forEach(item => {
+            const w = item.week;
+            const isCurrent = (w === currentWeekNum);
+            const isLocked = (w > releasedMaxWeek);
+            
+            // 해당 주차 제출 기록 확인
+            const sub = studentSubs.find(s => s.week === w);
+
+            let statusHtml = '';
+            if (isLocked) {
+                statusHtml = `<span class="status-pill-locked" style="background:#fee2e2; color:#b91c1c; font-size:11px; font-weight:800; padding:2px 8px; border-radius:10px;">🔒 순차 오픈 예정</span>`;
+            } else if (sub) {
+                const sScore = (sub.rawScore !== undefined) ? sub.rawScore : (sub.scaledScore || 0);
+                const sGrade = sub.grade || 1;
+                statusHtml = `<span class="status-pill-done">✅ 응시완료 (${sScore}점 / ${sGrade}등급)</span>`;
+            } else {
+                statusHtml = `<span class="status-pill-yet">⚪ 미응시</span>`;
+            }
+
+            // 주간지 전자책 링크
+            const ebookUrl = `./b2b_ebook_viewer.html?w=${w}&tenant=${currentTenant}&brand=${brandParam}&teacher=${teacherParam}${nameParam ? `&name=${nameParam}&key=${last4Param}` : ''}`;
+
+            // OMR 또는 성적표 링크
+            let omrUrl = '';
+            if (sub) {
+                omrUrl = `./b2b_mobile_omr.html?w=${w}&tenant=${currentTenant}&view=report&brand=${brandParam}&teacher=${teacherParam}${nameParam ? `&name=${nameParam}&last4=${last4Param}` : ''}`;
+            } else {
+                omrUrl = `./b2b_mobile_omr.html?w=${w}&tenant=${currentTenant}&brand=${brandParam}&teacher=${teacherParam}${nameParam ? `&name=${nameParam}&last4=${last4Param}&auto=true` : ''}`;
+            }
+
+            const actionsHtml = isLocked ? `
+                <div class="week-card-actions" style="opacity:0.55;">
+                    <button type="button" class="week-act-btn" style="background:#e2e8f0; color:#64748b; cursor:not-allowed;" onclick="alert('🔒 제${w}회차 주간지는 학원에서 아직 오픈되지 않았습니다.\n(공지 후 열립니다)')">
+                        <span>🔒 전자책 (오픈 예정)</span>
+                    </button>
+                    <button type="button" class="week-act-btn" style="background:#e2e8f0; color:#64748b; cursor:not-allowed;" onclick="alert('🔒 제${w}회차 OMR은 학원에서 아직 오픈되지 않았습니다.\n(공지 후 열립니다)')">
+                        <span>🔒 OMR (오픈 예정)</span>
+                    </button>
+                </div>
+            ` : `
+                <div class="week-card-actions">
+                    <a href="${ebookUrl}" class="week-act-btn btn-ebook" title="제${w}주차 전자책 열람">
+                        <span>📖 주간지 전자책</span>
+                    </a>
+                    <a href="${omrUrl}" class="week-act-btn ${sub ? 'btn-report' : 'btn-omr'}" title="${sub ? '제' + w + '주차 성적표 및 정밀해설 확인' : '제' + w + '주차 OMR 모의고사 응시'}">
+                        <span>${sub ? '📊 성적표 / 해설' : '⚡ OMR 응시'}</span>
+                    </a>
+                </div>
+            `;
+
+            html += `
+            <div class="drawer-week-card ${isCurrent ? 'is-current' : ''}" style="${isLocked ? 'background:#f8fafc; border-color:#e2e8f0;' : ''}">
+                <div class="week-card-head">
+                    <div class="week-card-num-wrap">
+                        <span class="week-badge" style="${isLocked ? 'color:#94a3b8;' : ''}">제${w}주차</span>
+                        ${isCurrent ? '<span class="current-pill">현재 열람 중</span>' : ''}
+                        ${statusHtml}
+                    </div>
+                    <div class="week-card-max-score" style="${isLocked ? 'color:#94a3b8;' : ''}">만점 ${item.maxScore}</div>
+                </div>
+                <div class="week-card-title" style="${isLocked ? 'color:#94a3b8;' : ''}">${item.title}</div>
+                ${actionsHtml}
+            </div>
+            `;
+        });
+
+        listEl.innerHTML = html;
+    }
 
 })();
 </script>

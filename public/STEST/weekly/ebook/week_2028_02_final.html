@@ -4,6 +4,7 @@
 
 <html lang="ko">
 <head>
+    <script src="../device_guard.js"></script>
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
@@ -58,6 +59,22 @@
                 window.location.href = "../../exam.html";
                 return;
             }
+
+            // B2C 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (계정 공유 방지)
+            if (window.DeviceGuard) {
+                const devCheck = await window.DeviceGuard.checkB2CDevice(db, user.uid);
+                if (!devCheck.allowed) {
+                    window.DeviceGuard.renderDeviceLimitBlockModal({
+                        title: '⚠️ 갓통과 주간지 기기 등록 한도 초과 (최대 2대)',
+                        studentName: userData.displayName || userData.name || '회원',
+                        devices: devCheck.devices || [],
+                        isB2B: false,
+                        onClose: () => { window.location.href = "../../exam.html"; }
+                    });
+                    return;
+                }
+            }
+
             document.body.style.display = 'flex';
         } catch (err) {
             console.error("Auth verification error:", err);
@@ -4129,22 +4146,27 @@ window.closeEbook = function(e) {
         try { e.stopPropagation(); } catch(err){}
         try { e.preventDefault(); } catch(err){}
     }
-    if (window.opener && !window.opener.closed) {
-        window.close();
-        return;
+    // 1. iframe 내부인 경우 부모 창 닫기 신호 전송 및 부모 닫기 시도
+    if (window.parent && window.parent !== window) {
+        try {
+            window.parent.postMessage('close-ebook', '*');
+            window.parent.close();
+        } catch(err){}
     }
-    if (document.referrer && (document.referrer.indexOf(window.location.host) !== -1 || document.referrer.indexOf('exam') !== -1 || document.referrer.indexOf('weekly') !== -1)) {
-        window.location.href = document.referrer;
-        return;
-    }
-    if (window.history && window.history.length > 1) {
-        window.history.back();
-        setTimeout(function() {
-            window.location.href = "../../exam.html";
-        }, 300);
-        return;
-    }
-    window.location.href = "../../exam.html";
+    // 2. 현재 창 닫기
+    window.close();
+    // 3. 브라우저 정책으로 닫기가 차단된 경우 안전하게 이전 페이지로 복귀
+    setTimeout(function() {
+        if (!window.closed) {
+            if (window.history && window.history.length > 1) {
+                window.history.back();
+            } else if (document.referrer && !document.referrer.includes('final.html') && !document.referrer.includes('ebook_preview')) {
+                window.location.href = document.referrer;
+            } else {
+                window.location.href = "../b2b_weekly.html";
+            }
+        }
+    }, 150);
 };
 
 // ==========================================
@@ -4933,6 +4955,192 @@ window.toggleFlipbook = function() {
 document.addEventListener('DOMContentLoaded', () => {
     window.toggleFlipbook();
 });
+
+// ==========================================
+// B2B 화이트라벨 URL 파라미터 자동 동기화 엔진
+// ==========================================
+(function initB2BAutoWhitelabel() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const bName = params.get('brand') || '';
+        const tName = params.get('teacher') || '';
+        const eName = (params.get('eng') || bName).toUpperCase();
+        if (!bName && !eName && !tName) return;
+
+        function applyWhitelabelToDom() {
+            try {
+                // 1. 상단 네비게이션바 (#top-nav) 로고 & 볼륨 치환 (닫기, 목차 버튼 보존 및 복구 가드)
+                const topNav = document.getElementById('top-nav');
+                if (topNav) {
+                    const leftBox = topNav.firstElementChild;
+                    if (leftBox) {
+                        // 닫기 버튼 보존/복구 가드
+                        if (!leftBox.querySelector('button[onclick*="closeEbook"]')) {
+                            const closeBtn = document.createElement('button');
+                            closeBtn.setAttribute('onclick', 'window.closeEbook(event)');
+                            closeBtn.style.cssText = "background: #ef4444; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);";
+                            closeBtn.innerHTML = '<span style="font-size: 13px; font-weight: 900;">✖</span> 닫기';
+                            leftBox.insertBefore(closeBtn, leftBox.firstChild);
+                        }
+                        // 목차 버튼 보존/복구 가드
+                        if (!leftBox.querySelector('#btn-toc-toggle')) {
+                            const tocBtn = document.createElement('button');
+                            tocBtn.id = 'btn-toc-toggle';
+                            tocBtn.setAttribute('onclick', 'window.toggleTocDrawer(event)');
+                            tocBtn.style.cssText = "background: #1e293b; border: 1px solid #0284c7; color: #38bdf8; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); transition: all 0.2s;";
+                            tocBtn.innerHTML = '<span style="font-size: 14px;">📑</span> 목차';
+                            leftBox.appendChild(tocBtn);
+                        }
+                        // 가운데 로고 div만 정밀 타겟 치환
+                        const brandDiv = Array.from(leftBox.children).find(c => c.tagName === 'DIV');
+                        if (brandDiv) {
+                            const m = brandDiv.textContent.match(/VOL\.(\d+)/i);
+                            const vNum = m ? m[1] : '01';
+                            brandDiv.style.fontFamily = "'Roboto', sans-serif";
+                            brandDiv.style.fontWeight = "900";
+                            brandDiv.style.fontSize = "14px";
+                            brandDiv.style.color = "#38bdf8";
+                            brandDiv.style.letterSpacing = "0.5px";
+                            brandDiv.innerHTML = `${eName} <span style="background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">VOL.${vNum}</span>`;
+                        }
+                    }
+                }
+
+                // 2. 모든 페이지 상단 러닝 헤드 치환 (.header-brand)
+                document.querySelectorAll('.header-brand').forEach(el => {
+                    el.innerHTML = `${eName} WEEKLY`;
+                });
+
+                // 3. 표지 상단 브랜드 치환 (.brand)
+                document.querySelectorAll('.brand').forEach(el => {
+                    el.innerHTML = eName;
+                });
+
+                // 4. 표지 메인 제호 (.title) 치환 및 긴 학원명 자동 폰트 크기 조절 (줄바꿈 원천 방지)
+                function fitCoverTitle(titleEl, brandName) {
+                    if (!titleEl) return;
+                    const bn = (brandName || '갓통과').trim();
+                    if (!bn) return;
+
+                    // A4 커버 (.a4-page 500px, .top-section 좌우 40px 패딩) 가용 폭 420px
+                    // 줄바꿈 방지를 위한 안전 여유폭 405px
+                    const maxAllowedWidth = 405;
+
+                    // 1. Canvas 2D 정밀 텍스트 폭 측정 (bold 900 기준)
+                    let brandSize = 64;
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        function measure(text, size) {
+                            ctx.font = '900 ' + size + 'px "Noto Sans KR", "Nanum Gothic", sans-serif';
+                            return ctx.measureText(text).width;
+                        }
+
+                        // 2. 기본 64px에서 시작하여 가용 폭(405px)을 초과할 때만 1px씩 점진적 축소
+                        let textW = measure(bn, brandSize);
+                        while (textW > maxAllowedWidth && brandSize > 22) {
+                            brandSize -= 1;
+                            textW = measure(bn, brandSize);
+                        }
+                    } catch(err) {
+                        let units = 0;
+                        for (let i = 0; i < bn.length; i++) {
+                            const c = bn.charCodeAt(i);
+                            if (c === 32) units += 0.35;
+                            else if (c >= 0xac00 && c <= 0xd7a3) units += 1.0;
+                            else units += 0.65;
+                        }
+                        if (units * 64 * 0.95 > maxAllowedWidth) {
+                            brandSize = Math.max(22, Math.floor(maxAllowedWidth / (units * 0.95)));
+                        }
+                    }
+
+                    // 3. WEEKLY 크기 조화 (학원명이 아주 길어 작아졌을 때만 WEEKLY도 비례 축소)
+                    let weeklySize = 64;
+                    if (brandSize < 40) {
+                        weeklySize = Math.max(46, Math.round(brandSize * 1.25));
+                    }
+
+                    titleEl.style.margin = '15px 0 0 0';
+                    titleEl.style.lineHeight = '1.1';
+                    titleEl.style.letterSpacing = '-1px';
+                    titleEl.style.color = '#0f172a';
+                    titleEl.innerHTML = `
+                        <span class="cover-brand-title" style="display:inline-block; max-width:100%; font-size:${brandSize}px; font-weight:900; white-space:nowrap; letter-spacing:-1.5px; line-height:1.12; overflow:hidden; text-overflow:ellipsis;">${bn}</span>
+                        <span class="cover-weekly-text" style="display:block; font-size:${weeklySize}px; font-weight:900; white-space:nowrap; letter-spacing:-2px; line-height:1.05;">WEEKLY</span>
+                    `;
+                }
+
+                document.querySelectorAll('.cover-page .title, .title').forEach(el => {
+                    fitCoverTitle(el, bName);
+                });
+
+                // 5. 시스템 가이드 및 안내문 (.guide-title, .guide-desc)
+                document.querySelectorAll('.guide-title').forEach(el => {
+                    if (/GO[TD]TONGGWA/i.test(el.innerHTML)) {
+                        el.innerHTML = el.innerHTML.replace(/GO[TD]TONGGWA/gi, eName);
+                    }
+                    if (bName && el.innerHTML.includes('갓통과')) {
+                        el.innerHTML = el.innerHTML.replace(/갓통과/g, bName);
+                    }
+                });
+
+                // 6. TreeWalker를 통한 텍스트 노드 치환
+                const walker = document.createTreeWalker(
+                    document.body,
+                    NodeFilter.SHOW_TEXT,
+                    {
+                        acceptNode: function(node) {
+                            if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+                            const tag = node.parentElement.tagName.toUpperCase();
+                            if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+                            return NodeFilter.FILTER_ACCEPT;
+                        }
+                    },
+                    false
+                );
+
+                const nodes = [];
+                let curr;
+                while ((curr = walker.nextNode())) nodes.push(curr);
+
+                nodes.forEach(node => {
+                    let val = node.nodeValue;
+                    if (!val) return;
+                    let chg = false;
+                    if (tName) {
+                        if (val.includes('갓쌤의')) { val = val.replace(/갓쌤의/g, `${tName}의`); chg = true; }
+                        if (val.includes("갓쌤's") || val.includes("갓쌤’s")) { val = val.replace(/갓쌤['’]s/g, `${tName}'s`); chg = true; }
+                        if (val.includes('갓쌤')) { val = val.replace(/갓쌤/g, tName); chg = true; }
+                    }
+                    if (bName && val.includes('갓통과')) { val = val.replace(/갓통과/g, bName); chg = true; }
+                    if (eName && /GO[TD]TONGGWA/i.test(val)) { val = val.replace(/GO[TD]TONGGWA/gi, eName); chg = true; }
+                    if (chg) node.nodeValue = val;
+                });
+            } catch(e) {
+                console.warn('Whitelabel self-apply err:', e);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyWhitelabelToDom);
+        } else {
+            applyWhitelabelToDom();
+        }
+        setTimeout(applyWhitelabelToDom, 100);
+        setTimeout(applyWhitelabelToDom, 400);
+        setTimeout(applyWhitelabelToDom, 1000);
+        setTimeout(applyWhitelabelToDom, 2500);
+
+        window.addEventListener('load', () => {
+            applyWhitelabelToDom();
+            if (window.pageFlip && typeof window.pageFlip.on === 'function') {
+                window.pageFlip.on('flip', () => setTimeout(applyWhitelabelToDom, 30));
+            }
+        });
+    } catch(err) {}
+})();
+
 
 </script>
 

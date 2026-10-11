@@ -1,765 +1,836 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>갓통과 WEEKLY - 2028 통합과학 주간지 B2B 화이트레이블 솔루션</title>
-    
-    <!-- 스타일링을 위한 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 아이콘 라이브러리 Lucide -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        
-        body { 
-            font-family: 'Noto Sans KR', sans-serif; 
-            background-color: #0b1120; 
-            color: #f8fafc;
-            line-height: 1.6;
-            word-break: keep-all;
-            overflow-wrap: break-word;
-        }
-
-        /* 어절 단위 줄바꿈 유지 */
-        h1, h2, h3, h4, p, span, a, button, label {
-            word-break: keep-all;
-            overflow-wrap: break-word;
-        }
-
-        /* 부드러운 스크롤 */
-        html { scroll-behavior: smooth; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>2028 통합과학 겨울방학 10주 특강 B2B 주간지 솔루션</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+    body { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 sm:p-8">
 
-    <!-- 상단 글로벌 네비게이션 바 -->
-    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <a href="/index.html" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors group">
-                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center group-hover:bg-slate-700 transition-colors">
-                        <i data-lucide="arrow-left" class="w-4 h-4 text-slate-400 group-hover:text-white"></i>
-                    </div>
-                    <span class="text-xs sm:text-sm font-bold text-slate-400 group-hover:text-white">홈으로</span>
-                </a>
-                <div class="h-4 w-px bg-slate-700 hidden sm:block"></div>
-                <div class="flex items-center gap-2">
-                    <span class="font-black text-base sm:text-lg tracking-tight bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">
-                        갓통과 WEEKLY B2B
-                    </span>
-                    <span class="text-[11px] font-bold text-indigo-400 bg-indigo-950/80 border border-indigo-500/30 px-2 py-0.5 rounded-full hidden sm:inline-block">
-                        주간지 화이트레이블관
-                    </span>
-                </div>
-            </div>
+  <!-- 상단 간편 네비게이션 -->
+  <div class="max-w-5xl mx-auto mb-6 flex items-center justify-between">
+    <a href="/index.html" class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg transition-colors">
+      <span>← 메인 홈으로</span>
+    </a>
+    <span class="text-xs font-bold text-indigo-400 bg-indigo-950/80 border border-indigo-800/80 px-3 py-1 rounded-full">
+      갓통과 WEEKLY B2B 주간지 화이트레이블
+    </span>
+  </div>
 
-            <div class="flex items-center gap-3">
-                <a href="/b2b_promo_landing.html" class="text-xs sm:text-sm font-bold text-sky-400 hover:text-sky-300 px-3 py-1.5 flex items-center gap-1">
-                    <i data-lucide="layers" class="w-4 h-4"></i>
-                    전체 B2B 허브
-                </a>
-                <a href="#demo-section" class="text-xs sm:text-sm font-bold text-emerald-400 hover:text-emerald-300 px-3 py-1.5 hidden md:flex items-center gap-1">
-                    <i data-lucide="play-circle" class="w-4 h-4"></i>
-                    라이브 체험
-                </a>
-                <a href="#quote-section" class="text-xs sm:text-sm font-black bg-gradient-to-r from-indigo-500 to-sky-600 hover:from-indigo-400 hover:to-sky-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all">
-                    맞춤 견적서 신청
-                </a>
-            </div>
-        </div>
-    </nav>
+  <div class="max-w-5xl mx-auto space-y-8">
 
     <!-- ============================================================== -->
-    <!-- 1. 타이틀 섹션 (첨부 이미지 1 규격) -->
+    <!-- [수정안 A] 주간 루틴 파이프라인형 (Weekly Routine Pipeline) 본문 카드 -->
     <!-- ============================================================== -->
-    <header class="relative overflow-hidden py-16 sm:py-24 border-b border-slate-800 bg-gradient-to-b from-slate-900/90 via-slate-900/50 to-transparent">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
-            <!-- 상단 뱃지 (첨부 이미지 1 규격) -->
-            <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-400/30 text-indigo-300 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold mb-6 shadow-sm">
-                <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
-                원작자 명칭 노출 0% 학원 자체 브랜딩 주간지 솔루션
-            </div>
-
-            <!-- 메인 타이틀 (첨부 이미지 1 규격) -->
-            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight sm:leading-tight max-w-4xl mx-auto">
-                "원장님 학원의 브랜드로 배포하는<br>
-                <span class="bg-gradient-to-r from-indigo-400 via-sky-300 to-teal-300 bg-clip-text text-transparent">
-                    2028 통합과학 10주차 주간지 &amp; Fit 20 앱"
-                </span>
-            </h1>
-
-            <p class="mt-6 text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-                전 단원 핵심 개념 전자책 + 핏(Fit) 20 모의고사 + OMR 자동 채점 + 카카오 알림톡 관리
-            </p>
-
-            <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <a href="#process-section" class="bg-gradient-to-r from-indigo-500 to-sky-600 hover:from-indigo-400 hover:to-sky-500 text-white font-black px-6 py-3.5 rounded-xl text-sm sm:text-base shadow-xl shadow-indigo-500/25 active:scale-95 transition-all flex items-center gap-2">
-                    <i data-lucide="workflow" class="w-4 h-4"></i>
-                    4단계 특강 운영 프로세스
-                </a>
-                <a href="#demo-section" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold px-6 py-3.5 rounded-xl text-sm sm:text-base active:scale-95 transition-all flex items-center gap-2">
-                    <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
-                    라이브 시스템 직접 체험
-                </a>
-                <a href="#quote-section" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-6 py-3.5 rounded-xl text-sm sm:text-base shadow-xl shadow-emerald-600/25 active:scale-95 transition-all flex items-center gap-2">
-                    <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                    우리 학원 맞춤 견적서 신청
-                </a>
-            </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+      <!-- 메인 헤더 & 슬로건 -->
+      <div class="p-8 sm:p-12 text-center border-b border-slate-800/80 bg-gradient-to-b from-indigo-950/30 to-transparent">
+        <div class="inline-block bg-sky-500/10 border border-sky-400/30 text-sky-300 px-3.5 py-1 rounded-full text-xs font-bold mb-4">
+          ❄️ 원작자 명칭 노출 0% 학원 자체 브랜딩 주간지 솔루션
         </div>
-    </header>
+        <h1 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+          "원장님 학원의 브랜드로 배포하는<br>
+          <span class="bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-300 bg-clip-text text-transparent">
+            2028 통합과학 윈터특강 10주 과정 주간지"
+          </span>
+        </h1>
+        <p class="text-sm text-slate-400 mt-3 max-w-xl mx-auto">
+          전 단원 핵심 개념 전자책 + 핏(Fit) 20 모의고사 + OMR 자동 채점 + 카카오 알림톡 관리
+        </p>
+      </div>
 
-    <main class="flex-grow">
-        <!-- ============================================================== -->
-        <!-- 2. 4단계 특강 운영 프로세스 (Interactive Feature Preview) -->
-        <!-- (요청: 각 스텝 상자 내부의 작은 상자 삭제하여 깔끔한 카드 완성) -->
-        <!-- ============================================================== -->
-        <section id="process-section" class="py-16 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-xs font-black text-sky-400 uppercase tracking-wider bg-sky-500/10 border border-sky-400/30 px-3 py-1 rounded-full">
-                    Interactive Feature Preview
-                </span>
-                <h2 class="text-2xl sm:text-3xl font-black text-white mt-3">
-                    🚀 4단계 특강 운영 프로세스
-                </h2>
-                <p class="text-sm text-slate-400 mt-2">
-                    강사 등록부터 모바일 OMR 채점, 다차원 성적표, 학부모 알림톡까지 원스톱으로 자동화됩니다.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- STEP 1 (첨부 이미지 2 규격) -->
-                <div class="bg-slate-900 border border-indigo-500/30 p-6 rounded-3xl relative shadow-xl hover:border-indigo-400/60 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-indigo-600 text-white font-black text-xs px-3 py-1 rounded-full">
-                                STEP 1 (강사/원장)
-                            </span>
-                            <i data-lucide="building-2" class="w-5 h-5 text-indigo-400"></i>
-                        </div>
-
-                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
-                            학원 브랜딩 등록
-                        </h3>
-
-                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                            원작자 노출 0%! 학원 로고와 강사명을 입력하면 모든 시험지와 OMR에 학원 브랜드가 즉시 화이트라벨링됩니다.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- STEP 2 (첨부 이미지 3 규격) -->
-                <div class="bg-slate-900 border border-emerald-500/30 p-6 rounded-3xl relative shadow-xl hover:border-emerald-400/60 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full">
-                                STEP 2 (수강생)
-                            </span>
-                            <i data-lucide="smartphone" class="w-5 h-5 text-emerald-400"></i>
-                        </div>
-
-                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
-                            회원가입 없는 모바일 OMR<br>1초 자동 채점 &amp; 복습
-                        </h3>
-
-                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                            학생들은 회원가입 없이 스마트폰으로 QR을 스캔하고 본인 확인 후 바로 20문항을 마킹합니다.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- STEP 3 (다차원 성적표: 첨부 이미지 형식) -->
-                <div class="bg-slate-900 border border-sky-500/30 p-6 rounded-3xl relative shadow-xl hover:border-sky-400/60 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-sky-600 text-white font-black text-xs px-3 py-1 rounded-full">
-                                STEP 3 (다차원 성적표)
-                            </span>
-                            <i data-lucide="bar-chart-3" class="w-5 h-5 text-sky-400"></i>
-                        </div>
-
-                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
-                            다차원 성적표<br>전국 백분위 &amp; 밸런스 차트
-                        </h3>
-
-                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                            전국 백분위, 밸런스 차트가 포함된 모바일 성적표 뷰로 학생별 취약 단원을 정밀 진단합니다.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- STEP 4 (원클릭 학부모 알림: 첨부 이미지 형식) -->
-                <div class="bg-slate-900 border border-amber-500/30 p-6 rounded-3xl relative shadow-xl hover:border-amber-400/60 transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-amber-600 text-white font-black text-xs px-3 py-1 rounded-full">
-                                STEP 4 (원클릭 학부모 알림)
-                            </span>
-                            <i data-lucide="send" class="w-5 h-5 text-amber-400"></i>
-                        </div>
-
-                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 leading-snug">
-                            원클릭 학부모 알림<br>카카오 알림톡 프리미엄 발송
-                        </h3>
-
-                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                            학부모 카카오톡으로 프리미엄 성적표를 자동 발송하여 학원의 신뢰도와 재등록률을 극대화합니다.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================== -->
-        <!-- [복원] 라이브 시스템 직접 체험관 (와이드 카드) -->
-        <!-- ============================================================== -->
-        <section id="demo-section" class="py-16 bg-slate-900/60 border-y border-slate-800">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6">
-                <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950 border border-sky-500/30 rounded-3xl p-8 sm:p-12 text-center shadow-2xl">
-                    <div class="max-w-3xl mx-auto">
-                        <span class="bg-emerald-500/20 text-emerald-300 text-xs font-black px-3.5 py-1 rounded-full border border-emerald-400/30 mb-4 inline-block">
-                            ⚡ 라이브 시스템 1초 직접 체험
-                        </span>
-                        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                            선생님 콘솔과 학생 모바일 OMR을 지금 직접 체험해보세요
-                        </h2>
-                        <p class="text-sm sm:text-base text-slate-300 mt-3 mb-8">
-                            별도 회원가입 없이 아래 버튼을 누르면 실제 백엔드 연동 화면으로 즉시 연결됩니다.
-                        </p>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <a href="/STEST/weekly/b2b_admin_console.html" target="_blank" class="bg-slate-800/90 hover:bg-slate-700 text-sky-300 border border-slate-700 p-5 rounded-2xl font-bold text-sm shadow-md flex flex-col items-center gap-2 active:scale-95 transition-all">
-                                <i data-lucide="layout-dashboard" class="w-6 h-6 text-sky-400"></i>
-                                <span>강사 관리자 콘솔 (/admin)</span>
-                                <span class="text-[11px] text-slate-400 font-normal">브랜딩 설정 &amp; 명단 관리</span>
-                            </a>
-                            <button type="button" onclick="openFit20OptionModal()" class="bg-slate-800/90 hover:bg-slate-700 text-emerald-300 border border-slate-700 p-5 rounded-2xl font-bold text-sm shadow-md flex flex-col items-center gap-2 active:scale-95 transition-all text-center w-full">
-                                <i data-lucide="smartphone" class="w-6 h-6 text-emerald-400"></i>
-                                <span>학생 모바일 Fit 20 응시</span>
-                                <span class="text-[11px] text-slate-400 font-normal">학원명·선생님 이름 치환 체험</span>
-                            </button>
-                            <button type="button" onclick="openEbookOptionModal()" class="bg-slate-800/90 hover:bg-slate-700 text-indigo-300 border border-slate-700 p-5 rounded-2xl font-bold text-sm shadow-md flex flex-col items-center gap-2 active:scale-95 transition-all text-center w-full">
-                                <i data-lucide="book-open-check" class="w-6 h-6 text-indigo-400"></i>
-                                <span>주간지 전자책 뷰어</span>
-                                <span class="text-[11px] text-slate-400 font-normal">학원명·선생님 이름 치환 체험</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================== -->
-        <!-- 3. 학원 운영비 지출 부담 0원! (첨부 이미지 4 규격 배너) -->
-        <!-- (요청: POINT 01~03 카드 삭제 및 Plan & Expected Profit 삭제) -->
-        <!-- ============================================================== -->
-        <section id="roi-section" class="py-16 sm:py-20 border-b border-slate-800 bg-slate-900/40">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                <!-- 첨부 이미지 4 헤더 및 뱃지 -->
-                <span class="inline-flex items-center gap-1.5 text-xs font-black text-emerald-400 uppercase tracking-wider bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full mb-4 shadow-sm">
-                    <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
-                    ACADEMY BUSINESS &amp; ROI MODEL
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-black text-white mt-1 leading-tight tracking-tight">
-                    학원 운영비 지출 부담 0원!<br>
-                    <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400 bg-clip-text text-transparent">
-                        학부모 교재비 수납을 통한 학원 순수익 창출 구조
-                    </span>
-                </h2>
-                <p class="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed max-w-2xl mx-auto">
-                    갓통과 솔루션은 학원 예산이 투입되는 '고정 지출 비용'이 아닙니다.<br class="hidden sm:inline">
-                    학부모님께 수납하는 표준 교재비로 공급가를 전액 충당하고, 오히려 <strong>학생 1인당 순마진</strong>이 학원 수익으로 귀속되는 합법적 수익형 패키지입니다.
-                </p>
-                <div class="mt-8">
-                    <a href="#quote-section" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-600/25 active:scale-95 transition-all">
-                        <i data-lucide="file-check-2" class="w-4 h-4"></i>
-                        우리 학원 맞춤 견적서 신청하기
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================== -->
-        <!-- 4. 맞춤 견적서 받아보기 메뉴 (계산기/체험 삭제) -->
-        <!-- ============================================================== -->
-        <section id="quote-section" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-                <!-- Background glow -->
-                <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-                <div class="text-center mb-10 relative z-10">
-                    <span class="inline-flex items-center gap-1.5 text-xs font-black text-emerald-400 uppercase tracking-wider bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full mb-3">
-                        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
-                        Custom Quote &amp; Partner Manual
-                    </span>
-                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">
-                        우리 학원 맞춤 견적서 받아보기
-                    </h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-xl mx-auto">
-                        선생님의 학원 규모(원생 수)와 희망하시는 운영 형태를 남겨주시면, 최적의 B2B 도매 공급 견적서와 함께 <strong>[공식 상세 운영 매뉴얼 가이드북]</strong>을 전달해 드립니다.
-                    </p>
-                </div>
-
-                <!-- 견적 신청 입력 폼 -->
-                <form id="quoteForm" onsubmit="event.preventDefault(); handleRequestQuote();" class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm relative z-10">
-                    <div>
-                        <label class="block font-bold text-slate-300 mb-1.5">선생님 성함 <span class="text-emerald-400">*</span></label>
-                        <input type="text" id="inpQuoteTeacher" required placeholder="예: 김철수 선생님" value="김과학 선생님" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-300 mb-1.5">학원명 및 지역 <span class="text-emerald-400">*</span></label>
-                        <input type="text" id="inpQuoteAcademy" required placeholder="예: 갓통과 과학 전문관" value="갓통과 과학 전문관" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-300 mb-1.5">예상 수강생 인원 규모 <span class="text-emerald-400">*</span></label>
-                        <select id="selQuoteSeats" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 font-bold">
-                            <option value="30">30명 플랜 (단과 / 교습소용)</option>
-                            <option value="50" selected>50명 플랜 (중형 전문학원 표준 - BEST)</option>
-                            <option value="100">100명 이상 플랜 (대형관 / 연합)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-300 mb-1.5">도입 희망 형태 <span class="text-emerald-400">*</span></label>
-                        <select id="selQuoteDeliveryType" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500">
-                            <option value="digital" selected>[옵션 A] 디지털 라이선스형 (자체 출력 + OMR/알림톡 솔루션)</option>
-                            <option value="physical">[옵션 B] 올인원 실물 배송형 (10주 주간지 10권 + 모의고사 10회 택배 배송)</option>
-                            <option value="consult">[상담 후 맞춤 추천] 원장님 학원 환경에 최적화</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-300 mb-1.5">연락처 (휴대폰 번호) <span class="text-emerald-400">*</span></label>
-                        <input type="tel" id="inpQuotePhone" required placeholder="010-0000-0000" value="010-1234-5678" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-300 mb-1.5">이메일 주소 (견적서 &amp; 매뉴얼 수신용) <span class="text-emerald-400">*</span></label>
-                        <input type="email" id="inpQuoteEmail" required placeholder="director@academy.com" value="director@academy.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="block font-bold text-slate-300 mb-1.5">추가 문의사항 또는 희망 상담 시간 (선택)</label>
-                        <textarea id="inpQuoteNote" rows="2" placeholder="예: 1월 초 겨울방학 특강 개강 예정이며, 교재 자체 출력 가능 여부 상담 희망합니다." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white outline-none focus:border-emerald-500 text-xs sm:text-sm"></textarea>
-                    </div>
-
-                    <!-- 단일 견적 신청 CTA 버튼 -->
-                    <div class="sm:col-span-2 mt-2">
-                        <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 text-white font-black py-4 rounded-xl text-base shadow-xl shadow-emerald-600/25 active:scale-98 transition-all flex items-center justify-center gap-2">
-                            <i data-lucide="file-check-2" class="w-5 h-5"></i>
-                            <span>👉 우리 학원 맞춤 견적서 &amp; 상세 운영 매뉴얼 신청하기</span>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- 하단 신뢰 및 보안 안내 -->
-                <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-400 space-y-1 relative z-10">
-                    <p>🔒 입력하신 정보는 제휴 상담 및 견적서 발송 목적으로만 안전하게 처리됩니다.</p>
-                    <p>※ 정식 도입 시 모든 시험지와 모바일 OMR에 선생님 학원 로고 및 직인이 100% 화이트라벨링됩니다.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 견적 완료 모달 (상세 매뉴얼 열람 링크 포함) -->
-    <div id="quoteResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
-                <i data-lucide="check-circle-2" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-black text-white mb-2">
-                맞춤 견적 및 상세 매뉴얼 신청 완료
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed" id="modalQuoteSummary">
-                선생님, 학원 맞춤 견적 신청이 정상 접수되었습니다.
-            </p>
-
-            <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 text-xs text-slate-300 space-y-2 mb-6">
-                <div class="flex justify-between">
-                    <span class="text-slate-400">신청 학원:</span>
-                    <strong class="text-white" id="modalResAcademy">-</strong>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-400">담당 선생님:</span>
-                    <span class="text-white" id="modalResTeacher">-</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-400">수강생 정원:</span>
-                    <span class="text-emerald-400 font-bold" id="modalResSeats">-</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-400">도입 희망 형태:</span>
-                    <span class="text-white" id="modalResDelivery">-</span>
-                </div>
-            </div>
-
-            <div class="space-y-3">
-                <a href="/STEST/weekly/marketing/b2b_partner_manual.html" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-xl text-sm shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all">
-                    <i data-lucide="book-open-check" class="w-4 h-4"></i>
-                    <span>📘 공식 상세 운영 매뉴얼 지금 바로 열람하기 ➔</span>
-                </a>
-                <button type="button" onclick="closeQuoteModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition-colors">
-                    닫기
-                </button>
-            </div>
+      <!-- 4단계 실무 메커니즘 (파이프라인) -->
+      <div class="p-8 sm:p-12">
+        <div class="text-center mb-8">
+          <span class="text-xs font-black text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-full">Weekly Routine 4-Steps</span>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-2">매주 진행되는 4단계 주간지 배포 메커니즘</h2>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+          <!-- STEP 1 -->
+          <div class="bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-black text-indigo-400 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">STEP 1</span>
+                <span class="text-xs text-slate-400">매주 개강일</span>
+              </div>
+              <h3 class="text-base font-bold text-white mb-2">주차별 전자책 원클릭 오픈</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                매주 수업 진도에 맞춰 해당 주차(1~10주차) 전자책 전용 링크와 QR코드를 카톡방이나 학원 밴드에 원클릭 공지합니다.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-indigo-300 font-semibold">
+              ✓ 소요 시간: 1분 미만
+            </div>
+          </div>
+
+          <!-- STEP 2 (요청 문구 반영) -->
+          <div class="bg-slate-950 border border-slate-800 hover:border-sky-500/50 transition-all rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-black text-sky-400 bg-sky-950 px-2 py-0.5 rounded border border-sky-800">STEP 2</span>
+                <span class="text-xs text-slate-400">주중 학습</span>
+              </div>
+              <h3 class="text-base font-bold text-white mb-2 leading-snug">학생 모바일·태블릿 즉시 열람<br class="hidden sm:inline">또는 인쇄물 배부</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                학생들은 별도 회원가입이나 앱 설치 없이, 스마트폰이나 패드로 학원 브랜드가 박힌 핵심 개념서와 실전 암기장을 플립북으로 공부하며, 원내 자체 인쇄물 배부도 완벽히 지원합니다.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-sky-300 font-semibold">
+              ✓ 디지털 열람 + 자체 인쇄 지원
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition-all rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-black text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">STEP 3</span>
+                <span class="text-xs text-slate-400">주말 과제/클리닉</span>
+              </div>
+              <h3 class="text-base font-bold text-white mb-2">모바일 Fit 20 자동 채점</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                주간지 뒤쪽 QR을 찍으면 모바일 OMR이 바로 열립니다. 20문항을 풀고 제출하면 1초 만에 자동 채점되고 즉시 복습 모드로 연결됩니다.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-emerald-300 font-semibold">
+              ✓ 채점 인건비 0원 자동화
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="bg-slate-950 border border-slate-800 hover:border-amber-500/50 transition-all rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-black text-amber-400 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">STEP 4</span>
+                <span class="text-xs text-slate-400">학부모 피드백</span>
+              </div>
+              <h3 class="text-base font-bold text-white mb-2">카카오 알림톡 성적표 전송</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                채점 결과가 종합된 모바일 성적표(전국 백분위, 취약 영역 차트)가 학부모님 스마트폰으로 전송되어 학원의 관리 신뢰도를 극대화합니다.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-900 text-[11px] text-amber-300 font-semibold">
+              ✓ 학부모 재등록률 상승
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 간소화된 라이브 시스템 직접 체험 (관리자 콘솔 제거, 2개 버튼 체제) -->
+      <div id="demo-section" class="p-8 bg-slate-950/80 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto text-center">
+          <span class="text-xs font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-3 py-1 rounded-full">
+            ⚡ 라이브 시스템 1초 체험
+          </span>
+          <h4 class="text-lg sm:text-xl font-bold text-white mt-2">
+            실제 학생들에게 제공되는 화면을 바로 체험해보세요
+          </h4>
+          <p class="text-xs text-slate-400 mt-1 mb-6">
+            원장님의 학원명과 선생님 성함으로 즉시 치환되어 실행됩니다. (회원가입 불필요)
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div onclick="openEbookOptionModal()" class="bg-slate-900 hover:bg-slate-850 border border-indigo-500/40 rounded-2xl p-5 text-left transition-all cursor-pointer group flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-black text-indigo-400">체험 1</span>
+                  <span class="text-xs bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded">학생용 (1주차)</span>
+                </div>
+                <div class="text-base font-bold text-white mb-1">📖 1주차 전자책 뷰어</div>
+                <p class="text-xs text-slate-400 mb-3 leading-relaxed">개념 요약 + 실전 암기장 + 기출 분석 주간지</p>
+              </div>
+              <div class="text-xs font-bold text-sky-400 group-hover:text-sky-300 flex items-center gap-1">학원 브랜드로 체험하기 ➔</div>
+            </div>
+
+            <div onclick="openFit20OptionModal()" class="bg-slate-900 hover:bg-slate-850 border border-emerald-500/40 rounded-2xl p-5 text-left transition-all cursor-pointer group flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-black text-emerald-400">체험 2</span>
+                  <span class="text-xs bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded">수강생 응시용</span>
+                </div>
+                <div class="text-base font-bold text-white mb-1">📱 모바일 Fit 20 OMR</div>
+                <p class="text-xs text-slate-400 mb-3 leading-relaxed">빠른 마킹 &amp; 온라인 실전 듀얼 모드 응시</p>
+              </div>
+              <div class="text-xs font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1">학원 브랜드로 체험하기 ➔</div>
+            </div>
+
+            <div onclick="openReportOptionModal()" class="bg-slate-900 hover:bg-slate-850 border border-teal-500/40 rounded-2xl p-5 text-left transition-all cursor-pointer group flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-black text-teal-400">체험 3</span>
+                  <span class="text-xs bg-teal-950 text-teal-300 px-2 py-0.5 rounded">학생·학부모용</span>
+                </div>
+                <div class="text-base font-bold text-white mb-1">📊 실시간 성적 분석표</div>
+                <p class="text-xs text-slate-400 mb-3 leading-relaxed">전국 백분위 + 4대 영역 밸런스 + 오답 해설</p>
+              </div>
+              <div class="text-xs font-bold text-teal-400 group-hover:text-teal-300 flex items-center gap-1">학원 브랜드로 체험하기 ➔</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ============================================================== -->
-    <!-- 주간지 전자책 화이트레이블 맞춤 체험 옵션 상자 (모달) -->
+    <!-- 학원 비즈니스 & ROI 모델 안내 (첨부 이미지 규격 반영) -->
     <!-- ============================================================== -->
-    <div id="ebookOptionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-slate-900 border border-indigo-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <!-- 닫기 버튼 -->
-            <button type="button" onclick="closeEbookOptionModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <!-- 헤더 -->
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0">
-                    <i data-lucide="palette" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <span class="text-[11px] font-black text-indigo-400 bg-indigo-950/80 border border-indigo-500/30 px-2.5 py-0.5 rounded-full inline-block mb-1">
-                        원작자 노출 0% 화이트레이블 체험
-                    </span>
-                    <h3 class="text-xl font-black text-white">
-                        우리 학원 브랜드로 전자책 열기
-                    </h3>
-                </div>
-            </div>
-
-            <p class="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed">
-                원장님의 <strong>학원명과 성함</strong>을 입력해 보세요. 주간지 표지, 본문, 개념서, 암기장, 하단 카피의 모든 <strong>'GOTONGGWA'</strong>와 <strong>'갓쌤'</strong>이 원장님의 브랜드로 즉시 100% 자동 치환되어 실행됩니다!
-            </p>
-
-            <!-- 입력 폼 -->
-            <div class="space-y-4 mb-5 text-sm">
-                <div>
-                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
-                        <span>🏛️ 학원명 / 자체 브랜드명 <span class="text-indigo-400">*</span></span>
-                        <span class="text-[11px] font-normal text-slate-400">('갓통과' &amp; 'GOTONGGWA' 대체)</span>
-                    </label>
-                    <input type="text" id="optEbookBrand" value="대치 미래과학" placeholder="예: 대치 미래과학, 송파 대찬학원" oninput="updateEbookPreview()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500 font-bold">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
-                        <span>👨‍🏫 담당 선생님 성함 <span class="text-indigo-400">*</span></span>
-                        <span class="text-[11px] font-normal text-slate-400">('갓쌤' 대체)</span>
-                    </label>
-                    <input type="text" id="optEbookTeacher" value="김철수 선생님" placeholder="예: 김철수 선생님, 박대표 원장" oninput="updateEbookPreview()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500 font-bold">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
-                        <span>🌐 영문 브랜드명 <span class="text-slate-400 font-normal">(선택)</span></span>
-                        <span class="text-[11px] font-normal text-slate-400">(미입력 시 학원명 자동 적용)</span>
-                    </label>
-                    <input type="text" id="optEbookEng" value="MIRAE SCIENCE" placeholder="예: MIRAE SCIENCE, DAECHAN ACADEMY" oninput="updateEbookPreview()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
-                </div>
-            </div>
-
-            <!-- 실시간 화면 반영 미리보기 박스 -->
-            <div class="bg-slate-800/80 border border-indigo-500/30 rounded-2xl p-4 mb-5 text-xs space-y-2">
-                <div class="text-[11px] font-black text-indigo-300 flex items-center gap-1 mb-1.5">
-                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                    <span>🔍 실시간 치환 미리보기 (본문 자동 반영)</span>
-                </div>
-                <div class="flex items-center justify-between text-slate-300">
-                    <span class="text-slate-400">1. 표지 상단 영문:</span>
-                    <span><strong>GOTONGGWA</strong> ➔ <span id="prevOptEng" class="text-indigo-400 font-black">MIRAE SCIENCE</span></span>
-                </div>
-                <div class="flex items-center justify-between text-slate-300">
-                    <span class="text-slate-400">2. 주간지 메인 제호:</span>
-                    <span><strong>갓통과 WEEKLY</strong> ➔ <span id="prevOptBrand" class="text-sky-400 font-black">대치 미래과학 WEEKLY</span></span>
-                </div>
-                <div class="flex items-center justify-between text-slate-300">
-                    <span class="text-slate-400">3. 본문 코칭/암기장:</span>
-                    <span><strong>갓쌤의 실전 암기장</strong> ➔ <span id="prevOptTeacher" class="text-emerald-400 font-black">김철수 선생님의 실전 암기장</span></span>
-                </div>
-            </div>
-
-            <!-- 액션 버튼 -->
-            <div class="space-y-2.5">
-                <button type="button" onclick="launchWhitelabelEbook()" class="w-full bg-gradient-to-r from-indigo-500 via-sky-600 to-teal-500 hover:from-indigo-400 hover:to-teal-400 text-white font-black py-4 rounded-xl text-base shadow-xl shadow-indigo-500/25 active:scale-98 transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="sparkles" class="w-5 h-5"></i>
-                    <span>👉 우리 학원 브랜드로 1주차 전자책 실행하기</span>
-                </button>
-                <div class="flex gap-2">
-                    <button type="button" onclick="launchOriginalEbook()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition-colors">
-                        갓통과 원본 그대로 열기
-                    </button>
-                    <button type="button" onclick="closeEbookOptionModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold py-2.5 rounded-xl text-xs transition-colors">
-                        닫기
-                    </button>
-                </div>
-            </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden">
+      <div class="max-w-3xl mx-auto">
+        <div class="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider mb-5">
+          <span class="text-sm">🧮</span>
+          <span>ACADEMY BUSINESS &amp; ROI MODEL</span>
         </div>
+
+        <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight sm:leading-snug">
+          학원 운영비 지출 부담 0원!<br>
+          <span class="text-teal-300 sm:text-teal-400">
+            학부모 교재비 수납을 통한 학원 순수익 창출 구조
+          </span>
+        </h2>
+
+        <p class="text-xs sm:text-base text-slate-300 mt-4 leading-relaxed font-normal">
+          갓통과 솔루션은 학원 예산이 투입되는 '고정 지출 비용'이 아닙니다.<br class="hidden sm:inline">
+          학부모님께 수납하는 표준 교재비로 공급가를 전액 충당하고, 오히려 학생 1인당 순마진이 학원<br class="hidden sm:inline">
+          수익으로 귀속되는 수익형 패키지입니다.
+        </p>
+      </div>
     </div>
 
     <!-- ============================================================== -->
-    <!-- 학생 모바일 Fit 20 화이트레이블 맞춤 체험 옵션 상자 (모달) -->
+    <!-- 하단: 맞춤 견적서 신청 폼 -->
     <!-- ============================================================== -->
-    <div id="fit20OptionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <!-- 닫기 버튼 -->
-            <button type="button" onclick="closeFit20OptionModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+    <div id="quote-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="text-xs font-bold text-sky-400 bg-sky-950/80 border border-sky-500/30 px-3 py-1 rounded-full">
+          겨울방학 특강 빠른 도입
+        </span>
+        <h3 class="text-xl sm:text-2xl font-black text-white mt-2">
+          📄 우리 학원 맞춤 공급 견적서 신청
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1.5">
+          예상 학생 수에 맞춘 최적 공급가 및 상세 제안서를 보내드립니다.
+        </p>
+      </div>
 
-            <!-- 헤더 -->
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                    <i data-lucide="smartphone" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <span class="text-[11px] font-black text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2.5 py-0.5 rounded-full inline-block mb-1">
-                        원작자 노출 0% 모바일 시험 응시 체험
-                    </span>
-                    <h3 class="text-xl font-black text-white">
-                        우리 학원 브랜드로 Fit 20 열기
-                    </h3>
-                </div>
-            </div>
-
-            <p class="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed">
-                원장님의 <strong>학원명과 성함</strong>을 입력해 보세요. 주간지 안내 앱의 실제 <strong>Fit 20 모바일 모의고사</strong> 첫 화면과 OMR, 20문항 풀이 화면의 모든 <strong>'갓통과'</strong>와 <strong>'GodTongGwa'</strong>, <strong>'갓쌤'</strong>이 원장님의 브랜드로 즉시 100% 자동 치환되어 실행됩니다!
-            </p>
-
-            <!-- 입력 폼 -->
-            <div class="space-y-4 mb-5 text-sm">
-                <div>
-                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
-                        <span>🏛️ 학원명 / 자체 브랜드명 <span class="text-emerald-400">*</span></span>
-                        <span class="text-[11px] font-normal text-slate-400">('갓통과' &amp; 'GodTongGwa' 대체)</span>
-                    </label>
-                    <input type="text" id="optFit20Brand" value="대치 미래과학" placeholder="예: 대치 미래과학, 송파 대찬학원" oninput="updateFit20Preview()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 font-bold">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
-                        <span>👨‍🏫 담당 선생님 성함 <span class="text-emerald-400">*</span></span>
-                        <span class="text-[11px] font-normal text-slate-400">('갓쌤' 대체)</span>
-                    </label>
-                    <input type="text" id="optFit20Teacher" value="김철수 선생님" placeholder="예: 김철수 선생님, 박대표 원장" oninput="updateFit20Preview()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 font-bold">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-200 mb-1.5 flex justify-between items-center">
-                        <span>🌐 영문 브랜드명 <span class="text-slate-400 font-normal">(선택)</span></span>
-                        <span class="text-[11px] font-normal text-slate-400">(미입력 시 학원명 자동 적용)</span>
-                    </label>
-                    <input type="text" id="optFit20Eng" value="MIRAE SCIENCE" placeholder="예: MIRAE SCIENCE, DAECHAN ACADEMY" oninput="updateFit20Preview()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500">
-                </div>
-            </div>
-
-            <!-- 실시간 화면 반영 미리보기 박스 -->
-            <div class="bg-slate-800/80 border border-emerald-500/30 rounded-2xl p-4 mb-5 text-xs space-y-2">
-                <div class="text-[11px] font-black text-emerald-300 flex items-center gap-1 mb-1.5">
-                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                    <span>🔍 Fit 20 모바일 응시 화면 실시간 치환 미리보기</span>
-                </div>
-                <div class="flex items-center justify-between text-slate-300">
-                    <span class="text-slate-400">1. 모바일 앱 메인 제호:</span>
-                    <span><strong>갓통과 핏(Fit) 20</strong> ➔ <span id="prevFit20Brand" class="text-emerald-400 font-black">대치 미래과학 핏(Fit) 20</span></span>
-                </div>
-                <div class="flex items-center justify-between text-slate-300">
-                    <span class="text-slate-400">2. 영문 시스템 타이틀:</span>
-                    <span><strong>GodTongGwa</strong> ➔ <span id="prevFit20Eng" class="text-sky-400 font-black">MIRAE SCIENCE</span></span>
-                </div>
-                <div class="flex items-center justify-between text-slate-300">
-                    <span class="text-slate-400">3. 문항 코칭 가이드:</span>
-                    <span><strong>갓쌤의 출제 포인트</strong> ➔ <span id="prevFit20Teacher" class="text-indigo-400 font-black">김철수 선생님의 출제 포인트</span></span>
-                </div>
-            </div>
-
-            <!-- 액션 버튼 -->
-            <div class="space-y-2.5">
-                <button type="button" onclick="launchWhitelabelFit20()" class="w-full bg-gradient-to-r from-emerald-500 via-teal-600 to-sky-600 hover:from-emerald-400 hover:to-sky-500 text-white font-black py-4 rounded-xl text-base shadow-xl shadow-emerald-500/25 active:scale-98 transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="play-circle" class="w-5 h-5"></i>
-                    <span>👉 우리 학원 브랜드로 Fit 20 모바일 응시 실행하기</span>
-                </button>
-                <div class="flex gap-2">
-                    <button type="button" onclick="launchOriginalFit20()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition-colors">
-                        갓통과 원본 그대로 열기
-                    </button>
-                    <button type="button" onclick="closeFit20OptionModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold py-2.5 rounded-xl text-xs transition-colors">
-                        닫기
-                    </button>
-                </div>
-            </div>
+      <form id="quoteForm" onsubmit="event.preventDefault(); handleRequestQuote();" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">선생님 성함 <span class="text-emerald-400">*</span></label>
+          <input type="text" id="inpQuoteTeacher" required placeholder="예: 김철수 선생님" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
         </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">학원명 및 지역 <span class="text-emerald-400">*</span></label>
+          <input type="text" id="inpQuoteAcademy" required placeholder="예: 대치 미래과학 학원" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">학원 영문 표기 <span class="text-emerald-400">*</span> <span class="text-xs font-normal text-sky-400">('GODTONGGWA' 영문 로고 대체)</span></label>
+          <input type="text" id="inpQuoteEng" required placeholder="예: SEOHYUN SCIENCE" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">예상 수강생 수 <span class="text-emerald-400">*</span></label>
+          <select id="selQuoteSeats" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
+            <option value="20">20명 내외 (소형/과외식)</option>
+            <option value="50" selected>50명 내외 (중형 학원)</option>
+            <option value="100">100명 내외 (대형 학원)</option>
+            <option value="200">200명 이상 (단과/프랜차이즈)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">연락처 <span class="text-emerald-400">*</span></label>
+          <input type="tel" id="inpQuotePhone" required placeholder="예: 010-1234-5678" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">이메일 주소 <span class="text-emerald-400">*</span></label>
+          <input type="email" id="inpQuoteEmail" required placeholder="예: director@academy.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
+        </div>
+        <input type="hidden" id="selQuoteDeliveryType" value="digital">
+        <div class="sm:col-span-2">
+          <label class="block font-bold text-slate-300 mb-1">추가 문의사항 (선택)</label>
+          <textarea id="inpQuoteNote" rows="2" placeholder="예: 1월 초 겨울방학 특강 개강 예정이며, 자체 인쇄 방식에 대해 문의합니다." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500"></textarea>
+        </div>
+        <div class="sm:col-span-2 mt-2">
+          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white font-black py-4 rounded-xl text-sm sm:text-base shadow-xl active:scale-98 transition-all">
+            맞춤 공급 견적서 즉시 신청하기
+          </button>
+        </div>
+      </form>
     </div>
 
-    <!-- 하단 푸터 -->
-    <footer class="border-t border-slate-800 py-10 bg-slate-950 text-slate-500 text-xs text-center">
-        <div class="max-w-6xl mx-auto px-4">
-            <p class="font-bold text-slate-400 mb-2">갓통과 WEEKLY B2B (통합과학 화이트레이블 주간지 솔루션)</p>
-            <p>© 갓통과 • 2028 개정 교육과정 10주차 주간지 &amp; Fit 20 모의고사 에듀테크</p>
-        </div>
-    </footer>
+    <!-- 푸터 -->
+    <div class="text-center text-xs text-slate-600 py-4">
+      <p>© 갓통과 WEEKLY B2B • 2028 개정 교육과정 통합과학 겨울방학 10주 특강 에듀테크</p>
+    </div>
+  </div>
 
-    <!-- 스크립트 -->
+  <!-- ============================================================== -->
+  <!-- 모달 1: 전자책 화이트레이블 맞춤 체험 모달 -->
+  <!-- ============================================================== -->
+  <div id="ebookOptionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-indigo-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button type="button" onclick="closeEbookOptionModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+
+      <div class="mb-4">
+        <span class="text-[11px] font-black text-indigo-400 bg-indigo-950/80 border border-indigo-500/30 px-2.5 py-0.5 rounded-full inline-block mb-1">
+          원작자 노출 0% 화이트레이블 체험
+        </span>
+        <h3 class="text-xl font-black text-white">우리 학원 브랜드로 전자책 열기</h3>
+      </div>
+
+      <p class="text-xs text-slate-300 mb-5 leading-relaxed">
+        원장님의 <strong>학원명과 성함</strong>을 입력해 보세요. 표지, 본문, 암기장 하단의 모든 'GOTONGGWA'와 '갓쌤'이 원장님의 브랜드로 즉시 100% 자동 치환되어 실행됩니다!
+      </p>
+
+      <div class="space-y-3.5 mb-5 text-xs sm:text-sm">
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">🏛️ 학원명 / 자체 브랜드명</label>
+          <input type="text" id="optEbookBrand" value="대치 미래과학" oninput="updateEbookPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-indigo-500 font-bold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">👨‍🏫 담당 선생님 성함</label>
+          <input type="text" id="optEbookTeacher" value="철수쌤" oninput="updateEbookPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-indigo-500 font-bold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">🌐 영문 브랜드명 (선택)</label>
+          <input type="text" id="optEbookEng" value="MIRAE SCIENCE" oninput="updateEbookPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-indigo-500">
+        </div>
+      </div>
+
+      <div class="bg-slate-950 border border-indigo-500/30 rounded-2xl p-4 mb-5 text-xs space-y-1.5">
+        <div class="text-[11px] font-black text-indigo-300 mb-1">🔍 실시간 치환 미리보기</div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">1. 표지 영문:</span>
+          <span id="prevOptEng" class="text-indigo-400 font-bold text-right truncate max-w-[240px]">MIRAE SCIENCE</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">2. 메인 제호:</span>
+          <span id="prevOptBrand" class="text-sky-400 font-bold text-right truncate max-w-[240px]">대치 미래과학 WEEKLY</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">3. 본문 암기장:</span>
+          <span id="prevOptTeacher" class="text-emerald-400 font-bold text-right truncate max-w-[240px]">철수쌤의 실전 암기장</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <button type="button" onclick="launchWhitelabelEbook()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3.5 rounded-xl text-sm shadow-lg active:scale-98 transition-all">
+          👉 우리 학원 브랜드로 1주차 전자책 실행하기
+        </button>
+        <button type="button" onclick="closeEbookOptionModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold py-2.5 rounded-xl text-xs transition-colors">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 모달 2: 모바일 Fit 20 화이트레이블 맞춤 체험 모달 -->
+  <!-- ============================================================== -->
+  <div id="fit20OptionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button type="button" onclick="closeFit20OptionModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+
+      <div class="mb-4">
+        <span class="text-[11px] font-black text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2.5 py-0.5 rounded-full inline-block mb-1">
+          원작자 노출 0% 모바일 시험 응시 체험
+        </span>
+        <h3 class="text-xl font-black text-white">우리 학원 브랜드로 Fit 20 열기</h3>
+      </div>
+
+      <p class="text-xs text-slate-300 mb-5 leading-relaxed">
+        원장님의 <strong>학원명과 성함</strong>을 입력해 보세요. 모바일 모의고사 첫 화면과 OMR의 모든 '갓통과'와 '갓쌤'이 원장님의 브랜드로 즉시 100% 자동 치환되어 실행됩니다!
+      </p>
+
+      <div class="space-y-3.5 mb-5 text-xs sm:text-sm">
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">🏛️ 학원명 / 자체 브랜드명</label>
+          <input type="text" id="optFit20Brand" value="대치 미래과학" oninput="updateFit20Preview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-emerald-500 font-bold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">👨‍🏫 담당 선생님 성함</label>
+          <input type="text" id="optFit20Teacher" value="철수쌤" oninput="updateFit20Preview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-emerald-500 font-bold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">🌐 영문 브랜드명 (선택)</label>
+          <input type="text" id="optFit20Eng" value="MIRAE SCIENCE" oninput="updateFit20Preview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-emerald-500">
+        </div>
+      </div>
+
+      <div class="bg-slate-950 border border-emerald-500/30 rounded-2xl p-4 mb-5 text-xs space-y-1.5">
+        <div class="text-[11px] font-black text-emerald-300 mb-1">🔍 실시간 치환 미리보기</div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">1. 앱 제호:</span>
+          <span id="prevFit20Brand" class="text-emerald-400 font-bold text-right truncate max-w-[240px]">대치 미래과학 핏(Fit) 20</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">2. 영문 타이틀:</span>
+          <span id="prevFit20Eng" class="text-sky-400 font-bold text-right truncate max-w-[240px]">MIRAE SCIENCE</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">3. 출제 포인트:</span>
+          <span id="prevFit20Teacher" class="text-indigo-400 font-bold text-right truncate max-w-[240px]">철수쌤의 출제 포인트</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <button type="button" onclick="launchWhitelabelFit20()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-xl text-sm shadow-lg active:scale-98 transition-all">
+          👉 우리 학원 브랜드로 Fit 20 모바일 응시 실행하기
+        </button>
+        <button type="button" onclick="closeFit20OptionModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold py-2.5 rounded-xl text-xs transition-colors">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 모달 3: 다차원 모바일 성적표 화이트레이블 맞춤 체험 모달 -->
+  <!-- ============================================================== -->
+  <div id="reportOptionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-teal-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button type="button" onclick="closeReportOptionModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+
+      <div class="mb-4">
+        <span class="text-[11px] font-black text-teal-400 bg-teal-950/80 border border-teal-500/30 px-2.5 py-0.5 rounded-full inline-block mb-1">
+          원작자 노출 0% 실시간 성적 분석표 체험
+        </span>
+        <h3 class="text-xl font-black text-white">우리 학원 브랜드로 성적표 열기</h3>
+      </div>
+
+      <p class="text-xs text-slate-300 mb-5 leading-relaxed">
+        원장님의 <strong>학원명과 성함</strong>을 입력해 보세요. 학생이 답안 제출 즉시 확인하는 다차원 성적표(원점수, 등급, 학원 내 석차, 4대 영역 밸런스, 아코디언 오답 해설)가 원장님의 학원 브랜드로 즉시 100% 자동 치환되어 실행됩니다!
+      </p>
+
+      <div class="space-y-3.5 mb-5 text-xs sm:text-sm">
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">🏛️ 학원명 / 자체 브랜드명</label>
+          <input type="text" id="optReportBrand" value="대치 미래과학" oninput="updateReportPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-teal-500 font-bold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">👨‍🏫 담당 선생님 성함</label>
+          <input type="text" id="optReportTeacher" value="철수쌤" oninput="updateReportPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-teal-500 font-bold">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">👤 수강생 이름 (선택)</label>
+          <input type="text" id="optReportStudent" value="홍길동" oninput="updateReportPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white outline-none focus:border-teal-500">
+        </div>
+      </div>
+
+      <div class="bg-slate-950 border border-teal-500/30 rounded-2xl p-4 mb-5 text-xs space-y-1.5">
+        <div class="text-[11px] font-black text-teal-300 mb-1">🔍 실시간 치환 미리보기</div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">1. 성적표 헤더:</span>
+          <span id="prevReportBrand" class="text-teal-400 font-bold text-right truncate max-w-[240px]">대치 미래과학 ‧ 철수쌤 수능 모의고사</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">2. 성적표 타이틀:</span>
+          <span id="prevReportStudent" class="text-sky-400 font-bold text-right truncate max-w-[240px]">홍길동 학생의 성적 분석표</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 gap-2">
+          <span class="text-slate-400 shrink-0">3. 탑재 데이터:</span>
+          <span class="text-emerald-400 font-bold text-right truncate max-w-[240px]">Fit 20 1회차 가상 성적 및 전국 백분위</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <button type="button" onclick="launchWhitelabelReport()" class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-black py-3.5 rounded-xl text-sm shadow-lg active:scale-98 transition-all">
+          👉 우리 학원 브랜드로 성적 분석표 실행하기
+        </button>
+        <button type="button" onclick="closeReportOptionModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-400 font-bold py-2.5 rounded-xl text-xs transition-colors">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 모달 4: 견적 완료 모달 + 즉시 견적서 열람 & 주간지 운영 체험하기 -->
+  <!-- ============================================================== -->
+  <div id="quoteResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative text-center max-h-[92vh] overflow-y-auto">
+      <button type="button" onclick="closeQuoteModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto mb-3 text-2xl font-black">✓</div>
+      
+      <h3 class="text-xl font-black text-white mb-2">견적서 신청이 정상 접수되었습니다!</h3>
+      <p class="text-xs text-slate-300 mb-4 leading-relaxed" id="modalQuoteSummary">
+        신청하신 이메일로 상세 견적서가 즉시 발송되었습니다.
+      </p>
+
+      <!-- 1. 원장님 맞춤 공식 견적서 즉시 열람 배너 -->
+      <div class="bg-gradient-to-r from-emerald-950 to-slate-900 border border-emerald-500/50 rounded-2xl p-4 sm:p-5 mb-4 text-left shadow-lg">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <span class="bg-emerald-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full">즉시 발행 완료</span>
+          <span class="text-xs font-bold text-emerald-400">권당 3,900원 특가 적용</span>
+        </div>
+        <h4 class="text-sm font-black text-white mb-1.5" id="modalEstimateHeading">
+          우리 학원 전용 공식 B2B 견적서가 생성되었습니다.
+        </h4>
+        <p class="text-xs text-slate-300 leading-relaxed mb-3">
+          입력하신 이메일(<span id="modalSentEmail" class="text-sky-300 font-bold"></span>)로 상세 견적서가 즉시 발송되었으며, 지금 바로 화면에서 열람 및 PDF 저장이 가능합니다.
+        </p>
+        <a href="./b2b_estimate_sheet.html" id="linkModalEstimate" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl text-xs sm:text-sm shadow-lg flex items-center justify-center gap-2 transition-all active:scale-98">
+          <span>📄</span>
+          <span>내 학원 맞춤 견적서 즉시 열람 및 인쇄 / PDF 저장 (새창) ➔</span>
+        </a>
+      </div>
+
+      <!-- 2. 주간지 운영 체험하기 선물 배너 -->
+      <div class="bg-gradient-to-br from-indigo-950/80 to-slate-950 border border-indigo-500/40 rounded-2xl p-4 mb-4 text-left">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-indigo-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">특별 제공</span>
+          <span class="text-xs font-bold text-indigo-300">⚡ 주간지 운영 체험하기 (실전 리허설 4단계)</span>
+        </div>
+        <h4 class="text-sm font-black text-white mb-1">
+          원장님 학원의 브랜드로 10분 만에 직접 체험해 보세요!
+        </h4>
+        <p class="text-[11.5px] text-slate-400 leading-relaxed mb-3">
+          1단계 브랜딩 설정 ➔ 2단계 엑셀 등록 ➔ 3단계 시험지 일체형 OMR ➔ 4단계 학부모 카톡 성적표까지, 시스템의 실제 작동 전 과정을 사전에 직접 경험해보실 수 있습니다.
+        </p>
+        <a href="./b2b_manual_guide.html" id="linkModalRehearsal" target="_blank" class="w-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-black py-2.5 rounded-xl text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all">
+          <span>🚀</span>
+          <span>「주간지 운영 체험하기」 시작하기 (새창) ➔</span>
+        </a>
+      </div>
+
+      <button type="button" onclick="closeQuoteModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition-colors">
+        닫기
+      </button>
+    </div>
+  </div>
+
+  <script>
+    window.openEbookOptionModal = function() {
+      const qTeacher = document.getElementById('inpQuoteTeacher')?.value.trim();
+      const qAcademy = document.getElementById('inpQuoteAcademy')?.value.trim();
+      const qEng = document.getElementById('inpQuoteEng')?.value.trim();
+      if (qAcademy) {
+        document.getElementById('optEbookBrand').value = qAcademy;
+      }
+      if (qTeacher) {
+        document.getElementById('optEbookTeacher').value = qTeacher;
+      }
+      if (qEng) {
+        document.getElementById('optEbookEng').value = qEng;
+      }
+      window.updateEbookPreview();
+
+      const modal = document.getElementById('ebookOptionModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    window.closeEbookOptionModal = function() {
+      const modal = document.getElementById('ebookOptionModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    window.updateEbookPreview = function() {
+      const brand = document.getElementById('optEbookBrand').value.trim() || '대치 미래과학';
+      const teacher = document.getElementById('optEbookTeacher').value.trim() || '철수쌤';
+      const eng = document.getElementById('optEbookEng').value.trim() || brand;
+
+      document.getElementById('prevOptBrand').innerText = `${brand} WEEKLY`;
+      document.getElementById('prevOptTeacher').innerText = `${teacher}의 실전 암기장`;
+      document.getElementById('prevOptEng').innerText = eng.toUpperCase();
+    };
+
+    window.launchWhitelabelEbook = function() {
+      const brand = document.getElementById('optEbookBrand').value.trim() || '대치 미래과학';
+      const teacher = document.getElementById('optEbookTeacher').value.trim() || '철수쌤';
+      const eng = document.getElementById('optEbookEng').value.trim() || brand;
+
+      const url = `./b2b_ebook_viewer.html?brand=${encodeURIComponent(brand)}&teacher=${encodeURIComponent(teacher)}&eng=${encodeURIComponent(eng)}&w=1&preview=true`;
+      window.open(url, '_blank');
+      window.closeEbookOptionModal();
+    };
+
+    window.openFit20OptionModal = function() {
+      const qTeacher = document.getElementById('optEbookTeacher')?.value.trim() || document.getElementById('inpQuoteTeacher')?.value.trim();
+      const qAcademy = document.getElementById('optEbookBrand')?.value.trim() || document.getElementById('inpQuoteAcademy')?.value.trim();
+      const qEng = document.getElementById('optEbookEng')?.value.trim() || document.getElementById('inpQuoteEng')?.value.trim();
+
+      if (qAcademy) {
+        document.getElementById('optFit20Brand').value = qAcademy;
+      }
+      if (qTeacher) {
+        document.getElementById('optFit20Teacher').value = qTeacher;
+      }
+      if (qEng) {
+        document.getElementById('optFit20Eng').value = qEng;
+      }
+      window.updateFit20Preview();
+
+      const modal = document.getElementById('fit20OptionModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    window.closeFit20OptionModal = function() {
+      const modal = document.getElementById('fit20OptionModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    window.updateFit20Preview = function() {
+      const brand = document.getElementById('optFit20Brand').value.trim() || '대치 미래과학';
+      const teacher = document.getElementById('optFit20Teacher').value.trim() || '철수쌤';
+      const eng = document.getElementById('optFit20Eng').value.trim() || brand;
+
+      document.getElementById('prevFit20Brand').innerText = `${brand} 핏(Fit) 20`;
+      document.getElementById('prevFit20Teacher').innerText = `${teacher}의 출제 포인트`;
+      document.getElementById('prevFit20Eng').innerText = eng.toUpperCase();
+    };
+
+    window.launchWhitelabelFit20 = function() {
+      const brand = document.getElementById('optFit20Brand').value.trim() || '대치 미래과학';
+      const teacher = document.getElementById('optFit20Teacher').value.trim() || '철수쌤';
+      const eng = document.getElementById('optFit20Eng').value.trim() || brand;
+
+      const url = `./b2b_mobile_omr.html?brand=${encodeURIComponent(brand)}&teacher=${encodeURIComponent(teacher)}&w=1&preview=true`;
+      window.open(url, '_blank');
+      window.closeFit20OptionModal();
+    };
+
+    window.openReportOptionModal = function() {
+      const qTeacher = document.getElementById('optFit20Teacher')?.value.trim() || document.getElementById('optEbookTeacher')?.value.trim() || document.getElementById('inpQuoteTeacher')?.value.trim();
+      const qAcademy = document.getElementById('optFit20Brand')?.value.trim() || document.getElementById('optEbookBrand')?.value.trim() || document.getElementById('inpQuoteAcademy')?.value.trim();
+
+      if (qAcademy) {
+        document.getElementById('optReportBrand').value = qAcademy;
+      }
+      if (qTeacher) {
+        document.getElementById('optReportTeacher').value = qTeacher;
+      }
+      window.updateReportPreview();
+
+      const modal = document.getElementById('reportOptionModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    window.closeReportOptionModal = function() {
+      const modal = document.getElementById('reportOptionModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    window.updateReportPreview = function() {
+      const brand = document.getElementById('optReportBrand').value.trim() || '대치 미래과학';
+      const teacher = document.getElementById('optReportTeacher').value.trim() || '철수쌤';
+      const student = document.getElementById('optReportStudent').value.trim() || '홍길동';
+
+      document.getElementById('prevReportBrand').innerText = `${brand} ‧ ${teacher} 수능 모의고사`;
+      document.getElementById('prevReportStudent').innerText = `${student} 학생의 성적 분석표`;
+    };
+
+    window.launchWhitelabelReport = function() {
+      const brand = document.getElementById('optReportBrand').value.trim() || '대치 미래과학';
+      const teacher = document.getElementById('optReportTeacher').value.trim() || '철수쌤';
+      const student = document.getElementById('optReportStudent').value.trim() || '홍길동';
+
+      const url = `./b2b_mobile_omr.html?view=report&brand=${encodeURIComponent(brand)}&teacher=${encodeURIComponent(teacher)}&w=1&name=${encodeURIComponent(student)}`;
+      window.open(url, '_blank');
+      window.closeReportOptionModal();
+    };
+  </script>
+
+  <!-- ============================================================== -->
+  <!-- Firebase SDK 모듈 (Firestore b2b_leads 자동 기록) -->
+  <!-- ============================================================== -->
+  <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+        authDomain: "godtonggwa.firebaseapp.com",
+        projectId: "godtonggwa",
+        storageBucket: "godtonggwa.firebasestorage.app",
+        messagingSenderId: "1087434066468",
+        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+      };
+
+      try {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.saveLeadToFirestore = async function(leadData) {
+          try {
+            const docRef = await addDoc(collection(db, "b2b_leads"), {
+              ...leadData,
+              createdAt: serverTimestamp()
+            });
+            console.log("Firestore b2b_leads 기록 완료 (ID):", docRef.id);
+            return { success: true, id: docRef.id };
+          } catch (err) {
+            console.error("Firestore 저장 실패:", err);
+            return { success: false, error: err };
+          }
+        };
+      } catch (initErr) {
+        console.warn("Firebase 초기화 경고:", initErr);
+      }
+    </script>
+
     <script>
-        function openEbookOptionModal() {
-            // 맞춤 견적서 폼에 입력해둔 학원명/선생님 이름이 있다면 동기화
-            const qTeacher = document.getElementById('inpQuoteTeacher')?.value.trim();
-            const qAcademy = document.getElementById('inpQuoteAcademy')?.value.trim();
-            if (qAcademy && qAcademy !== '갓통과 과학 전문관') {
-                document.getElementById('optEbookBrand').value = qAcademy;
-            }
-            if (qTeacher && qTeacher !== '김과학 선생님') {
-                document.getElementById('optEbookTeacher').value = qTeacher;
-            }
-            updateEbookPreview();
+      // 구글 스프레드시트 Webhook URL (실시간 시트 기록 및 메일 알림 연동)
+      const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyu3bVdgCQgBVLu_8H0kM7SI_oNNlzDvdTUVmyT8y0ZuXMOceQ7l9Nl_Tf8IMByJn7IRg/exec";
 
-            const modal = document.getElementById('ebookOptionModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
+      window.handleRequestQuote = async function() {
+        const form = document.getElementById('quoteForm');
+
+        // 1. 브라우저 표준 폼 유효성 검사 (미입력 필수 필드 말풍선 팝업 및 자동 포커스)
+        if (form && !form.checkValidity()) {
+          form.reportValidity();
+          return false;
         }
 
-        function closeEbookOptionModal() {
-            const modal = document.getElementById('ebookOptionModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        const teacher = document.getElementById('inpQuoteTeacher')?.value.trim() || "";
+        const academy = document.getElementById('inpQuoteAcademy')?.value.trim() || "";
+        const eng = document.getElementById('inpQuoteEng')?.value.trim() || "";
+        const seats = document.getElementById('selQuoteSeats')?.value || "50";
+        const delivery = document.getElementById('selQuoteDeliveryType')?.value || "digital";
+        const phone = document.getElementById('inpQuotePhone')?.value.trim() || "";
+        const email = document.getElementById('inpQuoteEmail')?.value.trim() || "";
+        const note = document.getElementById('inpQuoteNote')?.value.trim() || "";
+
+        // 2. 필수 입력 사항 미입력 시 신청 진행 전면 차단
+        if (!teacher || !academy || !eng || !phone || !email) {
+          alert('필수 입력 항목(선생님 성함, 학원명, 학원 영문 표기, 연락처, 이메일)을 모두 입력해 주세요.');
+          if (!teacher) document.getElementById('inpQuoteTeacher')?.focus();
+          else if (!academy) document.getElementById('inpQuoteAcademy')?.focus();
+          else if (!eng) document.getElementById('inpQuoteEng')?.focus();
+          else if (!phone) document.getElementById('inpQuotePhone')?.focus();
+          else if (!email) document.getElementById('inpQuoteEmail')?.focus();
+          return false;
         }
 
-        function updateEbookPreview() {
-            const brand = document.getElementById('optEbookBrand').value.trim() || '대치 미래과학';
-            const teacher = document.getElementById('optEbookTeacher').value.trim() || '김철수 선생님';
-            const eng = document.getElementById('optEbookEng').value.trim() || brand;
-
-            const prevBrand = document.getElementById('prevOptBrand');
-            const prevTeacher = document.getElementById('prevOptTeacher');
-            const prevEng = document.getElementById('prevOptEng');
-
-            if (prevBrand) prevBrand.innerText = `${brand} WEEKLY`;
-            if (prevTeacher) prevTeacher.innerText = `${teacher}의 실전 암기장`;
-            if (prevEng) prevEng.innerText = eng.toUpperCase();
+        // 3. 이메일 형식 정밀 검사
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert('올바른 이메일 주소(예: director@academy.com)를 입력해 주세요.');
+          document.getElementById('inpQuoteEmail')?.focus();
+          return false;
         }
 
-        function launchWhitelabelEbook() {
-            const brand = document.getElementById('optEbookBrand').value.trim() || '대치 미래과학';
-            const teacher = document.getElementById('optEbookTeacher').value.trim() || '김철수 선생님';
-            const eng = document.getElementById('optEbookEng').value.trim() || brand;
-
-            const url = `/STEST/weekly/b2b_ebook_preview.html?brand=${encodeURIComponent(brand)}&teacher=${encodeURIComponent(teacher)}&eng=${encodeURIComponent(eng)}`;
-            window.open(url, '_blank');
-            closeEbookOptionModal();
+        // 4. 연락처 검증 (숫자 기준 9자리 이상)
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+        if (cleanPhone.length < 9) {
+          alert('올바른 연락처 번호(예: 010-1234-5678)를 입력해 주세요.');
+          document.getElementById('inpQuotePhone')?.focus();
+          return false;
         }
 
-        function launchOriginalEbook() {
-            const url = `/STEST/weekly/ebook/week_2028_01_final.html?trial=true`;
-            window.open(url, '_blank');
-            closeEbookOptionModal();
+        const btnSubmit = document.querySelector('#quoteForm button[type="submit"]');
+        const originalBtnText = btnSubmit ? btnSubmit.innerHTML : '';
+        if (btnSubmit) {
+          btnSubmit.disabled = true;
+          btnSubmit.innerHTML = '⏳ 견적서 접수 및 파이프라인 처리 중...';
         }
 
-        function openFit20OptionModal() {
-            // 맞춤 견적서 폼 또는 전자책 폼에 입력해둔 학원명/선생님 이름이 있다면 동기화
-            const qTeacher = document.getElementById('optEbookTeacher')?.value.trim() || document.getElementById('inpQuoteTeacher')?.value.trim();
-            const qAcademy = document.getElementById('optEbookBrand')?.value.trim() || document.getElementById('inpQuoteAcademy')?.value.trim();
-            const qEng = document.getElementById('optEbookEng')?.value.trim();
+        const leadData = {
+          academy,
+          teacher,
+          eng,
+          seats,
+          delivery,
+          phone,
+          email,
+          note,
+          package: "2028 통합과학 겨울특강 10주 주간지",
+          status: "신청접수"
+        };
 
-            if (qAcademy && qAcademy !== '갓통과 과학 전문관') {
-                document.getElementById('optFit20Brand').value = qAcademy;
-            }
-            if (qTeacher && qTeacher !== '김과학 선생님') {
-                document.getElementById('optFit20Teacher').value = qTeacher;
-            }
-            if (qEng) {
-                document.getElementById('optFit20Eng').value = qEng;
-            }
-            updateFit20Preview();
-
-            const modal = document.getElementById('fit20OptionModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
+        // 1. Firebase Firestore b2b_leads 컬렉션 영구 저장
+        if (window.saveLeadToFirestore) {
+          try {
+            await window.saveLeadToFirestore(leadData);
+          } catch (e) {
+            console.warn("Firestore 저장 건너뜀:", e);
+          }
         }
 
-        function closeFit20OptionModal() {
-            const modal = document.getElementById('fit20OptionModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        // 2. Google Apps Script Webhook 호출 (구글 시트 행 추가 + 대표님 및 원장님 알림 이메일)
+        if (GOOGLE_SHEET_WEBHOOK_URL && GOOGLE_SHEET_WEBHOOK_URL.startsWith('http')) {
+          try {
+            await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(leadData)
+            });
+            console.log("구글 시트 Webhook 전송 완료");
+          } catch (e) {
+            console.warn("구글 시트 Webhook 전송 실패:", e);
+          }
         }
 
-        function updateFit20Preview() {
-            const brand = document.getElementById('optFit20Brand').value.trim() || '대치 미래과학';
-            const teacher = document.getElementById('optFit20Teacher').value.trim() || '김철수 선생님';
-            const eng = document.getElementById('optFit20Eng').value.trim() || brand;
+        // 3. 텔레그램 봇 실시간 즉시 알림 (대표님 스마트폰 푸시, B2C Godtonggwa_bot 연동)
+        try {
+          const botToken = "8418122948:AAGLh95SYa2Dj0HPQvFOe3zlHAAHj18b9ow";
+          const chatId = "7703628247";
+          const teleMsg = `📑 [신규 B2B 주간지 견적 신청]\n\n` +
+            `■ 학원명: ${academy} (${eng})\n` +
+            `■ 선생님: ${teacher}\n` +
+            `■ 수강생: ${seats}명 플랜 (10주 특강)\n` +
+            `■ 연락처: ${phone}\n` +
+            `■ 이메일: ${email}\n` +
+            (note ? `■ 문의사항: ${note}\n` : '') +
+            `\n👉 Firestore DB 및 구글 시트에 자동 기록되었습니다.`;
 
-            const prevBrand = document.getElementById('prevFit20Brand');
-            const prevTeacher = document.getElementById('prevFit20Teacher');
-            const prevEng = document.getElementById('prevFit20Eng');
-
-            if (prevBrand) prevBrand.innerText = `${brand} 핏(Fit) 20`;
-            if (prevTeacher) prevTeacher.innerText = `${teacher}의 출제 포인트`;
-            if (prevEng) prevEng.innerText = eng.toUpperCase();
+          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: teleMsg })
+          });
+          console.log("텔레그램 알림 발송 완료");
+        } catch (teleErr) {
+          console.warn("텔레그램 알림 발송 건너뜀:", teleErr);
         }
 
-        function launchWhitelabelFit20() {
-            const brand = document.getElementById('optFit20Brand').value.trim() || '대치 미래과학';
-            const teacher = document.getElementById('optFit20Teacher').value.trim() || '김철수 선생님';
-            const eng = document.getElementById('optFit20Eng').value.trim() || brand;
-
-            // weekly_info.html의 Fit 20 풀기와 동일한 시스템 (1주차 week_2028_01 격리 화이트레이블 프리뷰)
-            const url = `/STEST/weekly/b2b_fit20_preview.html?brand=${encodeURIComponent(brand)}&teacher=${encodeURIComponent(teacher)}&eng=${encodeURIComponent(eng)}`;
-            window.open(url, '_blank');
-            closeFit20OptionModal();
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = originalBtnText;
         }
 
-        function launchOriginalFit20() {
-            const url = `/STEST/weekly/timeattack/index.html?examId=week_2028_01`;
-            window.open(url, '_blank');
-            closeFit20OptionModal();
+        // 3. 안내 모달 표시 및 견적서 & 주간지 운영 체험하기 링크 파라미터 세팅
+        document.getElementById('modalQuoteSummary').innerText = 
+          `${academy} (${teacher}) 전용 권당 3,900원 최적 도매 견적서가 입력하신 이메일(${email})로 즉시 발송되었습니다.`;
+
+        const sentEmailSpan = document.getElementById('modalSentEmail');
+        if (sentEmailSpan) sentEmailSpan.innerText = email;
+
+        const linkEstimate = document.getElementById('linkModalEstimate');
+        if (linkEstimate) {
+          linkEstimate.href = `./b2b_estimate_sheet.html?academy=${encodeURIComponent(academy)}&teacher=${encodeURIComponent(teacher)}&seats=${encodeURIComponent(seats)}&delivery=${encodeURIComponent(delivery)}&phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}`;
         }
 
-        function handleRequestQuote() {
-            const teacher = document.getElementById('inpQuoteTeacher').value.trim();
-            const academy = document.getElementById('inpQuoteAcademy').value.trim();
-            const seats = document.getElementById('selQuoteSeats').value;
-            const deliveryType = document.getElementById('selQuoteDeliveryType').value;
-            const phone = document.getElementById('inpQuotePhone').value.trim();
-            const email = document.getElementById('inpQuoteEmail').value.trim();
-
-            if (!teacher || !academy || !phone || !email) {
-                alert('선생님 성함, 학원명, 연락처, 이메일을 모두 입력해 주세요.');
-                return;
-            }
-
-            const deliveryName = deliveryType === 'digital' 
-                ? '디지털 라이선스형 (자체 출력)' 
-                : (deliveryType === 'physical' ? '올인원 실물 배송형' : '원장님 맞춤 추천');
-
-            // Set modal values
-            document.getElementById('modalResAcademy').innerText = academy;
-            document.getElementById('modalResTeacher').innerText = teacher;
-            document.getElementById('modalResSeats').innerText = seats + '명 플랜';
-            document.getElementById('modalResDelivery').innerText = deliveryName;
-            document.getElementById('modalQuoteSummary').innerText = 
-                `${academy} (${teacher}) 전용 도매 공급 견적서와 맞춤 제안서가 입력하신 연락처(${phone}) 및 이메일(${email})로 10분 내 발송됩니다. 아래 버튼을 눌러 공식 상세 매뉴얼을 지금 바로 확인하실 수 있습니다.`;
-
-            // Open Modal
-            const modal = document.getElementById('quoteResultModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
+        const linkRehearsal = document.getElementById('linkModalRehearsal');
+        if (linkRehearsal) {
+          let rehearsalUrl = `./b2b_manual_guide.html?brand=${encodeURIComponent(academy)}&teacher=${encodeURIComponent(teacher)}`;
+          if (eng) {
+            rehearsalUrl += `&eng=${encodeURIComponent(eng)}`;
+          }
+          linkRehearsal.href = rehearsalUrl;
         }
 
-        function closeQuoteModal() {
-            const modal = document.getElementById('quoteResultModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
+        const modal = document.getElementById('quoteResultModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      };
 
-        window.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-        });
+      window.closeQuoteModal = function() {
+        const modal = document.getElementById('quoteResultModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      };
     </script>
 </body>
 </html>

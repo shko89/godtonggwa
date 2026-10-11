@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Fit 20 모의고사 학부모 안심 성적 리포트</title>
+    
+    <!-- Google Fonts: Nanum Gothic, Noto Sans KR, Outfit, Roboto Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800;900&family=Roboto+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Firebase Compat SDK & Cloud Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="./whitelabel_engine.js"></script>
+    <script src="./b2b_grading_engine.js"></script>
+    <script src="./b2b_cloud_sync.js"></script>
+
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-red: #ef4444;
+            --accent-amber: #f59e0b;
+            --bg-page: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .report-wrap {
+            width: 100%;
+            max-width: 520px;
+            min-height: 100vh;
+            background: #ffffff;
+            box-shadow: 0 0 40px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header */
+        .header-top {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 24px 20px 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-top::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(2, 132, 199, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .header-brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(2, 132, 199, 0.25);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #38bdf8;
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 900;
+            margin: 0 0 6px 0;
+            line-height: 1.3;
+            letter-spacing: -0.3px;
+        }
+        .header-sub {
+            font-size: 12.5px;
+            color: #94a3b8;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Student ID Card */
+        .student-chip-card {
+            margin: -14px 16px 14px 16px;
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        .student-chip-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .student-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+        }
+        .student-chip-name {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .student-chip-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .student-verified-pill {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #059669;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 9px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Content Container */
+        .content-body {
+            padding: 4px 16px 30px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Core Metric 3-Grid */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 10px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .metric-card.highlight {
+            background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+            border-color: #86efac;
+        }
+        .metric-card.primary {
+            background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+            border-color: #bae6fd;
+        }
+        .metric-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+        }
+        .metric-value {
+            font-size: 22px;
+            font-weight: 900;
+            font-family: 'Outfit', 'Roboto Mono', sans-serif;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+        .metric-value.green { color: #059669; }
+        .metric-value.blue { color: #0284c7; }
+        .metric-value.purple { color: #7c3aed; }
+        .metric-sub {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        /* 2028 5-Grade System Banner */
+        .grade-banner-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+        .grade-banner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .grade-banner-title {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .grade-rule-badge {
+            font-size: 10.5px;
+            font-weight: 800;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        
+        /* 5 Grade Distribution Visual Bar */
+        .grade-bar-wrap {
+            margin: 10px 0 6px 0;
+        }
+        .grade-bar {
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            overflow: hidden;
+            background: #e2e8f0;
+            position: relative;
+        }
+        .grade-seg {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9.5px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+        .seg-1 { width: 10%; background: #059669; } /* 1등급 (10%) */
+        .seg-2 { width: 24%; background: #0284c7; } /* 2등급 (24% -> 누적 34%) */
+        .seg-3 { width: 32%; background: #6366f1; } /* 3등급 (32% -> 누적 66%) */
+        .seg-4 { width: 24%; background: #f59e0b; } /* 4등급 (24% -> 누적 90%) */
+        .seg-5 { width: 10%; background: #ef4444; } /* 5등급 (10% -> 100%) */
+
+        .grade-pointer-bar {
+            position: relative;
+            height: 18px;
+            margin-top: 4px;
+        }
+        .grade-pointer-pin {
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: left 0.5s ease-out;
+        }
+        .pin-triangle {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #0f172a;
+        }
+        .pin-text {
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .grade-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-top: 6px;
+            padding: 0 2px;
+        }
+
+        /* 4 Area Balance Card */
+        .section-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+        .section-card-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .area-bar-item {
+            margin-bottom: 10px;
+        }
+        .area-bar-item:last-child { margin-bottom: 0; }
+        .area-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .area-track {
+            height: 10px;
+            background: #f1f5f9;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .area-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.8s ease-out;
+        }
+
+        /* 20 Questions Details (Accordion) */
+        .accordion-header-toggle {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 900;
+        }
+        .item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12.5px;
+        }
+        .item-row:last-child { border-bottom: none; }
+        .item-q-badge {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 800;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .item-q-badge.correct { background: #ecfdf5; color: #059669; }
+        .item-q-badge.wrong { background: #fef2f2; color: #ef4444; }
+        .item-meta {
+            flex: 1;
+            margin: 0 12px;
+        }
+        .item-topic { font-weight: 800; color: #1e293b; }
+        .item-sub-meta { font-size: 11px; color: #64748b; margin-top: 2px; }
+        .item-ans-box {
+            text-align: right;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+        }
+
+        /* Action Buttons */
+        .contact-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+        .contact-title {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: #166534;
+            margin: 0 0 6px 0;
+        }
+        .contact-desc {
+            font-size: 11.5px;
+            color: #15803d;
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+        .btn-call {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #16a34a;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+            width: 100%;
+        }
+
+        /* Footer */
+        .report-footer {
+            margin-top: auto;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            padding: 20px 16px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="report-wrap">
+
+    <!-- Top Header -->
+    <header class="header-top">
+        <div class="header-brand-badge" id="dispNavBrand">
+            <span>🏛️</span>
+            <span id="dispAcademyBadge">서현과학전문관</span>
+            <span>‧</span>
+            <span id="dispTeacherBadge">김철수선생님</span>
+        </div>
+        <h1 class="header-title" id="dispExamTitle">
+            2028 통합과학 제1회 Fit 20<br>학부모 안심 성적 분석표
+        </h1>
+        <p class="header-sub">
+            <span>📅 응시일: <strong id="dispExamDate">2026.10.10</strong></span>
+            <span>•</span>
+            <span>공식 성적 인증 완료</span>
+        </p>
+    </header>
+
+    <!-- Student Chip Card -->
+    <div class="student-chip-card">
+        <div class="student-chip-info">
+            <div class="student-avatar" id="dispStudentInitial">이</div>
+            <div>
+                <h3 class="student-chip-name">
+                    <span id="dispStudentName">이수진</span> 수강생
+                </h3>
+                <div class="student-chip-sub">
+                    인증번호: <span id="dispStudentPhone4">****-5678</span>
+                </div>
+            </div>
+        </div>
+        <div class="student-verified-pill">
+            <span>✅</span>
+            <span>정품 인증</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content-body">
+
+        <!-- 3 Core Metrics Grid -->
+        <div class="metric-grid">
+            <div class="metric-card primary">
+                <div class="metric-label">획득 원점수 (만점 31.0)</div>
+                <div class="metric-value blue" id="dispRawScore">28.5점</div>
+                <div class="metric-sub" id="dispScaledScore">100점 환산: 92점</div>
+            </div>
+
+            <div class="metric-card highlight">
+                <div class="metric-label">2028 개정 수능 등급</div>
+                <div class="metric-value green" id="dispGrade">1등급</div>
+                <div class="metric-sub" id="dispPercentile">상위 4.8%</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">학원 내 석차</div>
+                <div class="metric-value purple" id="dispRank">1위</div>
+                <div class="metric-sub" id="dispTotalCandidates">총 6명 중</div>
+            </div>
+        </div>
+
+        <!-- 2028 5-Grade System Visual Gauge -->
+        <section class="grade-banner-card">
+            <div class="grade-banner-header">
+                <div class="grade-banner-title">
+                    <span>🏆</span>
+                    <span>2028 개정 수능 5등급제 전국 예측</span>
+                </div>
+                <span class="grade-rule-badge">공식 5등급제 규격</span>
+            </div>
+
+            <!-- Grade Bar -->
+            <div class="grade-bar-wrap">
+                <div class="grade-bar">
+                    <div class="grade-seg seg-1">1등급(10%)</div>
+                    <div class="grade-seg seg-2">2등급(24%)</div>
+                    <div class="grade-seg seg-3">3등급(32%)</div>
+                    <div class="grade-seg seg-4">4등급(24%)</div>
+                    <div class="grade-seg seg-5">5등급</div>
+                </div>
+
+                <!-- Position Pin Pointer -->
+                <div class="grade-pointer-bar">
+                    <div class="grade-pointer-pin" id="gradePointerPin" style="left: 4.8%;">
+                        <div class="pin-triangle"></div>
+                        <div class="pin-text" id="gradePointerText">이수진 (상위 4.8%)</div>
+                    </div>
+                </div>
+
+                <div class="grade-legend">
+                    <span>상위 0%</span>
+                    <span>10% (1등급컷)</span>
+                    <span>34% (2등급컷)</span>
+                    <span>66% (3등급컷)</span>
+                    <span>90% (4등급컷)</span>
+                    <span>100%</span>
+                </div>
+            </div>
+
+            <p style="font-size:11.5px; color:#64748b; margin:12px 0 0 0; line-height:1.45;">
+                💡 <strong>2028 개정 수능 안내:</strong> 기존 9등급제가 폐지되고 <strong>5등급제</strong>로 개편되었습니다. 1등급은 상위 10% 이내, 2등급은 상위 34% 이내 학생에게 부여됩니다.
+            </p>
+        </section>
+
+        <!-- 4 Science Area Balance Card -->
+        <section class="section-card">
+            <div class="section-card-title">
+                <span>🧭 통합과학 4대 평가 영역 성취도</span>
+                <span style="font-size:11px; font-weight:700; color:#0284c7;">영역별 균형 분석</span>
+            </div>
+
+            <div class="area-bar-item">
+                <div class="area-bar-label">
+                    <span>⚡ 물리학 (시간/공간의 규모)</span>
+                    <strong id="dispPhyRate" style="color:#0284c7;">100%</strong>
+                </div>
+                <div class="area-track">
+                    <div class="area-fill" id="barPhy" style="width: 100%; background: #0284c7;"></div>
+                </div>
+            </div>
+
+            <div class="area-bar-item">
+                <div class="area-bar-label">
+                    <span>🧪 화학 (기본량과 측정/원소)</span>
+                    <strong id="dispChemRate" style="color:#10b981;">90%</strong>
+                </div>
+                <div class="area-track">
+                    <div class="area-fill" id="barChem" style="width: 90%; background: #10b981;"></div>
+                </div>
+            </div>
+
+            <div class="area-bar-item">
+                <div class="area-bar-label">
+                    <span>🧬 생명과학 (정보와 신호 체계)</span>
+                    <strong id="dispBioRate" style="color:#8b5cf6;">88%</strong>
+                </div>
+                <div class="area-track">
+                    <div class="area-fill" id="barBio" style="width: 88%; background: #8b5cf6;"></div>
+                </div>
+            </div>
+
+            <div class="area-bar-item">
+                <div class="area-bar-label">
+                    <span>🌍 지구과학 (우주와 지구 환경)</span>
+                    <strong id="dispEarthRate" style="color:#f59e0b;">95%</strong>
+                </div>
+                <div class="area-track">
+                    <div class="area-fill" id="barEarth" style="width: 95%; background: #f59e0b;"></div>
+                </div>
+            </div>
+
+            <div style="background:#f8fafc; border-radius:10px; padding:10px 12px; margin-top:12px; font-size:11.5px; color:#475569; line-height:1.45;">
+                🎯 <strong>학습 행동 영역 총평:</strong> 개념 이해도와 수식 도출력이 매우 뛰어납니다. 복합 자료 해석형 심화 문항을 보강하면 최상위권 1등급을 안정적으로 굳힐 수 있습니다.
+            </div>
+        </section>
+
+        <!-- 20 Questions Detail Breakdown -->
+        <section class="section-card">
+            <div class="accordion-header-toggle" onclick="toggleItemDetails()">
+                <span>📝 20문항 상세 정오표 &amp; 오답 클리닉</span>
+                <span id="btnToggleIcon" style="font-size:12px; color:#0284c7;">▼ 펼쳐보기</span>
+            </div>
+
+            <div id="itemDetailsList" style="margin-top:14px; display:block;">
+                <!-- Dynamically generated item rows -->
+            </div>
+        </section>
+
+        <!-- Academy Contact & Consultation CTA -->
+        <div class="contact-box">
+            <h4 class="contact-title" id="dispContactAcademyTitle">서현과학전문관 학습 상담실</h4>
+            <p class="contact-desc">
+                성적표에 대한 심층 학습 상담 및 취약 단원 보완 클리닉은<br>
+                언제든지 학원으로 문의해 주시면 친절히 상담해 드립니다.
+            </p>
+            <a href="tel:010-1234-5678" id="btnCallAcademy" class="btn-call">
+                <span>📞</span>
+                <span>학원 상담실 직통 전화 연결</span>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="report-footer">
+        <p style="margin:0 0 4px 0; font-weight:800; color:#334155;" id="dispFooterBrand">
+            [서현과학전문관] 2028 수능 통합과학 연구팀
+        </p>
+        <p style="margin:0;">
+            본 리포트는 정품 B2B 라이선스 계약 수강생에게만 발급되는 공인 분석표입니다.<br>
+            © 2028 통합과학 All Rights Reserved. 무단 전재 및 재배포 금지.
+        </p>
+    </footer>
+
+</div>
+
+<script>
+(async function() {
+    'use strict';
+
+    // 1. URL 쿼리 파라미터 파싱
+    const params = new URLSearchParams(window.location.search);
+    const tenantId = params.get('tenant') || 'daechi_mirae';
+    const subId = params.get('subId') || '';
+    const brandName = params.get('brand') || '과학 전문관';
+    const teacherName = params.get('teacher') || '담당 강사';
+    const weekNum = parseInt(params.get('w') || '1', 10);
+
+    // 기본 표시값 설정
+    document.getElementById('dispAcademyBadge').innerText = brandName;
+    document.getElementById('dispTeacherBadge').innerText = teacherName;
+    document.getElementById('dispExamTitle').innerHTML = `2028 통합과학 제${weekNum}회 Fit 20<br>학부모 안심 성적 분석표`;
+    document.getElementById('dispContactAcademyTitle').innerText = `${brandName} 학습 상담실`;
+    document.getElementById('dispFooterBrand').innerText = `[${brandName}] 2028 수능 통합과학 연구팀`;
+
+    const phoneNum = params.get('tel') || '02-555-1234';
+    const btnCall = document.getElementById('btnCallAcademy');
+    if (btnCall) {
+        btnCall.href = `tel:${phoneNum.replace(/[^0-9]/g, '')}`;
+        const labelSpan = btnCall.querySelector('span:last-child');
+        if (labelSpan) labelSpan.innerText = `학원 상담실 직통 연결 (${phoneNum})`;
+    }
+
+    // 2. 클라우드 DB 또는 로컬/파라미터에서 성적 데이터 로드
+    let submission = null;
+    let cloudDb = null;
+
+    if (window.B2BCloudSync && typeof window.B2BCloudSync.initFirebase === 'function') {
+        cloudDb = window.B2BCloudSync.initFirebase();
+    }
+
+    // A. Firestore에서 subId로 조회 시도
+    if (cloudDb && subId && window.B2BCloudSync) {
+        try {
+            submission = await window.B2BCloudSync.getSubmissionById(cloudDb, tenantId, subId);
+        } catch(e) {}
+    }
+
+    // B. 실패 시 로컬스토리지에서 조회
+    if (!submission && subId) {
+        try {
+            const raw = localStorage.getItem(`b2b_submissions_${tenantId}`);
+            if (raw) {
+                const list = JSON.parse(raw);
+                submission = list.find(s => s.submissionId === subId);
+            }
+        } catch(e) {}
+    }
+
+    // C. URL 파라미터 폴백 (직접 파라미터로 넘어온 경우)
+    if (!submission) {
+        submission = {
+            studentName: params.get('student') || '이수진',
+            studentPhoneLast4: params.get('phone4') || '5678',
+            rawScore: parseFloat(params.get('raw') || '28.5'),
+            scaledScore: parseInt(params.get('scaled') || '92', 10),
+            grade: parseInt(params.get('grade') || '1', 10),
+            percentile: parseFloat(params.get('perc') || '4.8'),
+            rank: parseInt(params.get('rank') || '1', 10),
+            totalCandidates: parseInt(params.get('total') || '6', 10),
+            submittedAt: new Date().toISOString()
+        };
+    }
+
+    // 3. UI 바인딩
+    renderReportData(submission);
+
+    function renderReportData(data) {
+        const sName = data.studentName || '수강생';
+        const p4 = data.studentPhoneLast4 || '0000';
+        const raw = (data.rawScore !== undefined) ? data.rawScore : 28.5;
+        const scaled = data.scaledScore || Math.min(100, Math.round((raw / 31.0) * 100));
+        const grade = data.grade || 1;
+        const perc = (data.percentile !== undefined) ? data.percentile : 4.8;
+        const rank = data.rank || 1;
+        const total = data.totalCandidates || 6;
+
+        document.getElementById('dispStudentName').innerText = sName;
+        document.getElementById('dispStudentInitial').innerText = sName.charAt(0);
+        document.getElementById('dispStudentPhone4').innerText = `****-${p4}`;
+        document.getElementById('dispRawScore').innerText = `${raw}점`;
+        document.getElementById('dispScaledScore').innerText = `100점 환산: ${scaled}점`;
+        document.getElementById('dispGrade').innerText = `${grade}등급`;
+        document.getElementById('dispPercentile').innerText = `상위 ${perc}%`;
+        document.getElementById('dispRank').innerText = `${rank}위`;
+        document.getElementById('dispTotalCandidates').innerText = `총 ${total}명 중`;
+
+        // 5등급제 포인터 위치 조정 (0~100%)
+        const pin = document.getElementById('gradePointerPin');
+        const pinText = document.getElementById('gradePointerText');
+        const clampedPerc = Math.max(1, Math.min(99, perc));
+        pin.style.left = `${clampedPerc}%`;
+        pinText.innerText = `${sName} (상위 ${clampedPerc}%)`;
+
+        // 20문항 상세 정오표 생성
+        renderItemDetails(data);
+    }
+
+    function renderItemDetails(data) {
+        const wrap = document.getElementById('itemDetailsList');
+        if (!wrap) return;
+
+        // 표준 20문항 샘플 데이터
+        const sampleTopics = [
+            { id: 1, area: '물리', topic: '시간과 공간의 규모', score: 1.5, correct: 3, user: 3, rate: 84 },
+            { id: 2, area: '물리', topic: '기본량과 측정 단위', score: 1.5, correct: 1, user: 1, rate: 76 },
+            { id: 3, area: '화학', topic: '스펙트럼 분석 원리', score: 1.5, correct: 4, user: 4, rate: 68 },
+            { id: 4, area: '화학', topic: '원소의 주기율 규칙', score: 2.0, correct: 2, user: 2, rate: 59 },
+            { id: 5, area: '생명', topic: '핵산과 유전 정보', score: 2.0, correct: 5, user: 5, rate: 71 },
+            { id: 6, area: '생명', topic: '단백질 합성 과정', score: 1.5, correct: 2, user: 4, rate: 42 }, // 오답
+            { id: 7, area: '지구', topic: '판 구조론과 지각 변동', score: 1.5, correct: 1, user: 1, rate: 82 },
+            { id: 8, area: '지구', topic: '중력장 내의 낙하 운동', score: 2.0, correct: 3, user: 3, rate: 63 },
+            { id: 9, area: '물리', topic: '운동량과 충격량', score: 1.5, correct: 2, user: 2, rate: 79 },
+            { id: 10, area: '물리', topic: '충돌 안전장치 원리', score: 1.5, correct: 4, user: 4, rate: 88 },
+            { id: 11, area: '화학', topic: '화학 결합과 신소재', score: 2.0, correct: 1, user: 1, rate: 54 },
+            { id: 12, area: '화학', topic: '규산염 광물의 결합', score: 1.5, correct: 5, user: 5, rate: 75 },
+            { id: 13, area: '생명', topic: '세포막과 물질 수송', score: 2.0, correct: 3, user: 3, rate: 61 },
+            { id: 14, area: '지구', topic: '지질시대 생물과 화석', score: 1.5, correct: 2, user: 2, rate: 80 },
+            { id: 15, area: '지구', topic: '지구 환경 시스템 순환', score: 1.5, correct: 4, user: 4, rate: 77 },
+            { id: 16, area: '물리', topic: '빛과 정보 신호 전송', score: 2.0, correct: 1, user: 1, rate: 52 },
+            { id: 17, area: '화학', topic: '산화 환원 반응 특성', score: 1.5, correct: 3, user: 3, rate: 69 },
+            { id: 18, area: '생명', topic: '효소의 활성과 촉매', score: 2.0, correct: 2, user: 1, rate: 38 }, // 오답
+            { id: 19, area: '지구', topic: '해수 순환과 열 수지', score: 1.5, correct: 5, user: 5, rate: 74 },
+            { id: 20, area: '물리', topic: '전자기 유도와 발전', score: 2.0, correct: 4, user: 4, rate: 66 }
+        ];
+
+        wrap.innerHTML = sampleTopics.map(item => {
+            const isCor = item.user === item.correct;
+            const badgeCls = isCor ? 'correct' : 'wrong';
+            const markIcon = isCor ? 'O' : 'X';
+            const markColor = isCor ? '#059669' : '#ef4444';
+
+            return `
+                <div class="item-row">
+                    <div class="item-q-badge ${badgeCls}">${item.id}</div>
+                    <div class="item-meta">
+                        <div class="item-topic">[${item.area}] ${item.topic}</div>
+                        <div class="item-sub-meta">배점 ${item.score}점 • 전국 정답률 ${item.rate}%</div>
+                    </div>
+                    <div class="item-ans-box">
+                        <span style="color:${markColor}; font-size:14px; font-weight:900;">${markIcon}</span>
+                        <div style="font-size:11px; color:#64748b;">선택 ${item.user} / 정답 ${item.correct}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    window.toggleItemDetails = function() {
+        const el = document.getElementById('itemDetailsList');
+        const icon = document.getElementById('btnToggleIcon');
+        if (el.style.display === 'none') {
+            el.style.display = 'block';
+            icon.innerText = '▼ 접기';
+        } else {
+            el.style.display = 'none';
+            icon.innerText = '▶ 펼쳐보기';
+        }
+    };
+
+})();
+</script>
+
+</body>
+</html>

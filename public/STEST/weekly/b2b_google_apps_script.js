@@ -28,8 +28,15 @@ function doPost(e) {
     const now = Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy-MM-dd HH:mm:ss");
     const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-    // [결제/이체 통보 분기] 견적서에서 '이체완료통보'를 누른 경우 별도 시트 적재 및 개시 안내 메일 발송
-    const isTransferReport = (data.status === '입금확인대기' || (data.package && data.package.includes('입금통보')) || data.type === 'transfer_report');
+    // [결제/이체 통보 분기] 견적서에서 결제완료 또는 '이체완료통보'를 누른 경우 별도 시트 적재 및 개시 안내 메일 발송
+    const isTransferReport = (
+      data.status === '입금확인대기' || 
+      data.status === '결제완료' ||
+      (data.package && data.package.includes('입금통보')) || 
+      data.type === 'transfer_report' ||
+      data.type === 'payment_confirmed' ||
+      data.isPaymentVerified === true
+    );
     if (isTransferReport) {
       return handleTransferReport(data, ss, now);
     }
@@ -403,6 +410,7 @@ function handleTransferReport(data, ss, now) {
     const tenantId = encodeURIComponent(data.academy || 'daechi_mirae');
     const licenseKey = `GTW-2028-${(data.academy || 'ACADEMY').toUpperCase().replace(/[^A-Z0-9]/g, '')}-${seatsNum}SEATS-VERIFIED`;
     const consoleUrl = `https://godtonggwa.web.app/STEST/weekly/b2b_admin_console.html?tenant=${tenantId}&brand=${encodeURIComponent(data.academy || '')}&teacher=${encodeURIComponent(data.teacher || '')}`;
+    const manualUrl = `https://godtonggwa.web.app/STEST/weekly/marketing/b2b_partner_manual.html`;
 
     const clientSubject = `[결제완료] ${data.academy} (${data.teacher} 선생님) 2028 통합과학 주간지 결제 확인 및 정품 개시 안내`;
 
@@ -498,19 +506,34 @@ function handleTransferReport(data, ss, now) {
             </div>
           </div>
 
-          <!-- [3번 항목: 1학기 내신 무제한 복습 보장 안내] -->
+          <!-- [3번 항목: 제휴 학원장 및 강사용 공식 운영 매뉴얼 & 도입 가이드북] -->
+          <div style="background: #f0fdf4; border: 1.5px solid #22c55e; border-radius: 14px; padding: 20px; margin-bottom: 22px;">
+            <div style="font-size: 14px; font-weight: 900; color: #15803d; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+              <span>📖</span> <span>3. [필독] 제휴 학원장 및 강사용 공식 운영 매뉴얼 &amp; 도입 가이드북</span>
+            </div>
+            <p style="margin: 0 0 14px 0; font-size: 12.5px; color: #374151; line-height: 1.6;">
+              원장님과 출강 강사님들의 원활한 수업 안착을 위해 <strong>주간지 10주 운영 일정표, 수강생 엑셀 등록법, 모바일 OMR 카드 배부 요령, 학부모 성적표 상담 활용법</strong>이 총정리된 공식 가이드북입니다. 화면에서 바로 열람하시거나 상단 [인쇄/PDF 저장] 버튼으로 출력하여 학원 출강 강사님들과 공유하실 수 있습니다.
+            </p>
+            <div style="text-align: center;">
+              <a href="${manualUrl}" target="_blank" style="display: block; background: #16a34a; color: #ffffff; font-size: 14px; font-weight: 900; padding: 13px 20px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
+                📘 [원장님/강사용] 공식 운영 매뉴얼 &amp; 도입 가이드북 열람 (새창) ➔
+              </a>
+            </div>
+          </div>
+
+          <!-- [4번 항목: 1학기 내신 무제한 복습 보장 안내] -->
           <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 18px; margin-bottom: 22px; font-size: 13px; color: #1e3a8a;">
             <div style="font-weight: 900; color: #1d4ed8; font-size: 13.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-              <span>🎁</span> <span>3. [도입 특전] 1학기 기말고사(2027년 7월 31일) 무제한 복습 보장</span>
+              <span>🎁</span> <span>4. [도입 특전] 1학기 기말고사(2027년 7월 31일) 무제한 복습 보장</span>
             </div>
             <div style="line-height: 1.6; color: #1e293b;">
               겨울방학 10주 특강 성적 집계 이후에도, 등록된 학생들의 <strong style="color: #1d4ed8;">전자책 열람, 모의고사 다시풀기, 성적표 조회는 1학기 내신(7월 31일)까지 무제한 지원</strong>되어 학원생들의 내신 1등급 달성에 완벽히 기여합니다.
             </div>
           </div>
 
-          <!-- [4번 항목: 특약 사항 및 법적 고지] -->
+          <!-- [5번 항목: 특약 사항 및 법적 고지] -->
           <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 18px; font-size: 12px; color: #475569; line-height: 1.6;">
-            <strong style="color: #1e293b; font-size: 12.5px; display: block; margin-bottom: 6px;">⚖️ 4. 특약 사항 및 법적 고지 (분쟁 방지용 표준 조항)</strong>
+            <strong style="color: #1e293b; font-size: 12.5px; display: block; margin-bottom: 6px;">⚖️ 5. 특약 사항 및 법적 고지 (분쟁 방지용 표준 조항)</strong>
             <div style="margin-bottom: 3px;">• <strong>승낙 및 계약 성립:</strong> 공식 결제 승인에 따라 상호 정식 공급계약이 체결된 것으로 봅니다.</div>
             <div style="margin-bottom: 3px;">• <strong>저작권 보호:</strong> 주간지 전자책·모의고사·OMR 시스템의 저작권은 공급자에 전속하며, 제3자 무단 배포·재판매·외부 유출을 엄격히 금지합니다.</div>
             <div>• <strong>환불 규정:</strong> 화이트레이블 맞춤 제작 및 디지털 라이선스 특성상 계정 발급 이후 단순 변심에 의한 환불은 불가합니다.</div>
@@ -549,10 +572,13 @@ ${data.academy} (${data.teacher} 선생님)
 - 라이선스 키: ${licenseKey}
 - [원장님 전용] 관리자 콘솔: ${consoleUrl}
 
-■ 3. [도입 특전] 1학기 내신 무제한 복습 보장
+■ 3. [필독] 제휴 학원장 및 강사용 공식 운영 매뉴얼 & 도입 가이드북
+- 10주 일정표, 수강생 엑셀 등록, OMR 카드 배부, 학부모 성적표 상담 가이드북: ${manualUrl}
+
+■ 4. [도입 특전] 1학기 내신 무제한 복습 보장
 - 1학기 기말고사(2027년 7월 31일)까지 전자책 열람, OMR 다시풀기, 성적표 조회 무제한 복습 보장
 
-■ 4. 특약 사항 및 법적 고지
+■ 5. 특약 사항 및 법적 고지
 - 승낙 및 계약 성립: 공식 결제 승인 시 정식 공급계약 성립
 - 저작권 보호: 콘텐츠 저작권은 공급자에 귀속되며 무단 배포 및 유출 엄금
 - 환불 규정: 전자책 및 디지털 라이선스 특성상 계정 발급 후 단순 변심에 의한 환불 불가

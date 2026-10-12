@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>갓통과 - 발전과 전력 수송 요약</title>
+    <title>갓통과 - 발전과 환경 영향 요약</title>
     
     <!-- 스타일링을 위한 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -50,7 +50,7 @@ window.addEventListener('wheel', (e) => {
                 <!-- 타이틀 -->
                 <div class="flex flex-col justify-center">
                     <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
-                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">4-6. 발전과 전력 수송 요약</span>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">5-6. 발전과 환경 영향 요약</span>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -60,7 +60,6 @@ window.addEventListener('wheel', (e) => {
 
         <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
         <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
-            
             <!-- Card 1 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
                 <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(-2deg);"></div>
@@ -78,17 +77,6 @@ window.addEventListener('wheel', (e) => {
                     <div class="mt-3 mb-4">
                         <img src="lenz.png" alt="전자기 유도" class="w-full rounded-lg border border-gray-200 shadow-sm">
                     </div>
-                    <li><i class="fas fa-exchange-alt text-pink-500 mr-1"></i> <strong>전류 방향 공식 (암기 팁)</strong>:
-                        <div class="grid grid-cols-2 gap-2 mt-1 text-center text-base">
-                            <div class="border border-red-200 rounded bg-red-50">N 접근 = S 후퇴</div>
-                            <div class="border border-blue-200 rounded bg-blue-50">S 접근 = N 후퇴</div>
-                        </div>
-                    </li>
-                    <li><i class="fas fa-microscope text-indigo-500 mr-1"></i> <strong>자석의 낙하 (솔레노이드 통과)</strong>:
-                        <br> <span class="text-sm bg-gray-100 rounded px-1">입구</span>: 자석을 밀어냄 (척력) → 속력 감소
-                        <br> <span class="text-sm bg-gray-100 rounded px-1">출구</span>: 자석을 당김 (인력) → 속력 감소
-                        <br> 역학적 에너지 <span class="red-pen">일부 감소</span> (전기E로 전환).
-                    </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
@@ -103,21 +91,21 @@ window.addEventListener('wheel', (e) => {
                 <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">02. 발전기 (Generator)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
                     <li><i class="fas fa-cogs text-gray-500 mr-1"></i> <strong>구조</strong>:
-                        <br> 자석 사이에 코일(회전자)이 들어있는 구조. (전동기와 구조 동일, 반대 원리).
+                        <br> 자석 사이에 회전하는 코일이 들어있는 구조.
                     </li>
                     <div class="mt-3 mb-4">
                         <img src="powerdevice.png" alt="발전기의 원리" class="w-full rounded-lg border border-gray-200 shadow-sm">
                     </div>
                     <li><i class="fas fa-sync-alt text-green-500 mr-1"></i> <strong>작동</strong>:
-                        <br> 터빈 회전 → 자석과 코일의 상대 운동 → 전자기 유도 → 전기 생산.
+                        <br> 터빈 회전 &rarr; 자기장의 변화 &rarr; 전자기 유도로 유도 전류 발생.
                     </li>
                     <li><i class="fas fa-exchange-alt text-blue-500 mr-1"></i> <strong>에너지 전환</strong>:
-                        <br> <span class="highlight-blue">운동(역학적) 에너지</span> → <span class="highlight-yellow">전기 에너지</span>.
+                        <br> <span class="highlight-blue">운동(역학적) 에너지</span> &rarr; <span class="highlight-yellow">전기 에너지</span>.
                     </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 발전기에서 전기를 만들기 위해 회전시키는 날개는?</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 발전기에서 전기를 만들기 위해 회전시키는 날개 장치는?</p>
                     <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">터빈 (Turbine)</p>
                 </div>
             </div>
@@ -125,64 +113,75 @@ window.addEventListener('wheel', (e) => {
             <!-- Card 3 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
                 <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">03. 화력 vs 핵발전</h2>
-                
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">03. 터빈을 돌리는 발전 방식</h2>
                 <div class="grid grid-cols-2 gap-2 text-center text-base leading-tight mb-2">
                     <div class="bg-red-50 p-2 rounded">
                         <p class="font-bold text-red-600 mb-1 font-gamja">화력 발전</p>
                         <p class="text-xs font-pen">화석 연료 연소</p>
-                        <p class="text-xs font-pen">화학 E → 열 E</p>
+                        <p class="text-xs font-pen">화학E &rarr; 열E &rarr; 운동E &rarr; 전기E</p>
                     </div>
                     <div class="bg-blue-50 p-2 rounded">
-                        <p class="font-bold text-blue-600 mb-1 font-gamja">핵발전</p>
-                        <p class="text-xs font-pen">우라늄 분열</p>
-                        <p class="text-xs font-pen">핵 E → 열 E</p>
+                        <p class="font-bold text-blue-600 mb-1 font-gamja">핵발전 (원자력)</p>
+                        <p class="text-xs font-pen">우라늄 핵분열</p>
+                        <p class="text-xs font-pen">핵E &rarr; 열E &rarr; 운동E &rarr; 전기E</p>
                     </div>
                 </div>
-                <ul class="space-y-1 text-lg font-pen leading-snug text-center text-gray-700">
-                    <li><i class="fas fa-check-circle text-gray-500 mr-1"></i> <strong>공통점</strong>: 물을 끓여 증기의 힘으로 <span class="red-pen">터빈을 돌림</span>.</li>
+                <ul class="space-y-1 text-lg font-pen leading-snug text-gray-700">
+                    <li><i class="fas fa-water text-cyan-500 mr-1"></i> <strong>수력 발전</strong>:
+                        <br> 높은 곳 물의 위치(퍼텐셜)에너지 &rarr; 수차(터빈) 회전 &rarr; 전기 에너지.
+                    </li>
+                    <li><i class="fas fa-check-circle text-gray-500 mr-1"></i> <strong>공통점</strong>:
+                        <br> 모두 증기나 물의 힘으로 <span class="red-pen">터빈을 돌려</span> 발전기를 작동함.
+                    </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 화력 발전의 에너지 전환 순서(시작)는?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">화학 에너지</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 화력, 수력, 핵발전소의 공통적인 핵심 장치는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">터빈과 발전기</p>
                 </div>
             </div>
 
             <!-- Card 4 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
-                <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">04. 송전과 손실 전력</h2>
+                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(2deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">04. 태양광 발전 (터빈 없음)</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-road text-gray-500 mr-1"></i> <strong>발생 원인</strong>:
-                        <br> 송전선의 <strong>저항(R)</strong> 때문에 전기 에너지 일부가 <span class="highlight-red">열에너지</span>로 손실됨.
+                    <li><i class="fas fa-solar-panel text-orange-500 mr-1"></i> <strong>원리</strong>:
+                        <br> 반도체 태양 전지를 이용해 <span class="highlight-yellow">빛에너지를 직접 전기 에너지로 변환</span>.
                     </li>
-                    <li><i class="fas fa-calculator text-blue-500 mr-1"></i> <strong>손실 전력 공식</strong>:
-                        <br> <span class="red-pen text-xl">P<sub>손실</sub> = I<sup>2</sup>R</span>
-                        <br> (전류의 제곱에 비례, 저항에 비례)
+                    <li><i class="fas fa-exclamation-triangle text-red-500 mr-1"></i> <strong>결정적 차이점 (빈출!)</strong>:
+                        <br> <span class="red-pen">터빈이나 발전기를 사용하지 않음</span>! (소음과 회전 마모가 없음).
                     </li>
-                    <li><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> <strong>줄이는 법</strong>: 저항($R$)을 줄이거나, <span class="highlight-blue">전류($I$)를 줄여야</span> 함.</li>
+                    <li><i class="fas fa-thumbs-up text-green-500 mr-1"></i> <strong>장단점</strong>:
+                        <br> 온실가스 배출이 없는 친환경 발전이지만, 일조량(날씨/밤낮)에 따른 발전량 편차가 큼.
+                    </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 송전선의 전류가 2배가 되면 손실 전력은 몇 배?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">4배 (제곱 비례)</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 터빈을 돌리지 않고 빛을 전기로 직접 바꾸는 발전은?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">태양광 발전</p>
                 </div>
             </div>
 
             <!-- Card 5 -->
             <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
-                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">05. 여러가지 발전 방식</h2>
+                <div class="tape bg-red-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">05. 발전과 환경 영향</h2>
                 <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <div class="mt-3 mb-4">
-                        <img src="plant.png" alt="여러가지 발전 방식" class="w-full rounded-lg border border-gray-200 shadow-sm">
-                    </div>
+                    <li><i class="fas fa-smog text-gray-500 mr-1"></i> <strong>화력 발전</strong>:
+                        <br> 화석 연료 연소 시 <span class="red-pen">온실 기체(CO₂)</span> 대량 배출 &rarr; 지구 온난화 및 미세먼지 유발.
+                    </li>
+                    <li><i class="fas fa-radiation text-yellow-600 mr-1"></i> <strong>핵발전</strong>:
+                        <br> 온실가스 배출은 적으나, <span class="highlight-yellow">방사성 폐기물 처리</span>와 안전성 문제 대두.
+                    </li>
+                    <li><i class="fas fa-leaf text-green-600 mr-1"></i> <strong>대안 (신재생 에너지)</strong>:
+                        <br> 풍력, 수소 연료 전지, 조력 등 지속 가능한 친환경 에너지 체계로의 전환 필요.
+                    </li>
                 </ul>
                 <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
                     <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 높은 곳에 있는 물의 위치 에너지를 이용하여 터빈을 돌려 전기 에너지를 얻는 방식은?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">수력 발전</p>
+                    <p class="text-sm text-gray-700 mb-1">Q. 화력 발전 시 배출되어 지구 온난화를 일으키는 대표적 온실 기체는?</p>
+                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">이산화 탄소 (CO₂)</p>
                 </div>
             </div>
 

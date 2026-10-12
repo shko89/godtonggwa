@@ -143,17 +143,13 @@
           </tr>
           <tr class="border-b border-slate-200/60">
             <td class="py-1.5 text-slate-500">대표자</td>
-            <td class="py-1.5 font-medium text-slate-800">김과학 (직인 생략)</td>
+            <td class="py-1.5 font-medium text-slate-800">김과학 (전자문서 발급 / 직인 생략)</td>
           </tr>
           <tr>
             <td class="py-1.5 text-slate-500">고객센터 / 문의</td>
             <td class="py-1.5 font-medium text-slate-800 num-font">02-555-2028 / godtonggwa@gmail.com</td>
           </tr>
         </table>
-        <!-- 직인 이미지 워터마크 -->
-        <div class="absolute right-3 bottom-2 w-16 h-16 rounded-full border-2 border-rose-500/30 text-rose-500/40 flex items-center justify-center font-black text-[11px] rotate-[-12deg] pointer-events-none select-none">
-          갓통과<br>인
-        </div>
       </div>
 
     </div>
@@ -507,12 +503,12 @@
     <!-- 8. 문서 하단 서명란 -->
     <div class="mt-8 pt-5 border-t-2 border-slate-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
       <div class="text-slate-500">
-        위와 같이 견적서를 정히 발행하며, 상기 특약 조건에 동의합니다.<br>
-        <span class="text-[10.5px] text-slate-400">* 본 문서는 전자적으로 발행되어 전자서명 및 결제 입금 시 동일한 법적 계약 효력이 발생합니다.</span>
+        위와 같이 견적서를 정히 발행하며, 상기 공급 특약 조건(제1조~제4조)에 동의합니다.<br>
+        <span class="text-[10.5px] text-slate-400">* 본 문서는 전자문서 및 전자거래 기본법 제4조 및 전자서명법 제3조에 의거하여 전자적으로 발행·체결되며, 별도의 오프라인 인감 날인 없이 동일한 법적 계약 효력이 발생합니다.</span>
       </div>
       <div class="text-right">
         <div class="font-black text-slate-900 text-sm">
-          갓통과 B2B 교육사업본부 대표 김과학 (인)
+          갓통과 B2B 교육사업본부 대표 김과학 (전자계약 발급 / 직인 생략)
         </div>
         <div class="text-[11px] text-slate-500 mt-0.5">
           사업자등록번호: 108-86-20280
@@ -587,9 +583,21 @@
           <input type="text" id="inpTransferNote" placeholder="예: 1월 3일 전 수강생 명단 엑셀 등록 예정" class="w-full border border-slate-300 rounded-lg p-2 text-xs outline-none focus:border-indigo-600">
         </div>
 
-        <div class="pt-2">
+        <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3 text-xs my-2">
+          <label class="flex items-start gap-2.5 cursor-pointer font-bold text-slate-900 select-none">
+            <input type="checkbox" id="chkContractAgree" required class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 shrink-0">
+            <span>
+              [필수] B2B 공급 조건 및 특약 사항(제1조~제4조)에 동의하며 정식 전자계약을 체결합니다.
+              <span class="block text-[10.5px] text-slate-500 font-normal mt-0.5">
+                * 전자문서 및 전자거래 기본법 제4조 및 전자서명법 제3조에 의거하여 오프라인 도장 날인 없이 동일한 법적 계약 효력이 발생합니다.
+              </span>
+            </span>
+          </label>
+        </div>
+
+        <div class="pt-1">
           <button type="submit" id="btnSubmitTransfer" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-xs sm:text-sm shadow-md transition-all active:scale-98">
-            입금 완료 통보 및 세금계산서 신청 접수 ➔
+            전자계약 체결 동의 및 입금 완료 통보 접수 ➔
           </button>
         </div>
       </form>
@@ -795,11 +803,19 @@
 
     // 이체 결과 통보 제출
     async function submitTransferReport() {
+      const chkAgree = document.getElementById('chkContractAgree');
+      if (chkAgree && !chkAgree.checked) {
+        alert('B2B 공급 조건 및 특약 사항에 동의(체크)해 주셔야 정식 전자계약 체결 및 접수가 진행됩니다.');
+        chkAgree.focus();
+        return;
+      }
+
       const btn = document.getElementById('btnSubmitTransfer');
       const origText = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '⏳ 입금 내역 전송 및 접수 중...';
+      btn.innerHTML = '⏳ 전자계약 체결 및 입금 내역 전송 중...';
 
+      const nowIso = new Date().toISOString();
       const reportData = {
         academy: globalEstimateData.academy,
         teacher: globalEstimateData.teacher,
@@ -813,7 +829,10 @@
         ceoName: document.getElementById('inpTaxCeoName').value.trim(),
         taxEmail: document.getElementById('inpTaxEmail').value.trim(),
         note: document.getElementById('inpTransferNote').value.trim(),
-        reportedAt: new Date().toISOString(),
+        contractAgreed: true,
+        contractAgreedAt: nowIso,
+        legalNotice: "전자문서 및 전자거래 기본법 제4조 및 전자서명법 제3조 준용",
+        reportedAt: nowIso,
         status: '입금확인대기'
       };
 
@@ -834,25 +853,26 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ...reportData,
-            package: `[입금통보] ${reportData.academy} (${reportData.amount.toLocaleString()}원)`
+            package: `[전자계약 체결/입금통보] ${reportData.academy} (${reportData.amount.toLocaleString()}원)`
           })
         });
       } catch(e) {}
 
-      // 3. 텔레그램 봇 실시간 알림 (무통장 입금 통보)
+      // 3. 텔레그램 봇 실시간 알림 (무통장 입금 통보 & 전자계약 체결)
       try {
         const teleBotToken = "8418122948:AAGLh95SYa2Dj0HPQvFOe3zlHAAHj18b9ow";
         const teleChatId = "7703628247";
-        const teleMsg = `💰 [B2B 주간지 무통장 입금 통보]\n\n` +
+        const teleMsg = `📑 [B2B 주간지 전자계약 체결 & 입금 통보]\n\n` +
           `■ 학원명: ${reportData.academy}\n` +
           `■ 입금자명: ${reportData.sender}\n` +
-          `■ 입금금액: ${reportData.amount.toLocaleString()}원\n` +
+          `■ 계약금액: ${reportData.amount.toLocaleString()}원\n` +
           `■ 사업자등록번호: ${reportData.bizNum}\n` +
           `■ 상호/대표: ${reportData.bizName} (${reportData.ceoName})\n` +
           `■ 세금계산서 메일: ${reportData.taxEmail}\n` +
           `■ 연락처: ${reportData.phone}\n` +
+          `■ 전자계약 동의: 체결 완료 (전자서명법 제3조 준용)\n` +
           (reportData.note ? `■ 요청사항: ${reportData.note}\n` : '') +
-          `\n👉 은행 계좌 입금 대조 후 라이선스 키를 발급해 주세요.`;
+          `\n👉 은행 입금 대조 후 라이선스 키를 활성화해 주세요.`;
 
         await fetch(`https://api.telegram.org/bot${teleBotToken}/sendMessage`, {
           method: 'POST',
@@ -875,6 +895,16 @@
     function launchCardPayment() {
       const data = globalEstimateData;
       
+      // 전자계약 체결 사전 동의 확인
+      const confirmContract = confirm(
+        "[2028 통합과학 주간지 B2B 공급 전자계약 체결]\n\n" +
+        "• 계약 대상: " + data.academy + " (" + data.teacher + " 선생님)\n" +
+        "• 결제 금액: " + (data.supplyTotal ? data.supplyTotal.toLocaleString() : "1,950,000") + "원 (VAT 포함)\n\n" +
+        "견적서에 명시된 B2B 공급 조건 및 특약 사항(제1조~제4조)에 동의하며 결제를 진행하시겠습니까?\n\n" +
+        "(전자문서 및 전자거래 기본법 제4조에 의거하여 결제 시 정식 전자계약이 체결됩니다.)"
+      );
+      if (!confirmContract) return;
+
       // 토스페이먼츠 공식 오픈 테스트 클라이언트 키
       // (실 서비스 전환 시 대표님의 실제 상점 키 live_ck_...로 교체하시면 즉시 실결제 활성화됩니다)
       const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';

@@ -295,7 +295,7 @@
             <ol class="flow-list">
                 <li class="flow-item">
                     아래 학생 전용 전자책 링크를 엽니다:<br>
-                    👉 <a href="./b2b_ebook_viewer.html?tenant=daechi_mirae&w=1" id="linkEbookStep2" target="_blank" class="btn-action-link">제1주차 학생 전자책 뷰어 열기 (클릭) ↗</a>
+                    👉 <a href="./b2b_ebook_viewer.html?tenant=daechi_mirae&w=1&reauth=true" id="linkEbookStep2" target="_blank" class="btn-action-link">제1주차 학생 전자책 뷰어 열기 (클릭) ↗</a>
                 </li>
                 <li class="flow-item">
                     <strong>[미등록 차단 테스트]:</strong> 아무 이름(예: <span class="pill-tag red">홍길동</span> / <span class="pill-tag red">0000</span>)을 넣고 버튼을 눌러보세요.
@@ -328,11 +328,11 @@
 
             <ol class="flow-list">
                 <li class="flow-item">
-                    전자책 화면 상단 오른쪽의 파란색 <strong>[ 📝 Fit 20 OMR 제출 ]</strong> 버튼을 누릅니다.<br>
-                    • (또는 직접 접속: <a href="./timeattack/index.html?examId=week_2028_01&b2b=true" id="linkOmrStep3" target="_blank" class="btn-action-link">제1회 모바일 OMR 열기 ↗</a>)
+                    전자책 화면 상단 오른쪽의 파란색 <strong>[ 📝 Fit 20 OMR 제출 ]</strong> 버튼을 누르거나, 아래 링크로 직접 접속합니다.<br>
+                    • 학생 카톡 배부 링크: <a href="./b2b_mobile_omr.html?tenant=daechi_mirae&w=1&brand=%EB%8C%80%EC%B9%98%20%EB%AF%B8%EB%9E%98%ED%83%90%EA%B5%AC&teacher=%EB%8B%B4%EB%8B%B9%20%EA%B0%95%EC%82%AC" id="linkOmrStep3" target="_blank" class="btn-action-link">제1회 모바일 OMR 열기 (클릭) ↗</a>
                 </li>
                 <li class="flow-item">
-                    이수진 학생 정보로 20문항 OMR 마킹 화면이 열립니다.
+                    학생 카카오톡 안내 링크와 동일한 화면에서 수강생 정보(<span class="pill-tag green">이수진</span> / <span class="pill-tag green">5678</span>)를 입력 후 <strong>[OMR 답안지 열기 ➔]</strong>를 누르면 20문항 모바일 마킹 화면이 열립니다.
                 </li>
                 <li class="flow-item">
                     문항 번호 몇 개를 가볍게 터치/클릭하여 답안을 마킹한 뒤, 맨 아래 <strong>[ 답안 제출 및 실시간 채점 ]</strong>을 누릅니다.
@@ -429,11 +429,11 @@
         if (link1) link1.href = `./b2b_admin_console.html?${commonParams}&demo=true&step=1`;
 
         const link2 = document.getElementById('linkEbookStep2');
-        if (link2) link2.href = `./b2b_ebook_viewer.html?${commonParams}&w=1`;
+        if (link2) link2.href = `./b2b_ebook_viewer.html?${commonParams}&w=1&reauth=true`;
 
-        // 3단계: 검증된 timeattack 모의고사 시스템으로 바로 연결
+        // 3단계: 학생 카카오톡 공지문 배부 주소와 동일한 모바일 OMR 주소로 연결
         const link3 = document.getElementById('linkOmrStep3');
-        if (link3) link3.href = `./timeattack/index.html?examId=week_2028_01&b2b=true&brand=${qBrand}&teacher=${qTeacher}${engName ? '&eng=' + qEng : ''}`;
+        if (link3) link3.href = `./b2b_mobile_omr.html?tenant=${qTenant}&w=1&brand=${qBrand}&teacher=${qTeacher}${engName ? '&eng=' + qEng : ''}`;
 
         const link4 = document.getElementById('linkConsoleStep4');
         if (link4) link4.href = `./b2b_admin_console.html?${commonParams}&demo=true&step=4`;

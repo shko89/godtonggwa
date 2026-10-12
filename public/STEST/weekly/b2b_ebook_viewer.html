@@ -281,10 +281,17 @@
         // 2. 세션 인증 확인 (이미 이번 세션에서 인증한 학생인지 체크)
         const sessionAuthKey = `b2b_ebook_auth_${currentTenant}`;
         let activeStudent = null;
-        try {
-            const savedSession = sessionStorage.getItem(sessionAuthKey) || sessionStorage.getItem(`b2b_active_student_${currentTenant}`);
-            if (savedSession) activeStudent = JSON.parse(savedSession);
-        } catch(e) {}
+        if (params.has('reauth') || params.has('auth')) {
+            try {
+                sessionStorage.removeItem(sessionAuthKey);
+                sessionStorage.removeItem(`b2b_active_student_${currentTenant}`);
+            } catch(e) {}
+        } else {
+            try {
+                const savedSession = sessionStorage.getItem(sessionAuthKey) || sessionStorage.getItem(`b2b_active_student_${currentTenant}`);
+                if (savedSession) activeStudent = JSON.parse(savedSession);
+            } catch(e) {}
+        }
 
         // URL에 학생 정보가 파라미터로 직접 전달된 경우(원클릭 전용 링크)
         if (!activeStudent && params.get('name') && (params.get('key') || params.get('last4'))) {
@@ -324,7 +331,7 @@
             }
         }
 
-        if (activeStudent && !previewMode && window.DeviceGuard) {
+        if (activeStudent && !previewMode && window.DeviceGuard && !(currentWeek === 1 && activeStudent.studentName === '이수진' && String(activeStudent.studentPhoneLast4) === '5678')) {
             const devCheck = window.DeviceGuard.checkB2BStudentDevice(currentTenant, activeStudent.studentName, activeStudent.studentPhoneLast4);
             if (!devCheck.allowed) {
                 const blockedName = activeStudent.studentName;
@@ -368,8 +375,8 @@
                 return;
             }
 
-            // 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (친구 번호 공유 및 무단 열람 원천 차단)
-            if (window.DeviceGuard) {
+            // 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (1회차 체험 샘플 이수진 학생만 기기 제한 면제)
+            if (window.DeviceGuard && !(currentWeek === 1 && matched.studentName === '이수진' && String(last4) === '5678')) {
                 const devCheck = window.DeviceGuard.checkB2BStudentDevice(currentTenant, matched.studentName, last4);
                 if (!devCheck.allowed) {
                     window.DeviceGuard.renderDeviceLimitBlockModal({
@@ -395,6 +402,18 @@
 
         // 로스터 명단 대조
         function verifyStudentAgainstRoster(name, last4) {
+            // [보안 정책] 이수진(5678) 샘플 체험은 B2C 무료 공개 회차인 '제1회차(1주차)'에 한해서만 예외 허용
+            // 2회차 이후 유료 콘텐츠는 실제 등록된 수강생 명단에 없을 시 100% 원천 차단
+            if (currentWeek === 1 && name === '이수진' && String(last4) === '5678') {
+                return {
+                    studentId: 'std_demo_5678',
+                    studentName: '이수진',
+                    studentPhone: '010-1234-5678',
+                    studentPhoneLast4: '5678',
+                    parentPhone: '010-9876-5432'
+                };
+            }
+
             let roster = [];
             const hasRawKey = localStorage.getItem(`b2b_students_${currentTenant}`) !== null;
             try {
@@ -402,15 +421,11 @@
                 if (raw) roster = JSON.parse(raw);
             } catch(e) {}
 
-            // 관리자가 명단을 설정한 적이 아예 없고 대치 데모 테넌트인 경우에만 초기 샘플 제공
-            if (!hasRawKey && roster.length === 0 && currentTenant === 'daechi_mirae') {
+            // 1회차 체험 중이고 로스터가 비어있는 경우에만 기본 샘플 명단 허용
+            if (currentWeek === 1 && (!hasRawKey || roster.length === 0)) {
                 roster = [
-                    { studentName: '이수진', studentPhoneLast4: '5678' },
-                    { studentName: '박민우', studentPhoneLast4: '6789' },
-                    { studentName: '최서연', studentPhoneLast4: '7890' },
-                    { studentName: '정준호', studentPhoneLast4: '8901' },
-                    { studentName: '한지민', studentPhoneLast4: '9012' },
-                    { studentName: '강동원', studentPhoneLast4: '0123' }
+                    { studentId: 'std_demo_5678', studentName: '이수진', studentPhone: '010-1234-5678', studentPhoneLast4: '5678', parentPhone: '010-9876-5432' },
+                    { studentId: 'std_demo_6789', studentName: '박민우', studentPhone: '010-2345-6789', studentPhoneLast4: '6789', parentPhone: '010-8765-4321' }
                 ];
             }
 
@@ -532,6 +547,25 @@
                                     brandDiv.innerHTML = `${eName} <span style="background: #0284c7; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 4px;">VOL.${weekStr}</span>`;
                                 }
                             }
+                        }
+
+                        // topNav 우측 영역에 [ 📝 Fit 20 OMR 제출 ] 버튼 주입 (운영 체험 가이드 연동)
+                        const rightBox = topNav && topNav.children && topNav.children[1];
+                        if (rightBox && !rightBox.querySelector('#btn-omr-submit')) {
+                            const omrBtn = doc.createElement('button');
+                            omrBtn.id = 'btn-omr-submit';
+                            omrBtn.style.cssText = "background: #0284c7; border: none; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3); transition: all 0.2s;";
+                            omrBtn.innerHTML = '<span style="font-size: 13px;">📝</span> Fit 20 OMR 제출';
+                            omrBtn.onclick = function(e) {
+                                if (e) {
+                                    try { e.stopPropagation(); } catch(err){}
+                                    try { e.preventDefault(); } catch(err){}
+                                }
+                                const engP = academyCfg.englishName ? `&eng=${encodeURIComponent(academyCfg.englishName)}` : '';
+                                const targetUrl = `./b2b_mobile_omr.html?tenant=${encodeURIComponent(currentTenant)}&w=${currentWeek}&brand=${encodeURIComponent(academyCfg.academyName)}&teacher=${encodeURIComponent(academyCfg.teacherName)}${engP}`;
+                                window.open(targetUrl, '_blank');
+                            };
+                            rightBox.insertBefore(omrBtn, rightBox.firstChild);
                         }
 
                         // 2. 전자책 모든 페이지의 상단 러닝 헤드 (.header-brand) 치환

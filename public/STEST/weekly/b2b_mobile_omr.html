@@ -1929,7 +1929,7 @@
         <div class="auth-card">
             <div class="form-group">
                 <label class="form-label">수강생 이름</label>
-                <input type="text" id="inputStudentName" class="form-input" placeholder="이름을 입력하세요 (예: 홍길동)" autocomplete="name">
+                <input type="text" id="inputStudentName" class="form-input" placeholder="이름을 입력하세요 (예: 이수진)" autocomplete="name">
             </div>
 
             <div class="form-group">
@@ -2387,7 +2387,8 @@
             if (rawR) currentRoster = JSON.parse(rawR);
         } catch(e) {}
 
-        if (activeStudent && !params.has('preview') && !params.has('demo')) {
+        const isWeek1DemoStudent = (currentWeekNum === 1 && activeStudent && activeStudent.studentName === '이수진' && String(activeStudent.studentPhoneLast4) === '5678');
+        if (activeStudent && !params.has('preview') && !params.has('demo') && !isWeek1DemoStudent) {
             const stillValid = currentRoster.find(s => s.studentName === activeStudent.studentName && String(s.studentPhoneLast4) === String(activeStudent.studentPhoneLast4));
             if (hasRosterKey && !stillValid) {
                 activeStudent = null;
@@ -2613,7 +2614,17 @@
         } catch(e) {}
 
         let matched = null;
-        if (roster && roster.length > 0) {
+        // [보안 정책] 이수진(5678) 샘플 체험은 B2C 무료 공개 회차인 '제1회차(1주차)'에 한해서만 예외 허용
+        // 2회차 이후 유료 콘텐츠는 실제 등록된 수강생 명단에 없을 시 100% 원천 차단
+        if (currentWeekNum === 1 && name === '이수진' && String(last4) === '5678') {
+            matched = {
+                studentId: 'std_demo_5678',
+                studentName: '이수진',
+                studentPhoneLast4: '5678',
+                parentPhone: '010-9876-5432',
+                academyId: currentTenant
+            };
+        } else if (roster && roster.length > 0) {
             matched = roster.find(s => s.studentName === name && String(s.studentPhoneLast4) === last4);
             if (!matched) {
                 showModal('수강생 인증 실패', 
@@ -2637,8 +2648,8 @@
 
         activeStudent = matched;
 
-        // 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (친구 번호 공유 및 무단 열람 원천 차단)
-        if (window.DeviceGuard) {
+        // 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (1회차 이수진 샘플은 기기 제한 면제)
+        if (window.DeviceGuard && !(currentWeekNum === 1 && matched.studentName === '이수진' && String(matched.studentPhoneLast4) === '5678')) {
             const devCheck = window.DeviceGuard.checkB2BStudentDevice(currentTenant, matched.studentName, matched.studentPhoneLast4);
             if (!devCheck.allowed) {
                 window.DeviceGuard.renderDeviceLimitBlockModal({

@@ -438,11 +438,37 @@
 
             <div class="step-block">
                 <span class="step-badge">STEP 1 (강사/원장)</span>
-                <h4>1. 학원 브랜딩 등록, 엑셀 명단 업로드 &amp; 주간지 고화질 인쇄</h4>
+                <h4>1. 학원 브랜딩 등록, 엑셀 명단 업로드 &amp; 주간지 보안 인쇄</h4>
                 <p>
                     <a href="../b2b_admin_console.html" target="_blank" style="color:#0284c7; font-weight:800; text-decoration:underline;">관리자 콘솔(<code>/admin</code>)</a>에 접속하여 학원명, 대표 강사명, 학원 로고(PNG)를 등록합니다. 그 후 기존 학원 관리 엑셀의 <strong>[이름, 학생 전화번호, 학부모 전화번호]</strong> 3개 열을 복사하여 붙여넣으면 10초 만에 수강생 등록이 완료됩니다.<br>
-                    종이 교재로 수업하시는 경우, 콘솔 [3. 개인화 인쇄 센터]에서 회차와 부수를 입력하고 <strong>출판용 600~1200 DPI A4 벡터 고화질</strong>로 승인 즉시 인쇄합니다.
+                    실물 종이 교재로 수업하시는 경우, 대시보드의 <strong>[🖨️ 교재 A4 인쇄하기]</strong> 버튼을 클릭하여 웹 뷰어에서 원내 복합기로 직접 출력합니다.
                 </p>
+
+                <!-- [집중 가이드: 인쇄 보안 정책 및 원내 복합기 최적 소책자 인쇄 매뉴얼] -->
+                <div id="print-guide" style="background:#f8fafc; border:1.5px solid #0284c7; border-radius:10px; padding:18px 20px; margin-top:14px; margin-bottom:14px;">
+                    <div style="font-size:14px; font-weight:900; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+                        <span>🛡️</span> <span>[필독] 주간지 인쇄 보안 정책(PDF 미제공 배경) &amp; 복합기 최적 인쇄 매뉴얼</span>
+                    </div>
+                    
+                    <div style="font-size:12.5px; color:#334155; line-height:1.65; margin-bottom:12px;">
+                        <strong>1. 왜 PDF 파일 다운로드를 제공하지 않나요?</strong><br>
+                        제휴 학원의 독점적 지역 경쟁력과 고품질 주간지 콘텐츠가 텔레그램이나 타 학원에 무단 유출·복제되는 것을 원천 방지하기 위해, 본사는 주간지 원본 PDF 파일 다운로드를 일체 제공하지 않습니다. 대신 암호화된 전용 웹 뷰어를 통해 학원 복합기로 직접 출력하는 [보안 직출력] 방식만을 지원하며, 모든 페이지 하단에 <code>[학원명 연구팀] ‧ PUB-ID: ... ‧ VERIFIED</code> 정품 시리얼이 자동 각인됩니다.
+                    </div>
+
+                    <div style="font-size:12.5px; color:#334155; line-height:1.65; margin-bottom:12px;">
+                        <strong>2. 브라우저 인쇄 필수 설정 (Ctrl+P 창):</strong><br>
+                        • <strong>여백(Margins):</strong> 반드시 <strong>[없음 / None]</strong> 선택 (A4 규격 210×297mm에 100% 꽉 차게 자동 확대 출력)<br>
+                        • <strong>옵션:</strong> <strong>[배경 그래픽 포함] [v] 필수 체크</strong> (표지 음영, 개념 박스 디자인 정상 출력)
+                    </div>
+
+                    <div style="font-size:12.5px; color:#334155; line-height:1.65;">
+                        <strong>3. 학원 복합기 최적 인쇄 노하우 (PDF 유출 0% 완제품 책자 제작):</strong><br>
+                        • <strong style="color:#0284c7;">[추천 1위 ⭐] 복합기 드라이버 "A3 소책자(Booklet) 중철 인쇄":</strong><br>
+                        &nbsp;&nbsp;학원 대형 복합기(신도리코/제록스/캐논 등) 속성에서 <strong>[소책자 인쇄 (Booklet)]</strong> 활성화 + 용지: <strong>A3(또는 B4)</strong> 선택 ➔ 복합기가 A4 4개 면을 A3 앞뒤 양면으로 책 순서에 맞게 자동 배치 출력(16p 기준 <strong>A3 용지 딱 4장</strong> 소요) ➔ 반으로 접어 롱호치키스(중철침)를 찍으면 <strong>시대인재·이감 주간지와 동일한 고품질 완제품 책자</strong>로 완성됩니다. (종이/토너 50% 절감!)<br>
+                        • <strong>[기본형] 일반 A4 양면 인쇄:</strong> 일반 A4 용지 선택 ➔ [양면 인쇄(긴 쪽으로 넘김)] ➔ 좌측 2방 스테이플러 마감
+                    </div>
+                </div>
+
                 <div class="step-tip">
                     💡 <strong>Tip:</strong> 학생의 전화번호 뒤 4자리가 모바일 OMR의 간편 로그인 비밀번호로 자동 세팅되며, 주간지 인쇄 시 계약된 출력 라이선스 부수(예: 50부)가 실시간으로 안전하게 차감됩니다.
                 </div>

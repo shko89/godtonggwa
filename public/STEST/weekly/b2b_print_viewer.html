@@ -106,7 +106,7 @@
                 <span>🖨️ A4 고화질 인쇄 (Ctrl+P)</span>
             </button>
 
-            <button type="button" onclick="window.close()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3.5 py-2.5 rounded-lg transition-colors">
+            <button type="button" onclick="closePrintViewer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3.5 py-2.5 rounded-lg transition-colors">
                 닫기
             </button>
         </div>
@@ -118,6 +118,32 @@
     </main>
 
     <script>
+        window.closePrintViewer = function() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+                setTimeout(fallback, 100);
+                return;
+            }
+            window.close();
+            setTimeout(fallback, 100);
+
+            function fallback() {
+                if (!window.closed) {
+                    const p = new URLSearchParams(window.location.search);
+                    const tenant = p.get('tenant');
+                    if (tenant) {
+                        window.location.href = `./b2b_admin_console.html?tenant=${encodeURIComponent(tenant)}`;
+                    } else if (document.referrer && document.referrer.includes('b2b_admin_console')) {
+                        window.location.href = document.referrer;
+                    } else if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = './b2b_admin_console.html';
+                    }
+                }
+            }
+        };
+
         const params = new URLSearchParams(window.location.search);
         const week = parseInt(params.get('week') || '1', 10);
         const brand = params.get('brand') || '대치 미래과학';

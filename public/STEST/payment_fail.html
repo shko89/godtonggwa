@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 결제 취소/실패</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>body { font-family: 'Pretendard', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full text-center border border-slate-100">
+        <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </div>
+        <h2 class="text-2xl font-black text-slate-900 mb-1">결제 취소 또는 오류</h2>
+        <p id="error-msg" class="text-slate-600 text-sm mb-6">결제가 사용자에 의해 취소되었거나 카드 승인 처리 중 오류가 발생했습니다.</p>
+        
+        <div class="bg-slate-50 p-4 rounded-2xl text-left text-xs text-slate-500 mb-6 border border-slate-100 space-y-1">
+            <p><strong class="text-slate-700">오류 코드:</strong> <span id="error-code" class="font-mono text-slate-600"></span></p>
+            <p><strong class="text-slate-700">상세 안내:</strong> 카드 한도, 잔액 또는 네트워크 연결 상태를 확인 후 다시 시도해 주세요.</p>
+        </div>
+
+        <div class="space-y-2">
+            <button onclick="window.history.back()" class="w-full py-3.5 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition shadow-md">
+                이전 화면으로 돌아가기
+            </button>
+            <button onclick="location.href='exam.html'" class="w-full py-2.5 text-slate-400 hover:text-slate-600 text-xs font-semibold transition">
+                모의고사 홈으로 가기
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code") || "USER_CANCEL";
+        const message = urlParams.get("message") || "사용자가 결제를 취소했거나 처리 중 오류가 발생했습니다.";
+        
+        document.getElementById('error-code').innerText = code;
+        document.getElementById('error-msg').innerText = message;
+    </script>
+</body>
+</html>

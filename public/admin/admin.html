@@ -108,6 +108,7 @@ window.addEventListener('wheel', (e) => {
             <button onclick="switchAdminTab('user')" id="btn-tab-user" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap px-4">사용자 관리</button>
             <button onclick="switchAdminTab('v2')" id="btn-tab-v2" class="flex-1 py-2 rounded-lg text-sm font-bold text-amber-400 hover:text-amber-300 transition-all whitespace-nowrap px-4 border border-amber-500/30">V2 퀴즈DB</button>
             <button onclick="window.open('../STEST/weekly/b2b_super_admin.html', '_blank')" class="flex-1 py-2 rounded-lg text-sm font-bold text-sky-400 hover:text-sky-300 hover:bg-sky-950/40 transition-all whitespace-nowrap px-4 border border-sky-500/30">🏢 B2B 학원 관제</button>
+            <button onclick="window.open('database_guide.html', '_blank')" class="flex-1 py-2 rounded-lg text-sm font-bold text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/40 transition-all whitespace-nowrap px-4 border border-emerald-500/30 flex items-center justify-center gap-1.5"><i data-lucide="database" class="w-4 h-4"></i> DB 아키텍처</button>
         </div>
 
         <!-- 2. 모의고사 관리 섹션 -->
@@ -226,46 +227,46 @@ window.addEventListener('wheel', (e) => {
                     <!-- 패키지 구독 관리 UI 신설 -->
                     <div class="mb-6 bg-gray-800 p-4 rounded-xl border border-gray-600">
                         <h3 class="text-xs font-bold text-blue-400 mb-3 uppercase flex items-center gap-2">
-                            <i data-lucide="package" class="w-4 h-4"></i> 패키지 구독 권한 관리
+                            <i data-lucide="package" class="w-4 h-4"></i> 패키지 구독 권한 관리 (표준 3종 체계)
                         </h3>
                         
                         <div class="space-y-3">
                             <!-- 주간지 -->
                             <div class="flex items-center justify-between bg-gray-900 p-3 rounded-lg border border-gray-700">
                                 <div>
-                                    <p class="text-sm font-bold text-white">주간지 패키지</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">10주 완성 마이크로 러닝</p>
+                                    <p class="text-sm font-bold text-white">갓통과 WEEKLY 10주 완성</p>
+                                    <p class="text-[10px] text-gray-400 mt-0.5 font-mono">ID: week_2028 | 10주 완성 마이크로 러닝</p>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span id="status-sub-weekly" class="text-xs font-bold px-2 py-1 rounded bg-gray-700 text-gray-300">미구독</span>
-                                    <button onclick="updateUserSubscription('weekly_magazine', true)" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded">ON</button>
-                                    <button onclick="updateUserSubscription('weekly_magazine', false)" class="text-[10px] bg-red-900/80 hover:bg-red-800 text-white px-2 py-1 rounded">OFF</button>
+                                    <button onclick="updateUserPackage('week_2028', true)" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded font-bold shadow">지급 (ON)</button>
+                                    <button onclick="updateUserPackage('week_2028', false)" class="text-[10px] bg-red-900/80 hover:bg-red-800 text-white px-2.5 py-1 rounded font-bold">회수 (OFF)</button>
                                 </div>
                             </div>
                             
                             <!-- 시즌 모의고사 -->
                             <div class="flex items-center justify-between bg-gray-900 p-3 rounded-lg border border-gray-700">
                                 <div>
-                                    <p class="text-sm font-bold text-white">시즌별 모의고사</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">시즌 0~4 실전 분석</p>
+                                    <p class="text-sm font-bold text-white">2028 통합과학 예시문항 패키지</p>
+                                    <p class="text-[10px] text-gray-400 mt-0.5 font-mono">ID: mock_2028_s0 | 시즌 0 완벽 분석</p>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span id="status-sub-season" class="text-xs font-bold px-2 py-1 rounded bg-gray-700 text-gray-300">미구독</span>
-                                    <button onclick="updateUserSubscription('season_mock', true)" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded">ON</button>
-                                    <button onclick="updateUserSubscription('season_mock', false)" class="text-[10px] bg-red-900/80 hover:bg-red-800 text-white px-2 py-1 rounded">OFF</button>
+                                    <button onclick="updateUserPackage('mock_2028_s0', true)" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded font-bold shadow">지급 (ON)</button>
+                                    <button onclick="updateUserPackage('mock_2028_s0', false)" class="text-[10px] bg-red-900/80 hover:bg-red-800 text-white px-2.5 py-1 rounded font-bold">회수 (OFF)</button>
                                 </div>
                             </div>
 
                             <!-- 연간 패키지 -->
                             <div class="flex items-center justify-between bg-gray-900 p-3 rounded-lg border border-gray-700 border-l-2 border-l-amber-500">
                                 <div>
-                                    <p class="text-sm font-bold text-amber-400">2028 인피니티 올패스</p>
-                                    <p class="text-[10px] text-amber-200/50 mt-0.5">모든 콘텐츠 무제한 패스</p>
+                                    <p class="text-sm font-bold text-amber-400">2028 수능 인피니티 올패스</p>
+                                    <p class="text-[10px] text-amber-200/50 mt-0.5 font-mono">ID: infinity_2028 | 전 콘텐츠 무제한 패스</p>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span id="status-sub-all" class="text-xs font-bold px-2 py-1 rounded bg-gray-700 text-gray-300">미구독</span>
-                                    <button onclick="updateUserSubscription('all_pass', true)" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded">ON</button>
-                                    <button onclick="updateUserSubscription('all_pass', false)" class="text-[10px] bg-red-900/80 hover:bg-red-800 text-white px-2 py-1 rounded">OFF</button>
+                                    <button onclick="updateUserPackage('infinity_2028', true)" class="text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded font-bold shadow">지급 (ON)</button>
+                                    <button onclick="updateUserPackage('infinity_2028', false)" class="text-[10px] bg-red-900/80 hover:bg-red-800 text-white px-2.5 py-1 rounded font-bold">회수 (OFF)</button>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +295,7 @@ window.addEventListener('wheel', (e) => {
                         </h3>
                         <div class="bg-red-900/10 p-3 rounded-xl border border-red-900/30">
                             <div class="flex gap-2">
-                                <input type="text" id="reset-exam-id" class="flex-1 px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:border-red-500 outline-none text-white text-sm" placeholder="삭제할 시험 ID (예: exam_01)">
+                                <input type="text" id="reset-exam-id" class="flex-1 px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:border-red-500 outline-none text-white text-sm" placeholder="삭제할 시험 ID (예: mock_2028_s0_01)">
                                 <button onclick="resetUserExamData()" class="bg-red-900/50 hover:bg-red-900 border border-red-800 text-red-200 px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-colors">
                                     삭제
                                 </button>
@@ -382,7 +383,7 @@ window.addEventListener('wheel', (e) => {
             <h3 class="text-lg font-bold text-white mb-4">패키지(상품) 정보 수정</h3>
             <div class="space-y-3">
                 <div>
-                    <label class="text-xs text-gray-400 block mb-1">패키지 고유 ID (예: weekly_winter_2028)</label>
+                    <label class="text-xs text-gray-400 block mb-1">패키지 고유 ID (예: week_2028)</label>
                     <input type="text" id="pkg-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none">
                 </div>
                 <div>
@@ -447,7 +448,7 @@ window.addEventListener('wheel', (e) => {
                 </div>
                 <div>
                     <label class="text-xs text-emerald-400 block mb-1">연결된 패키지 ID (결제 연동용)</label>
-                    <input type="text" id="edit-package-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: weekly_winter_2028 (선택)">
+                    <input type="text" id="edit-package-id" class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none" placeholder="예: week_2028 (선택)">
                 </div>
                 <div class="flex items-center gap-2 mt-2">
                     <input type="checkbox" id="edit-auth-required" class="w-4 h-4 rounded bg-gray-900 border-gray-600 text-emerald-500 focus:ring-emerald-500">
@@ -1481,19 +1482,6 @@ window.addEventListener('wheel', (e) => {
             } 
         };
 
-        window.loadExamList = async () => {
-            const container = document.getElementById('exam-list-container');
-            container.innerHTML = '<p class="text-center text-gray-500 text-xs py-4">로딩 중...</p>';
-            try {
-                const q = query(collection(db, "public_exams"), orderBy("id", "asc"));
-                const snapshot = await getDocs(q);
-                allExamsData = [];
-                snapshot.forEach(doc => {
-                    allExamsData.push({ docId: doc.id, orderId: doc.data().id, ...doc.data() });
-                });
-                renderExamList();
-            } catch (e) { container.innerHTML = `<p class="text-center text-red-400 text-xs">로딩 실패</p>`; }
-        };
 
         window.loadQuestionsList = async () => {
             const container = document.getElementById('questions-list-container');
@@ -1792,7 +1780,7 @@ window.addEventListener('wheel', (e) => {
             const answers = document.querySelectorAll('.map-ans');
             
             for(let i=0; i<25; i++) {
-                const qId = `q_${examId}_${String(i+1).padStart(2, '0')}`;
+                const qId = `${examId}_q${String(i+1).padStart(2, '0')}`;
                 if(qIds[i]) qIds[i].value = qId;
                 
                 try {
@@ -1931,10 +1919,16 @@ window.addEventListener('wheel', (e) => {
                 document.getElementById('manage-user-status').innerText = d.isPaid ? "Premium" : "Free";
                 document.getElementById('manage-user-status').className = d.isPaid ? "inline-block px-2 py-1 rounded text-xs font-bold bg-indigo-600 text-white" : "inline-block px-2 py-1 rounded text-xs font-bold bg-gray-700 text-gray-300";
                 
-                // 패키지 구독 상태 UI 업데이트
-                const subs = d.subscriptions || {};
+                // 패키지 구독 상태 UI 업데이트 (표준 3종 my_packages 직접 조회)
+                let userPkgs = {};
+                try {
+                    const pkgSnaps = await getDocs(collection(db, "users", searchedUserUid, "my_packages"));
+                    pkgSnaps.forEach(pDoc => userPkgs[pDoc.id] = pDoc.data());
+                } catch(pe) { console.warn("my_packages 조회 실패:", pe); }
+
                 const setSubStatus = (id, isActive) => {
                     const el = document.getElementById(id);
+                    if (!el) return;
                     if (isActive) {
                         el.innerText = "구독 중";
                         el.className = "text-xs font-bold px-2 py-1 rounded bg-indigo-600 text-white";
@@ -1943,9 +1937,9 @@ window.addEventListener('wheel', (e) => {
                         el.className = "text-xs font-bold px-2 py-1 rounded bg-gray-700 text-gray-300";
                     }
                 };
-                setSubStatus('status-sub-weekly', subs.weekly_magazine?.isActive);
-                setSubStatus('status-sub-season', subs.season_mock?.isActive);
-                setSubStatus('status-sub-all', subs.all_pass?.isActive);
+                setSubStatus('status-sub-weekly', userPkgs['week_2028']?.status === 'active' || Boolean(d.hasWeeklyPass));
+                setSubStatus('status-sub-season', userPkgs['mock_2028_s0']?.status === 'active');
+                setSubStatus('status-sub-all', userPkgs['infinity_2028']?.status === 'active' || Boolean(d.hasAllPass));
                 
                 window.loadUserExamList(searchedUserUid);
             } catch (e) { await customAlert("검색 오류"); }
@@ -1959,7 +1953,7 @@ window.addEventListener('wheel', (e) => {
                 const myMap = {}; mySnap.forEach(d => myMap[d.id] = d.data()); 
                 let html = ''; 
                 examsSnap.forEach(ed => { 
-                    const e = ed.data(), eid = `exam_${String(e.id).padStart(2,'0')}`, userR = myMap[eid]; 
+                    const e = ed.data(), eid = ed.id, userR = myMap[eid]; 
                     const statusB = userR ? `<span class="text-xs px-2 py-1 rounded ${userR.status==='graded'?'bg-emerald-900':'bg-blue-900'}">${userR.status}</span>` : '<span class="text-xs text-gray-500">미구매</span>';
                     const actionB = userR ? `<button onclick="toggleUserExam('${uid}','${eid}','${e.title}',false)" class="text-xs bg-red-900/50 p-1.5 rounded">회수</button>` : `<button onclick="toggleUserExam('${uid}','${eid}','${e.title}',true)" class="text-xs bg-indigo-600 p-1.5 rounded">지급</button>`;
                     html += `<div class="bg-gray-800 p-3 rounded-xl border border-gray-700 flex justify-between"><div><span class="text-xs text-gray-400">#${e.id}</span> ${statusB}<p class="text-sm font-bold">${e.title}</p></div>${actionB}</div>`;
@@ -1997,33 +1991,58 @@ window.addEventListener('wheel', (e) => {
             if (!searchedUserUid) return;
             try { 
                 const b = writeBatch(db); b.update(doc(db,"users",searchedUserUid), {isPaid});
-                if(isPaid) { const es = await getDocs(collection(db,"public_exams")); es.forEach(ed => { const eid = `exam_${String(ed.data().id).padStart(2,'0')}`; b.set(doc(db,"users",searchedUserUid,"my_exams",eid), {status:'purchased', title:ed.data().title, grantedAt:new Date().toISOString()}, {merge:true}); }); }
+                if(isPaid) { const es = await getDocs(collection(db,"public_exams")); es.forEach(ed => { const eid = ed.id; b.set(doc(db,"users",searchedUserUid,"my_exams",eid), {status:'purchased', title:ed.data().title, grantedAt:new Date().toISOString(), adminGranted:true}, {merge:true}); }); }
                 await b.commit(); window.searchUser();
             } catch(e) { await customAlert("실패"); }
         };
 
-        window.updateUserSubscription = async (pkgType, isActive) => {
+        window.updateUserPackage = async (pkgId, isActive) => {
             if (!searchedUserUid) return;
-            const confirmMsg = isActive ? `해당 사용자에게 '${pkgType}' 패키지 권한을 부여하시겠습니까?` : `해당 사용자의 '${pkgType}' 패키지 권한을 회수하시겠습니까?`;
+            const pkgNames = {
+                'infinity_2028': '2028 수능 인피니티 올패스',
+                'week_2028': '갓통과 WEEKLY 10주 완성',
+                'mock_2028_s0': '2028 통합과학 예시문항 완벽 분석'
+            };
+            const title = pkgNames[pkgId] || pkgId;
+            const confirmMsg = isActive ? `[${title}] 패키지 권한을 사용자에게 지급하시겠습니까?` : `[${title}] 패키지 권한을 회수하시겠습니까?`;
             if (!await customConfirm(confirmMsg)) return;
-            
+
             try {
                 const userRef = doc(db, "users", searchedUserUid);
-                // 중첩 객체 업데이트 방식 (subscriptions.pkgType.isActive)
-                const updateData = {};
-                updateData[`subscriptions.${pkgType}.isActive`] = isActive;
+                const pkgRef = doc(db, "users", searchedUserUid, "my_packages", pkgId);
+
                 if (isActive) {
-                    updateData[`subscriptions.${pkgType}.grantedAt`] = new Date().toISOString();
+                    await setDoc(pkgRef, {
+                        status: 'active',
+                        adminGranted: true,
+                        title: title,
+                        grantedAt: new Date().toISOString()
+                    }, { merge: true });
+
+                    if (pkgId === 'infinity_2028') {
+                        await updateDoc(userRef, { hasAllPass: true });
+                    } else if (pkgId === 'week_2028') {
+                        await updateDoc(userRef, { hasWeeklyPass: true });
+                    }
+                } else {
+                    await deleteDoc(pkgRef);
+
+                    if (pkgId === 'infinity_2028') {
+                        await updateDoc(userRef, { hasAllPass: false });
+                    } else if (pkgId === 'week_2028') {
+                        await updateDoc(userRef, { hasWeeklyPass: false });
+                    }
                 }
-                
-                await updateDoc(userRef, updateData);
-                await customAlert("패키지 권한이 성공적으로 변경되었습니다.");
+
+                await customAlert("패키지 권한이 성공적으로 반영되었습니다.");
                 window.searchUser();
-            } catch(e) { 
-                await customAlert("오류 발생: " + e.message); 
+            } catch(e) {
                 console.error(e);
+                await customAlert("오류 발생: " + e.message);
             }
         };
+
+        window.updateUserSubscription = window.updateUserPackage;
 
         window.updateTopicOptions = (chapter, topic = null) => {
             const select = document.getElementById('q-topic'); select.innerHTML = '<option value="">소단원 선택</option>';

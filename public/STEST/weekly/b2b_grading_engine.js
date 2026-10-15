@@ -16,12 +16,43 @@
     // 3등급: 상위 66% 이내 (32%)
     // 4등급: 상위 90% 이내 (24%)
     // 5등급: 상위 100% (10%)
-    function calculateGradeFromPercentile(percentile) {
-        if (percentile <= 10) return 1;
-        if (percentile <= 34) return 2;
-        if (percentile <= 66) return 3;
-        if (percentile <= 90) return 4;
+    function calculateGradeFromPercentile(topPercentile) {
+        if (topPercentile <= 10.0) return 1;
+        if (topPercentile <= 34.0) return 2;
+        if (topPercentile <= 66.0) return 3;
+        if (topPercentile <= 90.0) return 4;
         return 5;
+    }
+
+    /**
+     * 표준정규분포 누적밀도함수(CDF) 다항식 근사 (Abramowitz and Stegun)
+     */
+    function getCumulativeProbability(z) {
+        if (z < -6.5) return 0.0;
+        if (z > 6.5) return 1.0;
+        const k = 1 / (1 + 0.2316419 * Math.abs(z));
+        const poly = k * (0.319381530 + k * (-0.356563782 + k * (1.781477937 + k * (-1.821255978 + 1.330274429 * k))));
+        const approx = 1.0 - (1.0 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * poly;
+        return z < 0 ? 1.0 - approx : approx;
+    }
+
+    /**
+     * 원점수 기반 전국 상위 백분위(%), 2028 5등급, 표준점수 일괄 산출
+     */
+    function calculatePercentileAndGrade(rawScore, maxScore, nationalAvg, nationalStd) {
+        const avg = (nationalAvg !== undefined && nationalAvg > 0) ? nationalAvg : (maxScore * 0.65);
+        const std = (nationalStd !== undefined && nationalStd > 0) ? nationalStd : (maxScore * 0.17);
+        const z = (rawScore - avg) / (std || 1);
+        const cumProb = getCumulativeProbability(z);
+        const topPercentile = Math.max(0.1, Math.min(99.9, Math.round((1 - cumProb) * 1000) / 10));
+        const grade = calculateGradeFromPercentile(topPercentile);
+        const standardScore = Math.max(20, Math.min(80, Math.round(50 + 10 * z)));
+        return {
+            topPercentile: topPercentile,
+            percentile: Math.round(cumProb * 1000) / 10,
+            grade: grade,
+            standardScore: standardScore
+        };
     }
 
     /**
@@ -65,8 +96,23 @@
                 rawScore += qScore;
             }
 
-            // 영역별 집계
-            const domainKey = domainTotals[q.domain] ? q.domain : '물리학';
+            // 영역별 집계 (키워드 매핑 지원)
+            let domainKey = q.domain;
+            if (!domainTotals[domainKey]) {
+                const d = String(q.domain || '').toLowerCase();
+                const t = String(q.topic || '').toLowerCase();
+                if (d.includes('물리') || t.includes('역학') || t.includes('신호') || t.includes('운동') || t.includes('전기') || t.includes('측정') || t.includes('단위')) {
+                    domainKey = '물리학';
+                } else if (d.includes('화학') || t.includes('원소') || t.includes('결합') || t.includes('물질') || t.includes('스펙트럼') || t.includes('산화')) {
+                    domainKey = '화학';
+                } else if (d.includes('생명') || t.includes('세포') || t.includes('유전') || t.includes('단백질') || t.includes('효소')) {
+                    domainKey = '생명과학';
+                } else if (d.includes('지구') || t.includes('우주') || t.includes('판') || t.includes('지질') || t.includes('해수') || t.includes('환경')) {
+                    domainKey = '지구과학';
+                } else {
+                    domainKey = '물리학';
+                }
+            }
             domainTotals[domainKey].max += qScore;
             if (isCorrect) {
                 domainTotals[domainKey].earned += qScore;
@@ -85,7 +131,7 @@
                 isCorrect: isCorrect,
                 score: qScore,
                 earnedScore: isCorrect ? qScore : 0,
-                domain: q.domain,
+                domain: domainKey,
                 topic: q.topic,
                 difficulty: q.difficulty,
                 nationalCorrectRate: natCorrectRate,
@@ -96,10 +142,10 @@
         rawScore = Math.round(rawScore * 10) / 10;
         const scaledScore = Math.round((rawScore / maxScore) * 1000) / 10; // 100점 만점 환산
 
-        // 4대 영역별 성취도(%) 계산 (방사형 레이더 차트용)
+        // 4대 영역별 성취도(%) 계산 (미출제 영역은 null)
         const areaScores = {};
         for (const [domain, data] of Object.entries(domainTotals)) {
-            areaScores[domain] = data.max > 0 ? Math.round((data.earned / data.max) * 1000) / 10 : 0;
+            areaScores[domain] = data.max > 0 ? Math.round((data.earned / data.max) * 1000) / 10 : null;
         }
 
         // 1. [학원 내부 성적 - 독립 격리 계산]
@@ -119,32 +165,31 @@
         }
 
         // 2. [전국 벤치마크 지표 - 전체 통합 계산]
+        let nationalAvg = (nationalBenchmark && nationalBenchmark.nationalAverage) || Math.round(maxScore * 0.65 * 10) / 10;
+        let nationalStd = (nationalBenchmark && nationalBenchmark.nationalStdDev) || Math.round(maxScore * 0.17 * 10) / 10;
         let nationalPercentile = 15.0; // 기본 상위 15% 추정
         let estimatedGrade = 2;
-        let nationalAvg = 21.5;
+        let nationalStandardScore = 50;
 
-        if (nationalBenchmark) {
-            nationalAvg = nationalBenchmark.nationalAverage || 21.5;
+        if (nationalBenchmark && nationalBenchmark.scoreHistogram && Array.isArray(nationalBenchmark.scoreHistogram) && nationalBenchmark.scoreHistogram.length > 0) {
             // 점수 히스토그램 기반 백분위 계산
-            if (nationalBenchmark.scoreHistogram && Array.isArray(nationalBenchmark.scoreHistogram)) {
-                let higherCount = 0;
-                let total = nationalBenchmark.totalCandidates || 1000;
-                for (const bucket of nationalBenchmark.scoreHistogram) {
-                    if (bucket.score > rawScore) {
-                        higherCount += bucket.count;
-                    }
+            let higherCount = 0;
+            let total = nationalBenchmark.totalCandidates || 1000;
+            for (const bucket of nationalBenchmark.scoreHistogram) {
+                if (bucket.score > rawScore) {
+                    higherCount += bucket.count;
                 }
-                nationalPercentile = Math.max(1, Math.round(((higherCount + 1) / (total + 1)) * 1000) / 10);
-            } else {
-                // 환산 점수 기반 정규분포 표준 백분위 추정
-                if (scaledScore >= 95) nationalPercentile = 2.5;
-                else if (scaledScore >= 90) nationalPercentile = 5.8;
-                else if (scaledScore >= 80) nationalPercentile = 14.2;
-                else if (scaledScore >= 70) nationalPercentile = 28.5;
-                else if (scaledScore >= 60) nationalPercentile = 45.0;
-                else nationalPercentile = 65.0;
             }
+            nationalPercentile = Math.max(0.1, Math.min(99.9, Math.round(((higherCount + 0.5) / total) * 1000) / 10));
             estimatedGrade = calculateGradeFromPercentile(nationalPercentile);
+            const z = (rawScore - nationalAvg) / (nationalStd || 1);
+            nationalStandardScore = Math.max(20, Math.min(80, Math.round(50 + 10 * z)));
+        } else {
+            // 2028 개정 통합과학 규준 모델 (Z-score 기반 표준 백분위 및 등급 산출)
+            const normResult = calculatePercentileAndGrade(rawScore, maxScore, nationalAvg, nationalStd);
+            nationalPercentile = normResult.topPercentile;
+            estimatedGrade = normResult.grade;
+            nationalStandardScore = normResult.standardScore;
         }
 
         const report = {
@@ -170,9 +215,10 @@
             },
             nationalBenchmark: {
                 percentile: nationalPercentile, // 전국 상위 백분위 (%)
-                grade: estimatedGrade,          // 2028 통합과학 예상 등급 (1~9등급)
+                grade: estimatedGrade,          // 2028 통합과학 예상 등급 (1~5등급)
+                standardScore: nationalStandardScore, // 표준점수
                 average: nationalAvg,           // 전국 평균 점수
-                totalSample: (nationalBenchmark && nationalBenchmark.totalCandidates) || 1500
+                totalSample: (nationalBenchmark && nationalBenchmark.totalCandidates) || 1000
             },
             gradingResult: gradingResult,
             itemDetails: itemDetails,
@@ -184,5 +230,7 @@
 
     exports.gradeSubmission = gradeSubmission;
     exports.calculateGradeFromPercentile = calculateGradeFromPercentile;
+    exports.getCumulativeProbability = getCumulativeProbability;
+    exports.calculatePercentileAndGrade = calculatePercentileAndGrade;
 
 })(typeof module !== 'undefined' && module.exports ? module.exports : (window.B2BGradingEngine = {}));

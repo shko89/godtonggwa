@@ -41,8 +41,7 @@
         }
         try {
             const userDoc = await getDoc(doc(db, "users", user.uid));
-            const pkgDoc = await getDoc(doc(db, "users", user.uid, "packages", "weekly_winter_2028"));
-            const myPkgDoc = await getDoc(doc(db, "users", user.uid, "my_packages", "weekly_winter_2028"));
+            const myPkgDoc = await getDoc(doc(db, "users", user.uid, "my_packages", "week_2028"));
             
             const userData = userDoc.exists() ? userDoc.data() : {};
             const isPaid = userData.role === 'admin' || 
@@ -51,8 +50,7 @@
                            userData.hasWeeklyPass === true || 
                            userData.subscriptions?.weekly_magazine?.isActive === true || 
                            userData.subscriptions?.all_pass?.isActive === true || 
-                           (pkgDoc.exists() && pkgDoc.data().status === 'active') || 
-                           (myPkgDoc.exists() && myPkgDoc.data().status === 'active');
+                                  (myPkgDoc.exists() && myPkgDoc.data().status === 'active');
                            
             if (!isPaid) {
                 alert("갓통과 주간지(WEEKLY) 유료 서비스 신청자만 접근 가능합니다.");
@@ -4153,20 +4151,37 @@ window.closeEbook = function(e) {
             window.parent.close();
         } catch(err){}
     }
-    // 2. 현재 창 닫기
+    // 2. 새 창/팝업 닫기 시도
+    if (window.opener && !window.opener.closed) {
+        try { window.close(); } catch(err){}
+    }
     window.close();
-    // 3. 브라우저 정책으로 닫기가 차단된 경우 안전하게 이전 페이지로 복귀
+    // 3. 브라우저 보안 정책으로 닫기가 차단된 경우 안전하게 이전 화면으로 복귀
     setTimeout(function() {
         if (!window.closed) {
-            if (window.history && window.history.length > 1) {
-                window.history.back();
-            } else if (document.referrer && !document.referrer.includes('final.html') && !document.referrer.includes('ebook_preview')) {
-                window.location.href = document.referrer;
+            const params = new URLSearchParams(window.location.search);
+            const returnUrl = params.get('returnUrl');
+            if (returnUrl) {
+                window.location.href = decodeURIComponent(returnUrl);
+                return;
+            }
+            const tenant = params.get('tenant');
+            const isB2B = params.get('b2b') === 'true' || Boolean(tenant);
+            if (isB2B) {
+                if (tenant) {
+                    window.location.href = `../b2b_admin_console.html?tenant=${encodeURIComponent(tenant)}`;
+                } else if (document.referrer && !document.referrer.includes('final.html') && !document.referrer.includes('ebook_preview')) {
+                    window.location.href = document.referrer;
+                } else {
+                    window.location.href = "../b2b_admin_console.html";
+                }
             } else {
-                window.location.href = "../b2b_weekly.html";
+                const targetTab = params.get('tab') || 'my';
+                const targetSub = params.get('sub') || 'WEEKLY';
+                window.location.href = `../../exam.html?tab=${targetTab}&sub=${targetSub}`;
             }
         }
-    }, 150);
+    }, 100);
 };
 
 // ==========================================

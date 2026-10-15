@@ -486,15 +486,16 @@
                         // 2) 일반 탭이라 닫기가 차단된 경우 안전하게 이전 페이지(b2b_weekly.html 등)로 복귀
                         setTimeout(function() {
                             if (!window.closed) {
-                                if (window.history.length > 1) {
+                                const p = new URLSearchParams(window.location.search);
+                                const tenant = p.get('tenant');
+                                if (tenant) {
+                                    window.location.href = `./b2b_admin_console.html?tenant=${encodeURIComponent(tenant)}`;
+                                } else if (document.referrer && document.referrer.includes('admin')) {
+                                    window.location.href = document.referrer;
+                                } else if (window.history.length > 1) {
                                     window.history.back();
                                 } else {
-                                    const ref = document.referrer;
-                                    if (ref && ref.includes('admin')) {
-                                        window.location.href = './b2b_admin_console.html';
-                                    } else {
-                                        window.location.href = './b2b_weekly.html';
-                                    }
+                                    window.location.href = './b2b_weekly.html';
                                 }
                             }
                         }, 100);

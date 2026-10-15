@@ -461,6 +461,30 @@
             color: var(--text-muted);
             line-height: 1.6;
         }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                padding: 0 !important;
+            }
+            .report-wrap {
+                box-shadow: none !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            .no-print, .btn-call, .btn-print-report {
+                display: none !important;
+            }
+            .accordion-header-toggle #btnToggleIcon {
+                display: none !important;
+            }
+            #itemDetailsList {
+                display: block !important;
+            }
+            .section-card {
+                page-break-inside: avoid;
+            }
+        }
     </style>
 </head>
 <body>
@@ -469,11 +493,16 @@
 
     <!-- Top Header -->
     <header class="header-top">
-        <div class="header-brand-badge" id="dispNavBrand">
-            <span>🏛️</span>
-            <span id="dispAcademyBadge">서현과학전문관</span>
-            <span>‧</span>
-            <span id="dispTeacherBadge">김철수선생님</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div class="header-brand-badge" id="dispNavBrand" style="margin-bottom:0;">
+                <span>🏛️</span>
+                <span id="dispAcademyBadge">서현과학전문관</span>
+                <span>‧</span>
+                <span id="dispTeacherBadge">김철수선생님</span>
+            </div>
+            <button onclick="window.print()" class="btn-print-report no-print" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#ffffff; padding:4px 10px; border-radius:14px; font-size:11px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+                🖨️ 인쇄 / PDF 저장
+            </button>
         </div>
         <h1 class="header-title" id="dispExamTitle">
             2028 통합과학 제1회 Fit 20<br>학부모 안심 성적 분석표
@@ -754,12 +783,46 @@
         document.getElementById('dispRank').innerText = `${rank}위`;
         document.getElementById('dispTotalCandidates').innerText = `총 ${total}명 중`;
 
+        // 응시 일자 포맷팅
+        if (data.submittedAt) {
+            try {
+                const dt = new Date(data.submittedAt);
+                const yyyy = dt.getFullYear();
+                const mm = String(dt.getMonth() + 1).padStart(2, '0');
+                const dd = String(dt.getDate()).padStart(2, '0');
+                document.getElementById('dispExamDate').innerText = `${yyyy}.${mm}.${dd}`;
+            } catch(e) {}
+        }
+
         // 5등급제 포인터 위치 조정 (0~100%)
         const pin = document.getElementById('gradePointerPin');
         const pinText = document.getElementById('gradePointerText');
         const clampedPerc = Math.max(1, Math.min(99, perc));
         pin.style.left = `${clampedPerc}%`;
         pinText.innerText = `${sName} (상위 ${clampedPerc}%)`;
+
+        // 🧭 통합과학 4대 평가 영역 성취도 동적 바인딩
+        if (data.areaScores) {
+            const areaConfigs = [
+                { key: '물리학', alias: '물리', textId: 'dispPhyRate', barId: 'barPhy' },
+                { key: '화학', alias: '화학', textId: 'dispChemRate', barId: 'barChem' },
+                { key: '생명과학', alias: '생명', textId: 'dispBioRate', barId: 'barBio' },
+                { key: '지구과학', alias: '지구', textId: 'dispEarthRate', barId: 'barEarth' }
+            ];
+
+            areaConfigs.forEach(cfg => {
+                const val = (data.areaScores[cfg.key] !== undefined) ? data.areaScores[cfg.key] : data.areaScores[cfg.alias];
+                const elText = document.getElementById(cfg.textId);
+                const elBar = document.getElementById(cfg.barId);
+                if (val !== null && val !== undefined) {
+                    if (elText) { elText.innerText = `${val}%`; elText.style.color = ''; }
+                    if (elBar) { elBar.style.width = `${Math.min(100, Math.max(0, val))}%`; elBar.style.opacity = '1'; }
+                } else {
+                    if (elText) { elText.innerText = '미출제 (해당 주차 범위 외)'; elText.style.color = '#94a3b8'; }
+                    if (elBar) { elBar.style.width = '0%'; elBar.style.opacity = '0.3'; }
+                }
+            });
+        }
 
         // 20문항 상세 정오표 생성
         renderItemDetails(data);
@@ -769,7 +832,7 @@
         const wrap = document.getElementById('itemDetailsList');
         if (!wrap) return;
 
-        // 표준 20문항 샘플 데이터
+        // 표준 20문항 샘플 데이터 (폴백용)
         const sampleTopics = [
             { id: 1, area: '물리', topic: '시간과 공간의 규모', score: 1.5, correct: 3, user: 3, rate: 84 },
             { id: 2, area: '물리', topic: '기본량과 측정 단위', score: 1.5, correct: 1, user: 1, rate: 76 },
@@ -793,8 +856,32 @@
             { id: 20, area: '물리', topic: '전자기 유도와 발전', score: 2.0, correct: 4, user: 4, rate: 66 }
         ];
 
-        wrap.innerHTML = sampleTopics.map(item => {
-            const isCor = item.user === item.correct;
+        let items = [];
+        if (data.itemDetails && Array.isArray(data.itemDetails) && data.itemDetails.length > 0) {
+            items = data.itemDetails.map((item, idx) => {
+                const subAns = item.submittedAnswer ?? item.user ?? 0;
+                const corAns = item.correctAnswer ?? item.correct ?? 0;
+                const isCor = (item.isCorrect !== undefined) ? item.isCorrect : (Number(subAns) === Number(corAns));
+                return {
+                    id: item.num || item.id || (idx + 1),
+                    area: item.domain ? item.domain.replace('학', '').replace('과학', '') : '통합',
+                    topic: item.topic || '핵심 개념 문항',
+                    score: item.score || 1.5,
+                    correct: corAns,
+                    user: subAns,
+                    rate: item.nationalCorrectRate || 65,
+                    isCorrect: isCor
+                };
+            });
+        } else {
+            items = sampleTopics.map(item => ({
+                ...item,
+                isCorrect: item.user === item.correct
+            }));
+        }
+
+        wrap.innerHTML = items.map(item => {
+            const isCor = item.isCorrect;
             const badgeCls = isCor ? 'correct' : 'wrong';
             const markIcon = isCor ? 'O' : 'X';
             const markColor = isCor ? '#059669' : '#ef4444';

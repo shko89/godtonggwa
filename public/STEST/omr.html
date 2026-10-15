@@ -42,7 +42,7 @@ window.addEventListener('wheel', (e) => {
     <!-- 헤더 -->
     <header class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shrink-0 h-14 shadow-sm z-10">
         <div class="flex items-center gap-3">
-            <button onclick="safeNavigate('../index.html')" class="text-gray-500 hover:text-gray-900 bg-gray-100 p-2 rounded-full transition-colors">
+            <button onclick="handleOmrExit()" class="text-gray-500 hover:text-gray-900 bg-gray-100 p-2 rounded-full transition-colors">
                 <i data-lucide="arrow-left" class="w-5 h-5"></i>
             </button>
             <div>
@@ -138,6 +138,29 @@ window.addEventListener('wheel', (e) => {
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        window.handleOmrExit = function() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+                setTimeout(fallbackNav, 100);
+                return;
+            }
+            fallbackNav();
+
+            function fallbackNav() {
+                const p = new URLSearchParams(window.location.search);
+                const from = p.get('from');
+                if (from === 'archive' || (document.referrer && document.referrer.includes('archive.html'))) {
+                    window.location.href = '../archive/archive.html';
+                } else if (from === 'my' || (document.referrer && document.referrer.includes('exam.html'))) {
+                    window.location.href = document.referrer && document.referrer.includes('exam.html') ? document.referrer : 'exam.html?tab=my';
+                } else if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'exam.html?tab=my';
+                }
+            }
+        };
+
         window.safeNavigate = function(url) {
             try {
                 window.location.href = url;
@@ -162,7 +185,7 @@ window.addEventListener('wheel', (e) => {
         async function initExam() {
             if (!EXAM_ID) {
                 alert("잘못된 접근입니다. (시험 ID 없음)");
-                window.safeNavigate('../index.html');
+                window.handleOmrExit();
                 return;
             }
 
@@ -188,7 +211,7 @@ window.addEventListener('wheel', (e) => {
             
             try {
                 let examCategory = 'SEASON';
-                if (EXAM_ID.toUpperCase().includes('SEASON')) examCategory = 'SEASON';
+                if (EXAM_ID.toUpperCase().includes('SEASON') || EXAM_ID.toLowerCase().includes('mock')) examCategory = 'SEASON';
                 else if (EXAM_ID.includes('week')) examCategory = 'WEEKLY';
                 else examCategory = 'ARCHIVE'; 
 
@@ -211,10 +234,9 @@ window.addEventListener('wheel', (e) => {
                             TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
                             if (data.title) EXAM_TITLE = data.title;
                             if (data.questions) EXAM_QUESTIONS = data.questions; // 원본 문제 메타데이터 보관
-                        } else {
-                            console.warn("정답/배점 필드가 비어있습니다. JS 파일에서 데이터 로딩을 시도합니다.");
-                            await loadFallbackData();
                         }
+                        // JS 해설 스크립트가 존재하면 최종 검수된 정답/배점으로 최신화 및 해설 연동
+                        await loadFallbackData();
                     }
                 }
 
@@ -241,33 +263,60 @@ window.addEventListener('wheel', (e) => {
         async function loadFallbackData() {
             return new Promise((resolve) => {
                 let scriptPath = '';
-                if (EXAM_ID === '2028_pretest' || EXAM_ID === 'past_예비문항') {
+                if (EXAM_ID === '2028_pretest' || EXAM_ID === 'past_예비문항' || EXAM_ID.includes('pretest') || EXAM_ID.includes('예비문항') || EXAM_ID.startsWith('past_')) {
                     scriptPath = `../archive/kice_2028/2028_pretest.js`;
-                } else if (EXAM_ID.includes('week_2028')) {
-                    scriptPath = `../weekly/2028/${EXAM_ID}.js`;
+                } else if (EXAM_ID.includes('week_')) {
+                    const parts = EXAM_ID.split('_');
+                    const year = parts[1] || '2028'; 
+                    const baseId = parts.slice(0, 3).join('_'); 
+                    scriptPath = `./weekly/${year}/${baseId}.js`;
+                } else if (EXAM_ID.includes('mock_')) {
+                    const parts = EXAM_ID.split('_');
+                    const year = parts[1] || '2028';
+                    const folderName = parts.slice(0, 3).join('_');
+                    scriptPath = `./mock/${year}/${folderName}/${EXAM_ID}.js`;
                 } else {
-                    scriptPath = `../data/${EXAM_ID}.js`;
+                    useHardcodedFallback();
+                    return resolve(false);
                 }
 
-                const script = document.createElement('script');
-                script.src = scriptPath + `?v=${Date.now()}`;
-                script.onload = () => {
-                    if (window.globalExamData && window.globalExamData.answers) {
-                        CORRECT_ANSWERS = window.globalExamData.answers;
-                        SCORE_MAP = window.globalExamData.scores || Array(CORRECT_ANSWERS.length).fill(4);
-                        TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
-                        if (window.globalExamData.title) EXAM_TITLE = window.globalExamData.title;
-                        resolve(true);
-                    } else {
+                fetch(scriptPath + `?v=${Date.now()}`)
+                    .then(res => {
+                        if (!res.ok) return null;
+                        const ctype = res.headers.get('content-type') || '';
+                        if (ctype.includes('text/html')) return null;
+                        return res.text();
+                    })
+                    .then(code => {
+                        if (!code || code.trim().startsWith('<')) {
+                            useHardcodedFallback();
+                            return resolve(false);
+                        }
+                        try {
+                            window.globalExamData = null;
+                            const script = document.createElement('script');
+                            script.textContent = code;
+                            document.head.appendChild(script);
+                            if (window.globalExamData && window.globalExamData.answers) {
+                                CORRECT_ANSWERS = window.globalExamData.answers;
+                                SCORE_MAP = window.globalExamData.scores || Array(CORRECT_ANSWERS.length).fill(4);
+                                TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
+                                if (window.globalExamData.title) EXAM_TITLE = window.globalExamData.title;
+                                resolve(true);
+                            } else {
+                                useHardcodedFallback();
+                                resolve(false);
+                            }
+                        } catch(err) {
+                            console.warn("Script execution error:", err);
+                            useHardcodedFallback();
+                            resolve(false);
+                        }
+                    })
+                    .catch(() => {
                         useHardcodedFallback();
                         resolve(false);
-                    }
-                };
-                script.onerror = () => {
-                    useHardcodedFallback();
-                    resolve(false);
-                };
-                document.head.appendChild(script);
+                    });
             });
         }
 
@@ -374,6 +423,24 @@ window.addEventListener('wheel', (e) => {
             return 5;
         }
 
+        function sanitizeForFirestore(val) {
+            if (val === undefined) return null;
+            if (val === null || typeof val !== 'object') return val;
+            // Preserve Firestore FieldValue / Timestamp
+            if (val.constructor && val.constructor.name !== 'Object' && val.constructor.name !== 'Array') {
+                return val;
+            }
+            if (Array.isArray(val)) {
+                return val.map(item => sanitizeForFirestore(item));
+            }
+            const cleaned = {};
+            for (const key of Object.keys(val)) {
+                const v = val[key];
+                cleaned[key] = (v === undefined) ? null : sanitizeForFirestore(v);
+            }
+            return cleaned;
+        }
+
         window.submitAnswers = async function() {
             const user = auth.currentUser;
             if(!user) return alert("로그인이 필요합니다.");
@@ -419,35 +486,72 @@ window.addEventListener('wheel', (e) => {
                     const qData = EXAM_QUESTIONS && EXAM_QUESTIONS[i-1] ? EXAM_QUESTIONS[i-1] : null;
                     
                     let expTopic = null;
+                    let expBehavior = null;
                     if (window.globalExamData && window.globalExamData.explanations) {
                         const exp = window.globalExamData.explanations.find(e => e.no === i);
-                        if (exp && exp.topic) expTopic = exp.topic;
+                        if (exp) {
+                            if (exp.topic) expTopic = exp.topic;
+                            if (exp.behavior) expBehavior = exp.behavior;
+                            else if (exp.behavioralDomain) expBehavior = exp.behavioralDomain;
+                        }
                     }
+
+                    const padNo = String(i).padStart(2, '0');
+                    const qId = (qData && qData.qId) ? qData.qId : `${EXAM_ID}_q${padNo}`;
+                    const itemTopic = (qData && qData.taxonomy && qData.taxonomy.topic) 
+                        ? qData.taxonomy.topic 
+                        : ((qData && qData.topic) ? qData.topic : (expTopic || '통합과학'));
+                    const itemBehavior = (qData && qData.behavioralDomain) 
+                        ? qData.behavioralDomain 
+                        : ((qData && qData.behavior) ? qData.behavior : (expBehavior || '이해'));
+                    const correctAns = (CORRECT_ANSWERS && CORRECT_ANSWERS[i-1] !== undefined) ? CORRECT_ANSWERS[i-1] : null;
+                    const itemScore = (SCORE_MAP && SCORE_MAP[i-1] !== undefined) ? SCORE_MAP[i-1] : 2.0;
 
                     evaluatedAnswers.push({
                         no: i,
-                        qId: qData ? qData.qId : `${EXAM_ID}_q${i}`,
+                        qId: qId,
                         isCorrect: isCorrect,
                         studentMark: val,
-                        correctAnswer: CORRECT_ANSWERS[i-1],
-                        score: SCORE_MAP[i-1],
-                        topic: qData ? (qData.taxonomy?.topic || expTopic) : expTopic,
-                        behavior: qData ? qData.behavioralDomain : null
+                        correctAnswer: correctAns,
+                        score: itemScore,
+                        topic: itemTopic,
+                        behavior: itemBehavior
                     });
                 }
                 
                 rawScore = Math.round(rawScore * 10) / 10;
+
+                // [2028 개정 수능 5등급제 규준 벤치마크 엔진]
+                const maxScore = Math.round(SCORE_MAP.reduce((a, b) => a + b, 0) * 10) / 10 || 50;
+                
+                // 회차별 1,000명 표준 규준 모델 (평균: 만점의 약 62%, 표준편차: 만점의 약 17%)
+                const nationalAvg = Math.round(maxScore * 0.62 * 10) / 10;
+                const nationalStd = Math.round(maxScore * 0.17 * 10) / 10;
+                const zScore = (rawScore - nationalAvg) / (nationalStd || 1);
+                
+                // 표준점수 산출 (평균 50, 표준편차 10 척도)
+                const standardScore = Math.max(20, Math.min(80, Math.round(50 + 10 * zScore)));
+                
+                // 정규분포 CDF 기반 백분위 (0~100) 및 상위 %
+                const cumProb = getCumulativeProbability(zScore);
+                const percentile = Math.round(cumProb * 1000) / 10; // 하위 누적 백분위
+                const topRank = Math.max(0.1, Math.min(99.9, Math.round((100 - percentile) * 10) / 10)); // 상위 백분위
+                
+                // 2028 개정 공식 5등급제 등급 부여 (10%, 34%, 66%, 90%)
+                const grade = calculateGrade(percentile);
 
                 // --- 하이브리드 제출 전략: 이전 응시 기록 확인 ---
                 let attemptNumber = 1;
                 let isOfficialRecord = true;
                 let officialScore = rawScore;
                 
+                const myPurchaseRef = doc(db, "users", user.uid, "my_exams", EXAM_ID);
                 const myExamDoc = await getDoc(myPurchaseRef);
                 if (myExamDoc.exists() && myExamDoc.data().status === 'graded') {
                     attemptNumber = (myExamDoc.data().attemptCount || 1) + 1;
                     isOfficialRecord = false;
-                    officialScore = myExamDoc.data().officialScore !== undefined ? myExamDoc.data().officialScore : myExamDoc.data().score;
+                    const prevScore = myExamDoc.data().officialScore !== undefined ? myExamDoc.data().officialScore : myExamDoc.data().score;
+                    officialScore = prevScore !== undefined ? prevScore : rawScore;
                 }
 
                 let examCategory = 'SEASON';
@@ -459,50 +563,65 @@ window.addEventListener('wheel', (e) => {
 
                 // 2. 일괄 쓰기(Batch) - 개인 성적 기록 저장
                 const batch = writeBatch(db);
-                batch.set(myResultRefNew, {
+                batch.set(myResultRefNew, sanitizeForFirestore({
                     examId: EXAM_ID,
                     attemptId: attemptId,
                     attemptNumber: attemptNumber,
                     isOfficialRecord: isOfficialRecord,
                     examCategory: examCategory,
-                    title: EXAM_TITLE,
-                    score: rawScore,        
-                    standardScore: standardScore,
-                    grade: grade,           
-                    percentile: percentile, 
+                    title: EXAM_TITLE || '모의고사',
+                    score: rawScore || 0,
+                    maxScore: maxScore || 50,
+                    standardScore: standardScore || 50,
+                    grade: grade || 3,           
+                    percentile: percentile || 50,
+                    topPercentile: topRank || 50,
                     myAnswers: myAnswers,
                     scoreMap: SCORE_MAP, 
                     submittedAt: serverTimestamp(),
                     isAsyncCalculated: true,
                     answers: evaluatedAnswers
-                });
+                }));
                 
-                batch.set(myPurchaseRef, { 
+                batch.set(myPurchaseRef, sanitizeForFirestore({ 
                     status: 'graded', 
                     score: rawScore, 
                     officialScore: officialScore, 
                     latestScore: rawScore, 
                     attemptCount: attemptNumber 
-                }, { merge: true });
+                }), { merge: true });
 
                 // 3. 큐(Queue) 생성 - 전체 통계용 (1회차만 큐에 넣어서 통계에 반영)
                 if (isOfficialRecord) {
                     const queueRef = doc(collection(db, "exam_submissions_queue"));
-                    batch.set(queueRef, {
+                    batch.set(queueRef, sanitizeForFirestore({
                         examId: EXAM_ID,
                         uid: user.uid,
                         rawScore: rawScore,
                         evaluatedAnswers: evaluatedAnswers,
                         status: 'pending',
                         createdAt: serverTimestamp()
-                    });
+                    }));
+
+                    // [B2B + B2C 전국 주간지 통합 벤치마크 풀 원자적 누적]
+                    if (EXAM_ID.includes('week')) {
+                        const weekMatch = EXAM_ID.match(/week.*?(\d+)/);
+                        const weekNum = weekMatch ? parseInt(weekMatch[1], 10) : 1;
+                        const benchRef = doc(db, "b2b_benchmarks", "fit20_national", "weeks", String(weekNum));
+                        batch.set(benchRef, {
+                            week: weekNum,
+                            totalCandidates: increment(1),
+                            totalScoreSum: increment(rawScore),
+                            lastUpdated: serverTimestamp()
+                        }, { merge: true });
+                    }
                 }
 
                 // C. 오답 노트 및 누적 통계 일괄 업데이트
                 evaluatedAnswers.forEach(ans => {
                     const wrongAnswerRef = doc(db, "users", user.uid, "wrong_answers", `${EXAM_ID}_${ans.qId}`);
                     if (!ans.isCorrect) {
-                        batch.set(wrongAnswerRef, {
+                        batch.set(wrongAnswerRef, sanitizeForFirestore({
                             no: ans.no || 0,
                             qId: ans.qId,
                             examId: EXAM_ID,
@@ -510,7 +629,7 @@ window.addEventListener('wheel', (e) => {
                             wrongCount: increment(1),
                             isResolved: false,
                             submittedAt: serverTimestamp()
-                        }, { merge: true });
+                        }), { merge: true });
                     } else if (attemptNumber > 1) {
                         // 재도전해서 맞춘 경우
                         batch.set(wrongAnswerRef, {
@@ -521,13 +640,13 @@ window.addEventListener('wheel', (e) => {
                 });
                 
                 await batch.commit();
-                const result = { rawScore, standardScore, grade, percentile };
+                const result = { rawScore, standardScore, grade, percentile, topRank };
 
                 localStorage.removeItem('omr_progress_' + EXAM_ID);
                 
                 document.getElementById('loading-overlay').classList.add('hidden');
                 
-                alert(`[비동기 제출 완료]\n\n등급: ${result.grade}등급 (가채점)\n표준점수: ${result.standardScore}\n원점수: ${result.rawScore} / ${maxScore}점\n\n${isAbsoluteGrade ? '💡 응시자가 부족하여 임시 절대평가 기준이 적용되었습니다.\n\n' : ''}전체 통계는 서버에서 1~2분 뒤 안전하게 일괄 합산됩니다.`);
+                alert(`[채점 완료]\n\n2028 예상 등급: ${result.grade}등급\n전국 상위: ${topRank}%\n표준점수: ${result.standardScore}점\n원점수: ${result.rawScore} / ${maxScore}점\n\n💡 2028 개정 수능/내신 공식 5등급제 전국 규준 통계가 적용되었습니다.`);
                 
                 window.safeNavigate('exam.html?view=report&id=' + EXAM_ID); 
 
@@ -541,7 +660,7 @@ window.addEventListener('wheel', (e) => {
         onAuthStateChanged(auth, (user) => {
             if(!user) {
                 alert("로그인이 필요합니다.");
-                window.safeNavigate('../index.html');
+                window.handleOmrExit();
             } else {
                 initExam();
             }

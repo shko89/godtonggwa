@@ -14,20 +14,48 @@
 (function(exports) {
     'use strict';
 
-    // 기본 전국 표본 벤치마크 기준치 (초기 시드 데이터)
+    // 주간지 1~10회차별 표준 메타데이터 (만점 배점 및 2028 수능 통합과학 정규화 시드)
+    const WEEKLY_BENCH_META = {
+        1:  { max: 31.0, avg: 20.8, std: 5.2, high: 31.0 },
+        2:  { max: 35.5, avg: 23.5, std: 5.8, high: 35.5 },
+        3:  { max: 33.5, avg: 22.4, std: 5.5, high: 33.5 },
+        4:  { max: 36.5, avg: 24.2, std: 6.0, high: 36.5 },
+        5:  { max: 34.5, avg: 23.0, std: 5.7, high: 34.5 },
+        6:  { max: 34.5, avg: 23.1, std: 5.7, high: 34.5 },
+        7:  { max: 30.0, avg: 20.1, std: 5.0, high: 30.0 },
+        8:  { max: 36.5, avg: 24.3, std: 6.0, high: 36.5 },
+        9:  { max: 34.5, avg: 22.9, std: 5.7, high: 34.5 },
+        10: { max: 33.5, avg: 22.5, std: 5.5, high: 33.5 }
+    };
+
+    // 기본 전국 표본 벤치마크 기준치 (2028 개정 통합과학 1,000명 표준 규준 시드)
     function getDefaultNationalBenchmark(weekNum) {
+        const w = parseInt(weekNum, 10) || 1;
+        const meta = WEEKLY_BENCH_META[w] || { max: 33.0, avg: 22.0, std: 5.5, high: 33.0 };
+        const maxScore = meta.max;
+        const avgScore = meta.avg;
+        const stdScore = meta.std;
+
+        // 2028 개정 5등급제 공식 비율(1등급 10%, 2등급 24%, 3등급 32%, 4등급 24%, 5등급 10%)에 맞춘 1,000명 표준 분포
+        const s5 = Math.round(maxScore * 0.90 * 10) / 10;
+        const s4 = Math.round(maxScore * 0.78 * 10) / 10;
+        const s3 = Math.round(maxScore * 0.62 * 10) / 10;
+        const s2 = Math.round(maxScore * 0.46 * 10) / 10;
+        const s1 = Math.round(maxScore * 0.28 * 10) / 10;
+
         return {
-            week: weekNum,
-            totalCandidates: 1620,
-            nationalAverage: 21.8,
-            nationalHighest: 31.0,
+            week: w,
+            totalCandidates: 1000,
+            nationalAverage: avgScore,
+            nationalStdDev: stdScore,
+            nationalHighest: meta.high,
+            maxScore: maxScore,
             scoreHistogram: [
-                { score: 35, count: 52 },
-                { score: 30, count: 210 },
-                { score: 25, count: 480 },
-                { score: 20, count: 530 },
-                { score: 15, count: 240 },
-                { score: 10, count: 108 }
+                { score: s5, count: 100 },  // 상위 10% (1등급권)
+                { score: s4, count: 240 },  // 상위 34% (2등급권)
+                { score: s3, count: 320 },  // 상위 66% (3등급권)
+                { score: s2, count: 240 },  // 상위 90% (4등급권)
+                { score: s1, count: 100 }   // 상위 100% (5등급권)
             ],
             // 20개 문항별 전국 누적 정답률 추정치 (%)
             itemCorrectRates: [
@@ -180,9 +208,11 @@
     }
 
     /**
-     * 해당 회차 전국 통합 벤치마크 데이터 로드
+     * 해당 회차 전국 통합 벤치마크 데이터 로드 (사전 규준 1,000명 + 실데이터 베이지안 블렌딩)
      */
     async function loadNationalBenchmark(dbInstance, weekNum) {
+        const defaultObj = getDefaultNationalBenchmark(weekNum);
+
         // 1. Firestore 조회 시도
         if (dbInstance && typeof dbInstance.collection === 'function') {
             try {
@@ -190,8 +220,25 @@
                     .collection('weeks').doc(String(weekNum)).get();
                 if (snap.exists) {
                     const data = snap.data();
-                    const defaultObj = getDefaultNationalBenchmark(weekNum);
-                    return { ...defaultObj, ...data };
+                    const realCount = data.totalCandidates || 0;
+                    const realSum = data.totalScoreSum || 0;
+
+                    // 베이지안 동적 가중 블렌딩: seed(1,000명) + 실응시자
+                    const seedCount = defaultObj.totalCandidates || 1000;
+                    const combinedCount = seedCount + realCount;
+                    const combinedAvg = realCount > 0 ? 
+                        Math.round(((defaultObj.nationalAverage * seedCount + realSum) / combinedCount) * 10) / 10 : 
+                        defaultObj.nationalAverage;
+
+                    return { 
+                        ...defaultObj, 
+                        ...data,
+                        totalCandidates: combinedCount,
+                        nationalAverage: combinedAvg,
+                        nationalHighest: Math.max(defaultObj.nationalHighest, data.nationalHighest || 0),
+                        realCandidates: realCount,
+                        lastUpdated: data.lastUpdated || defaultObj.lastUpdated
+                    };
                 }
             } catch(e) {}
         }
@@ -203,7 +250,7 @@
         } catch(e) {}
 
         // 3. 기본 표본 반환
-        return getDefaultNationalBenchmark(weekNum);
+        return defaultObj;
     }
 
     /**

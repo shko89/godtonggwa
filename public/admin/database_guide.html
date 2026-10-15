@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 파이어스토어 데이터베이스 아키텍처 & 연동 파일 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #111827; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        .card-glow:hover { box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.15), 0 8px 10px -6px rgba(99, 102, 241, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen custom-scrollbar pb-24">
+
+    <!-- TOP STICKY HEADER -->
+    <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-md border-b border-gray-800 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-indigo-600 to-emerald-500 p-2.5 rounded-2xl shadow-lg shadow-indigo-500/20">
+                    <i data-lucide="database" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl font-black text-white tracking-tight">갓통과 파이어스토어 DB 명세서</h1>
+                        <span class="text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">2028 정규화 표준</span>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-0.5">전체 컬렉션·서브컬렉션 기능 명세 및 소스 파일 연동 맵</p>
+                </div>
+            </div>
+
+            <!-- Quick Action & Search -->
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="relative flex-1 md:w-72">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="db-search" oninput="filterCards()" placeholder="컬렉션명, 파일명, 키워드 검색..." class="w-full bg-gray-950 border border-gray-800 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors">
+                </div>
+                <a href="admin.html" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold px-4 py-2 rounded-xl border border-gray-700 transition-all flex items-center gap-1.5 shrink-0">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> 관리자 콘솔
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WRAPPER -->
+    <main class="max-w-7xl mx-auto px-6 pt-8 space-y-10">
+
+        <!-- DASHBOARD STATS -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="box" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-[11px] text-gray-400 font-medium">표준 상품 패키지</div>
+                    <div class="text-lg font-black text-white">3종 <span class="text-xs text-indigo-400 font-normal">(`packages`)</span></div>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-[11px] text-gray-400 font-medium">표준 시험 카탈로그</div>
+                    <div class="text-lg font-black text-white">12회차 <span class="text-xs text-emerald-400 font-normal">(`public_exams`)</span></div>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-[11px] text-gray-400 font-medium">사용자 권한 & 성적 체계</div>
+                    <div class="text-lg font-black text-white">5대 서브 <span class="text-xs text-sky-400 font-normal">(`users/*`)</span></div>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                    <i data-lucide="server" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-[11px] text-gray-400 font-medium">비동기 백엔드 큐</div>
+                    <div class="text-lg font-black text-white">2개 큐 <span class="text-xs text-amber-400 font-normal">(Cloud Functions)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHITECTURE RELATIONSHIP FLOWCHART -->
+        <section class="bg-gray-900 border border-gray-800 rounded-3xl p-6 md:p-8">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-base font-black text-white flex items-center gap-2">
+                        <i data-lucide="git-fork" class="w-5 h-5 text-indigo-400"></i>
+                        파이어스토어 핵심 데이터 흐름 구조도 (Architecture Flow)
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">학생 결제부터 시험 응시, 비동기 통계 채점 및 성적표 산출까지의 DB 상호작용</p>
+                </div>
+                <span class="text-xs font-mono text-gray-500 hidden md:inline-block">REST & Web SDK v10 Standard</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+                <!-- Node 1 -->
+                <div class="bg-gray-950 border border-indigo-900/50 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex items-center justify-between text-indigo-400 font-bold mb-1">
+                            <span>1. 상품 & 카탈로그</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-indigo-500/10">Master</span>
+                        </div>
+                        <p class="text-gray-300 font-bold text-sm">packages & public_exams</p>
+                        <p class="text-gray-400 text-[11px] mt-1 leading-relaxed">
+                            - 3종 패키지 정의<br>
+                            - 12종 시험지 메타데이터<br>
+                            - 가격, 공개여부, 권한조건
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-gray-400 bg-gray-900 p-2 rounded-lg border border-gray-800">
+                        🔗 <span class="text-indigo-300">exam.html</span>, <span class="text-indigo-300">admin.html</span>
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="bg-gray-950 border border-sky-900/50 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex items-center justify-between text-sky-400 font-bold mb-1">
+                            <span>2. 결제 & 권한 지급</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-sky-500/10">Permission</span>
+                        </div>
+                        <p class="text-gray-300 font-bold text-sm">orders ➔ my_packages</p>
+                        <p class="text-gray-400 text-[11px] mt-1 leading-relaxed">
+                            - 무통장/토스페이 결제 승인<br>
+                            - `users/{uid}/my_packages`<br>
+                            - `hasWeeklyPass` / `hasAllPass`
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-gray-400 bg-gray-900 p-2 rounded-lg border border-gray-800">
+                        🔗 <span class="text-sky-300">confirmTossPayment</span>, <span class="text-sky-300">admin.html</span>
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="bg-gray-950 border border-emerald-900/50 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex items-center justify-between text-emerald-400 font-bold mb-1">
+                            <span>3. OMR 응시 & 즉시 채점</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/10">Exam & Result</span>
+                        </div>
+                        <p class="text-gray-300 font-bold text-sm">exams ➔ exam_results</p>
+                        <p class="text-gray-400 text-[11px] mt-1 leading-relaxed">
+                            - 정답표(`answer_key`) 대조<br>
+                            - 2028 공식 5등급제 규준 점수<br>
+                            - `users/{uid}/exam_results`
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-gray-400 bg-gray-900 p-2 rounded-lg border border-gray-800">
+                        🔗 <span class="text-emerald-300">omr.html</span>, <span class="text-emerald-300">exam.html</span>
+                    </div>
+                </div>
+
+                <!-- Node 4 -->
+                <div class="bg-gray-950 border border-amber-900/50 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex items-center justify-between text-amber-400 font-bold mb-1">
+                            <span>4. 비동기 전국 통계</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] bg-amber-500/10">Queue & Function</span>
+                        </div>
+                        <p class="text-gray-300 font-bold text-sm">queue ➔ user_stats</p>
+                        <p class="text-gray-400 text-[11px] mt-1 leading-relaxed">
+                            - 1회차 공식 성적만 큐 삽입<br>
+                            - 전국 평균/표준편차 자동 갱신<br>
+                            - 취약 단원/행동영역 오답 집계
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-gray-400 bg-gray-900 p-2 rounded-lg border border-gray-800">
+                        🔗 <span class="text-amber-300">processExamSubmissionV2</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN INPUT TO DB MAPPING SPECIFICATION -->
+        <section class="bg-gray-900 border border-gray-800 rounded-3xl p-6 md:p-8 space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ADMIN FORM ➔ DB SPEC</span>
+                        <h2 class="text-base font-black text-white flex items-center gap-2">
+                            <i data-lucide="edit-3" class="w-5 h-5 text-indigo-400"></i>
+                            admin.html 입력 정보 ➔ 파이어스토어 변수 매핑 상세 규격서
+                        </h2>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">관리자가 새 시험, 패키지, 문항을 등록하거나 master_db.json을 업로드할 때 각 입력창이 DB의 어떤 컬렉션/변수로 저장되는지 완벽 정리</p>
+                </div>
+                <!-- Sub Tabs for Admin Mapping -->
+                <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar bg-gray-950 p-1.5 rounded-2xl border border-gray-800 shrink-0">
+                    <button onclick="switchAdminMappingTab('mapping-exam')" id="tab-btn-mapping-exam" class="map-tab-btn active px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white transition-all whitespace-nowrap">① 모의고사 생성</button>
+                    <button onclick="switchAdminMappingTab('mapping-pkg')" id="tab-btn-mapping-pkg" class="map-tab-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap">② 패키지 관리</button>
+                    <button onclick="switchAdminMappingTab('mapping-q')" id="tab-btn-mapping-q" class="map-tab-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap">③ 문항 은행 등록</button>
+                    <button onclick="switchAdminMappingTab('mapping-master')" id="tab-btn-mapping-master" class="map-tab-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap">④ master_db 업로드</button>
+                    <button onclick="switchAdminMappingTab('mapping-user')" id="tab-btn-mapping-user" class="map-tab-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gray-400 hover:text-white transition-all whitespace-nowrap">⑤ 회원 권한 토글</button>
+                </div>
+            </div>
+
+            <!-- Tab 1: 모의고사 생성 및 수정 (saveExamData) -->
+            <div id="mapping-exam" class="admin-mapping-panel space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-gray-950 p-4 rounded-2xl border border-indigo-900/40">
+                    <div>
+                        <div class="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
+                            <i data-lucide="file-plus-2" class="w-4 h-4"></i> 모의고사 생성 및 수정 모달 (UI 함수: saveExamData)
+                        </div>
+                        <p class="text-xs text-gray-300 mt-1">
+                            관리자가 <span class="text-emerald-400 font-bold">[+ 새 시험 생성]</span> 또는 목록의 <span class="text-amber-400 font-bold">[수정]</span> 버튼을 눌러 모달에서 저장할 때, <strong>`public_exams`와 `exams` 2개 컬렉션으로 동시에 분배 저장</strong>됩니다.
+                        </p>
+                    </div>
+                    <span class="text-[11px] font-mono text-gray-400 bg-gray-900 px-3 py-1 rounded-lg border border-gray-800 shrink-0">동시 쓰기: public_exams + exams</span>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 font-bold bg-gray-950/70">
+                                <th class="py-3 px-3">UI 입력 항목 (라벨)</th>
+                                <th class="py-3 px-3">모달 Input ID</th>
+                                <th class="py-3 px-3">저장 대상 컬렉션 및 필드</th>
+                                <th class="py-3 px-3">데이터 타입</th>
+                                <th class="py-3 px-3">매핑 로직 및 비즈니스 영향</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/60 font-mono text-[11px]">
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">시험 고유 ID</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-doc-id / edit-id-input</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams/{docId}<br>exams/{docId}</td>
+                                <td class="py-2.5 px-3 text-gray-300">String (문서 ID)</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">표준 ID 규칙 준수 필수 (`mock_2028_s0_01`, `week_2028_01` 등). 두 컬렉션의 Key로 동일하게 사용됨.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">정렬 순번</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-order-id</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.id</td>
+                                <td class="py-2.5 px-3 text-gray-300">Number</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">학생 및 관리자 목록 정렬 기준 (`orderBy("id", "asc")`). 미입력 시 docId 숫자 자동 추출.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">시험명 (대제목)</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-title</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.title<br>exams.title</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">시험지 카드 및 OMR 화면 상단 타이틀로 표시</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">부제목 (회차 설명)</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-subtitle</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.subTitle</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">시험지 카드 하단 부제 설명 (예: 2028 예시문항 완벽 분석 1회)</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">단과 판매 가격</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-price</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.price</td>
+                                <td class="py-2.5 px-3 text-gray-300">Number (원)</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">개별 시험지 구매 시 단가 (예: 5000)</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">시행 일시</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-date</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.date</td>
+                                <td class="py-2.5 px-3 text-gray-300">ISO String / null</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">시험 발행 및 시행 날짜 (미선택 시 null 저장)</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">서비스 분류</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-service-type</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.serviceType<br>exams.serviceType</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">`SEASON_MOCK` (모의고사) 또는 `WEEKLY_MAG` (주간지). 학생 화면 탭 분류 기준.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">소속 패키지 ID</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-package-id</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.packageId<br>exams.packageId</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans"><strong>[핵심]</strong> `mock_2028_s0`, `week_2028`, `infinity_2028` 표준 중 하나 필수. 학생의 `my_packages` 보유 여부와 1:1 매칭되어 잠금 해제 결정.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">유료 잠금 여부</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-auth-required</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.isAuthRequired<br>exams.isAuthRequired</td>
+                                <td class="py-2.5 px-3 text-gray-300">Boolean</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">체크 시 패키지 권한 보유자만 응시 가능. 체크 해제 시 무료 공개.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">학생 화면 노출 여부</td>
+                                <td class="py-2.5 px-3 text-indigo-400">edit-content-visible</td>
+                                <td class="py-2.5 px-3 text-emerald-400">public_exams.isContentVisible<br>exams.isContentVisible</td>
+                                <td class="py-2.5 px-3 text-gray-300">Boolean</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">체크(true) 시 학생 `exam.html` 목록에 노출. 미체크(false) 시 관리자 전용 비공개.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">문항 데이터 배열</td>
+                                <td class="py-2.5 px-3 text-indigo-400">tempExamQuestions</td>
+                                <td class="py-2.5 px-3 text-purple-400">exams.questions</td>
+                                <td class="py-2.5 px-3 text-gray-300">Array of Objects</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">25개 문항별 `no`, `qId`, `score`, `correctAnswer` 객체 배열</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">배점표 (자동 산출)</td>
+                                <td class="py-2.5 px-3 text-gray-500">(시스템 자동)</td>
+                                <td class="py-2.5 px-3 text-purple-400">exams.score_map</td>
+                                <td class="py-2.5 px-3 text-gray-300">Array of Numbers</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">`questions.map(q => q.score)` 로 25개 배점 숫자 배열 자동 도출</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">정답표 (자동 산출)</td>
+                                <td class="py-2.5 px-3 text-gray-500">(시스템 자동)</td>
+                                <td class="py-2.5 px-3 text-purple-400">exams.answer_key</td>
+                                <td class="py-2.5 px-3 text-gray-300">Array of Numbers</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">`questions.map(q => q.correctAnswer)` 로 25개 정답 숫자 배열 자동 도출</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 2: 패키지 관리 (savePackageData) -->
+            <div id="mapping-pkg" class="admin-mapping-panel hidden space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-gray-950 p-4 rounded-2xl border border-blue-900/40">
+                    <div>
+                        <div class="text-xs font-bold text-blue-400 flex items-center gap-1.5">
+                            <i data-lucide="package-plus" class="w-4 h-4"></i> 유료 패키지 생성 및 수정 모달 (UI 함수: savePackageData)
+                        </div>
+                        <p class="text-xs text-gray-300 mt-1">
+                            관리자 패키지 탭에서 가격, 명칭, 설명을 변경할 때 <strong>`packages/{id}`</strong> 단일 문서로 저장됩니다.
+                        </p>
+                    </div>
+                    <span class="text-[11px] font-mono text-gray-400 bg-gray-900 px-3 py-1 rounded-lg border border-gray-800 shrink-0">대상: packages/{id}</span>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 font-bold bg-gray-950/70">
+                                <th class="py-3 px-3">UI 입력 항목 (라벨)</th>
+                                <th class="py-3 px-3">모달 Input ID</th>
+                                <th class="py-3 px-3">저장 대상 컬렉션 및 필드</th>
+                                <th class="py-3 px-3">데이터 타입</th>
+                                <th class="py-3 px-3">매핑 로직 및 비즈니스 영향</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/60 font-mono text-[11px]">
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">패키지 고유 ID</td>
+                                <td class="py-2.5 px-3 text-blue-400">pkg-id</td>
+                                <td class="py-2.5 px-3 text-emerald-400">packages/{id} (문서 ID)</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans"><strong>표준 3종 필수</strong>: `infinity_2028`, `week_2028`, `mock_2028_s0`. 학생 권한의 기준 Key.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">패키지 공식 명칭</td>
+                                <td class="py-2.5 px-3 text-blue-400">pkg-title</td>
+                                <td class="py-2.5 px-3 text-emerald-400">packages.title</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">결제창 및 구매 안내 페이지에 출력되는 공식 상품명</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">판매 가격</td>
+                                <td class="py-2.5 px-3 text-blue-400">pkg-price</td>
+                                <td class="py-2.5 px-3 text-emerald-400">packages.price</td>
+                                <td class="py-2.5 px-3 text-gray-300">Integer (원)</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">토스페이 결제 승인 금액 검증 및 무통장 신청서 기준 금액 (예: 156000)</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">패키지 상세 설명</td>
+                                <td class="py-2.5 px-3 text-blue-400">pkg-desc</td>
+                                <td class="py-2.5 px-3 text-emerald-400">packages.description</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">패키지 포함 혜택, 교재 구성 등 안내 설명 문구</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">수정 일시</td>
+                                <td class="py-2.5 px-3 text-gray-500">(시스템 자동)</td>
+                                <td class="py-2.5 px-3 text-emerald-400">packages.updatedAt</td>
+                                <td class="py-2.5 px-3 text-gray-300">ISO String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">`new Date().toISOString()` 자동 저장</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 3: 문항 은행 등록 및 연쇄 동기화 (saveQuestionData) -->
+            <div id="mapping-q" class="admin-mapping-panel hidden space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-gray-950 p-4 rounded-2xl border border-purple-900/40">
+                    <div>
+                        <div class="text-xs font-bold text-purple-400 flex items-center gap-1.5">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i> 문항 은행 등록 및 연쇄 동기화 (UI 함수: saveQuestionData)
+                        </div>
+                        <p class="text-xs text-gray-300 mt-1">
+                            문항 은행에서 문항을 생성하거나 수정하면 <strong>`questions` 컬렉션</strong>뿐만 아니라, 해당 문항을 사용하는 <strong>`exams`(시험지 배점/정답), `exam_archive`(분석), `wrong_answers`(학생 오답노트)까지 writeBatch로 일괄 연쇄 동기화</strong>됩니다.
+                        </p>
+                    </div>
+                    <span class="text-[11px] font-mono text-purple-300 bg-gray-900 px-3 py-1 rounded-lg border border-gray-800 shrink-0">연쇄 동기화 지원 (Cascading Sync)</span>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 font-bold bg-gray-950/70">
+                                <th class="py-3 px-3">UI 입력 항목 (라벨)</th>
+                                <th class="py-3 px-3">모달 Input ID</th>
+                                <th class="py-3 px-3">저장 대상 컬렉션 및 필드</th>
+                                <th class="py-3 px-3">데이터 타입</th>
+                                <th class="py-3 px-3">매핑 로직 및 비즈니스 영향</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/60 font-mono text-[11px]">
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">문항 고유 ID</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-id</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions/{newDocId} (문서 ID)</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">문항 고유 Key (예: `week_2028_01_mock_q01`, `28-sample-1`). 변경 시 구 문서 자동 삭제 후 재생성.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">출처 시험 ID</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-source-exam-id</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.sourceExamId</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">문항이 최초 출제된 시험 회차 ID (예: `week_2028_01`)</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">과학 과목 영역</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-domain</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.taxonomy.domain</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">`물리학`, `화학`, `생명과학`, `지구과학` 중 선택</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">교육과정 대단원</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-chapter</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.taxonomy.chapter</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">2028 개정 교육과정 대단원 (예: '환경과 에너지', '물질과 규칙성')</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">세부 토픽 (주제)</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-topic</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.taxonomy.topic</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">세부 출제 주제 (예: '생태계 평형', '규산염 광물') ➔ 학생 오답노트 단원명으로 연동</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">행동 영역 (탐구 역량)</td>
+                                <td class="py-2.5 px-3 text-purple-400">question-behavioral-domain</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.behavioralDomain</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans"><strong>[필수]</strong> '문제인식 및 가설설정', '탐구 설계 및 수행', '자료 변환 및 해석', '결론 도출 및 평가', '이해와 적용' ➔ <strong>성적표 5대 레이더 차트 분석 기준</strong></td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">난이도 및 배점</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-difficulty</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.difficulty<br>questions.score</td>
+                                <td class="py-2.5 px-3 text-gray-300">Number</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">문항 배점 (1.5점, 2.0점, 2.5점). 시험지 배점표와 자동 동기화.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">정답 번호</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-answer</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.correctAnswer</td>
+                                <td class="py-2.5 px-3 text-gray-300">Number (1~5)</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">5지 선다형 정답 번호. 시험지 정답표와 자동 동기화.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans">문항 이미지 경로</td>
+                                <td class="py-2.5 px-3 text-purple-400">q-image-url</td>
+                                <td class="py-2.5 px-3 text-emerald-400">questions.image_path</td>
+                                <td class="py-2.5 px-3 text-gray-300">String</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">Storage 또는 로컬 이미지 CDN 절대 URL 경로</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 연쇄 동기화 안내 박스 -->
+                <div class="bg-purple-950/40 border border-purple-800/60 p-4 rounded-2xl space-y-2">
+                    <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5"><i data-lucide="refresh-cw" class="w-4 h-4 text-purple-400"></i> 문항 저장 시 자동 연쇄 업데이트 동작 원리</span>
+                    <ul class="text-[11px] text-gray-300 list-disc list-inside space-y-1">
+                        <li><strong>exams 컬렉션 동기화:</strong> 해당 문항이 포함된 모든 시험지 문서의 `questions` 배열, `score_map`, `answer_key`를 즉시 일괄 수정합니다.</li>
+                        <li><strong>분석 아카이브 동기화:</strong> `artifacts/.../exam_archive` 문서의 토픽(`topic`) 및 행동영역(`domain`)을 최신화합니다.</li>
+                        <li><strong>학생 오답노트 동기화:</strong> 모든 학생의 `users/{uid}/wrong_answers` 컬렉션 그룹을 검색하여, 해당 문항의 단원 및 행동영역을 최신 정보로 실시간 동기화합니다.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 4: master_db.json 일괄 업로드 (processMasterDbSync) -->
+            <div id="mapping-master" class="admin-mapping-panel hidden space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-gray-950 p-4 rounded-2xl border border-emerald-900/40">
+                    <div>
+                        <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                            <i data-lucide="upload-cloud" class="w-4 h-4"></i> master_db.json 파일 업로드 자동 파싱 & 분배 매핑 (UI 함수: processMasterDbSync)
+                        </div>
+                        <p class="text-xs text-gray-300 mt-1">
+                            관리자가 `master_db.json` 파일을 드래그하거나 선택하여 업로드하면, <strong>JSON 내부 속성을 자동으로 분석하여 4개 핵심 DB 컬렉션으로 분배 저장</strong>합니다.
+                        </p>
+                    </div>
+                    <span class="text-[11px] font-mono text-emerald-300 bg-gray-900 px-3 py-1 rounded-lg border border-gray-800 shrink-0">원자적 일괄 커밋: writeBatch</span>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 font-bold bg-gray-950/70">
+                                <th class="py-3 px-3">master_db.json Key</th>
+                                <th class="py-3 px-3">대상 DB 컬렉션</th>
+                                <th class="py-3 px-3">저장 필드명</th>
+                                <th class="py-3 px-3">자동 파싱 및 변환 로직</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/60 font-mono text-[11px]">
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-emerald-400">Root Object Key (문항 ID)</td>
+                                <td class="py-2.5 px-3 text-indigo-400">questions/{qDocId}</td>
+                                <td class="py-2.5 px-3 text-gray-300">id, sourceExamId</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">예: `week_2028_01_prep_q01` ➔ 문항 문서 ID 및 출처 시험 ID 자동 파싱</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-emerald-400">magazineType</td>
+                                <td class="py-2.5 px-3 text-indigo-400">questions</td>
+                                <td class="py-2.5 px-3 text-gray-300">magazineType</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">문항 ID에 `_prep_` 포함 시 'prep', `_prac_` 포함 시 'prac', `_mock_` 포함 시 'mock'으로 자동 분류</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-emerald-400">correctAnswer / score</td>
+                                <td class="py-2.5 px-3 text-indigo-400">questions, exams</td>
+                                <td class="py-2.5 px-3 text-gray-300">correctAnswer, score</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">정답 숫자(Number) 및 배점(1.5, 2.0, 2.5) 자동 정규화</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-emerald-400">taxonomy / behavioralDomain</td>
+                                <td class="py-2.5 px-3 text-indigo-400">questions, archive</td>
+                                <td class="py-2.5 px-3 text-gray-300">taxonomy, behavioralDomain</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">단원 객체(`{ domain, chapter, topic }`) 및 5대 탐구 행동영역 매핑</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-emerald-400">_mock_ 문항 25개 필터</td>
+                                <td class="py-2.5 px-3 text-purple-400">public_exams, exams</td>
+                                <td class="py-2.5 px-3 text-gray-300">score_map, answer_key, questions</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans"><strong>[자동 시험지 생성]</strong> 25개 실전 모의고사 문항만 골라 `score_map`과 `answer_key` 배열을 자동 구성하여 시험지 문서 발행</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-emerald-400">exam_archive (아카이브)</td>
+                                <td class="py-2.5 px-3 text-purple-400">artifacts/.../exam_archive</td>
+                                <td class="py-2.5 px-3 text-gray-300">{examId}_q01~25</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">각 문항별 25건의 분석 통계 문서를 일괄 생성하여 해설 뷰어에 연동</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 5: 회원 패키지 권한 토글 (toggleUserPackage) -->
+            <div id="mapping-user" class="admin-mapping-panel hidden space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-gray-950 p-4 rounded-2xl border border-sky-900/40">
+                    <div>
+                        <div class="text-xs font-bold text-sky-400 flex items-center gap-1.5">
+                            <i data-lucide="toggle-right" class="w-4 h-4"></i> 사용자 패키지 권한 토글 (UI 함수: toggleUserPackage)
+                        </div>
+                        <p class="text-xs text-gray-300 mt-1">
+                            관리자 사용자 관리 탭에서 특정 회원을 검색한 후, 패키지별 스위치를 On/Off 할 때 <strong>`my_packages` 서브컬렉션과 `users` 전역 플래그가 동시 제어</strong>됩니다.
+                        </p>
+                    </div>
+                    <span class="text-[11px] font-mono text-sky-300 bg-gray-900 px-3 py-1 rounded-lg border border-gray-800 shrink-0">my_packages + users 플래그 동기화</span>
+                </div>
+
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 font-bold bg-gray-950/70">
+                                <th class="py-3 px-3">토글 대상 패키지</th>
+                                <th class="py-3 px-3">스위치 상태</th>
+                                <th class="py-3 px-3">my_packages 서브컬렉션 동작</th>
+                                <th class="py-3 px-3">users 루트 문서 플래그 동작</th>
+                                <th class="py-3 px-3">학생 서비스 즉시 영향</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/60 font-mono text-[11px]">
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans" rowspan="2">인피니티 올패스<br><span class="text-indigo-400 font-mono">(infinity_2028)</span></td>
+                                <td class="py-2.5 px-3 text-emerald-400 font-bold font-sans">🟢 활성화 (ON)</td>
+                                <td class="py-2.5 px-3 text-gray-300">`setDoc(my_packages/infinity_2028, { status: 'active', adminGranted: true, ... })`</td>
+                                <td class="py-2.5 px-3 text-sky-400 font-bold">`updateDoc(users/{uid}, { hasAllPass: true })`</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">주간지 10주 + 시즌 모의고사 전회차 즉시 무제한 해금</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 text-red-400 font-bold font-sans">🔴 비활성화 (OFF)</td>
+                                <td class="py-2.5 px-3 text-gray-300">`deleteDoc(my_packages/infinity_2028)`</td>
+                                <td class="py-2.5 px-3 text-red-400 font-bold">`updateDoc(users/{uid}, { hasAllPass: false })`</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">올패스 마스터 권한 즉시 회수</td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans" rowspan="2">10주 주간지 패키지<br><span class="text-indigo-400 font-mono">(week_2028)</span></td>
+                                <td class="py-2.5 px-3 text-emerald-400 font-bold font-sans">🟢 활성화 (ON)</td>
+                                <td class="py-2.5 px-3 text-gray-300">`setDoc(my_packages/week_2028, { status: 'active', adminGranted: true, ... })`</td>
+                                <td class="py-2.5 px-3 text-sky-400 font-bold">`updateDoc(users/{uid}, { hasWeeklyPass: true })`</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">주간지 1~10주차 시험지 및 E-Book 즉시 해금</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 text-red-400 font-bold font-sans">🔴 비활성화 (OFF)</td>
+                                <td class="py-2.5 px-3 text-gray-300">`deleteDoc(my_packages/week_2028)`</td>
+                                <td class="py-2.5 px-3 text-red-400 font-bold">`updateDoc(users/{uid}, { hasWeeklyPass: false })`</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">주간지 패키지 권한 즉시 회수</td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 font-bold text-white font-sans" rowspan="2">시즌0 모의고사<br><span class="text-indigo-400 font-mono">(mock_2028_s0)</span></td>
+                                <td class="py-2.5 px-3 text-emerald-400 font-bold font-sans">🟢 활성화 (ON)</td>
+                                <td class="py-2.5 px-3 text-gray-300">`setDoc(my_packages/mock_2028_s0, { status: 'active', adminGranted: true, ... })`</td>
+                                <td class="py-2.5 px-3 text-gray-500 font-sans">(서브컬렉션으로 직접 판정)</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">시즌0 예시문항 모의고사 응시 권한 즉시 해금</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/30">
+                                <td class="py-2.5 px-3 text-red-400 font-bold font-sans">🔴 비활성화 (OFF)</td>
+                                <td class="py-2.5 px-3 text-gray-300">`deleteDoc(my_packages/mock_2028_s0)`</td>
+                                <td class="py-2.5 px-3 text-gray-500 font-sans">(서브컬렉션 문서 삭제)</td>
+                                <td class="py-2.5 px-3 text-gray-400 font-sans">시즌0 모의고사 권한 즉시 회수</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORY FILTER BUTTONS -->
+        <div class="flex flex-wrap items-center gap-2 pt-2">
+            <button onclick="setFilter('ALL')" class="filter-btn active bg-indigo-600 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all" data-category="ALL">전체 컬렉션 (15개)</button>
+            <button onclick="setFilter('MASTER')" class="filter-btn bg-gray-900 hover:bg-gray-800 text-gray-300 font-medium text-xs px-3.5 py-2 rounded-xl border border-gray-800 transition-all" data-category="MASTER">1. 상품 & 시험 마스터</button>
+            <button onclick="setFilter('USER')" class="filter-btn bg-gray-900 hover:bg-gray-800 text-gray-300 font-medium text-xs px-3.5 py-2 rounded-xl border border-gray-800 transition-all" data-category="USER">2. 회원 & 개인화 서브컬렉션</button>
+            <button onclick="setFilter('ORDER')" class="filter-btn bg-gray-900 hover:bg-gray-800 text-gray-300 font-medium text-xs px-3.5 py-2 rounded-xl border border-gray-800 transition-all" data-category="ORDER">3. 주문 & 결제</button>
+            <button onclick="setFilter('QUEUE')" class="filter-btn bg-gray-900 hover:bg-gray-800 text-gray-300 font-medium text-xs px-3.5 py-2 rounded-xl border border-gray-800 transition-all" data-category="QUEUE">4. 비동기 큐 & 커뮤니티</button>
+        </div>
+
+        <!-- COLLECTION CARDS CONTAINER -->
+        <div id="collections-container" class="space-y-6">
+
+            <!-- 1. packages -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="MASTER" data-keywords="packages 패키지 유료상품 infinity_2028 week_2028 mock_2028_s0 package_info allpass_info weekly_info">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ROOT MASTER</span>
+                        <h3 class="text-lg font-bold text-white font-mono">packages</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: packages/{packageId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">문서 3종 확정</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <!-- 기능 및 역할 -->
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            갓통과 서비스의 <strong>공식 3대 유료 패키지 마스터 원장</strong>입니다. 각 패키지의 공식 명칭, 판매 가격, 상품 설명, 최종 수정일을 보관하며, 결제 승인 및 권한 지급 시 기준 스키마가 됩니다.
+                        </p>
+                        <div class="pt-2">
+                            <span class="text-[11px] text-gray-400 font-bold block mb-1">표준 문서 ID 3종:</span>
+                            <div class="space-y-1">
+                                <div class="bg-gray-950 p-1.5 rounded border border-gray-800 font-mono text-[11px] text-indigo-300">infinity_2028 <span class="text-gray-400">(인피니티 올패스)</span></div>
+                                <div class="bg-gray-950 p-1.5 rounded border border-gray-800 font-mono text-[11px] text-indigo-300">week_2028 <span class="text-gray-400">(10주 완성 주간지)</span></div>
+                                <div class="bg-gray-950 p-1.5 rounded border border-gray-800 font-mono text-[11px] text-indigo-300">mock_2028_s0 <span class="text-gray-400">(시즌0 모의고사)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 관여 파일 정보 -->
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (조회)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/package_info.html, allpass_info.html, weekly_info.html</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / UPDATE (수정/동기화)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (패키지 가격/설명 관리)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-400 block mb-0.5">🟣 BACKEND VALIDATION (검증)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (토스페이 결제 승인 시 상품 검증)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JSON 스키마 미리보기 -->
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "title": "2028 수능 인피니티 올패스 (얼리버드)",
+  "price": 156000,
+  "description": "주간지 10주 전회차 + 시즌 모의고사 전회차 무제한 이용권",
+  "updatedAt": "2026-10-14T07:23:48.801Z"
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. public_exams -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="MASTER" data-keywords="public_exams 공개시험 카탈로그 exam.html archive.html admin.html">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ROOT MASTER</span>
+                        <h3 class="text-lg font-bold text-white font-mono">public_exams</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: public_exams/{examId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">총 12회차 공개 목록</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생 화면([`exam.html`](file:///C:/Users/shko8/godtonggwa/public/STEST/exam.html), [`archive.html`](file:///C:/Users/shko8/godtonggwa/public/archive/archive.html))에서 시험지 카드 목록을 그리기 위한 <strong>공개용 시험 카탈로그 메타데이터</strong>입니다. 실제 정답이나 해설은 포함되지 않아 클라이언트에서 안전하게 쿼리할 수 있습니다.
+                        </p>
+                        <div class="pt-2">
+                            <span class="text-[11px] text-gray-400 font-bold block mb-1">표준 시험 ID 12종:</span>
+                            <p class="text-gray-400 font-mono text-[11px] leading-relaxed">
+                                `mock_2028_s0_01`<br>
+                                `past_예비문항`<br>
+                                `week_2028_01` ~ `week_2028_10` (10주차)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (조회)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (시험지 카드 렌더링)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/archive/archive.html (기출 목록)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / UPDATE (카탈로그 관리)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (모의고사 생성/수정/삭제)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "id": 2028001,
+  "title": "2028 통합과학 예시문항 완벽 분석 패키지",
+  "subTitle": "2028 통합과학 예시문항 완벽 분석 모의고사 1회",
+  "packageId": "mock_2028_s0",
+  "serviceType": "SEASON_MOCK", // 또는 WEEKLY_MAG
+  "price": 5000,
+  "isAuthRequired": true,
+  "isContentVisible": true
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. exams -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="MASTER" data-keywords="exams 시험본체 채점 정답표 배점표 answer_key score_map omr.html admin.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ROOT MASTER</span>
+                        <h3 class="text-lg font-bold text-white font-mono">exams</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: exams/{examId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">채점 엔진 & 전국 통계 원천</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            실제 채점 엔진([`omr.html`](file:///C:/Users/shko8/godtonggwa/public/STEST/omr.html))이 채점을 수행할 때 불러오는 <strong>정답표(`answer_key`), 배점표(`score_map`), 25문항 메타데이터(`questions`)</strong>가 저장됩니다. 또한 백엔드 Cloud Function이 학생 채점 시마다 총 응시인원 및 누적점수를 원자적으로 누적합니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (채점 기준 조회)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/omr.html (OMR 시작 시 정답/배점 로드)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / UPDATE (출제 및 문항 등록)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (master_db.json 업로드 & 출제)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-400 block mb-0.5">🟣 BACKEND ATOMIC ACCUMULATOR</span>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (participantCount, scoreSum 원자적 누적)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "title": "2028 통합과학 예시문항 완벽 분석 모의고사 1회",
+  "answer_key": [4, 5, 2, 4, 5, 4, 3, 2, 4, 4, ...], // 25문항 정답
+  "score_map": [1.5, 1.5, 1.5, 2.5, 1.5, ...],    // 25문항 배점
+  "questions": [ { "no": 1, "qId": "mock_2028_s0_01_q01", ... } ],
+  "participantCount": 1280,
+  "totalScoreSum": 39680,
+  "lastUpdated": "2026-10-14T07:11:00.000Z"
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. questions -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="MASTER" data-keywords="questions 문항은행 문제은행 선지선택통계 정답률 admin.html item-bank">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">ROOT MASTER</span>
+                        <h3 class="text-lg font-bold text-white font-mono">questions</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: questions/{qId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">100문항 문항 은행</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            개별 문항의 상세 메타데이터(대단원/토픽/과목 영역 등 단원 분류 체계, 행동 영역, 난이도, 선지별 학생 선택 통계, 누적 시도 횟수 및 정답률)를 축적하는 <strong>문항 은행 데이터베이스</strong>입니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ & FILTER</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (문항 은행 탭, 단원별/난이도별 필터링)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/item-bank_manager.html, qlist.html</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "id": "28-sample-1",
+  "correctAnswer": 3,
+  "difficulty": 1.5,
+  "taxonomy": {
+    "subject": "통합과학", "domain": "생명과학",
+    "chapter": "환경과 에너지", "topic": "생태계 평형"
+  },
+  "behavioralDomain": "이해와 적용",
+  "stats": { "totalAttempts": 1280, "accuracy": 72 },
+  "distractorStats": { "1": 54, "2": 54, "3": 922, "4": 197, "5": 54 }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. users -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="USER" data-keywords="users 회원 유저 권한 hasAllPass hasWeeklyPass admin exam.html">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/10 text-sky-400 border border-sky-500/20">USER MASTER</span>
+                        <h3 class="text-lg font-bold text-white font-mono">users</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: users/{uid}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">회원 프로필 & 전역 플래그</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            가입 회원 기본 계정 정보와 전역 패스 보유 여부 플래그(`hasAllPass`, `hasWeeklyPass`)를 보관합니다. 과거 잔재 변수(`subscriptions`, `isPaid` 등)가 완전 정리되어 오직 표준 정규화 필드만 유지됩니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (로그인 & 권한 확인)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (currentUserData 로드)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (회원 검색 및 상세 조회)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / UPDATE</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (hasAllPass/hasWeeklyPass 토글)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (결제 승인 시 플래그 갱신)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "name": "홍길동",
+  "email": "student@example.com",
+  "joinedAt": "2026-06-21T05:11:51.364Z",
+  "hasAllPass": true,     // 올패스 마스터 권한
+  "hasWeeklyPass": true,  // 10주 주간지 패스 권한
+  "role": "admin"         // 관리자일 경우만 부여
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. users/{uid}/my_packages -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="USER" data-keywords="my_packages 보유패키지 유료권한 exam.html admin.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/10 text-sky-400 border border-sky-500/20">USER SUBCOLLECTION</span>
+                        <h3 class="text-lg font-bold text-white font-mono">my_packages</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: users/{uid}/my_packages/{packageId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">보유 유료 패키지 원장</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생이 결제 또는 관리자 승인으로 <strong>실제 소유하고 있는 유료 상품 권한 문서</strong>입니다. 문서 ID는 표준 3종(`infinity_2028`, `week_2028`, `mock_2028_s0`)과 1:1로 일치합니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (실시간 권한 감지)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (`onSnapshot` 리스너로 권한 즉시 감지)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / DELETE</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (사용자 패키지 부여 시 setDoc / 회수 시 deleteDoc)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (토스페이 결제 승인 시 즉시 문서 발행)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "packageName": "2028 수능 인피니티 올패스",
+  "status": "active",
+  "grantedAt": "2026-10-14T08:24:00.000Z",
+  "adminGranted": true
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. users/{uid}/my_exams -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="USER" data-keywords="my_exams 내시험지 응시상태 graded purchased pending omr.html exam.html">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/10 text-sky-400 border border-sky-500/20">USER SUBCOLLECTION</span>
+                        <h3 class="text-lg font-bold text-white font-mono">my_exams</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: users/{uid}/my_exams/{examId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">응시권 & 응시 상태</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생의 시험지별 응시 현황을 관리합니다. 상태(`status`: 'purchased' 미응시 / 'graded' 응시완료), 최근 점수, 1회차 공식 점수, 누적 응시 횟수를 기록합니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (내 시험지 화면)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (내 시험지 탭 점수/상태 배지)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/omr.html (기존 응시 이력 확인)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / UPDATE</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/omr.html (제출 시 status='graded', attemptCount++)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (특정 시험지 응시권 수동 지급)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "status": "graded",     // purchased / pending / graded
+  "score": 46.5,          // 최신 원점수
+  "officialScore": 46.5,  // 최초 1회차 공식 점수
+  "latestScore": 46.5,
+  "attemptCount": 1
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. users/{uid}/exam_results -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="USER" data-keywords="exam_results 성적표 채점결과 등급 백분위 answers omr.html exam.html explanation.html">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/10 text-sky-400 border border-sky-500/20">USER SUBCOLLECTION</span>
+                        <h3 class="text-lg font-bold text-white font-mono">exam_results</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: users/{uid}/exam_results/{attemptId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">회차별 공식 성적표 원본</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생이 OMR을 제출할 때마다 독립적으로 생성되는 <strong>상세 성적표 문서</strong>입니다. 원점수, 표준점수, 2028 개정 수능 공식 5등급제 등급, 백분위, 문항별 채점 상세 내역(`answers`)이 영구 보존됩니다.
+                        </p>
+                        <p class="text-[11px] text-gray-400">
+                            * 문서 ID 규칙: <code class="text-sky-300">{examId}_{timestamp}</code> (고유 타임스탬프)
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE (채점 제출 시 신규 발행)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/omr.html (submitAnswers 함수)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (성적표 렌더링)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (`view=report` 성적 분석 리포트)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/explanation.html (해설 및 오답 분석 뷰어)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "examId": "mock_2028_s0_01",
+  "attemptId": "mock_2028_s0_01_1791964893624",
+  "attemptNumber": 1,
+  "isOfficialRecord": true,
+  "score": 46.5, "maxScore": 50,
+  "standardScore": 68,
+  "grade": 1,          // 2028 5등급제 등급
+  "percentile": 96.5,  // 하위 누적 백분위
+  "topPercentile": 3.5,// 전국 상위 %
+  "answers": [ { "no": 1, "isCorrect": true, ... } ]
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. users/{uid}/wrong_answers -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="USER" data-keywords="wrong_answers 오답노트 틀린문제 omr.html exam.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/10 text-sky-400 border border-sky-500/20">USER SUBCOLLECTION</span>
+                        <h3 class="text-lg font-bold text-white font-mono">wrong_answers</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: users/{uid}/wrong_answers/{examId_qId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">오답 복습 보관함</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생이 틀린 문항만 모아 복습할 수 있도록 관리하는 <strong>오답 노트 서브컬렉션</strong>입니다. 재응시하여 맞출 경우 `isResolved: true`로 해결 처리됩니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE / UPDATE</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/omr.html (채점 시 오답 등록 / 재응시 해결)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (백엔드 오답 노트 자동 동기화)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (오답노트 탭 렌더링)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "examId": "mock_2028_s0_01",
+  "qId": "mock_2028_s0_01_q04",
+  "no": 4,
+  "topic": "규산염 광물의 결합 구조",
+  "wrongCount": 1,
+  "isResolved": false,
+  "submittedAt": "2026-10-14T07:40:00.000Z"
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. users/{uid}/user_stats -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="USER" data-keywords="user_stats 취약단원 행동영역 레이더차트 functions exam.html">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/10 text-sky-400 border border-sky-500/20">USER SUBCOLLECTION</span>
+                        <h3 class="text-lg font-bold text-white font-mono">user_stats</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: users/{uid}/user_stats/summary</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">개인 취약점 누적 통계</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            Cloud Function이 백엔드에서 학생의 문항별 채점 결과를 분석하여 <strong>단원별 오답 누적(`topic_stats`)과 행동영역별 오답 누적(`behavior_stats`)</strong>을 요약 집계해 두는 통계 캐시 문서입니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-400 block mb-0.5">🟣 BACKEND WRITER</span>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (processExamSubmissionV2)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/exam.html (성적 리포트 레이더 차트 분석)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "topic_stats": {
+    "생태계 평형": { "wrong": 1 },
+    "화학 반응과 열": { "wrong": 2 }
+  },
+  "behavior_stats": {
+    "이해와 적용": { "wrong": 3 },
+    "탐구 설계": { "wrong": 1 }
+  }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. orders -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="ORDER" data-keywords="orders 주문 결제 무통장입금 토스페이 toss admin.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/10 text-amber-400 border border-amber-500/20">ROOT LEDGER</span>
+                        <h3 class="text-lg font-bold text-white font-mono">orders</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: orders/{orderId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">주문 및 결제 원장</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생이 무통장 입금 신청을 하거나 토스페이먼츠(Toss Payments) 카드결제를 승인했을 때 생성되는 <strong>결제 승인 원장</strong>입니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 WRITE (주문 생성 / 승인)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/allpass_info.html, weekly_info.html (무통장 신청)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (confirmTossPayment 전자결제 승인)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ & MANAGE</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (주문 목록 조회 및 1클릭 수동 승인)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "orderId": "toss_order_17912345",
+  "uid": "RPBByKkGKWRtFnCWbgZi8rA3s1s1",
+  "packageId": "infinity_2028",
+  "packageName": "2028 수능 인피니티 올패스",
+  "price": 156000,
+  "status": "approved", // pending / approved
+  "depositor": "홍길동",
+  "createdAt": "2026-10-14T05:11:51.364Z",
+  "approvedAt": "2026-10-14T05:12:58.903Z"
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. exam_submissions_queue -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="QUEUE" data-keywords="exam_submissions_queue 채점큐 비동기 트리거 omr.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/10 text-amber-400 border border-amber-500/20">ASYNC QUEUE</span>
+                        <h3 class="text-lg font-bold text-white font-mono">exam_submissions_queue</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: exam_submissions_queue/{docId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">백엔드 자동 채점 큐</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생이 OMR을 제출하면 <strong>최초 1회차 공식 성적</strong>에 한하여 백엔드 큐에 등록됩니다. Cloud Function이 이를 감지하여 전국 평균/누적점수를 원자적으로 갱신하고 상태를 `processed`로 변경합니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 PRODUCER (큐 등록)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/STEST/omr.html (isOfficialRecord 일 때 등록)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-400 block mb-0.5">🟣 CONSUMER (큐 처리 및 마감)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (processExamSubmissionV2 트리거)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "examId": "mock_2028_s0_01",
+  "uid": "C2rZY5wGN9Ufw7PNQRa64DsBVa12",
+  "rawScore": 46.5,
+  "evaluatedAnswers": [ ... ],
+  "status": "pending", // 처리 완료 시 processed
+  "createdAt": "2026-10-14T07:40:00.000Z"
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. ai_tutor_queue -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="QUEUE" data-keywords="ai_tutor_queue AI튜터 Gemini 질문게시판 board.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-purple-500/10 text-purple-400 border border-purple-500/20">ASYNC QUEUE</span>
+                        <h3 class="text-lg font-bold text-white font-mono">ai_tutor_queue</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: ai_tutor_queue/{docId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">AI 튜터 자동 응답 큐</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생이 Q&A 게시판([`board.html`](file:///C:/Users/shko8/godtonggwa/public/Board/board.html))에 질문을 등록하면 삽입되는 큐입니다. Cloud Function이 Gemini 2.5 Flash를 호출하여 탐구 유도형 AI 힌트 답변을 생성해 게시글 댓글에 등록합니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-400 block mb-0.5">🟡 PRODUCER (질문 등록)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/Board/board.html (게시글 작성 완료 시 addDoc)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-400 block mb-0.5">🟣 CONSUMER (Gemini API 호출 및 댓글 추가)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (processAiTutorQueueV2)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "postId": "7jw5mjM87ATAW0nKLQ6z",
+  "title": "기본량과 유도량의 차이점",
+  "content": "비중은 단위가 왜 없나요?",
+  "status": "pending", // 완료 시 processed / 오류 시 error
+  "createdAt": 1781795016052
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. godtonggwa_board -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="QUEUE" data-keywords="godtonggwa_board 게시판 커뮤니티 댓글 질문 board.html functions">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-purple-500/10 text-purple-400 border border-purple-500/20">COMMUNITY</span>
+                        <h3 class="text-lg font-bold text-white font-mono">godtonggwa_board</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: artifacts/.../godtonggwa_board/{postId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">Q&A 질문 커뮤니티</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            학생들의 질문 글과 선생님/학생/AI 튜터의 답변 댓글이 저장되는 커뮤니티 게시판 본체입니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ & WRITE</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/Board/board.html (글 목록, 글 작성, 댓글 작성)</p>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-purple-400 block mb-0.5">🟣 BACKEND COMMENT INSERTION</span>
+                                <p class="text-gray-300 font-mono text-[11px]">functions/index.js (AI 튜터 답변 arrayUnion 추가)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "title": "규산염 사면체 공유 결합 질문",
+  "content": "독립상 구조에서 깨짐이 나타나는 이유가 궁금합니다.",
+  "authorName": "장군",
+  "comments": [
+    { "authorName": "🤖 AI 튜터", "text": "...", "isAi": true }
+  ]
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15. settings -->
+            <div class="db-card bg-gray-900 border border-gray-800 rounded-3xl p-6 transition-all card-glow" data-category="QUEUE" data-keywords="settings 설정 관리자이메일 admin admin.html board.html">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-gray-500/10 text-gray-400 border border-gray-500/20">SYSTEM SETTINGS</span>
+                        <h3 class="text-lg font-bold text-white font-mono">settings</h3>
+                        <span class="text-xs text-gray-400 font-mono">path: settings/{configId}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-gray-800 px-3 py-1 rounded-lg text-gray-300 border border-gray-700">관리자 인증 & 전역 설정</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5 text-xs">
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-indigo-400"></i> 데이터베이스 역할</h4>
+                        <p class="text-gray-400 leading-relaxed">
+                            관리자 접근 허용 이메일 목록(`adminEmails`), 관리자 암호 및 서비스 전역 설정(`latestRound`)을 보관합니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="file-code" class="w-4 h-4 text-emerald-400"></i> 관여 소스 파일</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <span class="text-[10px] font-bold text-emerald-400 block mb-0.5">🟢 READ (관리자 권한 검증)</span>
+                                <p class="text-gray-300 font-mono text-[11px]">public/admin/admin.html (로그인 시 관리자 이메일 목록 대조)</p>
+                                <p class="text-gray-300 font-mono text-[11px]">public/Board/board.html (관리자 배지 식별)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-gray-300 flex items-center gap-1.5"><i data-lucide="code" class="w-4 h-4 text-gray-400"></i> 표준 도큐먼트 스키마 예시</h4>
+                        <pre class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-[11px] text-indigo-200 overflow-x-auto custom-scrollbar">{
+  "adminEmails": [
+    "shko89@gmail.com",
+    "godtonggwa@gmail.com",
+    "hanchem92@naver.com"
+  ],
+  "latestRound": 1
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- REVERSE CROSS REFERENCE TABLE (FILE TO DB) -->
+        <section class="bg-gray-900 border border-gray-800 rounded-3xl p-6 md:p-8 space-y-5">
+            <div>
+                <h2 class="text-base font-black text-white flex items-center gap-2">
+                    <i data-lucide="layers" class="w-5 h-5 text-emerald-400"></i>
+                    소스 파일 중심 데이터베이스 연동 매트릭스 (File ➔ DB Cross Reference)
+                </h2>
+                <p class="text-xs text-gray-400 mt-1">프로젝트 소스 파일을 수정할 때 어떤 DB 컬렉션과 통신하는지 역방향으로 조회할 수 있습니다.</p>
+            </div>
+
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-800 text-gray-400 font-bold bg-gray-950/60">
+                            <th class="py-3 px-4">파일명 (경로)</th>
+                            <th class="py-3 px-4">연동 DB 컬렉션</th>
+                            <th class="py-3 px-4">주요 동작 (Operation)</th>
+                            <th class="py-3 px-4">비고</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800/60 font-mono text-[11px]">
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">public/STEST/omr.html</td>
+                            <td class="py-3 px-4 text-gray-300">
+                                `exams`, `users/{uid}/exam_results`, `users/{uid}/my_exams`, `exam_submissions_queue`, `users/{uid}/wrong_answers`
+                            </td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">시험 기준표 조회, 채점 성적표 생성, 오답 노트 등록, 비동기 큐 삽입</td>
+                            <td class="py-3 px-4 text-emerald-400 font-sans font-bold">WriteBatch.set() 살균기 적용</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">public/STEST/exam.html</td>
+                            <td class="py-3 px-4 text-gray-300">
+                                `public_exams`, `packages`, `users/{uid}/my_packages`, `users/{uid}/my_exams`, `users/{uid}/exam_results`, `users/{uid}/user_stats`
+                            </td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">시험지 카드 렌더링, 실시간 권한 감지, 내 시험지 점수 표시, 성적 리포트 레이더차트</td>
+                            <td class="py-3 px-4 text-sky-400 font-sans">학생 메인 허브</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">public/admin/admin.html</td>
+                            <td class="py-3 px-4 text-gray-300">
+                                `packages`, `public_exams`, `exams`, `questions`, `users`, `users/{uid}/my_packages`, `users/{uid}/my_exams`, `orders`, `settings`
+                            </td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">시험 출제, 마스터DB 업로드, 패키지 가격 관리, 회원 검색 및 권한 토글, 입금 승인</td>
+                            <td class="py-3 px-4 text-amber-400 font-sans font-bold">관리자 마스터 콘솔</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">functions/index.js</td>
+                            <td class="py-3 px-4 text-gray-300">
+                                `exam_submissions_queue`, `exams`, `users/{uid}/wrong_answers`, `users/{uid}/user_stats`, `ai_tutor_queue`, `godtonggwa_board`, `orders`, `users/{uid}/my_packages`
+                            </td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">백엔드 자동 채점 합산, AI 튜터 Gemini 호출 댓글 작성, 토스페이 결제 승인 웹훅</td>
+                            <td class="py-3 px-4 text-purple-400 font-sans">Cloud Functions v2</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">public/Board/board.html</td>
+                            <td class="py-3 px-4 text-gray-300">
+                                `artifacts/.../godtonggwa_board`, `ai_tutor_queue`, `settings`
+                            </td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">질문 글 목록 조회, 새 글 등록 시 AI 튜터 큐 자동 삽입, 댓글 달기</td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">Q&A 커뮤니티</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">public/archive/archive.html</td>
+                            <td class="py-3 px-4 text-gray-300">`public_exams`</td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">2028 통합과학 예비문항/기출 시험지 목록 렌더링</td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">기출 아카이브</td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/30">
+                            <td class="py-3 px-4 font-bold text-indigo-400">public/allpass_info.html 등</td>
+                            <td class="py-3 px-4 text-gray-300">`packages`, `orders`</td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">패키지 상세 안내 및 무통장 입금 신청서 제출</td>
+                            <td class="py-3 px-4 text-gray-400 font-sans">안내 및 구매 페이지</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CRITICAL RULES & BEST PRACTICES -->
+        <section class="bg-gray-900 border border-gray-800 rounded-3xl p-6 md:p-8 space-y-4">
+            <h2 class="text-base font-black text-white flex items-center gap-2">
+                <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i>
+                관리자 및 개발자를 위한 파이어스토어 무결성 3대 원칙
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-2">
+                <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="font-bold text-amber-400 flex items-center gap-1">1. undefined 값 절대 금지</span>
+                    <p class="text-gray-400 leading-relaxed">
+                        Firestore SDK는 객체 내에 <code class="text-amber-300">undefined</code>가 포함되면 즉시 쓰기 트랜잭션을 중단시킵니다. 데이터 저장 전 항상 기본값 할당 또는 <code class="text-indigo-300">sanitizeForFirestore()</code> 필터를 거쳐야 합니다.
+                    </p>
+                </div>
+
+                <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="font-bold text-emerald-400 flex items-center gap-1">2. 원자적 카운트 필드 사용</span>
+                    <p class="text-gray-400 leading-relaxed">
+                        전국 응시자 수, 오답 횟수 등 동시 다발적으로 증가하는 수치는 단순 덮어쓰기가 아닌 <code class="text-emerald-300">increment(1)</code> 또는 <code class="text-emerald-300">runTransaction()</code>을 사용해야 데이터 유실이 없습니다.
+                    </p>
+                </div>
+
+                <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="font-bold text-sky-400 flex items-center gap-1">3. 표준 3종 ID 규칙 준수</span>
+                    <p class="text-gray-400 leading-relaxed">
+                        패키지 및 시험지 ID는 과거의 임의 명칭 대신 <code class="text-sky-300">infinity_2028</code>, <code class="text-sky-300">week_2028</code>, <code class="text-sky-300">mock_2028_s0</code> 및 <code class="text-sky-300">week_2028_01~10</code> 공통 규격을 100% 준수해야 합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 text-center text-xs text-gray-400">
+        © 2026 GodTongGwa. 2028 개정 수능/내신 통합과학 스마트 플랫폼. All rights reserved.
+    </footer>
+
+    <!-- SCRIPT FOR FILTERING & LUCIDE ICONS -->
+    <script>
+        lucide.createIcons();
+
+        function switchAdminMappingTab(tabId) {
+            document.querySelectorAll('.map-tab-btn').forEach(btn => {
+                if (btn.id === 'tab-btn-' + tabId) {
+                    btn.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+                    btn.classList.remove('bg-gray-950', 'text-gray-400', 'font-medium');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'font-bold');
+                    btn.classList.add('bg-gray-950', 'text-gray-400', 'font-medium');
+                }
+            });
+
+            document.querySelectorAll('.admin-mapping-panel').forEach(panel => {
+                if (panel.id === tabId) {
+                    panel.classList.remove('hidden');
+                } else {
+                    panel.classList.add('hidden');
+                }
+            });
+        }
+
+        function setFilter(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+                    btn.classList.remove('bg-gray-900', 'text-gray-300', 'font-medium');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'font-bold');
+                    btn.classList.add('bg-gray-900', 'text-gray-300', 'font-medium');
+                }
+            });
+
+            const cards = document.querySelectorAll('.db-card');
+            cards.forEach(card => {
+                if (category === 'ALL' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterCards() {
+            const query = document.getElementById('db-search').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.db-card');
+
+            cards.forEach(card => {
+                const text = (card.innerText + " " + (card.getAttribute('data-keywords') || "")).toLowerCase();
+                if (!query || text.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

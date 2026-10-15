@@ -32,7 +32,7 @@ window.addEventListener('wheel', (e) => {
     <div class="app-container">
         <!-- Header -->
         <header class="bg-white/80 backdrop-blur-md px-5 py-4 flex items-center sticky top-0 z-50 border-b border-gray-100 h-[70px]">
-            <button onclick="location.href='index.html'" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
+            <button onclick="handleInfoBack()" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
                 <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
             </button>
             <h1 class="text-lg font-black ml-2 text-gray-900 tracking-tight">갓통과 WEEKLY 안내</h1>
@@ -319,10 +319,25 @@ window.addEventListener('wheel', (e) => {
                     const docSnap = await getDoc(docRef);
                     const userData = docSnap.exists() ? docSnap.data() : {};
                     
-                    if (userData.subscriptions?.weekly_magazine?.isActive || 
+                    const hasUserFlag = Boolean(
+                        userData.subscriptions?.weekly_magazine?.isActive || 
                         userData.subscriptions?.all_pass?.isActive || 
                         userData.isPaid ||
-                        userData.hasAllPass) {
+                        userData.hasAllPass ||
+                        userData.hasWeeklyPass
+                    );
+
+                    let hasPkgInSub = false;
+                    try {
+                        const snap = await getDoc(doc(db, "users", user.uid, "my_packages", "week_2028"));
+                        if (snap.exists() && snap.data()?.status === 'active') {
+                            hasPkgInSub = true;
+                        }
+                    } catch (pe) {
+                        console.warn("my_packages check error:", pe);
+                    }
+
+                    if (hasUserFlag || hasPkgInSub) {
                         hasWeeklyPass = true;
                         document.querySelector('.fixed.bottom-0').innerHTML = `
                             <button class="w-full bg-gray-200 text-gray-500 font-black text-lg py-4 rounded-xl cursor-default">
@@ -337,6 +352,25 @@ window.addEventListener('wheel', (e) => {
             renderCurriculum();
         });
 
+        window.handleInfoBack = function() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+                setTimeout(fallback, 100);
+                return;
+            }
+            fallback();
+
+            function fallback() {
+                if (document.referrer && (document.referrer.includes('exam.html') || document.referrer.includes('archive.html'))) {
+                    window.location.href = document.referrer;
+                } else if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+        };
+
         window.handleTimeAttack = (week) => {
             if (!publishedWeeks.includes(week)) {
                 alert(`${week}주차는 순차적으로 오픈될 예정입니다.`);
@@ -349,7 +383,7 @@ window.addEventListener('wheel', (e) => {
             }
             if (week === 1 || hasWeeklyPass) {
                 const examId = `week_2028_${String(week).padStart(2, '0')}`;
-                window.location.href = `STEST/weekly/timeattack/index.html?examId=${examId}`;
+                window.location.href = `STEST/weekly/timeattack/index.html?examId=${examId}&returnUrl=${encodeURIComponent(window.location.href)}`;
             } else {
                 window.handleApply();
             }
@@ -367,7 +401,7 @@ window.addEventListener('wheel', (e) => {
             }
             if (week === 1 || hasWeeklyPass) {
                 const weekStr = String(week).padStart(2, '0');
-                window.location.href = `STEST/weekly/ebook/week_2028_${weekStr}_final.html`;
+                window.location.href = `STEST/weekly/ebook/week_2028_${weekStr}_final.html?returnUrl=${encodeURIComponent(window.location.href)}`;
             } else {
                 window.handleApply();
             }
@@ -406,13 +440,13 @@ window.addEventListener('wheel', (e) => {
                 // 토스페이먼츠 객체 초기화 (테스트 클라이언트 키)
                 const tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
                 
-                const packageId = "weekly_winter_2028";
+                const packageId = "week_2028";
                 const orderId = packageId + "__" + new Date().getTime(); 
                 
                 await tossPayments.requestPayment('카드', {
                     amount: 38000,
                     orderId: orderId,
-                    orderName: '갓통과 WEEKLY 구독권',
+                    orderName: '갓통과 WEEKLY 10주 완성',
                     customerName: currentUser.displayName || currentUser.email || '고객',
                     successUrl: window.location.origin + '/STEST/payment_success.html',
                     failUrl: window.location.origin + '/STEST/payment_fail.html',

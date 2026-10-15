@@ -27,7 +27,7 @@ window.addEventListener('wheel', (e) => {
 <body class="bg-gray-50 text-gray-800">
     <div class="max-w-[480px] mx-auto min-h-screen bg-white shadow-xl relative pb-10">
         <header class="sticky top-0 bg-white/90 backdrop-blur-md border-b border-gray-100 p-4 flex items-center z-50">
-            <button onclick="history.back()" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
+            <button onclick="handlePolicyBack()" class="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors">
                 <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
             </button>
             <h1 class="text-lg font-bold ml-2">서비스 이용약관</h1>
@@ -72,6 +72,25 @@ window.addEventListener('wheel', (e) => {
             <p class="text-xs text-gray-400 pt-4 border-t border-gray-100">본 약관은 2026년 6월 26일부터 시행됩니다.</p>
         </div>
     </div>
-    <script>lucide.createIcons();</script>
+    <script>
+        window.handlePolicyBack = function() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+                setTimeout(fallback, 100);
+                return;
+            }
+            fallback();
+            function fallback() {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else if (document.referrer) {
+                    window.location.href = document.referrer;
+                } else {
+                    window.location.href = '../index.html';
+                }
+            }
+        };
+        lucide.createIcons();
+    </script>
 </body>
 </html>

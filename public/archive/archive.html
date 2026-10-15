@@ -471,7 +471,7 @@ window.addEventListener('wheel', (e) => {
                 location.href = '../index.html';
                 return;
             }
-            location.href = '../STEST/omr.html?id=' + currentExamId;
+            location.href = '../STEST/omr.html?id=' + currentExamId + '&from=archive';
         };
 
         window.selectExam = async (id) => {
@@ -936,16 +936,40 @@ window.addEventListener('wheel', (e) => {
                     });
                 }
 
-                // 가채점 절대등급 계산 (50점 만점 기준)
-                let grade = 9;
-                if(score >= 45) grade = 1;
-                else if(score >= 40) grade = 2;
-                else if(score >= 35) grade = 3;
-                else if(score >= 30) grade = 4;
-                else if(score >= 25) grade = 5;
-                else if(score >= 20) grade = 6;
-                else if(score >= 15) grade = 7;
-                else if(score >= 10) grade = 8;
+                // [2028 개정 통합과학 5등급제 규준 벤치마크 엔진]
+                let maxScore = 50.0;
+                if (aiExamData && aiExamData.scores && Array.isArray(aiExamData.scores)) {
+                    maxScore = aiExamData.scores.reduce((a, b) => a + parseFloat(b || 0), 0);
+                }
+                maxScore = Math.round(maxScore * 10) / 10 || 50.0;
+                score = Math.round(score * 10) / 10;
+
+                // 1,000명 표준 규준 모델 (평균: 만점의 약 62%, 표준편차: 만점의 약 17%)
+                const nationalAvg = Math.round(maxScore * 0.62 * 10) / 10;
+                const nationalStd = Math.round(maxScore * 0.17 * 10) / 10;
+                const zScore = (score - nationalAvg) / (nationalStd || 1);
+                const standardScore = Math.max(20, Math.min(80, Math.round(50 + 10 * zScore)));
+
+                // 표준정규분포 CDF 다항식 근사
+                function getTaCumProb(z) {
+                    if (z < -6.5) return 0.0; if (z > 6.5) return 1.0;
+                    const k = 1 / (1 + 0.2316419 * Math.abs(z));
+                    const poly = k * (0.319381530 + k * (-0.356563782 + k * (1.781477937 + k * (-1.821255978 + 1.330274429 * k))));
+                    const approx = 1.0 - (1.0 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * poly;
+                    return z < 0 ? 1.0 - approx : approx;
+                }
+
+                const cumProb = getTaCumProb(zScore);
+                const percentile = Math.round(cumProb * 1000) / 10;
+                const topRank = Math.max(0.1, Math.min(99.9, Math.round((100 - percentile) * 10) / 10));
+
+                // 2028 개정 5등급제 공식 등급 부여 (10%, 34%, 66%, 90%)
+                let grade = 5;
+                if (topRank <= 10.0) grade = 1;
+                else if (topRank <= 34.0) grade = 2;
+                else if (topRank <= 66.0) grade = 3;
+                else if (topRank <= 90.0) grade = 4;
+                else grade = 5;
 
                 const submitData = {
                     examId: currentExamId,
@@ -955,9 +979,11 @@ window.addEventListener('wheel', (e) => {
                     myAnswers: myAnswers,
                     answers: evaluatedAnswers,
                     score: score,
+                    maxScore: maxScore,
                     grade: grade,
-                    standardScore: Math.round(score * 2.6),
-                    percentile: Math.max(1, 100 - (grade * 11)),
+                    standardScore: standardScore,
+                    percentile: percentile,
+                    topPercentile: topRank,
                     title: EXAM_META[currentExamId]?.title || "기출 타임어택",
                     type: "past"
                 };

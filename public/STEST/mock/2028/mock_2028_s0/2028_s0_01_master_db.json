@@ -19,10 +19,10 @@
             "생태계"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 922
         },
-        "updatedAt": "2026-07-06T07:20:48.387954Z"
+        "updatedAt": "2026-10-13T23:28:22.021Z"
     },
     "q_2028_s0_01_02": {
         "id": "q_2028_s0_01_02",
@@ -44,17 +44,17 @@
             "기본량"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 1037
         },
-        "updatedAt": "2026-07-06T07:20:48.408283Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_03": {
         "id": "q_2028_s0_01_03",
         "sourceExamId": "2028_s0_01",
         "examQNum": 3,
         "imageFile": "2028_s0_01_q03.png",
-        "correctAnswer": "3",
+        "correctAnswer": "2",
         "score": 1.5,
         "difficulty": 3,
         "taxonomy": {
@@ -69,17 +69,17 @@
             "비중"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 832
         },
-        "updatedAt": "2026-07-06T07:20:48.429336Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_04": {
         "id": "q_2028_s0_01_04",
         "sourceExamId": "2028_s0_01",
         "examQNum": 4,
         "imageFile": "2028_s0_01_q04.png",
-        "correctAnswer": "1",
+        "correctAnswer": "4",
         "score": 2.5,
         "difficulty": 3,
         "taxonomy": {
@@ -93,10 +93,10 @@
             "규산염 광물"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 691
         },
-        "updatedAt": "2026-07-06T07:20:48.444318Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_05": {
         "id": "q_2028_s0_01_05",
@@ -118,10 +118,10 @@
             "생물 요소"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 998
         },
-        "updatedAt": "2026-07-06T07:20:48.466987Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_06": {
         "id": "q_2028_s0_01_06",
@@ -129,7 +129,7 @@
         "examQNum": 6,
         "imageFile": "2028_s0_01_q06.png",
         "correctAnswer": "4",
-        "score": 2.0,
+        "score": 2,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -142,10 +142,10 @@
             "에너지 출입"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 883
         },
-        "updatedAt": "2026-07-06T07:20:48.531065Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_07": {
         "id": "q_2028_s0_01_07",
@@ -167,18 +167,18 @@
             "대기 오염"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 947
         },
-        "updatedAt": "2026-07-06T07:20:48.601228Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_08": {
         "id": "q_2028_s0_01_08",
         "sourceExamId": "2028_s0_01",
         "examQNum": 8,
         "imageFile": "2028_s0_01_q08.png",
-        "correctAnswer": "1",
-        "score": 2.0,
+        "correctAnswer": "2",
+        "score": 2,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -192,18 +192,18 @@
             "대기 오염"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 742
         },
-        "updatedAt": "2026-07-06T07:20:48.616392Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_09": {
         "id": "q_2028_s0_01_09",
         "sourceExamId": "2028_s0_01",
         "examQNum": 9,
         "imageFile": "2028_s0_01_q09.png",
-        "correctAnswer": "5",
-        "score": 2.0,
+        "correctAnswer": "4",
+        "score": 2,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -217,17 +217,17 @@
             "자연 선택"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 806
         },
-        "updatedAt": "2026-07-06T07:20:48.676290Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_10": {
         "id": "q_2028_s0_01_10",
         "sourceExamId": "2028_s0_01",
         "examQNum": 10,
         "imageFile": "2028_s0_01_q10.png",
-        "correctAnswer": "5",
+        "correctAnswer": "4",
         "score": 1.5,
         "difficulty": 2,
         "taxonomy": {
@@ -241,17 +241,17 @@
             "별의 내부 구조"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 909
         },
-        "updatedAt": "2026-07-06T07:20:48.713829Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_11": {
         "id": "q_2028_s0_01_11",
         "sourceExamId": "2028_s0_01",
         "examQNum": 11,
         "imageFile": "2028_s0_01_q11.png",
-        "correctAnswer": "2",
+        "correctAnswer": "4",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -265,18 +265,18 @@
             "병원체"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 666
         },
-        "updatedAt": "2026-07-06T07:20:48.764308Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_12": {
         "id": "q_2028_s0_01_12",
         "sourceExamId": "2028_s0_01",
         "examQNum": 12,
         "imageFile": "2028_s0_01_q12.png",
-        "correctAnswer": "4",
-        "score": 2.0,
+        "correctAnswer": "3",
+        "score": 2,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -289,10 +289,10 @@
             "이온 모형"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 819
         },
-        "updatedAt": "2026-07-06T07:20:48.789193Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_13": {
         "id": "q_2028_s0_01_13",
@@ -313,18 +313,18 @@
             "스펙트럼"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 986
         },
-        "updatedAt": "2026-07-06T07:20:48.868075Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_14": {
         "id": "q_2028_s0_01_14",
         "sourceExamId": "2028_s0_01",
         "examQNum": 14,
         "imageFile": "2028_s0_01_q14.png",
-        "correctAnswer": "1",
-        "score": 2.0,
+        "correctAnswer": "5",
+        "score": 2,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -338,10 +338,10 @@
             "지구 시스템"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 870
         },
-        "updatedAt": "2026-07-06T07:20:48.900412Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_15": {
         "id": "q_2028_s0_01_15",
@@ -349,7 +349,7 @@
         "examQNum": 15,
         "imageFile": "2028_s0_01_q15.png",
         "correctAnswer": "2",
-        "score": 2.0,
+        "score": 2,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -362,10 +362,10 @@
             "전자 배치"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 755
         },
-        "updatedAt": "2026-07-06T07:20:48.922090Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_16": {
         "id": "q_2028_s0_01_16",
@@ -373,7 +373,7 @@
         "examQNum": 16,
         "imageFile": "2028_s0_01_q16.png",
         "correctAnswer": "3",
-        "score": 2.0,
+        "score": 2,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -386,17 +386,17 @@
             "전자기 유도"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 794
         },
-        "updatedAt": "2026-07-06T07:20:48.952624Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_17": {
         "id": "q_2028_s0_01_17",
         "sourceExamId": "2028_s0_01",
         "examQNum": 17,
         "imageFile": "2028_s0_01_q17.png",
-        "correctAnswer": "4",
+        "correctAnswer": "3",
         "score": 1.5,
         "difficulty": 2,
         "taxonomy": {
@@ -410,18 +410,18 @@
             "수륙 분포"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 896
         },
-        "updatedAt": "2026-07-06T07:20:48.990968Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_18": {
         "id": "q_2028_s0_01_18",
         "sourceExamId": "2028_s0_01",
         "examQNum": 18,
         "imageFile": "2028_s0_01_q18.png",
-        "correctAnswer": "2",
-        "score": 2.0,
+        "correctAnswer": "5",
+        "score": 2,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -435,17 +435,17 @@
             "전자 배치"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 845
         },
-        "updatedAt": "2026-07-06T07:20:49.013002Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_19": {
         "id": "q_2028_s0_01_19",
         "sourceExamId": "2028_s0_01",
         "examQNum": 19,
         "imageFile": "2028_s0_01_q19.png",
-        "correctAnswer": "3",
+        "correctAnswer": "5",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -459,18 +459,18 @@
             "수평 운동"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 653
         },
-        "updatedAt": "2026-07-06T07:20:49.049102Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_20": {
         "id": "q_2028_s0_01_20",
         "sourceExamId": "2028_s0_01",
         "examQNum": 20,
         "imageFile": "2028_s0_01_q20.png",
-        "correctAnswer": "4",
-        "score": 2.5,
+        "correctAnswer": "3",
+        "score": 2,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -483,10 +483,10 @@
             "DNA 모형"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 730
         },
-        "updatedAt": "2026-07-06T07:20:49.074483Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_21": {
         "id": "q_2028_s0_01_21",
@@ -494,7 +494,7 @@
         "examQNum": 21,
         "imageFile": "2028_s0_01_q21.png",
         "correctAnswer": "2",
-        "score": 2.0,
+        "score": 2,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -507,10 +507,10 @@
             "판의 이동"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 806
         },
-        "updatedAt": "2026-07-06T07:20:49.103273Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_22": {
         "id": "q_2028_s0_01_22",
@@ -531,17 +531,17 @@
             "이온 수 비율"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 614
         },
-        "updatedAt": "2026-07-06T07:20:49.119676Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_23": {
         "id": "q_2028_s0_01_23",
         "sourceExamId": "2028_s0_01",
         "examQNum": 23,
         "imageFile": "2028_s0_01_q23.png",
-        "correctAnswer": "4",
+        "correctAnswer": "2",
         "score": 2.5,
         "difficulty": 5,
         "taxonomy": {
@@ -555,17 +555,17 @@
             "충돌"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 704
         },
-        "updatedAt": "2026-07-06T07:20:49.159109Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_24": {
         "id": "q_2028_s0_01_24",
         "sourceExamId": "2028_s0_01",
         "examQNum": 24,
         "imageFile": "2028_s0_01_q24.png",
-        "correctAnswer": "3",
+        "correctAnswer": "4",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -580,17 +580,17 @@
             "돌연변이"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 768
         },
-        "updatedAt": "2026-07-06T07:20:49.181562Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     },
     "q_2028_s0_01_25": {
         "id": "q_2028_s0_01_25",
         "sourceExamId": "2028_s0_01",
         "examQNum": 25,
         "imageFile": "2028_s0_01_q25.png",
-        "correctAnswer": "1",
+        "correctAnswer": "3",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -605,9 +605,9 @@
             "기압 편차"
         ],
         "stats": {
-            "total": 0,
-            "correct": 0
+            "total": 1280,
+            "correct": 678
         },
-        "updatedAt": "2026-07-06T07:20:49.212168Z"
+        "updatedAt": "2026-10-13T23:28:22.022Z"
     }
 }

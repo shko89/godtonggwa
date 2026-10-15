@@ -5,7 +5,7 @@ if (typeof document !== 'undefined') {
 
 window.globalExamData = {
     title: "2028 통합과학 예시문항 완벽 분석 모의고사 1회",
-    answers: [4, 5, 2, 4, 5, 4, 3, 2, 4, 4, 4, 3, 5, 5, 2, 3, 3, 5, 5, 3, 2, 3, 2, 4, 3],
+    answers: [5, 5, 2, 4, 5, 4, 3, 2, 4, 4, 4, 3, 5, 5, 2, 3, 3, 5, 5, 3, 2, 3, 2, 4, 3],
     scores: [1.5, 1.5, 1.5, 2.5, 1.5, 2.0, 1.5, 2.0, 2.0, 1.5, 2.5, 2.0, 1.5, 2.0, 2.0, 2.0, 1.5, 2.0, 2.5, 2.0, 2.0, 2.5, 2.5, 2.5, 2.5],
     settings: {
         fontSize: "11px"
@@ -14,7 +14,7 @@ window.globalExamData = {
         {
             "no": 1,
             "topic": "지구 온난화와 생태계",
-            "content": "<div class=\"ans-correct-title\">정답: ④ ㄴ, ㄷ</div>\n        <div class=\"concept-box\"><div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div><div class=\"concept-content\">지구 온난화의 나비효과를 묻는 문제! 기온이 오르면 빙하가 녹고(해수면 상승), 생물들의 서식지가 파괴되는 과정을 연결해 봐.</div></div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">해수면이 상승하면 갯벌이나 맹그로브 숲 같은 <b>연안 생태계</b>가 물에 잠겨 파괴되니까 당연히 종 다양성이 감소해. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">북극곰은 얼음 위에서 사냥을 하는데, 온난화로 <b>빙하가 감소</b>하면 사냥터가 사라져 멸종 위기에 처하게 되지. ㉡에 딱 맞는 설명이야. (O)</span>\n        </div>\n        <div class=\"wrong-fact-section\">\n            <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>\n            <div class=\"fact-check-item\">\n                <span class=\"wrong-fact-label\">ㄱ.</span>\n                <span class=\"fact-check-text\">식물의 개화 시기가 빨라지는 건 <b>'기온 상승'</b> 때문이야. ㉠은 빙하 감소, 해수면 상승과 함께 나타나는 기온 상승(온난화)을 뜻해. 어? 맞는 말이네! 앗, 내가 문제를 잘못 읽었어. <b>ㄱ도 맞는 선지야! 정답 수정할게.</b> (O) ➡️ 아! 다시 보니 ㉠ 자리에 들어갈 말이 환경 변화 원인인데, 표의 맥락상 <b>'기온 상승'</b>이 맞네. <b>① ㄱ</b>만 맞다고? 아니지! <b>④ ㄴ, ㄷ</b> 도 맞잖아? <br>잠깐만, 표를 다시 보자. 활동 시기 변화의 원인(가)은 '기온 상승'이 맞아. (O)<br>아하! 정답은 <b>④ ㄴ, ㄷ</b>이 맞네. ㄱ이 틀렸어! 왜냐하면 (가)는 '기온 상승'이 아니라 <b>기후 변화</b> 자체를 포괄하는 상위 개념이거나, 주어진 맥락상 <b>강수량 변화</b> 같은 다른 요인일 수 있어. 사실 ㄱ도 맞는 말 같은데, 수능에서는 가장 확실한 인과관계를 찾으라는 뜻이야. <b>아냐, 내가 헷갈렸어! ㉠(가) 자리는 기온 상승이 100% 맞아! 근데 정답이 ④번인 걸 보면 ㄱ은 틀린 선지라는 건데... 아! 표의 구조를 봐. (가)는 기온 상승이 맞지만, ㄴ,ㄷ이 명백한 정답이라서 ④번이 정답이야.</b> (이 부분은 논란의 여지가 있네!)</div>"
+            "content": "<div class=\"ans-correct-title\">정답: ⑤ ㄱ, ㄴ, ㄷ</div>\n        <div class=\"concept-box\"><div class=\"concept-title\"><span class=\"concept-icon\">💡</span> [갓쌤의 1초 개념]</div><div class=\"concept-content\">지구 온난화로 인해 기온이 올라가면 생물들의 생활 패턴이 어긋나고, 해수면 상승과 빙하 감소로 서식지가 파괴되어 결국 종 다양성이 감소하게 돼!</div></div>\n        <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄱ.</span>\n            <span class=\"fact-check-text\">식물의 개화 시기가 빨라지고 곤충의 활동 시기가 변하는 것은 지구 온난화로 인한 기온 상승(가)의 대표적인 결과가 맞아. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄴ.</span>\n            <span class=\"fact-check-text\">해수면 상승은 해안가 저지대를 침수시켜 육상 생물의 서식지를 줄일 뿐만 아니라, 수심과 빛 투과량을 변화시켜 산호초 등 연안 해양 생태계의 종 다양성도 파괴하는 요인이 돼. (O)</span>\n        </div>\n        <div class=\"fact-check-item\">\n            <span class=\"fact-check-label\">ㄷ.</span>\n            <span class=\"fact-check-text\">빙하가 감소하면 얼음 위에서 생활하고 사냥하는 북극곰 같은 해양 포유류의 서식지가 직접적으로 사라지므로 ㉠에 들어갈 설명으로 완벽해. (O)</span>\n        </div>"
         },
         {
             "no": 2,

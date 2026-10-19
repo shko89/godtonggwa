@@ -305,6 +305,63 @@ window.addEventListener('wheel', (e) => {
             });
         };
 
+        const TOPIC_ALIASES = {
+            "원소 형성": "원소의 생성",
+            "화학 결합": "이온 결합",
+            "지각과 생명체 구성 물질의 규칙성": "지각과 생명체",
+            "지구시스템의 구성과 상호작용": "지구 시스템",
+            "판구조론과 지각 변동": "판 구조론",
+            "중력장 내의 운동": "중력장 운동",
+            "충격량과 운동량": "충돌과 안전",
+            "생명 시스템의 기본 단위": "세포와 물질",
+            "유전자와 단백질": "유전자",
+            "물질의 전기적 성질": "전기적 성질",
+            "지질시대의 생물과 화석": "지질 시대",
+            "지질시대 환경 변화와 대멸종": "대멸종",
+            "자연선택": "진화",
+            "생물다양성": "생물 다양성",
+            "산화와 환원": "산화 환원",
+            "물질 변화에서 에너지 출입": "에너지 출입",
+            "대기와 해양의 상호작용": "대기와 해양",
+            "온실기체와 지구온난화": "지구 온난화",
+            "발전": "발전과 송전",
+            "에너지 전환과 효율": "에너지 효율",
+            "감염병과 병원체": "감염병",
+            "인공지능과 과학 탐구": "인공지능",
+            "과학기술과 윤리": "과학 윤리"
+        };
+
+        function findInScienceDB(name) {
+            if (!scienceDB) return null;
+            for (const catKey of Object.keys(scienceDB)) {
+                const cat = scienceDB[catKey];
+                if (cat && cat[name]) return cat[name];
+            }
+            return null;
+        }
+
+        function getTopicData(category, topic) {
+            if (!scienceDB) return null;
+            if (topic === "화학 결합") {
+                const ion = findInScienceDB("이온 결합") || {};
+                const cov = findInScienceDB("공유 결합") || {};
+                return {
+                    pdf: ion.pdf || cov.pdf || { s: 83, e: 90 },
+                    q: [...(ion.q || []), ...(cov.q || [])]
+                };
+            }
+            if (topic === "중화 반응") {
+                const neut = findInScienceDB("중화 반응") || {};
+                const acid = findInScienceDB("산과 염기") || {};
+                return {
+                    pdf: neut.pdf || acid.pdf || { s: 175, e: 182 },
+                    q: [...(acid.q || []), ...(neut.q || [])]
+                };
+            }
+            const target = TOPIC_ALIASES[topic] || topic;
+            return findInScienceDB(target) || findInScienceDB(topic);
+        }
+
         function initSidebar() {
             const nav = document.getElementById('sidebar-menu'); nav.innerHTML = '';
             UNIT_KEYS.forEach(category => {
@@ -323,7 +380,7 @@ window.addEventListener('wheel', (e) => {
                         li.classList.add('active');
                         document.getElementById('header-title').innerText = topic;
                         renderQuestions(); 
-                        if (pdfDoc && isPdfVisible) renderPDF();
+                        if (isPdfVisible) renderPDF();
                     };
                     ul.appendChild(li);
                 });
@@ -334,15 +391,19 @@ window.addEventListener('wheel', (e) => {
 
         function renderQuestions() {
             const container = document.getElementById('question-container'); container.innerHTML = '';
-            if(!scienceDB[currentCategory] || !scienceDB[currentCategory][currentTopic]) {
-                container.innerHTML = '<p class="text-center text-gray-400 py-10">질문 데이터가 없습니다.</p>'; return;
+            const topicData = getTopicData(currentCategory, currentTopic);
+            if (!topicData || !topicData.q || topicData.q.length === 0) {
+                container.innerHTML = '<div class="flex flex-col items-center justify-center h-48 text-gray-400"><i data-lucide="help-circle" class="w-8 h-8 mb-2 opacity-50"></i><p class="text-sm">질문 데이터가 없습니다.</p></div>';
+                lucide.createIcons();
+                return;
             }
-            scienceDB[currentCategory][currentTopic].q.forEach((q, idx) => {
+            topicData.q.forEach((q, idx) => {
                 const card = document.createElement('div');
                 card.className = "bg-white p-5 rounded-lg shadow-sm mb-3 border border-gray-200 group hover:border-indigo-200 transition-all";
-                card.innerHTML = `<div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx+1}</span><p class="text-gray-800 leading-relaxed">${q}</p></div>`;
+                card.innerHTML = `<div class="flex gap-3"><span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx+1}</span><div class="text-gray-800 leading-relaxed text-sm">${q}</div></div>`;
                 container.appendChild(card);
             });
+            lucide.createIcons();
         }
 
         // 고도화된 매트릭스 렌더링 (qlist1.html의 25개 문항 전수 조사 로직 반영)
@@ -466,45 +527,170 @@ window.addEventListener('wheel', (e) => {
         };
 
         // PDF 로드 및 IndexedDB 저장 로직
-        const openIDB = () => new Promise(res => { const req = indexedDB.open("ScientificPDFStore", 1); req.onupgradeneeded = (e) => { e.target.result.createObjectStore("files"); }; req.onsuccess = (e) => res(e.target.result); });
+        const openIDB = () => new Promise((resolve, reject) => { 
+            const req = indexedDB.open("ScientificPDFStore", 1); 
+            req.onupgradeneeded = (e) => { 
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains("files")) {
+                    db.createObjectStore("files"); 
+                }
+            }; 
+            req.onsuccess = (e) => resolve(e.target.result); 
+            req.onerror = (e) => reject(e.target.error);
+        });
+
         const loadLocalPDF = async () => {
             try {
                 const idb = await openIDB(); 
-                const req = idb.transaction("files", "readonly").objectStore("files").get("last_pdf");
+                const tx = idb.transaction("files", "readonly");
+                const req = tx.objectStore("files").get("last_pdf");
                 req.onsuccess = async () => { 
                     if (req.result) { 
-                        const reader = new FileReader(); 
-                        reader.onload = async function() { 
-                            pdfDoc = await pdfjsLib.getDocument(new Uint8Array(this.result)).promise; 
-                            document.getElementById('pdf-status-msg').classList.remove('hidden'); 
+                        try {
+                            const blob = req.result;
+                            const arrayBuffer = await blob.arrayBuffer();
+                            pdfDoc = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise; 
+                            const statusMsg = document.getElementById('pdf-status-msg');
+                            statusMsg.innerText = `✅ 저장된 교재 로드됨 (${pdfDoc.numPages}쪽)`;
+                            statusMsg.classList.remove('hidden'); 
                             document.getElementById('clear-pdf-btn').classList.remove('hidden'); 
-                        }; 
-                        reader.readAsArrayBuffer(req.result); 
+                            if (currentTopic && isPdfVisible) renderPDF();
+                        } catch (loadErr) {
+                            console.error("IDB PDF parse error:", loadErr);
+                        }
                     } 
                 };
-            } catch (e) {}
+            } catch (e) {
+                console.warn("IndexedDB load error:", e);
+            }
         };
 
         document.getElementById('pdf-upload').addEventListener('change', async (e) => {
-            const file = e.target.files[0]; if(!file) return;
-            const idb = await openIDB(); idb.transaction("files", "readwrite").objectStore("files").put(file, "last_pdf");
-            location.reload();
+            const file = e.target.files[0]; 
+            if (!file) return;
+
+            const statusMsg = document.getElementById('pdf-status-msg');
+            statusMsg.innerText = `⏳ PDF 로딩 중... (${(file.size / (1024 * 1024)).toFixed(1)}MB)`;
+            statusMsg.classList.remove('hidden');
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+                pdfDoc = await loadingTask.promise;
+                
+                statusMsg.innerText = `✅ ${file.name} (${pdfDoc.numPages}쪽)`;
+                statusMsg.classList.remove('hidden');
+                document.getElementById('clear-pdf-btn').classList.remove('hidden');
+
+                // IndexedDB에 백그라운드로 안전하게 영구 저장 (새로고침 없이)
+                try {
+                    const idb = await openIDB();
+                    const tx = idb.transaction("files", "readwrite");
+                    tx.objectStore("files").put(file, "last_pdf");
+                    tx.oncomplete = () => {
+                        console.log("PDF successfully cached in IndexedDB");
+                    };
+                    tx.onerror = (err) => {
+                        console.warn("IndexedDB cache save warning:", err);
+                    };
+                } catch (idbErr) {
+                    console.warn("IndexedDB error:", idbErr);
+                }
+
+                if (currentTopic && isPdfVisible) {
+                    renderPDF();
+                } else {
+                    const area = document.getElementById('pdf-render-area');
+                    area.innerHTML = `
+                        <div class="py-16 text-center text-gray-500">
+                            <div class="inline-flex p-3 rounded-full bg-indigo-50 text-indigo-600 mb-3">
+                                <i data-lucide="book-open" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-700 text-sm mb-1">${file.name}</h3>
+                            <p class="text-xs text-gray-400">총 ${pdfDoc.numPages}쪽 교재가 로드되었습니다.<br>왼쪽 사이드바에서 단원을 선택하면 해당 교재 페이지가 표시됩니다.</p>
+                        </div>`;
+                    lucide.createIcons();
+                }
+            } catch (err) {
+                console.error("PDF upload error:", err);
+                statusMsg.innerText = `❌ 로드 실패: ${err.message}`;
+                alert("PDF 파일을 불러오는 중 오류가 발생했습니다: " + err.message);
+            }
         });
 
-        window.clearStoredPDF = async () => { if(confirm("저장된 PDF를 삭제하시겠습니까?")) { const idb = await openIDB(); idb.transaction("files", "readwrite").objectStore("files").delete("last_pdf"); location.reload(); } };
-        window.togglePDF = () => { const panel = document.getElementById('pdf-panel'); isPdfVisible = !isPdfVisible; panel.classList.toggle('closed', !isPdfVisible); document.getElementById('toggle-text').innerText = isPdfVisible ? "교재 닫기" : "교재 열기"; if(isPdfVisible && pdfDoc && currentTopic) renderPDF(); };
+        window.clearStoredPDF = async () => { 
+            if (confirm("저장된 교재 PDF를 삭제하시겠습니까?")) { 
+                try {
+                    const idb = await openIDB(); 
+                    const tx = idb.transaction("files", "readwrite");
+                    tx.objectStore("files").delete("last_pdf");
+                    tx.oncomplete = () => {
+                        pdfDoc = null;
+                        document.getElementById('pdf-status-msg').classList.add('hidden');
+                        document.getElementById('clear-pdf-btn').classList.add('hidden');
+                        document.getElementById('pdf-upload').value = '';
+                        document.getElementById('page-controls').classList.add('hidden');
+                        document.getElementById('pdf-render-area').innerHTML = '';
+                    };
+                } catch (e) {
+                    console.error("Delete PDF error:", e);
+                }
+            } 
+        };
+
+        window.togglePDF = () => { 
+            const panel = document.getElementById('pdf-panel'); 
+            isPdfVisible = !isPdfVisible; 
+            panel.classList.toggle('closed', !isPdfVisible); 
+            document.getElementById('toggle-text').innerText = isPdfVisible ? "교재 닫기" : "교재 열기"; 
+            if (isPdfVisible && currentTopic) renderPDF(); 
+        };
 
         async function renderPDF() {
-            const area = document.getElementById('pdf-render-area'); area.innerHTML = '';
-            if(!pdfDoc || !scienceDB[currentCategory] || !scienceDB[currentCategory][currentTopic] || !scienceDB[currentCategory][currentTopic].pdf) return;
-            const info = scienceDB[currentCategory][currentTopic].pdf;
-            document.getElementById('page-indicator').innerText = `p.${info.s} ~ p.${info.e}`;
+            const area = document.getElementById('pdf-render-area'); 
+            area.innerHTML = '';
+            
+            if (!pdfDoc) {
+                area.innerHTML = `
+                    <div class="py-16 text-center text-gray-400">
+                        <div class="inline-flex p-3 rounded-full bg-slate-100 text-slate-500 mb-3">
+                            <i data-lucide="file-up" class="w-8 h-8"></i>
+                        </div>
+                        <p class="text-xs font-bold text-gray-600 mb-1">교재 PDF 파일이 로드되지 않았습니다.</p>
+                        <p class="text-[11px] text-gray-400">왼쪽 메뉴 상단의 [교재 PDF 로드] 버튼을 눌러 교재 파일을 선택해주세요.</p>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            const topicData = getTopicData(currentCategory, currentTopic);
+            if (!topicData || !topicData.pdf) {
+                area.innerHTML = `
+                    <div class="py-16 text-center text-gray-400">
+                        <div class="inline-flex p-3 rounded-full bg-slate-100 text-slate-500 mb-3">
+                            <i data-lucide="info" class="w-8 h-8"></i>
+                        </div>
+                        <p class="text-xs font-bold text-gray-600 mb-1">교재 매핑 정보 없음</p>
+                        <p class="text-[11px] text-gray-400">선택한 단원에 연결된 교재 페이지 정보가 없습니다.</p>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            const info = topicData.pdf;
+            const startP = Math.max(1, info.s);
+            const endP = Math.min(pdfDoc.numPages, info.e);
+
+            document.getElementById('page-indicator').innerText = `p.${startP} ~ p.${endP} (전체 ${pdfDoc.numPages}P)`;
             document.getElementById('page-controls').classList.remove('hidden');
-            for (let i = info.s; i <= info.e; i++) {
-                if (i > pdfDoc.numPages) break;
-                const canvas = document.createElement('canvas'); area.appendChild(canvas);
-                const page = await pdfDoc.getPage(i); const viewport = page.getViewport({ scale: 1.5 });
-                canvas.height = viewport.height; canvas.width = viewport.width;
+
+            for (let i = startP; i <= endP; i++) {
+                const canvas = document.createElement('canvas'); 
+                area.appendChild(canvas);
+                const page = await pdfDoc.getPage(i); 
+                const viewport = page.getViewport({ scale: 1.5 });
+                canvas.height = viewport.height; 
+                canvas.width = viewport.width;
                 await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
             }
         }

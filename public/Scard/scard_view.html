@@ -480,10 +480,15 @@
         });
 
         // 초기 로드
-        window.addEventListener('DOMContentLoaded', () => {
+        function initApp() {
             const initialId = getTopicIdFromURL();
             loadTopic(initialId);
-        });
+        }
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
     </script>
 </body>
 </html>

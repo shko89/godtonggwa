@@ -335,8 +335,10 @@ window.addEventListener('wheel', (e) => {
                     
                     <div id="content-${index}" class="accordion-content ${isOpen} bg-gray-50/50">
                         <div class="p-3 grid grid-cols-2 gap-3">
-                            ${section.items.map(item => `
-                                <div onclick="location.href='scard_view.html?id=' + (item.id || item.file.replace('_scard.html', ''))" class="topic-card hover-lift bg-white p-3 rounded-xl border border-gray-200 shadow-sm cursor-pointer flex flex-col gap-2 hover:border-indigo-200 transition-all">
+                            ${section.items.map(item => {
+                                const tid = item.id || (item.file ? item.file.replace('_scard.html', '') : '');
+                                return `
+                                <div onclick="location.href='scard_view.html?id=${tid}'" class="topic-card hover-lift bg-white p-3 rounded-xl border border-gray-200 shadow-sm cursor-pointer flex flex-col gap-2 hover:border-indigo-200 transition-all">
                                     <div class="flex justify-between items-start">
                                         <div class="p-2 ${section.bg} rounded-lg ${section.text}">
                                             <i data-lucide="${item.icon}" class="w-4 h-4"></i>
@@ -348,7 +350,8 @@ window.addEventListener('wheel', (e) => {
                                         <p class="text-[10px] text-gray-500 mt-0.5">${item.sub}</p>
                                     </div>
                                 </div>
-                            `).join('')}
+                                `;
+                            }).join('')}
                         </div>
                     </div>
                 </div>`;

@@ -58,10 +58,10 @@
             padding-right: 20px;
         }
 
-        /* 본문 해설 영역: 차분한 정자형 손글씨 및 최적 가독성 크기 */
+        /* 본문 해설 영역: 차분한 정자형 손글씨(고운돋움) 및 최적 가독성 크기 (1pt 다운사이즈) */
         .explanation-body {
-            font-family: 'KyoboHandwriting2019', 'Gowun Dodum', sans-serif;
-            font-size: 15px;
+            font-family: 'Gowun Dodum', sans-serif;
+            font-size: 13.8px;
             color: #334155;
             padding-left: 50px;
             padding-right: 20px;
@@ -110,7 +110,7 @@ window.addEventListener('wheel', (e) => {
         <button onclick="handleExplanationBack()" class="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition">
             <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
         </button>
-        <h1 class="text-2xl font-bold text-gray-700 flex items-center gap-2">
+        <h1 class="text-[22px] font-bold text-gray-700 flex items-center gap-2">
             <span class="text-3xl">📓</span> 
             <span id="exam-title-header">오답노트 펼치는 중...</span>
         </h1>
@@ -121,20 +121,20 @@ window.addEventListener('wheel', (e) => {
         
         <div class="w-full md:w-1/3 bg-white rounded-2xl p-4 shadow-xl flex flex-col border-4 border-gray-300">
             <div class="mb-4 pb-2 border-b-2 border-dashed border-gray-300 text-center">
-                <span class="text-xl font-bold text-indigo-600">문항 선택하기</span>
-                <p class="text-sm text-gray-500 mt-1">번호를 누르면 해설이 보여요!</p>
+                <span class="text-[18.5px] font-bold text-indigo-600">문항 선택하기</span>
+                <p class="text-[12.8px] text-gray-500 mt-1">번호를 누르면 해설이 보여요!</p>
             </div>
             
             <div class="flex-1 overflow-y-auto hide-scrollbar">
                 <div class="grid grid-cols-5 gap-2" id="question-grid">
-                    <p class="col-span-5 text-center text-gray-400 py-10 text-xs">데이터 로딩 중...</p>
+                    <p class="col-span-5 text-center text-gray-400 py-10 text-[11px]">데이터 로딩 중...</p>
                 </div>
             </div>
 
             <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center shrink-0">
-                <p class="text-xs text-gray-400 mb-1">현재 보고 있는 문제</p>
+                <p class="text-[11px] text-gray-400 mb-1">현재 보고 있는 문제</p>
                 <div id="current-info-badges" class="flex justify-center gap-2">
-                    <span class="bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded">선택 대기중</span>
+                    <span class="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded">선택 대기중</span>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@ window.addEventListener('wheel', (e) => {
             <div class="w-full h-full bg-[#fffef0] rounded-r-lg shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper">
                 
                 <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8 bg-indigo-50/10">
-                    <span class="text-2xl font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
+                    <span class="text-[22px] font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
                         Q. 문항을 선택해주세요
                     </span>
                 </div>
@@ -372,7 +372,7 @@ window.addEventListener('wheel', (e) => {
 
             for (let i = 1; i <= totalQ; i++) {
                 const btn = document.createElement('button');
-                btn.className = "w-full aspect-square rounded-xl bg-gray-100 border-2 border-gray-200 text-lg font-bold text-gray-500 hover:bg-indigo-100 hover:border-indigo-300 hover:text-indigo-600 transition-all flex items-center justify-center shadow-sm";
+                btn.className = "w-full aspect-square rounded-xl bg-gray-100 border-2 border-gray-200 text-[16.5px] font-bold text-gray-500 hover:bg-indigo-100 hover:border-indigo-300 hover:text-indigo-600 transition-all flex items-center justify-center shadow-sm";
                 btn.innerText = i;
                 btn.onclick = () => selectQuestion(i, btn);
                 grid.appendChild(btn);
@@ -472,26 +472,23 @@ window.addEventListener('wheel', (e) => {
             }
 
             let diagnosis = "";
-            let diagColor = "";
+            const diagColor = "text-yellow-800 bg-yellow-50 border-yellow-300";
             
             if (correctRate >= 70) {
                 diagnosis = "다수의 학생들이 맞춘 <b>기본 개념 문항</b>입니다. 만약 틀렸다면 기초 복습이 시급합니다!";
-                diagColor = "text-green-800 bg-green-50 border-green-300";
             } else if (correctRate >= 40) {
                 diagnosis = "개념의 정확한 적용을 묻는 <b>핵심 문항</b>입니다. 헷갈린 선지가 있다면 반드시 짚고 넘어가세요.";
-                diagColor = "text-yellow-800 bg-yellow-50 border-yellow-300";
             } else {
                 diagnosis = "오답률이 높은 <b>킬러 문항</b>입니다! 좌절하지 말고 출제자의 의도를 파악해 보세요.";
-                diagColor = "text-red-800 bg-red-50 border-red-300";
             }
             
             statsHtml += `
-                <div class="mb-6 ml-[50px] mr-5 p-3 rounded-xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
-                    <div class="flex items-center gap-1 mb-1">
+                <div class="mb-5 ml-[50px] mr-5 p-3.5 rounded-xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
+                    <div class="flex items-center gap-1.5 mb-1.5">
                         <span class="text-sm">📊</span>
-                        <h3 class="font-bold text-[10px]">전체 응시자 정답률: ${correctRate}%</h3>
+                        <h3 class="font-bold text-[13.8px] leading-tight">전체 응시자 정답률: ${correctRate}%</h3>
                     </div>
-                    <p class="text-[10px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
+                    <p class="text-[12.8px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
             `;
             
             const myMark = wData?.studentMark ? Number(wData.studentMark) : null;
@@ -502,9 +499,9 @@ window.addEventListener('wheel', (e) => {
                     distRate = Math.max(16, Math.min(38, Math.round((100 - correctRate) * 0.52)));
                 }
                 statsHtml += `
-                    <div class="mt-2 pt-2 border-t border-black/10 flex items-start gap-1">
+                    <div class="mt-2.5 pt-2 border-t border-black/10 flex items-start gap-1.5">
                         <span class="text-sm">🚨</span>
-                        <p class="text-[10px]">
+                        <p class="text-[12.8px] leading-relaxed">
                             <b>매력적인 오답 경보:</b> 내가 고른 <b>${myMark}번</b> 선지는 전체 응시자의 <b>${distRate}%</b>가 낚인 함정이었습니다. 당신만 틀린 게 아니에요!
                         </p>
                     </div>
@@ -518,8 +515,8 @@ window.addEventListener('wheel', (e) => {
                 // 배점과 정답 뱃지 표출
 
                 document.getElementById('current-info-badges').innerHTML = `
-                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-xs font-bold">배점 ${finalScore}점</span>
-                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-xs font-bold">정답 ${finalAns}</span>
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-[11px] font-bold">배점 ${finalScore}점</span>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-[11px] font-bold">정답 ${finalAns}</span>
                 `;
                 
                 noteArea.innerHTML = statsHtml + `<div class="explanation-body leading-[30px] pt-2 pb-32">${content}</div>`;

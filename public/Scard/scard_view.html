@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>갓통과 - 용어 암기장 뷰어</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax 수식 렌더러 -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <link rel="stylesheet" href="/css/common.css">
+
+    <style>
+        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* 앱 컨테이너 스타일 (스마트폰 최적화) */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #Fdfbf7; /* 종이 질감 배경색 */
+            background-image: 
+                linear-gradient(#e0d6cc 1px, transparent 1px),
+                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 폰트 정의 */
+        .font-title { font-family: 'Gamja Flower', cursive; }
+        .font-pen { font-family: 'Nanum Pen Script', cursive; font-size: 1.25rem; }
+        .font-script { font-family: 'Gamja Flower', cursive; }
+        .font-gamja { font-family: 'Gamja Flower', cursive; }
+        .red-pen { color: #e11d48; font-weight: bold; }
+        .blue-pen { color: #2563eb; font-weight: bold; }
+
+        /* 카드 터치 효과 */
+        .note-card {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .note-card:active { transform: scale(0.99); }
+
+        /* 마스킹 테이프 효과 */
+        .tape {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            width: 110px;
+            height: 26px;
+            opacity: 0.9;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            z-index: 10;
+        }
+        .tape-yellow { background-color: rgba(254, 240, 138, 0.9); transform: translateX(-50%) rotate(-1.5deg); }
+        .tape-blue { background-color: rgba(186, 230, 253, 0.9); transform: translateX(-50%) rotate(1.2deg); }
+        .tape-gray { background-color: rgba(226, 232, 240, 0.9); transform: translateX(-50%) rotate(-0.8deg); }
+        .tape-pink { background-color: rgba(251, 207, 232, 0.9); transform: translateX(-50%) rotate(1.5deg); }
+        .tape-green { background-color: rgba(187, 247, 208, 0.9); transform: translateX(-50%) rotate(-1deg); }
+        .tape-purple { background-color: rgba(233, 213, 255, 0.9); transform: translateX(-50%) rotate(1deg); }
+
+        /* 필기구 형광펜 효과 */
+        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-gray { background: linear-gradient(120deg, transparent 0%, rgba(220, 220, 220, 1) 20%, rgba(220, 220, 220, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 255, 200, 1) 20%, rgba(200, 255, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-pink { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-purple { background: linear-gradient(120deg, transparent 0%, rgba(230, 230, 250, 1) 20%, rgba(230, 230, 250, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-cyan { background: linear-gradient(120deg, transparent 0%, rgba(224, 255, 255, 1) 20%, rgba(224, 255, 255, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-mint { background: linear-gradient(120deg, transparent 0%, rgba(200, 255, 220, 1) 20%, rgba(200, 255, 220, 1) 80%, transparent 100%); padding: 0 2px; }
+        .highlight-red { background: linear-gradient(120deg, transparent 0%, rgba(255, 204, 204, 1) 20%, rgba(255, 204, 204, 1) 80%, transparent 100%); padding: 0 2px; }
+
+        /* 수식 및 도표 */
+        .fraction { display: inline-block; vertical-align: middle; text-align: center; line-height: 1; }
+        .fdn { border-top: 1.5px solid #1e293b; }
+        .handwritten-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-family: 'Nanum Pen Script', cursive; font-size: 1.25rem; transform: rotate(-0.5deg); }
+        .summary-table { width: 100%; border-collapse: collapse; font-family: 'Nanum Pen Script', cursive; font-size: 1.1rem; }
+        .analog-wave { stroke: #94a3b8; stroke-width: 3; fill: none; }
+        .digital-step { stroke: #3b82f6; stroke-width: 3; fill: none; }
+        .binary-font { font-family: 'Courier New', Courier, monospace; }
+
+        /* 퀴즈 박스 및 인터랙션 디자인 (Tap & Reveal) */
+        .quiz-box {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e2e8f0;
+        }
+        .quiz-box:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.03);
+        }
+        .quiz-box:active {
+            transform: scale(0.99);
+        }
+
+        /* 기본 가려진 상태: 자연스러운 블러 + 보안 배경 */
+        .quiz-answer {
+            filter: blur(6px);
+            opacity: 0.35;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            padding: 2px 10px;
+            display: inline-block;
+            user-select: none;
+        }
+
+        /* 탭하여 정답이 공개된 상태 */
+        .quiz-box.revealed .quiz-answer {
+            filter: blur(0) !important;
+            opacity: 1 !important;
+            background-color: rgba(238, 242, 255, 0.85) !important;
+            color: #3730a3 !important;
+            user-select: text;
+        }
+
+        /* 상태 뱃지 전환 */
+        .quiz-status-badge {
+            transition: all 0.2s ease;
+        }
+        .quiz-box.revealed .quiz-status-badge {
+            background-color: #ecfdf5 !important;
+            color: #059669 !important;
+            border-color: #a7f3d0 !important;
+        }
+    </style>
+
+    <script>
+        // 데스크탑 마우스 휠 스크롤 위임
+        window.addEventListener('wheel', (e) => {
+            if (!e.target.closest('.overflow-y-auto')) {
+                const scrollContainers = document.querySelectorAll('.overflow-y-auto');
+                const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
+                if (activeContainer) activeContainer.scrollTop += e.deltaY;
+            }
+        }, { passive: true });
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="app-container" id="app">
+        <!-- 상단 헤더 -->
+        <header class="bg-white/90 backdrop-blur-md px-4 py-3.5 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
+            <div class="flex items-center gap-2.5">
+                <button onclick="location.href='card_list.html'" class="p-1.5 -ml-1 hover:bg-gray-100 rounded-full text-gray-600 transition-colors" title="목록으로">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-lg font-black tracking-tight text-gray-800 leading-none flex items-center gap-1">
+                        갓통과<span class="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-1 py-0.5 rounded border border-indigo-100">PLUS</span>
+                    </h1>
+                    <span class="text-[10px] text-gray-500 font-medium mt-0.5" id="header-subtitle">용어 암기장</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <!-- 전체 보기 / 가리기 토글 스위치 -->
+                <button id="toggle-all-btn" onclick="toggleAllAnswers()" class="px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-full text-[11px] font-bold transition-all border border-indigo-200 flex items-center gap-1 shadow-sm active:scale-95">
+                    <i data-lucide="eye" class="w-3.5 h-3.5" id="toggle-btn-icon"></i>
+                    <span id="toggle-btn-text">정답 전체보기</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 메인 카드 컨텐츠 영역 -->
+        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-28 hide-scrollbar space-y-6">
+            <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+                <div class="w-8 h-8 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+                <p class="text-xs">암기장을 불러오는 중입니다...</p>
+            </div>
+        </main>
+
+        <!-- 하단 글로벌 네비게이션 -->
+        <nav id="bottom-nav" class="bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center fixed bottom-0 w-full max-w-[480px] z-50 pb-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] h-[80px]">
+            <button onclick="location.href='../index.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">홈</span>
+            </button>
+            <button onclick="location.href='../STEST/exam.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="file-text" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">모의고사</span>
+            </button>
+            <button onclick="location.href='../Q-Bank/student_quiz.html'" class="nav-btn flex flex-col items-center gap-1 -mt-8 group">
+                <div class="bg-gray-900 p-4 rounded-full shadow-lg shadow-gray-300 group-hover:scale-105 transition-transform group-active:scale-95 border-4 border-white">
+                    <i data-lucide="brain-circuit" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[11px] font-bold text-gray-700 mt-1 tracking-tight">문제은행</span>
+            </button>
+            <button onclick="location.href='../archive/archive.html'" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">기출학습</span>
+            </button>
+            <button onclick="renderMarket()" class="nav-btn text-gray-500 flex flex-col items-center gap-1 transition-colors">
+                <i data-lucide="user" class="w-6 h-6"></i>
+                <span class="text-[11px] font-bold tracking-tight">마이</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- 암기장 마스터 데이터 -->
+    <script src="scard_data.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
+            authDomain: "godtonggwa.firebaseapp.com",
+            projectId: "godtonggwa",
+            storageBucket: "godtonggwa.firebasestorage.app",
+            messagingSenderId: "1087434066468",
+            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let userData = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if(userDoc.exists()) userData = userDoc.data();
+                } catch(e) { console.error("User Load Error:", e); }
+            } else {
+                currentUser = null;
+                userData = null;
+            }
+        });
+
+        window.handleLogout = () => {
+            if(confirm("정말 로그아웃 하시겠습니까?")) {
+                signOut(auth).then(() => { alert("로그아웃 되었습니다."); location.reload(); });
+            }
+        };
+
+        window.updateUserInfo = async () => {
+            if(!currentUser) return alert("로그인이 필요합니다.");
+            const newName = prompt("변경할 닉네임을 입력:", userData ? userData.name : "");
+            if(newName && newName.trim()) {
+                try {
+                    await updateDoc(doc(db, "users", currentUser.uid), { name: newName.trim() });
+                    if(userData) userData.name = newName.trim();
+                    alert("변경 완료");
+                    renderMarket();
+                } catch(e) { console.error(e); }
+            }
+        };
+
+        window.manageSubscription = () => {
+            if(!currentUser) return alert("로그인 필요");
+            alert(userData && userData.isPaid ? "프리미엄 이용 중" : "관리자 문의 필요");
+        };
+
+        window.renderMarket = function() {
+            const main = document.getElementById('main-content');
+            const userName = userData ? userData.name : '비회원';
+            let userPlan = userData && userData.isPaid ? '프리미엄' : '일반';
+            const loginBtn = currentUser ? `<button onclick="handleLogout()" class="text-xs text-gray-500 underline ml-auto">로그아웃</button>` : `<button onclick="location.href='../STEST/exam.html'" class="text-xs text-indigo-600 font-bold ml-auto">로그인</button>`;
+            
+            main.innerHTML = `
+                <div class="fade-in space-y-4 pt-4 px-2" id="mypage-user-name">
+                    <h2 class="text-xl font-bold text-gray-800 flex justify-between items-center">마이페이지 ${loginBtn}</h2>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-4 shadow-sm">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400"><i data-lucide="user" class="w-6 h-6"></i></div>
+                        <div><p class="font-bold text-lg">${userName}님</p><p class="text-xs text-gray-500">${userPlan}</p></div>
+                    </div>
+                    <div class="space-y-3 mt-6">
+                         <div onclick="updateUserInfo()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50"><div class="flex items-center gap-3"><i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i><span class="text-sm">내 정보 수정</span></div></div>
+                         <div onclick="manageSubscription()" class="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50"><div class="flex items-center gap-3"><i data-lucide="credit-card" class="w-4 h-4 text-purple-500"></i><span class="text-sm">이용권 관리</span></div></div>
+                    </div>
+                    <div class="mt-8 text-center">
+                        <button onclick="reloadCurrentTopic()" class="text-sm text-gray-500 underline">암기장으로 돌아가기</button>
+                    </div>
+                </div>`;
+            lucide.createIcons();
+        };
+    </script>
+
+    <script>
+        let currentTopicId = '1-1';
+        let isAllRevealed = false;
+
+        function getTopicIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || '1-1';
+        }
+
+        function loadTopic(topicId) {
+            currentTopicId = topicId;
+            const data = (window.SCARD_TOPICS && window.SCARD_TOPICS[topicId]) || null;
+            const main = document.getElementById('main-content');
+            const subTitle = document.getElementById('header-subtitle');
+
+            if (!data) {
+                main.innerHTML = `
+                    <div class="py-20 text-center text-gray-500">
+                        <i data-lucide="alert-circle" class="w-12 h-12 mx-auto text-gray-300 mb-3"></i>
+                        <h2 class="text-base font-bold text-gray-700 mb-1">존재하지 않는 암기장 주제입니다.</h2>
+                        <p class="text-xs text-gray-400 mb-6">요청하신 단원 ID: ${topicId}</p>
+                        <button onclick="location.href='card_list.html'" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold shadow-md">
+                            목록으로 돌아가기
+                        </button>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            // 헤더 정보 갱신
+            document.title = `갓통과 - ${data.title} 요약`;
+            subTitle.innerText = data.headerSub || `${data.unit} - ${data.title}`;
+
+            // 카드 본문 구성
+            let html = `
+                <div class="flex items-center justify-between text-xs text-gray-400 px-1 -mb-2">
+                    <span class="font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">${data.unit}</span>
+                    <span>카드 ${data.cardCount || 0}장</span>
+                </div>
+            `;
+
+            // 본문 카드
+            html += data.cardsHtml;
+
+            // 하단 이전 / 다음 주제 네비게이션
+            html += `
+                <div class="mt-10 pt-6 border-t border-gray-200/80 flex flex-col gap-3">
+                    <div class="flex items-center justify-between gap-3">
+            `;
+
+            if (data.prev) {
+                html += `
+                    <button onclick="navigateTo('${data.prev.id}')" class="flex-1 py-3 px-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all">
+                        <i data-lucide="chevron-left" class="w-4 h-4 text-indigo-600 shrink-0"></i>
+                        <span class="truncate">이전: ${data.prev.title}</span>
+                    </button>
+                `;
+            } else {
+                html += `<div class="flex-1"></div>`;
+            }
+
+            if (data.next) {
+                html += `
+                    <button onclick="navigateTo('${data.next.id}')" class="flex-1 py-3 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-indigo-100 active:scale-95 transition-all">
+                        <span class="truncate">다음: ${data.next.title}</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4 shrink-0"></i>
+                    </button>
+                `;
+            } else {
+                html += `<div class="flex-1"></div>`;
+            }
+
+            html += `
+                    </div>
+                    <button onclick="location.href='card_list.html'" class="w-full py-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95">
+                        <i data-lucide="list" class="w-4 h-4 text-gray-400"></i> 전체 암기장 목록으로 돌아가기
+                    </button>
+                </div>
+            `;
+
+            main.innerHTML = html;
+            main.scrollTop = 0;
+
+            // 전체보기 버튼 상태 초기화 (기본: 가림)
+            isAllRevealed = false;
+            updateToggleBtnUI();
+
+            // 퀴즈 탭 이벤트 연결
+            attachQuizEvents();
+
+            lucide.createIcons();
+
+            // 수식(MathJax) 렌더링
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // 퀴즈 박스 개별 탭 토글 이벤트 부착
+        function attachQuizEvents() {
+            const boxes = document.querySelectorAll('.quiz-box');
+            boxes.forEach(box => {
+                box.onclick = (e) => {
+                    box.classList.toggle('revealed');
+                    const isRev = box.classList.contains('revealed');
+                    const badge = box.querySelector('.quiz-status-badge');
+                    if (badge) {
+                        badge.innerHTML = isRev 
+                            ? '<i class="fas fa-unlock text-[9px]"></i> 정답 공개됨' 
+                            : '👆 탭하여 정답 확인';
+                    }
+                    syncAllRevealedState();
+                };
+            });
+        }
+
+        // 전체 열림 상태 감지
+        function syncAllRevealedState() {
+            const boxes = document.querySelectorAll('.quiz-box');
+            if (boxes.length === 0) return;
+            const revealedBoxes = document.querySelectorAll('.quiz-box.revealed');
+            isAllRevealed = (revealedBoxes.length === boxes.length);
+            updateToggleBtnUI();
+        }
+
+        // 상단 전체 보기 / 전체 가리기 토글
+        function toggleAllAnswers() {
+            isAllRevealed = !isAllRevealed;
+            const boxes = document.querySelectorAll('.quiz-box');
+            boxes.forEach(box => {
+                if (isAllRevealed) {
+                    box.classList.add('revealed');
+                } else {
+                    box.classList.remove('revealed');
+                }
+                const badge = box.querySelector('.quiz-status-badge');
+                if (badge) {
+                    badge.innerHTML = isAllRevealed 
+                        ? '<i class="fas fa-unlock text-[9px]"></i> 정답 공개됨' 
+                        : '👆 탭하여 정답 확인';
+                }
+            });
+            updateToggleBtnUI();
+        }
+
+        function updateToggleBtnUI() {
+            const btn = document.getElementById('toggle-all-btn');
+            const btnText = document.getElementById('toggle-btn-text');
+            const icon = document.getElementById('toggle-btn-icon');
+            if (!btn || !btnText) return;
+
+            if (isAllRevealed) {
+                btnText.innerText = "정답 전체가리기";
+                btn.className = "px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-[11px] font-bold transition-all border border-slate-300 flex items-center gap-1 shadow-sm active:scale-95";
+                if (icon) icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                btnText.innerText = "정답 전체보기";
+                btn.className = "px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-full text-[11px] font-bold transition-all border border-indigo-200 flex items-center gap-1 shadow-sm active:scale-95";
+                if (icon) icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        // 주제 이동
+        window.navigateTo = function(topicId) {
+            history.pushState({ id: topicId }, "", `?id=${topicId}`);
+            loadTopic(topicId);
+        };
+
+        window.reloadCurrentTopic = function() {
+            loadTopic(currentTopicId);
+        };
+
+        window.addEventListener('popstate', (e) => {
+            const id = (e.state && e.state.id) || getTopicIdFromURL();
+            loadTopic(id);
+        });
+
+        // 초기 로드
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialId = getTopicIdFromURL();
+            loadTopic(initialId);
+        });
+    </script>
+</body>
+</html>

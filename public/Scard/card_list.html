@@ -6,7 +6,30 @@
     <title>용어 암기장 목록</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>        400;500;700;900&display=swap');        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }        /* 스크롤바 숨기기 */        /* 아코디언 애니메이션 */        .accordion-content {            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;            max-height: 0;            opacity: 0;            overflow: hidden;        }        .accordion-content.open {            max-height: 1000px; /* 충분히 큰 값 */            opacity: 1;        }        /* 아이콘 회전 */        .chevron-icon { transition: transform 0.3s; }        .chevron-icon.rotate { transform: rotate(180deg); }        /* 카드 터치 효과 */        .topic-card:active { transform: scale(0.96); }        /* Premium UI */        .hover-lift { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #e2e8f0; }        /* 애니메이션 */    </style>
+    <style>        400;500;700;900&display=swap');
+        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* 스크롤바 숨기기 */
+        /* 아코디언 애니메이션 */
+        .accordion-content {
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 1000px; /* 충분히 큰 값 */
+            opacity: 1;
+        }
+        /* 아이콘 회전 */
+        .chevron-icon { transition: transform 0.3s; }
+        .chevron-icon.rotate { transform: rotate(180deg); }
+        /* 카드 터치 효과 */
+        .topic-card:active { transform: scale(0.96); }
+        /* Premium UI */
+        .hover-lift { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #e2e8f0; }
+        /* 애니메이션 */
+    </style>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 
@@ -201,9 +224,10 @@ window.addEventListener('wheel', (e) => {
 
     </script>
 
+    <script src="scard_data.js"></script>
     <script>
-        // 데이터 정의 (35개 전체 주제)
-        const curriculum = [
+        // 데이터 정의 (36개 전체 주제)
+        const curriculum = window.SCARD_CURRICULUM || [
             {
                 unit: "0. 기초 및 첨단과학",
                 color: "from-indigo-500 to-purple-500",
@@ -312,7 +336,7 @@ window.addEventListener('wheel', (e) => {
                     <div id="content-${index}" class="accordion-content ${isOpen} bg-gray-50/50">
                         <div class="p-3 grid grid-cols-2 gap-3">
                             ${section.items.map(item => `
-                                <div onclick="location.href='${item.file}'" class="topic-card hover-lift bg-white p-3 rounded-xl border border-gray-200 shadow-sm cursor-pointer flex flex-col gap-2 hover:border-indigo-200 transition-all">
+                                <div onclick="location.href='scard_view.html?id=' + (item.id || item.file.replace('_scard.html', ''))" class="topic-card hover-lift bg-white p-3 rounded-xl border border-gray-200 shadow-sm cursor-pointer flex flex-col gap-2 hover:border-indigo-200 transition-all">
                                     <div class="flex justify-between items-start">
                                         <div class="p-2 ${section.bg} rounded-lg ${section.text}">
                                             <i data-lucide="${item.icon}" class="w-4 h-4"></i>

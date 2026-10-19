@@ -11,7 +11,35 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
-    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f3f4f6; }        .sidebar-item.active { background-color: #e0e7ff; color: #4338ca; border-right: 3px solid #4338ca; font-weight: bold; }        .scrollbar-hide::-webkit-scrollbar { display: none; }        .overlay-screen { position: fixed; inset: 0; background: #111827; display: flex; align-items: center; justify-content: center; z-index: 1000; }        .login-card { width: 100%; max-width: 400px; padding: 2.5rem; border-radius: 1.5rem; background: #1f2937; border: 1px solid #374151; text-align: center; color: white; }        .matrix-table-container { height: calc(100vh - 120px); overflow-x: auto; }        th.sticky-col-1, td.sticky-col-1 { position: sticky; left: 0; z-index: 20; border-right: 1px solid #e2e8f0; background-color: white; }        th.sticky-col-2, td.sticky-col-2 { position: sticky; left: 100px; z-index: 20; border-right: 2px solid #cbd5e1; background-color: white; }        thead th.sticky-col-1, thead th.sticky-col-2 { z-index: 40; background-color: #f1f5f9; }        .circle-badge {            width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;            font-size: 10px; font-weight: bold; color: white; margin: 1px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);            cursor: default;        }        /* 행동 영역 색상 정의 */        .bg-apply { background-color: #94A3B8; } /* 이해와 적용 */        .bg-comm { background-color: #475569; } /* 의사소통 */        .bg-hypo { background-color: #FBBF24; } /* 가설 설정 */        .bg-design { background-color: #F87171; } /* 탐구 설계 */        .bg-exec { background-color: #34D399; } /* 탐구 수행 및 자료 수집 */        .bg-anal { background-color: #60A5FA; } /* 자료 변환 및 해석 */        .bg-conc { background-color: #A78BFA; } /* 결론 도출 */        .unit-divider { border-top: 3px solid #1e293b !important; }        #pdf-render-area canvas { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 20px; border-radius: 8px; width: 100%; height: auto; }        #pdf-panel { transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }        #pdf-panel.closed { width: 0 !important; opacity: 0; padding: 0; border: none; }        .menu-tab.active { background-color: #4f46e5; color: white; }    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f3f4f6; }
+        .sidebar-item.active { background-color: #e0e7ff; color: #4338ca; border-right: 3px solid #4338ca; font-weight: bold; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .overlay-screen { position: fixed; inset: 0; background: #111827; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-card { width: 100%; max-width: 400px; padding: 2.5rem; border-radius: 1.5rem; background: #1f2937; border: 1px solid #374151; text-align: center; color: white; }
+        .matrix-table-container { height: calc(100vh - 120px); overflow-x: auto; }
+        th.sticky-col-1, td.sticky-col-1 { position: sticky; left: 0; z-index: 20; border-right: 1px solid #e2e8f0; background-color: white; }
+        th.sticky-col-2, td.sticky-col-2 { position: sticky; left: 100px; z-index: 20; border-right: 2px solid #cbd5e1; background-color: white; }
+        thead th.sticky-col-1, thead th.sticky-col-2 { z-index: 40; background-color: #f1f5f9; }
+        .circle-badge {
+            width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: bold; color: white; margin: 1px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            cursor: default;
+        }
+        /* 행동 영역 색상 정의 */
+        .bg-apply { background-color: #94A3B8; } /* 이해와 적용 */
+        .bg-comm { background-color: #475569; } /* 의사소통 */
+        .bg-hypo { background-color: #FBBF24; } /* 가설 설정 */
+        .bg-design { background-color: #F87171; } /* 탐구 설계 */
+        .bg-exec { background-color: #34D399; } /* 탐구 수행 및 자료 수집 */
+        .bg-anal { background-color: #60A5FA; } /* 자료 변환 및 해석 */
+        .bg-conc { background-color: #A78BFA; } /* 결론 도출 */
+        .unit-divider { border-top: 3px solid #1e293b !important; }
+        #pdf-render-area canvas { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 20px; border-radius: 8px; width: 100%; height: auto; }
+        #pdf-panel { transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out; overflow: hidden; }
+        #pdf-panel.closed { width: 0 !important; opacity: 0; padding: 0; border: none; }
+        .menu-tab.active { background-color: #4f46e5; color: white; }
+    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -187,17 +215,12 @@ window.addEventListener('wheel', (e) => {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Firebase 설정 (기존 앱 설정 유지)
         const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
         const app = initializeApp(firebaseConfig);
-        const appCheck = initializeAppCheck(app, {
-            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
-            isTokenAutoRefreshEnabled: true
-        }); 
         const auth = getAuth(app); 
         const db_fs = getFirestore(app);
         const APP_ID = "godtonggwa_v1";
@@ -220,27 +243,51 @@ window.addEventListener('wheel', (e) => {
 
         let scienceDB = null; let pdfDoc = null; let currentCategory = null; let currentTopic = null; let isPdfVisible = true;
 
-        // 권한 확인 및 초기화
+        // 권한 확인 및 초기화 (admin.html 표준 검증 방식)
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                const adminDoc = await getDoc(doc(db_fs, "settings", "admin"));
-                const adminData = adminDoc.exists() ? adminDoc.data() : {};
+                try {
+                    const adminDoc = await getDoc(doc(db_fs, "settings", "admin"));
+                    const adminData = adminDoc.exists() ? adminDoc.data() : {};
                     const allowedAdmins = [...(Array.isArray(adminData.adminEmails) ? adminData.adminEmails : []), adminData.adminEmail, adminData.adminEmail2, "godtonggwa@gmail.com", "hanchem92@naver.com"].filter(Boolean).map(e => String(e).toLowerCase().trim());
                     if (user.email && allowedAdmins.includes(user.email.toLowerCase().trim())) {
-                    document.getElementById('login-container').classList.add('hidden');
-                    document.getElementById('loading-overlay').classList.remove('hidden');
-                    startQListSync(); 
-                    loadLocalPDF();
-                    document.getElementById('display-email').innerText = user.email;
-                } else { alert("권한 없음"); signOut(auth); }
-            } else { document.getElementById('login-container').classList.remove('hidden'); }
+                        document.getElementById('login-container').classList.add('hidden');
+                        document.getElementById('loading-overlay').classList.remove('hidden');
+                        startQListSync(); 
+                        loadLocalPDF();
+                        document.getElementById('display-email').innerText = user.email;
+                    } else { 
+                        alert("관리자 권한이 없습니다. 등록된 관리자 계정으로 로그인해주세요."); 
+                        await signOut(auth); 
+                    }
+                } catch (error) {
+                    console.error("DB Check Error:", error);
+                    alert("관리자 권한 확인 중 오류가 발생했습니다: " + error.message);
+                    await signOut(auth);
+                }
+            } else { 
+                document.getElementById('login-container').classList.remove('hidden'); 
+            }
             lucide.createIcons();
         });
 
         document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            try { await signInWithEmailAndPassword(auth, document.getElementById('admin-email').value, document.getElementById('admin-pw').value); }
-            catch (error) { alert("로그인 실패"); }
+            const btnText = document.getElementById('btn-text');
+            const btnSpinner = document.getElementById('btn-spinner');
+            if (btnText) btnText.textContent = "인증 중...";
+            if (btnSpinner) btnSpinner.classList.remove('hidden');
+            try { 
+                await signInWithEmailAndPassword(
+                    auth, 
+                    document.getElementById('admin-email').value.trim(), 
+                    document.getElementById('admin-pw').value
+                ); 
+            } catch (error) { 
+                alert("로그인 실패: " + error.message); 
+                if (btnText) btnText.textContent = "로그인";
+                if (btnSpinner) btnSpinner.classList.add('hidden');
+            }
         });
 
         // 실시간 Q-List 데이터 동기화

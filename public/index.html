@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>갓통과 - 2028 통합과학 완전정복</title>
     
+    <!-- 외부 CDN 사전 연결 (DNS & TLS 핸드셰이크 가속) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+    <!-- 구글 폰트 병렬 로드 (@import 렌더블로킹 제거) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+
     <!-- 스타일링을 위한 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 아이콘 라이브러리 -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 다음(카카오) 우편번호 검색 API -->
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     
     <style>
-        /* 기본 폰트 */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
-        /* 암기장용 손글씨 폰트 추가 */
-        @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Nanum+Pen+Script&display=swap');
-        
         body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         /* 앱 컨테이너 스타일 */
@@ -786,16 +788,25 @@ window.addEventListener('wheel', (e) => {
         };
 
         window.execShippingPostcode = () => {
-            if (typeof daum === 'undefined' || !daum.Postcode) {
-                return alert("우편번호 서비스를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+            const runPostcode = () => {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        document.getElementById('ship-zonecode').value = data.zonecode;
+                        document.getElementById('ship-road').value = data.address;
+                        document.getElementById('ship-detail').focus();
+                    }
+                }).open();
+            };
+
+            if (typeof daum !== 'undefined' && daum.Postcode) {
+                runPostcode();
+            } else {
+                const s = document.createElement('script');
+                s.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+                s.onload = runPostcode;
+                s.onerror = () => alert("우편번호 검색 모듈을 불러오지 못했습니다. 네트워크 상태를 확인해주세요.");
+                document.head.appendChild(s);
             }
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    document.getElementById('ship-zonecode').value = data.zonecode;
-                    document.getElementById('ship-road').value = data.address;
-                    document.getElementById('ship-detail').focus();
-                }
-            }).open();
         };
 
         window.saveShippingAddress = async () => {

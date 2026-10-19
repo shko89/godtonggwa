@@ -236,9 +236,13 @@ window.addEventListener('wheel', (e) => {
         const UNIT_KEYS = Object.keys(CURRICULUM_STRUCTURE);
         
         const domainColors = { 
-            "이해와 적용": "bg-apply", "의사소통": "bg-comm", "가설 설정": "bg-hypo", 
-            "탐구 설계": "bg-design", "탐구 수행 및 자료 수집": "bg-exec", 
-            "자료 변환 및 해석": "bg-anal", "결론 도출": "bg-conc" 
+            "이해와 적용": "bg-apply", "이해": "bg-apply", "적용": "bg-apply",
+            "의사소통": "bg-comm", 
+            "가설 설정": "bg-hypo", 
+            "탐구 설계": "bg-design", 
+            "탐구 수행 및 자료 수집": "bg-exec", 
+            "자료 변환 및 해석": "bg-anal", 
+            "결론 도출": "bg-conc", "결론 도출 및 일반화": "bg-conc"
         };
 
         let scienceDB = null; let pdfDoc = null; let currentCategory = null; let currentTopic = null; let isPdfVisible = true;
@@ -362,6 +366,7 @@ window.addEventListener('wheel', (e) => {
                 archiveSnap.forEach(doc => {
                     const item = doc.data(); 
                     const round = item.exam_id || "미분류"; 
+                    if (round.startsWith('week_')) return; // 주간지 매트릭스 제외
                     roundsSet.add(round);
                     if (!archiveData[round]) archiveData[round] = {};
                     if (!archiveData[round][item.topic]) archiveData[round][item.topic] = [];

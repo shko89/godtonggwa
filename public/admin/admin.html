@@ -1446,20 +1446,22 @@ window.addEventListener('wheel', (e) => {
 
                     examUpdated = true;
 
-                    // 3) exam_archive
-                    const archiveCol = collection(db, 'artifacts', 'godtonggwa_v1', 'public', 'data', 'exam_archive');
-                    for (let i = 0; i < mockQuestionsList.length; i++) {
-                        const mq = mockQuestionsList[i];
-                        const archiveDocId = `${detectedExamId}_q${String(i + 1).padStart(2, '0')}`;
-                        batch.set(doc(archiveCol, archiveDocId), {
-                            exam_id: detectedExamId,
-                            q_num: i + 1,
-                            q_id: mq.qId,
-                            topic: mq.topic || "미분류",
-                            domain: mq.domain || "미분류",
-                            updatedAt: new Date().toISOString()
-                        }, { merge: true });
-                        archiveCount++;
+                    // 3) exam_archive (실전 모의고사만 등록, 주간지는 매트릭스 대상 제외)
+                    if (!detectedExamId.startsWith('week_') && serviceType !== 'WEEKLY_MAG') {
+                        const archiveCol = collection(db, 'artifacts', 'godtonggwa_v1', 'public', 'data', 'exam_archive');
+                        for (let i = 0; i < mockQuestionsList.length; i++) {
+                            const mq = mockQuestionsList[i];
+                            const archiveDocId = `${detectedExamId}_q${String(i + 1).padStart(2, '0')}`;
+                            batch.set(doc(archiveCol, archiveDocId), {
+                                exam_id: detectedExamId,
+                                q_num: i + 1,
+                                q_id: mq.qId,
+                                topic: mq.topic || "미분류",
+                                domain: mq.domain || "미분류",
+                                updatedAt: new Date().toISOString()
+                            }, { merge: true });
+                            archiveCount++;
+                        }
                     }
                 }
 

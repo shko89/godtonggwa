@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주간지 정품 고화질 인쇄 뷰어</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            background-color: #334155;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 인쇄 시 상단 컨트롤바 숨김 및 여백 제어 */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+            #printFrameContainer { height: auto !important; overflow: visible !important; }
+            iframe { height: 100% !important; border: none !important; }
+        }
+
+        /* 상단 제어 바 */
+        .top-ctrl-bar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #475569;
+            padding: 12px 24px;
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .pub-badge {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .setting-tip-box {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 12px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- 상단 인쇄 컨트롤 바 (인쇄 시 숨겨짐) -->
+    <header class="top-ctrl-bar no-print">
+        <div class="flex items-center gap-3">
+            <span class="pub-badge">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                정품 인증 인쇄
+            </span>
+            <div class="text-sm font-bold text-slate-200">
+                <span id="dispBrand" class="text-sky-300">대치 미래과학</span> 
+                <span class="text-slate-400">|</span> 
+                <span id="dispWeekTitle">2028 통합과학 주간지 제1회</span>
+                <span class="text-slate-500 text-xs ml-2 font-mono" id="dispSerialBadge">PUB-DM28-W01-001</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <div class="setting-tip-box hidden md:flex">
+                <i data-lucide="settings" class="w-4 h-4 text-sky-400"></i>
+                <span>인쇄 권장: <strong>배경 그래픽 포함 [v]</strong>, <strong>여백: [없음]</strong></span>
+            </div>
+
+            <button type="button" onclick="openPrintGuideModal()" class="bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-600 font-bold text-xs px-3.5 py-2.5 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm active:scale-95">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>인쇄 가이드 &amp; 보안 정책</span>
+            </button>
+
+            <button type="button" onclick="triggerHighDefPrint()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold text-sm px-5 py-2.5 rounded-lg shadow-lg shadow-emerald-500/25 active:scale-95 transition-all flex items-center gap-2">
+                <i data-lucide="printer" class="w-4 h-4"></i>
+                <span>🖨️ A4 고화질 인쇄 (Ctrl+P)</span>
+            </button>
+
+            <button type="button" onclick="closePrintViewer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-3.5 py-2.5 rounded-lg transition-colors">
+                닫기
+            </button>
+        </div>
+    </header>
+
+    <!-- 원본 A4 페이지를 로드하는 샌드박스 프레임 -->
+    <main id="printFrameContainer" class="flex-1 w-full bg-slate-800 flex justify-center py-6">
+        <iframe id="ebookPrintFrame" class="w-full max-w-[900px] h-[92vh] border-0 shadow-2xl rounded-lg bg-white" allowfullscreen></iframe>
+    </main>
+
+    <script>
+        window.closePrintViewer = function() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+                setTimeout(fallback, 100);
+                return;
+            }
+            window.close();
+            setTimeout(fallback, 100);
+
+            function fallback() {
+                if (!window.closed) {
+                    const p = new URLSearchParams(window.location.search);
+                    const tenant = p.get('tenant');
+                    if (tenant) {
+                        window.location.href = `./b2b_admin_console.html?tenant=${encodeURIComponent(tenant)}`;
+                    } else if (document.referrer && document.referrer.includes('b2b_admin_console')) {
+                        window.location.href = document.referrer;
+                    } else if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = './b2b_admin_console.html';
+                    }
+                }
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const week = parseInt(params.get('week') || '1', 10);
+        const brand = params.get('brand') || '대치 미래과학';
+        const teacher = params.get('teacher') || '김철수 선생님';
+        const eng = params.get('eng') || (brand ? brand : 'MIRAE SCIENCE');
+        const serial = params.get('serial') || `PUB-DM28-W${String(week).padStart(2,'0')}-001`;
+
+        document.getElementById('dispBrand').innerText = brand;
+        document.getElementById('dispWeekTitle').innerText = `2028 통합과학 주간지 제${week}회`;
+        document.getElementById('dispSerialBadge').innerText = serial;
+        document.title = `${brand} - 주간지 ${week}주차 정품 고화질 인쇄 [${serial}]`;
+
+        const frame = document.getElementById('ebookPrintFrame');
+        const weekStr = String(week).padStart(2, '0');
+        frame.src = `./ebook/week_2028_${weekStr}_final.html?printMode=true&t=${Date.now()}`;
+
+        // Iframe 내부 스타일 및 세련된 출판 푸터 워터마크 주입
+        frame.addEventListener('load', () => {
+            try {
+                const doc = frame.contentDocument || frame.contentWindow.document;
+                if (!doc) return;
+
+                // 1. 화이트레이블 명칭 실시간 치환
+                replaceBrandingInDoc(doc);
+
+                // 2. 인쇄 전용 CSS 및 세련된 출판 푸터 스타일 주입
+                const styleEl = doc.createElement('style');
+                styleEl.innerHTML = `
+                    @media print {
+                        @page {
+                            size: A4 portrait;
+                            margin: 0;
+                        }
+                        body {
+                            background-color: #ffffff !important;
+                            padding: 0 !important;
+                            margin: 0 !important;
+                        }
+                        .page-wrapper {
+                            margin: 0 !important;
+                            padding: 0 !important;
+                            gap: 0 !important;
+                        }
+                        .a4-page {
+                            box-shadow: none !important;
+                            margin: 0 !important;
+                            page-break-after: always !important;
+                            break-after: page !important;
+                            width: 500px !important;
+                            height: 707px !important;
+                            zoom: 1.5874 !important;
+                            position: relative !important;
+                            box-sizing: border-box !important;
+                            overflow: hidden !important;
+                        }
+                        /* 화면용 컨트롤 요소 강제 숨김 */
+                        #flipbook-container, #drawing-toolbar, .no-print, .zoom-btn {
+                            display: none !important;
+                        }
+                    }
+
+                    /* 업계 표준의 세련된 도서 정품 식별 푸터 (본문 침범 0%) */
+                    .print-pub-meta-footer {
+                        position: absolute;
+                        bottom: 9mm;
+                        left: 14mm;
+                        right: 14mm;
+                        height: 18px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-family: 'Roboto Mono', 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+                        font-size: 7.5pt;
+                        color: #64748b;
+                        border-top: 0.5pt solid #cbd5e1;
+                        padding-top: 2px;
+                        pointer-events: none;
+                        z-index: 999;
+                        box-sizing: border-box;
+                    }
+                    .print-pub-meta-footer .ppm-brand {
+                        font-weight: 700;
+                        color: #334155;
+                    }
+                    .print-pub-meta-footer .ppm-serial {
+                        font-weight: 800;
+                        color: #0369a1;
+                        letter-spacing: 0.3px;
+                    }
+                `;
+                doc.head.appendChild(styleEl);
+
+                // 3. 모든 A4 페이지 하단에 출판 푸터 자동 삽입
+                const a4Pages = doc.querySelectorAll('.a4-page');
+                a4Pages.forEach((page, idx) => {
+                    // 기존 주입된 푸터가 없으면 삽입
+                    if (!page.querySelector('.print-pub-meta-footer')) {
+                        const pageNum = idx + 1;
+                        const footer = doc.createElement('div');
+                        footer.className = 'print-pub-meta-footer';
+                        footer.innerHTML = `
+                            <span class="ppm-brand">[${brand} 통합과학 연구팀] ‧ 2028 수능 통합과학 주간지 W${weekStr}</span>
+                            <span class="ppm-page">- Page ${String(pageNum).padStart(2,'0')} -</span>
+                            <span class="ppm-serial">PUB-ID: ${serial} ‧ VERIFIED</span>
+                        `;
+                        page.appendChild(footer);
+                    }
+                });
+
+            } catch (err) {
+                console.warn('Print frame styling notice:', err);
+            }
+        });
+
+        // 텍스트 치환
+        function replaceBrandingInDoc(doc) {
+            const bName = brand || '과학 전문관';
+            const eName = (eng || bName).toUpperCase();
+            const tName = teacher || '담당 선생님';
+
+            const walker = doc.createTreeWalker(
+                doc.body,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode: function(node) {
+                        if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+                        const tag = node.parentElement.tagName.toUpperCase();
+                        if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                },
+                false
+            );
+
+            const nodes = [];
+            let curr;
+            while ((curr = walker.nextNode())) nodes.push(curr);
+
+            nodes.forEach(node => {
+                let val = node.nodeValue;
+                if (!val) return;
+                let changed = false;
+
+                if (val.includes('갓쌤의')) { val = val.replace(/갓쌤의/g, `${tName}의`); changed = true; }
+                if (val.includes("갓쌤's") || val.includes("갓쌤’s")) { val = val.replace(/갓쌤['’]s/g, `${tName}'s`); changed = true; }
+                if (val.includes('갓쌤')) { val = val.replace(/갓쌤/g, tName); changed = true; }
+                if (val.includes('갓통과')) { val = val.replace(/갓통과/g, bName); changed = true; }
+                if (val.includes('GOTONGGWA')) { val = val.replace(/GOTONGGWA/g, eName); changed = true; }
+                if (val.includes('GODTONGGWA')) { val = val.replace(/GODTONGGWA/g, eName); changed = true; }
+
+                if (changed) node.nodeValue = val;
+            });
+        }
+
+        // 인쇄 트리거
+        function triggerHighDefPrint() {
+            try {
+                if (frame.contentWindow) {
+                    frame.contentWindow.focus();
+                    frame.contentWindow.print();
+                } else {
+                    window.print();
+                }
+            } catch(e) {
+                window.print();
+            }
+        }
+
+        // 인쇄 가이드 모달 토글
+        function openPrintGuideModal() {
+            const m = document.getElementById('printGuideModal');
+            if (m) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+                if (window.lucide) lucide.createIcons();
+            }
+        }
+
+        function closePrintGuideModal() {
+            const m = document.getElementById('printGuideModal');
+            if (m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+
+    <!-- 인쇄 가이드 & 보안 정책 팝업 모달 -->
+    <div id="printGuideModal" class="fixed inset-0 z-[10000] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- 헤더 -->
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4 border-b border-slate-700 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <span class="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg border border-sky-500/30">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </span>
+                    <h3 class="text-base font-extrabold text-white">갓통과 B2B 인쇄 정책 &amp; 원내 복합기 최적 출력 가이드</h3>
+                </div>
+                <button type="button" onclick="closePrintGuideModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- 본문 스크롤 영역 -->
+            <div class="p-6 overflow-y-auto space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                <!-- 1. 보안 인쇄 정책 및 PDF 미제공 배경 -->
+                <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4">
+                    <h4 class="font-bold text-sky-400 text-sm mb-2 flex items-center gap-2">
+                        <i data-lucide="lock" class="w-4 h-4 text-sky-400"></i>
+                        <span>1. 보안 인쇄 정책 및 PDF 원본 미제공 배경</span>
+                    </h4>
+                    <p class="text-slate-300 mb-2 leading-relaxed">
+                        • <strong>PDF 원본 파일 배포 금지:</strong> 제휴 학원의 소중한 수강료 가치와 주간지 콘텐츠의 무단 복제 및 외부 유출(텔레그램, 타 학원 유출)을 원천 차단하기 위해 본사는 주간지 원본 PDF 파일 다운로드를 일체 제공하지 않습니다.<br>
+                        • <strong>웹 뷰어 보안 직출력:</strong> 계약된 인원 내에서 암호화된 전용 웹 뷰어를 통해 학원 복합기로 직접 출력하는 [보안 다이렉트 인쇄]만 지원됩니다.<br>
+                        • <strong>정품 시리얼 워터마크 각인:</strong> 출력되는 모든 A4 페이지 하단 여백에 <code class="text-sky-300 bg-slate-900 px-1.5 py-0.5 rounded font-mono text-xs">[학원명 연구팀] ‧ PUB-ID: ... ‧ VERIFIED</code> 고유 식별 코드가 실시간 자동 각인되어 인쇄물 유출 시 유출자를 즉시 특정할 수 있습니다.
+                    </p>
+                </div>
+
+                <!-- 2. 브라우저 필수 인쇄 설정 -->
+                <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4">
+                    <h4 class="font-bold text-emerald-400 text-sm mb-2 flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                        <span>2. 브라우저 인쇄 필수 설정 (Ctrl+P 인쇄 창)</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-700/60">
+                            <span class="text-emerald-300 font-bold block mb-1">① 여백: [없음 / None]</span>
+                            <span class="text-slate-400">여백을 '없음'으로 설정해야 500px 캔버스가 물리적 A4 용지 전체(210×297mm)에 100% 꽉 차게 자동 배율 확대 출력됩니다.</span>
+                        </div>
+                        <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-700/60">
+                            <span class="text-emerald-300 font-bold block mb-1">② [배경 그래픽 포함] 필수 체크</span>
+                            <span class="text-slate-400">체크를 켜야 표지 그라데이션, 문항 음영 박스, 개념 요약표 등 컬러/도표 배경이 빠짐없이 선명하게 인쇄됩니다.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 학원 복합기 최적 인쇄 노하우 -->
+                <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4">
+                    <h4 class="font-bold text-amber-400 text-sm mb-2 flex items-center gap-2">
+                        <i data-lucide="printer" class="w-4 h-4 text-amber-400"></i>
+                        <span>3. 원내 복합기 최적 인쇄 노하우 (PDF 유출 0% 완제품 책자)</span>
+                    </h4>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-slate-900/80 p-3.5 rounded-lg border border-amber-500/30">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="bg-amber-500/20 text-amber-300 text-xs font-black px-2 py-0.5 rounded border border-amber-500/40">추천 1위 ⭐</span>
+                                <strong class="text-amber-200 text-sm">복합기 드라이버 [A3 소책자 (Booklet) 중철 인쇄] (시중 주간지 완제품)</strong>
+                            </div>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-1">
+                                • <strong>설정:</strong> 브라우저 인쇄창에서 학원 복합기(신도리코/제록스/캐논 등) 선택 ➔ [속성/설정] ➔ <strong>[소책자 인쇄 (Booklet)]</strong> 활성화 + 용지: <strong>A3(또는 B4)</strong><br>
+                                • <strong>결과:</strong> 복합기가 A4 4개 면을 A3 앞뒤 양면으로 책 순서에 맞게 자동 배치하여 출력합니다. (16p 교재 기준 <strong>A3 용지 딱 4장</strong> 소요)<br>
+                                • <strong>완성:</strong> 출력된 4장을 반으로 접어 가운데에 롱호치키스(스테이플러)를 찍으면 <strong>시대인재·이감 주간지와 동일한 고품질 완제품 책자</strong>로 완성됩니다. (종이/토너 50% 절감!)
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-700/60">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-slate-700 text-slate-300 text-xs font-bold px-2 py-0.5 rounded">기본형</span>
+                                <strong class="text-slate-200 text-xs">일반 A4 양면 인쇄 (긴 쪽으로 넘김)</strong>
+                            </div>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                일반 A4 용지로 출력 시 [양면 인쇄(긴 쪽으로 넘김)]를 선택하고, 좌측 상단/모서리에 2방 스테이플러나 슬라이딩 바인더를 끼워 배부합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 푸터 닫기 버튼 -->
+            <div class="bg-slate-900 px-6 py-3.5 border-t border-slate-700 flex justify-end">
+                <button type="button" onclick="closePrintGuideModal()" class="bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-xs px-5 py-2.5 rounded-lg transition-colors">
+                    확인 및 닫기
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

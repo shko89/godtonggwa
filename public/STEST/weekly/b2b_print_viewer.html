@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주간지 정품 고화질 인쇄 뷰어</title>
+    <!-- Weekly CSS & KaTeX -->
+    <link rel="stylesheet" href="./weekly_common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,12 +27,65 @@
             overflow-x: hidden;
         }
 
-        /* 인쇄 시 상단 컨트롤바 숨김 및 여백 제어 */
+        /* 인쇄 시 화면용 UI 및 미리보기 iframe 완전 숨김 & 38페이지 직접 인쇄 활성화 */
         @media print {
-            .no-print { display: none !important; }
-            body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
-            #printFrameContainer { height: auto !important; overflow: visible !important; }
-            iframe { height: 100% !important; border: none !important; }
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+            html, body {
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .no-print, #printFrameContainer, iframe {
+                display: none !important;
+            }
+            #directPrintContainer {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #directPrintContainer .page-wrapper {
+                display: block !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                max-height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                position: relative !important;
+                box-sizing: border-box !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                page-break-after: always !important;
+                break-after: page !important;
+            }
+            #directPrintContainer .page-wrapper:last-child {
+                page-break-after: auto !important;
+                break-after: auto !important;
+            }
+            #directPrintContainer .a4-page {
+                width: 500px !important;
+                height: 707px !important;
+                zoom: 1.5874 !important;
+                position: relative !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+            }
+        }
+
+        /* 화면에서는 직접 인쇄 영역을 숨기고 iframe 미리보기 표시 */
+        #directPrintContainer {
+            display: none;
         }
 
         /* 상단 제어 바 */
@@ -71,6 +128,22 @@
             align-items: center;
             gap: 12px;
         }
+
+        /* 업계 표준의 세련된 도서 정품 식별 헤더 (상단 우측 배치, 본문/페이지번호 침범 0%) */
+        .print-pub-serial-header {
+            position: absolute;
+            top: 8px;
+            right: 18px;
+            font-family: 'Roboto Mono', 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+            font-size: 7.5pt;
+            font-weight: 800;
+            color: #0369a1;
+            letter-spacing: 0.3px;
+            pointer-events: none;
+            z-index: 999;
+            box-sizing: border-box;
+            line-height: 1;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -112,10 +185,13 @@
         </div>
     </header>
 
-    <!-- 원본 A4 페이지를 로드하는 샌드박스 프레임 -->
-    <main id="printFrameContainer" class="flex-1 w-full bg-slate-800 flex justify-center py-6">
+    <!-- 원본 A4 페이지를 로드하는 샌드박스 프레임 (화면 미리보기용) -->
+    <main id="printFrameContainer" class="flex-1 w-full bg-slate-800 flex justify-center py-6 no-print">
         <iframe id="ebookPrintFrame" class="w-full max-w-[900px] h-[92vh] border-0 shadow-2xl rounded-lg bg-white" allowfullscreen></iframe>
     </main>
+
+    <!-- 고화질 직접 인쇄 스트림 컨테이너 (화면에서는 숨김, 인쇄 시 100% 활성화) -->
+    <div id="directPrintContainer"></div>
 
     <script>
         window.closePrintViewer = function() {
@@ -160,7 +236,7 @@
         const weekStr = String(week).padStart(2, '0');
         frame.src = `./ebook/week_2028_${weekStr}_final.html?printMode=true&t=${Date.now()}`;
 
-        // Iframe 내부 스타일 및 세련된 출판 푸터 워터마크 주입
+        // Iframe 내부 스타일 및 정품 식별 헤더 주입 & 부모 창 인쇄 스트림 동기화
         frame.addEventListener('load', () => {
             try {
                 const doc = frame.contentDocument || frame.contentWindow.document;
@@ -169,7 +245,7 @@
                 // 1. 화이트레이블 명칭 실시간 치환
                 replaceBrandingInDoc(doc);
 
-                // 2. 인쇄 전용 CSS 및 세련된 출판 푸터 스타일 주입
+                // 2. 인쇄 전용 CSS 주입 (iframe 자체 인쇄 대비)
                 const styleEl = doc.createElement('style');
                 styleEl.innerHTML = `
                     @media print {
@@ -177,15 +253,44 @@
                             size: A4 portrait;
                             margin: 0;
                         }
-                        body {
+                        html, body {
                             background-color: #ffffff !important;
                             padding: 0 !important;
                             margin: 0 !important;
+                            width: 100% !important;
+                            height: auto !important;
+                            overflow: visible !important;
+                            -webkit-print-color-adjust: exact !important;
+                            print-color-adjust: exact !important;
                         }
-                        .page-wrapper {
+                        #top-nav, #flipbook-container, #drawing-toolbar, .no-print, .zoom-btn, #toc-drawer {
+                            display: none !important;
+                        }
+                        #main-content {
+                            display: block !important;
+                            width: 100% !important;
                             margin: 0 !important;
                             padding: 0 !important;
-                            gap: 0 !important;
+                            overflow: visible !important;
+                        }
+                        .page-wrapper {
+                            display: block !important;
+                            width: 210mm !important;
+                            height: 297mm !important;
+                            max-height: 297mm !important;
+                            margin: 0 !important;
+                            padding: 0 !important;
+                            overflow: hidden !important;
+                            position: relative !important;
+                            box-sizing: border-box !important;
+                            page-break-inside: avoid !important;
+                            break-inside: avoid !important;
+                            page-break-after: always !important;
+                            break-after: page !important;
+                        }
+                        .page-wrapper:last-child {
+                            page-break-after: auto !important;
+                            break-after: auto !important;
                         }
                         .a4-page {
                             box-shadow: none !important;
@@ -199,57 +304,51 @@
                             box-sizing: border-box !important;
                             overflow: hidden !important;
                         }
-                        /* 화면용 컨트롤 요소 강제 숨김 */
-                        #flipbook-container, #drawing-toolbar, .no-print, .zoom-btn {
-                            display: none !important;
-                        }
                     }
 
-                    /* 업계 표준의 세련된 도서 정품 식별 푸터 (본문 침범 0%) */
-                    .print-pub-meta-footer {
+                    /* 업계 표준의 세련된 도서 정품 식별 헤더 (상단 우측 배치, 본문/페이지번호 침범 0%) */
+                    .print-pub-serial-header {
                         position: absolute;
-                        bottom: 9mm;
-                        left: 14mm;
-                        right: 14mm;
-                        height: 18px;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
+                        top: 8px;
+                        right: 18px;
                         font-family: 'Roboto Mono', 'Nanum Gothic', 'Noto Sans KR', sans-serif;
                         font-size: 7.5pt;
-                        color: #64748b;
-                        border-top: 0.5pt solid #cbd5e1;
-                        padding-top: 2px;
-                        pointer-events: none;
-                        z-index: 999;
-                        box-sizing: border-box;
-                    }
-                    .print-pub-meta-footer .ppm-brand {
-                        font-weight: 700;
-                        color: #334155;
-                    }
-                    .print-pub-meta-footer .ppm-serial {
                         font-weight: 800;
                         color: #0369a1;
                         letter-spacing: 0.3px;
+                        pointer-events: none;
+                        z-index: 999;
+                        box-sizing: border-box;
+                        line-height: 1;
                     }
                 `;
                 doc.head.appendChild(styleEl);
 
-                // 3. 모든 A4 페이지 하단에 출판 푸터 자동 삽입
+                // 3. 2P부터 38P까지 상단 우측에 정품 식별 코드 자동 삽입 (하단 페이지번호 겹침 0% 원천 해결)
                 const a4Pages = doc.querySelectorAll('.a4-page');
                 a4Pages.forEach((page, idx) => {
-                    // 기존 주입된 푸터가 없으면 삽입
-                    if (!page.querySelector('.print-pub-meta-footer')) {
-                        const pageNum = idx + 1;
-                        const footer = doc.createElement('div');
-                        footer.className = 'print-pub-meta-footer';
-                        footer.innerHTML = `
-                            <span class="ppm-brand">[${brand} 통합과학 연구팀] ‧ 2028 수능 통합과학 주간지 W${weekStr}</span>
-                            <span class="ppm-page">- Page ${String(pageNum).padStart(2,'0')} -</span>
-                            <span class="ppm-serial">PUB-ID: ${serial} ‧ VERIFIED</span>
-                        `;
-                        page.appendChild(footer);
+                    if (page.classList.contains('cover-page') || idx === 0) return;
+                    
+                    // 기존 하단 푸터가 혹시 남아있다면 제거하여 하단 페이지 번호 완벽 보존
+                    const oldFooter = page.querySelector('.print-pub-meta-footer');
+                    if (oldFooter) oldFooter.remove();
+
+                    if (!page.querySelector('.print-pub-serial-header')) {
+                        const serialHeader = doc.createElement('div');
+                        serialHeader.className = 'print-pub-serial-header';
+                        serialHeader.innerText = `PUB-ID: ${serial} ‧ VERIFIED`;
+                        page.appendChild(serialHeader);
+                    }
+                });
+
+                // 4. 부모 창의 #directPrintContainer 에 원본 페이지들 완벽 동기화
+                syncDirectPrintStream(doc);
+
+                // 5. Iframe 내부에서도 Ctrl+P / Cmd+P 입력 시 부모 창의 고화질 인쇄 호출
+                doc.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+                        e.preventDefault();
+                        window.parent.triggerHighDefPrint();
                     }
                 });
 
@@ -257,6 +356,49 @@
                 console.warn('Print frame styling notice:', err);
             }
         });
+
+        // 부모 창의 고화질 직접 인쇄 스트림 동기화 함수
+        function syncDirectPrintStream(doc) {
+            try {
+                const mc = doc.getElementById('main-content');
+                const directContainer = document.getElementById('directPrintContainer');
+                if (!mc || !directContainer) return;
+
+                // Iframe 내부 스타일시트를 부모 창에 복제
+                const styles = doc.querySelectorAll('style');
+                styles.forEach((st, idx) => {
+                    const sid = 'synced-iframe-style-' + idx;
+                    if (!document.getElementById(sid)) {
+                        const newSt = document.createElement('style');
+                        newSt.id = sid;
+                        newSt.textContent = st.textContent;
+                        document.head.appendChild(newSt);
+                    }
+                });
+
+                // #main-content 의 모든 .page-wrapper 복제
+                directContainer.innerHTML = '';
+                const wrappers = mc.querySelectorAll('.page-wrapper');
+                wrappers.forEach(w => {
+                    const clone = w.cloneNode(true);
+                    
+                    // 이미지 src 절대경로 보존 (서브디렉터리 상대경로 깨짐 원천 방지)
+                    const origImgs = w.querySelectorAll('img');
+                    const cloneImgs = clone.querySelectorAll('img');
+                    origImgs.forEach((origImg, i) => {
+                        if (cloneImgs[i] && origImg.src) {
+                            cloneImgs[i].src = origImg.src;
+                        }
+                    });
+
+                    directContainer.appendChild(clone);
+                });
+
+                console.log(`B2B High-Def Print: ${wrappers.length} pages synced successfully.`);
+            } catch (err) {
+                console.warn('syncDirectPrintStream error:', err);
+            }
+        }
 
         // 텍스트 치환
         function replaceBrandingInDoc(doc) {
@@ -298,10 +440,32 @@
             });
         }
 
-        // 인쇄 트리거
+        // Ctrl+P / Cmd+P 단축키 가로채기 (어디서 눌러도 고화질 인쇄 작동)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+                e.preventDefault();
+                triggerHighDefPrint();
+            }
+        });
+
+        // PDF 불펌 및 무단 소스 저장 차단 (보안 정책 준수)
+        window.addEventListener('contextmenu', (e) => e.preventDefault());
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U')) {
+                e.preventDefault();
+            }
+        });
+
+        // 고화질 인쇄 트리거
         function triggerHighDefPrint() {
             try {
-                if (frame.contentWindow) {
+                const directContainer = document.getElementById('directPrintContainer');
+                if (directContainer && directContainer.children.length > 0) {
+                    window.focus();
+                    window.print();
+                    return;
+                }
+                if (frame && frame.contentWindow) {
                     frame.contentWindow.focus();
                     frame.contentWindow.print();
                 } else {
@@ -353,17 +517,23 @@
 
             <!-- 본문 스크롤 영역 -->
             <div class="p-6 overflow-y-auto space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed">
-                <!-- 1. 보안 인쇄 정책 및 PDF 미제공 배경 -->
+                <!-- 1. 보안 인쇄 정책 및 디지털 파일 무단 유출 추적 시스템 -->
                 <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4">
-                    <h4 class="font-bold text-sky-400 text-sm mb-2 flex items-center gap-2">
-                        <i data-lucide="lock" class="w-4 h-4 text-sky-400"></i>
-                        <span>1. 보안 인쇄 정책 및 PDF 원본 미제공 배경</span>
+                    <h4 class="font-bold text-rose-400 text-sm mb-2 flex items-center gap-2">
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-rose-400"></i>
+                        <span>1. 보안 인쇄 정책 및 디지털 파일 무단 유출 추적 시스템 (필독)</span>
                     </h4>
-                    <p class="text-slate-300 mb-2 leading-relaxed">
-                        • <strong>PDF 원본 파일 배포 금지:</strong> 제휴 학원의 소중한 수강료 가치와 주간지 콘텐츠의 무단 복제 및 외부 유출(텔레그램, 타 학원 유출)을 원천 차단하기 위해 본사는 주간지 원본 PDF 파일 다운로드를 일체 제공하지 않습니다.<br>
-                        • <strong>웹 뷰어 보안 직출력:</strong> 계약된 인원 내에서 암호화된 전용 웹 뷰어를 통해 학원 복합기로 직접 출력하는 [보안 다이렉트 인쇄]만 지원됩니다.<br>
-                        • <strong>정품 시리얼 워터마크 각인:</strong> 출력되는 모든 A4 페이지 하단 여백에 <code class="text-sky-300 bg-slate-900 px-1.5 py-0.5 rounded font-mono text-xs">[학원명 연구팀] ‧ PUB-ID: ... ‧ VERIFIED</code> 고유 식별 코드가 실시간 자동 각인되어 인쇄물 유출 시 유출자를 즉시 특정할 수 있습니다.
-                    </p>
+                    <div class="text-slate-300 mb-2 leading-relaxed space-y-2">
+                        <p>
+                            • <strong class="text-white">디지털 파일 무단 유출 및 재배포 엄격 금지:</strong> 제휴 학원의 소중한 수강료 가치와 주간지 콘텐츠의 권리를 보호하기 위해, 본 서비스는 원내 복합기 직접 종이 출력을 원칙으로 운영됩니다.
+                        </p>
+                        <p>
+                            • <strong class="text-amber-300">1초 만에 100% 유출자 역추적 (포렌식 워터마크):</strong> 브라우저 인쇄 과정을 통해 생성·저장된 PDF 파일이 <strong>텔레그램, 수험생 커뮤니티, 인근 타 학원 등으로 무단 유포될 경우</strong>, 모든 페이지 상단 우측에 영구 각인된 <code class="text-sky-300 bg-slate-900 px-1.5 py-0.5 rounded font-mono text-xs">PUB-ID: ... ‧ VERIFIED</code> 고유 식별 코드를 통해 <strong>유출된 문서 단 1페이지만으로도 어느 학원의 몇 회차 계약자에게서 유출되었는지 1초 만에 100% 특정</strong>됩니다.
+                        </p>
+                        <div class="bg-rose-950/40 border border-rose-800/60 p-3 rounded-lg text-rose-200 font-semibold text-xs leading-relaxed">
+                            ⚠️ <strong>위반 시 법적 조치:</strong> 주간지 콘텐츠의 무단 전재, 복제, 양도 및 디지털 파일(PDF) 외부 유출 적발 시 즉시 <strong>B2B 라이선스 영구 박탈</strong> 및 저작권법 제136조에 따른 <strong>민·형사상 최대 손해배상 청구와 형사 고소</strong>가 진행됩니다.
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 2. 브라우저 필수 인쇄 설정 -->

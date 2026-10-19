@@ -6,7 +6,10 @@
     <title>갓통과 인피니티 올패스</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #0f172a; }        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); display: flex; flex-direction: column; }    </style>
+    <style>        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #0f172a; }
+        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+    </style>
 
 <script>
 // 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
@@ -267,11 +270,38 @@ window.addEventListener('wheel', (e) => {
             navigator.clipboard.writeText(text).then(() => alert('계좌번호가 복사되었습니다.')).catch(() => alert('복사 실패'));
         };
 
-        window.handleApply = () => {
+        window.handleApply = async () => {
             if (!isUserLoggedIn) {
                 alert("로그인이 필요합니다. 로그인 후 신청해주세요.");
                 window.location.href = 'STEST/exam.html';
                 return;
+            }
+
+            // 기본 배송지 자동 완성
+            try {
+                if (currentUser) {
+                    const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                    if (userDoc.exists()) {
+                        const uData = userDoc.data();
+                        const ship = uData.shippingAddress;
+                        if (ship && ship.roadAddress) {
+                            const nameEl = document.getElementById('orderName');
+                            const phoneEl = document.getElementById('orderPhone');
+                            const zoneEl = document.getElementById('orderZonecode');
+                            const addrEl = document.getElementById('orderAddress');
+                            const detailEl = document.getElementById('orderAddressDetail');
+                            const depEl = document.getElementById('orderDepositor');
+                            if (nameEl && !nameEl.value) nameEl.value = ship.recipientName || uData.name || '';
+                            if (depEl && !depEl.value) depEl.value = ship.recipientName || uData.name || '';
+                            if (phoneEl && !phoneEl.value) phoneEl.value = ship.phone || '';
+                            if (zoneEl && !zoneEl.value) zoneEl.value = ship.zonecode || '';
+                            if (addrEl && !addrEl.value) addrEl.value = ship.roadAddress || '';
+                            if (detailEl && !detailEl.value) detailEl.value = ship.detailAddress || '';
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn("배송지 자동완성 안내:", e);
             }
 
             const modal = document.getElementById('allPassOrderModal');
@@ -329,11 +359,15 @@ window.addEventListener('wheel', (e) => {
                     depositor: depositor,
                     name: name,
                     phone: phone,
+                    zonecode: zonecode,
+                    roadAddress: baseAddress,
+                    detailAddress: detailAddress,
                     address: address,
                     packageId: packageId,
                     packageName: orderPkgTitle,
                     price: orderPkgPrice,
                     status: 'pending',
+                    deliveryStatus: 'preparing',
                     createdAt: new Date().toISOString()
                 });
 

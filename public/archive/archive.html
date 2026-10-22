@@ -9,6 +9,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
+
+        @font-face {
+            font-family: '온글잎 박윤슬체';
+            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OwnglyphParkYounseul';
+            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
         
         body { font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #F3F4F6; overflow-x: hidden; }
         
@@ -41,8 +64,8 @@
             opacity: 0.4;
         }
         .handwriting {
-            font-family: 'Nanum Pen Script', cursive;
-            font-size: 1.7rem;
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', 'Nanum Pen Script', cursive;
+            font-size: 1.6rem;
             color: #1e293b;
             padding-left: 50px;
             padding-right: 20px;
@@ -56,14 +79,30 @@
         .num-btn:active { transform: scale(0.9); background-color: #EEF2FF; color: #4F46E5; }
         .num-btn.active { background-color: #4F46E5; color: white; border-color: #4F46E5; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
         
-        .question-canvas { width: 100%; height: auto; display: block; border-radius: 12px; image-rendering: -webkit-optimize-contrast; cursor: zoom-in; }
+        .question-canvas { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            border-radius: 12px; 
+            cursor: zoom-in; 
+            filter: contrast(1.08) brightness(0.98);
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+        }
         .premium-banner { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%); }
         
         #zoom-modal { display: none; position: fixed; inset: 0; z-index: 2000; background: #000; flex-direction: column; overflow: hidden; touch-action: none; }
         .zoom-header { padding: 16px; display: flex; justify-content: space-between; items-center: center; color: white; background: rgba(0,0,0,0.7); z-index: 10; }
         .zoom-content { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         #zoom-canvas-container { position: absolute; transform-origin: center center; will-change: transform; display: flex; align-items: center; justify-content: center; }
-        #zoom-canvas { background: white; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: block; max-width: none; }
+        #zoom-canvas { 
+            background: white; 
+            border-radius: 4px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+            display: block; 
+            max-width: none; 
+            filter: contrast(1.08) brightness(0.98);
+        }
         .zoom-footer { padding: 24px; display: flex; justify-content: center; gap: 16px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 10; padding-bottom: 40px; }
 
         /* 전체 화면 확대 최적화 */
@@ -380,10 +419,10 @@ window.addEventListener('wheel', (e) => {
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        const RENDERING_QUALITY = 3.5;
+        const RENDERING_QUALITY = 4.0;
         let EXAM_META = {};
 
-        let currentExamId = null, currentQNum = 0, pdfDoc = null, examCoords = {}, currentStep = 1, aiExamData = null; 
+        let currentExamId = null, currentQNum = 0, pdfDoc = null, examCoords = {}, currentStep = 1, aiExamData = null, pageCanvasCache = {}; 
         let scale = 1, fitScale = 1, translateX = 0, translateY = 0, lastX = 0, lastY = 0, initialDist = 0;
         let stageScale = 1, stageX = 0, stageY = 0, stageLastX = 0, stageLastY = 0, stageInitialDist = 0;
         
@@ -406,11 +445,16 @@ window.addEventListener('wheel', (e) => {
 
         function loadExamDataScript(examId) {
             return new Promise((resolve) => {
+                const timer = setTimeout(() => {
+                    console.warn("loadExamDataScript timeout, resolving fallback");
+                    resolve(null);
+                }, 4000);
                 const pathPrefix = (examId === '2028_pretest') ? './kice_2028/' : './';
-                const fileName = `${pathPrefix}${examId}.js?v=${new Date().getTime()}`; 
+                const fileName = `${pathPrefix}${examId}.js?v=20261022`; 
                 console.log("현재 폴더에서 파일을 찾습니다:", fileName);
                 const script = document.createElement('script'); script.src = fileName;
-                script.onload = () => resolve(window.globalExamData || null); script.onerror = () => resolve(null);
+                script.onload = () => { clearTimeout(timer); resolve(window.globalExamData || null); };
+                script.onerror = () => { clearTimeout(timer); resolve(null); };
                 document.head.appendChild(script);
             });
         }
@@ -476,18 +520,29 @@ window.addEventListener('wheel', (e) => {
 
         window.selectExam = async (id) => {
             document.getElementById('loading').classList.remove('hidden');
-            currentExamId = id;
             try {
-                const artifactId = EXAM_META[id].artifactId || id;
-                const [docSnap, loadedAiData] = await Promise.all([getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', artifactId)), loadExamDataScript(artifactId)]);
+                currentExamId = id;
+                pageCanvasCache = {};
+                const artifactId = EXAM_META[id]?.artifactId || id;
+                const [docSnap, loadedAiData] = await Promise.all([
+                    getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'archive_coords', artifactId)), 
+                    loadExamDataScript(artifactId)
+                ]);
                 if (!docSnap.exists()) throw new Error("좌표 데이터가 없습니다.");
-                examCoords = docSnap.data().coords; aiExamData = loadedAiData;
+                examCoords = docSnap.data().coords; 
+                aiExamData = loadedAiData;
                 pdfDoc = await pdfjsLib.getDocument(EXAM_META[id].pdfFile).promise;
                 const keys = Object.keys(examCoords).map(Number).filter(n => !isNaN(n));
                 let maxQ = keys.length > 0 ? Math.max(...keys) : 25;
                 if (aiExamData && aiExamData.answers) maxQ = Math.max(maxQ, aiExamData.answers.length);
-                initNumGrid(maxQ); showStep(2);
-            } catch(e) { alert(e.message); } finally { document.getElementById('loading').classList.add('hidden'); }
+                initNumGrid(maxQ); 
+                showStep(2);
+            } catch(e) { 
+                console.error("selectExam error:", e);
+                alert("시험지를 불러오는 중 오류가 발생했습니다: " + e.message); 
+            } finally { 
+                document.getElementById('loading').classList.add('hidden'); 
+            }
         };
 
         function initNumGrid(count) {
@@ -542,14 +597,37 @@ window.addEventListener('wheel', (e) => {
 
         async function renderQuestionCrop(qData) {
             const canvas = document.getElementById('q-canvas'), ctx = canvas.getContext('2d');
-            const page = await pdfDoc.getPage(qData.p);
-            const dpr = window.devicePixelRatio || 1;
-            const vp = page.getViewport({ scale: RENDERING_QUALITY * dpr });
-            const temp = document.createElement('canvas'); temp.width = vp.width; temp.height = vp.height;
-            await page.render({ canvasContext: temp.getContext('2d'), viewport: vp }).promise;
+            const dpr = Math.max(window.devicePixelRatio || 1, 1);
+            let temp = pageCanvasCache[qData.p];
+            let vp;
+
+            if (!temp) {
+                const page = await pdfDoc.getPage(qData.p);
+                vp = page.getViewport({ scale: RENDERING_QUALITY * dpr });
+                temp = document.createElement('canvas');
+                temp.width = Math.round(vp.width);
+                temp.height = Math.round(vp.height);
+                
+                const tempCtx = temp.getContext('2d', { alpha: false });
+                await page.render({ canvasContext: tempCtx, viewport: vp }).promise;
+                temp._vp = vp;
+                pageCanvasCache[qData.p] = temp;
+            } else {
+                vp = temp._vp;
+            }
+            
             const [rx, ry, rw, rh] = qData.rect;
-            canvas.width = rw * vp.width; canvas.height = rh * vp.height;
-            ctx.drawImage(temp, rx * vp.width, ry * vp.height, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+            const sx = Math.round(rx * vp.width);
+            const sy = Math.round(ry * vp.height);
+            const sw = Math.round(rw * vp.width);
+            const sh = Math.round(rh * vp.height);
+
+            canvas.width = sw;
+            canvas.height = sh;
+            
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(temp, sx, sy, sw, sh, 0, 0, sw, sh);
         }
 
         function updateStageTransform() {
@@ -919,7 +997,7 @@ window.addEventListener('wheel', (e) => {
                         topic = aiExamData.explanations[i-1].topic || topic;
                     }
 
-                    let qIdStr = currentExamId === '2028_pretest' ? `kice_2028_pretest_${String(i).padStart(2, '0')}` : null;
+                    let qIdStr = currentExamId === '2028_pretest' ? `kice_2028_pretest_q${String(i).padStart(2, '0')}` : null;
 
                     let chapter = '과학의 기초';
                     if (aiExamData && aiExamData.explanations && aiExamData.explanations[i-1] && aiExamData.explanations[i-1].chapter) {

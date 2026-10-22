@@ -916,8 +916,11 @@ window.addEventListener('wheel', (e) => {
         // =========================================================================
         // Firebase Storage .webp 이미지 자동 경로 탐색 헬퍼 (모든 명명 규칙 지원)
         // =========================================================================
+        const _adminImageUrlCache = {};
         window.fetchQuestionImageUrl = async (qId, sourceExamId = null) => {
             if (!qId) return '';
+            const cacheKey = `${qId}_${sourceExamId || ''}`;
+            if (_adminImageUrlCache[cacheKey]) return _adminImageUrlCache[cacheKey];
             const cleanId = qId.trim().replace(/^q_/, '');
             const rawId = qId.trim();
 
@@ -939,6 +942,8 @@ window.addEventListener('wheel', (e) => {
             if (kiceMatch) {
                 const year = kiceMatch[1];
                 const examId = sourceExamId || `${year}_${kiceMatch[2]}`;
+                const mockCleanId = cleanId.replace(/_q(\d+)$/, '_mock_q$1');
+                candidates.push(`questions/kice/${year}/${examId}/${mockCleanId}.webp`);
                 candidates.push(`questions/kice/${year}/${examId}/${cleanId}.webp`);
                 candidates.push(`questions/kice/${year}/${examId}/${rawId}.webp`);
                 candidates.push(`questions/kice/${year}/${examId}/${cleanId}.png`);
@@ -977,7 +982,10 @@ window.addEventListener('wheel', (e) => {
                 try {
                     const imgRef = ref(storage, path);
                     const url = await getDownloadURL(imgRef);
-                    if (url) return url;
+                    if (url) {
+                        _adminImageUrlCache[cacheKey] = url;
+                        return url;
+                    }
                 } catch (e) {
                     // 다음 후보 경로 탐색
                 }

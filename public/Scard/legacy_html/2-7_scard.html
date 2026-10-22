@@ -1,225 +1,0 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>갓통과 - 전기적 성질 요약</title>
-    
-    <!-- 스타일링을 위한 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 아이콘 라이브러리 -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- 폰트 로드 (Noto Sans + 손글씨 폰트) -->
-        <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>        body { font-family: 'Pretendard', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }        /* 암기장 전용 폰트 */        /* 앱 컨테이너 스타일 (스마트폰 최적화) */        .app-container {            max-width: 480px;            margin: 0 auto;            min-height: 100vh;            background-color: #Fdfbf7; /* 종이 질감 배경색 */            background-image:                 linear-gradient(#e0d6cc 1px, transparent 1px),                linear-gradient(90deg, #e0d6cc 1px, transparent 1px);            background-size: 20px 20px;            position: relative;            box-shadow: 0 0 20px rgba(0,0,0,0.05);            display: flex;            flex-direction: column;        }        /* 스크롤바 숨기기 */        /* 카드 스타일 */        .note-card:active { transform: scale(0.98); }        /* 테이프 효과 */        .tape-yellow { background-color: rgba(253, 253, 150, 0.9); transform: translateX(-50%) rotate(1.5deg); }        /* 퀴즈 정답 가리기 인터랙션 */        .quiz-box.revealed         /* 필기구 효과 */        .highlight-yellow { background: linear-gradient(120deg, transparent 0%, rgba(255, 249, 196, 1) 20%, rgba(255, 249, 196, 1) 80%, transparent 100%); padding: 0 2px; }        .highlight-blue { background: linear-gradient(120deg, transparent 0%, rgba(225, 245, 254, 1) 20%, rgba(225, 245, 254, 1) 80%, transparent 100%); padding: 0 2px; }        .highlight-orange { background: linear-gradient(120deg, transparent 0%, rgba(255, 224, 178, 1) 20%, rgba(255, 224, 178, 1) 80%, transparent 100%); padding: 0 2px; }        .highlight-green { background: linear-gradient(120deg, transparent 0%, rgba(200, 230, 201, 1) 20%, rgba(200, 230, 201, 1) 80%, transparent 100%); padding: 0 2px; }        .highlight-brown { background: linear-gradient(120deg, transparent 0%, rgba(215, 204, 200, 1) 20%, rgba(215, 204, 200, 1) 80%, transparent 100%); padding: 0 2px; }        /* 애니메이션 */    </style>
-
-<script>
-// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
-// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
-window.addEventListener('wheel', (e) => {
-    if (!e.target.closest('.overflow-y-auto')) {
-        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
-        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
-        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
-        if (activeContainer) {
-            activeContainer.scrollTop += e.deltaY;
-        }
-    }
-}, { passive: true });
-</script>
-    <link rel="stylesheet" href="/css/common.css">
-</head>
-<body class="bg-gray-100 text-gray-800">
-
-    <div class="app-container" id="app">
-        <!-- 상단 헤더 (고정) -->
-        <header class="bg-white/90 backdrop-blur-md px-5 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-gray-200 shadow-sm">
-            <div class="flex items-center gap-3">
-                <!-- 로고 -->
-                <div class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center relative overflow-hidden shrink-0 shadow-md">
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-black opacity-80"></div>
-                    <svg class="w-7 h-7 relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="30" stroke="white" stroke-width="6"/>
-                        <path d="M50 20 L50 50 L70 70" stroke="white" stroke-width="6" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <!-- 타이틀 -->
-                <div class="flex flex-col justify-center">
-                    <h1 class="text-xl font-black tracking-tighter text-gray-800 leading-none">갓통과<span class="text-[10px] font-bold text-indigo-500 ml-1">PLUS</span></h1>
-                    <span class="text-[10px] text-gray-500 font-medium mt-0.5">2-7. 전기적 성질 요약</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="revealAll()" class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold hover:bg-indigo-200 transition">정답보기</button>
-            </div>
-        </header>
-
-        <!-- 메인 콘텐츠 영역 (암기 카드 리스트) -->
-        <main id="main-content" class="flex-1 overflow-y-auto p-5 pb-24 hide-scrollbar space-y-6">
-            <!-- Card 1 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 0ms;">
-                <div class="tape bg-purple-200" style="transform: translateX(-50%) rotate(-2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">01. 전기 전도성에 따른 분류</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-bolt text-yellow-500 mr-1"></i> <strong>도체 (Conductor)</strong>:
-                        <br> 자유 전자가 많아 전류가 매우 잘 흐름. (구리, 철, 알루미늄 등 금속).
-                    </li>
-                    <li><i class="fas fa-ban text-red-500 mr-1"></i> <strong>절연체 (Insulator)</strong>:
-                        <br> 전자가 원자에 강하게 결합되어 자유 전자가 거의 없음. (고무, 유리, 플라스틱).
-                    </li>
-                    <li><i class="fas fa-microchip text-blue-500 mr-1"></i> <strong>반도체 (Semiconductor)</strong>:
-                        <br> 도체와 절연체의 중간. 온도, 빛, <span class="highlight-yellow">불순물 첨가(도핑)</span>에 따라 전기 전도성이 변함. (규소 Si, 저마늄 Ge).
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 도체와 절연체의 중간 정도로, 조건에 따라 전도성이 조절되는 물질은?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">반도체</p>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 100ms;">
-                <div class="tape bg-blue-200" style="transform: translateX(-50%) rotate(1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">02. 반도체 도핑 (Doping)</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-plus-circle text-gray-500 mr-1"></i> <strong>도핑의 목적</strong>:
-                        <br> 순수한 규소(14족)에 소량의 불순물을 첨가하여 <span class="highlight-yellow">전기 전도성을 크게 높임</span>.
-                    </li>
-                    <li><i class="fas fa-minus text-blue-500 mr-1"></i> <strong>n형 반도체</strong>:
-                        <br> Si(14족) + P/As(<span class="blue-pen">15족 원소</span>). 원자가 전자 5개.
-                        <br> &rarr; 결합 후 남는 <strong>자유 전자</strong>가 전하를 운반.
-                    </li>
-                    <li><i class="fas fa-plus text-red-500 mr-1"></i> <strong>p형 반도체</strong>:
-                        <br> Si(14족) + B/Al(<span class="red-pen">13족 원소</span>). 원자가 전자 3개.
-                        <br> &rarr; 전자가 부족한 빈자리인 <strong>양공(Hole)</strong>이 전하를 운반.
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 13족 원소를 도핑하여 양공이 전하를 운반하는 반도체는?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">p형 반도체</p>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 200ms;">
-                <div class="tape bg-yellow-200" style="transform: translateX(-50%) rotate(-1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">03. p-n 접합 다이오드</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-battery-half text-green-500 mr-1"></i> <strong>구조</strong>: p형 반도체와 n형 반도체를 접합한 소자.</li>
-                    <li><i class="fas fa-arrow-right text-red-500 mr-1"></i> <strong>순방향 전압</strong>:
-                        <br> p형에 (+), n형에 (-) 연결. &rarr; 양공과 전자가 접합면으로 이동해 전류가 <span class="red-pen">흐름</span>.
-                    </li>
-                    <li><i class="fas fa-times-circle text-gray-400 mr-1"></i> <strong>역방향 전압</strong>:
-                        <br> p형에 (-), n형에 (+) 연결. &rarr; 전류가 거의 <span class="highlight-yellow">흐르지 않음</span>.
-                    </li>
-                    <li><i class="fas fa-random text-blue-500 mr-1"></i> <strong>정류 작용</strong>:
-                        <br> 교류(AC)를 한 방향의 직류(DC)로 변환하는 핵심 기능.
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 다이오드가 전류를 한 방향으로만 흐르게 하는 작용은?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">정류 작용</p>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 300ms;">
-                <div class="tape bg-green-200" style="transform: translateX(-50%) rotate(1.5deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">04. 반도체 소자의 활용</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> <strong>발광 다이오드 (LED)</strong>:
-                        <br> 전류가 흐를 때 전자와 양공이 결합하면서 에너지를 <span class="highlight-yellow">빛으로 방출</span>. (고효율 조명, 디스플레이).
-                    </li>
-                    <li><i class="fas fa-sun text-orange-500 mr-1"></i> <strong>태양 전지 (Solar Cell)</strong>:
-                        <br> 빛을 흡수하면 전자와 양공이 분리되어 <span class="highlight-blue">기전력(전기)</span> 발생. (빛 에너지 &rarr; 전기 에너지 직접 변환).
-                    </li>
-                    <li><i class="fas fa-microchip text-indigo-500 mr-1"></i> <strong>트랜지스터 (Transistor)</strong>:
-                        <br> 신호를 키우는 <span class="red-pen">증폭 작용</span> 및 전류를 켜고 끄는 <span class="blue-pen">스위칭 작용</span>. (컴퓨터 논리 회로의 기본 단위).
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 빛에너지를 전기 에너지로 직접 전환하는 반도체 소자는?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">태양 전지 (광 다이오드)</p>
-                </div>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 400ms;">
-                <div class="tape bg-pink-200" style="transform: translateX(-50%) rotate(-1deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">05. 초전도체 (Superconductor)</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-temperature-low text-blue-400 mr-1"></i> <strong>임계 온도($T_c$)</strong>:
-                        <br> 물질의 전기 저항이 갑자기 0이 되는 특정한 온도.
-                    </li>
-                    <li><i class="fas fa-bolt text-yellow-500 mr-1"></i> <strong>전기적 특성 (저항 = 0)</strong>:
-                        <br> $T_c$ 이하에서 전기 저항이 완전히 사라져 <span class="highlight-yellow">열 손실 없이 강한 전류</span>가 흐름.
-                    </li>
-                    <li><i class="fas fa-hospital text-purple-500 mr-1"></i> <strong>첨단 활용</strong>:
-                        <br> 자기 공명 영상 장치(MRI)의 초강력 전자석, 자기 부상 열차, 입자 가속기.
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 임계 온도 이하에서 전기 저항이 0이 되는 신소재는?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">초전도체</p>
-                </div>
-            </div>
-
-            <!-- Card 6 -->
-            <div class="note-card relative bg-white rounded-xl shadow-md pt-10 pb-5 px-6 border border-gray-100 fade-in" style="animation-delay: 500ms;">
-                <div class="tape bg-gray-300" style="transform: translateX(-50%) rotate(2deg);"></div>
-                <h2 class="text-2xl font-title text-gray-700 mb-3 text-center border-b-2 border-dashed border-gray-200 pb-1">06. 첨단 탄소 신소재</h2>
-                <ul class="space-y-2 text-lg font-pen leading-snug text-gray-700">
-                    <li><i class="fas fa-layer-group text-gray-600 mr-1"></i> <strong>그래핀 (Graphene)</strong>:
-                        <br> 탄소 원자가 <span class="highlight-yellow">육각형 벌집 모양</span>으로 결합한 1원자 두께의 2차원 평면.
-                        <br> 구리보다 전기 전도성 우수, 강철의 200배 강도, 투명하고 유연함.
-                    </li>
-                    <li><i class="fas fa-circle-notch text-blue-400 mr-1"></i> <strong>탄소 나노튜브 (CNT)</strong>:
-                        <br> 그래핀이 둥글게 말려 원통형 관 모양을 이룬 나노 구조체.
-                    </li>
-                    <li><i class="fas fa-mobile-alt text-purple-400 mr-1"></i> <strong>미래 활용</strong>:
-                        <br> 휘어지는 디스플레이, 투명 전극, 차세대 초고속 반도체 소자.
-                    </li>
-                </ul>
-                <div class="mt-4 bg-gray-50 rounded-lg p-3 quiz-box border border-gray-100" onclick="this.classList.toggle('revealed')">
-                    <p class="text-sm text-gray-500 font-bold mb-1"><i class="fas fa-question-circle mr-1 text-yellow-500"></i>Self Check</p>
-                    <p class="text-sm text-gray-700 mb-1">Q. 탄소 원자 한 층의 육각형 평면 구조로 투명하고 유연한 신소재는?</p>
-                    <p class="text-xl text-center font-script mt-1 quiz-answer text-gray-800">그래핀</p>
-                </div>
-            </div>
-
-            <div class="h-10"></div> <!-- 하단 여백 -->
-
-        </main>
-
-        <!-- 하단 네비게이션 바 (고정) -->
-    <div id="common-nav-container"></div>
-
-    <script src="common_nav.js"></script>
-
-    <script>
-        renderCommonNav('home', '../'); 
-    </script>
-    
-    </div>
-
-    <script>
-        lucide.createIcons();
-
-        // 퀴즈 정답 전체 보기 기능
-        function revealAll() {
-            document.querySelectorAll('.quiz-box').forEach(box => {
-                box.classList.add('revealed');
-            });
-        }
-    </script>
-</body>
-</html>

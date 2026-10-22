@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Fit 20 모의고사 모바일 OMR 답안 제출</title>
     <!-- Google Fonts: Nanum Gothic (표준 준수) & Noto Sans KR -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,14 +18,43 @@
     <script src="./b2b_cloud_sync.js"></script>
     <script src="./device_guard.js"></script>
 
-    <!-- MathJax 수식 렌더링 엔진 (해설 수식 자동 표기) -->
+        <!-- KaTeX Math Rendering Library (Fast & Lightweight) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>
+    function renderAllMath(target) {
+        if (typeof renderMathInElement === 'function') {
+            try {
+                renderMathInElement(target || document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\(', right: '\)', display: false },
+                        { left: '\[', right: '\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.warn('KaTeX render error:', e);
+            }
+        }
+    }
     window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      chtml: { scale: 0.9 }
+        typesetPromise: function(elements) {
+            try {
+                if (elements && Array.isArray(elements)) {
+                    elements.forEach(el => el && renderAllMath(el));
+                } else if (elements) {
+                    renderAllMath(elements);
+                } else {
+                    renderAllMath(document.body);
+                }
+            } catch(e) { console.warn('Math render error:', e); }
+            return Promise.resolve();
+        }
     };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
     <style>
         :root {

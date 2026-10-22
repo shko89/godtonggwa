@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>갓통과 - 프리미엄 OMR 센터</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -446,6 +446,28 @@ window.addEventListener('wheel', (e) => {
         let myWrongAnswers = []; 
         let masterPackages = []; 
         let myPackagesData = {};
+        let activeListeners = [];
+        function clearActiveListeners() {
+            activeListeners.forEach(unsub => {
+                if (typeof unsub === 'function') {
+                    try { unsub(); } catch(e) {}
+                }
+            });
+            activeListeners = [];
+        }
+        const _questionDocCache = {};
+        async function getCachedQuestionDoc(qId) {
+            if (!qId) return null;
+            if (_questionDocCache[qId] !== undefined) return _questionDocCache[qId];
+            try {
+                const snap = await getDoc(doc(db, "questions", qId));
+                _questionDocCache[qId] = snap.exists() ? snap.data() : null;
+                return _questionDocCache[qId];
+            } catch(e) {
+                console.warn("Cached question fetch error:", e);
+                return null;
+            }
+        }
         
         window.selectedPackageToOrder = null;
         window.selectedExamId = null; 
@@ -545,6 +567,7 @@ window.addEventListener('wheel', (e) => {
                     switchTab(window.currentTab || 'all');
                 }
             } else {
+                clearActiveListeners();
                 currentUser = null;
                 currentUserData = null;
                 appContent.classList.add('hidden');
@@ -663,6 +686,7 @@ window.addEventListener('wheel', (e) => {
         // ==========================================
         async function loadData() {
             try {
+                clearActiveListeners();
                 const q = query(collection(db, "public_exams"), orderBy("id", "asc"));
                 const snapshot = await getDocs(q);
                 masterExams = [];
@@ -673,19 +697,21 @@ window.addEventListener('wheel', (e) => {
                 pkgSnap.forEach(doc => masterPackages.push({ id: doc.id, ...doc.data() }));
                 masterPackages.sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
 
-                onSnapshot(collection(db, "users", currentUser.uid, "my_packages"), (snapshot) => {
+                const unsub1 = onSnapshot(collection(db, "users", currentUser.uid, "my_packages"), (snapshot) => {
                     myPackagesData = {};
                     snapshot.forEach(doc => myPackagesData[doc.id] = doc.data());
                     refreshCurrentTab();
                 });
+                activeListeners.push(unsub1);
 
-                onSnapshot(collection(db, "users", currentUser.uid, "my_exams"), (snapshot) => {
+                const unsub2 = onSnapshot(collection(db, "users", currentUser.uid, "my_exams"), (snapshot) => {
                     myExamData = {};
                     snapshot.forEach(doc => myExamData[doc.id] = doc.data());
                     refreshCurrentTab();
                 });
+                activeListeners.push(unsub2);
 
-                onSnapshot(collection(db, "users", currentUser.uid, "exam_results"), async (snapshot) => {
+                const unsub3 = onSnapshot(collection(db, "users", currentUser.uid, "exam_results"), async (snapshot) => {
                     const tempResults = {};
                     snapshot.forEach(doc => {
                         const d = doc.data();
@@ -719,10 +745,11 @@ window.addEventListener('wheel', (e) => {
                     
                     myExamResults = tempResults;
                     if (window.currentTab === 'report') refreshCurrentTab();
-                }); // onSnapshot 종료
+                });
+                activeListeners.push(unsub3); // onSnapshot 종료
 
                 // [추가] wrong_answers 컬렉션 실시간 동기화
-                onSnapshot(collection(db, "users", currentUser.uid, "wrong_answers"), async (snapshot) => {
+                const unsub4 = onSnapshot(collection(db, "users", currentUser.uid, "wrong_answers"), async (snapshot) => {
                     let rawAnswers = [];
                     snapshot.forEach(doc => rawAnswers.push(doc.data()));
                     
@@ -749,6 +776,7 @@ window.addEventListener('wheel', (e) => {
                     myWrongAnswers = rawAnswers;
                     if (window.currentTab === 'report') refreshCurrentTab();
                 });
+                activeListeners.push(unsub4);
 
             } catch(e) { console.error(e); }
         }
@@ -793,7 +821,7 @@ window.addEventListener('wheel', (e) => {
                 } else {
                     return resolve(null);
                 }
-                const fetchUrl = fileName + `?v=${new Date().getTime()}`;
+                const fetchUrl = fileName + `?v=20261022`;
                 
                 // Fetch first to safely avoid 404 HTML fallback causing SyntaxError: Unexpected token '<'
                 fetch(fetchUrl)
@@ -1688,21 +1716,19 @@ window.addEventListener('wheel', (e) => {
             let tableHtml = '';
             const sortedAnswers = [...myWrongAnswers].sort((a,b) => (b.wrongCount || 1) - (a.wrongCount || 1));
             
-            // [신규 추가] 통계 데이터 일괄 조회
+            // [캐시 최적화] 통계 데이터 중복 제거 및 캐시 조회
             const statsMap = {};
             if (sortedAnswers.length > 0) {
                 try {
-                    const statsPromises = sortedAnswers.map(ans => getDoc(doc(db, "questions", ans.qId)));
-                    const snaps = await Promise.all(statsPromises);
-                    snaps.forEach((snap, idx) => {
-                        if(snap.exists()) {
-                            const qData = snap.data();
-                            if(qData.stats) {
-                                if (qData.stats.totalAttempts > 0) {
-                                    statsMap[sortedAnswers[idx].qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
-                                } else if (qData.stats.total > 0) {
-                                    statsMap[sortedAnswers[idx].qId] = Math.round(((qData.stats.correct || 0) / qData.stats.total) * 100);
-                                }
+                    const uniqueQIds = [...new Set(sortedAnswers.map(ans => ans.qId).filter(Boolean))];
+                    await Promise.all(uniqueQIds.map(qId => getCachedQuestionDoc(qId)));
+                    sortedAnswers.forEach(ans => {
+                        const qData = _questionDocCache[ans.qId];
+                        if (qData && qData.stats) {
+                            if (qData.stats.totalAttempts > 0) {
+                                statsMap[ans.qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
+                            } else if (qData.stats.total > 0) {
+                                statsMap[ans.qId] = Math.round(((qData.stats.correct || 0) / qData.stats.total) * 100);
                             }
                         }
                     });
@@ -1954,13 +1980,13 @@ window.addEventListener('wheel', (e) => {
                             if (targetQId.startsWith('q_2028_s0_01_') || targetQId.startsWith('exam_01_') || targetQId.startsWith('exam_02_')) {
                                 targetQId = `${cleanExamId}_q${padNo}`;
                             }
-                            let qSnap = await getDoc(doc(db, "questions", targetQId));
-                            if (!qSnap.exists() && cleanExamId === 'mock_2028_s0_01') {
+                            let qData = await getCachedQuestionDoc(targetQId);
+                            if (!qData && cleanExamId === 'mock_2028_s0_01') {
                                 targetQId = `mock_2028_s0_01_q${padNo}`;
-                                qSnap = await getDoc(doc(db, "questions", targetQId));
+                                qData = await getCachedQuestionDoc(targetQId);
                             }
-                            if (qSnap.exists()) {
-                                taxonomy = qSnap.data().taxonomy || {};
+                            if (qData) {
+                                taxonomy = qData.taxonomy || {};
                             }
                         } catch(e) { console.warn("Question fetch error:", e); }
                     }
@@ -2222,33 +2248,33 @@ window.addEventListener('wheel', (e) => {
                     }
 
                     if (wrongAnswers.length > 0) {
-                        const statsPromises = wrongAnswers.map(ans => getDoc(doc(db, "questions", ans.qId)));
-                        const snaps = await Promise.all(statsPromises);
-                        snaps.forEach((snap, idx) => {
-                            const qIdx = parseInt((String(wrongAnswers[idx].qId).match(/\d+$/) || [idx + 1])[0], 10) - 1;
-                            if (!wrongAnswers[idx].correctAnswer || wrongAnswers[idx].correctAnswer === '?' || Number.isNaN(Number(wrongAnswers[idx].correctAnswer))) {
-                                wrongAnswers[idx].correctAnswer = answerKey[qIdx] || (jsData && jsData.answers && jsData.answers[qIdx]) || '?';
+                        const uniqueQIds = [...new Set(wrongAnswers.map(ans => ans.qId).filter(Boolean))];
+                        await Promise.all(uniqueQIds.map(qId => getCachedQuestionDoc(qId)));
+                        wrongAnswers.forEach((ans, idx) => {
+                            const qIdx = parseInt((String(ans.qId).match(/\d+$/) || [idx + 1])[0], 10) - 1;
+                            if (!ans.correctAnswer || ans.correctAnswer === '?' || Number.isNaN(Number(ans.correctAnswer))) {
+                                ans.correctAnswer = answerKey[qIdx] || (jsData && jsData.answers && jsData.answers[qIdx]) || '?';
                             }
-                            if(snap.exists()) {
-                                const qData = snap.data();
+                            const qData = _questionDocCache[ans.qId];
+                            if (qData) {
                                 if (qData.taxonomy && qData.taxonomy.topic && !qData.taxonomy.topic.startsWith('문항 ')) {
-                                    wrongAnswers[idx].topic = qData.taxonomy.topic;
+                                    ans.topic = qData.taxonomy.topic;
                                 } else if (qData.topic && !qData.topic.startsWith('문항 ')) {
-                                    wrongAnswers[idx].topic = qData.topic;
+                                    ans.topic = qData.topic;
                                 }
-                                if(qData.stats) {
+                                if (qData.stats) {
                                     if (qData.stats.totalAttempts > 0) {
-                                        statsMap[wrongAnswers[idx].qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
+                                        statsMap[ans.qId] = Math.round(((qData.stats.correctCount || 0) / qData.stats.totalAttempts) * 100);
                                     } else if (qData.stats.total > 0) {
-                                        statsMap[wrongAnswers[idx].qId] = Math.round(((qData.stats.correct || 0) / qData.stats.total) * 100);
+                                        statsMap[ans.qId] = Math.round(((qData.stats.correct || 0) / qData.stats.total) * 100);
                                     }
                                 }
                             }
-                            if (!wrongAnswers[idx].topic || wrongAnswers[idx].topic === '미분류' || wrongAnswers[idx].topic.startsWith('문항 ')) {
+                            if (!ans.topic || ans.topic === '미분류' || ans.topic.startsWith('문항 ')) {
                                 if (jsData && jsData.explanations && jsData.explanations[qIdx] && jsData.explanations[qIdx].topic) {
-                                    wrongAnswers[idx].topic = jsData.explanations[qIdx].topic;
-                                    if (!wrongAnswers[idx].taxonomy) wrongAnswers[idx].taxonomy = {};
-                                    wrongAnswers[idx].taxonomy.topic = jsData.explanations[qIdx].topic;
+                                    ans.topic = jsData.explanations[qIdx].topic;
+                                    if (!ans.taxonomy) ans.taxonomy = {};
+                                    ans.taxonomy.topic = jsData.explanations[qIdx].topic;
                                 }
                             }
                         });

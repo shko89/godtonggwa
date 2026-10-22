@@ -10,28 +10,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <!-- MathJax for LaTeX Rendering -->
+        <!-- KaTeX Math Rendering Library (Fast & Lightweight) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      startup: {
-        pageReady: () => {
-          return MathJax.startup.defaultPageReady().then(() => {
-            const fb = document.getElementById('flipbook');
-            if (fb && fb.children.length > 0) {
-              MathJax.typesetPromise([fb]).catch(() => {});
+    function renderAllMath(target) {
+        if (typeof renderMathInElement === 'function') {
+            try {
+                renderMathInElement(target || document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\(', right: '\)', display: false },
+                        { left: '\[', right: '\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.warn('KaTeX render error:', e);
             }
-          });
         }
-      }
+    }
+    window.MathJax = {
+        typesetPromise: function(elements) {
+            try {
+                if (elements && Array.isArray(elements)) {
+                    elements.forEach(el => el && renderAllMath(el));
+                } else if (elements) {
+                    renderAllMath(elements);
+                } else {
+                    renderAllMath(document.body);
+                }
+            } catch(e) { console.warn('Math render error:', e); }
+            return Promise.resolve();
+        }
     };
     </script>
-    <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     
     <!-- Base Reset & Flipbook Global Styles -->
     <style>
@@ -4920,7 +4935,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q14.webp" alt="예시문항 14번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img loading="lazy" decoding="async" src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q14.webp" alt="예시문항 14번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -4997,7 +5012,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q01.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q01.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -5007,7 +5022,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q02.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q02.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -5587,7 +5602,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q04.webp" alt="예시문항 4번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img loading="lazy" decoding="async" src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q04.webp" alt="예시문항 4번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -5673,7 +5688,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q03.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q03.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -5683,7 +5698,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q04.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q04.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -6484,7 +6499,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q19.webp" alt="예시문항 19번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img loading="lazy" decoding="async" src="/questions/kice/2028/2028_pretest/kice_2028_pretest_mock_q19.webp" alt="예시문항 19번 전체 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -6570,7 +6585,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q05.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q05.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -6580,7 +6595,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q06.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q06.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -7350,7 +7365,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="prob-split-right" style="flex: 1; box-sizing: border-box; overflow: hidden; border-left: 1px dashed #cbd5e1; padding-left: 10px;">
                         <div class="csat-prob" style="text-align: center; margin-top: 0px;">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prep_q01.webp?alt=media" alt="SECTION 04 Prep 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
+                            <img loading="lazy" decoding="async" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prep_q01.webp?alt=media" alt="SECTION 04 Prep 문항" style="max-width: 100%; width: auto; height: auto; max-height: 400px; display: inline-block; object-fit: contain;">
                         </div> <!-- end csat-prob -->
                     </div> <!-- end prob-split-right -->
                 </div> <!-- end prob-split -->
@@ -7442,7 +7457,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Left Column -->
 <div class="practice-col" style="flex: 1; border-right: 1px dashed #cbd5e1; padding-right: 4px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q07.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 1" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q07.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
@@ -7452,7 +7467,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <!-- Right Column -->
 <div class="practice-col" style="flex: 1; padding-left: 0px; display: flex; flex-direction: column; position: relative;">
 <div class="csat-prob" style="text-align: center; margin-bottom: 20px;">
-<img alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q08.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
+<img loading="lazy" decoding="async" alt="변형 문항 2" src="https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fweek%2F2028%2Fweek_2028_03%2Fweek_2028_03_prac_q08.webp?alt=media" style="width: 100%; height: auto; object-fit: contain;"/>
 </div>
 <div class="trap-box editable" contenteditable="true" style="  background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px;; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>

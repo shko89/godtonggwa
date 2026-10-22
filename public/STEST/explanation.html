@@ -8,13 +8,43 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="/css/common.css">
     
+        <!-- KaTeX Math Rendering Library (Fast & Lightweight) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>
-    MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      chtml: { scale: 0.85 }
+    function renderAllMath(target) {
+        if (typeof renderMathInElement === 'function') {
+            try {
+                renderMathInElement(target || document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\(', right: '\)', display: false },
+                        { left: '\[', right: '\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.warn('KaTeX render error:', e);
+            }
+        }
+    }
+    window.MathJax = {
+        typesetPromise: function(elements) {
+            try {
+                if (elements && Array.isArray(elements)) {
+                    elements.forEach(el => el && renderAllMath(el));
+                } else if (elements) {
+                    renderAllMath(elements);
+                } else {
+                    renderAllMath(document.body);
+                }
+            } catch(e) { console.warn('Math render error:', e); }
+            return Promise.resolve();
+        }
     };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
         /* 1. 손글씨 폰트 로드 */
         @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Dodum&family=Gaegu:wght@400;700&display=swap');
@@ -270,7 +300,7 @@ window.addEventListener('wheel', (e) => {
                 } else {
                     return resolve(null);
                 }
-                const fetchUrl = fileName + `?v=${new Date().getTime()}`;
+                const fetchUrl = fileName + `?v=20261022`;
                 
                 // Fetch first to safely avoid 404 HTML fallback causing SyntaxError: Unexpected token '<'
                 fetch(fetchUrl)

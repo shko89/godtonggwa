@@ -1,4 +1,23 @@
 /* 공통 스타일 통합 (common.css) */
+@font-face {
+    font-family: '온글잎 박윤슬체';
+    src: url('OwnglyphParkYounseul.woff') format('woff'),
+         url('OwnglyphParkYounseul.ttf') format('truetype'),
+         url('%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OwnglyphParkYounseul';
+    src: url('OwnglyphParkYounseul.woff') format('woff'),
+         url('OwnglyphParkYounseul.ttf') format('truetype'),
+         url('%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* 전체 앱 텍스트 줄바꿈 기본 설정: 어절 단위(단어 단위)로 줄바꿈 */
 body, * {
     word-break: keep-all;
@@ -14,6 +33,7 @@ body, * {
 
 .font-gamja { font-family: 'Gamja Flower', cursive; }
 .font-pen { font-family: 'Nanum Pen Script', cursive; }
+.font-yoonseul { font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', 'Nanum Pen Script', cursive; }
 
 .red-pen { color: #d63031; font-weight: bold; text-decoration: underline; text-decoration-style: wavy; text-decoration-color: rgba(214, 48, 49, 0.5); }
 .blue-pen { color: #0984e3; font-weight: bold; }

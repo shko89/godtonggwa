@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>갓통과 - 용어 암기장 뷰어</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,14 +11,43 @@
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Gamja+Flower&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- MathJax 수식 렌더러 -->
+        <!-- KaTeX Math Rendering Library (Fast & Lightweight) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>
-        window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-            svg: { fontCache: 'global' }
-        };
+    function renderAllMath(target) {
+        if (typeof renderMathInElement === 'function') {
+            try {
+                renderMathInElement(target || document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\(', right: '\)', display: false },
+                        { left: '\[', right: '\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.warn('KaTeX render error:', e);
+            }
+        }
+    }
+    window.MathJax = {
+        typesetPromise: function(elements) {
+            try {
+                if (elements && Array.isArray(elements)) {
+                    elements.forEach(el => el && renderAllMath(el));
+                } else if (elements) {
+                    renderAllMath(elements);
+                } else {
+                    renderAllMath(document.body);
+                }
+            } catch(e) { console.warn('Math render error:', e); }
+            return Promise.resolve();
+        }
+    };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     <link rel="stylesheet" href="/css/common.css">
 
     <style>

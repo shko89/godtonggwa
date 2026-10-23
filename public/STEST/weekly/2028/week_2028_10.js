@@ -37,7 +37,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">함정</span>
-                <span class="fact-check-text">항원-항체 반응은 단백질 간 결합이며, 유전 물질(핵산)을 증폭 검출하는 분자 진단(PCR)과 원리가 완전히 다름에 유의하세요.</span>
+                <span class="fact-check-text">항원-항체 반응은 단백질 간 결합이며, 유전물질(핵산)을 증폭 검출하는 분자 진단(PCR)과 원리가 완전히 다름에 유의하세요.</span>
             </div>
         </div>
 `
@@ -143,7 +143,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
-            <span class="fact-check-text">신속항원검사는 보조적 선별 검사이므로, B의 정확한 진단과 확진을 위해 바이러스 유전 물질을 증폭하는 PCR 검사를 추가 시행할 수 있습니다. (O)</span>
+            <span class="fact-check-text">신속항원검사는 보조적 선별 검사이므로, B의 정확한 진단과 확진을 위해 바이러스 유전물질을 증폭하는 PCR 검사를 추가 시행할 수 있습니다. (O)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
@@ -242,7 +242,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ④</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">분자 진단(가)은 바이러스의 유전 물질(핵산)을 특수 효소로 증폭하여 극미량의 바이러스도 정밀 검출하는 PCR 기술이며 수 시간이 소요됩니다. 면역 진단(나)은 바이러스 표면 단백질(항원)과 키트 항체의 특이적 결합을 이용해 15~30분 만에 결과를 확인하는 신속 선별 방식입니다.</div>
+            <div class="concept-content">분자 진단(가)은 바이러스의 유전물질(핵산)을 특수 효소로 증폭하여 극미량의 바이러스도 정밀 검출하는 PCR 기술이며 수 시간이 소요됩니다. 면역 진단(나)은 바이러스 표면 단백질(항원)과 키트 항체의 특이적 결합을 이용해 15~30분 만에 결과를 확인하는 신속 선별 방식입니다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -257,7 +257,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄱ.</span>
-                <span class="fact-check-text">(가)는 바이러스의 유전 물질인 <b>핵산(DNA 또는 RNA)</b>을 증폭하여 검출하는 방식이며, 표면 단백질을 검출하는 것은 (나)입니다. (X)</span>
+                <span class="fact-check-text">(가)는 바이러스의 유전물질인 <b>핵산(DNA 또는 RNA)</b>을 증폭하여 검출하는 방식이며, 표면 단백질을 검출하는 것은 (나)입니다. (X)</span>
             </div>
         </div>
 `
@@ -354,7 +354,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ②</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">바이러스는 외피의 표면 단백질(B)과 내부 유전 물질인 핵산(A, RNA 또는 DNA)으로 구성됩니다. 분자 진단 I(PCR)은 극미량의 핵산(A)을 효소로 대량 증폭하여 높은 민감도와 정확성으로 진단하며, 면역 진단 II는 표면 단백질(B)과 키트 항체의 특이적 결합을 이용합니다.</div>
+            <div class="concept-content">바이러스는 외피의 표면 단백질(B)과 내부 유전물질인 핵산(A, RNA 또는 DNA)으로 구성됩니다. 분자 진단 I(PCR)은 극미량의 핵산(A)을 효소로 대량 증폭하여 높은 민감도와 정확성으로 진단하며, 면역 진단 II는 표면 단백질(B)과 키트 항체의 특이적 결합을 이용합니다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -365,7 +365,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄱ.</span>
-                <span class="fact-check-text">A는 내부의 유전 물질인 핵산이며, 면역계에서 항원으로 주로 인식되는 것은 외피에 돌출된 <b>표면 단백질(B)</b>입니다. (X)</span>
+                <span class="fact-check-text">A는 내부의 유전물질인 핵산이며, 면역계에서 항원으로 주로 인식되는 것은 외피에 돌출된 <b>표면 단백질(B)</b>입니다. (X)</span>
             </div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄷ.</span>
@@ -470,12 +470,12 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ⑤</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">백신은 병원성을 약화하거나 불활성화한 항원을 주입하여 체내에 기억 세포를 형성시킵니다(1차 면역). 이후 동일 병원체 침입 시(t2) 기억 세포가 형질 세포로 빠르게 분화하여 고농도의 항체를 신속히 대량 분비합니다(2차 면역). 백신 접종률이 높은 집단 B에서는 감염 전파 경로가 차단되어 미접종자도 보호를 받습니다.</div>
+            <div class="concept-content">백신은 병원성을 약화하거나 불활성화한 항원을 주입하여 체내에 면역 기억을 형성시킵니다. 이후 동일 병원체 침입 시(t2) 면역 체계가 작동하여 고농도의 항체를 신속히 대량 분비합니다. 백신 접종률이 높은 집단 B에서는 집단 면역 효과로 감염 전파 경로가 차단되어 미접종자도 보호를 받습니다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄱ.</span>
-            <span class="fact-check-text">t₂ 이후 항체 농도가 지체 없이 급상승하는 것은 1차 백신 접종 때 형성된 기억 세포가 신속히 분화하여 항체를 대량 생성하기 때문입니다. (O)</span>
+            <span class="fact-check-text">t₂ 이후 항체 농도가 지체 없이 급상승하는 것은 1차 백신 접종 때 형성된 면역 기억에 의해 항체가 신속하게 대량 생성되기 때문입니다. (O)</span>
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
@@ -564,7 +564,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
-            <span class="fact-check-text">GMO의 유전자가 야생 식물로 유출되어 생태계 평형이 파괴될 경우 토착종의 서식지가 위협받아 생물 다양성에 심각한 악영향을 줍니다. (O)</span>
+            <span class="fact-check-text">GMO의 유전자가 야생 식물로 유출되어 생태계평형이 파괴될 경우 토착종의 서식지가 위협받아 생물다양성에 심각한 악영향을 줍니다. (O)</span>
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>

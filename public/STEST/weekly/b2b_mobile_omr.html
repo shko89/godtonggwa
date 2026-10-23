@@ -30,8 +30,8 @@
                     delimiters: [
                         { left: '$$', right: '$$', display: true },
                         { left: '$', right: '$', display: false },
-                        { left: '\(', right: '\)', display: false },
-                        { left: '\[', right: '\]', display: true }
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
                     ],
                     throwOnError: false
                 });
@@ -86,6 +86,8 @@
             padding: 0;
             font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
             background-color: var(--bg-page);
+            word-break: keep-all;
+            overflow-wrap: break-word;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -1645,6 +1647,31 @@
         }
         .item-row.open .item-detail-body { display: block; }
 
+
+        @font-face {
+            font-family: '온글잎 박윤슬체';
+            src: url('../../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
+                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OwnglyphParkYounseul';
+            src: url('../../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
+                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
         .explanation-box {
             background: #ffffff;
             border: 1px solid #cbd5e1;
@@ -1652,6 +1679,12 @@
             padding: 14px 16px;
             margin-top: 8px;
             line-height: 1.6;
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 15px;
+        }
+        .explanation-box,
+        .explanation-box *:not(.katex):not(.katex *):not(mjx-container):not(mjx-container *) {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
         }
         .explanation-box .ans-correct-title { 
             color: #0284c7; 
@@ -3568,7 +3601,7 @@
         { week: 1, title: '시간과 공간의 규모 ‧ 기본량과 측정 ‧ 정보와 신호', maxScore: '31.0점' },
         { week: 2, title: '스펙트럼과 우주 원소 ‧ 빅뱅과 별의 진화 ‧ 원소의 주기성', maxScore: '35.5점' },
         { week: 3, title: '화학 결합과 신소재 ‧ 규산염 광물 ‧ 단백질과 핵산', maxScore: '33.5점' },
-        { week: 4, title: '지구 시스템의 상호작용 ‧ 판 구조론 ‧ 중력장 내의 운동', maxScore: '36.5점' },
+        { week: 4, title: '지구시스템의 상호작용 ‧ 판 구조론 ‧ 중력장 내의 운동', maxScore: '36.5점' },
         { week: 5, title: '충격량과 운동량 ‧ 충돌 안전장치 ‧ 생명 시스템과 효소', maxScore: '34.5점' },
         { week: 6, title: '지질시대 생물과 화석 ‧ 대멸종 ‧ 변이와 자연선택', maxScore: '34.5점' },
         { week: 7, title: '산화 환원 반응 ‧ 산과 염기 ‧ 중화 반응과 열', maxScore: '30.0점' },

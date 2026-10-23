@@ -20,8 +20,8 @@
                     delimiters: [
                         { left: '$$', right: '$$', display: true },
                         { left: '$', right: '$', display: false },
-                        { left: '\(', right: '\)', display: false },
-                        { left: '\[', right: '\]', display: true }
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
                     ],
                     throwOnError: false
                 });
@@ -79,20 +79,20 @@
             opacity: 0.6;
         }
 
-        /* 상단 헤더 및 대기 화면용 손글씨 (기존 폰트 유지) */
+        /* 상단 헤더 및 대기 화면용 손글씨: 온글잎 박윤슬체 */
         .handwriting {
-            font-family: 'Nanum Pen Script', cursive;
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
             font-size: 1.6rem;
-            color: #374151;
+            color: #1e293b;
             padding-left: 50px;
             padding-right: 20px;
         }
 
-        /* 본문 해설 영역: 차분한 정자형 손글씨(고운돋움) 및 최적 가독성 크기 (1pt 다운사이즈) */
+        /* [핵심] 주간지·모의고사·기출문제 문항별 해설 내용: 온글잎 박윤슬체 통일 */
         .explanation-body {
-            font-family: 'Gowun Dodum', sans-serif;
-            font-size: 13.8px;
-            color: #334155;
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 16.5px;
+            color: #1e293b;
             padding-left: 50px;
             padding-right: 20px;
             line-height: 30px;
@@ -117,22 +117,122 @@
             border-color: #4f46e5;
         }
         
+        @font-face {
+            font-family: '온글잎 박윤슬체';
+            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
+                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OwnglyphParkYounseul';
+            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
+                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* 본문 해설 내 모든 텍스트/하위 요소(정답, 선지, 개념박스, 팩트체크 등) 온글잎 박윤슬체 강제 적용 (수식 제외) */
+        .explanation-body,
+        .explanation-body *:not(.katex):not(.katex *):not(mjx-container):not(mjx-container *) {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+        }
+
+        /* 정답 타이틀 스타일 */
+        .explanation-body .ans-correct-title {
+            font-size: 17.5px !important;
+            font-weight: bold;
+            color: #2563eb;
+            line-height: 30px !important;
+            margin-top: -4px;
+            margin-bottom: 8px;
+        }
+
+        /* 개념 박스 온글잎 박윤슬체 최적화 */
+        .explanation-body .concept-box {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            padding: 8px 14px;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .explanation-body .concept-title {
+            font-size: 16.5px !important;
+            font-weight: bold;
+            color: #0f172a;
+            line-height: 1.4;
+        }
+        .explanation-body .concept-content {
+            font-size: 15.5px !important;
+            color: #334155;
+            line-height: 1.55;
+        }
+
+        /* 팩트 체크 및 오답 함정 섹션 */
+        .explanation-body .fact-check-title {
+            font-size: 17px !important;
+            font-weight: bold;
+            color: #0f172a;
+            line-height: 30px !important;
+            margin-top: 6px;
+            margin-bottom: 4px;
+        }
+        .explanation-body .fact-check-item {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 16.5px !important;
+            line-height: 30px !important;
+        }
+        .explanation-body .fact-check-text {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 16.5px !important;
+            line-height: 30px !important;
+            color: #1e293b;
+        }
+        .explanation-body .fact-check-label {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 17.5px !important;
+            line-height: 30px !important;
+        }
+        .explanation-body .wrong-fact-title {
+            font-size: 17px !important;
+            font-weight: bold;
+            color: #e11d48;
+            line-height: 30px !important;
+            margin-bottom: 4px;
+        }
+        .explanation-body .wrong-fact-label {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 17.5px !important;
+            line-height: 30px !important;
+        }
+
+        /* 기출문제 등 일반 텍스트 문단 */
+        .explanation-body p,
+        .explanation-body div,
+        .explanation-body span:not(.katex):not(.katex *) {
+            font-size: 16.5px;
+            line-height: 30px;
+        }
+
+        /* 해설 영역 수식 크기 최적화 (손글씨 폰트 비율 보정) */
+        .explanation-body .katex,
+        .fact-check-text .katex {
+            font-size: 0.92em !important;
+        }
+
     </style>
 
-<script>
-// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
-// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
-window.addEventListener('wheel', (e) => {
-    if (!e.target.closest('.overflow-y-auto')) {
-        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
-        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
-        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
-        if (activeContainer) {
-            activeContainer.scrollTop += e.deltaY;
-        }
-    }
-}, { passive: true });
-</script>
+<script src="/js/common-ui.js" defer></script>
 </head>
 <body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
 
@@ -217,6 +317,7 @@ window.addEventListener('wheel', (e) => {
         import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { normalizeExamId, loadExamDataScript, getEstimatedAccuracyRate } from "./exam_core.js";
 
         window.handleExplanationBack = function() {
             if (window.opener && !window.opener.closed) {
@@ -239,14 +340,7 @@ window.addEventListener('wheel', (e) => {
             }
         };
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-            authDomain: "godtonggwa.firebaseapp.com",
-            projectId: "godtonggwa",
-            storageBucket: "godtonggwa.firebasestorage.app",
-            messagingSenderId: "1087434066468",
-            appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-        };
+        import { firebaseConfig } from "/firebase-config.js";
 
         const app = initializeApp(firebaseConfig);
         const appCheck = initializeAppCheck(app, {
@@ -256,79 +350,11 @@ window.addEventListener('wheel', (e) => {
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        function normalizeExamId(rawExamId) {
-            if (!rawExamId) return 'mock_2028_s0_01';
-            let examId = String(rawExamId).replace(/_\d{13}$/, '').trim();
-            if (
-                examId === 'mock_2028_s0' || examId === 'mock_2028_s0_01' ||
-                examId === 'exam_01' || examId === 'exam_02' || examId === 'exam_2028001' || examId === '2028_s0_01'
-            ) {
-                return 'mock_2028_s0_01';
-            }
-            if (examId === '2028_pretest' || examId === 'past_예비문항' || examId === 'exam_00' || examId.includes('pretest') || examId.includes('예비문항') || examId.startsWith('past_')) {
-                return '2028_pretest';
-            }
-            return examId;
-        }
-
         const urlParams = new URLSearchParams(window.location.search);
         const EXAM_ID = urlParams.get('id') || 'mock_2028_s0_01';
         
         let examMetaData = null;
         let aiExamData = null;
-
-        const _examScriptDataCache = {};
-        function loadExamDataScript(rawExamId) {
-            return new Promise((resolve) => {
-                if (!rawExamId) return resolve(null);
-                const examId = normalizeExamId(rawExamId);
-                if (_examScriptDataCache[examId]) return resolve(_examScriptDataCache[examId]);
-
-                let fileName = '';
-                if (examId === '2028_pretest' || examId === 'past_예비문항' || examId.includes('pretest') || examId.includes('예비문항') || examId.startsWith('past_')) {
-                    fileName = `../archive/kice_2028/2028_pretest.js`;
-                } else if (examId.includes('week_')) {
-                    const parts = examId.split('_');
-                    const year = parts[1]; 
-                    const baseId = parts.slice(0, 3).join('_'); 
-                    fileName = `./weekly/${year}/${baseId}.js`;
-                } else if (examId.includes('mock_')) {
-                    const parts = examId.split('_');
-                    const year = parts[1];
-                    const folderName = parts.slice(0, 3).join('_'); // mock_2028_s0
-                    fileName = `./mock/${year}/${folderName}/${examId}.js`;
-                } else {
-                    return resolve(null);
-                }
-                const fetchUrl = fileName + `?v=20261022`;
-                
-                // Fetch first to safely avoid 404 HTML fallback causing SyntaxError: Unexpected token '<'
-                fetch(fetchUrl)
-                    .then(res => {
-                        if (!res.ok) return null;
-                        const ctype = res.headers.get('content-type') || '';
-                        if (ctype.includes('text/html')) return null;
-                        return res.text();
-                    })
-                    .then(code => {
-                        if (!code || code.trim().startsWith('<')) return resolve(null);
-                        try {
-                            window.globalExamData = null;
-                            const script = document.createElement('script');
-                            script.textContent = code;
-                            document.head.appendChild(script);
-                            document.documentElement.style.fontSize = "";
-                            const result = window.globalExamData || null;
-                            if (result) _examScriptDataCache[examId] = result;
-                            resolve(result);
-                        } catch(err) {
-                            console.warn("Script execution error:", err);
-                            resolve(null);
-                        }
-                    })
-                    .catch(() => resolve(null));
-            });
-        }
 
        async function init() {
             try {
@@ -407,19 +433,6 @@ window.addEventListener('wheel', (e) => {
                 btn.onclick = () => selectQuestion(i, btn);
                 grid.appendChild(btn);
             }
-        }
-
-        function getEstimatedAccuracyRate(qNum, score, examId) {
-            const sc = Number(score) || 2.0;
-            let baseRate = sc <= 1.5 ? 78 : (sc >= 2.5 ? 38 : 58);
-            const str = (examId || 'godtonggwa') + '_' + qNum;
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash |= 0;
-            }
-            const offset = (Math.abs(hash) % 13) - 6; // -6 ~ +6
-            return Math.max(26, Math.min(92, baseRate + offset));
         }
 
         window.selectQuestion = async (no, btnElement) => {

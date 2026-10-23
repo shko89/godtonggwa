@@ -1,10 +1,12 @@
-// Firebase SDK 라이브러리 가져오기
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+// 갓통과(Godtonggwa) 글로벌 Firebase 초기화 및 설정 모듈
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// TODO: 아래 내용을 본인의 Firebase 설정으로 바꿔치기 하세요!
-const firebaseConfig = {
+export const APP_ID = 'godtonggwa_v1';
+
+export const firebaseConfig = {
   apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
   authDomain: "godtonggwa.firebaseapp.com",
   projectId: "godtonggwa",
@@ -14,10 +16,20 @@ const firebaseConfig = {
   measurementId: "G-YVYHR5SJZL"
 };
 
-// Firebase 초기화
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// 다른 파일에서 쓸 수 있게 내보내기
-export { auth, db, signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, getDoc };
+let _appCheck = null;
+try {
+  _appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
+    isTokenAutoRefreshEnabled: true
+  });
+} catch (e) {
+  // 이미 초기화된 경우 안전하게 무시
+}
+export const appCheck = _appCheck;
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+export { signInWithEmailAndPassword, signOut, onAuthStateChanged, doc, getDoc };

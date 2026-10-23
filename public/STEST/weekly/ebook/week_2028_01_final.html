@@ -7,14 +7,7 @@
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-        authDomain: "godtonggwa.firebaseapp.com",
-        projectId: "godtonggwa",
-        storageBucket: "godtonggwa.firebasestorage.app",
-        messagingSenderId: "1087434066468",
-        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-    };
+    import { firebaseConfig } from "/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     try {
@@ -2887,7 +2880,7 @@ body {
 <circle cx="125" cy="65" data-scope="page06-1" fill="#fcd34d" r="3"></circle>
 </svg>
 </div>
-<div class="image-caption" data-scope="page06-1">▲ DNA 이중 나선 구조 (미시)</div>
+<div class="image-caption" data-scope="page06-1">▲ DNA 이중나선구조 (미시)</div>
 </div>
 <!-- 2. 거시 세계 (성운) SVG 일러스트 -->
 <div class="image-grid-item" data-scope="page06-1">
@@ -4506,7 +4499,7 @@ body {
 </div>
 <div class="trap-box editable" contenteditable="true" data-scope="page28" style="margin-top: auto; margin-bottom: 5px; background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px 15px;">
 <div data-scope="page28" style="font-size: 11px; font-weight: 900; color: #475569; margin-bottom: 6px;">⚠️ 갓쌤의 함정 주의보</div>
-<div data-scope="page28" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">표본화 주기가 짧을수록(자주 쪼개어 측정할수록) 원본과 가까워져 오차가 줄어들지만, 처리해야 할 디지털 데이터 용량은 기하급수적으로 커진다는 상충 관계를 잊지 마세요!</div>
+<div data-scope="page28" style="font-size: 10.5px; color: #334155; line-height: 1.5; word-break: keep-all; text-align: justify;">측정 시간 간격이 좁을수록(자주 쪼개어 측정할수록) 원본과 가까워져 오차가 줄어들지만, 처리해야 할 디지털 데이터 용량은 커진다는 상관관계를 잊지 마세요!</div>
 </div>
 </div>
 <!-- Right Column -->
@@ -4550,7 +4543,7 @@ body {
 <span data-scope="page29" style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
 <div class="exp-text" data-scope="page29" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">
-<strong data-scope="page29" style="color: #0f172a;">표본화 주기와 데이터의 상관관계</strong><br data-scope="page29"/>아날로그 신호를 일정한 시간 간격(표본화 주기)으로 측정해 디지털 데이터로 변환할 때, 주기가 짧을수록 용량은 커지지만 원본과의 오차는 줄어듭니다.
+<strong data-scope="page29" style="color: #0f172a;">신호의 측정 간격과 데이터 변환</strong><br data-scope="page29"/>아날로그 신호를 일정한 시간 간격(측정 주기)으로 기록해 디지털 데이터로 변환할 때, 측정 간격이 좁을수록(자주 측정할수록) 데이터 용량은 커지지만 원본과의 차이(오차)는 줄어듭니다.
                                 </div>
 </div>
 <div class="exp-section" data-scope="page29" style="margin-top: 8px;">
@@ -4567,13 +4560,13 @@ body {
 <div class="bogi-exp" data-scope="page29" style="display: flex; gap: 8px; margin-bottom: 4px;">
 <div class="bogi-mark" data-scope="page29" style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄴ. (O)</div>
 <div class="bogi-text" data-scope="page29" style="flex: 1; word-break: keep-all; text-align: justify;">
-                                            (가)는 표본화 주기가 짧아 데이터를 더 자주 추출하므로, (나)보다 생성되는 디지털 데이터의 용량이 더 큽니다.
+                                            (가)는 측정 시간 간격이 좁아 데이터를 더 자주 기록하므로, (나)보다 생성되는 디지털 데이터의 용량이 더 큽니다.
                                         </div>
 </div>
 <div class="bogi-exp" data-scope="page29" style="display: flex; gap: 8px; margin-bottom: 0;">
 <div class="bogi-mark" data-scope="page29" style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄷ. (O)</div>
 <div class="bogi-text" data-scope="page29" style="flex: 1; word-break: keep-all; text-align: justify;">
-                                            표본화 주기가 짧을수록 원본 신호를 세밀하게 기록하므로, 다시 복원할 때 발생하는 오차는 (가)가 (나)보다 작습니다.
+                                            측정 간격이 좁을수록 원본 신호를 세밀하게 기록하므로, 다시 복원할 때 발생하는 오차는 (가)가 (나)보다 작습니다.
                                         </div>
 </div>
 </div>
@@ -4581,7 +4574,7 @@ body {
 <div class="learning-method" data-scope="page29" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; margin-top: auto; margin-bottom: 5px;">
 <div class="learning-title" data-scope="page29" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
 <p class="learning-desc editable" contenteditable="true" data-scope="page29" style="font-size: 9.5px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">
-                                    표본화 주기가 짧을 때의 '장점(오차 감소)'과 '단점(용량 증가)'의 <strong data-scope="page29">상충 관계(Trade-off)</strong>를 명확히 인지하고 있어야 합니다.
+                                    측정 시간 간격이 좁을 때의 '장점(정밀도 증가·오차 감소)'과 '단점(데이터 용량 증가)'의 상관관계를 명확히 이해해야 합니다.
                                 </p>
 </div>
 </div>

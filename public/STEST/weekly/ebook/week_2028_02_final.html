@@ -11,14 +11,7 @@
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-        authDomain: "godtonggwa.firebaseapp.com",
-        projectId: "godtonggwa",
-        storageBucket: "godtonggwa.firebasestorage.app",
-        messagingSenderId: "1087434066468",
-        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-    };
+    import { firebaseConfig } from "/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     try {
@@ -3581,7 +3574,7 @@ body {
 <div class="bogi-exp" style="display: flex; gap: 10px; margin-bottom: 0;">
 <div class="bogi-mark" style="font-weight: 900; color: #e11d48; flex: 0 0 45px;">ㄷ. (X)</div>
 <div class="bogi-text" style="flex: 1; word-break: keep-all; ">
-                                광합성에 쓰이는 물질은 이산화탄소(CO<sub>2</sub>)이며 이는 XZ<sub>2</sub>입니다. YZ<sub>2</sub>는 이산화규소(SiO<sub>2</sub>)를 의미하므로 틀렸습니다.
+                                광합성에 쓰이는 물질은 이산화 탄소(CO<sub>2</sub>)이며 이는 XZ<sub>2</sub>입니다. YZ<sub>2</sub>는 이산화규소(SiO<sub>2</sub>)를 의미하므로 틀렸습니다.
                             </div>
 </div>
 </div>
@@ -3656,17 +3649,17 @@ body {
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
 <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                                 </div>
-<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">전자 껍질 수(주기)와 가장 바깥 껍질의 전자 수(원자가 전자 수)를 파악하여 원소의 주기적 성질을 이해하는 문항입니다.</div>
+<div class="exp-text" style="font-size: 9.5px; line-height: 1.4; color: #334155; word-break: keep-all; text-align: justify;">전자껍질 수(주기)와 가장 바깥 껍질의 전자 수(원자가 전자 수)를 파악하여 원소의 주기적 성질을 이해하는 문항입니다.</div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
 <div class="exp-title" style="font-size: 11px; font-weight: 900; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 3px; margin-bottom: 5px;">
 <span style="color: #e11d48; margin-right: 5px;">▶</span>출제위원 시그니처 해설
                                 </div>
-<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">원자의 전자 배치 모형을 통해 A는 2주기 18족(Ne, 전자 10개), B는 2주기 17족(F, 전자 9개), C는 3주기 1족(Na, 전자 11개)임을 알 수 있습니다. A와 B는 전자 껍질 수가 2개로 같아 같은 주기에 속합니다. 원자가 전자 수는 B(7개)가 가장 크며, B는 전자 1개를 얻어 안정한 음이온이 되기 쉽습니다. 따라서 옳은 설명은 ㄱ뿐입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A와 B는 모두 전자 껍질 수가 2개이므로 같은 주기(2주기)에 속하는 원소가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">원자가 전자 수는 A(Ne) 0개, B(F) 7개, C(Na) 1개이므로, 원자가 전자 수가 가장 큰 원소는 B입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B(F)는 전자를 1개 '얻어서' 비활성 기체와 같은 안정한 전자 배치를 갖는 '음이온'이 되기 쉽습니다.</div></div></div>
+<div class="exp-detail" style="font-size: 9.5px; line-height: 1.4; color: #334155;"><p style="margin-top: 0; margin-bottom: 15px; word-break: keep-all; text-align: justify;">원자의 전자 배치 모형을 통해 A는 2주기 18족(Ne, 전자 10개), B는 2주기 17족(F, 전자 9개), C는 3주기 1족(Na, 전자 11개)임을 알 수 있습니다. A와 B는 전자껍질 수가 2개로 같아 같은 주기에 속합니다. 원자가 전자 수는 B(7개)가 가장 크며, B는 전자 1개를 얻어 안정한 음이온이 되기 쉽습니다. 따라서 옳은 설명은 ㄱ뿐입니다.</p><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #16a34a; flex: 0 0 35px;">ㄱ. (O)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">A와 B는 모두 전자껍질 수가 2개이므로 같은 주기(2주기)에 속하는 원소가 맞습니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄴ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">원자가 전자 수는 A(Ne) 0개, B(F) 7개, C(Na) 1개이므로, 원자가 전자 수가 가장 큰 원소는 B입니다.</div></div><div style="display: flex; gap: 8px; margin-bottom: 4px;"><div style="font-weight: 900; color: #e11d48; flex: 0 0 35px;">ㄷ. (X)</div><div style="flex: 1; word-break: keep-all; text-align: justify;">B(F)는 전자를 1개 '얻어서' 비활성 기체와 같은 안정한 전자 배치를 갖는 '음이온'이 되기 쉽습니다.</div></div></div>
 </div>
 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 5px 8px; border-radius: 0 4px 4px 0; margin-top: 37px; margin-bottom: 5px;">
 <div class="learning-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 4px;">💡 갓쌤의 행동 영역 코칭</div>
-<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자 껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
+<p class="learning-desc editable" contenteditable="true" style="font-family: 'BareHippie', cursive; font-size: 11px; color: #0f172a; margin: 0; line-height: 1.4; word-break: keep-all; text-align: justify;">안녕, 미래의 과학 인재들! 갓쌤이야. 😉 원자 모형을 보고 전자껍질 수와 전자 개수를 정확히 세어낼 줄만 안다면, 이 문제는 아주 쉽게 풀 수 있어! 갓쌤과 함께 차근차근 분석해 보자!</p>
 </div>
 </div>
 <!-- Right Column -->
@@ -4044,12 +4037,12 @@ body {
 
     <div class="card">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>같은 주기의 원소들은 전자가 채워지는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>전자 껍질</span> 수가 서로 같다.</span></div>
+        <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>같은 주기의 원소들은 전자가 채워지는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>전자껍질</span> 수가 서로 같다.</span></div>
     </div>
 
     <div class="card">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>같은 족의 원소들은 가장 바깥 전자 껍질에 존재하는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>원자가 전자</span> 수가 같아 화학적 성질이 비슷하다.</span></div>
+        <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>같은 족의 원소들은 가장 바깥 전자껍질에 존재하는 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>원자가 전자</span> 수가 같아 화학적 성질이 비슷하다.</span></div>
     </div>
 
     <div class="card">
@@ -4063,7 +4056,7 @@ body {
 
     <div class="card">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>1족 원소 중 수소(H)를 제외한 리튬(Li), 소듐(Na), 포타슘(K) 등의 금속 원소를 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>알칼리</span> 금속이라고 한다.</span></div>
+        <div class="q-text"><span class='q-num'>45.</span> <span class='q-content'>1족 원소 중 수소(H)를 제외한 리튬(Li), 나트륨(Na), 칼륨(K) 등의 금속 원소를 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>알칼리</span> 금속이라고 한다.</span></div>
     </div>
 
     <div class="card">
@@ -4121,7 +4114,7 @@ body {
                     <b>11.</b> X &nbsp;<b>12.</b> 수소 &nbsp;<b>13.</b> 빅뱅 &nbsp;<b>14.</b> 쿼크 &nbsp;<b>15.</b> +1 &nbsp;<b>16.</b> O &nbsp;<b>17.</b> 7:1 &nbsp;<b>18.</b> 헬륨 &nbsp;<b>19.</b> 3000 &nbsp;<b>20.</b> 우주 배경 복사<br>
                     <b>21.</b> 2.7 &nbsp;<b>22.</b> 윌슨 &nbsp;<b>23.</b> 우주 배경 복사 &nbsp;<b>24.</b> O &nbsp;<b>25.</b> 원시별 &nbsp;<b>26.</b> 주계열성 &nbsp;<b>27.</b> O &nbsp;<b>28.</b> 헬륨 &nbsp;<b>29.</b> 적색 거성 &nbsp;<b>30.</b> 탄소<br>
                     <b>31.</b> 백색 왜성 &nbsp;<b>32.</b> 철 &nbsp;<b>33.</b> 초신성 폭발 &nbsp;<b>34.</b> 중성자별 &nbsp;<b>35.</b> O &nbsp;<b>36.</b> 핵 &nbsp;<b>37.</b> 되베라이너 &nbsp;<b>38.</b> 뉴랜즈 &nbsp;<b>39.</b> 멘델레예프 &nbsp;<b>40.</b> 원자 번호<br>
-                    <b>41.</b> 주기, 족 &nbsp;<b>42.</b> 전자 껍질 &nbsp;<b>43.</b> 원자가 전자 &nbsp;<b>44.</b> O &nbsp;<b>45.</b> 알칼리 &nbsp;<b>46.</b> 수소 &nbsp;<b>47.</b> O &nbsp;<b>48.</b> 할로젠 &nbsp;<b>49.</b> O &nbsp;<b>50.</b> 고체
+                    <b>41.</b> 주기, 족 &nbsp;<b>42.</b> 전자껍질 &nbsp;<b>43.</b> 원자가 전자 &nbsp;<b>44.</b> O &nbsp;<b>45.</b> 알칼리 &nbsp;<b>46.</b> 수소 &nbsp;<b>47.</b> O &nbsp;<b>48.</b> 할로젠 &nbsp;<b>49.</b> O &nbsp;<b>50.</b> 고체
                 </div>
             </div>
 

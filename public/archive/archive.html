@@ -64,11 +64,14 @@
             opacity: 0.4;
         }
         .handwriting {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', 'Nanum Pen Script', cursive;
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
             font-size: 1.6rem;
             color: #1e293b;
             padding-left: 50px;
             padding-right: 20px;
+        }
+        #exp-text-main *:not(.katex):not(.katex *):not(mjx-container):not(mjx-container *) {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
         }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -152,20 +155,7 @@
         .btn-exp-view:active { transform: scale(0.95); }
     </style>
 
-<script>
-// 데스크탑에서 모바일 레이아웃(480px) 바깥의 회색 배경에서 마우스 휠을 돌릴 때, 
-// 내부 스크롤 영역이 대신 스크롤되도록 이벤트를 위임합니다.
-window.addEventListener('wheel', (e) => {
-    if (!e.target.closest('.overflow-y-auto')) {
-        const scrollContainers = document.querySelectorAll('.overflow-y-auto');
-        // 화면에 보이는 스크롤 컨테이너 중 가장 나중에 나타나는(보통 모달이거나 메인 컨텐츠) 컨테이너를 찾습니다.
-        const activeContainer = Array.from(scrollContainers).reverse().find(el => el.offsetParent !== null);
-        if (activeContainer) {
-            activeContainer.scrollTop += e.deltaY;
-        }
-    }
-}, { passive: true });
-</script>
+<script src="/js/common-ui.js" defer></script>
 </head>
 <body>
 
@@ -260,7 +250,7 @@ window.addEventListener('wheel', (e) => {
                                     </div>
                                 </div>
                                 <div id="solve-canvas-parent">
-                                    <div id="canvas-wrapper" class="flex items-center justify-center relative group w-full cursor-zoom-in">
+                                    <div id="canvas-wrapper" onclick="openZoom()" class="flex items-center justify-center relative group w-full cursor-zoom-in">
                                         <canvas id="q-canvas" class="question-canvas"></canvas>
                                         <canvas id="draw-canvas" class="absolute inset-0 w-full h-full touch-none z-10" style="pointer-events: none;"></canvas>
                                     </div>
@@ -409,7 +399,7 @@ window.addEventListener('wheel', (e) => {
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, collection, query, where, getDocs, orderBy, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = { apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo", authDomain: "godtonggwa.firebaseapp.com", projectId: "godtonggwa", storageBucket: "godtonggwa.firebasestorage.app", messagingSenderId: "1087434066468", appId: "1:1087434066468:web:00a75c9329543afc76e6b1" };
+        import { firebaseConfig } from "/firebase-config.js";
         const app = initializeApp(firebaseConfig);
         const appCheck = initializeAppCheck(app, {
             provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
@@ -708,6 +698,41 @@ window.addEventListener('wheel', (e) => {
             updateZ();
         }, { passive: false });
 
+        let isMousePanning = false;
+        zViewport.addEventListener('mousedown', e => {
+            if (document.getElementById('zoom-modal').style.display !== 'flex') return;
+            isMousePanning = true;
+            lastX = e.clientX;
+            lastY = e.clientY;
+            zViewport.style.cursor = 'grabbing';
+        });
+        window.addEventListener('mousemove', e => {
+            if (!isMousePanning || document.getElementById('zoom-modal').style.display !== 'flex') return;
+            translateX += (e.clientX - lastX);
+            translateY += (e.clientY - lastY);
+            lastX = e.clientX;
+            lastY = e.clientY;
+            updateZ();
+        });
+        window.addEventListener('mouseup', () => {
+            if (isMousePanning) {
+                isMousePanning = false;
+                zViewport.style.cursor = 'grab';
+            }
+        });
+        zViewport.addEventListener('wheel', e => {
+            if (document.getElementById('zoom-modal').style.display !== 'flex') return;
+            e.preventDefault();
+            const delta = e.deltaY < 0 ? 0.15 : -0.15;
+            scale = Math.max(0.1, Math.min(8, scale + delta));
+            updateZ();
+        }, { passive: false });
+        window.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && document.getElementById('zoom-modal').style.display === 'flex') {
+                closeZoom();
+            }
+        });
+
         window.handleBack = () => { 
             if(currentStep === 4) {
                 if(confirm("타임어택을 종료하시겠습니까? 기록이 저장되지 않습니다.")) showStep(2);
@@ -722,9 +747,18 @@ window.addEventListener('wheel', (e) => {
             const views = [document.getElementById('view-exam-list'), document.getElementById('view-num-grid'), document.getElementById('view-solve'), document.getElementById('view-timeattack')];
             views.forEach(v => v?.classList.add('hidden'));
             
-            // 캔버스 위치 복구
-            if(step !== 4 && document.getElementById('solve-canvas-parent') && document.getElementById('canvas-wrapper').parentNode.id === 'ta-canvas-host') {
-                document.getElementById('solve-canvas-parent').appendChild(document.getElementById('canvas-wrapper'));
+            // 캔버스 위치 복구 및 확대 클릭 복원
+            if(step !== 4 && document.getElementById('solve-canvas-parent')) {
+                const cw = document.getElementById('canvas-wrapper');
+                if (cw && cw.parentNode.id === 'ta-canvas-host') {
+                    document.getElementById('solve-canvas-parent').appendChild(cw);
+                }
+                if (cw) {
+                    cw.classList.add('cursor-zoom-in');
+                    cw.setAttribute('onclick', 'openZoom()');
+                }
+                const dc = document.getElementById('draw-canvas');
+                if (dc) dc.style.pointerEvents = 'none';
             }
 
             if(step === 1) { container.classList.remove('wide-mode'); header.classList.add('hidden'); views[0].classList.remove('hidden'); }

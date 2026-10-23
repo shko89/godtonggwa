@@ -2926,14 +2926,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-        authDomain: "godtonggwa.firebaseapp.com",
-        projectId: "godtonggwa",
-        storageBucket: "godtonggwa.firebasestorage.app",
-        messagingSenderId: "1087434066468",
-        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-    };
+    import { firebaseConfig } from "/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     try {
@@ -3426,7 +3419,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="item-num">03</div>
 <div class="item-text">
 <h3 class="editable" contenteditable="true">생명체를 구성하는 물질 : 단백질과 핵산</h3>
-<p class="editable" contenteditable="true">단백질과 핵산의 형성 과정 및 유전 정보 전달 규칙성</p>
+<p class="editable" contenteditable="true">단백질과 핵산의 형성 과정 및 유전정보 전달 규칙성</p>
 </div>
 </div>
 <div class="dots"></div>
@@ -3862,7 +3855,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div style="margin-top: 8px; padding: 8px 10px; background-color: #ffffff; border-radius: 6px; border: 1px solid #cbd5e1;">
                         <ul class="bullet-list">
-                            <li><strong>18족 비활성 기체(He, Ne, Ar):</strong> 가장 바깥 전자 껍질에 8개(He은 2개)의 전자가 모두 채워져 화학적으로 매우 <strong>안정</strong>함 (옥텟 규칙).</li>
+                            <li><strong>18족 비활성 기체(He, Ne, Ar):</strong> 가장 바깥 전자껍질에 8개(He은 2개)의 전자가 모두 채워져 화학적으로 매우 <strong>안정</strong>함 (옥텟 규칙).</li>
                             <li><strong>화학 결합의 형성 원리:</strong> 다른 원소들은 비활성 기체와 같은 안정한 전자 배치를 이루기 위해 전자를 잃거나, 얻거나, 공유하면서 결합함.</li>
                         </ul>
                     </div>
@@ -5086,7 +5079,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 <div class="exp-section" style="margin-top: 8px;">
     <div class="prac-expl-title"><span style="color: #0284c7; margin-right: 4px;">▶</span>출제위원 시그니처 해설</div>
-    <div class="prac-expl-content"><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄱ. (X) 생명체 유기물의 중심 뼈대를 형성하는 원소는 탄소(W)입니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄴ. (O) WX₂(CO₂)는 이중 결합 2개로 이루어져 있으므로 총 공유 전자쌍 수는 4입니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄷ. (X) 소듐(Na)은 +1가, Z(Cl)는 -1가 이온이 되므로 1:1로 결합하여 NaCl을 생성합니다.</div></div>
+    <div class="prac-expl-content"><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄱ. (X) 생명체 유기물의 중심 뼈대를 형성하는 원소는 탄소(W)입니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄴ. (O) WX₂(CO₂)는 이중 결합 2개로 이루어져 있으므로 총 공유 전자쌍 수는 4입니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄷ. (X) 나트륨(Na)은 +1가, Z(Cl)는 -1가 이온이 되므로 1:1로 결합하여 NaCl을 생성합니다.</div></div>
 </div>
 
 
@@ -5976,7 +5969,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     
                     <div class="sub-box" style="margin-top: 0; margin-bottom: 12px; background-color: #f8fafc;">
                         <ul class="bullet-list">
-                            <li><b>핵산:</b> 유전 정보를 저장하거나 전달하고 단백질 합성에 관여하는 거대 분자. (단위체: 뉴클레오타이드)</li>
+                            <li><b>핵산:</b> 유전정보를 저장하거나 전달하고 단백질 합성에 관여하는 거대 분자. (단위체: 뉴클레오타이드)</li>
                         </ul>
                     </div>
 
@@ -6371,13 +6364,13 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                             </tr>
                             <tr>
                                 <td class="highlight-col">구조</td>
-                                <td><b>이중 나선 구조</b> (두 가닥이 수소 결합으로 연결)</td>
+                                <td><b>이중나선구조</b> (두 가닥이 수소 결합으로 연결)</td>
                                 <td><b>단일 가닥 구조</b> (한 가닥의 폴리뉴클레오타이드)</td>
                             </tr>
                             <tr>
                                 <td class="highlight-col">기능</td>
-                            <td><b>유전 정보 저장</b> (세포의 핵 속에 존재)</td>
-                            <td><b>유전 정보 전달 및 단백질 합성</b> (세포질에서 작용)</td>
+                            <td><b>유전정보 저장</b> (세포의 핵 속에 존재)</td>
+                            <td><b>유전정보 전달 및 단백질 합성</b> (세포질에서 작용)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -6386,7 +6379,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     <div class="sub-box-title">■ 상보적 염기 결합 (Complementary Base Pairing):</div>
                     <ul class="bullet-list">
                         <li>DNA의 두 가닥은 염기들의 <b>수소 결합</b>에 의해 연결된다. (<b>A-T 2개의 수소 결합, G-C 3개의 수소 결합</b>)</li>
-                        <li>상보적 결합 덕분에 DNA는 유전 정보를 안정적으로 저장하고, 정확하게 복제할 수 있다.</li>
+                        <li>상보적 결합 덕분에 DNA는 유전정보를 안정적으로 저장하고, 정확하게 복제할 수 있다.</li>
                     </ul>
                 </div>
             </div>
@@ -6440,13 +6433,13 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                 </tr>
                                 <tr>
                                     <td style="font-weight: bold; background: #f8fafc;">구조</td>
-                                    <td><b>이중 나선 구조</b><br>(염기 간 상보적 수소 결합)</td>
+                                    <td><b>이중나선구조</b><br>(염기 간 상보적 수소 결합)</td>
                                     <td><b>단일 가닥 구조</b></td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight: bold; background: #f8fafc;">기능</td>
-                                    <td>유전 정보 <b>저장</b></td>
-                                    <td>유전 정보 <b>전달</b> 및 단백질 합성 관여</td>
+                                    <td>유전정보 <b>저장</b></td>
+                                    <td>유전정보 <b>전달</b> 및 단백질 합성 관여</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -6637,7 +6630,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 <div class="exp-section" style="margin-top: 8px;">
     <div class="prac-expl-title"><span style="color: #0284c7; margin-right: 4px;">▶</span>출제위원 시그니처 해설</div>
-    <div class="prac-expl-content"><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄱ. (O) DNA에서 구아닌(G)은 항상 사이토신(C)과 상보적으로 결합하므로 ㉠은 C입니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄴ. (X) (가) DNA는 유전 정보를 저장하는 역할을 하며, 유전 정보를 전달하는 역할은 (나) RNA가 수행합니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄷ. (X) (나) RNA의 당은 라이보스입니다. (디옥시라이보스는 DNA의 당입니다.)</div></div>
+    <div class="prac-expl-content"><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄱ. (O) DNA에서 구아닌(G)은 항상 사이토신(C)과 상보적으로 결합하므로 ㉠은 C입니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄴ. (X) (가) DNA는 유전정보를 저장하는 역할을 하며, 유전정보를 전달하는 역할은 (나) RNA가 수행합니다.</div><div style="padding-left: 17px; text-indent: -17px; margin-top: 2px;">ㄷ. (X) (나) RNA의 당은 라이보스입니다. (디옥시라이보스는 DNA의 당입니다.)</div></div>
 </div>
 
 
@@ -7569,7 +7562,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
         <div class="card">
             <span class="q-type">빈칸 채우기</span>
-            <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>가장 바깥 전자 껍질에 8개의 전자를 채워 안정해지려는 경향을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>옥텟</span> 규칙이라고 한다.</span></div>
+            <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>가장 바깥 전자껍질에 8개의 전자를 채워 안정해지려는 경향을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>옥텟</span> 규칙이라고 한다.</span></div>
         </div>
 
         <div class="card">
@@ -7613,7 +7606,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     
         <div class="card">
             <span class="q-type">빈칸 채우기</span>
-            <div class="q-text"><span class='q-num'>7.</span> <span class='q-content'>염화 소듐 고체에 힘을 가하면 이온 층이 밀려 반발력이 작용하여 쉽게 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>부스러진다</span>.</span></div>
+            <div class="q-text"><span class='q-num'>7.</span> <span class='q-content'>염화 나트륨 고체에 힘을 가하면 이온 층이 밀려 반발력이 작용하여 쉽게 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>부스러진다</span>.</span></div>
         </div>
 
         <div class="card">
@@ -7830,12 +7823,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
         <div class="card">
             <span class="q-type">빈칸 채우기</span>
-            <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>생명체의 유전 정보를 저장하는 핵산은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>DNA</span>이며, 이중 나선 구조를 띤다.</span></div>
+            <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>생명체의 유전정보를 저장하는 핵산은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>DNA</span>이며, 이중나선구조를 띤다.</span></div>
         </div>
 
         <div class="card">
             <span class="q-type">빈칸 채우기</span>
-            <div class="q-text"><span class='q-num'>35.</span> <span class='q-content'>유전 정보를 전달하고 단백질 합성에 관여하는 단일 가닥 핵산은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>RNA</span>이다.</span></div>
+            <div class="q-text"><span class='q-num'>35.</span> <span class='q-content'>유전정보를 전달하고 단백질 합성에 관여하는 단일 가닥 핵산은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>RNA</span>이다.</span></div>
         </div>
 </div>
 

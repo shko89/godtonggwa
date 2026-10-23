@@ -72,9 +72,81 @@ mjx-container {
 .concept-title { display: flex; align-items: center; gap: 5px; color: #0f172a; font-weight: 900; font-size: 14.2px; margin: 0; line-height: 1.3; }
 .concept-content { display: block; color: #334155; font-size: 13.2px; line-height: 1.5; word-break: keep-all; font-weight: 500; margin: 0; margin-top: 2px; }
 .fact-check-title { color: #0f172a; font-size: 15.2px; font-weight: bold; display: block; margin-bottom: 6px; margin-top: 6px; }
-.fact-check-item { display: flex; gap: 8px; margin-bottom: 6px; }
-.fact-check-label { color: #16a34a; font-weight: 900; width: 22px; flex-shrink: 0; line-height: 1.6; font-size: 13.8px; }
-.fact-check-text { color: #334155; word-break: keep-all; line-height: 1.6; font-size: 13.8px; }
+.fact-check-item { display: flex; gap: 8px; margin-bottom: 6px; font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive; }
+.fact-check-label { color: #16a34a; font-weight: 900; width: 22px; flex-shrink: 0; line-height: 1.6; font-size: 16.5px; font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive; }
+.fact-check-text { color: #1e293b; word-break: keep-all; line-height: 1.6; font-size: 16.5px; font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive; }
 .wrong-fact-section { margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 10px; }
 .wrong-fact-title { color: #e11d48; font-size: 15.2px; font-weight: bold; display: block; margin-bottom: 6px; }
-.wrong-fact-label { color: #e11d48; font-weight: 900; width: 22px; flex-shrink: 0; line-height: 1.6; font-size: 13.8px; }
+.wrong-fact-label { color: #e11d48; font-weight: 900; width: 22px; flex-shrink: 0; line-height: 1.6; font-size: 16.5px; font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive; }
+.fact-check-text .katex, .explanation-body .katex { font-size: 0.92em !important; }
+
+
+/* --- [문항별 해설보기 온글잎 박윤슬체 전역 통일] --- */
+.explanation-body,
+.explanation-body *:not(.katex):not(.katex *):not(mjx-container):not(mjx-container *) {
+    font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+}
+.explanation-body .ans-correct-title {
+    font-size: 17.5px !important;
+    font-weight: bold;
+    color: #2563eb;
+    line-height: 30px !important;
+    margin-top: -4px;
+    margin-bottom: 8px;
+}
+.explanation-body .concept-box {
+    font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+    padding: 8px 14px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+.explanation-body .concept-title {
+    font-size: 16.5px !important;
+    font-weight: bold;
+    color: #0f172a;
+    line-height: 1.4;
+}
+.explanation-body .concept-content {
+    font-size: 15.5px !important;
+    color: #334155;
+    line-height: 1.55;
+}
+.explanation-body .fact-check-title {
+    font-size: 17px !important;
+    font-weight: bold;
+    color: #0f172a;
+    line-height: 30px !important;
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+.explanation-body .fact-check-item {
+    font-size: 16.5px !important;
+    line-height: 30px !important;
+}
+.explanation-body .fact-check-text {
+    font-size: 16.5px !important;
+    line-height: 30px !important;
+    color: #1e293b;
+}
+.explanation-body .fact-check-label {
+    font-size: 17.5px !important;
+    line-height: 30px !important;
+}
+.explanation-body .wrong-fact-title {
+    font-size: 17px !important;
+    font-weight: bold;
+    color: #e11d48;
+    line-height: 30px !important;
+    margin-bottom: 4px;
+}
+.explanation-body .wrong-fact-label {
+    font-size: 17.5px !important;
+    line-height: 30px !important;
+}
+.explanation-body p,
+.explanation-body div,
+.explanation-body span:not(.katex):not(.katex *) {
+    font-size: 16.5px;
+    line-height: 30px;
+}

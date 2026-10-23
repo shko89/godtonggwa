@@ -261,7 +261,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
-            <span class="fact-check-text">B(Na)와 D(Mg)는 모두 전자 껍질이 3개인 <b>3주기 원소</b>가 맞단다. (O)</span>
+            <span class="fact-check-text">B(Na)와 D(Mg)는 모두 전자껍질이 3개인 <b>3주기 원소</b>가 맞단다. (O)</span>
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
@@ -330,7 +330,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ② ㄴ</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">그래프의 y축 값은 '(원자가 전자 수) - (전자 껍질 수)'야. 2, 3주기 원소이므로 껍질 수는 2 또는 3이지. y값을 토대로 역추적하면 원자번호 순서대로 A는 탄소(C), B는 산소(O), C는 황(S)이라는 걸 알 수 있어.</div>
+            <div class="concept-content">그래프의 y축 값은 '(원자가 전자 수) - (전자껍질 수)'야. 2, 3주기 원소이므로 껍질 수는 2 또는 3이지. y값을 토대로 역추적하면 원자번호 순서대로 A는 탄소(C), B는 산소(O), C는 황(S)이라는 걸 알 수 있어.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -435,7 +435,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ⑤ ㄴ, ㄷ</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">Y축 값이 '(원자가 전자 수) - (전자 껍질 수)' 라는 독특한 그래프네! 값이 +5에서 -2로 뚝 떨어지는 C에서 D 구간이 바로 <b>주기가 바뀌는 지점</b>이라는 강력한 힌트야! 이를 통해 C는 플루오린(F), D는 나트륨(Na)임을 알 수 있지.</div>
+            <div class="concept-content">Y축 값이 '(원자가 전자 수) - (전자껍질 수)' 라는 독특한 그래프네! 값이 +5에서 -2로 뚝 떨어지는 C에서 D 구간이 바로 <b>주기가 바뀌는 지점</b>이라는 강력한 힌트야! 이를 통해 C는 플루오린(F), D는 나트륨(Na)임을 알 수 있지.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -444,7 +444,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
-            <span class="fact-check-text">D(Ne)는 2주기, E(Na)는 3주기이므로 <b>전자 껍질 수가 달라.</b> (O)</span>
+            <span class="fact-check-text">D(Ne)는 2주기, E(Na)는 3주기이므로 <b>전자껍질 수가 달라.</b> (O)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>

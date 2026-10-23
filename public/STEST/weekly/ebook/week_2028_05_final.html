@@ -3865,14 +3865,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-        authDomain: "godtonggwa.firebaseapp.com",
-        projectId: "godtonggwa",
-        storageBucket: "godtonggwa.firebasestorage.app",
-        messagingSenderId: "1087434066468",
-        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-    };
+    import { firebaseConfig } from "/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     try {
@@ -4284,7 +4277,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="intro-section" style="background-color: #f0f9ff; border-left: 4px solid #0284c7; padding: 10px 15px; border-radius: 4px; margin-bottom: 15px;">
 <h3 style="font-size: 12px; font-weight: 900; color: #0284c7; margin: 0 0 4px 0;">WEEK 05 학습 목표 &amp; 출제 포인트</h3>
 <p class="editable" contenteditable="true" style="font-size: 10px; color: #334155; margin: 0; line-height: 1.5; font-weight: 500; text-align: justify; word-break: keep-all;">
-    충격량과 운동량의 관계 및 충돌 시 안전장치의 원리를 이해하고, 생명 시스템의 기본 단위인 세포의 구조와 효소를 통한 물질대사, 유전 정보의 흐름(전사와 번역)을 파악하는 것이 핵심입니다.
+    충격량과 운동량의 관계 및 충돌 시 안전장치의 원리를 이해하고, 생명 시스템의 기본 단위인 세포의 구조와 효소를 통한 물질대사, 유전정보의 흐름(전사와 번역)을 파악하는 것이 핵심입니다.
 </p>
 </div>
 <div class="toc-list">
@@ -4388,7 +4381,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <path d="M 320 150 C 320 170, 370 170, 370 190" fill="none" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2"></path>
 </svg>
 <div class="node main" style="top: 10px; left: 50%; transform: translateX(-50%); width: 220px;">
-<div class="node-title">지구 시스템 Ⅱ</div>
+<div class="node-title">지구시스템 Ⅱ</div>
 <div class="node-desc">원소들이 모여 만드는 정교한 시스템</div>
 </div>
 <div class="node sub" style="top: 90px; left: 0px; width: 200px;">
@@ -4417,7 +4410,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 <div class="node leaf" style="top: 190px; left: 330px; width: 100px;">
 <div class="font-bold">세포 내 정보의 흐름</div>
-<div class="desc">DNA의 유전 정보가 번역되는 과정</div>
+<div class="desc">DNA의 유전정보가 번역되는 과정</div>
 </div>
 </div>
 <div class="insight-box" style="margin-top: 30px; background-color: #0f172a; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -4426,7 +4419,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <span style="font-weight: 700; font-size: 14px; color: #ffffff;">왜 이것을 배울까?</span>
 </div>
 <p class="editable" contenteditable="true" style="font-size: 10px; color: #cbd5e1; line-height: 1.5; margin: 0; text-align: justify; word-break: keep-all;">
-    물체 간의 충돌에서 충격량을 조절하여 안전을 도모하는 물리적 원리와, 세포 내에서 유전 정보에 따라 단백질이 합성되는 생명 현상의 정교함을 이해합니다.
+    물체 간의 충돌에서 충격량을 조절하여 안전을 도모하는 물리적 원리와, 세포 내에서 유전정보에 따라 단백질이 합성되는 생명 현상의 정교함을 이해합니다.
 </p>
 </div>
 
@@ -4441,7 +4434,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="header-brand" style="font-family: 'Roboto'; font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #94a3b8;">GOTONGGWA WEEKLY</div>
 </div>
 <div>
-<h2 class="bridge-title">지구 시스템 Ⅱ</h2>
+<h2 class="bridge-title">지구시스템 Ⅱ</h2>
 <div class="bridge-sub">역학적 시스템(중력) ➔ 운동량과 충격량 ➔ 물질대사와 정보의 흐름</div>
 </div>
 <br/>
@@ -5734,7 +5727,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                     <img loading="lazy" decoding="async" src="image/organelle_nucleus.jpg" alt="핵" style="width: 32px; height: 26px; object-fit: contain; display: block; margin: 2px auto 0 auto; border-radius: 3px;" />
                                 </td>
                                 <td>이중막 (핵공)</td>
-                                <td style="text-align:left; padding-left:6px;">유전 물질인 DNA 보관, 세포의 모든 생명 활동을 총괄 조절</td>
+                                <td style="text-align:left; padding-left:6px;">유전물질인 DNA 보관, 세포의 모든 생명 활동을 총괄 조절</td>
                                 <td>동·식물 공통</td>
                             </tr>
                             <tr>
@@ -5743,7 +5736,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                     <img loading="lazy" decoding="async" src="image/organelle_mitochondria.jpg" alt="마이토콘드리아" style="width: 32px; height: 26px; object-fit: contain; display: block; margin: 2px auto 0 auto; border-radius: 3px;" />
                                 </td>
                                 <td>이중막 (크리스테)</td>
-                                <td style="text-align:left; padding-left:6px;"><b>세포 호흡</b> 담당 ➔ 유기물(포도당)을 분해하여 생명 에너지(ATP) 생산</td>
+                                <td style="text-align:left; padding-left:6px;"><b>세포호흡</b> 담당 ➔ 유기물(포도당)을 분해하여 생명 에너지(ATP) 생산</td>
                                 <td>동·식물 공통</td>
                             </tr>
                             <tr>
@@ -5752,7 +5745,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                     <img loading="lazy" decoding="async" src="image/organelle_chloroplast.jpg" alt="엽록체" style="width: 32px; height: 26px; object-fit: contain; display: block; margin: 2px auto 0 auto; border-radius: 3px;" />
                                 </td>
                                 <td>이중막 (그라나)</td>
-                                <td style="text-align:left; padding-left:6px;"><b>광합성</b> 담당 ➔ 빛에너지를 이용하여 이산화탄소와 물로 포도당 합성</td>
+                                <td style="text-align:left; padding-left:6px;"><b>광합성</b> 담당 ➔ 빛에너지를 이용하여 이산화 탄소와 물로 포도당 합성</td>
                                 <td style="color:#16a34a; font-weight:900;">식물 세포만 존재</td>
                             </tr>
                             <tr>
@@ -5761,7 +5754,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                     <img loading="lazy" decoding="async" src="image/organelle_ribosome.jpg" alt="라이보솜" style="width: 32px; height: 26px; object-fit: contain; display: block; margin: 2px auto 0 auto; border-radius: 3px;" />
                                 </td>
                                 <td>막 없음 (단백질+RNA)</td>
-                                <td style="text-align:left; padding-left:6px;">핵의 유전 정보(RNA)에 따라 아미노산을 펩타이드 결합하여 <b>단백질 합성</b></td>
+                                <td style="text-align:left; padding-left:6px;">핵의 유전정보(RNA)에 따라 아미노산을 펩타이드 결합하여 <b>단백질 합성</b></td>
                                 <td>동·식물 공통</td>
                             </tr>
                             <tr>
@@ -5770,7 +5763,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                     <img loading="lazy" decoding="async" src="image/organelle_er.jpg" alt="소포체" style="width: 32px; height: 26px; object-fit: contain; display: block; margin: 2px auto 0 auto; border-radius: 3px;" />
                                 </td>
                                 <td>단일막 (망상 구조)</td>
-                                <td style="text-align:left; padding-left:6px;">리보솜에서 합성된 단백질을 입체 구조로 가공하고 골지체로 운반/수송</td>
+                                <td style="text-align:left; padding-left:6px;">라이보솜에서 합성된 단백질을 입체 구조로 가공하고 골지체로 운반/수송</td>
                                 <td>동·식물 공통</td>
                             </tr>
                             <tr>
@@ -5809,7 +5802,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="sub-box">
                     <ul class="bullet-list">
                         <li><b>식물 세포에만 있는 구조:</b> 엽록체, 세포벽 (액포는 주로 식물 세포에서 크게 발달).</li>
-                        <li><b>에너지 변환 소기관:</b> 엽록체(빛에너지 ➔ 화학에너지), 마이토콘드리아(화학에너지 ➔ ATP 생체에너지). 둘 다 독자적인 DNA와 리보솜을 가짐.</li>
+                        <li><b>에너지 변환 소기관:</b> 엽록체(빛에너지 ➔ 화학에너지), 마이토콘드리아(화학에너지 ➔ ATP 생체에너지). 둘 다 독자적인 DNA와 라이보솜을 가짐.</li>
                     </ul>
                 </div>
 
@@ -6028,7 +6021,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="memo-section">
                     <div class="handwriting" style="margin-bottom: 4px;">
                         <span style="color:#b91c1c; font-weight:bold;">1. 5종 교과서 공통! 세포 소기관 3대 분류 기준 (막 구조 / 동·식물)</span><br/>
-                        수능·내신에서는 <span style="color:#2563eb; font-weight:bold;">'막 구조의 유무와 겹수'</span>, <span style="color:#dc2626; font-weight:bold;">'독자적 유전물질(DNA/리보솜) 보유 여부'</span>가 1순위 킬러 선지야!
+                        수능·내신에서는 <span style="color:#2563eb; font-weight:bold;">'막 구조의 유무와 겹수'</span>, <span style="color:#dc2626; font-weight:bold;">'독자적 유전물질(DNA/라이보솜) 보유 여부'</span>가 1순위 킬러 선지야!
                     </div>
 
                     <!-- Visual Table: 막 구조별 분류 -->
@@ -6039,7 +6032,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                 <rect x="0" y="0" width="136" height="48" rx="3" fill="#f0f9ff" stroke="#0284c7" stroke-width="0.9"/>
                                 <text x="68" y="13" font-size="8.4" font-weight="900" fill="#0369a1" text-anchor="middle">① 이중막 (핵, 마, 엽)</text>
                                 <text x="7" y="28" font-size="7.5" font-weight="bold" fill="#0f172a">• 핵, 마이토콘드리아, 엽록체</text>
-                                <text x="7" y="41" font-size="7.2" fill="#0284c7">★ 독자 DNA·RNA·리보솜 가짐</text>
+                                <text x="7" y="41" font-size="7.2" fill="#0284c7">★ 독자 DNA·RNA·라이보솜 가짐</text>
                             </g>
                             <!-- Column 2: 단일막 -->
                             <g transform="translate(148, 2)">
@@ -6052,7 +6045,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                             <g transform="translate(292, 2)">
                                 <rect x="0" y="0" width="138" height="48" rx="3" fill="#fef2f2" stroke="#f43f5e" stroke-width="0.9"/>
                                 <text x="69" y="13" font-size="8.4" font-weight="900" fill="#be123c" text-anchor="middle">③ 막 없음 / 막 아님</text>
-                                <text x="7" y="28" font-size="7.5" font-weight="bold" fill="#0f172a">• 리보솜 (단백질+RNA)</text>
+                                <text x="7" y="28" font-size="7.5" font-weight="bold" fill="#0f172a">• 라이보솜 (단백질+RNA)</text>
                                 <text x="7" y="41" font-size="7.2" fill="#be123c">• 세포벽 (셀룰로스 비세포막)</text>
                             </g>
                         </svg>
@@ -6215,7 +6208,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="learning-method">
                     <div class="learning-title">💡 갓쌤의 행동 영역 코칭</div>
                     <p class="learning-desc">
-                        세포 소기관 중 '막이 없는 것(라이보솜, 중심체)', '단일막(소포체, 골지체, 리소좀, 액포)', '이중막(핵, 미토콘드리아, 엽록체)'의 막 구조 분류는 수능 단골 암기 포인트입니다.
+                        세포 소기관 중 '막이 없는 것(라이보솜, 중심체)', '단일막(소포체, 골지체, 액포)', '이중막(핵, 마이토콘드리아, 엽록체)'의 막 구조 분류는 수능 단골 암기 포인트입니다.
                     </p>
                 </div>
             </div>
@@ -6240,7 +6233,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 <div class="trap-box editable" contenteditable="true" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; position: absolute; bottom: -56px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-trap-title">⚠️ 갓쌤의 함정 주의보</div>
-<div class="prac-trap-content">핵과 미토콘드리아는 모두 2중막 구조 소기관입니다. 단일막 소기관(소포체, 골지체)과 혼동하지 마세요.</div>
+<div class="prac-trap-content">핵과 마이토콘드리아는 모두 2중막 구조 소기관입니다. 단일막 소기관(소포체, 골지체)과 혼동하지 마세요.</div>
 </div>
 </div>
 <!-- Right Column -->
@@ -6284,15 +6277,15 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 <div class="exp-section" style="margin-top: 8px;">
     <div class="prac-expl-title" style="font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 4px;"><span style="color: #0284c7; margin-right: 4px;">▶</span>핵심 개념 정리</div>
-    <div class="prac-expl-content" style="font-size: 10px; line-height: 1.45; color: #334155;"><div>진핵세포의 주요 소기관</div><div>A는 DNA 보존 및 전사가 일어나는 핵(2중막), B는 세포 호흡을 통해 ATP를 합성하는 미토콘드리아(2중막)입니다.</div></div>
+    <div class="prac-expl-content" style="font-size: 10px; line-height: 1.45; color: #334155;"><div>진핵세포의 주요 소기관</div><div>A는 DNA 보존 및 전사가 일어나는 핵(2중막), B는 세포호흡을 통해 ATP를 합성하는 마이토콘드리아(2중막)입니다.</div></div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
     <div class="prac-expl-title" style="font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 4px;"><span style="color: #0284c7; margin-right: 4px;">▶</span>출제위원 시그니처 해설</div>
-    <div class="prac-expl-content" style="font-size: 10px; line-height: 1.45; color: #334155;"><div style='padding-left: 17px; text-indent: -17px;'>ㄱ. (O) 핵(A) 내부에서 DNA의 유전 정보가 RNA로 전사됩니다.</div><div style='padding-left: 17px; text-indent: -17px;'>ㄴ. (O) 미토콘드리아(B)는 산소를 이용한 세포 호흡으로 ATP를 합성합니다.</div><div style='padding-left: 17px; text-indent: -17px;'>ㄷ. (X) 핵과 미토콘드리아는 모두 2중막 구조입니다.</div></div>
+    <div class="prac-expl-content" style="font-size: 10px; line-height: 1.45; color: #334155;"><div style='padding-left: 17px; text-indent: -17px;'>ㄱ. (O) 핵(A) 내부에서 DNA의 유전정보가 RNA로 전사됩니다.</div><div style='padding-left: 17px; text-indent: -17px;'>ㄴ. (O) 마이토콘드리아(B)는 산소를 이용한 세포호흡으로 ATP를 합성합니다.</div><div style='padding-left: 17px; text-indent: -17px;'>ㄷ. (X) 핵과 마이토콘드리아는 모두 2중막 구조입니다.</div></div>
 </div>
 <div class="learning-method prac-coach-container" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 6px 10px; border-radius: 0 4px 4px 0; position: absolute; bottom: 0px; left: 0; width: 100%; box-sizing: border-box;">
 <div class="prac-coach-title" style="font-size: 11px; font-weight: 900; color: #0284c7; margin-bottom: 2px;">💡 갓쌤의 행동 영역 코칭</div>
-<div class="prac-coach-content" style="font-size: 9.5px; color: #0f172a; line-height: 1.4;">세포 소기관 중 자체 DNA와 라이보솜을 가져 독립 증식 가능한 소기관은 '미토콘드리아'와 '엽록체'입니다.</div>
+<div class="prac-coach-content" style="font-size: 9.5px; color: #0f172a; line-height: 1.4;">세포 소기관 중 자체 DNA와 라이보솜을 가져 독립 증식 가능한 소기관은 '마이토콘드리아'와 '엽록체'입니다.</div>
 </div>
 </div>
 <!-- Right Column -->
@@ -6381,7 +6374,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                                     • <b>분자 변화:</b><br>
                                     &nbsp;고분자 ➔ <b>저분자 분해</b><br>
                                     • <b>대표 사례:</b><br>
-                                    &nbsp;<b>세포 호흡</b>, <b>소화 작용</b>
+                                    &nbsp;<b>세포호흡</b>, <b>소화 작용</b>
                                 </td>
                             </tr>
                         </tbody>
@@ -6493,18 +6486,18 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             <div>
                 <h3 class="schema-title">갓쌤의 실전 암기장 ✍️</h3>
 
-                <!-- 1. 세포 호흡 vs 연소 메커니즘 비교 -->
+                <!-- 1. 세포호흡 vs 연소 메커니즘 비교 -->
                 <div class="memo-section">
                     <div class="handwriting" style="margin-bottom: 4px;">
-                        <span style="color:#b91c1c; font-weight:bold;">1. 5종 교과서 공통 1순위 킬러! 세포 호흡 vs 연소 비교</span><br/>
+                        <span style="color:#b91c1c; font-weight:bold;">1. 5종 교과서 공통 1순위 킬러! 세포호흡 vs 연소 비교</span><br/>
                         반응물(포도당)과 최종 생성물(CO₂, H₂O) 및 총 방출 에너지는 같지만, <span style="color:#2563eb; font-weight:bold;">'방출 방식과 효소 유무'</span>에서 정답이 갈려!
                     </div>
 
                     <!-- Clean HTML Dual Cards with generous padding -->
                     <div style="display:flex; gap:8px; margin-bottom:3px;">
-                        <!-- Left: 세포 호흡 -->
+                        <!-- Left: 세포호흡 -->
                         <div style="flex:1; background:#f0f9ff; border:1px solid #0284c7; border-radius:6px; padding:6px 9px;">
-                            <div style="font-weight:900; color:#0369a1; font-size:8.2px; margin-bottom:3px;">① 세포 호흡 (생체 내 물질대사)</div>
+                            <div style="font-weight:900; color:#0369a1; font-size:8.2px; margin-bottom:3px;">① 세포호흡 (생체 내 물질대사)</div>
                             <div style="font-size:7.6px; line-height:1.45; color:#1e293b;">
                                 • 체온(약 37℃)의 낮은 온도에서 <b>효소 관여</b><br>
                                 • 에너지가 <b>단계적으로 소량씩 방출 (ATP+열)</b>
@@ -6578,7 +6571,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                             2. <span style="color:#2563eb; font-weight:bold;">"끓인 간 조각을 식히면 다시 카탈레이스 반응이 일어난다?" (❌ 100% 오답 선지!)</span>: 효소의 주성분은 단백질이므로 고열에 의해 입체 구조가 변성되면 <b>온도를 다시 낮추어도 결합 부위가 회복되지 않아(영구 불활성화)</b>!
                         </div>
                         <div class="tip-item">
-                            3. <span style="color:#15803d; font-weight:bold;">"광합성은 빛에너지를 흡수하므로 효소가 불필요하다?" (❌ 100% 오답 선지!)</span>: 광합성(동화)과 세포 호흡(이화)을 포함한 <b>생명체 내 모든 물질대사는 100% 효소의 촉매 작용을 통해 체온 범위에서 진행</b>돼!
+                            3. <span style="color:#15803d; font-weight:bold;">"광합성은 빛에너지를 흡수하므로 효소가 불필요하다?" (❌ 100% 오답 선지!)</span>: 광합성(동화)과 세포호흡(이화)을 포함한 <b>생명체 내 모든 물질대사는 100% 효소의 촉매 작용을 통해 체온 범위에서 진행</b>돼!
                         </div>
                     </div>
                 </div>
@@ -6646,7 +6639,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
                     <div class="exp-text">
-                        <strong>물질대사의 분류</strong><br>(가) 동화 작용: 저분자 → 고분자 합성, 에너지 흡수(흡열), 예: 광합성, 단백질 합성.<br>(나) 이화 작용: 고분자 → 저분자 분해, 에너지 방출(발열), 예: 세포 호흡, 소화.
+                        <strong>물질대사의 분류</strong><br>(가) 동화 작용: 저분자 → 고분자 합성, 에너지 흡수(흡열), 예: 광합성, 단백질 합성.<br>(나) 이화 작용: 고분자 → 저분자 분해, 에너지 방출(발열), 예: 세포호흡, 소화.
                     </div>
                 </div>
                 
@@ -6826,7 +6819,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="info-box" style="margin-top:7px;">
                     <div class="info-box-title">
                         <span>■ [자료 2] 생명 중심 원리 & 유전부호의 보편성</span>
-                        <span class="formula-badge">전사(핵) ➔ 번역(세포질 리보솜)</span>
+                        <span class="formula-badge">전사(핵) ➔ 번역(세포질 라이보솜)</span>
                     </div>
 
                     <!-- Significantly Enlarged Diagram: Height 118px -->
@@ -7077,12 +7070,12 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                             </tr>
                             <tr>
                                 <td style="font-weight: bold; background: #f0fdfa; color: #0369a1;">전사 및 번역<br>방향성</td>
-                                <td style="text-align: left; padding-left: 6px;">• 전사: DNA 주형(3′ ➔ 5′)을 읽어 <b>mRNA(5′ ➔ 3′) 합성</b><br/>• 번역: <b>mRNA의 5′ ➔ 3′ 방향</b>으로 리보솜이 이동</td>
+                                <td style="text-align: left; padding-left: 6px;">• 전사: DNA 주형(3′ ➔ 5′)을 읽어 <b>mRNA(5′ ➔ 3′) 합성</b><br/>• 번역: <b>mRNA의 5′ ➔ 3′ 방향</b>으로 라이보솜이 이동</td>
                                 <td style="text-align: left; padding-left: 6px;">전사와 번역 모두 <b>새로운 가닥은 5′ ➔ 3′으로 합성</b>!</td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold; background: #fef2f2; color: #dc2626;">개시 코돈 vs<br>종결 코돈</td>
-                                <td style="text-align: left; padding-left: 6px;">• <b>개시 코돈(5′-AUG-3′):</b> 번역 시작 신호 + <b>메싸이오닌 지정★</b><br/>• <b>종결 코돈(UAA, UAG, UGA 3종):</b> 번역 종료 + <b>아미노산 지정 ✕★</b></td>
+                                <td style="text-align: left; padding-left: 6px;">• <b>개시 코돈:</b> 번역 시작 신호 (메싸이오닌 지정, 코돈표 자료 제시)★<br/>• <b>종결 코돈:</b> 번역 종료 신호 (3종류, 아미노산 지정 안 함)★</td>
                                 <td style="text-align: left; padding-left: 6px;">총 64종 코돈 중 <b>아미노산 지정 코돈은 61종</b>이다!</td>
                             </tr>
                         </tbody>
@@ -7109,7 +7102,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                             1. <span style="color:#b91c1c; font-weight:bold;">"대장균에 사람 인슐린 유전자를 삽입하면 대장균의 인슐린이 만들어진다?" (❌ 100% 오답 선지!)</span>: 세균부터 사람까지 모든 생물은 <b>동일한 유전부호(코돈 체계)를 공유(보편성)</b>하므로, 대장균 안에서도 <b>사람과 100% 동일한 사람 인슐린 단백질이 정상 합성</b>돼!
                         </div>
                         <div class="tip-item">
-                            2. <span style="color:#2563eb; font-weight:bold;">"64종의 모든 코돈은 각각 하나의 아미노산을 지정한다?" (❌ 100% 오답 선지!)</span>: 64종류의 코돈 중 <b>종결 코돈 3종(UAA, UAG, UGA)은 아미노산을 지정하지 않고 번역을 끝내는 신호</b>이므로, 실제로 <b>아미노산을 지정하는 코돈은 61종</b>이야!
+                            2. <span style="color:#2563eb; font-weight:bold;">"64종의 모든 코돈은 각각 하나의 아미노산을 지정한다?" (❌ 100% 오답 선지!)</span>: 64종류의 코돈 중 <b>종결 코돈 3종은 아미노산을 지정하지 않고 번역을 끝내는 신호</b>이므로, 실제로 <b>아미노산을 지정하는 코돈은 61종</b>이야!
                         </div>
                         <div class="tip-item">
                             3. <span style="color:#15803d; font-weight:bold;">"낫 모양 적혈구 빈혈증은 단백질의 아미노산 수가 줄어드는 돌연변이다?" (❌ 100% 오답 선지!)</span>: DNA의 염기 1개가 다른 염기로 바뀐 염기 치환 돌연변이이므로 <b>전체 아미노산 개수는 그대로 유지되며 6번째 아미노산 종류(글루탐산➔발린)만 1개 바뀐 것</b>이야!
@@ -7186,7 +7179,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 </div>
 <div class="exp-section" style="margin-top: 8px;">
     <div class="prac-expl-title" style="font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 4px;"><span style="color: #0284c7; margin-right: 4px;">▶</span>핵심 개념 정리</div>
-    <div class="prac-expl-content" style="font-size: 10px; line-height: 1.45; color: #334155;"><div>유전 정보의 흐름 (중심 원리)</div><div>DNA의 염기 서열(3염기 조합) → mRNA의 코돈(3개 염기)으로 전사 → 리보솜에서 특정 아미노산으로 번역.</div></div>
+    <div class="prac-expl-content" style="font-size: 10px; line-height: 1.45; color: #334155;"><div>유전정보의 흐름 (중심 원리)</div><div>DNA의 염기 서열(3염기 조합) → mRNA의 코돈(3개 염기)으로 전사 → 라이보솜에서 특정 아미노산으로 번역.</div></div>
 </div>
 <div class="exp-section" style="margin-top: 8px;">
     <div class="prac-expl-title" style="font-size: 11px; font-weight: 900; color: #0f172a; margin-bottom: 4px;"><span style="color: #0284c7; margin-right: 4px;">▶</span>출제위원 시그니처 해설</div>
@@ -7246,11 +7239,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>유전 물질인 DNA를 보관하고 있으며, 생명 활동을 총괄 지휘하는 세포 소기관은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>핵</span>이다.</span></div>
+        <div class="q-text"><span class='q-num'>2.</span> <span class='q-content'>유전물질인 DNA를 보관하고 있으며, 생명 활동을 총괄 지휘하는 세포 소기관은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>핵</span>이다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>3.</span> <span class='q-content'>마이토콘드리아(미토콘드리아)는 산소를 이용하여 유기물을 분해하고 생명 활동에 필요한 에너지(ATP)를 생산하는 세포 호흡의 장소이다.</span></div>
+        <div class="q-text"><span class='q-num'>3.</span> <span class='q-content'>마이토콘드리아는 산소를 이용하여 유기물을 분해하고 생명 활동에 필요한 에너지(ATP)를 생산하는 세포호흡의 장소이다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -7258,11 +7251,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>DNA의 유전 정보에 따라 아미노산을 연결하여 단백질을 합성하는 소기관을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>라이보솜</span>(리보솜)이라고 한다.</span></div>
+        <div class="q-text"><span class='q-num'>4.</span> <span class='q-content'>DNA의 유전정보에 따라 아미노산을 연결하여 단백질을 합성하는 소기관을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>라이보솜</span>(라이보솜)이라고 한다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>5.</span> <span class='q-content'>소포체는 리보솜에서 합성된 단백질을 가공하고 골지체나 세포 내 다른 부위로 수송하는 통로 역할을 한다.</span></div>
+        <div class="q-text"><span class='q-num'>5.</span> <span class='q-content'>소포체는 라이보솜에서 합성된 단백질을 가공하고 골지체나 세포 내 다른 부위로 수송하는 통로 역할을 한다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -7313,7 +7306,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>동물 세포는 세포벽과 엽록체가 없으며, 식물 세포와 동물 세포 모두 핵, 미토콘드리아, 세포막을 공통으로 가지고 있다.</span></div>
+        <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>동물 세포는 세포벽과 엽록체가 없으며, 식물 세포와 동물 세포 모두 핵, 마이토콘드리아, 세포막을 공통으로 가지고 있다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -7456,7 +7449,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>세포 호흡은 포도당과 같은 고분자 유기물을 이산화 탄소와 물로 분해하며 에너지를 방출하는 대표적인 이화 작용이다.</span></div>
+        <div class="q-text"><span class='q-num'>27.</span> <span class='q-content'>세포호흡은 포도당과 같은 고분자 유기물을 이산화 탄소와 물로 분해하며 에너지를 방출하는 대표적인 이화 작용이다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -7547,7 +7540,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     <div class="unit-title">세포 내 정보의 흐름과 유전 질환 (Theme 4)</div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>37.</span> <span class='q-content'>세포 내에서 유전 정보는 DNA에서 RNA를 거쳐 단백질로 전달된다는 원리를 생명 중심 원리라고 한다.</span></div>
+        <div class="q-text"><span class='q-num'>37.</span> <span class='q-content'>세포 내에서 유전정보는 DNA에서 RNA를 거쳐 단백질로 전달된다는 원리를 생명 중심 원리라고 한다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -7555,7 +7548,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>핵 속 DNA의 유전 정보(염기 서열)를 복사하여 mRNA로 합성하는 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>전사</span>라고 한다.</span></div>
+        <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>핵 속 DNA의 유전정보(염기 서열)를 복사하여 mRNA로 합성하는 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>전사</span>라고 한다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
@@ -7567,7 +7560,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>40.</span> <span class='q-content'>세포질의 리보솜에서 mRNA의 염기 서열 정보에 따라 아미노산을 차례로 연결하여 단백질을 합성하는 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>번역</span>이라고 한다.</span></div>
+        <div class="q-text"><span class='q-num'>40.</span> <span class='q-content'>세포질의 라이보솜에서 mRNA의 염기 서열 정보에 따라 아미노산을 차례로 연결하여 단백질을 합성하는 과정을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>번역</span>이라고 한다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
@@ -7594,11 +7587,11 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>번역의 시작 신호이자 메싸이오닌(아미노산)을 지정하는 개시 코돈의 염기 서열은 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>AUG</span>이다.</span></div>
+        <div class="q-text"><span class='q-num'>42.</span> <span class='q-content'>단백질 합성이 시작되는 신호로 번역의 출발점이 되는 코돈을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>개시 코돈</span>이라 한다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>총 64종류의 코돈 중 3종류(UAA, UAG, UGA)는 어떤 아미노산도 지정하지 않고 단백질 합성 종결 신호로 작용하는 종결 코돈이다.</span></div>
+        <div class="q-text"><span class='q-num'>43.</span> <span class='q-content'>총 64종류의 코돈 중 3종류는 어떤 아미노산도 지정하지 않고 단백질 합성 종결 신호로 작용하는 종결 코돈이다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>

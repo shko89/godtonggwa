@@ -2847,14 +2847,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-        authDomain: "godtonggwa.firebaseapp.com",
-        projectId: "godtonggwa",
-        storageBucket: "godtonggwa.firebasestorage.app",
-        messagingSenderId: "1087434066468",
-        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-    };
+    import { firebaseConfig } from "/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     try {
@@ -3346,7 +3339,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 <div class="node-title">에너지의 전환과 보존</div>
 <div class="node-desc">다양한 형태의 에너지 변환 및 효율성</div>
 </div><div class="node sub" style="left: 220px;">
-<div class="node-title">발전과 전력 수송</div>
+<div class="node-title">발전과 에너지 전환</div>
 <div class="node-desc">전기 에너지의 생산과 안전한 수송 원리</div>
 </div><div class="node leaf red" style="top: 200px; left: -10.0px;">
 <div class="font-bold">🚨 태양 에너지의 생성 : 핵융합</div>
@@ -3486,9 +3479,9 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                 </div>
 
-                <!-- [자료 2] 지구 시스템에서의 태양 에너지 전환 경로 -->
+                <!-- [자료 2] 지구시스템에서의 태양 에너지 전환 경로 -->
                 <div class="info-box">
-                    <div class="info-box-title">■ [자료 2] 지구 시스템에서의 태양 에너지 전환 및 순환 경로</div>
+                    <div class="info-box-title">■ [자료 2] 지구시스템에서의 태양 에너지 전환 및 순환 경로</div>
                     <table class="struct-table">
                         <thead>
                             <tr>
@@ -3538,13 +3531,13 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </table>
                 </div>
 
-                <!-- [자료 3] 지구 시스템 3대 에너지원의 기원 판별과 특징 -->
+                <!-- [자료 3] 지구시스템 3대 에너지원의 기원 판별과 특징 -->
                 <div class="info-box">
-                    <div class="info-box-title">■ [자료 3] 지구 시스템 3대 에너지원 분류 & 태양 기원 판별</div>
+                    <div class="info-box-title">■ [자료 3] 지구시스템 3대 에너지원 분류 & 태양 기원 판별</div>
                     <div style="display: flex; gap: 8px; align-items: stretch; margin-top: 2px;">
                         <!-- Left Donut Infographic Image -->
                         <div class="img-container" style="width: 195px; height: 148px; flex-shrink: 0;">
-                            <img loading="lazy" decoding="async" src="./image/img_sec1_energy_sources.webp" alt="지구 시스템 3대 에너지원 구성 비중 및 기원 판별 도넛 차트">
+                            <img loading="lazy" decoding="async" src="./image/img_sec1_energy_sources.webp" alt="지구시스템 3대 에너지원 구성 비중 및 기원 판별 도넛 차트">
                         </div>
                         <!-- Right Hierarchical Detail Cards -->
                         <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 3.5px;">
@@ -3646,7 +3639,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     <table class="hw-table">
                         <thead>
                             <tr>
-                                <th style="width: 22%;">지구 시스템 현상</th>
+                                <th style="width: 22%;">지구시스템 현상</th>
                                 <th style="width: 32%;">에너지 전환 과정</th>
                                 <th style="width: 32%;">최종 에너지 형태 & 활용</th>
                                 <th style="width: 14%;">시험 중요도</th>
@@ -3684,7 +3677,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <!-- 3. 수능 빈출 킬러 포인트: 지구 에너지원 기원 분석 -->
                 <div class="memo-section">
                     <div class="handwriting" style="margin-bottom: 2px;">
-                        <span style="color:#b91c1c; font-weight:900;">3. 수능 킬러 자료 해석: 지구 시스템 에너지원의 태양 기원 판별법</span>
+                        <span style="color:#b91c1c; font-weight:900;">3. 수능 킬러 자료 해석: 지구시스템 에너지원의 태양 기원 판별법</span>
                     </div>
                     <div style="border: 1.5px dashed #cbd5e1; border-radius: 6px; padding: 4px 7px; background: rgba(255,255,255,0.95); display: flex; flex-direction: column; gap: 1.5px;">
                         <div class="indent-item">• <b>태양 에너지 기원 에너지원 (<span style="color:#0284c7; font-weight:bold;">지구 에너지의 99.985%</span>):</b> 풍력, 파력, 수력, 석탄, 석유, 천연가스, 바이오매스, 태양광, 태양열 등.</div>
@@ -3732,7 +3725,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 6px; border-radius: 8px;">
                             <div style="font-size: 10px; font-weight: 900; color: #16a34a; margin-bottom: 6px;">💡 갓쌤의 접근법</div>
                             <div style="font-size: 9px; color: #14532d; line-height: 1.5; word-break: keep-all; ">
-                                태양 복사 에너지가 지구 시스템 내에서 광합성, 기상 현상, 수력 발전 등 다양한 에너지로 전환되는 순환 고리를 파악하고, 각 자연 현상의 근원 에너지를 명확히 구분해야 합니다.
+                                태양 복사 에너지가 지구시스템 내에서 광합성, 기상 현상, 수력 발전 등 다양한 에너지로 전환되는 순환 고리를 파악하고, 각 자연 현상의 근원 에너지를 명확히 구분해야 합니다.
                             </div>
                         </div>
                     </div>
@@ -3766,8 +3759,8 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         <span style="color: #0284c7; margin-right: 5px;">▶</span>핵심 개념 정리
                     </div>
                     <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
-                        <strong style="color: #0f172a;">태양 에너지의 전환과 지구 시스템의 에너지원</strong><br>
-                        태양 복사 에너지는 지구 시스템의 가장 주된 에너지원으로, 대기와 해수의 순환, 기상 현상(비, 눈, 바람), 광합성을 통한 화학 에너지 축적, 수력 발전의 근원 에너지가 됩니다. 반면 지진·화산·판 운동의 근원은 '지구 내부 에너지'이며, 밀물과 썰물(조석)의 근원은 '조력 에너지'입니다.
+                        <strong style="color: #0f172a;">태양 에너지의 전환과 지구시스템의 에너지원</strong><br>
+                        태양 복사 에너지는 지구시스템의 가장 주된 에너지원으로, 대기와 해수의 순환, 기상 현상(비, 눈, 바람), 광합성을 통한 화학 에너지 축적, 수력 발전의 근원 에너지가 됩니다. 반면 지진·화산·판 운동의 근원은 '지구 내부 에너지'이며, 밀물과 썰물(조석)의 근원은 '조력 에너지'입니다.
                     </div>
                 </div>
                 
@@ -3803,7 +3796,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
                     <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
                     <p class="learning-desc editable" contenteditable="true" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
-                        지구 시스템의 3대 에너지원(태양 에너지, 지구 내부 에너지, 조력 에너지)이 각각 어떤 자연 현상을 일으키는지 연결 짓는 문제는 단골 출제 포인트이므로 철저히 숙지해 두세요.
+                        지구시스템의 3대 에너지원(태양 에너지, 지구 내부 에너지, 조력 에너지)이 각각 어떤 자연 현상을 일으키는지 연결 짓는 문제는 단골 출제 포인트이므로 철저히 숙지해 두세요.
                     </p>
                 </div>
             </div>
@@ -4713,7 +4706,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     <div class="unit-title">태양 에너지의 생성과 전환 (Theme 2)</div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>지구 시스템에서 일어나는 대기와 해수의 순환, 물의 순환을 일으키는 가장 근원적인 에너지는 태양 에너지이다.</span></div>
+        <div class="q-text"><span class='q-num'>11.</span> <span class='q-content'>지구시스템에서 일어나는 대기와 해수의 순환, 물의 순환을 일으키는 가장 근원적인 에너지는 태양 에너지이다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>

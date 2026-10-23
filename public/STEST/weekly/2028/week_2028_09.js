@@ -209,7 +209,7 @@ window.globalExamData = {
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
-            <span class="fact-check-text">태양광 발전과 풍력 발전은 모두 발전 과정에서 화석 연료를 태우지 않으므로 온실가스(이산화탄소)를 배출하지 않는 친환경 청정 신재생 에너지라는 공통점을 갖습니다. (O - 출제 의도상 무탄소 친환경 특성 판정)</span>
+            <span class="fact-check-text">태양광 발전과 풍력 발전은 모두 발전 과정에서 화석 연료를 태우지 않으므로 온실가스(이산화 탄소)를 배출하지 않는 친환경 청정 신재생 에너지라는 공통점을 갖습니다. (O - 출제 의도상 무탄소 친환경 특성 판정)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
@@ -453,7 +453,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
-            <span class="fact-check-text">조력 발전과 파력 발전은 모두 화석 연료를 연소하지 않고 해양의 자연 역학적 에너지를 이용하므로 발전 과정에서 온실가스(이산화탄소)를 거의 배출하지 않는 친환경 발전입니다. (O)</span>
+            <span class="fact-check-text">조력 발전과 파력 발전은 모두 화석 연료를 연소하지 않고 해양의 자연 역학적 에너지를 이용하므로 발전 과정에서 온실가스(이산화 탄소)를 거의 배출하지 않는 친환경 발전입니다. (O)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>

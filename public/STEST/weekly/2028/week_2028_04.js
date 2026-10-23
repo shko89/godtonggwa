@@ -13,7 +13,7 @@ window.globalExamData = {
     "explanations": [
     {
         "no": 1,
-        "topic": "지구 시스템의 층상 구조",
+        "topic": "지구시스템의 층상 구조",
         "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
@@ -40,7 +40,7 @@ window.globalExamData = {
     },
     {
         "no": 2,
-        "topic": "지구 시스템 구성 요소 간의 물 순환",
+        "topic": "지구시스템 구성 요소 간의 물 순환",
         "content": `
         <div class=\"ans-correct-title\">정답: ③ ㄱ, ㄷ</div>
         <div class=\"concept-box\">
@@ -121,7 +121,7 @@ window.globalExamData = {
     },
     {
         "no": 5,
-        "topic": "지구 시스템의 탄소 순환",
+        "topic": "지구시스템의 탄소 순환",
         "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">
@@ -148,7 +148,7 @@ window.globalExamData = {
     },
     {
         "no": 6,
-        "topic": "지구 시스템의 구성 요소",
+        "topic": "지구시스템의 구성 요소",
         "content": `
         <div class=\"ans-correct-title\">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
         <div class=\"concept-box\">
@@ -304,7 +304,7 @@ window.globalExamData = {
     },
     {
         "no": 12,
-        "topic": "지구 시스템의 탄소 순환",
+        "topic": "지구시스템의 탄소 순환",
         "content": `
         <div class=\"ans-correct-title\">정답: ② ㄴ</div>
         <div class=\"concept-box\">
@@ -324,7 +324,7 @@ window.globalExamData = {
             </div>
             <div class=\"fact-check-item\">
                 <span class=\"wrong-fact-label\">ㄷ.</span>
-                <span class=\"fact-check-text\">탄소는 지구 시스템 내에서 권역 간에 이동할 뿐, 우주로 빠져나가지 않으므로 전체 탄소량은 <b>항상 일정하게 보존돼</b>. (X)</span>
+                <span class=\"fact-check-text\">탄소는 지구시스템 내에서 권역 간에 이동할 뿐, 우주로 빠져나가지 않으므로 전체 탄소량은 <b>항상 일정하게 보존돼</b>. (X)</span>
             </div>
         </div>
         `
@@ -473,7 +473,7 @@ window.globalExamData = {
         <div class=\"fact-check-title\">🎯 정답 선지 팩트 체크!</div>
         <div class=\"fact-check-item\">
             <span class=\"fact-check-label\">ㄱ.</span>
-            <span class=\"fact-check-text\">지구 시스템 전체 탄소의 99% 이상이 지권(C)에 탄산칼슘(석회암)의 형태로 저장되어 있어. (O)</span>
+            <span class=\"fact-check-text\">지구시스템 전체 탄소의 99% 이상이 지권(C)에 탄산칼슘(석회암)의 형태로 저장되어 있어. (O)</span>
         </div>
         <div class=\"wrong-fact-section\">
             <div class=\"wrong-fact-title\">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
@@ -517,7 +517,7 @@ window.globalExamData = {
     },
     {
         "no": 20,
-        "topic": "지구 시스템의 진화 과정",
+        "topic": "지구시스템의 진화 과정",
         "content": `
         <div class=\"ans-correct-title\">정답: ① ㄱ</div>
         <div class=\"concept-box\">

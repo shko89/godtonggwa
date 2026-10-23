@@ -105,7 +105,7 @@ window.globalExamData = {
             "topic": "정보와 신호",
             "content": `
 <div class="ans-correct-title">정답: ② ㄴ</div>
-        <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">아날로그는 곡선! 디지털은 계단! 듬성듬성 쪼갤수록(표본화 주기가 길수록) 원본이랑 안 비슷해져서 오차가 커져.</div></div>
+        <div class="concept-box"><div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div><div class="concept-content">아날로그는 곡선! 디지털은 계단! 측정 시간 간격이 넓을수록 원본 신호와 안 비슷해져서 오차가 커져.</div></div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
     <span class="fact-check-label">ㄴ.</span>

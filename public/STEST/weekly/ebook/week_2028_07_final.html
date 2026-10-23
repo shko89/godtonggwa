@@ -3563,14 +3563,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     
-    const firebaseConfig = {
-        apiKey: "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo",
-        authDomain: "godtonggwa.firebaseapp.com",
-        projectId: "godtonggwa",
-        storageBucket: "godtonggwa.firebasestorage.app",
-        messagingSenderId: "1087434066468",
-        appId: "1:1087434066468:web:00a75c9329543afc76e6b1"
-    };
+    import { firebaseConfig } from "/firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     try {
@@ -4287,7 +4280,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             <ul class="bullet-list">
                 <li><b>구리판의 가열:</b> 겉불꽃에서 산화 (2Cu + O₂ ➔ 2CuO)<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 속불꽃에서 환원 (CuO + CO ➔ Cu + CO₂)</li>
                 <li><b>산화 구리(II)와 탄소 가루의 반응:</b><br> 검은색 산화 구리(CuO)가 붉은색 구리(Cu)로 환원됨<br> (2CuO + C ➔ 2Cu + CO₂)</li>
-                <li><b>마그네슘과 드라이아이스의 반응:</b><br> 마그네슘이 산화되고, 이산화탄소가 탄소로 환원됨<br> (2Mg + CO₂ ➔ 2MgO + C)</li>
+                <li><b>마그네슘과 드라이아이스의 반응:</b><br> 마그네슘이 산화되고, 이산화 탄소가 탄소로 환원됨<br> (2Mg + CO₂ ➔ 2MgO + C)</li>
             </ul>
         </div>
     </div>
@@ -4318,7 +4311,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
         <div class="sub-box" style="flex:1.4; margin-top:0; padding-top: 6px;">
             <ul class="bullet-list">
                 <li><b>철의 제련:</b> 코크스(C)가 산화되어 CO 생성 ➔ 용광로 안에서 철광석(Fe₂O₃)을 환원시켜 철(Fe)을 얻음.</li>
-                <li><b>광합성과 세포 호흡:</b> 광합성(CO₂ 환원 ➔ 포도당 합성), 세포 호흡(포도당 산화 ➔ 에너지 방출).</li>
+                <li><b>광합성과 세포호흡:</b> 광합성(CO₂ 환원 ➔ 포도당 합성), 세포호흡(포도당 산화 ➔ 에너지 방출).</li>
                 <li><b>철의 부식:</b> 철이 공기 중의 산소와 수분에 의해 서서히 산화되어 붉은색 녹(Fe₂O₃·xH₂O)이 생성.</li>
             </ul>
         </div>
@@ -4810,7 +4803,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             <tr>
                 <td class="highlight-col">대표 물질</td>
                 <td>염산(HCl), 식초(아세트산), 탄산(H₂CO₃)</td>
-                <td>수산화 소듐(NaOH), 수산화 칼슘(Ca(OH)₂), 암모니아</td>
+                <td>수산화 나트륨(NaOH), 수산화 칼슘(Ca(OH)₂), 암모니아</td>
             </tr>
         </tbody>
     </table>
@@ -5820,7 +5813,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                             </tr>
                             <tr>
                                 <td class="highlight-col">물질의 용해</td>
-                                <td>수산화 소듐(NaOH), 염화 칼슘(CaCl₂) 용해</td>
+                                <td>수산화 나트륨(NaOH), 염화 칼슘(CaCl₂) 용해</td>
                                 <td>질산 암모늄(NH₄NO₃), 요소 용해</td>
                             </tr>
                         </tbody>
@@ -5908,7 +5901,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                         <ul class="bullet-list">
                             <li><b>생명 현상에서의 에너지 출입:</b>
                                 <br/>• <b>광합성 (흡열):</b> 식물 엽록체에서 태양 빛에너지를 흡수하여 포도당(화학 에너지) 합성 및 저장.
-                                <br/>• <b>세포 호흡 (발열):</b> 미토콘드리아에서 포도당을 산화 분해하여 ATP를 합성하고 방출된 열로 체온 유지.
+                                <br/>• <b>세포호흡 (발열):</b> 마이토콘드리아에서 포도당을 산화 분해하여 ATP를 합성하고 방출된 열로 체온 유지.
                             </li>
                             <li><b>지구 현상에서의 에너지 출입:</b>
                                 <br/>• <b>물의 순환과 기상 현상:</b> 지표수·해수의 증발(<b>열 흡수</b>) ➔ 대기 중 수증기 응결(<b>열 방출</b>) 시 방출되는 잠열이 <b>태풍의 주 에너지원</b> 및 대기 대순환 구동.
@@ -6129,7 +6122,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                     </div>
                     <div class="exp-text" style="font-size: 10.5px; line-height: 1.5; color: #334155; word-break: keep-all; ">
                         <strong style="color: #0f172a;">물질 변화에서 에너지 출입</strong><br>
-                        흡열 반응은 열을 흡수하여 주위 온도가 낮아지며, 발열 반응은 주위로 에너지를 방출합니다. 세포 호흡은 대표적인 발열 반응입니다.
+                        흡열 반응은 열을 흡수하여 주위 온도가 낮아지며, 발열 반응은 주위로 에너지를 방출합니다. 세포호흡은 대표적인 발열 반응입니다.
                     </div>
                 </div>
                 
@@ -6165,7 +6158,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
                 <div class="learning-method" style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px 12px; border-radius: 0 4px 4px 0; margin-top: 15px; margin-bottom: 10px;">
                     <div class="learning-title" style="font-size: 14px; font-weight: 900; color: #0284c7; margin-bottom: 8px;">💡 갓쌤의 행동 영역 코칭</div>
                     <p class="learning-desc editable" contenteditable="true" style="font-size: 12px; color: #0f172a; margin: 0; line-height: 1.5;">
-                        교과서에 나오는 흡열(증발, 승화 등)과 발열(세포 호흡, 연소 등)의 실생활 사례를 헷갈리지 않게 암기해 두세요.
+                        교과서에 나오는 흡열(증발, 승화 등)과 발열(세포호흡, 연소 등)의 실생활 사례를 헷갈리지 않게 암기해 두세요.
                     </p>
                 </div>
                 
@@ -6268,7 +6261,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>생명체의 세포 호흡은 포도당이 산소와 반응하여 이산화 탄소로 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>산화</span>되며 에너지를 방출하는 반응이다.</span></div>
+        <div class="q-text"><span class='q-num'>12.</span> <span class='q-content'>생명체의 세포호흡은 포도당이 산소와 반응하여 이산화 탄소로 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>산화</span>되며 에너지를 방출하는 반응이다.</span></div>
     </div>
 
         </div>
@@ -6351,7 +6344,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>21.</span> <span class='q-content'>수산화 소듐(NaOH)과 수산화 칼륨(KOH) 수용액은 단백질을 녹이는 성질이 있어 손으로 만지면 미끈미끈하다.</span></div>
+        <div class="q-text"><span class='q-num'>21.</span> <span class='q-content'>수산화 나트륨(NaOH)과 수산화 칼륨(KOH) 수용액은 단백질을 녹이는 성질이 있어 손으로 만지면 미끈미끈하다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -6442,7 +6435,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
             </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>염산(HCl)과 수산화 소듐(NaOH) 수용액의 중화 반응에서 구경꾼 이온은 소듐 이온(Na⁺)과 염화 이온(Cl⁻)이다.</span></div>
+        <div class="q-text"><span class='q-num'>31.</span> <span class='q-content'>염산(HCl)과 수산화 나트륨(NaOH) 수용액의 중화 반응에서 구경꾼 이온은 나트륨 이온(Na⁺)과 염화 이온(Cl⁻)이다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>
@@ -6450,7 +6443,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>32.</span> <span class='q-content'>같은 농도의 염산과 수산화 소듐 수용액을 부피를 달리하여 혼합할 때, 생성된 물 분자 수가 가장 많아 온도가 가장 높은 지점을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>중화점</span>이라고 한다.</span></div>
+        <div class="q-text"><span class='q-num'>32.</span> <span class='q-content'>같은 농도의 염산과 수산화 나트륨 수용액을 부피를 달리하여 혼합할 때, 생성된 물 분자 수가 가장 많아 온도가 가장 높은 지점을 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>중화점</span>이라고 한다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
@@ -6462,7 +6455,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>일정량의 묽은 염산에 수산화 소듐 수용액을 계속 첨가할 때, 혼합 용액 속에 존재하는 수소 이온(H⁺)의 수는 점차 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>감소</span>한다.</span></div>
+        <div class="q-text"><span class='q-num'>34.</span> <span class='q-content'>일정량의 묽은 염산에 수산화 나트륨 수용액을 계속 첨가할 때, 혼합 용액 속에 존재하는 수소 이온(H⁺)의 수는 점차 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>감소</span>한다.</span></div>
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
@@ -6501,7 +6494,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card card-blank">
         <span class="q-type">빈칸 채우기</span>
-        <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>벌에 쏘였을 때 폼산(개미산) 등의 산성 독소를 중화하기 위해 염기성인 암모니아수나 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>베이킹소다</span>(탄산수소 소듐)를 바르면 통증이 완화된다.</span></div>
+        <div class="q-text"><span class='q-num'>38.</span> <span class='q-content'>벌에 쏘였을 때 폼산(개미산) 등의 산성 독소를 중화하기 위해 염기성인 암모니아수나 <span class='blank' onclick='this.classList.add("revealed")' style='cursor:pointer;'>베이킹소다</span>(탄산수소 나트륨)를 바르면 통증이 완화된다.</span></div>
     </div>
     <div class="unit-title">물질 변화에서 에너지의 출입 (Theme 4)</div>
     <div class="card">
@@ -6596,7 +6589,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     </div>
     <div class="card">
         <span class="q-type">O / X 퀴즈</span>
-        <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>탄산수소 소듐(베이킹파우더)을 가열하여 이산화 탄소를 발생시키는 열분해 반응은 열에너지를 흡수하는 흡열 반응이다.</span></div>
+        <div class="q-text"><span class='q-num'>49.</span> <span class='q-content'>탄산수소 나트륨(베이킹파우더)을 가열하여 이산화 탄소를 발생시키는 열분해 반응은 열에너지를 흡수하는 흡열 반응이다.</span></div>
         <div class="btn-group" data-answer="O">
             <div class="ox-btn" onclick="checkOX(this, 'O')" style="cursor:pointer;">O</div>
             <div class="ox-btn" onclick="checkOX(this, 'X')" style="cursor:pointer;">X</div>

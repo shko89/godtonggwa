@@ -40,7 +40,7 @@ window.globalExamData = {
     },
     {
         "no": 2,
-        "topic": "세포 내 유전 정보의 전달 장소 (전사와 번역)",
+        "topic": "세포 내 유전정보의 전달 장소 (전사와 번역)",
         "content": `
         <div class="ans-correct-title">정답: ⑤</div>
         <div class="concept-box">
@@ -54,7 +54,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
-            <span class="fact-check-text">(나) 단계에서 RNA의 전사는 유전 물질(DNA)이 있는 핵 속에서 일어나므로 방사선은 핵에서 최초로 검출됩니다. (O)</span>
+            <span class="fact-check-text">(나) 단계에서 RNA의 전사는 유전물질(DNA)이 있는 핵 속에서 일어나므로 방사선은 핵에서 최초로 검출됩니다. (O)</span>
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
@@ -142,12 +142,12 @@ window.globalExamData = {
     },
     {
         "no": 6,
-        "topic": "동·식물 세포 공통 소기관 (핵, 미토콘드리아, 리보솜)",
+        "topic": "동·식물 세포 공통 소기관 (핵, 마이토콘드리아, 라이보솜)",
         "content": `
         <div class="ans-correct-title">정답: ④</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">세포 소기관의 특징 분석:<br>A: DNA 저장 및 생명 활동 통제 → 핵(2중막)<br>B: 포도당 분해 세포 호흡 및 ATP 생산 → 미토콘드리아(2중막)<br>C: 아미노산 연결 단백질 합성 → 리보솜(막 없음).</div>
+            <div class="concept-content">세포 소기관의 특징 분석:<br>A: DNA 저장 및 생명 활동 통제 → 핵(2중막)<br>B: 포도당 분해 세포호흡 및 ATP 생산 → 마이토콘드리아(2중막)<br>C: 아미노산 연결 단백질 합성 → 라이보솜(막 없음).</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -156,13 +156,13 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
-            <span class="fact-check-text">리보솜(C)에서 합성된 단백질은 세포막을 구성하는 막 단백질이나 다양한 효소, 호르몬의 주요 성분이 됩니다. (O)</span>
+            <span class="fact-check-text">라이보솜(C)에서 합성된 단백질은 세포막을 구성하는 막 단백질이나 다양한 효소, 호르몬의 주요 성분이 됩니다. (O)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄴ.</span>
-                <span class="fact-check-text">광합성이 일어나는 장소는 <b>엽록체</b>이며, 미토콘드리아(B)는 산소를 이용한 <b>세포 호흡</b>이 일어나는 장소입니다. (X)</span>
+                <span class="fact-check-text">광합성이 일어나는 장소는 <b>엽록체</b>이며, 마이토콘드리아(B)는 산소를 이용한 <b>세포호흡</b>이 일어나는 장소입니다. (X)</span>
             </div>
         </div>
 `
@@ -229,7 +229,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄴ.</span>
-                <span class="fact-check-text">$E_2$는 정상적으로 녹말을 분해하므로 녹말이 남아있지 않아 아이오딘-아이오딘화 포타슘 용액의 색깔 ㉡은 <b>황갈색</b>입니다. 청남색이 아닙니다. (X)</span>
+                <span class="fact-check-text">$E_2$는 정상적으로 녹말을 분해하므로 녹말이 남아있지 않아 아이오딘-아이오딘화 칼륨 용액의 색깔 ㉡은 <b>황갈색</b>입니다. 청남색이 아닙니다. (X)</span>
             </div>
         </div>
 `
@@ -317,7 +317,7 @@ window.globalExamData = {
     },
     {
         "no": 13,
-        "topic": "유전 정보의 흐름 (전사, 번역 및 돌연변이)",
+        "topic": "유전정보의 흐름 (전사, 번역 및 돌연변이)",
         "content": `
         <div class="ans-correct-title">정답: ⑤</div>
         <div class="concept-box">
@@ -427,7 +427,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ⑤</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">DNA: TAC-CGA-TTG-ATC → mRNA: AUG-GCU-AAC-UAG.<br>첫 번째 아미노산 개시 코돈 AUG 다음의 코돈 ㉠은 GCU(알라닌)입니다.<br>(나) 그래프에서 돌연변이 효소 I은 정상 효소 E와 동일한 속도로 독성 물질을 분해하므로 기능과 입체 구조가 정상입니다. 반면 돌연변이 효소 II는 독성 물질 농도가 줄지 않으므로 기능을 완전히 상실했습니다.</div>
+            <div class="concept-content">DNA: TAC-CGA-TTG-ATC → mRNA: AUG-GCU-AAC-UAG.<br>첫 번째 아미노산을 지정하는 코돈 AUG 다음의 코돈 ㉠은 GCU(알라닌)입니다.<br>(나) 그래프에서 돌연변이 효소 I은 정상 효소 E와 동일한 속도로 독성 물질을 분해하므로 기능과 입체 구조가 정상입니다. 반면 돌연변이 효소 II는 독성 물질 농도가 줄지 않으므로 기능을 완전히 상실했습니다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -478,22 +478,22 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ④</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">소기관 분석:<br>C: 핵 (DNA 유전 정보를 ㉡ RNA로 전사)<br>B: 리보솜 (㉡ RNA의 정보에 따라 아미노산 합성)<br>A: 미토콘드리아 (㉠ 포도당을 분해하여 세포 호흡으로 ATP 에너지 생성).</div>
+            <div class="concept-content">소기관 분석:<br>C: 핵 (DNA 유전정보를 ㉡ RNA로 전사)<br>B: 라이보솜 (㉡ RNA의 정보에 따라 아미노산 합성)<br>A: 마이토콘드리아 (㉠ 포도당을 분해하여 세포호흡으로 ATP 에너지 생성).</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄱ.</span>
-            <span class="fact-check-text">핵(C)에서 DNA의 유전 정보가 전사 과정을 통해 mRNA(㉡)로 전달됩니다. (O)</span>
+            <span class="fact-check-text">핵(C)에서 DNA의 유전정보가 전사 과정을 통해 mRNA(㉡)로 전달됩니다. (O)</span>
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
-            <span class="fact-check-text">리보솜(B)은 mRNA(㉡)의 코돈 서열에 맞추어 아미노산들을 펩타이드 결합으로 연결하여 폴리펩타이드를 합성합니다. (O)</span>
+            <span class="fact-check-text">라이보솜(B)은 mRNA(㉡)의 코돈 서열에 맞추어 아미노산들을 펩타이드 결합으로 연결하여 폴리펩타이드를 합성합니다. (O)</span>
         </div>
         <div class="wrong-fact-section">
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄷ.</span>
-                <span class="fact-check-text">미토콘드리아(A)는 동물 세포뿐만 아니라 <b>식물 세포에도 반드시 존재</b>하여 밤낮으로 세포 호흡을 수행합니다. (X)</span>
+                <span class="fact-check-text">마이토콘드리아(A)는 동물 세포뿐만 아니라 <b>식물 세포에도 반드시 존재</b>하여 밤낮으로 세포호흡을 수행합니다. (X)</span>
             </div>
         </div>
 `

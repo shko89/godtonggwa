@@ -13,12 +13,12 @@ window.globalExamData = {
     explanations: [
     {
         no: 1,
-        topic: "적도 동태평양 해역의 표층 수온 편차와 엘니뇨/라니냐",
+        topic: "적도 동태평양 해역의 표층 수온 편차와 엘니뇨 현상",
         content: `
         <div class="ans-correct-title">정답: ④</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">엘니뇨 발생 시기에는 동태평양의 무역풍이 약화되어 찬 해수의 용승이 약해집니다. 따라서 동태평양 적도 부근 해역의 표층 수온이 평년보다 높아지며(수온 편차 양(+)), 따뜻한 해수층이 두꺼워집니다. 반면 평상시나 라니냐 시기에는 무역풍이 강하고 용승이 활발하여 따뜻한 표층 해수층이 얇아집니다.</div>
+            <div class="concept-content">엘니뇨 발생 시기에는 동태평양의 무역풍이 약화되어 찬 해수의 용승이 약해집니다. 따라서 동태평양 적도 부근 해역의 표층 수온이 평년보다 높아지며(수온 편차 양(+)), 따뜻한 해수층이 두꺼워집니다. 반면 평상시에는 무역풍이 불고 용승이 활발하여 따뜻한 표층 해수층이 얇아집니다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -94,7 +94,7 @@ window.globalExamData = {
     },
     {
         no: 4,
-        topic: "생태계 평형 회복 과정과 먹이 사슬 상호작용",
+        topic: "생태계평형 회복 과정과 먹이 사슬 상호작용",
         content: `
         <div class="ans-correct-title">정답: ③</div>
         <div class="concept-box">
@@ -114,7 +114,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄷ.</span>
-                <span class="fact-check-text">생태계 평형이 회복된 후 개체수는 일반적으로 상위 영양 단계로 갈수록 적어지므로, 개체수가 가장 적은 것은 <b>최상위 소비자인 C</b>입니다. (X)</span>
+                <span class="fact-check-text">생태계평형이 회복된 후 개체수는 일반적으로 상위 영양 단계로 갈수록 적어지므로, 개체수가 가장 적은 것은 <b>최상위 소비자인 C</b>입니다. (X)</span>
             </div>
         </div>
 `
@@ -441,7 +441,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ①</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">먹이 그물이 복잡하게 얽혀 있는 생태계(B)는 특정 생물종이 일시적으로 급감하더라도 대체 먹이가 존재하여 생태계 평형이 안정적으로 유지됩니다. 생태계 B에서 매는 풀 → 들쥐 → 매 경로에서는 2차 소비자이고, 풀 → 메뚜기 → 개구리 → 매 경로에서는 3차 소비자로서 복합적인 영양 단계 지위를 갖습니다.</div>
+            <div class="concept-content">먹이 그물이 복잡하게 얽혀 있는 생태계(B)는 특정 생물종이 일시적으로 급감하더라도 대체 먹이가 존재하여 생태계평형이 안정적으로 유지됩니다. 생태계 B에서 매는 풀 → 들쥐 → 매 경로에서는 2차 소비자이고, 풀 → 메뚜기 → 개구리 → 매 경로에서는 3차 소비자로서 복합적인 영양 단계 지위를 갖습니다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">

@@ -33,7 +33,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄱ.</span>
-                <span class="fact-check-text">A(Na)는 전자 껍질이 3개인 3주기, B(F)는 전자 껍질이 2개인 2주기 원소이므로 <b>서로 다른 주기</b>의 원소란다. (X)</span>
+                <span class="fact-check-text">A(Na)는 전자껍질이 3개인 3주기, B(F)는 전자껍질이 2개인 2주기 원소이므로 <b>서로 다른 주기</b>의 원소란다. (X)</span>
             </div>
         </div>
 `
@@ -99,7 +99,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ② ㄴ</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">DNA 이중 나선 구조를 조립할 때는 항상 상보적 염기 결합 규칙(A는 T와, G는 C와 짝을 이룸)을 지켜야 해! 준비된 염기 모형으로 최대 몇 개의 쌍을 만들 수 있는지 계산해 보는 논리적인 문제란다.</div>
+            <div class="concept-content">DNA 이중나선구조를 조립할 때는 항상 상보적 염기 결합 규칙(A는 T와, G는 C와 짝을 이룸)을 지켜야 해! 준비된 염기 모형으로 최대 몇 개의 쌍을 만들 수 있는지 계산해 보는 논리적인 문제란다.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -158,7 +158,7 @@ window.globalExamData = {
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄱ.</span>
-            <span class="fact-check-text">W(탄소, C)는 원자 번호 6번으로, 전자 껍질이 2개인 <b>2주기 원소</b>가 맞아. (O)</span>
+            <span class="fact-check-text">W(탄소, C)는 원자 번호 6번으로, 전자껍질이 2개인 <b>2주기 원소</b>가 맞아. (O)</span>
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄴ.</span>
@@ -285,7 +285,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ① ㄴ</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">화학 결합 모형을 비교하는 문제야. (가)는 금속 양이온(X⁺)과 비금속 음이온(Y⁻)이 정전기적 인력으로 결합한 <b>이온 결합 물질</b>을 나타내고 있어. 반면 (나)는 두 비금속 원자(Y)가 1쌍의 전자쌍을 공유하여 결합한 <b>공유 결합 분자(Y₂)</b> 모형이야. 전자 껍질과 전자 수를 보면 X는 리튬(Li), Y는 플루오린(F)이라는 것도 파악할 수 있지!</div>
+            <div class="concept-content">화학 결합 모형을 비교하는 문제야. (가)는 금속 양이온(X⁺)과 비금속 음이온(Y⁻)이 정전기적 인력으로 결합한 <b>이온 결합 물질</b>을 나타내고 있어. 반면 (나)는 두 비금속 원자(Y)가 1쌍의 전자쌍을 공유하여 결합한 <b>공유 결합 분자(Y₂)</b> 모형이야. 전자껍질과 전자 수를 보면 X는 리튬(Li), Y는 플루오린(F)이라는 것도 파악할 수 있지!</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -312,7 +312,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ③ ㄱ, ㄴ</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">규산염 광물의 구조와 특징을 실생활 및 역사적 사례와 연결하는 훌륭한 문제야. (가)에서 타격 시 일정한 방향으로 쪼개지지 않고 불규칙하게 깨져 나가는 성질을 가진 도구의 재료는 <b>석영</b>이야. (나)에서 이산화탄소가 녹아든 물과 매우 빠르게 반응하여 온실가스를 포집하는 데 연구되는 광물은 <b>감람석</b>이지.</div>
+            <div class="concept-content">규산염 광물의 구조와 특징을 실생활 및 역사적 사례와 연결하는 훌륭한 문제야. (가)에서 타격 시 일정한 방향으로 쪼개지지 않고 불규칙하게 깨져 나가는 성질을 가진 도구의 재료는 <b>석영</b>이야. (나)에서 이산화 탄소가 녹아든 물과 매우 빠르게 반응하여 온실가스를 포집하는 데 연구되는 광물은 <b>감람석</b>이지.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -366,7 +366,7 @@ window.globalExamData = {
         <div class="ans-correct-title">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
         <div class="concept-box">
             <div class="concept-title"><span class="concept-icon">💡</span> [갓쌤의 1초 개념]</div>
-            <div class="concept-content">DNA의 이중 나선 구조를 밝혀낸 역사적 탐구 과정을 묻고 있어. ⓐ는 프랭클린이 수행한 <b>X선 회절 분석 실험</b>으로 미시 세계의 3차원 분자 구조를 파악하는 핵심적인 방법이야. 오른쪽 구조 모형을 보면 염기 ㉠이 사이토신(C)과 상보적으로 짝을 이루고 있음을 확인할 수 있어.</div>
+            <div class="concept-content">DNA의 이중나선구조를 밝혀낸 역사적 탐구 과정을 묻고 있어. ⓐ는 프랭클린이 수행한 <b>X선 회절 분석 실험</b>으로 미시 세계의 3차원 분자 구조를 파악하는 핵심적인 방법이야. 오른쪽 구조 모형을 보면 염기 ㉠이 사이토신(C)과 상보적으로 짝을 이루고 있음을 확인할 수 있어.</div>
         </div>
         <div class="fact-check-title">🎯 정답 선지 팩트 체크!</div>
         <div class="fact-check-item">
@@ -379,7 +379,7 @@ window.globalExamData = {
         </div>
         <div class="fact-check-item">
             <span class="fact-check-label">ㄷ.</span>
-            <span class="fact-check-text">DNA 이중 나선 구조의 바깥쪽 튼튼한 뼈대(골격)는 뉴클레오타이드의 <b>당과 인산이 공유 결합으로 규칙적으로 반복</b>되며 형성돼. 염기는 안쪽에서 수소 결합을 하지! (O)</span>
+            <span class="fact-check-text">DNA 이중나선구조의 바깥쪽 튼튼한 뼈대(골격)는 뉴클레오타이드의 <b>당과 인산이 공유 결합으로 규칙적으로 반복</b>되며 형성돼. 염기는 안쪽에서 수소 결합을 하지! (O)</span>
         </div>
 `
     },
@@ -526,7 +526,7 @@ window.globalExamData = {
             <div class="wrong-fact-title">🚨 오답 선지는 왜 틀렸을까? (함정 주의)</div>
             <div class="fact-check-item">
                 <span class="wrong-fact-label">ㄷ.</span>
-                <span class="fact-check-text">효소와 항체의 주성분으로 작용하는 것은 핵산이 아니라 <b>단백질(A)</b>의 가장 대표적인 역할이야. 핵산은 유전 정보를 저장하거나 전달하는 역할을 한단다. (X)</span>
+                <span class="fact-check-text">효소와 항체의 주성분으로 작용하는 것은 핵산이 아니라 <b>단백질(A)</b>의 가장 대표적인 역할이야. 핵산은 유전정보를 저장하거나 전달하는 역할을 한단다. (X)</span>
             </div>
         </div>
 `

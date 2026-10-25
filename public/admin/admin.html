@@ -1309,7 +1309,7 @@
                 detectedExamId = firstItem.sourceExamId || '';
             }
             if (!detectedExamId) {
-                const match = keys[0].match(/^(week_\d{4}_\d{2})/);
+                const match = keys[0].match(/^(week_\d{4}_\d{2}|mock_\d{4}_s\d+_\d{2}|kice_\d{4}_\d{2})/);
                 if (match) detectedExamId = match[1];
             }
 
@@ -1331,12 +1331,44 @@
 
                 const mockQuestionsList = [];
 
+                // 소단원(topic) -> 중단원(chapter) 및 대단원(domain) 자동 역추적 헬퍼
+                const resolveTaxonomy = (rawTax = {}) => {
+                    const topicAliases = {
+                        "지구 시스템의 구성과 상호작용": "지구시스템의 구성과 상호작용",
+                        "판 구조론과 지각 변동": "판구조론과 지각 변동",
+                        "DNA와 생명 시스템": "유전자와 단백질",
+                        "감염병과 예방": "감염병과 병원체",
+                        "에너지 전환과 보존": "에너지 전환과 효율"
+                    };
+                    const rawTopic = (rawTax.topic || "미분류").trim();
+                    const topic = topicAliases[rawTopic] || rawTopic;
+                    let chapter = rawTax.chapter || "";
+                    if (!chapter || !TOPIC_MAP[chapter]) {
+                        for (const [ch, tList] of Object.entries(TOPIC_MAP)) {
+                            if (tList.includes(topic)) {
+                                chapter = ch;
+                                break;
+                            }
+                        }
+                    }
+                    if (!chapter) chapter = "과학의 기초";
+                    const domain = (rawTax.domain === "통합과학1" || rawTax.domain === "통합과학2")
+                        ? rawTax.domain
+                        : (DOMAIN_MAP["통합과학1"].includes(chapter) ? "통합과학1" : "통합과학2");
+                    return {
+                        subject: "통합과학",
+                        domain,
+                        chapter,
+                        topic
+                    };
+                };
+
                 for (const qId of keys) {
                     const item = jsonData[qId];
                     if (!item || typeof item !== 'object') continue;
 
                     const qDocId = item.id || qId;
-                    const magType = item.magazineType || (qId.includes('_prep_') ? 'prep' : (qId.includes('_prac_') ? 'prac' : (qId.includes('_mock_') ? 'mock' : 'etc')));
+                    const magType = item.magazineType || (qId.includes('_prep_') ? 'prep' : (qId.includes('_prac_') ? 'prac' : ((qId.includes('_mock_') || qId.startsWith('mock_')) ? 'mock' : 'etc')));
                     if (magType === 'prep') prepCount++;
                     else if (magType === 'prac') pracCount++;
                     else if (magType === 'mock') mockCount++;
@@ -1344,11 +1376,12 @@
                     const sourceExamId = item.sourceExamId || detectedExamId || '';
                     const correctAnswer = Number(item.correctAnswer) || 0;
                     const score = Number(item.score) || (item.difficulty > 3 ? 2.5 : (item.difficulty < 2 ? 1.5 : 2.0));
-                    const difficulty = Number(item.difficulty) || 2;
+                    const rawDiff = Number(item.difficulty);
+                    const difficulty = (rawDiff === 1.5 || rawDiff === 2.0 || rawDiff === 2.5) ? rawDiff : score;
                     const behavioralDomain = item.behavioralDomain || '이해';
-                    const taxonomy = item.taxonomy || { subject: "통합과학", domain: "통합과학1", topic: "미분류" };
+                    const taxonomy = resolveTaxonomy(item.taxonomy);
                     const tags = Array.isArray(item.tags) ? item.tags : [];
-                    const imageFile = item.imageFile || `${qDocId}.png`;
+                    const imageFile = item.imageFile || `${qDocId}.webp`;
 
                     const qData = {
                         id: qDocId,
@@ -1356,6 +1389,7 @@
                         magazineType: magType,
                         examQNum: item.examQNum || 0,
                         imageFile: imageFile,
+                        fileName: item.fileName || imageFile,
                         correctAnswer: correctAnswer,
                         score: score,
                         difficulty: difficulty,
@@ -1363,23 +1397,31 @@
                         taxonomy: taxonomy,
                         tags: tags,
                         qType: item.qType || "합답형(ㄱ,ㄴ,ㄷ)",
-                        stats: item.stats || { total: 0, correct: 0 },
                         updatedAt: new Date().toISOString()
                     };
 
+                    if (item.storagePath) qData.storagePath = item.storagePath;
+                    if (item.storagePrefix) qData.storagePrefix = item.storagePrefix;
                     if (item.image_path) qData.image_path = item.image_path;
                     if (item.layoutPosition) qData.layoutPosition = item.layoutPosition;
+                    if (item.stats && (item.stats.total > 0 || item.stats.correct > 0)) {
+                        qData.stats = item.stats;
+                    }
 
                     batch.set(doc(db, "questions", qDocId), qData, { merge: true });
                     qCount++;
 
-                    if (magType === 'mock' || qId.includes('_mock_')) {
+                    if (magType === 'mock' || qId.includes('_mock_') || qId.startsWith('mock_')) {
                         mockQuestionsList.push({
                             qId: qDocId,
                             examQNum: item.examQNum || (mockQuestionsList.length + 1),
+                            imageFile: imageFile,
+                            fileName: item.fileName || imageFile,
                             score: score,
                             correctAnswer: correctAnswer,
                             topic: taxonomy.topic || '',
+                            chapter: taxonomy.chapter || '',
+                            taxDomain: taxonomy.domain || '통합과학1',
                             domain: behavioralDomain
                         });
                     }
@@ -1393,44 +1435,60 @@
                     const examQuestionsArr = mockQuestionsList.map((mq, idx) => ({
                         no: idx + 1,
                         qId: mq.qId,
+                        imageFile: mq.imageFile,
+                        fileName: mq.fileName,
                         score: mq.score,
-                        correctAnswer: mq.correctAnswer
+                        correctAnswer: mq.correctAnswer,
+                        topic: mq.topic,
+                        chapter: mq.chapter,
+                        domain: mq.taxDomain,
+                        behavioralDomain: mq.domain
                     }));
 
                     const scoreMap = examQuestionsArr.map(q => q.score);
                     const answerKey = examQuestionsArr.map(q => q.correctAnswer);
 
                     const weekMatch = detectedExamId.match(/^week_(\d{4})_(\d{2})/);
-                    let defaultTitle = `갓통과 2028 주간지 ${weekMatch ? parseInt(weekMatch[2], 10) : ''}주차 (Fit 20)`;
+                    const mockMatch = detectedExamId.match(/^mock_(\d{4})_(s\d+)_(\d{2})/);
+                    let defaultTitle = weekMatch
+                        ? `갓통과 ${weekMatch[1]} 주간지 ${parseInt(weekMatch[2], 10)}주차 (Fit 20)`
+                        : (mockMatch ? `${mockMatch[1]} 갓통과 시즌 ${mockMatch[2].replace('s', '')} 모의고사 ${parseInt(mockMatch[3], 10)}회` : detectedExamId);
                     let serviceType = weekMatch ? 'WEEKLY_MAG' : 'SEASON_MOCK';
+                    const packageId = mockMatch ? `mock_${mockMatch[1]}_${mockMatch[2]}` : undefined;
 
                     const existingExam = allExamsData.find(e => e.docId === detectedExamId);
                     const titleToUse = existingExam?.title || defaultTitle;
                     const orderNum = existingExam?.orderId || (weekMatch ? parseInt(weekMatch[2], 10) : (Number(detectedExamId.replace(/[^0-9]/g, '')) || 0));
 
-                    // 1) public_exams
-                    batch.set(doc(db, "public_exams", detectedExamId), {
+                    const pubPayload = {
                         id: orderNum,
                         title: titleToUse,
-                        subTitle: existingExam?.subTitle || "실전 체화 모의고사",
+                        subTitle: existingExam?.subTitle || defaultTitle,
                         price: existingExam?.price || 5000,
                         serviceType: serviceType,
                         isAuthRequired: existingExam?.isAuthRequired ?? true,
-                        isContentVisible: existingExam?.isContentVisible ?? false,
+                        isContentVisible: existingExam?.isContentVisible ?? true,
                         updatedAt: new Date().toISOString()
-                    }, { merge: true });
+                    };
+                    if (packageId) pubPayload.packageId = packageId;
 
-                    // 2) exams
-                    batch.set(doc(db, "exams", detectedExamId), {
-                        title: titleToUse,
+                    // 1) public_exams
+                    batch.set(doc(db, "public_exams", detectedExamId), pubPayload, { merge: true });
+
+                    const examPayload = {
+                        title: existingExam?.subTitle || titleToUse,
                         questions: examQuestionsArr,
                         score_map: scoreMap,
                         answer_key: answerKey,
                         serviceType: serviceType,
                         isAuthRequired: existingExam?.isAuthRequired ?? true,
-                        isContentVisible: existingExam?.isContentVisible ?? false,
+                        isContentVisible: existingExam?.isContentVisible ?? true,
                         updatedAt: new Date().toISOString()
-                    }, { merge: true });
+                    };
+                    if (packageId) examPayload.packageId = packageId;
+
+                    // 2) exams
+                    batch.set(doc(db, "exams", detectedExamId), examPayload, { merge: true });
 
                     examUpdated = true;
 
@@ -1444,8 +1502,9 @@
                                 exam_id: detectedExamId,
                                 q_num: i + 1,
                                 q_id: mq.qId,
+                                chapter: mq.chapter || "과학의 기초",
                                 topic: mq.topic || "미분류",
-                                domain: mq.domain || "미분류",
+                                domain: mq.domain || "이해",
                                 updatedAt: new Date().toISOString()
                             }, { merge: true });
                             archiveCount++;

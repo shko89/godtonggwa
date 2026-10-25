@@ -1,9 +1,15 @@
 {
-    "q_2028_s0_01_01": {
-        "id": "q_2028_s0_01_01",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q01": {
+        "id": "mock_2028_s0_01_q01",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 1,
-        "imageFile": "2028_s0_01_q01.png",
+        "imageFile": "mock_2028_s0_01_q01.webp",
+        "fileName": "mock_2028_s0_01_q01.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q01.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q01.webp?alt=media",
         "correctAnswer": "5",
         "score": 1.5,
         "difficulty": 1,
@@ -19,16 +25,22 @@
             "생태계"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 922
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.021Z"
+        "updatedAt": "2026-10-24T07:33:36.299025+00:00"
     },
-    "q_2028_s0_01_02": {
-        "id": "q_2028_s0_01_02",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q02": {
+        "id": "mock_2028_s0_01_q02",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 2,
-        "imageFile": "2028_s0_01_q02.png",
+        "imageFile": "mock_2028_s0_01_q02.webp",
+        "fileName": "mock_2028_s0_01_q02.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q02.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q02.webp?alt=media",
         "correctAnswer": "5",
         "score": 1.5,
         "difficulty": 2,
@@ -44,17 +56,23 @@
             "기본량"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 1037
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299076+00:00"
     },
-    "q_2028_s0_01_03": {
-        "id": "q_2028_s0_01_03",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q03": {
+        "id": "mock_2028_s0_01_q03",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 3,
-        "imageFile": "2028_s0_01_q03.png",
-        "correctAnswer": "2",
+        "imageFile": "mock_2028_s0_01_q03.webp",
+        "fileName": "mock_2028_s0_01_q03.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q03.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q03.webp?alt=media",
+        "correctAnswer": "3",
         "score": 1.5,
         "difficulty": 3,
         "taxonomy": {
@@ -69,17 +87,23 @@
             "비중"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 832
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299096+00:00"
     },
-    "q_2028_s0_01_04": {
-        "id": "q_2028_s0_01_04",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q04": {
+        "id": "mock_2028_s0_01_q04",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 4,
-        "imageFile": "2028_s0_01_q04.png",
-        "correctAnswer": "4",
+        "imageFile": "mock_2028_s0_01_q04.webp",
+        "fileName": "mock_2028_s0_01_q04.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q04.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q04.webp?alt=media",
+        "correctAnswer": "1",
         "score": 2.5,
         "difficulty": 3,
         "taxonomy": {
@@ -93,16 +117,22 @@
             "규산염 광물"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 691
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299109+00:00"
     },
-    "q_2028_s0_01_05": {
-        "id": "q_2028_s0_01_05",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q05": {
+        "id": "mock_2028_s0_01_q05",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 5,
-        "imageFile": "2028_s0_01_q05.png",
+        "imageFile": "mock_2028_s0_01_q05.webp",
+        "fileName": "mock_2028_s0_01_q05.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q05.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q05.webp?alt=media",
         "correctAnswer": "5",
         "score": 1.5,
         "difficulty": 1,
@@ -118,18 +148,24 @@
             "생물 요소"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 998
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299121+00:00"
     },
-    "q_2028_s0_01_06": {
-        "id": "q_2028_s0_01_06",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q06": {
+        "id": "mock_2028_s0_01_q06",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 6,
-        "imageFile": "2028_s0_01_q06.png",
+        "imageFile": "mock_2028_s0_01_q06.webp",
+        "fileName": "mock_2028_s0_01_q06.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q06.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q06.webp?alt=media",
         "correctAnswer": "4",
-        "score": 2,
+        "score": 2.0,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -142,16 +178,22 @@
             "에너지 출입"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 883
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299135+00:00"
     },
-    "q_2028_s0_01_07": {
-        "id": "q_2028_s0_01_07",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q07": {
+        "id": "mock_2028_s0_01_q07",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 7,
-        "imageFile": "2028_s0_01_q07.png",
+        "imageFile": "mock_2028_s0_01_q07.webp",
+        "fileName": "mock_2028_s0_01_q07.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q07.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q07.webp?alt=media",
         "correctAnswer": "3",
         "score": 1.5,
         "difficulty": 3,
@@ -167,18 +209,24 @@
             "대기 오염"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 947
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299147+00:00"
     },
-    "q_2028_s0_01_08": {
-        "id": "q_2028_s0_01_08",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q08": {
+        "id": "mock_2028_s0_01_q08",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 8,
-        "imageFile": "2028_s0_01_q08.png",
-        "correctAnswer": "2",
-        "score": 2,
+        "imageFile": "mock_2028_s0_01_q08.webp",
+        "fileName": "mock_2028_s0_01_q08.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q08.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q08.webp?alt=media",
+        "correctAnswer": "1",
+        "score": 2.0,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -192,18 +240,24 @@
             "대기 오염"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 742
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299161+00:00"
     },
-    "q_2028_s0_01_09": {
-        "id": "q_2028_s0_01_09",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q09": {
+        "id": "mock_2028_s0_01_q09",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 9,
-        "imageFile": "2028_s0_01_q09.png",
-        "correctAnswer": "4",
-        "score": 2,
+        "imageFile": "mock_2028_s0_01_q09.webp",
+        "fileName": "mock_2028_s0_01_q09.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q09.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q09.webp?alt=media",
+        "correctAnswer": "5",
+        "score": 2.0,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -217,17 +271,23 @@
             "자연 선택"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 806
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299175+00:00"
     },
-    "q_2028_s0_01_10": {
-        "id": "q_2028_s0_01_10",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q10": {
+        "id": "mock_2028_s0_01_q10",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 10,
-        "imageFile": "2028_s0_01_q10.png",
-        "correctAnswer": "4",
+        "imageFile": "mock_2028_s0_01_q10.webp",
+        "fileName": "mock_2028_s0_01_q10.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q10.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q10.webp?alt=media",
+        "correctAnswer": "5",
         "score": 1.5,
         "difficulty": 2,
         "taxonomy": {
@@ -241,17 +301,23 @@
             "별의 내부 구조"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 909
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299186+00:00"
     },
-    "q_2028_s0_01_11": {
-        "id": "q_2028_s0_01_11",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q11": {
+        "id": "mock_2028_s0_01_q11",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 11,
-        "imageFile": "2028_s0_01_q11.png",
-        "correctAnswer": "4",
+        "imageFile": "mock_2028_s0_01_q11.webp",
+        "fileName": "mock_2028_s0_01_q11.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q11.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q11.webp?alt=media",
+        "correctAnswer": "2",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -265,18 +331,24 @@
             "병원체"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 666
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299197+00:00"
     },
-    "q_2028_s0_01_12": {
-        "id": "q_2028_s0_01_12",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q12": {
+        "id": "mock_2028_s0_01_q12",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 12,
-        "imageFile": "2028_s0_01_q12.png",
-        "correctAnswer": "3",
-        "score": 2,
+        "imageFile": "mock_2028_s0_01_q12.webp",
+        "fileName": "mock_2028_s0_01_q12.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q12.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q12.webp?alt=media",
+        "correctAnswer": "4",
+        "score": 2.0,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -289,16 +361,22 @@
             "이온 모형"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 819
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299212+00:00"
     },
-    "q_2028_s0_01_13": {
-        "id": "q_2028_s0_01_13",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q13": {
+        "id": "mock_2028_s0_01_q13",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 13,
-        "imageFile": "2028_s0_01_q13.png",
+        "imageFile": "mock_2028_s0_01_q13.webp",
+        "fileName": "mock_2028_s0_01_q13.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q13.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q13.webp?alt=media",
         "correctAnswer": "5",
         "score": 1.5,
         "difficulty": 2,
@@ -313,18 +391,24 @@
             "스펙트럼"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 986
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299226+00:00"
     },
-    "q_2028_s0_01_14": {
-        "id": "q_2028_s0_01_14",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q14": {
+        "id": "mock_2028_s0_01_q14",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 14,
-        "imageFile": "2028_s0_01_q14.png",
-        "correctAnswer": "5",
-        "score": 2,
+        "imageFile": "mock_2028_s0_01_q14.webp",
+        "fileName": "mock_2028_s0_01_q14.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q14.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q14.webp?alt=media",
+        "correctAnswer": "1",
+        "score": 2.0,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -338,18 +422,24 @@
             "지구 시스템"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 870
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299238+00:00"
     },
-    "q_2028_s0_01_15": {
-        "id": "q_2028_s0_01_15",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q15": {
+        "id": "mock_2028_s0_01_q15",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 15,
-        "imageFile": "2028_s0_01_q15.png",
+        "imageFile": "mock_2028_s0_01_q15.webp",
+        "fileName": "mock_2028_s0_01_q15.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q15.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q15.webp?alt=media",
         "correctAnswer": "2",
-        "score": 2,
+        "score": 2.0,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -362,18 +452,24 @@
             "전자 배치"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 755
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299249+00:00"
     },
-    "q_2028_s0_01_16": {
-        "id": "q_2028_s0_01_16",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q16": {
+        "id": "mock_2028_s0_01_q16",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 16,
-        "imageFile": "2028_s0_01_q16.png",
+        "imageFile": "mock_2028_s0_01_q16.webp",
+        "fileName": "mock_2028_s0_01_q16.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q16.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q16.webp?alt=media",
         "correctAnswer": "3",
-        "score": 2,
+        "score": 2.0,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -386,17 +482,23 @@
             "전자기 유도"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 794
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299261+00:00"
     },
-    "q_2028_s0_01_17": {
-        "id": "q_2028_s0_01_17",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q17": {
+        "id": "mock_2028_s0_01_q17",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 17,
-        "imageFile": "2028_s0_01_q17.png",
-        "correctAnswer": "3",
+        "imageFile": "mock_2028_s0_01_q17.webp",
+        "fileName": "mock_2028_s0_01_q17.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q17.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q17.webp?alt=media",
+        "correctAnswer": "4",
         "score": 1.5,
         "difficulty": 2,
         "taxonomy": {
@@ -410,18 +512,24 @@
             "수륙 분포"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 896
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299272+00:00"
     },
-    "q_2028_s0_01_18": {
-        "id": "q_2028_s0_01_18",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q18": {
+        "id": "mock_2028_s0_01_q18",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 18,
-        "imageFile": "2028_s0_01_q18.png",
-        "correctAnswer": "5",
-        "score": 2,
+        "imageFile": "mock_2028_s0_01_q18.webp",
+        "fileName": "mock_2028_s0_01_q18.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q18.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q18.webp?alt=media",
+        "correctAnswer": "2",
+        "score": 2.0,
         "difficulty": 2,
         "taxonomy": {
             "subject": "통합과학",
@@ -435,17 +543,23 @@
             "전자 배치"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 845
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299287+00:00"
     },
-    "q_2028_s0_01_19": {
-        "id": "q_2028_s0_01_19",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q19": {
+        "id": "mock_2028_s0_01_q19",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 19,
-        "imageFile": "2028_s0_01_q19.png",
-        "correctAnswer": "5",
+        "imageFile": "mock_2028_s0_01_q19.webp",
+        "fileName": "mock_2028_s0_01_q19.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q19.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q19.webp?alt=media",
+        "correctAnswer": "3",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -459,18 +573,24 @@
             "수평 운동"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 653
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299298+00:00"
     },
-    "q_2028_s0_01_20": {
-        "id": "q_2028_s0_01_20",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q20": {
+        "id": "mock_2028_s0_01_q20",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 20,
-        "imageFile": "2028_s0_01_q20.png",
-        "correctAnswer": "3",
-        "score": 2,
+        "imageFile": "mock_2028_s0_01_q20.webp",
+        "fileName": "mock_2028_s0_01_q20.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q20.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q20.webp?alt=media",
+        "correctAnswer": "4",
+        "score": 2.5,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -483,18 +603,24 @@
             "DNA 모형"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 730
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299312+00:00"
     },
-    "q_2028_s0_01_21": {
-        "id": "q_2028_s0_01_21",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q21": {
+        "id": "mock_2028_s0_01_q21",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 21,
-        "imageFile": "2028_s0_01_q21.png",
+        "imageFile": "mock_2028_s0_01_q21.webp",
+        "fileName": "mock_2028_s0_01_q21.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q21.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q21.webp?alt=media",
         "correctAnswer": "2",
-        "score": 2,
+        "score": 2.0,
         "difficulty": 3,
         "taxonomy": {
             "subject": "통합과학",
@@ -507,16 +633,22 @@
             "판의 이동"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 806
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299322+00:00"
     },
-    "q_2028_s0_01_22": {
-        "id": "q_2028_s0_01_22",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q22": {
+        "id": "mock_2028_s0_01_q22",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 22,
-        "imageFile": "2028_s0_01_q22.png",
+        "imageFile": "mock_2028_s0_01_q22.webp",
+        "fileName": "mock_2028_s0_01_q22.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q22.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q22.webp?alt=media",
         "correctAnswer": "3",
         "score": 2.5,
         "difficulty": 5,
@@ -531,17 +663,23 @@
             "이온 수 비율"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 614
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299337+00:00"
     },
-    "q_2028_s0_01_23": {
-        "id": "q_2028_s0_01_23",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q23": {
+        "id": "mock_2028_s0_01_q23",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 23,
-        "imageFile": "2028_s0_01_q23.png",
-        "correctAnswer": "2",
+        "imageFile": "mock_2028_s0_01_q23.webp",
+        "fileName": "mock_2028_s0_01_q23.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q23.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q23.webp?alt=media",
+        "correctAnswer": "4",
         "score": 2.5,
         "difficulty": 5,
         "taxonomy": {
@@ -555,17 +693,23 @@
             "충돌"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 704
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299349+00:00"
     },
-    "q_2028_s0_01_24": {
-        "id": "q_2028_s0_01_24",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q24": {
+        "id": "mock_2028_s0_01_q24",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 24,
-        "imageFile": "2028_s0_01_q24.png",
-        "correctAnswer": "4",
+        "imageFile": "mock_2028_s0_01_q24.webp",
+        "fileName": "mock_2028_s0_01_q24.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q24.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q24.webp?alt=media",
+        "correctAnswer": "3",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -580,17 +724,23 @@
             "돌연변이"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 768
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299361+00:00"
     },
-    "q_2028_s0_01_25": {
-        "id": "q_2028_s0_01_25",
-        "sourceExamId": "2028_s0_01",
+    "mock_2028_s0_01_q25": {
+        "id": "mock_2028_s0_01_q25",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
         "examQNum": 25,
-        "imageFile": "2028_s0_01_q25.png",
-        "correctAnswer": "3",
+        "imageFile": "mock_2028_s0_01_q25.webp",
+        "fileName": "mock_2028_s0_01_q25.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q25.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q25.webp?alt=media",
+        "correctAnswer": "1",
         "score": 2.5,
         "difficulty": 4,
         "taxonomy": {
@@ -605,9 +755,9 @@
             "기압 편차"
         ],
         "stats": {
-            "total": 1280,
-            "correct": 678
+            "total": 0,
+            "correct": 0
         },
-        "updatedAt": "2026-10-13T23:28:22.022Z"
+        "updatedAt": "2026-10-24T07:33:36.299372+00:00"
     }
 }

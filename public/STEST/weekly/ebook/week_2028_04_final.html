@@ -8,7 +8,7 @@
     <title>갓통과 주간지 4주차 [통합 전자책]</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;500;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Base Reset & Flipbook Global Styles -->
     <style>
@@ -3747,7 +3747,6 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
 <style id="quiz_04-custom-styles">
 /* === [Style] 개념 SCAN 퀴즈 1~50 & 정답표 (P32-40) === */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Roboto:wght@700;900&display=swap');
         
         body { background-color: #f1f5f9;
             margin: 0;
@@ -4030,14 +4029,21 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
     const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
+        // 로컬 테스트 환경(localhost / 127.0.0.1 / file://)에서는 즉시 화면 표시 허용
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') {
+            document.body.style.display = 'flex';
+            return;
+        }
         if (!user || user.isAnonymous) {
             alert("로그인이 필요하거나 접근 권한이 없습니다.");
             window.location.href = "../../exam.html";
             return;
         }
         try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            const myPkgDoc = await getDoc(doc(db, "users", user.uid, "my_packages", "week_2028"));
+            const [userDoc, myPkgDoc] = await Promise.all([
+                getDoc(doc(db, "users", user.uid)),
+                getDoc(doc(db, "users", user.uid, "my_packages", "week_2028"))
+            ]);
             
             const userData = userDoc.exists() ? userDoc.data() : {};
             const isPaid = userData.role === 'admin' || 
@@ -4056,7 +4062,7 @@ html, body { width: 100%; min-width: 100%; margin: 0; padding: 0; overflow-x: hi
 
             // B2C 디바이스 가드: 1인당 최대 2대 기기 바인딩 검증 (계정 공유 방지)
             if (window.DeviceGuard) {
-                const devCheck = await window.DeviceGuard.checkB2CDevice(db, user.uid);
+                const devCheck = await window.DeviceGuard.checkB2CDevice(db, user.uid, userData);
                 if (!devCheck.allowed) {
                     window.DeviceGuard.renderDeviceLimitBlockModal({
                         title: '⚠️ 갓통과 주간지 기기 등록 한도 초과 (최대 2대)',

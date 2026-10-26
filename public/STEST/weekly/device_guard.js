@@ -236,7 +236,7 @@
      * @param {string} userUid 사용자 고유 UID
      * @returns {Promise<Object>} { allowed: boolean, reason?: string, devices: Array }
      */
-    async function checkB2CDevice(dbInstance, userUid) {
+    async function checkB2CDevice(dbInstance, userUid, preloadedUserData) {
         const devId = getOrCreateDeviceId();
         const devDesc = getDeviceDescription();
         const nowIso = new Date().toISOString();
@@ -247,21 +247,25 @@
         }
 
         try {
-            // Modular SDK vs Compat SDK 호환 처리
-            let userDocSnap = null;
-            let isModular = false;
+            // Modular SDK vs Compat SDK 호환 처리 (preloadedUserData 전달 시 중복 네트워크 조회 생략)
+            const isModular = typeof dbInstance.collection !== 'function';
+            let userData = null;
 
-            if (typeof dbInstance.collection === 'function') {
-                // Compat SDK
-                userDocSnap = await dbInstance.collection('users').doc(userUid).get();
+            if (preloadedUserData && typeof preloadedUserData === 'object') {
+                userData = preloadedUserData;
             } else {
-                // Modular SDK (Modular Firestore instance)
-                isModular = true;
-                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-                userDocSnap = await getDoc(doc(dbInstance, "users", userUid));
+                let userDocSnap = null;
+                if (!isModular) {
+                    // Compat SDK
+                    userDocSnap = await dbInstance.collection('users').doc(userUid).get();
+                } else {
+                    // Modular SDK (Modular Firestore instance)
+                    const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+                    userDocSnap = await getDoc(doc(dbInstance, "users", userUid));
+                }
+                userData = (userDocSnap && userDocSnap.exists) ? (typeof userDocSnap.data === 'function' ? userDocSnap.data() : userDocSnap.data) : {};
             }
 
-            const userData = (userDocSnap && userDocSnap.exists) ? (typeof userDocSnap.data === 'function' ? userDocSnap.data() : userDocSnap.data) : {};
             let devices = Array.isArray(userData.registeredDevices) ? [...userData.registeredDevices] : [];
 
             // 관리자는 무제한 허용
@@ -271,9 +275,9 @@
 
             const matchIdx = devices.findIndex(d => d.deviceId === devId);
             if (matchIdx >= 0) {
-                // 이미 등록된 기기
+                // 이미 등록된 기기 (비차단 백그라운드 갱신으로 화면 표시 지연 제거)
                 devices[matchIdx].lastActiveAt = nowIso;
-                await updateB2CDevicesInFirestore(dbInstance, userUid, devices, isModular);
+                updateB2CDevicesInFirestore(dbInstance, userUid, devices, isModular);
                 return { allowed: true, isNew: false, count: devices.length, max: MAX_ALLOWED_DEVICES, devices: devices };
             }
 

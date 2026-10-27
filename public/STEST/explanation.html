@@ -187,7 +187,9 @@
             margin-top: 6px;
             margin-bottom: 4px;
         }
+        .explanation-body .fact-check-item:has(> .fact-check-text) { display: flex; gap: 8px; }
         .explanation-body .fact-check-item {
+            display: block;
             font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
             font-size: 16.5px !important;
             line-height: 30px !important;
@@ -224,10 +226,26 @@
             line-height: 30px;
         }
 
-        /* 해설 영역 수식 크기 최적화 (손글씨 폰트 비율 보정) */
+        /* 해설 영역 수식 크기 최적화 (손글씨 폰트 비율 및 높이 균형 보정) */
         .explanation-body .katex,
         .fact-check-text .katex {
-            font-size: 0.92em !important;
+            font-size: 0.88em !important;
+        }
+
+        /* 수식 내 한글(text, hangul_fallback)은 본문 온글잎 박윤슬체로 통일하여 이질감 해소 */
+        .explanation-body .katex .hangul_fallback,
+        .explanation-body .katex .cjk_fallback,
+        .explanation-body .katex .mord.text,
+        .fact-check-text .katex .hangul_fallback,
+        .fact-check-text .katex .cjk_fallback,
+        .fact-check-text .katex .mord.text {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+        }
+
+        /* 인라인 분수(\frac)의 분자/분모가 과도하게 작아지는 현상 방지 */
+        .explanation-body .katex .mfrac .reset-size6.size3,
+        .fact-check-text .katex .mfrac .reset-size6.size3 {
+            font-size: 0.85em !important;
         }
 
     </style>

@@ -341,7 +341,7 @@
                 `;
                 grid.appendChild(row);
             }
-            updateCount();
+            document.getElementById('answered-count').innerText = document.querySelectorAll('input[type="radio"]:checked').length;
         }
 
         window.saveLocalProgress = function() {
@@ -351,13 +351,27 @@
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
                 if (selected) answers[`q${i}`] = selected.value;
             }
-            localStorage.setItem('omr_progress_' + EXAM_ID, JSON.stringify(answers));
+            if (Object.keys(answers).length > 0) {
+                localStorage.setItem('omr_progress_' + EXAM_ID, JSON.stringify(answers));
+            } else {
+                localStorage.removeItem('omr_progress_' + EXAM_ID);
+            }
         }
 
         window.restoreLocalProgress = function() {
             if (!EXAM_ID) return;
             const saved = localStorage.getItem('omr_progress_' + EXAM_ID);
+            let hasValidSaved = false;
             if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    hasValidSaved = parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0;
+                    if (!hasValidSaved) localStorage.removeItem('omr_progress_' + EXAM_ID);
+                } catch(e) {
+                    localStorage.removeItem('omr_progress_' + EXAM_ID);
+                }
+            }
+            if (hasValidSaved) {
                 if (confirm("작성 중이던 임시 저장 답안이 있습니다. 이어서 작성하시겠습니까?")) {
                     try {
                         const answers = JSON.parse(saved);

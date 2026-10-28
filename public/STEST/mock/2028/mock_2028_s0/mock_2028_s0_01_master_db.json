@@ -10,26 +10,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q01.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q01.webp?alt=media",
-    "correctAnswer": "5",
+    "correctAnswer": 5,
     "score": 1.5,
-    "difficulty": 1,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "생태계 평형",
-      "chapter": "환경과 에너지"
+      "chapter": "환경과 에너지",
+      "topic": "생태계 평형"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "지구 온난화",
-      "생태계"
+      "미시 세계와 거시 세계",
+      "측정과 어림"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299025+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q02": {
     "id": "mock_2028_s0_01_q02",
@@ -42,26 +42,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q02.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q02.webp?alt=media",
-    "correctAnswer": "5",
+    "correctAnswer": 5,
     "score": 1.5,
-    "difficulty": 2,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "측정과 어림",
-      "chapter": "과학의 기초"
+      "chapter": "과학의 기초",
+      "topic": "측정과 어림"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "측정 표준",
-      "기본량"
+      "기체 분자 운동",
+      "증발과 확산"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299076+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q03": {
     "id": "mock_2028_s0_01_q03",
@@ -74,26 +74,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q03.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q03.webp?alt=media",
-    "correctAnswer": "3",
+    "correctAnswer": 3,
     "score": 1.5,
-    "difficulty": 3,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "기본량과 단위",
-      "chapter": "과학의 기초"
+      "chapter": "과학의 기초",
+      "topic": "기본량과 단위"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "밀도",
-      "비중"
+      "기본량과 유도량",
+      "밀도 측정"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299096+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q04": {
     "id": "mock_2028_s0_01_q04",
@@ -106,25 +106,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q04.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q04.webp?alt=media",
-    "correctAnswer": "1",
+    "correctAnswer": 1,
     "score": 2.5,
-    "difficulty": 3,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "지각·생명체 구성 물질의 규칙성(1)",
-      "chapter": "물질과 규칙성"
+      "chapter": "물질과 규칙성",
+      "topic": "지각·생명체 구성 물질의 규칙성(1)"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
+      "규산염 사면체",
       "규산염 광물"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299109+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q05": {
     "id": "mock_2028_s0_01_q05",
@@ -137,26 +138,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q05.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q05.webp?alt=media",
-    "correctAnswer": "5",
+    "correctAnswer": 5,
     "score": 1.5,
-    "difficulty": 1,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "생태계 구성 요소",
-      "chapter": "환경과 에너지"
+      "chapter": "환경과 에너지",
+      "topic": "생태계 구성 요소"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "생태계",
-      "생물 요소"
+      "세포소기관",
+      "생명 시스템"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299121+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q06": {
     "id": "mock_2028_s0_01_q06",
@@ -169,25 +170,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q06.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q06.webp?alt=media",
-    "correctAnswer": "4",
-    "score": 2.0,
+    "correctAnswer": 4,
+    "score": 2,
     "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "물질 변화에서 에너지 출입",
-      "chapter": "변화와 다양성"
+      "chapter": "변화와 다양성",
+      "topic": "물질 변화에서 에너지 출입"
     },
     "behavioralDomain": "의사소통",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "에너지 출입"
+      "발열 반응",
+      "흡열 반응"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299135+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q07": {
     "id": "mock_2028_s0_01_q07",
@@ -200,26 +202,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q07.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q07.webp?alt=media",
-    "correctAnswer": "3",
+    "correctAnswer": 3,
     "score": 1.5,
-    "difficulty": 3,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "인공지능과 과학 탐구",
-      "chapter": "과학과 미래 사회"
+      "chapter": "과학과 미래 사회",
+      "topic": "인공지능과 과학 탐구"
     },
     "behavioralDomain": "자료 변환 및 해석",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "빅데이터",
-      "대기 오염"
+      "데이터 전처리",
+      "빅데이터 탐구"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299147+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q08": {
     "id": "mock_2028_s0_01_q08",
@@ -232,26 +234,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q08.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q08.webp?alt=media",
-    "correctAnswer": "1",
-    "score": 2.0,
+    "correctAnswer": 1,
+    "score": 2,
     "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "에너지 전환과 효율",
-      "chapter": "환경과 에너지"
+      "chapter": "환경과 에너지",
+      "topic": "에너지 전환과 효율"
     },
     "behavioralDomain": "적용",
-    "qType": "계산형",
+    "qType": "단답형/계산형",
     "tags": [
-      "빅데이터",
-      "대기 오염"
+      "발전 효율",
+      "에너지 전환"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299161+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q09": {
     "id": "mock_2028_s0_01_q09",
@@ -264,26 +266,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q09.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q09.webp?alt=media",
-    "correctAnswer": "5",
+    "correctAnswer": 4,
     "score": 2.0,
-    "difficulty": 2,
+    "difficulty": 2.0,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "자연선택",
-      "chapter": "변화와 다양성"
+      "chapter": "변화와 다양성",
+      "topic": "자연선택"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "핀치새",
-      "자연 선택"
+      "자연선택",
+      "유전적 다양성"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299175+00:00"
+    "updatedAt": "2026-10-24T13:14:20.953530+00:00"
   },
   "mock_2028_s0_01_q10": {
     "id": "mock_2028_s0_01_q10",
@@ -296,25 +298,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q10.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q10.webp?alt=media",
-    "correctAnswer": "5",
+    "correctAnswer": 5,
     "score": 1.5,
-    "difficulty": 2,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "별의 진화",
-      "chapter": "물질과 규칙성"
+      "chapter": "물질과 규칙성",
+      "topic": "별의 진화"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "별의 내부 구조"
+      "별의 내부 구조",
+      "원소 생성"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299186+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q11": {
     "id": "mock_2028_s0_01_q11",
@@ -327,25 +330,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q11.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q11.webp?alt=media",
-    "correctAnswer": "2",
+    "correctAnswer": 2,
     "score": 2.5,
-    "difficulty": 4,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "감염병과 병원체",
-      "chapter": "과학과 미래 사회"
+      "chapter": "과학과 미래 사회",
+      "topic": "감염병과 병원체"
     },
     "behavioralDomain": "결론 도출 및 일반화",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "병원체"
+      "기후 변화",
+      "감염병 매개체"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299197+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q12": {
     "id": "mock_2028_s0_01_q12",
@@ -358,25 +362,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q12.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q12.webp?alt=media",
-    "correctAnswer": "4",
-    "score": 2.0,
-    "difficulty": 3,
+    "correctAnswer": 4,
+    "score": 2,
+    "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "산화와 환원",
-      "chapter": "변화와 다양성"
+      "chapter": "변화와 다양성",
+      "topic": "산화와 환원"
     },
     "behavioralDomain": "적용",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "이온 모형"
+      "금속의 반응성",
+      "산화 환원 반응"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299212+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q13": {
     "id": "mock_2028_s0_01_q13",
@@ -389,25 +394,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q13.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q13.webp?alt=media",
-    "correctAnswer": "5",
+    "correctAnswer": 5,
     "score": 1.5,
-    "difficulty": 2,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "원소 형성",
-      "chapter": "물질과 규칙성"
+      "chapter": "물질과 규칙성",
+      "topic": "원소 형성"
     },
     "behavioralDomain": "적용",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "스펙트럼"
+      "스펙트럼",
+      "빅뱅 우주론"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299226+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q14": {
     "id": "mock_2028_s0_01_q14",
@@ -420,14 +426,14 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q14.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q14.webp?alt=media",
-    "correctAnswer": "1",
-    "score": 2.0,
+    "correctAnswer": 1,
+    "score": 2,
     "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "지구시스템의 구성과 상호작용",
-      "chapter": "시스템과 상호작용"
+      "chapter": "시스템과 상호작용",
+      "topic": "지구시스템의 구성과 상호작용"
     },
     "behavioralDomain": "적용",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
@@ -439,7 +445,7 @@
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299238+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q15": {
     "id": "mock_2028_s0_01_q15",
@@ -452,25 +458,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q15.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q15.webp?alt=media",
-    "correctAnswer": "2",
-    "score": 2.0,
-    "difficulty": 3,
+    "correctAnswer": 2,
+    "score": 2,
+    "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "원소의 주기성",
-      "chapter": "물질과 규칙성"
+      "chapter": "물질과 규칙성",
+      "topic": "원소의 주기성"
     },
     "behavioralDomain": "적용",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "전자 배치"
+      "전자 배치",
+      "원자가 전자"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299249+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q16": {
     "id": "mock_2028_s0_01_q16",
@@ -483,25 +490,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q16.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q16.webp?alt=media",
-    "correctAnswer": "3",
-    "score": 2.0,
-    "difficulty": 3,
+    "correctAnswer": 2,
+    "score": 2,
+    "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "발전",
-      "chapter": "환경과 에너지"
+      "chapter": "환경과 에너지",
+      "topic": "발전"
     },
     "behavioralDomain": "탐구 설계",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "전자기 유도"
+      "전자기 유도",
+      "렌츠 법칙"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299261+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q17": {
     "id": "mock_2028_s0_01_q17",
@@ -514,25 +522,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q17.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q17.webp?alt=media",
-    "correctAnswer": "4",
+    "correctAnswer": 4,
     "score": 1.5,
-    "difficulty": 2,
+    "difficulty": 1.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "지질시대 환경 변화와 대멸종",
-      "chapter": "변화와 다양성"
+      "chapter": "변화와 다양성",
+      "topic": "지질시대 환경 변화와 대멸종"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "수륙 분포"
+      "수륙 분포 변화",
+      "대멸종"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299272+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q18": {
     "id": "mock_2028_s0_01_q18",
@@ -545,26 +554,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q18.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q18.webp?alt=media",
-    "correctAnswer": "2",
-    "score": 2.0,
+    "correctAnswer": 2,
+    "score": 2,
     "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "공유 결합",
-      "chapter": "물질과 규칙성"
+      "chapter": "물질과 규칙성",
+      "topic": "공유 결합"
     },
-    "behavioralDomain": "적용",
+    "behavioralDomain": "문제 인식 및 가설 설정",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "화학 결합",
-      "전자 배치"
+      "이온 결합",
+      "옥텟 규칙"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299287+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q19": {
     "id": "mock_2028_s0_01_q19",
@@ -577,25 +586,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q19.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q19.webp?alt=media",
-    "correctAnswer": "3",
+    "correctAnswer": 3,
     "score": 2.5,
-    "difficulty": 4,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "중력장 내의 운동",
-      "chapter": "시스템과 상호작용"
+      "chapter": "시스템과 상호작용",
+      "topic": "중력장 내의 운동"
     },
-    "behavioralDomain": "적용",
+    "behavioralDomain": "자료 변환 및 해석",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "수평 운동"
+      "수평으로 던진 물체",
+      "자유 낙하"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299298+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q20": {
     "id": "mock_2028_s0_01_q20",
@@ -608,25 +618,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q20.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q20.webp?alt=media",
-    "correctAnswer": "4",
+    "correctAnswer": 4,
     "score": 2.5,
-    "difficulty": 3,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "지각·생명체 구성 물질의 규칙성(2)",
-      "chapter": "물질과 규칙성"
+      "chapter": "물질과 규칙성",
+      "topic": "지각·생명체 구성 물질의 규칙성(2)"
     },
-    "behavioralDomain": "적용",
+    "behavioralDomain": "탐구 수행 및 자료 수집",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "DNA 모형"
+      "핵산",
+      "DNA 이중나선"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299312+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q21": {
     "id": "mock_2028_s0_01_q21",
@@ -639,25 +650,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q21.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q21.webp?alt=media",
-    "correctAnswer": "2",
-    "score": 2.0,
-    "difficulty": 3,
+    "correctAnswer": 2,
+    "score": 2,
+    "difficulty": 2,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "판구조론과 지각 변동",
-      "chapter": "시스템과 상호작용"
+      "chapter": "시스템과 상호작용",
+      "topic": "판구조론과 지각 변동"
     },
     "behavioralDomain": "이해",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "판의 이동"
+      "판의 경계",
+      "섭입대"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299322+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q22": {
     "id": "mock_2028_s0_01_q22",
@@ -670,25 +682,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q22.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q22.webp?alt=media",
-    "correctAnswer": "3",
+    "correctAnswer": 3,
     "score": 2.5,
-    "difficulty": 5,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "중화 반응",
-      "chapter": "변화와 다양성"
+      "chapter": "변화와 다양성",
+      "topic": "중화 반응"
     },
-    "behavioralDomain": "적용",
-    "qType": "계산형",
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "단답형/계산형",
     "tags": [
+      "중화 반응",
       "이온 수 비율"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299337+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q23": {
     "id": "mock_2028_s0_01_q23",
@@ -701,25 +714,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q23.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q23.webp?alt=media",
-    "correctAnswer": "4",
+    "correctAnswer": 2,
     "score": 2.5,
-    "difficulty": 5,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "충격량과 운동량",
-      "chapter": "시스템과 상호작용"
+      "chapter": "시스템과 상호작용",
+      "topic": "충격량과 운동량"
     },
-    "behavioralDomain": "적용",
-    "qType": "계산형",
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "5지선다형",
     "tags": [
-      "충돌"
+      "충격량",
+      "운동량 변화량"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299349+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q24": {
     "id": "mock_2028_s0_01_q24",
@@ -732,26 +746,26 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q24.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q24.webp?alt=media",
-    "correctAnswer": "3",
+    "correctAnswer": 5,
     "score": 2.5,
-    "difficulty": 4,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학1",
-      "topic": "유전자와 단백질",
-      "chapter": "시스템과 상호작용"
+      "chapter": "시스템과 상호작용",
+      "topic": "유전자와 단백질"
     },
     "behavioralDomain": "적용",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "효소",
-      "돌연변이"
+      "전사와 번역",
+      "코돈"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299361+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   },
   "mock_2028_s0_01_q25": {
     "id": "mock_2028_s0_01_q25",
@@ -764,25 +778,25 @@
     "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q25.webp",
     "storagePrefix": "mock/2028",
     "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q25.webp?alt=media",
-    "correctAnswer": "1",
+    "correctAnswer": 1,
     "score": 2.5,
-    "difficulty": 4,
+    "difficulty": 2.5,
     "taxonomy": {
       "subject": "통합과학",
       "domain": "통합과학2",
-      "topic": "대기와 해양의 상호작용",
-      "chapter": "환경과 에너지"
+      "chapter": "환경과 에너지",
+      "topic": "대기와 해양의 상호작용"
     },
-    "behavioralDomain": "이해",
+    "behavioralDomain": "자료 변환 및 해석",
     "qType": "합답형(ㄱ,ㄴ,ㄷ)",
     "tags": [
-      "엘리뇨",
+      "엘니뇨",
       "기압 편차"
     ],
     "stats": {
       "total": 0,
       "correct": 0
     },
-    "updatedAt": "2026-10-24T07:33:36.299372+00:00"
+    "updatedAt": "2026-10-24T08:14:14.591Z"
   }
 }

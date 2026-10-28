@@ -2015,7 +2015,7 @@
                 const isContentVisible = document.getElementById('edit-content-visible').checked;
 
                 await setDoc(doc(db, "public_exams", docId), { id: numId, title, subTitle, price, date: dateVal ? new Date(dateVal).toISOString() : null, serviceType, packageId, isAuthRequired, isContentVisible }, { merge: true });
-                await setDoc(doc(db, "exams", docId), { title, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString(), serviceType, packageId, isAuthRequired, isContentVisible }, { merge: true });
+                await setDoc(doc(db, "exams", docId), { title, subTitle, questions: tempExamQuestions, score_map: tempExamQuestions.map(q=>q?q.score:0), answer_key: tempExamQuestions.map(q=>q?q.correctAnswer:0), updatedAt: new Date().toISOString(), serviceType, packageId, isAuthRequired, isContentVisible }, { merge: true });
                 await customAlert("저장 완료"); closeEditModal(); window.loadExamList(); 
             } catch (e) { await customAlert("실패: " + e.message); }
         };

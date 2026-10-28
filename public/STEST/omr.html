@@ -199,11 +199,30 @@
                     console.log("기출 모의고사(Archive)는 트래픽 최적화를 위해 DB 조회를 생략하고 로컬 JS 파일에서 정답을 가져옵니다.");
                     await loadFallbackData();
                 } else {
+                    // 1) 관리자 설정(public_exams / exams) 메타데이터 우선 조회
+                    let dbTitle = null;
+                    try {
+                        const pubSnap = await getDoc(doc(db, "public_exams", EXAM_ID));
+                        if (pubSnap.exists()) {
+                            const pubData = pubSnap.data();
+                            if (pubData.serviceType === 'SEASON_MOCK' && pubData.subTitle) {
+                                dbTitle = pubData.subTitle.trim();
+                            } else if (pubData.subTitle) {
+                                dbTitle = pubData.subTitle.trim();
+                            } else if (pubData.title) {
+                                dbTitle = pubData.title.trim();
+                            }
+                        }
+                    } catch(e) {
+                        console.warn("public_exams 조회 실패:", e);
+                    }
+
                     const examDocRef = doc(db, "exams", EXAM_ID);
                     const examSnap = await getDoc(examDocRef);
 
                     if (!examSnap.exists()) {
                         console.warn("시험 데이터가 DB에 없습니다. JS 파일에서 데이터 로딩을 시도합니다.");
+                        if (dbTitle) EXAM_TITLE = dbTitle;
                         await loadFallbackData();
                     } else {
                         const data = examSnap.data();
@@ -212,9 +231,12 @@
                             CORRECT_ANSWERS = data.answer_key;
                             SCORE_MAP = data.score_map;
                             TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
-                            if (data.title) EXAM_TITLE = data.title;
-                            if (data.questions) EXAM_QUESTIONS = data.questions; // 원본 문제 메타데이터 보관
+                            if (data.questions) EXAM_QUESTIONS = data.questions;
                         }
+                        if (!dbTitle && data.subTitle) dbTitle = data.subTitle.trim();
+                        if (!dbTitle && data.title) dbTitle = data.title.trim();
+                        if (dbTitle) EXAM_TITLE = dbTitle;
+
                         // JS 해설 스크립트가 존재하면 최종 검수된 정답/배점으로 최신화 및 해설 연동
                         await loadFallbackData();
                     }
@@ -281,7 +303,9 @@
                                 CORRECT_ANSWERS = window.globalExamData.answers;
                                 SCORE_MAP = window.globalExamData.scores || Array(CORRECT_ANSWERS.length).fill(4);
                                 TOTAL_QUESTIONS = CORRECT_ANSWERS.length;
-                                if (window.globalExamData.title) EXAM_TITLE = window.globalExamData.title;
+                                if (!EXAM_TITLE || EXAM_TITLE === '실전 모의고사') {
+                                    if (window.globalExamData.title) EXAM_TITLE = window.globalExamData.title;
+                                }
                                 resolve(true);
                             } else {
                                 useHardcodedFallback();

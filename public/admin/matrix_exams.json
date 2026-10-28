@@ -1,0 +1,229 @@
+{
+  "2028_예시문항": [
+    {
+      "q_num": 1,
+      "domain": "적용",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "1. 표는 생태계평형에 영향을 미치는 환경 변화의 예를 나타낸 것이다. (가)와 (나)는 외래생물 유입과 환경 오염을 순서 없이 나타낸"
+    },
+    {
+      "q_num": 2,
+      "domain": "이해",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "2. 표는 길이의 측정 표준 A, B, C에 대한 내용이다. 측정 표준 m의 정의 A ℃일 때, 백금-이리듐 합금으로 만든 미터원기"
+    },
+    {
+      "q_num": 3,
+      "domain": "이해",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "3. 다음은 구리를 이용한 실험이다. [실험 과정 및 결과] (가) 그림과 같이 한 변의 ㉠길이가 cm인  정육면체의 구리를 준비하였"
+    },
+    {
+      "q_num": 4,
+      "domain": "이해",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "4. 다음은 지구를 구성하는 물질에 대한 설명이다. 지구의 지각을 이루는 암석의 대부분은  그림과 같이 두 종류의 원자 ⓐ와 ⓑ가 공유"
+    },
+    {
+      "q_num": 5,
+      "domain": "적용",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "5. 다음은 개미 종 A에 대한 자료이다. ￮땅속에 굴을 파서 서식하는 A는 유충의  먹이인 곰팡이를 굴에서 기른다. A가  곰팡이를"
+    },
+    {
+      "q_num": 6,
+      "domain": "탐구 수행 및 자료 수집",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "6. 다음은 기상 요소의 월평균 변화 경향을 알아보기 위해 빅데이터를  활용한 탐구 활동이다. [탐구 과정] (가) 최근 년 동안 우"
+    },
+    {
+      "q_num": 7,
+      "domain": "의사소통",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "7. 다음은 열 출입과 관련된 교사와 학생의 대화이다. (가)와 (나)에 들어갈 내용으로 가장 적절한 것은? [2점] ①(가) : 반응"
+    },
+    {
+      "q_num": 8,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "8. 큰가시고기 종 A는 포식자로부터 생존에 유리한 외피 조각  표현형을 갖는다. 그림 (가)는 A의 외피 조각 표현형 ㉠, ㉡, ㉢을"
+    },
+    {
+      "q_num": 9,
+      "domain": "결론 도출 및 일반화",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "9. 다음은 말라리아 매개 모기 A의 발생 시기를 알아보기 위한  탐구 활동이다. ￮말라리아의 병원체는 A를 매개로 전파된다. [탐구"
+    },
+    {
+      "q_num": 10,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "10. 표는 전기 에너지를 생산하는 발전소 A, B, C에 대한 자료이다. 발전소 발전 방식 특 징 A 수력 발전 높은 곳에서 떨어지는"
+    },
+    {
+      "q_num": 11,
+      "domain": "적용",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "11. 그림은 어느 별의 내부 구조와  각 영역에서 가장 큰 질량비를  차지하는 원소를 나타낸 것이다.  X, Y, Z는 규소, 철,"
+    },
+    {
+      "q_num": 12,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "12. 그림은 XCl 수용액에 금속 Y를 넣어 반응을 완결시켰을 때, 반응 전과 후 수용액에 존재하는 모든 이온을 모형으로 나타낸"
+    },
+    {
+      "q_num": 13,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "13. 그림 (가)는 우주를 구성하는 원소의 질량비를, (나)는 별 S와 원소 ㉠, ㉡의 스펙트럼을 나타낸 것이다. (가) (나) 이에"
+    },
+    {
+      "q_num": 14,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "14. 다음은 전자껍질 모형을 이용한 원소의 전자 배치와 관련된  탐구 활동이다. [, 주기 원소의 전자 배치 규칙] (가) 원자가"
+    },
+    {
+      "q_num": 15,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "15. 그림은 지구시스템을 구성하는 각 권역 사이의 탄소 순환 과정을, 표는 탄소의 이동 과정 ㉠, ㉡, ㉢의 예를 나타낸 것이다. A"
+    },
+    {
+      "q_num": 16,
+      "domain": "탐구 설계",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "16. 다음은 전자기 유도 현상을 알아보기 위해 설계한 실험이다. [준비물] ￮동일한 자석 개, 코일, 전류 센서, 고무줄 [실험 과"
+    },
+    {
+      "q_num": 17,
+      "domain": "적용",
+      "topic": "미분류",
+      "score": 1.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "17. 그림 (가)와 (나)는 억 천만 년 전과 억 년 전의 수륙 분포를 순서 없이 나타낸 것이다. (가) (나) 이에 대한 설명"
+    },
+    {
+      "q_num": 18,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "18. 그림 (가)는 힘 센서를 설치한 마네킹에 안전모를 씌운 후 속력 으로 벽에 충돌시키는 실험을 나타낸 것이다. 그림 (나)는"
+    },
+    {
+      "q_num": 19,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "19. 표는 이중나선구조 DNA의 모형을 만들기 위해 준비한 당, 인산, 염기, 결합선 부품 각각의 개수를, 그림은 완성된 DNA 모형"
+    },
+    {
+      "q_num": 20,
+      "domain": "결론 도출 및 일반화",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "20. 다음은 지구 표면에서 구슬의 운동에 대해 알아보는 실험이다. [실험 과정] (가) 그림과 같이 모눈종이를 배경으로  구슬 A와"
+    },
+    {
+      "q_num": 21,
+      "domain": "적용",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "21. 다음은 , 주기에서 원자 번호가 서로 다른 원소 W∼Z와 인체를 구성하는 원소의 질량비에 대한 자료이다. [W∼Z에 대한 자"
+    },
+    {
+      "q_num": 22,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "22. 그림은 판 A, B, C와 판의 경계 ㉠과 ㉡을 나타낸 것이다. 화살표( )의 길이와 방향은 GPS로 측정한 판의 평균 이동 속"
+    },
+    {
+      "q_num": 23,
+      "domain": "문제 인식 및 가설 설정",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": true,
+      "preview": "23. 다음은 카탈레이스에 의한 과산화 수소 분해 반응을 활용한  실험이다. ￮표는 아미노산 △와 □를 지정하는 코돈을  나타낸 것이다"
+    },
+    {
+      "q_num": 24,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "24. 표는 HCl 수용액, NaOH 수용액, KOH 수용액의 부피를 달리하여 혼합한 용액 (가), (나), (다)에 대한 자료이다."
+    },
+    {
+      "q_num": 25,
+      "domain": "자료 변환 및 해석",
+      "topic": "미분류",
+      "score": 2.5,
+      "answer": 0,
+      "isExperiment": false,
+      "preview": "25. 그림은 태평양 적도 부근 해역에서 관측한 ℃ 등수온선의 깊이를 시간에 따라 나타낸 것이다. ㉠과 ㉡은 각각 동태평양과 서태평"
+    }
+  ]
+}

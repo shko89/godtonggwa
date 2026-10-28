@@ -15,9 +15,9 @@ window.globalExamData = {
         // 1번 해설 (과학의 기초 > 측정과 어림 | 이해)
         {
             no: 1,
-            domain: "통합과학1",
-            chapter: "과학의 기초",
-            topic: "측정과 어림",
+            domain: "통합과학2",
+            chapter: "환경과 에너지",
+            topic: "생태계 평형",
             behavioralDomain: "이해",
             content: `<div class="ans-correct-title">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
 
@@ -90,7 +90,7 @@ window.globalExamData = {
             no: 4,
             domain: "통합과학1",
             chapter: "물질과 규칙성",
-            topic: "지각과 생명체 구성 물질의 규칙성",
+            topic: "지각·생명체 구성 물질의 규칙성(1)",
             behavioralDomain: "이해",
             content: `<div class="ans-correct-title">정답: ① ㄱ</div>
 
@@ -117,9 +117,9 @@ window.globalExamData = {
         // 5번 해설 (시스템과 상호작용 > 생명 시스템의 기본 단위 | 이해)
         {
             no: 5,
-            domain: "통합과학1",
-            chapter: "시스템과 상호작용",
-            topic: "생명 시스템의 기본 단위",
+            domain: "통합과학2",
+            chapter: "환경과 에너지",
+            topic: "생태계 구성 요소",
             behavioralDomain: "이해",
             content: `<div class="ans-correct-title">정답: ⑤ ㄱ, ㄴ, ㄷ</div>
 
@@ -457,7 +457,7 @@ window.globalExamData = {
             no: 18,
             domain: "통합과학1",
             chapter: "물질과 규칙성",
-            topic: "화학 결합",
+            topic: "공유 결합",
             behavioralDomain: "문제 인식 및 가설 설정",
             content: `<div class="ans-correct-title">정답: ② ㄴ</div>
 
@@ -513,7 +513,7 @@ window.globalExamData = {
             no: 20,
             domain: "통합과학1",
             chapter: "물질과 규칙성",
-            topic: "지각과 생명체 구성 물질의 규칙성",
+            topic: "지각·생명체 구성 물질의 규칙성(2)",
             behavioralDomain: "탐구 수행 및 자료 수집",
             content: `<div class="ans-correct-title">정답: ④ ㄱ, ㄷ</div>
 

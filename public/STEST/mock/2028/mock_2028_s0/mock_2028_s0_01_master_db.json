@@ -1,802 +1,802 @@
 {
-  "mock_2028_s0_01_q01": {
-    "id": "mock_2028_s0_01_q01",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 1,
-    "imageFile": "mock_2028_s0_01_q01.webp",
-    "fileName": "mock_2028_s0_01_q01.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q01.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q01.webp?alt=media",
-    "correctAnswer": 5,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "환경과 에너지",
-      "topic": "생태계 평형"
+    "mock_2028_s0_01_q01": {
+        "id": "mock_2028_s0_01_q01",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 1,
+        "imageFile": "mock_2028_s0_01_q01.webp",
+        "fileName": "mock_2028_s0_01_q01.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q01.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q01.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "과학의 기초",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "미시 세계와 거시 세계",
+            "측정과 어림"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:16.375262+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "미시 세계와 거시 세계",
-      "측정과 어림"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q02": {
+        "id": "mock_2028_s0_01_q02",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 2,
+        "imageFile": "mock_2028_s0_01_q02.webp",
+        "fileName": "mock_2028_s0_01_q02.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q02.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q02.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "과학의 기초",
+            "topic": "측정과 어림"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기체 분자 운동",
+            "증발과 확산"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:16.558169+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q02": {
-    "id": "mock_2028_s0_01_q02",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 2,
-    "imageFile": "mock_2028_s0_01_q02.webp",
-    "fileName": "mock_2028_s0_01_q02.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q02.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q02.webp?alt=media",
-    "correctAnswer": 5,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "과학의 기초",
-      "topic": "측정과 어림"
+    "mock_2028_s0_01_q03": {
+        "id": "mock_2028_s0_01_q03",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 3,
+        "imageFile": "mock_2028_s0_01_q03.webp",
+        "fileName": "mock_2028_s0_01_q03.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q03.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q03.webp?alt=media",
+        "correctAnswer": 3,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "과학의 기초",
+            "topic": "기본량과 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기본량과 유도량",
+            "밀도 측정"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:16.754007+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "기체 분자 운동",
-      "증발과 확산"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q04": {
+        "id": "mock_2028_s0_01_q04",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 4,
+        "imageFile": "mock_2028_s0_01_q04.webp",
+        "fileName": "mock_2028_s0_01_q04.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q04.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q04.webp?alt=media",
+        "correctAnswer": 1,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "물질과 규칙성",
+            "topic": "지각과 생명체 구성 물질의 규칙성"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "규산염 사면체",
+            "규산염 광물"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:16.876817+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q03": {
-    "id": "mock_2028_s0_01_q03",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 3,
-    "imageFile": "mock_2028_s0_01_q03.webp",
-    "fileName": "mock_2028_s0_01_q03.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q03.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q03.webp?alt=media",
-    "correctAnswer": 3,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "과학의 기초",
-      "topic": "기본량과 단위"
+    "mock_2028_s0_01_q05": {
+        "id": "mock_2028_s0_01_q05",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 5,
+        "imageFile": "mock_2028_s0_01_q05.webp",
+        "fileName": "mock_2028_s0_01_q05.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q05.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q05.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "시스템과 상호작용",
+            "topic": "생명 시스템의 기본 단위"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "세포소기관",
+            "생명 시스템"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:17.070985+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "기본량과 유도량",
-      "밀도 측정"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q06": {
+        "id": "mock_2028_s0_01_q06",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 6,
+        "imageFile": "mock_2028_s0_01_q06.webp",
+        "fileName": "mock_2028_s0_01_q06.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q06.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q06.webp?alt=media",
+        "correctAnswer": 4,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "변화와 다양성",
+            "topic": "물질 변화에서 에너지 출입"
+        },
+        "behavioralDomain": "의사소통",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "발열 반응",
+            "흡열 반응"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:17.270742+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q04": {
-    "id": "mock_2028_s0_01_q04",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 4,
-    "imageFile": "mock_2028_s0_01_q04.webp",
-    "fileName": "mock_2028_s0_01_q04.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q04.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q04.webp?alt=media",
-    "correctAnswer": 1,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "물질과 규칙성",
-      "topic": "지각·생명체 구성 물질의 규칙성(1)"
+    "mock_2028_s0_01_q07": {
+        "id": "mock_2028_s0_01_q07",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 7,
+        "imageFile": "mock_2028_s0_01_q07.webp",
+        "fileName": "mock_2028_s0_01_q07.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q07.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q07.webp?alt=media",
+        "correctAnswer": 3,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "과학과 미래 사회",
+            "topic": "인공지능과 과학 탐구"
+        },
+        "behavioralDomain": "자료 변환 및 해석",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "데이터 전처리",
+            "빅데이터 탐구"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:17.569273+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "규산염 사면체",
-      "규산염 광물"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q08": {
+        "id": "mock_2028_s0_01_q08",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 8,
+        "imageFile": "mock_2028_s0_01_q08.webp",
+        "fileName": "mock_2028_s0_01_q08.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q08.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q08.webp?alt=media",
+        "correctAnswer": 1,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "환경과 에너지",
+            "topic": "에너지 전환과 효율"
+        },
+        "behavioralDomain": "적용",
+        "qType": "단답형/계산형",
+        "tags": [
+            "발전 효율",
+            "에너지 전환"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:17.692613+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q05": {
-    "id": "mock_2028_s0_01_q05",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 5,
-    "imageFile": "mock_2028_s0_01_q05.webp",
-    "fileName": "mock_2028_s0_01_q05.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q05.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q05.webp?alt=media",
-    "correctAnswer": 5,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "환경과 에너지",
-      "topic": "생태계 구성 요소"
+    "mock_2028_s0_01_q09": {
+        "id": "mock_2028_s0_01_q09",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 9,
+        "imageFile": "mock_2028_s0_01_q09.webp",
+        "fileName": "mock_2028_s0_01_q09.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q09.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q09.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "변화와 다양성",
+            "topic": "자연선택"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "자연선택",
+            "유전적 다양성"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:17.973793+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "세포소기관",
-      "생명 시스템"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q10": {
+        "id": "mock_2028_s0_01_q10",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 10,
+        "imageFile": "mock_2028_s0_01_q10.webp",
+        "fileName": "mock_2028_s0_01_q10.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q10.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q10.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "물질과 규칙성",
+            "topic": "별의 진화"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "별의 내부 구조",
+            "원소 생성"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:18.131134+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q06": {
-    "id": "mock_2028_s0_01_q06",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 6,
-    "imageFile": "mock_2028_s0_01_q06.webp",
-    "fileName": "mock_2028_s0_01_q06.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q06.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q06.webp?alt=media",
-    "correctAnswer": 4,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "변화와 다양성",
-      "topic": "물질 변화에서 에너지 출입"
+    "mock_2028_s0_01_q11": {
+        "id": "mock_2028_s0_01_q11",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 11,
+        "imageFile": "mock_2028_s0_01_q11.webp",
+        "fileName": "mock_2028_s0_01_q11.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q11.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q11.webp?alt=media",
+        "correctAnswer": 2,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "과학과 미래 사회",
+            "topic": "감염병과 병원체"
+        },
+        "behavioralDomain": "결론 도출",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "기후 변화",
+            "감염병 매개체"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:18.380106+00:00"
     },
-    "behavioralDomain": "의사소통",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "발열 반응",
-      "흡열 반응"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q12": {
+        "id": "mock_2028_s0_01_q12",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 12,
+        "imageFile": "mock_2028_s0_01_q12.webp",
+        "fileName": "mock_2028_s0_01_q12.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q12.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q12.webp?alt=media",
+        "correctAnswer": 4,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "변화와 다양성",
+            "topic": "산화와 환원"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "금속의 반응성",
+            "산화 환원 반응"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:18.504051+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q07": {
-    "id": "mock_2028_s0_01_q07",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 7,
-    "imageFile": "mock_2028_s0_01_q07.webp",
-    "fileName": "mock_2028_s0_01_q07.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q07.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q07.webp?alt=media",
-    "correctAnswer": 3,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "과학과 미래 사회",
-      "topic": "인공지능과 과학 탐구"
+    "mock_2028_s0_01_q13": {
+        "id": "mock_2028_s0_01_q13",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 13,
+        "imageFile": "mock_2028_s0_01_q13.webp",
+        "fileName": "mock_2028_s0_01_q13.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q13.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q13.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "물질과 규칙성",
+            "topic": "원소 형성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "스펙트럼",
+            "빅뱅 우주론"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:18.669676+00:00"
     },
-    "behavioralDomain": "자료 변환 및 해석",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "데이터 전처리",
-      "빅데이터 탐구"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q14": {
+        "id": "mock_2028_s0_01_q14",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 14,
+        "imageFile": "mock_2028_s0_01_q14.webp",
+        "fileName": "mock_2028_s0_01_q14.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q14.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q14.webp?alt=media",
+        "correctAnswer": 1,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "시스템과 상호작용",
+            "topic": "지구시스템의 구성과 상호작용"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "탄소 순환",
+            "지구 시스템"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:18.852436+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q08": {
-    "id": "mock_2028_s0_01_q08",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 8,
-    "imageFile": "mock_2028_s0_01_q08.webp",
-    "fileName": "mock_2028_s0_01_q08.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q08.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q08.webp?alt=media",
-    "correctAnswer": 1,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "환경과 에너지",
-      "topic": "에너지 전환과 효율"
+    "mock_2028_s0_01_q15": {
+        "id": "mock_2028_s0_01_q15",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 15,
+        "imageFile": "mock_2028_s0_01_q15.webp",
+        "fileName": "mock_2028_s0_01_q15.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q15.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q15.webp?alt=media",
+        "correctAnswer": 2,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "물질과 규칙성",
+            "topic": "원소의 주기성"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자 배치",
+            "원자가 전자"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:19.016649+00:00"
     },
-    "behavioralDomain": "적용",
-    "qType": "단답형/계산형",
-    "tags": [
-      "발전 효율",
-      "에너지 전환"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q16": {
+        "id": "mock_2028_s0_01_q16",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 16,
+        "imageFile": "mock_2028_s0_01_q16.webp",
+        "fileName": "mock_2028_s0_01_q16.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q16.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q16.webp?alt=media",
+        "correctAnswer": 2,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "환경과 에너지",
+            "topic": "발전"
+        },
+        "behavioralDomain": "탐구 설계",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전자기 유도",
+            "렌츠 법칙"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:19.207225+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q09": {
-    "id": "mock_2028_s0_01_q09",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 9,
-    "imageFile": "mock_2028_s0_01_q09.webp",
-    "fileName": "mock_2028_s0_01_q09.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q09.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q09.webp?alt=media",
-    "correctAnswer": 4,
-    "score": 2.0,
-    "difficulty": 2.0,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "변화와 다양성",
-      "topic": "자연선택"
+    "mock_2028_s0_01_q17": {
+        "id": "mock_2028_s0_01_q17",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 17,
+        "imageFile": "mock_2028_s0_01_q17.webp",
+        "fileName": "mock_2028_s0_01_q17.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q17.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q17.webp?alt=media",
+        "correctAnswer": 4,
+        "score": 1.5,
+        "difficulty": 1.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "변화와 다양성",
+            "topic": "지질시대 환경 변화와 대멸종"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "수륙 분포 변화",
+            "대멸종"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:19.393373+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "자연선택",
-      "유전적 다양성"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q18": {
+        "id": "mock_2028_s0_01_q18",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 18,
+        "imageFile": "mock_2028_s0_01_q18.webp",
+        "fileName": "mock_2028_s0_01_q18.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q18.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q18.webp?alt=media",
+        "correctAnswer": 2,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "물질과 규칙성",
+            "topic": "화학 결합"
+        },
+        "behavioralDomain": "가설 설정",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "이온 결합",
+            "옥텟 규칙"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:19.610683+00:00"
     },
-    "updatedAt": "2026-10-24T13:14:20.953530+00:00"
-  },
-  "mock_2028_s0_01_q10": {
-    "id": "mock_2028_s0_01_q10",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 10,
-    "imageFile": "mock_2028_s0_01_q10.webp",
-    "fileName": "mock_2028_s0_01_q10.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q10.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q10.webp?alt=media",
-    "correctAnswer": 5,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "물질과 규칙성",
-      "topic": "별의 진화"
+    "mock_2028_s0_01_q19": {
+        "id": "mock_2028_s0_01_q19",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 19,
+        "imageFile": "mock_2028_s0_01_q19.webp",
+        "fileName": "mock_2028_s0_01_q19.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q19.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q19.webp?alt=media",
+        "correctAnswer": 3,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "시스템과 상호작용",
+            "topic": "중력장 내의 운동"
+        },
+        "behavioralDomain": "자료 변환 및 해석",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "수평으로 던진 물체",
+            "자유 낙하"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:19.787075+00:00"
     },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "별의 내부 구조",
-      "원소 생성"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q20": {
+        "id": "mock_2028_s0_01_q20",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 20,
+        "imageFile": "mock_2028_s0_01_q20.webp",
+        "fileName": "mock_2028_s0_01_q20.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q20.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q20.webp?alt=media",
+        "correctAnswer": 4,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "물질과 규칙성",
+            "topic": "지각과 생명체 구성 물질의 규칙성"
+        },
+        "behavioralDomain": "탐구 수행 및 자료 수집",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "핵산",
+            "DNA 이중나선"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:19.962367+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q11": {
-    "id": "mock_2028_s0_01_q11",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 11,
-    "imageFile": "mock_2028_s0_01_q11.webp",
-    "fileName": "mock_2028_s0_01_q11.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q11.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q11.webp?alt=media",
-    "correctAnswer": 2,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "과학과 미래 사회",
-      "topic": "감염병과 병원체"
+    "mock_2028_s0_01_q21": {
+        "id": "mock_2028_s0_01_q21",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 21,
+        "imageFile": "mock_2028_s0_01_q21.webp",
+        "fileName": "mock_2028_s0_01_q21.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q21.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q21.webp?alt=media",
+        "correctAnswer": 2,
+        "score": 2.0,
+        "difficulty": 2.0,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "시스템과 상호작용",
+            "topic": "판구조론과 지각 변동"
+        },
+        "behavioralDomain": "이해",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "판의 경계",
+            "섭입대"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:20.085410+00:00"
     },
-    "behavioralDomain": "결론 도출 및 일반화",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "기후 변화",
-      "감염병 매개체"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q22": {
+        "id": "mock_2028_s0_01_q22",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 22,
+        "imageFile": "mock_2028_s0_01_q22.webp",
+        "fileName": "mock_2028_s0_01_q22.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q22.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q22.webp?alt=media",
+        "correctAnswer": 3,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "변화와 다양성",
+            "topic": "중화 반응"
+        },
+        "behavioralDomain": "자료 변환 및 해석",
+        "qType": "단답형/계산형",
+        "tags": [
+            "중화 반응",
+            "이온 수 비율"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:20.192781+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q12": {
-    "id": "mock_2028_s0_01_q12",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 12,
-    "imageFile": "mock_2028_s0_01_q12.webp",
-    "fileName": "mock_2028_s0_01_q12.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q12.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q12.webp?alt=media",
-    "correctAnswer": 4,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "변화와 다양성",
-      "topic": "산화와 환원"
+    "mock_2028_s0_01_q23": {
+        "id": "mock_2028_s0_01_q23",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 23,
+        "imageFile": "mock_2028_s0_01_q23.webp",
+        "fileName": "mock_2028_s0_01_q23.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q23.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q23.webp?alt=media",
+        "correctAnswer": 2,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "시스템과 상호작용",
+            "topic": "충격량과 운동량"
+        },
+        "behavioralDomain": "자료 변환 및 해석",
+        "qType": "5지선다형",
+        "tags": [
+            "충격량",
+            "운동량 변화량"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:20.344967+00:00"
     },
-    "behavioralDomain": "적용",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "금속의 반응성",
-      "산화 환원 반응"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
+    "mock_2028_s0_01_q24": {
+        "id": "mock_2028_s0_01_q24",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 24,
+        "imageFile": "mock_2028_s0_01_q24.webp",
+        "fileName": "mock_2028_s0_01_q24.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q24.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q24.webp?alt=media",
+        "correctAnswer": 5,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학1",
+            "chapter": "시스템과 상호작용",
+            "topic": "유전자와 단백질"
+        },
+        "behavioralDomain": "적용",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "전사와 번역",
+            "코돈"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:20.582717+00:00"
     },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q13": {
-    "id": "mock_2028_s0_01_q13",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 13,
-    "imageFile": "mock_2028_s0_01_q13.webp",
-    "fileName": "mock_2028_s0_01_q13.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q13.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q13.webp?alt=media",
-    "correctAnswer": 5,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "물질과 규칙성",
-      "topic": "원소 형성"
-    },
-    "behavioralDomain": "적용",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "스펙트럼",
-      "빅뱅 우주론"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q14": {
-    "id": "mock_2028_s0_01_q14",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 14,
-    "imageFile": "mock_2028_s0_01_q14.webp",
-    "fileName": "mock_2028_s0_01_q14.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q14.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q14.webp?alt=media",
-    "correctAnswer": 1,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "시스템과 상호작용",
-      "topic": "지구시스템의 구성과 상호작용"
-    },
-    "behavioralDomain": "적용",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "탄소 순환",
-      "지구 시스템"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q15": {
-    "id": "mock_2028_s0_01_q15",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 15,
-    "imageFile": "mock_2028_s0_01_q15.webp",
-    "fileName": "mock_2028_s0_01_q15.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q15.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q15.webp?alt=media",
-    "correctAnswer": 2,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "물질과 규칙성",
-      "topic": "원소의 주기성"
-    },
-    "behavioralDomain": "적용",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "전자 배치",
-      "원자가 전자"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q16": {
-    "id": "mock_2028_s0_01_q16",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 16,
-    "imageFile": "mock_2028_s0_01_q16.webp",
-    "fileName": "mock_2028_s0_01_q16.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q16.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q16.webp?alt=media",
-    "correctAnswer": 2,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "환경과 에너지",
-      "topic": "발전"
-    },
-    "behavioralDomain": "탐구 설계",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "전자기 유도",
-      "렌츠 법칙"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q17": {
-    "id": "mock_2028_s0_01_q17",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 17,
-    "imageFile": "mock_2028_s0_01_q17.webp",
-    "fileName": "mock_2028_s0_01_q17.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q17.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q17.webp?alt=media",
-    "correctAnswer": 4,
-    "score": 1.5,
-    "difficulty": 1.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "변화와 다양성",
-      "topic": "지질시대 환경 변화와 대멸종"
-    },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "수륙 분포 변화",
-      "대멸종"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q18": {
-    "id": "mock_2028_s0_01_q18",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 18,
-    "imageFile": "mock_2028_s0_01_q18.webp",
-    "fileName": "mock_2028_s0_01_q18.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q18.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q18.webp?alt=media",
-    "correctAnswer": 2,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "물질과 규칙성",
-      "topic": "공유 결합"
-    },
-    "behavioralDomain": "문제 인식 및 가설 설정",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "이온 결합",
-      "옥텟 규칙"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q19": {
-    "id": "mock_2028_s0_01_q19",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 19,
-    "imageFile": "mock_2028_s0_01_q19.webp",
-    "fileName": "mock_2028_s0_01_q19.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q19.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q19.webp?alt=media",
-    "correctAnswer": 3,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "시스템과 상호작용",
-      "topic": "중력장 내의 운동"
-    },
-    "behavioralDomain": "자료 변환 및 해석",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "수평으로 던진 물체",
-      "자유 낙하"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q20": {
-    "id": "mock_2028_s0_01_q20",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 20,
-    "imageFile": "mock_2028_s0_01_q20.webp",
-    "fileName": "mock_2028_s0_01_q20.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q20.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q20.webp?alt=media",
-    "correctAnswer": 4,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "물질과 규칙성",
-      "topic": "지각·생명체 구성 물질의 규칙성(2)"
-    },
-    "behavioralDomain": "탐구 수행 및 자료 수집",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "핵산",
-      "DNA 이중나선"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q21": {
-    "id": "mock_2028_s0_01_q21",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 21,
-    "imageFile": "mock_2028_s0_01_q21.webp",
-    "fileName": "mock_2028_s0_01_q21.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q21.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q21.webp?alt=media",
-    "correctAnswer": 2,
-    "score": 2,
-    "difficulty": 2,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "시스템과 상호작용",
-      "topic": "판구조론과 지각 변동"
-    },
-    "behavioralDomain": "이해",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "판의 경계",
-      "섭입대"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q22": {
-    "id": "mock_2028_s0_01_q22",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 22,
-    "imageFile": "mock_2028_s0_01_q22.webp",
-    "fileName": "mock_2028_s0_01_q22.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q22.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q22.webp?alt=media",
-    "correctAnswer": 3,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "변화와 다양성",
-      "topic": "중화 반응"
-    },
-    "behavioralDomain": "자료 변환 및 해석",
-    "qType": "단답형/계산형",
-    "tags": [
-      "중화 반응",
-      "이온 수 비율"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q23": {
-    "id": "mock_2028_s0_01_q23",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 23,
-    "imageFile": "mock_2028_s0_01_q23.webp",
-    "fileName": "mock_2028_s0_01_q23.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q23.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q23.webp?alt=media",
-    "correctAnswer": 2,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "시스템과 상호작용",
-      "topic": "충격량과 운동량"
-    },
-    "behavioralDomain": "자료 변환 및 해석",
-    "qType": "5지선다형",
-    "tags": [
-      "충격량",
-      "운동량 변화량"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q24": {
-    "id": "mock_2028_s0_01_q24",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 24,
-    "imageFile": "mock_2028_s0_01_q24.webp",
-    "fileName": "mock_2028_s0_01_q24.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q24.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q24.webp?alt=media",
-    "correctAnswer": 5,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학1",
-      "chapter": "시스템과 상호작용",
-      "topic": "유전자와 단백질"
-    },
-    "behavioralDomain": "적용",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "전사와 번역",
-      "코돈"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  },
-  "mock_2028_s0_01_q25": {
-    "id": "mock_2028_s0_01_q25",
-    "sourceExamId": "mock_2028_s0_01",
-    "originalExamId": "2028_s0_01",
-    "magazineType": "mock",
-    "examQNum": 25,
-    "imageFile": "mock_2028_s0_01_q25.webp",
-    "fileName": "mock_2028_s0_01_q25.webp",
-    "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q25.webp",
-    "storagePrefix": "mock/2028",
-    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q25.webp?alt=media",
-    "correctAnswer": 1,
-    "score": 2.5,
-    "difficulty": 2.5,
-    "taxonomy": {
-      "subject": "통합과학",
-      "domain": "통합과학2",
-      "chapter": "환경과 에너지",
-      "topic": "대기와 해양의 상호작용"
-    },
-    "behavioralDomain": "자료 변환 및 해석",
-    "qType": "합답형(ㄱ,ㄴ,ㄷ)",
-    "tags": [
-      "엘니뇨",
-      "기압 편차"
-    ],
-    "stats": {
-      "total": 0,
-      "correct": 0
-    },
-    "updatedAt": "2026-10-24T08:14:14.591Z"
-  }
+    "mock_2028_s0_01_q25": {
+        "id": "mock_2028_s0_01_q25",
+        "sourceExamId": "mock_2028_s0_01",
+        "originalExamId": "2028_s0_01",
+        "magazineType": "mock",
+        "examQNum": 25,
+        "imageFile": "mock_2028_s0_01_q25.webp",
+        "fileName": "mock_2028_s0_01_q25.webp",
+        "storagePath": "questions/mock/2028/mock_2028_s0_01/mock_2028_s0_01_q25.webp",
+        "storagePrefix": "mock/2028",
+        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_01%2Fmock_2028_s0_01_q25.webp?alt=media",
+        "correctAnswer": 1,
+        "score": 2.5,
+        "difficulty": 2.5,
+        "taxonomy": {
+            "subject": "통합과학",
+            "domain": "통합과학2",
+            "chapter": "환경과 에너지",
+            "topic": "대기와 해양의 상호작용"
+        },
+        "behavioralDomain": "자료 변환 및 해석",
+        "qType": "합답형(ㄱ,ㄴ,ㄷ)",
+        "tags": [
+            "엘니뇨",
+            "기압 편차"
+        ],
+        "stats": {
+            "total": 0,
+            "correct": 0
+        },
+        "updatedAt": "2026-10-29T05:58:20.698547+00:00"
+    }
 }

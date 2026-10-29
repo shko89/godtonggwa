@@ -151,7 +151,7 @@
             </label>
 
             <!-- AI 실시간 문제 풀이 & 정답 도출 버튼 -->
-            <button onclick="triggerAutoAISolver()" id="btn-ai-solver" class="px-2.5 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg text-xs font-bold transition-all shadow-2xs hover:shadow flex items-center gap-1 whitespace-nowrap shrink-0 active:scale-95" title="로드된 모의고사 25문항을 AI가 직접 과학적으로 풀어 정답(①~⑤)을 자동 작성합니다.">
+            <button onclick="openAISolverModal()" id="btn-ai-solver" class="px-2.5 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg text-xs font-bold transition-all shadow-2xs hover:shadow flex items-center gap-1 whitespace-nowrap shrink-0 active:scale-95" title="로드된 모의고사 25문항을 AI가 직접 과학적으로 풀어 정답(①~⑤)을 자동 작성합니다.">
                 <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i> <span>AI 풀이</span>
             </button>
 
@@ -159,6 +159,18 @@
             <button onclick="saveAllMatrixData()" id="btn-save-matrix" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-extrabold transition-all shadow-sm hover:shadow flex items-center gap-1 whitespace-nowrap shrink-0 active:scale-95 ring-2 ring-emerald-400/40" title="현재 분석 매트릭스의 모든 수정사항을 안전하게 저장합니다. (새로고침해도 보존됨)">
                 <i data-lucide="save" class="w-3.5 h-3.5 shrink-0"></i> <span id="save-btn-text">저장</span>
             </button>
+
+            <!-- JSON 내보내기 버튼 (아이패드/타 기기 공유용) -->
+            <button onclick="exportJSON()" id="btn-export-json" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-lg text-xs font-bold transition-all shadow-2xs hover:shadow flex items-center gap-1 whitespace-nowrap shrink-0 active:scale-95" title="현재 매트릭스 전체 분석 데이터를 JSON 파일로 다운로드합니다. (구글 드라이브에 저장하여 아이패드와 공유 가능)">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-amber-600 shrink-0"></i> <span>JSON 내보내기</span>
+            </button>
+
+            <!-- JSON 불러오기 버튼 (아이패드/타 기기 동기화용) -->
+            <label class="relative flex items-center gap-1 px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-300 rounded-lg cursor-pointer text-xs font-bold transition-all shadow-2xs hover:shadow active:scale-95 whitespace-nowrap shrink-0" title="구글 드라이브나 기기에 저장된 JSON 분석 파일을 불러와 현재 매트릭스에 즉시 동기화합니다.">
+                <i data-lucide="upload" class="w-3.5 h-3.5 text-sky-600 shrink-0"></i>
+                <span>JSON 불러오기</span>
+                <input type="file" id="json-file-input" accept=".json" class="hidden" onchange="importJSON(event)">
+            </label>
 
             <!-- 인쇄 버튼 -->
             <button onclick="window.print()" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-xs font-medium transition-all shadow-2xs flex items-center gap-1 whitespace-nowrap shrink-0" title="화면 인쇄 또는 PDF 내보내기">
@@ -403,8 +415,8 @@
                         <i data-lucide="sparkles" class="w-4 h-4 text-amber-300"></i>
                     </span>
                     <div>
-                        <h3 class="text-sm font-black text-slate-900">갓통과 AI 실시간 문제 풀이 & 정답 도출</h3>
-                        <p class="text-[11px] text-slate-500">갓통과 공식 AI 엔진으로 25문항을 과학적으로 자동 분석·풀이합니다.</p>
+                        <h3 class="text-sm font-black text-slate-900">AI 실시간 문제 풀이 & 정답 도출</h3>
+                        <p class="text-[11px] text-slate-500">문제지 25문항을 AI가 직접 읽고 과학적 원리로 풀어 정답(①~⑤)을 자동 완성합니다.</p>
                     </div>
                 </div>
                 <button onclick="closeAISolverModal()" class="w-8 h-8 rounded-lg hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors">
@@ -443,8 +455,8 @@
                         임의의 새로운 모의고사 PDF를 올렸을 때, Google Gemini 무료 API(또는 OpenAI)를 호출하여 25개 문항을 실시간으로 직접 풀이합니다.
                     </p>
                     <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-700 block">AI API 키 (미입력 시 갓통과 앱 공식 API 자동 사용)</label>
-                        <input type="password" id="ai-api-key-input" placeholder="비워두시면 갓통과 앱 공식 API Key로 자동 실행됩니다" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-mono text-slate-800 focus:ring-2 focus:ring-indigo-500">
+                        <label class="text-[11px] font-bold text-slate-700 block">AI API 키 입력 (브라우저에 안전하게 보관됨)</label>
+                        <input type="password" id="ai-api-key-input" placeholder="Google Gemini API Key 또는 OpenAI Key 입력" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-mono text-slate-800 focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div class="flex items-center justify-between text-[11px]">
                         <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 hover:underline flex items-center gap-1 font-semibold">
@@ -453,7 +465,7 @@
                     </div>
                     <button onclick="startLiveAISolver()" id="btn-start-live-ai" class="w-full px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-xl text-xs font-black transition-all shadow-sm flex items-center justify-center gap-2">
                         <i data-lucide="play" class="w-4 h-4"></i>
-                        <span>갓통과 AI 25문항 자동 풀이 시작</span>
+                        <span>실시간 AI 25문항 자동 풀이 시작</span>
                     </button>
                     <!-- 진행 상태 바 -->
                     <div id="ai-progress-area" class="hidden space-y-1.5 pt-2">
@@ -501,7 +513,7 @@
 
             <div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex justify-between items-center shrink-0">
                 <div class="text-xs text-slate-500" id="modal-score-sum">
-                    총점: <b class="text-slate-800">50.0점</b> / 25문항
+                    총점: <b class="text-slate-800">50점</b> / 25문항
                 </div>
                 <div class="flex gap-2">
                     <button onclick="closeExamEditor()" class="px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-xs font-bold transition-all">
@@ -682,18 +694,45 @@
             "과학기술과 윤리": ["생명윤리", "연구윤리", "과학기술의 사회적 책임"]
         };
 
+        // 2028 수능 공인 8대 행동 영역 표준 목록
+        const BEHAVIORAL_DOMAINS_8 = [
+            "이해",
+            "적용",
+            "의사소통",
+            "가설 설정",
+            "탐구 설계",
+            "탐구 수행 및 자료 수집",
+            "자료 변환 및 해석",
+            "결론 도출"
+        ];
+
+        // 행동 영역 명칭 정규화 함수 (레거시 명칭 및 풀네임 호환)
+        function canonicalDomain(d) {
+            if (!d) return "자료 변환 및 해석";
+            if (d.includes("가설")) return "가설 설정";
+            if (d.includes("결론")) return "결론 도출";
+            if (d.includes("수행") || d.includes("수집")) return "탐구 수행 및 자료 수집";
+            if (d.includes("설계")) return "탐구 설계";
+            if (d.includes("의사소통")) return "의사소통";
+            if (d.includes("적용")) return "적용";
+            if (d.includes("이해")) return "이해";
+            if (d.includes("변환") || d.includes("해석")) return "자료 변환 및 해석";
+            return d;
+        }
+
         const DOMAIN_COLORS = {
             "이해": "bg-apply",
             "적용": "bg-apply",
-            "이해/적용": "bg-apply",
             "의사소통": "bg-comm",
-            "문제 인식 및 가설 설정": "bg-hypo",
             "가설 설정": "bg-hypo",
             "탐구 설계": "bg-design",
-            "탐구 설계 및 수행": "bg-design",
             "탐구 수행 및 자료 수집": "bg-exec",
             "자료 변환 및 해석": "bg-anal",
             "결론 도출": "bg-conc",
+            // 레거시 호환
+            "이해/적용": "bg-apply",
+            "문제 인식 및 가설 설정": "bg-hypo",
+            "탐구 설계 및 수행": "bg-design",
             "결론 도출 및 일반화": "bg-conc"
         };
 
@@ -706,10 +745,36 @@
         });
 
         // 초기 예시문항 데이터 원본 (본문에 '실험' 또는 '탐구'가 명시된 문항만 정확히 반영: 총 8개)
-        const DEFAULT_PRETEST = [{"q_num": 1, "domain": "이해/적용", "topic": "생태계 평형", "score": 1.5, "answer": 3, "isExperiment": false, "preview": "1. 표는 생태계평형에 영향을 미치는 환경 변화의 예를 나타낸 것이다."}, {"q_num": 2, "domain": "이해/적용", "topic": "시간과 공간, 규모, 시간/길이 측정", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "2. 표는 길이의 측정 표준 A, B, C에 대한 내용이다."}, {"q_num": 3, "domain": "이해/적용", "topic": "기본량과 단위", "score": 1.5, "answer": 5, "isExperiment": true, "preview": "3. 다음은 구리를 이용한 실험이다. [실험 과정 및 결과]"}, {"q_num": 4, "domain": "이해/적용", "topic": "지각·생명체 구성 물질의 규칙성(1)", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "4. 다음은 지구를 구성하는 물질에 대한 설명이다. 규산염 사면체 광물"}, {"q_num": 5, "domain": "이해/적용", "topic": "생태계 구성 요소", "score": 1.5, "answer": 2, "isExperiment": false, "preview": "5. 다음은 개미 종 A에 대한 자료이다. 땅속 굴, 곰팡이 분해자"}, {"q_num": 6, "domain": "자료 변환 및 해석", "topic": "인공지능과 과학 탐구", "score": 1.5, "answer": 5, "isExperiment": true, "preview": "6. 다음은 기상 요소의 월평균 변화 경향을 알아보기 위해 빅데이터를 활용한 탐구 활동이다."}, {"q_num": 7, "domain": "의사소통", "topic": "물질 변화에서 에너지 출입", "score": 2.0, "answer": 3, "isExperiment": false, "preview": "7. 다음은 열 출입과 관련된 교사와 학생의 대화이다."}, {"q_num": 8, "domain": "자료 변환 및 해석", "topic": "자연선택", "score": 2.0, "answer": 4, "isExperiment": false, "preview": "8. 큰가시고기 종 A는 포식자로부터 생존에 유리한 외피 조각 표현형을 갖는다."}, {"q_num": 9, "domain": "결론 도출 및 일반화", "topic": "감염병과 병원체", "score": 2.5, "answer": 1, "isExperiment": true, "preview": "9. 다음은 말라리아 매개 모기 A의 발생 시기를 알아보기 위한 탐구 활동이다."}, {"q_num": 10, "domain": "자료 변환 및 해석", "topic": "에너지 전환과 효율", "score": 1.5, "answer": 2, "isExperiment": false, "preview": "10. 표는 전기 에너지를 생산하는 발전소 A, B, C에 대한 자료이다."}, {"q_num": 11, "domain": "이해/적용", "topic": "별의 진화", "score": 2.5, "answer": 3, "isExperiment": false, "preview": "11. 그림은 어느 별의 내부 구조와 각 영역에서 가장 큰 질량비를 차지하는 원소를 나타낸 것이다."}, {"q_num": 12, "domain": "자료 변환 및 해석", "topic": "산화와 환원", "score": 2.0, "answer": 1, "isExperiment": false, "preview": "12. 그림은 XCl_a 수용액에 금속 Y를 넣어 반응을 완결시켰을 때 이온 모형"}, {"q_num": 13, "domain": "이해/적용", "topic": "원소 형성", "score": 1.5, "answer": 1, "isExperiment": false, "preview": "13. 그림 (가)는 우주를 구성하는 원소의 질량비를, (나)는 별 S와 원소 스펙트럼"}, {"q_num": 14, "domain": "자료 변환 및 해석", "topic": "원소의 주기성", "score": 2.0, "answer": 4, "isExperiment": true, "preview": "14. 다음은 전자껍질 모형을 이용한 원소의 전자 배치와 관련된 탐구 활동이다."}, {"q_num": 15, "domain": "자료 변환 및 해석", "topic": "지구시스템의 구성과 상호작용", "score": 2.0, "answer": 3, "isExperiment": false, "preview": "15. 그림은 지구시스템을 구성하는 각 권역 사이의 탄소 순환 과정을 나타낸 것이다."}, {"q_num": 16, "domain": "탐구 설계", "topic": "발전", "score": 2.0, "answer": 1, "isExperiment": true, "preview": "16. 다음은 전자기 유도 현상을 알아보기 위해 설계한 실험이다."}, {"q_num": 17, "domain": "이해/적용", "topic": "지질시대 환경 변화와 대멸종", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "17. 그림 (가)와 (나)는 2억 6천만 년 전과 1억 년 전의 수륙 분포를 나타낸 것이다."}, {"q_num": 18, "domain": "자료 변환 및 해석", "topic": "충격량과 운동량", "score": 2.0, "answer": 2, "isExperiment": false, "preview": "18. 그림 (가)는 힘 센서를 설치한 마네킹에 안전모를 씌운 후 속력 충돌 실험"}, {"q_num": 19, "domain": "자료 변환 및 해석", "topic": "지각·생명체 구성 물질의 규칙성(2)", "score": 2.0, "answer": 5, "isExperiment": false, "preview": "19. 표는 이중나선구조 DNA의 모형을 만들기 위해 준비한 당, 인산, 염기, 결합선 부품"}, {"q_num": 20, "domain": "결론 도출 및 일반화", "topic": "중력장 내의 운동", "score": 2.5, "answer": 5, "isExperiment": true, "preview": "20. 다음은 지구 표면에서 구슬의 운동에 대해 알아보는 실험이다. 자유 낙하와 수평 투사"}, {"q_num": 21, "domain": "이해/적용", "topic": "원소의 주기성", "score": 2.5, "answer": 1, "isExperiment": false, "preview": "21. 다음은 2, 3주기에서 원자 번호가 서로 다른 원소 W~Z와 인체를 구성하는 원소 질량비"}, {"q_num": 22, "domain": "자료 변환 및 해석", "topic": "판구조론과 지각 변동", "score": 2.0, "answer": 3, "isExperiment": false, "preview": "22. 그림은 판 A, B, C와 판의 경계, GPS 이동 속도 벡터를 나타낸 것이다."}, {"q_num": 23, "domain": "문제 인식 및 가설 설정", "topic": "유전자와 단백질", "score": 2.5, "answer": 1, "isExperiment": true, "preview": "23. 다음은 카탈레이스에 의한 과산화 수소 분해 반응을 활용한 실험이다. 코돈 돌연변이"}, {"q_num": 24, "domain": "자료 변환 및 해석", "topic": "중화 반응", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "24. 표는 HCl 수용액, NaOH 수용액, KOH 수용액의 부피를 달리하여 혼합한 용액 자료"}, {"q_num": 25, "domain": "자료 변환 및 해석", "topic": "대기와 해양의 상호작용", "score": 2.5, "answer": 2, "isExperiment": false, "preview": "25. 그림은 태평양 적도 부근 해역에서 관측한 20℃ 등수온선의 깊이 편차이다."}];
+        const DEFAULT_PRETEST = [
+            {"q_num": 1, "domain": "적용", "topic": "생태계 평형", "score": 1.5, "answer": 3, "isExperiment": false, "preview": "1. 표는 생태계평형에 영향을 미치는 환경 변화의 예를 나타낸 것이다."},
+            {"q_num": 2, "domain": "이해", "topic": "시간과 공간, 규모, 시간/길이 측정", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "2. 표는 길이의 측정 표준 A, B, C에 대한 내용이다."},
+            {"q_num": 3, "domain": "이해", "topic": "기본량과 단위", "score": 1.5, "answer": 5, "isExperiment": true, "preview": "3. 다음은 구리를 이용한 실험이다. [실험 과정 및 결과]"},
+            {"q_num": 4, "domain": "이해", "topic": "지각·생명체 구성 물질의 규칙성(1)", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "4. 다음은 지구를 구성하는 물질에 대한 설명이다. 규산염 사면체 광물"},
+            {"q_num": 5, "domain": "적용", "topic": "생태계 구성 요소", "score": 1.5, "answer": 2, "isExperiment": false, "preview": "5. 다음은 개미 종 A에 대한 자료이다. 땅속 굴, 곰팡이 분해자"},
+            {"q_num": 6, "domain": "탐구 수행 및 자료 수집", "topic": "인공지능과 과학 탐구", "score": 1.5, "answer": 5, "isExperiment": true, "preview": "6. 다음은 기상 요소의 월평균 변화 경향을 알아보기 위해 빅데이터를 활용한 탐구 활동이다."},
+            {"q_num": 7, "domain": "의사소통", "topic": "물질 변화에서 에너지 출입", "score": 2, "answer": 3, "isExperiment": false, "preview": "7. 다음은 열 출입과 관련된 교사와 학생의 대화이다."},
+            {"q_num": 8, "domain": "자료 변환 및 해석", "topic": "자연선택", "score": 2, "answer": 4, "isExperiment": false, "preview": "8. 큰가시고기 종 A는 포식자로부터 생존에 유리한 외피 조각 표현형을 갖는다."},
+            {"q_num": 9, "domain": "결론 도출", "topic": "감염병과 병원체", "score": 2.5, "answer": 1, "isExperiment": true, "preview": "9. 다음은 말라리아 매개 모기 A의 발생 시기를 알아보기 위한 탐구 활동이다."},
+            {"q_num": 10, "domain": "자료 변환 및 해석", "topic": "에너지 전환과 효율", "score": 1.5, "answer": 2, "isExperiment": false, "preview": "10. 표는 전기 에너지를 생산하는 발전소 A, B, C에 대한 자료이다."},
+            {"q_num": 11, "domain": "적용", "topic": "별의 진화", "score": 2.5, "answer": 3, "isExperiment": false, "preview": "11. 그림은 어느 별의 내부 구조와 각 영역에서 가장 큰 질량비를 차지하는 원소를 나타낸 것이다."},
+            {"q_num": 12, "domain": "자료 변환 및 해석", "topic": "산화와 환원", "score": 2, "answer": 1, "isExperiment": false, "preview": "12. 그림은 XCl_a 수용액에 금속 Y를 넣어 반응을 완결시켰을 때 이온 모형"},
+            {"q_num": 13, "domain": "자료 변환 및 해석", "topic": "원소 형성", "score": 1.5, "answer": 1, "isExperiment": false, "preview": "13. 그림 (가)는 우주를 구성하는 원소의 질량비를, (나)는 별 S와 원소 스펙트럼"},
+            {"q_num": 14, "domain": "자료 변환 및 해석", "topic": "원소의 주기성", "score": 2, "answer": 4, "isExperiment": true, "preview": "14. 다음은 전자껍질 모형을 이용한 원소의 전자 배치와 관련된 탐구 활동이다."},
+            {"q_num": 15, "domain": "자료 변환 및 해석", "topic": "지구시스템의 구성과 상호작용", "score": 2, "answer": 3, "isExperiment": false, "preview": "15. 그림은 지구시스템을 구성하는 각 권역 사이의 탄소 순환 과정을 나타낸 것이다."},
+            {"q_num": 16, "domain": "탐구 설계", "topic": "발전", "score": 2, "answer": 1, "isExperiment": true, "preview": "16. 다음은 전자기 유도 현상을 알아보기 위해 설계한 실험이다."},
+            {"q_num": 17, "domain": "적용", "topic": "지질시대 환경 변화와 대멸종", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "17. 그림 (가)와 (나)는 2억 6천만 년 전과 1억 년 전의 수륙 분포를 나타낸 것이다."},
+            {"q_num": 18, "domain": "자료 변환 및 해석", "topic": "충격량과 운동량", "score": 2, "answer": 2, "isExperiment": false, "preview": "18. 그림 (가)는 힘 센서를 설치한 마네킹에 안전모를 씌운 후 속력 충돌 실험"},
+            {"q_num": 19, "domain": "자료 변환 및 해석", "topic": "지각·생명체 구성 물질의 규칙성(2)", "score": 2, "answer": 5, "isExperiment": false, "preview": "19. 표는 이중나선구조 DNA의 모형을 만들기 위해 준비한 당, 인산, 염기, 결합선 부품"},
+            {"q_num": 20, "domain": "결론 도출", "topic": "중력장 내의 운동", "score": 2.5, "answer": 5, "isExperiment": true, "preview": "20. 다음은 지구 표면에서 구슬의 운동에 대해 알아보는 실험이다. 자유 낙하와 수평 투사"},
+            {"q_num": 21, "domain": "적용", "topic": "원소의 주기성", "score": 2.5, "answer": 1, "isExperiment": false, "preview": "21. 다음은 2, 3주기에서 원자 번호가 서로 다른 원소 W~Z와 인체를 구성하는 원소 질량비"},
+            {"q_num": 22, "domain": "자료 변환 및 해석", "topic": "판구조론과 지각 변동", "score": 2, "answer": 3, "isExperiment": false, "preview": "22. 그림은 판 A, B, C와 판의 경계, GPS 이동 속도 벡터를 나타낸 것이다."},
+            {"q_num": 23, "domain": "가설 설정", "topic": "유전자와 단백질", "score": 2.5, "answer": 1, "isExperiment": true, "preview": "23. 다음은 카탈레이스에 의한 과산화 수소 분해 반응을 활용한 실험이다. 코돈 돌연변이"},
+            {"q_num": 24, "domain": "자료 변환 및 해석", "topic": "중화 반응", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "24. 표는 HCl 수용액, NaOH 수용액, KOH 수용액의 부피를 달리하여 혼합한 용액 자료"},
+            {"q_num": 25, "domain": "자료 변환 및 해석", "topic": "대기와 해양의 상호작용", "score": 2.5, "answer": 2, "isExperiment": false, "preview": "25. 그림은 태평양 적도 부근 해역에서 관측한 20℃ 등수온선의 깊이 편차이다."}
+        ];
 
         // 활성 시험 데이터셋
-        let allExams = { "2028_예시문항": JSON.parse(JSON.stringify(DEFAULT_PRETEST)) };
+        let allExams = {"2028_예시문항": [{"q_num": 1, "domain": "적용", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": false, "preview": "1. 표는 생태계평형에 영향을 미치는 환경 변화의 예를 나타낸 것이다. (가)와 (나)는 외래생물 유입과 환경 오염을 순서 없이 나타낸"}, {"q_num": 2, "domain": "이해", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": false, "preview": "2. 표는 길이의 측정 표준 A, B, C에 대한 내용이다. 측정 표준 m의 정의 A ℃일 때, 백금-이리듐 합금으로 만든 미터원기"}, {"q_num": 3, "domain": "이해", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": true, "preview": "3. 다음은 구리를 이용한 실험이다. [실험 과정 및 결과] (가) 그림과 같이 한 변의 ㉠길이가 cm인  정육면체의 구리를 준비하였"}, {"q_num": 4, "domain": "이해", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": false, "preview": "4. 다음은 지구를 구성하는 물질에 대한 설명이다. 지구의 지각을 이루는 암석의 대부분은  그림과 같이 두 종류의 원자 ⓐ와 ⓑ가 공유"}, {"q_num": 5, "domain": "적용", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": false, "preview": "5. 다음은 개미 종 A에 대한 자료이다. ￮땅속에 굴을 파서 서식하는 A는 유충의  먹이인 곰팡이를 굴에서 기른다. A가  곰팡이를"}, {"q_num": 6, "domain": "탐구 수행 및 자료 수집", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": true, "preview": "6. 다음은 기상 요소의 월평균 변화 경향을 알아보기 위해 빅데이터를  활용한 탐구 활동이다. [탐구 과정] (가) 최근 년 동안 우"}, {"q_num": 7, "domain": "의사소통", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "7. 다음은 열 출입과 관련된 교사와 학생의 대화이다. (가)와 (나)에 들어갈 내용으로 가장 적절한 것은? [2점] ①(가) : 반응"}, {"q_num": 8, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "8. 큰가시고기 종 A는 포식자로부터 생존에 유리한 외피 조각  표현형을 갖는다. 그림 (가)는 A의 외피 조각 표현형 ㉠, ㉡, ㉢을"}, {"q_num": 9, "domain": "결론 도출 및 일반화", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": true, "preview": "9. 다음은 말라리아 매개 모기 A의 발생 시기를 알아보기 위한  탐구 활동이다. ￮말라리아의 병원체는 A를 매개로 전파된다. [탐구"}, {"q_num": 10, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": false, "preview": "10. 표는 전기 에너지를 생산하는 발전소 A, B, C에 대한 자료이다. 발전소 발전 방식 특 징 A 수력 발전 높은 곳에서 떨어지는"}, {"q_num": 11, "domain": "적용", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": false, "preview": "11. 그림은 어느 별의 내부 구조와  각 영역에서 가장 큰 질량비를  차지하는 원소를 나타낸 것이다.  X, Y, Z는 규소, 철,"}, {"q_num": 12, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "12. 그림은 XCl 수용액에 금속 Y를 넣어 반응을 완결시켰을 때, 반응 전과 후 수용액에 존재하는 모든 이온을 모형으로 나타낸"}, {"q_num": 13, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": false, "preview": "13. 그림 (가)는 우주를 구성하는 원소의 질량비를, (나)는 별 S와 원소 ㉠, ㉡의 스펙트럼을 나타낸 것이다. (가) (나) 이에"}, {"q_num": 14, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": true, "preview": "14. 다음은 전자껍질 모형을 이용한 원소의 전자 배치와 관련된  탐구 활동이다. [, 주기 원소의 전자 배치 규칙] (가) 원자가"}, {"q_num": 15, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "15. 그림은 지구시스템을 구성하는 각 권역 사이의 탄소 순환 과정을, 표는 탄소의 이동 과정 ㉠, ㉡, ㉢의 예를 나타낸 것이다. A"}, {"q_num": 16, "domain": "탐구 설계", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": true, "preview": "16. 다음은 전자기 유도 현상을 알아보기 위해 설계한 실험이다. [준비물] ￮동일한 자석 개, 코일, 전류 센서, 고무줄 [실험 과"}, {"q_num": 17, "domain": "적용", "topic": "미분류", "score": 1.5, "answer": 0, "isExperiment": false, "preview": "17. 그림 (가)와 (나)는 억 천만 년 전과 억 년 전의 수륙 분포를 순서 없이 나타낸 것이다. (가) (나) 이에 대한 설명"}, {"q_num": 18, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "18. 그림 (가)는 힘 센서를 설치한 마네킹에 안전모를 씌운 후 속력 으로 벽에 충돌시키는 실험을 나타낸 것이다. 그림 (나)는"}, {"q_num": 19, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "19. 표는 이중나선구조 DNA의 모형을 만들기 위해 준비한 당, 인산, 염기, 결합선 부품 각각의 개수를, 그림은 완성된 DNA 모형"}, {"q_num": 20, "domain": "결론 도출 및 일반화", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": true, "preview": "20. 다음은 지구 표면에서 구슬의 운동에 대해 알아보는 실험이다. [실험 과정] (가) 그림과 같이 모눈종이를 배경으로  구슬 A와"}, {"q_num": 21, "domain": "적용", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": false, "preview": "21. 다음은 , 주기에서 원자 번호가 서로 다른 원소 W∼Z와 인체를 구성하는 원소의 질량비에 대한 자료이다. [W∼Z에 대한 자"}, {"q_num": 22, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2, "answer": 0, "isExperiment": false, "preview": "22. 그림은 판 A, B, C와 판의 경계 ㉠과 ㉡을 나타낸 것이다. 화살표( )의 길이와 방향은 GPS로 측정한 판의 평균 이동 속"}, {"q_num": 23, "domain": "문제 인식 및 가설 설정", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": true, "preview": "23. 다음은 카탈레이스에 의한 과산화 수소 분해 반응을 활용한  실험이다. ￮표는 아미노산 △와 □를 지정하는 코돈을  나타낸 것이다"}, {"q_num": 24, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": false, "preview": "24. 표는 HCl 수용액, NaOH 수용액, KOH 수용액의 부피를 달리하여 혼합한 용액 (가), (나), (다)에 대한 자료이다."}, {"q_num": 25, "domain": "자료 변환 및 해석", "topic": "미분류", "score": 2.5, "answer": 0, "isExperiment": false, "preview": "25. 그림은 태평양 적도 부근 해역에서 관측한 ℃ 등수온선의 깊이를 시간에 따라 나타낸 것이다. ㉠과 ㉡은 각각 동태평양과 서태평"}], "mock_2028_s0_01": [{"q_num": 1, "domain": "이해", "topic": "측정과 어림", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "1. 표는지구온난화에따른환경변화가생태계에미치는영향을 나타낸것이다. 환경변화 생태계에미치는영향 (가) 식물의개화시기가빨라지고, 곤충의활동"}, {"q_num": 2, "domain": "이해", "topic": "측정과 어림", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "2. 표는3종류의기본량에대한측정표준의정의와변천내용을 나타낸것이다. 기본량 측정표준의정의및변천내용 길이(m) 진공에서빛이약3억분의1초동안"}, {"q_num": 3, "domain": "이해", "topic": "기본량과 단위", "score": 1.5, "answer": 3, "isExperiment": false, "preview": "3. 다음은물질의밀도와비중에대한설명이다. 물질의㉠질량을㉡부피로나눈값을㉢밀도라고하며, SI 단위계에서정한밀도의단위는 (가) 를표준으로사용"}, {"q_num": 4, "domain": "이해", "topic": "지각과 생명체 구성 물질의 규칙성", "score": 2.5, "answer": 1, "isExperiment": false, "preview": "4. 표는몇가지규산염광물의특징을나타낸것이다. 광물 결합구조 공유산소수 쪼개짐/깨짐 감람석 독립형구조 0 (가) 휘석 단사슬구조 2 쪼개"}, {"q_num": 5, "domain": "이해", "topic": "생명 시스템의 기본 단위", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "5. 다음은숲생태계에서참나무와주변생물들사이의관계를나타낸 자료이다. 숲에서식하는㉠참나무는햇빛을이용하여스스로양분을 만들고성장한다. 참나무의"}, {"q_num": 6, "domain": "의사소통", "topic": "물질 변화에서 에너지 출입", "score": 2.0, "answer": 4, "isExperiment": false, "preview": "6. 다음은물질변화에서의에너지출입에대해교사와학생들이 나눈대화이다. 이에대한설명으로옳은것만을<보기>에서있는대로고른 것은? [2점] <보기"}, {"q_num": 7, "domain": "자료 변환 및 해석", "topic": "인공지능과 과학 탐구", "score": 1.5, "answer": 3, "isExperiment": true, "preview": "7. 다음은빅데이터를활용하여A 도시의대기오염특성을알아보기 위한탐구활동이다. [탐구과정] (가) A 도시내100개지점에설치된대기측정소에서"}, {"q_num": 8, "domain": "적용", "topic": "에너지 전환과 효율", "score": 2.0, "answer": 1, "isExperiment": false, "preview": "8. 다음은서로다른방식을사용하는발전소A와B에대한자료이다. 발전소 에너지원 발전과정의특징 A 화석연료 연료1kg당40MJ의열에너지를발생시"}, {"q_num": 9, "domain": "이해", "topic": "자연선택", "score": 2.0, "answer": 5, "isExperiment": false, "preview": "9. 다음은갈라파고스군도에서식하는핀치의부리모양(가), (나), (다)에대한자료이다. 갈라파고스군도의여러섬에는공통조상으로부터유래했지만 부"}, {"q_num": 10, "domain": "이해", "topic": "별의 진화", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "10. 그림은태양보다질량이훨씬큰어느별의내부구조와각 영역에서가장큰질량비를차지하는원소를, 표는지구와사람을 구성하는원소중질량비가큰세가지원소를"}, {"q_num": 11, "domain": "결론 도출", "topic": "감염병과 병원체", "score": 2.5, "answer": 2, "isExperiment": true, "preview": "11. 다음은기온변화가뎅기열매개모기A의수명과병원체 잠복기에미치는영향을알아보기위한탐구활동이다. ￮ 뎅기열의병원체는A를매개로전파된다. [탐"}, {"q_num": 12, "domain": "적용", "topic": "산화와 환원", "score": 2.0, "answer": 4, "isExperiment": false, "preview": "12. 그림은XCl 수용액에금속Y를넣고일정시간이지났을때, 수용액에존재하는이온의모형을나타낸것이다. 는 각각X a , Y b, Cl중"}, {"q_num": 13, "domain": "적용", "topic": "원소 형성", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "13. 그림은서로다른시기에형성된별(가), (나)와수소, 헬륨의 스펙트럼을나타낸것이다. 이에대한설명으로옳은것만을<보기>에서있는대로고른 것"}, {"q_num": 14, "domain": "적용", "topic": "지구시스템의 구성과 상호작용", "score": 2.0, "answer": 1, "isExperiment": false, "preview": "14. 그림은지구시스템의탄소순환과정을, 표는각권역에존재하는 탄소의주요형태(가)~(다)를나타낸것이다. ABC는기권, 생물권, 지권을순"}, {"q_num": 15, "domain": "적용", "topic": "원소의 주기성", "score": 2.0, "answer": 2, "isExperiment": false, "preview": "15. 다음은2, 3주기원자X∼Z에대한자료이다. ○모든원자는18족원소가아니다. ◦안쪽껍질은가장바깥전자껍질을제외한모든껍질을 의미한다. ○"}, {"q_num": 16, "domain": "탐구 설계", "topic": "발전", "score": 2.0, "answer": 2, "isExperiment": true, "preview": "16. 다음은전자기유도현상을알아보기위해설계한실험이다. [실험과정] (가) 그림과같이장치를구성한다. (나) 자석의N극을아래로향하게하여코일"}, {"q_num": 17, "domain": "이해", "topic": "지질시대 환경 변화와 대멸종", "score": 1.5, "answer": 4, "isExperiment": false, "preview": "17. 그림(가)와(나)는지질시대중서로다른두시기의수륙 분포를나타낸것이다. 이에대한설명으로옳은것만을<보기>에서있는대로고른 것은? [1.5"}, {"q_num": 18, "domain": "가설 설정", "topic": "화학 결합", "score": 2.0, "answer": 2, "isExperiment": true, "preview": "18. 다음은원소A와B가결합하여화합물을형성하는원리를 알아보기위한탐구활동이다. [가설] ￮ 원소들은결합을통해 ⓐ 을/를 이룬다. [탐구과"}, {"q_num": 19, "domain": "자료 변환 및 해석", "topic": "중력장 내의 운동", "score": 2.5, "answer": 3, "isExperiment": false, "preview": "19. 그림은일정한간격의모눈종이와나란한연직면에서물체P와 Q를서로다른높이에서수평방향으로동시에던졌을때의운동 궤도를s 간격으로나타낸것이"}, {"q_num": 20, "domain": "탐구 수행 및 자료 수집", "topic": "지각과 생명체 구성 물질의 규칙성", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "20. 표는이중나선구조DNA 모형을만들기위해준비한당, 인산, 염기, 결합선부품의개수를, 그림은완성된DNA 모형X를나타 낸것이다. X는표"}, {"q_num": 21, "domain": "이해", "topic": "판구조론과 지각 변동", "score": 2.0, "answer": 2, "isExperiment": false, "preview": "21. 그림은판A, B, C의이동방향과속력을GPS로측정한결과를 나타낸것이다. (단, 화살표의방향은판의이동방향이다.) 이에대한설명으로옳은"}, {"q_num": 22, "domain": "자료 변환 및 해석", "topic": "중화 반응", "score": 2.5, "answer": 3, "isExperiment": false, "preview": "22. 표는HCl 수용액, NaOH 수용액, KOH 수용액의부피를 달리하여혼합한용액(가)～(다)에대한자료이다. (가)의액성은 중성이다."}, {"q_num": 23, "domain": "자료 변환 및 해석", "topic": "충격량과 운동량", "score": 2.5, "answer": 2, "isExperiment": false, "preview": "23. 그림(가)는물체A가벽에충돌하는동안받는힘을, (나)는 물체A의충돌전후운동량의변화()를시간에따라나타낸 것이다. 이에대한설명으로옳"}, {"q_num": 24, "domain": "적용", "topic": "유전자와 단백질", "score": 2.5, "answer": 5, "isExperiment": false, "preview": "24. 다음은세포에서일어나는유전정보의흐름에대한자료이다. ◦표는서로다른아미노산ⓐ~ⓓ를 지정하는 코돈을, 그림 (가)는 DNA를구성하는가닥"}, {"q_num": 25, "domain": "자료 변환 및 해석", "topic": "대기와 해양의 상호작용", "score": 2.5, "answer": 1, "isExperiment": false, "preview": "25. 그림은엘니뇨시기㉠과㉡의 해수면기압편차를나타낸것 이다. ㉠과㉡은각각동태평양과 서태평양중하나이고, 편차는 (관측값- 평년값)이다."}], "mock_2028_s0_02": [{"q_num": 1, "domain": "자료 변환 및 해석", "topic": "생물다양성", "score": 1.5, "answer": 5, "isExperiment": false, "preview": "1. 표는숲X에서식하는식물종A~D의개체수와서식지면적을 나타낸것이다. (가)와(나)는X에십자(+) 모양으로2개의 도로가건설되어서식지가분할"}, {"q_num": 2, "domain": "이해", "topic": "시간과 공간, 규모, 시간/길이 측정", "score": 1.5, "answer": 4, "isExperiment": false, "preview": "2. 그림은현대에널리사용되는레이저거리측정기의작동원리를 나타낸것이다. 이에대한설명으로옳은것만을<보기>에서있는대로고른 것은? [1.5점]"}, {"q_num": 3, "domain": "이해", "topic": "기본량과 단위", "score": 1.5, "answer": 4, "isExperiment": false, "preview": "3. 그림(가)는전자저울로왕관의질량을측정한모습을, (나)는 물mL가들어있는눈금실린더에왕관을완전히잠기도록 넣었을 때의 수면 변화를"}, {"q_num": 4, "domain": "적용", "topic": "지각·생명체 구성 물질의 규칙성(1)", "score": 2.5, "answer": 3, "isExperiment": true, "preview": "4. 다음은규산염광물의결합구조를알아보기위한탐구활동이다. [탐구과정및결과] (가) 빨간색공1개에연결대4개를꽂고, 그끝에각각파란색 공4개를"}, {"q_num": 5, "domain": "적용", "topic": "생태계 구성 요소", "score": 2.0, "answer": 2, "isExperiment": false, "preview": "5. 표는우리주변의생태계에서관찰할수있는현상(가), (나), (다)를나타낸것이다. 구분 생태계현상의예 (가) 가을이되어낮의길이가짧아지자코"}, {"q_num": 6, "domain": "자료 변환 및 해석", "topic": "인공지능과 과학 탐구", "score": 2.0, "answer": 1, "isExperiment": true, "preview": "6. 다음은기온에따른전력수요의변화경향을알아보기위해 빅데이터를활용한탐구활동이다. [탐구과정] (가) 최근3년동안어떤도시에서관측한일최고기온"}, {"q_num": 7, "domain": "이해", "topic": "물질 변화에서 에너지 출입", "score": 1.5, "answer": 4, "isExperiment": false, "preview": "7. 표는우리주변에서일어나는물질변화(가), (나), (다)를 에너지출입에따라분류한것이다. 에너지출입 물질변화 에너지방출 (가) 도시가스"}, {"q_num": 8, "domain": "문제 인식 및 가설 설정", "topic": "자연선택", "score": 2.0, "answer": 3, "isExperiment": true, "preview": "8. 다음은환경에따른자연선택을알아보기위한탐구활동이다. [가설] ◦ ㉠ [탐구과정및결과] (가) 털색이밝은쥐와어두운 쥐를동일한비율로섞어"}, {"q_num": 9, "domain": "결론 도출 및 일반화", "topic": "감염병과 병원체", "score": 2.5, "answer": 5, "isExperiment": true, "preview": "9. 다음은가을철야외활동시주로감염되는쯔쯔가무시증의발생 시기를알아보기위한탐구활동이다. [탐구활동]  (가) 쯔쯔가무시증환자가빈번하게발생하"}, {"q_num": 10, "domain": "이해", "topic": "지구시스템의 구성과 상호작용", "score": 1.5, "answer": 3, "isExperiment": false, "preview": "10. 그림은지구시스템에서일어나는에너지전환과정의일부를 나타낸것이다. 이에대한설명으로옳은것만을<보기>에서있는대로고른 것은? [1.5점]"}, {"q_num": 11, "domain": "이해", "topic": "별의 진화", "score": 1.5, "answer": 2, "isExperiment": false, "preview": "11. 그림(가), (나), (다)는우리태양계가형성되는과정을순서 없이나타낸것이다. 이에대한설명으로옳은것만을<보기>에서있는대로고른 것은?"}, {"q_num": 12, "domain": "탐구 설계", "topic": "산화와 환원", "score": 2.0, "answer": 3, "isExperiment": true, "preview": "12. 다음은철의부식에영향을미치는요인을알아보기위한실험이다. [실험과정] (가) 3개의시험관에각각동일한철못을넣고다음과같이 조건을다르게설정"}, {"q_num": 13, "domain": "자료 변환 및 해석", "topic": "원소의 주기성", "score": 2.0, "answer": 2, "isExperiment": false, "preview": "13. 그림은원자A～D의(원자번호 − 원자가전자수)를나타낸 것이다. A～D는리튬, 플루오린, 나트륨, 염소를순서없이나타 낸것이고, 원자"}, {"q_num": 14, "domain": "적용", "topic": "지구시스템의 구성과 상호작용", "score": 2.0, "answer": 1, "isExperiment": false, "preview": "14. 다음은지구시스템의균형이깨짐으로써전지구적규모로 나타나는연쇄적인상호작용을정리한자료이다. 화석연료사용등의인간활동으로기권의온실기체가급증"}, {"q_num": 15, "domain": "이해", "topic": "원소 형성", "score": 1.5, "answer": 4, "isExperiment": false, "preview": "15. 그림(가)는우주공간에있는고온의별과기체구름, 그리고 이를관측하는관측자A, B, C의위치를나타낸것이고, (나)는 빛의스펙트럼㉠, ㉡"}, {"q_num": 16, "domain": "탐구 설계", "topic": "발전", "score": 2.5, "answer": 2, "isExperiment": true, "preview": "16. 다음은전자기유도현상을알아보기위한실험이다. [실험과정] (가) 그림과같이연직으로세운코일과 전류센서를연결한다. (나) 자석의개수,"}, {"q_num": 17, "domain": "자료 변환 및 해석", "topic": "지질시대의 생물과 화석", "score": 2.0, "answer": 5, "isExperiment": false, "preview": "17. 그림(가)는어느지역의지층A, B, C에서산출되는대표적인 화석을, (나)는고생대이후지구의평균기온변화를나타낸것 이다. ㉠, ㉡, ㉢"}, {"q_num": 18, "domain": "적용", "topic": "중력장 내의 운동", "score": 2.5, "answer": 1, "isExperiment": false, "preview": "18. 그림은모눈종이를배경으로공 A와B의운동을촬영한것을나타낸 것이다. A는수평방향으로의 속력으로던지고, B는동시에자유 낙하시킨후A와B"}, {"q_num": 19, "domain": "자료 변환 및 해석", "topic": "지각·생명체 구성 물질의 규칙성(2)", "score": 2.0, "answer": 1, "isExperiment": false, "preview": "19. 표는지각과생명체를구성하는물질A, B, C를특징㉠, ㉡, ㉢의 유무에따라나타낸것이다. A, B, C는각각규산염광물, 단백질, 핵산"}, {"q_num": 20, "domain": "적용", "topic": "충격량과 운동량", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "20. 그림(가)와(나)는질량이인고무공과찰흙공이각각같은 속력로벽에충돌하는모습을나타낸것이다. 충돌후고무공은 속력로튕겨나왔고,"}, {"q_num": 21, "domain": "이해", "topic": "지각·생명체 구성 물질의 규칙성(1)", "score": 1.5, "answer": 3, "isExperiment": false, "preview": "21. 그림(가)와(나)는각각 지각과인체를구성하는원소의 질량비를원형그래프로나타낸 것이고, 대화는원소X∼Z의 특징에대해교사와학생이 질의응"}, {"q_num": 22, "domain": "자료 변환 및 해석", "topic": "판구조론과 지각 변동", "score": 2.0, "answer": 5, "isExperiment": false, "preview": "22. 그림은판의경계A∼C와맨틀대류의일부를나타낸것이고, 표는㉠∼㉢에서특징Ⅰ∼Ⅲ의유무를나타낸것이다. ㉠∼㉢은 A∼C를순서없이나타낸것이고,"}, {"q_num": 23, "domain": "자료 변환 및 해석", "topic": "생명 시스템의 기본 단위", "score": 2.5, "answer": 5, "isExperiment": false, "preview": "23. 그림은세포에서일어나는유전정보의흐름을나타낸것이고, 표는RNA의코돈이지정하는아미노산을나타낸것이다. 가닥 Ⅰ의12개염기중사이토신(C)"}, {"q_num": 24, "domain": "자료 변환 및 해석", "topic": "중화 반응", "score": 2.5, "answer": 4, "isExperiment": false, "preview": "24. 그림은HCl 수용액과NaOH 수용액을혼합하여전체부피가 mL인혼합용액을만들었을때, 혼합한HCl 수용액의부피에 따른혼합용액에존재"}, {"q_num": 25, "domain": "자료 변환 및 해석", "topic": "대기와 해양의 상호작용", "score": 2.5, "answer": 2, "isExperiment": false, "preview": "25. 그림(가)는태평양적도부근해역에서관측한무역풍의풍속 편차를시간에따라나타낸것이고, (나)는(가)의A와B 중한 시기에태평양적도부근해역의"}]};
 
         // 현재 선택/편집 대상 시험 Key
         let currentEditingExam = "2028_예시문항";
@@ -1154,13 +1219,13 @@
             examKeys.forEach(k => {
                 const items = allExams[k] || [];
                 const s15 = items.filter(it => it.score === 1.5).length;
-                const s20 = items.filter(it => it.score === 2.0).length;
+                const s20 = items.filter(it => it.score === 2 || it.score === 2.0).length;
                 const s25 = items.filter(it => it.score === 2.5).length;
                 const expCount = items.filter(it => it.isExperiment).length;
                 const isUploaded = (k === uploadedExamKey);
                 const colClass = isUploaded ? "bg-emerald-50 text-emerald-700" : "bg-slate-50 text-slate-600";
                 h += `
-                    <th class="px-2 py-1.5 text-center border-b text-[10px] font-semibold border-r ${colClass} whitespace-nowrap" title="배점별 문항수(1.5/2.0/2.5점) 및 탐구·실험 문항수(★)">
+                    <th class="px-2 py-1.5 text-center border-b text-[10px] font-semibold border-r ${colClass} whitespace-nowrap" title="배점별 문항수(1.5/2/2.5점) 및 탐구·실험 문항수(★)">
                         <div class="flex items-center justify-center gap-1.5">
                             <span class="font-bold">${s15} / ${s20} / ${s25}</span>
                             <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[9px] font-black text-amber-700 bg-amber-100 rounded border border-amber-300 shadow-2xs" title="탐구 활동 및 실험 포함 문항 총 ${expCount}개">★ ${expCount}</span>
@@ -1283,7 +1348,7 @@
             const totalScore = Math.round(questions.reduce((acc, q) => acc + (q.score || 0), 0) * 10) / 10;
             const scoreCounts = {
                 "1.5점": questions.filter(q => q.score === 1.5).length,
-                "2.0점": questions.filter(q => q.score === 2.0).length,
+                "2점": questions.filter(q => q.score === 2 || q.score === 2.0).length,
                 "2.5점": questions.filter(q => q.score === 2.5).length
             };
 
@@ -1393,8 +1458,8 @@
                     <!-- (1) 배점 구조 -->
                     <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2">
                         <h3 class="text-xs font-black text-slate-800 flex items-center justify-between">
-                            <span>(1) 배점 구조 검증 (기준: 25문항 / 총점 50.0점)</span>
-                            <span class="font-bold ${data.totalScore === 50.0 ? 'text-emerald-600' : 'text-rose-600'}">${data.totalScore === 50.0 ? '✅ 50.0점 일치' : '🚨 총점 불일치'}</span>
+                            <span>(1) 배점 구조 검증 (기준: 25문항 / 총점 50점)</span>
+                            <span class="font-bold ${data.totalScore === 50.0 ? 'text-emerald-600' : 'text-rose-600'}">${data.totalScore === 50.0 ? '✅ 50점 일치' : '🚨 총점 불일치'}</span>
                         </h3>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs text-center">
                             <div class="bg-white p-2.5 rounded-lg border border-slate-200">
@@ -1406,8 +1471,8 @@
                                 <b class="text-sm font-black text-slate-800">${data.scoreCounts["1.5점"]}개</b>
                             </div>
                             <div class="bg-white p-2.5 rounded-lg border border-slate-200">
-                                <span class="text-slate-500 text-[10px] block">2.0점 문항 (기준: 9개)</span>
-                                <b class="text-sm font-black text-slate-800">${data.scoreCounts["2.0점"]}개</b>
+                                <span class="text-slate-500 text-[10px] block">2점 문항 (기준: 9개)</span>
+                                <b class="text-sm font-black text-slate-800">${data.scoreCounts["2점"]}개</b>
                             </div>
                             <div class="bg-white p-2.5 rounded-lg border border-slate-200">
                                 <span class="text-slate-500 text-[10px] block">2.5점 문항 (기준: 8개)</span>
@@ -1608,11 +1673,11 @@
                 "",
                 "## 2. [검수 영역 ②] 2028 예시문항 기준 배점 · 행동영역 · 내용요소(단원) 분석",
                 "",
-                "### (1) 배점 구조 검증 (기준: 25문항 / 총점 50.0점)",
-                `- **실측 총점**: **${data.totalScore.toFixed(1)}점** ${data.totalScore === 50.0 ? '✅ (정상)' : '🚨 (50.0점 불일치)'}`,
-                `- **1.5점 문항 수**: **${data.scoreCounts["1.5점"]}문항** (2028 예시문항 기준: 8문항 / 12.0점)`,
-                `- **2.0점 문항 수**: **${data.scoreCounts["2.0점"]}문항** (2028 예시문항 기준: 9문항 / 18.0점)`,
-                `- **2.5점 문항 수**: **${data.scoreCounts["2.5점"]}문항** (2028 예시문항 기준: 8문항 / 20.0점)`,
+                "### (1) 배점 구조 검증 (기준: 25문항 / 총점 50점)",
+                `- **실측 총점**: **${data.totalScore.toFixed(1)}점** ${data.totalScore === 50.0 ? '✅ (정상)' : '🚨 (50점 불일치)'}`,
+                `- **1.5점 문항 수**: **${data.scoreCounts["1.5점"]}문항** (2028 예시문항 기준: 8문항 / 12점)`,
+                `- **2점 문항 수**: **${data.scoreCounts["2점"]}문항** (2028 예시문항 기준: 9문항 / 18점)`,
+                `- **2.5점 문항 수**: **${data.scoreCounts["2.5점"]}문항** (2028 예시문항 기준: 8문항 / 20점)`,
                 "",
                 "### (2) 대단원별 내용요소 문항 수 안배 (2028 예시문항 기준 대비)",
                 "| 대단원 | 2028 예시문항 기준 | 현재 회차 문항 수 | 편차 | 판정 |",
@@ -1778,7 +1843,7 @@
                         <td class="px-3 py-2 text-center">
                             <select onchange="updateQuestionField(${q.q_num}, 'score', parseFloat(this.value))" class="bg-white border border-slate-200 rounded px-2 py-1 text-xs font-bold text-slate-800 focus:ring-1 focus:ring-indigo-500">
                                 <option value="1.5" ${q.score === 1.5 ? 'selected' : ''}>1.5점</option>
-                                <option value="2.0" ${q.score === 2.0 ? 'selected' : ''}>2.0점</option>
+                                <option value="2" ${(q.score === 2 || q.score === 2.0) ? 'selected' : ''}>2점</option>
                                 <option value="2.5" ${q.score === 2.5 ? 'selected' : ''}>2.5점</option>
                             </select>
                         </td>
@@ -1790,7 +1855,7 @@
                         </td>
                         <td class="px-4 py-2">
                             <select onchange="updateQuestionField(${q.q_num}, 'domain', this.value)" class="bg-white border border-slate-200 rounded px-2 py-1 text-xs font-bold text-slate-800 w-full focus:ring-1 focus:ring-indigo-500">
-                                ${Object.keys(DOMAIN_COLORS).map(d => `<option value="${d}" ${q.domain === d ? 'selected' : ''}>${d}</option>`).join('')}
+                                ${BEHAVIORAL_DOMAINS_8.map(d => `<option value="${d}" ${canonicalDomain(q.domain) === d ? 'selected' : ''}>${d}</option>`).join('')}
                             </select>
                         </td>
                         <td class="px-3 py-2 text-center">
@@ -1916,14 +1981,14 @@
                                 <label class="block text-[10px] font-bold text-slate-500 mb-0.5">배점</label>
                                 <select id="modal-score-${q.q_num}" class="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 font-bold text-slate-800">
                                     <option value="1.5" ${q.score === 1.5 ? 'selected' : ''}>1.5점</option>
-                                    <option value="2.0" ${q.score === 2.0 ? 'selected' : ''}>2.0점</option>
+                                    <option value="2" ${(q.score === 2 || q.score === 2.0) ? 'selected' : ''}>2점</option>
                                     <option value="2.5" ${q.score === 2.5 ? 'selected' : ''}>2.5점</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 mb-0.5">행동 영역</label>
                                 <select id="modal-domain-${q.q_num}" class="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 font-bold text-slate-800">
-                                    ${Object.keys(DOMAIN_COLORS).map(d => `<option value="${d}" ${q.domain === d ? 'selected' : ''}>${d}</option>`).join('')}
+                                    ${BEHAVIORAL_DOMAINS_8.map(d => `<option value="${d}" ${canonicalDomain(q.domain) === d ? 'selected' : ''}>${d}</option>`).join('')}
                                 </select>
                             </div>
                         </div>
@@ -2114,17 +2179,79 @@
         });
 
         // ==========================================
-        // 10. JSON 데이터 내보내기
+        // 10. JSON 데이터 내보내기 & 불러오기 (아이패드/PC 완벽 동기화)
         // ==========================================
         function exportJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allExams, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `godtonggwa_matrix_${currentEditingExam}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("JSON 파일 다운로드를 시작합니다.");
+            try {
+                // 내보내기 전 최신 상태를 로컬스토리지에도 자동 저장
+                saveAllMatrixData();
+
+                const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                const safeExamTitle = (currentEditingExam || 'all').replace(/[^a-zA-Z0-9가-힣_]/g, '_');
+                const fileName = `matrix_sync_${safeExamTitle}_${today}.json`;
+
+                const jsonStr = JSON.stringify(allExams, null, 2);
+                const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", url);
+                downloadAnchor.setAttribute("download", fileName);
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+                URL.revokeObjectURL(url);
+
+                showToast(`📁 '${fileName}' 파일이 다운로드되었습니다! 구글 드라이브에 저장 후 아이패드에서 불러오세요.`);
+            } catch (err) {
+                console.error("JSON 내보내기 실패:", err);
+                alert("JSON 내보내기 중 오류가 발생했습니다: " + err.message);
+            }
+        }
+
+        function importJSON(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    const parsed = JSON.parse(content);
+                    if (!parsed || typeof parsed !== 'object') {
+                        throw new Error("올바른 JSON 데이터 형식이 아닙니다.");
+                    }
+
+                    // 호환성 처리: 1) 단일 시험 문항 배열인 경우 vs 2) allExams 딕셔너리인 경우
+                    if (Array.isArray(parsed)) {
+                        allExams[currentEditingExam] = parsed;
+                    } else if (typeof parsed === 'object') {
+                        // 전체 모의고사 맵 병합
+                        allExams = Object.assign({}, allExams, parsed);
+                        if (!allExams[currentEditingExam]) {
+                            currentEditingExam = Object.keys(allExams)[0] || "2028_예시문항";
+                        }
+                    }
+
+                    // 불러온 데이터를 해당 기기의 localStorage에도 즉시 영구 저장
+                    saveAllMatrixData();
+
+                    // 화면 뷰 전면 리렌더링
+                    renderMatrix();
+                    renderAuditReport();
+                    renderQTable();
+                    if (typeof renderExamTabs === 'function') renderExamTabs();
+                    if (typeof updateStatsBadge === 'function') updateStatsBadge();
+
+                    showToast("🎉 JSON 분석 데이터를 성공적으로 불러왔습니다! (현재 기기에 저장 완료)");
+                } catch (err) {
+                    console.error("JSON 로드 실패:", err);
+                    alert("JSON 파일을 불러오는 중 오류가 발생했습니다:\n" + err.message);
+                } finally {
+                    event.target.value = ''; // 동일 파일 재선택 가능하도록 리셋
+                }
+            };
+            reader.readAsText(file, "UTF-8");
         }
 
 
@@ -2138,31 +2265,6 @@
             "IFSIGHT_03": [5, 4, 1, 4, 2, 5, 5, 5, 3, 1, 3, 1, 4, 4, 2, 3, 5, 2, 4, 2, 2, 1, 5, 4, 3]
         };
 
-        // 갓통과 앱 공식 API Key (Firebase / Google Cloud Gemini 연동)
-        const GODTONGGWA_DEFAULT_GEMINI_KEY = "AIzaSyDYljyALj-RbHKjndZYXcOaPzK-Q6xBjjo";
-
-        function getActiveAIKey() {
-            const keyEl = document.getElementById('ai-api-key-input');
-            const customKey = (keyEl ? keyEl.value.trim() : '') || localStorage.getItem('gt_ai_api_key');
-            if (customKey && customKey.length > 10) return customKey;
-            return GODTONGGWA_DEFAULT_GEMINI_KEY;
-        }
-
-        // 헤더 [AI 풀이] 버튼 클릭 시 별도 키 질문 없이 즉시 자동 실행
-        function triggerAutoAISolver() {
-            const questions = allExams[currentEditingExam];
-            if (!questions || questions.length === 0) {
-                alert("풀이할 문항 데이터가 없습니다. 먼저 모의고사 PDF를 로드하세요.");
-                return;
-            }
-
-            openAISolverModal();
-            // 갓통과 앱 API Key로 25문항 자동 풀이 즉시 가동
-            setTimeout(() => {
-                startLiveAISolver();
-            }, 300);
-        }
-
         function openAISolverModal() {
             const modal = document.getElementById('ai-solver-modal');
             const examLabel = document.getElementById('ai-current-exam-title');
@@ -2170,8 +2272,8 @@
             
             // 저장된 API 키 불러오기
             const savedKey = localStorage.getItem('gt_ai_api_key') || '';
-            const apiKey = getActiveAIKey();
-            const keyInput = document.getElementById('ai-api-key-input'); if (keyInput) keyInput.value = savedKey;
+            const keyInput = document.getElementById('ai-api-key-input');
+            if (keyInput) keyInput.value = savedKey;
 
             modal.classList.remove('hidden');
             lucide.createIcons();
@@ -2213,10 +2315,10 @@
                 return;
             }
 
-            const apiKey = getActiveAIKey();
-            // 갓통과 내장 키 우선 적용
-            if (!apiKey && false) {
-                console.log("갓통과 공식 API Key 사용");
+            const keyInput = document.getElementById('ai-api-key-input');
+            const apiKey = (keyInput ? keyInput.value.trim() : '');
+            if (!apiKey) {
+                alert("Gemini API Key 또는 OpenAI API Key를 입력하세요.\n(상단 링크에서 0원에 무료로 즉시 발급받으실 수 있습니다.)");
                 return;
             }
 
@@ -2297,7 +2399,7 @@
             renderAuditReport();
             renderQTable();
             closeAISolverModal();
-            showToast(`🎉 갓통과 AI 실시간 문제 풀이 완료! 총 ${solvedCount}개 문항 정답이 매트릭스에 자동 완성되었습니다.`);
+            showToast(`🎉 AI 실시간 문제 풀이 완료! 총 ${solvedCount}개 문항 정답이 매트릭스에 자동 완성되었습니다.`);
         }
         
         // 초기화 실행

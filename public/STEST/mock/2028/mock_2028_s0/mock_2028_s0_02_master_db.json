@@ -1,877 +1,873 @@
 {
-    "mock_2028_s0_02_q01": {
-        "id": "mock_2028_s0_02_q01",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 1,
-        "imageFile": "mock_2028_s0_02_q01.webp",
-        "fileName": "mock_2028_s0_02_q01.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q01.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q01.webp?alt=media",
-        "correctAnswer": 5,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "변화와 다양성",
-            "topic": "생물다양성"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "생물다양성과 보전",
-            "서식지단편화",
-            "종다양성",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:08.269789+00:00"
+  "mock_2028_s0_02_q01": {
+    "id": "mock_2028_s0_02_q01",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 1,
+    "imageFile": "mock_2028_s0_02_q01.webp",
+    "fileName": "mock_2028_s0_02_q01.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q01.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q01.webp?alt=media",
+    "correctAnswer": 5,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "변화와 다양성",
+      "topic": "생물다양성"
     },
-    "mock_2028_s0_02_q02": {
-        "id": "mock_2028_s0_02_q02",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 2,
-        "imageFile": "mock_2028_s0_02_q02.webp",
-        "fileName": "mock_2028_s0_02_q02.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q02.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q02.webp?alt=media",
-        "correctAnswer": 4,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "과학의 기초",
-            "topic": "시간과 공간, 규모, 시간/길이 측정"
-        },
-        "behavioralDomain": "이해",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 A: 1개짜리 2개, 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "시간과 공간",
-            "기본량과 단위",
-            "아날로그와디지털",
-            "이해",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:08.424860+00:00"
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "생물다양성과 보전",
+      "서식지단편화",
+      "종다양성",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q03": {
-        "id": "mock_2028_s0_02_q03",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 3,
-        "imageFile": "mock_2028_s0_02_q03.webp",
-        "fileName": "mock_2028_s0_02_q03.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q03.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q03.webp?alt=media",
-        "correctAnswer": 4,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "과학의 기초",
-            "topic": "기본량과 단위"
-        },
-        "behavioralDomain": "이해",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 A: 1개짜리 2개, 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "기본량과 단위",
-            "질량과부피",
-            "밀도",
-            "이해",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:08.616790+00:00"
+    "updatedAt": "2026-10-29T06:03:08.269789+00:00"
+  },
+  "mock_2028_s0_02_q02": {
+    "id": "mock_2028_s0_02_q02",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 2,
+    "imageFile": "mock_2028_s0_02_q02.webp",
+    "fileName": "mock_2028_s0_02_q02.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q02.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q02.webp?alt=media",
+    "correctAnswer": 4,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "과학의 기초",
+      "topic": "시간과 공간, 규모, 시간/길이 측정"
     },
-    "mock_2028_s0_02_q04": {
-        "id": "mock_2028_s0_02_q04",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 4,
-        "imageFile": "mock_2028_s0_02_q04.webp",
-        "fileName": "mock_2028_s0_02_q04.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q04.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q04.webp?alt=media",
-        "correctAnswer": 3,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "물질과 규칙성",
-            "topic": "지각·생명체 구성 물질의 규칙성(1)"
-        },
-        "behavioralDomain": "적용",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "지각과 생명체 구성 물질의 규칙성",
-            "규산염광물",
-            "단사슬구조",
-            "적용",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:08.817318+00:00"
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 A: 1개짜리 2개, 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "시간과 공간",
+      "기본량과 단위",
+      "아날로그와디지털",
+      "이해",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q05": {
-        "id": "mock_2028_s0_02_q05",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 5,
-        "imageFile": "mock_2028_s0_02_q05.webp",
-        "fileName": "mock_2028_s0_02_q05.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q05.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q05.webp?alt=media",
-        "correctAnswer": 2,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "환경과 에너지",
-            "topic": "생태계 구성 요소"
-        },
-        "behavioralDomain": "적용",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "생태계 구성 요소와 환경",
-            "비생물요소",
-            "생물요소",
-            "적용",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:08.994305+00:00"
+    "updatedAt": "2026-10-29T06:03:08.424860+00:00"
+  },
+  "mock_2028_s0_02_q03": {
+    "id": "mock_2028_s0_02_q03",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 3,
+    "imageFile": "mock_2028_s0_02_q03.webp",
+    "fileName": "mock_2028_s0_02_q03.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q03.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q03.webp?alt=media",
+    "correctAnswer": 4,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "과학의 기초",
+      "topic": "기본량과 단위"
     },
-    "mock_2028_s0_02_q06": {
-        "id": "mock_2028_s0_02_q06",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 6,
-        "imageFile": "mock_2028_s0_02_q06.webp",
-        "fileName": "mock_2028_s0_02_q06.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q06.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q06.webp?alt=media",
-        "correctAnswer": 1,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "과학과 미래 사회",
-            "topic": "인공지능과 과학 탐구"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "인공지능과 과학 탐구",
-            "빅데이터의 활용",
-            "데이터전처리",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:09.284205+00:00"
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 A: 1개짜리 2개, 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "기본량과 단위",
+      "질량과부피",
+      "밀도",
+      "이해",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q07": {
-        "id": "mock_2028_s0_02_q07",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 7,
-        "imageFile": "mock_2028_s0_02_q07.webp",
-        "fileName": "mock_2028_s0_02_q07.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q07.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q07.webp?alt=media",
-        "correctAnswer": 4,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "변화와 다양성",
-            "topic": "물질 변화에서 에너지 출입"
-        },
-        "behavioralDomain": "이해",
-        "qType": "5지선다 (단답/문장형)",
-        "tags": [
-            "물질 변화에서 에너지 출입",
-            "발열반응",
-            "흡열반응",
-            "이해",
-            "5지선다"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:09.425617+00:00"
+    "updatedAt": "2026-10-29T06:03:08.616790+00:00"
+  },
+  "mock_2028_s0_02_q04": {
+    "id": "mock_2028_s0_02_q04",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 4,
+    "imageFile": "mock_2028_s0_02_q04.webp",
+    "fileName": "mock_2028_s0_02_q04.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q04.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q04.webp?alt=media",
+    "correctAnswer": 3,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각·생명체 구성 물질의 규칙성(1)"
     },
-    "mock_2028_s0_02_q08": {
-        "id": "mock_2028_s0_02_q08",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 8,
-        "imageFile": "mock_2028_s0_02_q08.webp",
-        "fileName": "mock_2028_s0_02_q08.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q08.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q08.webp?alt=media",
-        "correctAnswer": 3,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "변화와 다양성",
-            "topic": "자연선택"
-        },
-        "behavioralDomain": "가설 설정",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 A: 1개짜리 2개, 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "자연선택",
-            "변이와자연선택",
-            "가설설정",
-            "문제 인식 및 가설 설정",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:09.705226+00:00"
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지각과 생명체 구성 물질의 규칙성",
+      "규산염광물",
+      "단사슬구조",
+      "적용",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q09": {
-        "id": "mock_2028_s0_02_q09",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 9,
-        "imageFile": "mock_2028_s0_02_q09.webp",
-        "fileName": "mock_2028_s0_02_q09.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q09.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q09.webp?alt=media",
-        "correctAnswer": 5,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "과학과 미래 사회",
-            "topic": "감염병과 병원체"
-        },
-        "behavioralDomain": "결론 도출",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "감염병과 병원체",
-            "빅데이터의 활용",
-            "결론 도출 및 일반화",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:10.044167+00:00"
+    "updatedAt": "2026-10-29T06:03:08.817318+00:00"
+  },
+  "mock_2028_s0_02_q05": {
+    "id": "mock_2028_s0_02_q05",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 5,
+    "imageFile": "mock_2028_s0_02_q05.webp",
+    "fileName": "mock_2028_s0_02_q05.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q05.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q05.webp?alt=media",
+    "correctAnswer": 2,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "환경과 에너지",
+      "topic": "생태계 구성 요소"
     },
-    "mock_2028_s0_02_q10": {
-        "id": "mock_2028_s0_02_q10",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 10,
-        "imageFile": "mock_2028_s0_02_q10.webp",
-        "fileName": "mock_2028_s0_02_q10.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q10.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q10.webp?alt=media",
-        "correctAnswer": 3,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "시스템과 상호작용",
-            "topic": "지구시스템의 구성과 상호작용"
-        },
-        "behavioralDomain": "이해",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "지구시스템의 구성과 상호작용",
-            "탄소순환",
-            "에너지전환",
-            "이해",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:10.187556+00:00"
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "생태계 구성 요소와 환경",
+      "비생물요소",
+      "생물요소",
+      "적용",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q11": {
-        "id": "mock_2028_s0_02_q11",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 11,
-        "imageFile": "mock_2028_s0_02_q11.webp",
-        "fileName": "mock_2028_s0_02_q11.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q11.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q11.webp?alt=media",
-        "correctAnswer": 2,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "물질과 규칙성",
-            "topic": "별의 진화"
-        },
-        "behavioralDomain": "이해",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "태양계와 지구의 형성",
-            "태양계형성과정",
-            "원시태양",
-            "이해",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:10.396834+00:00"
+    "updatedAt": "2026-10-29T06:03:08.994305+00:00"
+  },
+  "mock_2028_s0_02_q06": {
+    "id": "mock_2028_s0_02_q06",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 6,
+    "imageFile": "mock_2028_s0_02_q06.webp",
+    "fileName": "mock_2028_s0_02_q06.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q06.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q06.webp?alt=media",
+    "correctAnswer": 1,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "과학과 미래 사회",
+      "topic": "인공지능과 과학 탐구"
     },
-    "mock_2028_s0_02_q12": {
-        "id": "mock_2028_s0_02_q12",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 12,
-        "imageFile": "mock_2028_s0_02_q12.webp",
-        "fileName": "mock_2028_s0_02_q12.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q12.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q12.webp?alt=media",
-        "correctAnswer": 3,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "변화와 다양성",
-            "topic": "산화와 환원"
-        },
-        "behavioralDomain": "탐구 설계",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "산화와 환원",
-            "철의부식",
-            "변인통제",
-            "탐구 설계 및 수행",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:10.649392+00:00"
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "인공지능과 과학 탐구",
+      "빅데이터의 활용",
+      "데이터전처리",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q13": {
-        "id": "mock_2028_s0_02_q13",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 13,
-        "imageFile": "mock_2028_s0_02_q13.webp",
-        "fileName": "mock_2028_s0_02_q13.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q13.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q13.webp?alt=media",
-        "correctAnswer": 2,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "물질과 규칙성",
-            "topic": "원소의 주기성"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "주기율표",
-            "화학 결합과 물질의 성질",
-            "원자가전자",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:10.829083+00:00"
+    "updatedAt": "2026-10-29T06:03:09.284205+00:00"
+  },
+  "mock_2028_s0_02_q07": {
+    "id": "mock_2028_s0_02_q07",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 7,
+    "imageFile": "mock_2028_s0_02_q07.webp",
+    "fileName": "mock_2028_s0_02_q07.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q07.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q07.webp?alt=media",
+    "correctAnswer": 4,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "변화와 다양성",
+      "topic": "물질 변화에서 에너지 출입"
     },
-    "mock_2028_s0_02_q14": {
-        "id": "mock_2028_s0_02_q14",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 14,
-        "imageFile": "mock_2028_s0_02_q14.webp",
-        "fileName": "mock_2028_s0_02_q14.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q14.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q14.webp?alt=media",
-        "correctAnswer": 1,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "시스템과 상호작용",
-            "topic": "지구시스템의 구성과 상호작용"
-        },
-        "behavioralDomain": "적용",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "지구시스템의 구성과 상호작용",
-            "지구 환경 변화와 인간 생활",
-            "지구온난화",
-            "적용",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:11.026013+00:00"
+    "behavioralDomain": "이해",
+    "qType": "5지선다 (단답/문장형)",
+    "tags": [
+      "물질 변화에서 에너지 출입",
+      "발열반응",
+      "흡열반응",
+      "이해",
+      "5지선다"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q15": {
-        "id": "mock_2028_s0_02_q15",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 15,
-        "imageFile": "mock_2028_s0_02_q15.webp",
-        "fileName": "mock_2028_s0_02_q15.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q15.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q15.webp?alt=media",
-        "correctAnswer": 4,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "물질과 규칙성",
-            "topic": "원소 형성"
-        },
-        "behavioralDomain": "이해",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "우주 초기의 원소 생성",
-            "스펙트럼",
-            "흡수스펙트럼",
-            "이해",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:11.226227+00:00"
+    "updatedAt": "2026-10-29T06:03:09.425617+00:00"
+  },
+  "mock_2028_s0_02_q08": {
+    "id": "mock_2028_s0_02_q08",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 8,
+    "imageFile": "mock_2028_s0_02_q08.webp",
+    "fileName": "mock_2028_s0_02_q08.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q08.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q08.webp?alt=media",
+    "correctAnswer": 3,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "변화와 다양성",
+      "topic": "자연선택"
     },
-    "mock_2028_s0_02_q16": {
-        "id": "mock_2028_s0_02_q16",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 16,
-        "imageFile": "mock_2028_s0_02_q16.webp",
-        "fileName": "mock_2028_s0_02_q16.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q16.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q16.webp?alt=media",
-        "correctAnswer": 2,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "환경과 에너지",
-            "topic": "발전"
-        },
-        "behavioralDomain": "탐구 설계",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "발전과 재생 에너지",
-            "전자기유도",
-            "패러데이법칙",
-            "탐구 설계 및 수행",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:11.503153+00:00"
+    "behavioralDomain": "가설 설정",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 A: 1개짜리 2개, 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "자연선택",
+      "변이와자연선택",
+      "가설설정",
+      "문제 인식 및 가설 설정",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q17": {
-        "id": "mock_2028_s0_02_q17",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 17,
-        "imageFile": "mock_2028_s0_02_q17.webp",
-        "fileName": "mock_2028_s0_02_q17.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q17.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q17.webp?alt=media",
-        "correctAnswer": 5,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "변화와 다양성",
-            "topic": "지질시대의 생물과 화석"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "지질시대의 환경과 생물 변화",
-            "표준화석",
-            "고생대중생대신생대",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:11.662679+00:00"
+    "updatedAt": "2026-10-29T06:03:09.705226+00:00"
+  },
+  "mock_2028_s0_02_q09": {
+    "id": "mock_2028_s0_02_q09",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 9,
+    "imageFile": "mock_2028_s0_02_q09.webp",
+    "fileName": "mock_2028_s0_02_q09.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q09.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q09.webp?alt=media",
+    "correctAnswer": 5,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "과학과 미래 사회",
+      "topic": "감염병과 병원체"
     },
-    "mock_2028_s0_02_q18": {
-        "id": "mock_2028_s0_02_q18",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 18,
-        "imageFile": "mock_2028_s0_02_q18.webp",
-        "fileName": "mock_2028_s0_02_q18.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q18.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q18.webp?alt=media",
-        "correctAnswer": 1,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "시스템과 상호작용",
-            "topic": "중력장 내의 운동"
-        },
-        "behavioralDomain": "적용",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄱ,ㄷ / ㄴ,ㄷ)",
-        "tags": [
-            "중력의 작용",
-            "수평으로던진물체",
-            "자유낙하운동",
-            "적용",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:11.830123+00:00"
+    "behavioralDomain": "결론 도출",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "감염병과 병원체",
+      "빅데이터의 활용",
+      "결론 도출 및 일반화",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q19": {
-        "id": "mock_2028_s0_02_q19",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 19,
-        "imageFile": "mock_2028_s0_02_q19.webp",
-        "fileName": "mock_2028_s0_02_q19.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q19.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q19.webp?alt=media",
-        "correctAnswer": 1,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "물질과 규칙성",
-            "topic": "지각·생명체 구성 물질의 규칙성(2)"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "지각과 생명체 구성 물질의 규칙성",
-            "단백질과핵산",
-            "탄소화합물",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:11.974290+00:00"
+    "updatedAt": "2026-10-29T06:03:10.044167+00:00"
+  },
+  "mock_2028_s0_02_q10": {
+    "id": "mock_2028_s0_02_q10",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 10,
+    "imageFile": "mock_2028_s0_02_q10.webp",
+    "fileName": "mock_2028_s0_02_q10.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q10.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q10.webp?alt=media",
+    "correctAnswer": 3,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구시스템의 구성과 상호작용"
     },
-    "mock_2028_s0_02_q20": {
-        "id": "mock_2028_s0_02_q20",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 20,
-        "imageFile": "mock_2028_s0_02_q20.webp",
-        "fileName": "mock_2028_s0_02_q20.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q20.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q20.webp?alt=media",
-        "correctAnswer": 4,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "시스템과 상호작용",
-            "topic": "충격량과 운동량"
-        },
-        "behavioralDomain": "적용",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄴ / ㄱ,ㄷ / ㄴ,ㄷ)",
-        "tags": [
-            "역학적 시스템과 안전",
-            "운동량과충격량",
-            "평균힘",
-            "적용",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:12.178331+00:00"
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지구시스템의 구성과 상호작용",
+      "탄소순환",
+      "에너지전환",
+      "이해",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q21": {
-        "id": "mock_2028_s0_02_q21",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 21,
-        "imageFile": "mock_2028_s0_02_q21.webp",
-        "fileName": "mock_2028_s0_02_q21.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q21.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q21.webp?alt=media",
-        "correctAnswer": 3,
-        "score": 1.5,
-        "difficulty": 1.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "물질과 규칙성",
-            "topic": "지각·생명체 구성 물질의 규칙성(1)"
-        },
-        "behavioralDomain": "이해",
-        "qType": "5지선다 (단답/문장형)",
-        "tags": [
-            "지각과 생명체 구성 물질의 규칙성",
-            "주기율표",
-            "원소의질량비",
-            "이해",
-            "5지선다"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:12.476639+00:00"
+    "updatedAt": "2026-10-29T06:03:10.187556+00:00"
+  },
+  "mock_2028_s0_02_q11": {
+    "id": "mock_2028_s0_02_q11",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 11,
+    "imageFile": "mock_2028_s0_02_q11.webp",
+    "fileName": "mock_2028_s0_02_q11.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q11.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q11.webp?alt=media",
+    "correctAnswer": 2,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "별의 진화"
     },
-    "mock_2028_s0_02_q22": {
-        "id": "mock_2028_s0_02_q22",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 22,
-        "imageFile": "mock_2028_s0_02_q22.webp",
-        "fileName": "mock_2028_s0_02_q22.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q22.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q22.webp?alt=media",
-        "correctAnswer": 5,
-        "score": 2.0,
-        "difficulty": 2.0,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "시스템과 상호작용",
-            "topic": "판구조론과 지각 변동"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "판구조론과 지각 변동",
-            "판의경계",
-            "해구와해령",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:12.667018+00:00"
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "태양계와 지구의 형성",
+      "태양계형성과정",
+      "원시태양",
+      "이해",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q23": {
-        "id": "mock_2028_s0_02_q23",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 23,
-        "imageFile": "mock_2028_s0_02_q23.webp",
-        "fileName": "mock_2028_s0_02_q23.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q23.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q23.webp?alt=media",
-        "correctAnswer": 5,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학1",
-            "chapter": "시스템과 상호작용",
-            "topic": "생명 시스템의 기본 단위"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "생명시스템의 기본 단위",
-            "유전정보의흐름",
-            "전사와번역",
-            "코돈",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:12.870621+00:00"
+    "updatedAt": "2026-10-29T06:03:10.396834+00:00"
+  },
+  "mock_2028_s0_02_q12": {
+    "id": "mock_2028_s0_02_q12",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 12,
+    "imageFile": "mock_2028_s0_02_q12.webp",
+    "fileName": "mock_2028_s0_02_q12.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q12.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q12.webp?alt=media",
+    "correctAnswer": 3,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "변화와 다양성",
+      "topic": "산화와 환원"
     },
-    "mock_2028_s0_02_q24": {
-        "id": "mock_2028_s0_02_q24",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 24,
-        "imageFile": "mock_2028_s0_02_q24.webp",
-        "fileName": "mock_2028_s0_02_q24.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q24.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q24.webp?alt=media",
-        "correctAnswer": 4,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "변화와 다양성",
-            "topic": "중화 반응"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개",
-        "tags": [
-            "산과 염기의 중화 반응",
-            "중화점",
-            "이온수그래프",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:13.059387+00:00"
+    "behavioralDomain": "탐구 설계",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "산화와 환원",
+      "철의부식",
+      "변인통제",
+      "탐구 설계 및 수행",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
     },
-    "mock_2028_s0_02_q25": {
-        "id": "mock_2028_s0_02_q25",
-        "sourceExamId": "mock_2028_s0_02",
-        "originalExamId": "2028_s0_02",
-        "magazineType": "mock",
-        "examQNum": 25,
-        "imageFile": "mock_2028_s0_02_q25.webp",
-        "fileName": "mock_2028_s0_02_q25.webp",
-        "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q25.webp",
-        "storagePrefix": "mock/2028",
-        "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q25.webp?alt=media",
-        "correctAnswer": 2,
-        "score": 2.5,
-        "difficulty": 2.5,
-        "taxonomy": {
-            "subject": "통합과학",
-            "domain": "통합과학2",
-            "chapter": "환경과 에너지",
-            "topic": "대기와 해양의 상호작용"
-        },
-        "behavioralDomain": "자료 변환 및 해석",
-        "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
-        "tags": [
-            "지구 환경 변화와 인간 생활",
-            "엘니뇨",
-            "무역풍과강수량편차",
-            "자료 변환 및 해석",
-            "합답형(ㄱ,ㄴ,ㄷ)"
-        ],
-        "stats": {
-            "total": 0,
-            "correct": 0
-        },
-        "updatedAt": "2026-10-29T06:03:13.280622+00:00"
-    }
+    "updatedAt": "2026-10-29T06:03:10.649392+00:00"
+  },
+  "mock_2028_s0_02_q13": {
+    "id": "mock_2028_s0_02_q13",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 13,
+    "imageFile": "mock_2028_s0_02_q13.webp",
+    "fileName": "mock_2028_s0_02_q13.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q13.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q13.webp?alt=media",
+    "correctAnswer": 2,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "원소의 주기성"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "주기율표",
+      "화학 결합과 물질의 성질",
+      "원자가전자",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:10.829083+00:00"
+  },
+  "mock_2028_s0_02_q14": {
+    "id": "mock_2028_s0_02_q14",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 14,
+    "imageFile": "mock_2028_s0_02_q14.webp",
+    "fileName": "mock_2028_s0_02_q14.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q14.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q14.webp?alt=media",
+    "correctAnswer": 1,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "지구시스템의 구성과 상호작용"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지구시스템의 구성과 상호작용",
+      "지구 환경 변화와 인간 생활",
+      "지구온난화",
+      "적용",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:11.026013+00:00"
+  },
+  "mock_2028_s0_02_q15": {
+    "id": "mock_2028_s0_02_q15",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 15,
+    "imageFile": "mock_2028_s0_02_q15.webp",
+    "fileName": "mock_2028_s0_02_q15.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q15.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q15.webp?alt=media",
+    "correctAnswer": 4,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "원소 형성"
+    },
+    "behavioralDomain": "이해",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "우주 초기의 원소 생성",
+      "스펙트럼",
+      "흡수스펙트럼",
+      "이해",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:11.226227+00:00"
+  },
+  "mock_2028_s0_02_q16": {
+    "id": "mock_2028_s0_02_q16",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 16,
+    "imageFile": "mock_2028_s0_02_q16.webp",
+    "fileName": "mock_2028_s0_02_q16.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q16.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q16.webp?alt=media",
+    "correctAnswer": 2,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "환경과 에너지",
+      "topic": "발전"
+    },
+    "behavioralDomain": "탐구 설계",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "발전과 재생 에너지",
+      "전자기유도",
+      "패러데이법칙",
+      "탐구 설계 및 수행",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:11.503153+00:00"
+  },
+  "mock_2028_s0_02_q17": {
+    "id": "mock_2028_s0_02_q17",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 17,
+    "imageFile": "mock_2028_s0_02_q17.webp",
+    "fileName": "mock_2028_s0_02_q17.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q17.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q17.webp?alt=media",
+    "correctAnswer": 5,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "변화와 다양성",
+      "topic": "지질시대의 생물과 화석"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지질시대의 환경과 생물 변화",
+      "표준화석",
+      "고생대중생대신생대",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:11.662679+00:00"
+  },
+  "mock_2028_s0_02_q18": {
+    "id": "mock_2028_s0_02_q18",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 18,
+    "imageFile": "mock_2028_s0_02_q18.webp",
+    "fileName": "mock_2028_s0_02_q18.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q18.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q18.webp?alt=media",
+    "correctAnswer": 1,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "중력장 내의 운동"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄱ,ㄷ / ㄴ,ㄷ)",
+    "tags": [
+      "중력의 작용",
+      "수평으로던진물체",
+      "자유낙하운동",
+      "적용",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:11.830123+00:00"
+  },
+  "mock_2028_s0_02_q19": {
+    "id": "mock_2028_s0_02_q19",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 19,
+    "imageFile": "mock_2028_s0_02_q19.webp",
+    "fileName": "mock_2028_s0_02_q19.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q19.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q19.webp?alt=media",
+    "correctAnswer": 1,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각·생명체 구성 물질의 규칙성(2)"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지각과 생명체 구성 물질의 규칙성",
+      "단백질과핵산",
+      "탄소화합물",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:11.974290+00:00"
+  },
+  "mock_2028_s0_02_q20": {
+    "id": "mock_2028_s0_02_q20",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 20,
+    "imageFile": "mock_2028_s0_02_q20.webp",
+    "fileName": "mock_2028_s0_02_q20.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q20.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q20.webp?alt=media",
+    "correctAnswer": 4,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "충격량과 운동량"
+    },
+    "behavioralDomain": "적용",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄴ / ㄱ,ㄷ / ㄴ,ㄷ)",
+    "tags": [
+      "역학적 시스템과 안전",
+      "운동량과충격량",
+      "평균힘",
+      "적용",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:12.178331+00:00"
+  },
+  "mock_2028_s0_02_q21": {
+    "id": "mock_2028_s0_02_q21",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 21,
+    "imageFile": "mock_2028_s0_02_q21.webp",
+    "fileName": "mock_2028_s0_02_q21.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q21.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q21.webp?alt=media",
+    "correctAnswer": 3,
+    "score": 1.5,
+    "difficulty": 1.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "물질과 규칙성",
+      "topic": "지각·생명체 구성 물질의 규칙성(1)"
+    },
+    "behavioralDomain": "이해",
+    "qType": "5지선다 (단답/문장형)",
+    "tags": [
+      "지각과 생명체 구성 물질의 규칙성",
+      "주기율표",
+      "원소의질량비",
+      "이해",
+      "5지선다"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:12.476639+00:00"
+  },
+  "mock_2028_s0_02_q22": {
+    "id": "mock_2028_s0_02_q22",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 22,
+    "imageFile": "mock_2028_s0_02_q22.webp",
+    "fileName": "mock_2028_s0_02_q22.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q22.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q22.webp?alt=media",
+    "correctAnswer": 5,
+    "score": 2.0,
+    "difficulty": 2.0,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "판구조론과 지각 변동"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄷ / ㄱ,ㄴ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "판구조론과 지각 변동",
+      "판의경계",
+      "해구와해령",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:12.667018+00:00"
+  },
+  "mock_2028_s0_02_q23": {
+    "id": "mock_2028_s0_02_q23",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 23,
+    "imageFile": "mock_2028_s0_02_q23.webp",
+    "fileName": "mock_2028_s0_02_q23.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q23.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q23.webp?alt=media",
+    "correctAnswer": 5,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학1",
+      "chapter": "시스템과 상호작용",
+      "topic": "유전자와 단백질"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "유전자와 단백질",
+      "코돈표 분석"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:12.870621+00:00"
+  },
+  "mock_2028_s0_02_q24": {
+    "id": "mock_2028_s0_02_q24",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 24,
+    "imageFile": "mock_2028_s0_02_q24.webp",
+    "fileName": "mock_2028_s0_02_q24.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q24.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q24.webp?alt=media",
+    "correctAnswer": 4,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "변화와 다양성",
+      "topic": "중화 반응"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개",
+    "tags": [
+      "산과 염기의 중화 반응",
+      "중화점",
+      "이온수그래프",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:13.059387+00:00"
+  },
+  "mock_2028_s0_02_q25": {
+    "id": "mock_2028_s0_02_q25",
+    "sourceExamId": "mock_2028_s0_02",
+    "originalExamId": "2028_s0_02",
+    "magazineType": "mock",
+    "examQNum": 25,
+    "imageFile": "mock_2028_s0_02_q25.webp",
+    "fileName": "mock_2028_s0_02_q25.webp",
+    "storagePath": "questions/mock/2028/mock_2028_s0_02/mock_2028_s0_02_q25.webp",
+    "storagePrefix": "mock/2028",
+    "image_path": "https://firebasestorage.googleapis.com/v0/b/godtonggwa.firebasestorage.app/o/questions%2Fmock%2F2028%2Fmock_2028_s0_02%2Fmock_2028_s0_02_q25.webp?alt=media",
+    "correctAnswer": 2,
+    "score": 2.5,
+    "difficulty": 2.5,
+    "taxonomy": {
+      "subject": "통합과학",
+      "domain": "통합과학2",
+      "chapter": "환경과 에너지",
+      "topic": "대기와 해양의 상호작용"
+    },
+    "behavioralDomain": "자료 변환 및 해석",
+    "qType": "합답형(ㄱ,ㄴ,ㄷ) - 타입 B: 2개짜리 2개 (ㄱ / ㄴ / ㄱ,ㄷ / ㄴ,ㄷ / ㄱ,ㄴ,ㄷ)",
+    "tags": [
+      "지구 환경 변화와 인간 생활",
+      "엘니뇨",
+      "무역풍과강수량편차",
+      "자료 변환 및 해석",
+      "합답형(ㄱ,ㄴ,ㄷ)"
+    ],
+    "stats": {
+      "total": 0,
+      "correct": 0
+    },
+    "updatedAt": "2026-10-29T06:03:13.280622+00:00"
+  }
 }

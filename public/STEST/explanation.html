@@ -1,594 +1,594 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>갓통과 - 1타 강사 비밀노트</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="/css/common.css">
-    
-        <!-- KaTeX Math Rendering Library (Fast & Lightweight) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <script>
-    function renderAllMath(target) {
-        if (typeof renderMathInElement === 'function') {
-            try {
-                renderMathInElement(target || document.body, {
-                    delimiters: [
-                        { left: '$$', right: '$$', display: true },
-                        { left: '$', right: '$', display: false },
-                        { left: '\\(', right: '\\)', display: false },
-                        { left: '\\[', right: '\\]', display: true }
-                    ],
-                    throwOnError: false
-                });
-            } catch(e) {
-                console.warn('KaTeX render error:', e);
-            }
-        }
-    }
-    window.MathJax = {
-        typesetPromise: function(elements) {
-            try {
-                if (elements && Array.isArray(elements)) {
-                    elements.forEach(el => el && renderAllMath(el));
-                } else if (elements) {
-                    renderAllMath(elements);
-                } else {
-                    renderAllMath(document.body);
-                }
-            } catch(e) { console.warn('Math render error:', e); }
-            return Promise.resolve();
-        }
-    };
-    </script>
-    <style>
-        /* 1. 손글씨 폰트 로드 */
-        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Dodum&family=Gaegu:wght@400;700&display=swap');
-        
-        /* 2. 무료 상업용 정자형 손글씨 (교보손글씨 2019) */
-        @font-face {
-            font-family: 'KyoboHandwriting2019';
-            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHandwriting2019.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        body { font-family: 'Gaegu', cursive; background-color: #f0f0f0; }
-
-        /* 3. 줄 공책 배경 스타일 (CSS 패턴) */
-        .notebook-paper {
-            background-color: #fffef0; /* 미색 종이 */
-            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px); /* 파란 줄 */
-            background-size: 100% 30px; /* 줄 간격 */
-            line-height: 30px; /* 글자 줄 간격 맞춤 */
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .notebook-paper::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 40px;
-            width: 2px;
-            background-color: #ff9999; /* 빨간 세로줄 */
-            opacity: 0.6;
-        }
-
-        /* 상단 헤더 및 대기 화면용 손글씨: 온글잎 박윤슬체 */
-        .handwriting {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            font-size: 1.6rem;
-            color: #1e293b;
-            padding-left: 50px;
-            padding-right: 20px;
-        }
-
-        /* [핵심] 주간지·모의고사·기출문제 문항별 해설 내용: 온글잎 박윤슬체 통일 */
-        .explanation-body {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            font-size: 16.5px;
-            color: #1e293b;
-            padding-left: 50px;
-            padding-right: 20px;
-            line-height: 30px;
-        }
-        
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        /* 📝 예쁜 반투명 스크롤바 */
-        .custom-notebook-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-notebook-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-notebook-scroll::-webkit-scrollbar-thumb { 
-            background: rgba(0, 0, 0, 0.15); 
-            border-radius: 10px; 
-        }
-        .custom-notebook-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.3); }
-        
-        .btn-selected { 
-            background-color: #4f46e5; 
-            color: white; 
-            transform: scale(1.1); 
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);
-            border-color: #4f46e5;
-        }
-        
-        @font-face {
-            font-family: '온글잎 박윤슬체';
-            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
-                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
-                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
-                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
-                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
-                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'OwnglyphParkYounseul';
-            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
-                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
-                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
-                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
-                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
-                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        /* 본문 해설 내 모든 텍스트/하위 요소(정답, 선지, 개념박스, 팩트체크 등) 온글잎 박윤슬체 강제 적용 (수식 제외) */
-        .explanation-body,
-        .explanation-body *:not(.katex):not(.katex *):not(mjx-container):not(mjx-container *) {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-        }
-
-        /* 정답 타이틀 스타일 */
-        .explanation-body .ans-correct-title {
-            font-size: 17.5px !important;
-            font-weight: bold;
-            color: #2563eb;
-            line-height: 30px !important;
-            margin-top: -4px;
-            margin-bottom: 8px;
-        }
-
-        /* 개념 박스 온글잎 박윤슬체 최적화 */
-        .explanation-body .concept-box {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            padding: 8px 14px;
-            margin-top: 4px;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-        .explanation-body .concept-title {
-            font-size: 16.5px !important;
-            font-weight: bold;
-            color: #0f172a;
-            line-height: 1.4;
-        }
-        .explanation-body .concept-content {
-            font-size: 15.5px !important;
-            color: #334155;
-            line-height: 1.55;
-        }
-
-        /* 팩트 체크 및 오답 함정 섹션 */
-        .explanation-body .fact-check-title {
-            font-size: 17px !important;
-            font-weight: bold;
-            color: #0f172a;
-            line-height: 30px !important;
-            margin-top: 6px;
-            margin-bottom: 4px;
-        }
-        .explanation-body .fact-check-item:has(> .fact-check-text) { display: flex; gap: 8px; }
-        .explanation-body .fact-check-item {
-            display: block;
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            font-size: 16.5px !important;
-            line-height: 30px !important;
-        }
-        .explanation-body .fact-check-text {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            font-size: 16.5px !important;
-            line-height: 30px !important;
-            color: #1e293b;
-        }
-        .explanation-body .fact-check-label {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            font-size: 17.5px !important;
-            line-height: 30px !important;
-        }
-        .explanation-body .wrong-fact-title {
-            font-size: 17px !important;
-            font-weight: bold;
-            color: #e11d48;
-            line-height: 30px !important;
-            margin-bottom: 4px;
-        }
-        .explanation-body .wrong-fact-label {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-            font-size: 17.5px !important;
-            line-height: 30px !important;
-        }
-
-        /* 기출문제 등 일반 텍스트 문단 */
-        .explanation-body p,
-        .explanation-body div,
-        .explanation-body span:not(.katex):not(.katex *) {
-            font-size: 16.5px;
-            line-height: 30px;
-        }
-
-        /* 해설 영역 수식 크기 최적화 (손글씨 폰트 비율 및 높이 균형 보정) */
-        .explanation-body .katex,
-        .fact-check-text .katex {
-            font-size: 0.88em !important;
-        }
-
-        /* 수식 내 한글(text, hangul_fallback)은 본문 온글잎 박윤슬체로 통일하여 이질감 해소 */
-        .explanation-body .katex .hangul_fallback,
-        .explanation-body .katex .cjk_fallback,
-        .explanation-body .katex .mord.text,
-        .fact-check-text .katex .hangul_fallback,
-        .fact-check-text .katex .cjk_fallback,
-        .fact-check-text .katex .mord.text {
-            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
-        }
-
-        /* 인라인 분수(\frac)의 분자/분모가 과도하게 작아지는 현상 방지 */
-        .explanation-body .katex .mfrac .reset-size6.size3,
-        .fact-check-text .katex .mfrac .reset-size6.size3 {
-            font-size: 0.85em !important;
-        }
-
-    </style>
-
-<script src="/js/common-ui.js" defer></script>
-</head>
-<body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
-
-    <div class="w-full max-w-4xl flex justify-between items-center mb-6">
-        <button onclick="handleExplanationBack()" class="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition">
-            <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
-        </button>
-        <h1 class="text-[22px] font-bold text-gray-700 flex items-center gap-2">
-            <span class="text-3xl">📓</span> 
-            <span id="exam-title-header">오답노트 펼치는 중...</span>
-        </h1>
-        <div class="w-10"></div>
-    </div>
-
-    <div class="w-full max-w-4xl flex flex-col md:flex-row gap-6 h-[80vh]">
-        
-        <div class="w-full md:w-1/3 bg-white rounded-2xl p-4 shadow-xl flex flex-col border-4 border-gray-300">
-            <div class="mb-4 pb-2 border-b-2 border-dashed border-gray-300 text-center">
-                <span class="text-[18.5px] font-bold text-indigo-600">문항 선택하기</span>
-                <p class="text-[12.8px] text-gray-500 mt-1">번호를 누르면 해설이 보여요!</p>
-            </div>
-            
-            <div class="flex-1 overflow-y-auto hide-scrollbar">
-                <div class="grid grid-cols-5 gap-2" id="question-grid">
-                    <p class="col-span-5 text-center text-gray-400 py-10 text-[11px]">데이터 로딩 중...</p>
-                </div>
-            </div>
-
-            <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center shrink-0">
-                <p class="text-[11px] text-gray-400 mb-1">현재 보고 있는 문제</p>
-                <div id="current-info-badges" class="flex justify-center gap-2">
-                    <span class="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded">선택 대기중</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full md:w-2/3 relative perspective-1000">
-            <div class="absolute -left-3 top-4 bottom-4 w-6 flex flex-col justify-between z-10 py-2">
-                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
-                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
-                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
-                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
-                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
-                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
-            </div>
-
-            <div class="w-full h-full bg-[#fffef0] rounded-r-lg shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper">
-                
-                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8 bg-indigo-50/10">
-                    <span class="text-[22px] font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
-                        Q. 문항을 선택해주세요
-                    </span>
-                </div>
-
-                <div class="flex-1 overflow-y-auto p-6 ml-2 custom-notebook-scroll relative" id="note-content-area">
-                    <div class="handwriting flex flex-col items-center justify-center h-full text-gray-400 opacity-50 text-center">
-                        <i data-lucide="hand-metal" class="w-12 h-12 mb-2"></i>
-                        왼쪽에서 문항 번호를<br>콕! 눌러보세요.
-                    </div>
-                </div>
-                
-                <div class="absolute bottom-4 right-4 transform rotate-[-10deg] opacity-80 pointer-events-none">
-                    <span class="bg-yellow-200 text-yellow-800 px-3 py-1 text-lg font-bold shadow-lg border-2 border-yellow-400 rounded-sm">
-                        Very Good! 👍
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center">
-        <div class="bg-white p-6 rounded-2xl shadow-2xl text-center max-w-xs w-full mx-4">
-            <i data-lucide="lock" class="w-12 h-12 text-indigo-600 mx-auto mb-4"></i>
-            <h2 class="text-xl font-bold mb-2">로그인 필요</h2>
-            <p class="text-gray-500 text-sm mb-6">유료 회원 전용 서비스입니다.<br>로그인 후 이용해 주세요.</p>
-            <button id="go-login" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl active:scale-95 transition-transform">로그인하러 가기</button>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { normalizeExamId, loadExamDataScript, getEstimatedAccuracyRate } from "./exam_core.js";
-
-        window.handleExplanationBack = function() {
-            if (window.opener && !window.opener.closed) {
-                window.close();
-                setTimeout(fallback, 100);
-                return;
-            }
-            fallback();
-
-            function fallback() {
-                const params = new URLSearchParams(window.location.search);
-                const examId = params.get('id');
-                if (document.referrer && document.referrer.includes('exam.html')) {
-                    window.location.href = document.referrer;
-                } else if (window.history.length > 1) {
-                    window.history.back();
-                } else {
-                    window.location.href = examId ? `exam.html?tab=report&id=${examId}` : 'exam.html?tab=report';
-                }
-            }
-        };
-
-        import { firebaseConfig } from "/firebase-config.js";
-
-        const app = initializeApp(firebaseConfig);
-        const appCheck = initializeAppCheck(app, {
-            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
-            isTokenAutoRefreshEnabled: true
-        });
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const EXAM_ID = urlParams.get('id') || 'mock_2028_s0_01';
-        
-        let examMetaData = null;
-        let aiExamData = null;
-
-       async function init() {
-            try {
-                const cleanExamId = normalizeExamId(EXAM_ID);
-
-                const [metaSnap, loadedAiData] = await Promise.allSettled([
-                    getDoc(doc(db, "exams", cleanExamId)),
-                    loadExamDataScript(cleanExamId)
-                ]);
-
-                if (metaSnap.status === 'fulfilled' && metaSnap.value.exists()) {
-                    examMetaData = metaSnap.value.data();
-                    document.getElementById('exam-title-header').innerText = examMetaData.title || "나만의 오답노트";
-                } else {
-                    document.getElementById('exam-title-header').innerText = (loadedAiData.status === 'fulfilled' && loadedAiData.value && loadedAiData.value.title) ? loadedAiData.value.title : "나만의 오답노트";
-                }
-                if (loadedAiData.status === 'fulfilled' && loadedAiData.value) aiExamData = loadedAiData.value;
-                renderQuestionGrid();
-                
-                // [신규 추가] URL에 qNum 또는 qId가 있으면 해당 문항 해설을 자동으로 띄우기 (undefined 방어)
-                let targetQNum = null;
-                const preSelectNum = urlParams.get('qNum');
-                const preSelectQId = urlParams.get('qId');
-
-                if (preSelectNum && preSelectNum !== 'undefined') {
-                    const parsed = parseInt(preSelectNum, 10);
-                    if (!isNaN(parsed) && parsed > 0) targetQNum = parsed;
-                } else if (preSelectQId && preSelectQId !== 'undefined') {
-                    const match = String(preSelectQId).match(/\d+$/);
-                    if (match) {
-                        const parsed = parseInt(match[0], 10);
-                        if (!isNaN(parsed) && parsed > 0) targetQNum = parsed;
-                    }
-                }
-
-                if (targetQNum) {
-                    const btns = document.querySelectorAll('#question-grid button');
-                    if (targetQNum > 0 && targetQNum <= btns.length) {
-                        btns[targetQNum - 1].click();
-                    }
-                }
-
-                lucide.createIcons();
-            } catch (e) { console.error("초기화 오류:", e); }
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                init();
-            } else {
-                const modal = document.getElementById('auth-modal');
-                modal.classList.remove('hidden');
-                document.getElementById('go-login').onclick = () => {
-                    const target = 'exam.html';
-                    if (target) window.location.assign(target);
-                };
-            }
-        });
-
-        function renderQuestionGrid() {
-            const grid = document.getElementById('question-grid');
-            grid.innerHTML = '';
-            
-            const normId = normalizeExamId(EXAM_ID);
-            let totalQ = 25;
-            if (normId.startsWith('week')) {
-                totalQ = 20;
-            } else {
-                totalQ = examMetaData?.questions?.length || (aiExamData?.answers?.length) || 25;
-            }
-
-            for (let i = 1; i <= totalQ; i++) {
-                const btn = document.createElement('button');
-                btn.className = "w-full aspect-square rounded-xl bg-gray-100 border-2 border-gray-200 text-[16.5px] font-bold text-gray-500 hover:bg-indigo-100 hover:border-indigo-300 hover:text-indigo-600 transition-all flex items-center justify-center shadow-sm";
-                btn.innerText = i;
-                btn.onclick = () => selectQuestion(i, btn);
-                grid.appendChild(btn);
-            }
-        }
-
-        window.selectQuestion = async (no, btnElement) => {
-            document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
-            btnElement.classList.add('btn-selected');
-
-            const normId = normalizeExamId(EXAM_ID);
-            const padNo = String(no).padStart(2, '0');
-            const fallbackQId = `${normId}_q${padNo}`;
-            const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-', topic: '', qId: fallbackQId };
-            const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === no) : null;
-            
-            // [핵심 수정] AI 해설 파일의 토픽을 최우선으로 사용하도록 순서 변경
-            const topic = aiQ?.topic || dbQ?.topic || "통합과학";
-            const content = aiQ?.content || "앗! 아직 이 문항의 비밀노트 해설이 준비되지 않았어요.";
-
-            const finalScore = (aiExamData && aiExamData.scores && aiExamData.scores.length >= no) ? aiExamData.scores[no-1] : (dbQ?.score || 2.0);
-            const finalAns = (aiExamData && aiExamData.answers && aiExamData.answers.length >= no) ? aiExamData.answers[no-1] : (dbQ?.correctAnswer || '-');
-
-            const noteArea = document.getElementById('note-content-area');
-            const qNumTitle = document.getElementById('note-q-number');
-            
-            noteArea.style.opacity = 0;
-
-            let statsHtml = '';
-            const user = auth.currentUser;
-            
-            let qData = null;
-            let wData = null;
-
-            const targetQId = dbQ?.qId || fallbackQId;
-            if (targetQId) {
-                try {
-                    const [qSnap, wrongSnap] = await Promise.all([
-                        getDoc(doc(db, "questions", targetQId)),
-                        user ? getDoc(doc(db, "users", user.uid, "wrong_answers", targetQId)) : Promise.resolve(null)
-                    ]);
-                    
-                    qData = qSnap.exists() ? qSnap.data() : null;
-                    wData = wrongSnap && wrongSnap.exists() ? wrongSnap.data() : null;
-                } catch (e) {
-                    console.error("통계 로딩 중 오류:", e);
-                }
-            }
-
-            // 가상 규준 통계 또는 실제 DB 통계 판별 (최소 30명 미만 표본은 규준 모수로 보정)
-            let totalAttempts = 0;
-            let correctRate = 0;
-            let distractorStats = {};
-
-            if (qData && qData.stats) {
-                if (qData.stats.totalAttempts >= 30) {
-                    totalAttempts = qData.stats.totalAttempts;
-                    const correctCount = qData.stats.correctCount || 0;
-                    correctRate = Math.round((correctCount / totalAttempts) * 100);
-                    distractorStats = qData.distractorStats || {};
-                } else if (qData.stats.total >= 30) {
-                    totalAttempts = qData.stats.total;
-                    const correctCount = qData.stats.correct || 0;
-                    correctRate = Math.round((correctCount / totalAttempts) * 100);
-                    distractorStats = qData.distractorStats || {};
-                }
-            }
-            if (totalAttempts === 0) {
-                // 전국 표준 규준 가상 표본 적용 (1,280명 기준)
-                totalAttempts = 1280;
-                correctRate = getEstimatedAccuracyRate(no, finalScore, normId);
-                const wrongCount = Math.round(totalAttempts * (1 - correctRate / 100));
-                const cAnsNum = parseInt(finalAns, 10);
-                const trapChoice = (!isNaN(cAnsNum) && cAnsNum >= 1 && cAnsNum <= 5) ? ((cAnsNum % 5) + 1) : 4;
-                for (let opt = 1; opt <= 5; opt++) {
-                    if (opt === cAnsNum) {
-                        distractorStats[opt] = Math.round(totalAttempts * (correctRate / 100));
-                    } else if (opt === trapChoice) {
-                        distractorStats[opt] = Math.round(wrongCount * 0.56);
-                    } else {
-                        distractorStats[opt] = Math.round(wrongCount * 0.14);
-                    }
-                }
-            }
-
-            let diagnosis = "";
-            const diagColor = "text-yellow-800 bg-yellow-50 border-yellow-300";
-            
-            if (correctRate >= 70) {
-                diagnosis = "다수의 학생들이 맞춘 <b>기본 개념 문항</b>입니다. 만약 틀렸다면 기초 복습이 시급합니다!";
-            } else if (correctRate >= 40) {
-                diagnosis = "개념의 정확한 적용을 묻는 <b>핵심 문항</b>입니다. 헷갈린 선지가 있다면 반드시 짚고 넘어가세요.";
-            } else {
-                diagnosis = "오답률이 높은 <b>킬러 문항</b>입니다! 좌절하지 말고 출제자의 의도를 파악해 보세요.";
-            }
-            
-            statsHtml += `
-                <div class="mb-5 ml-[50px] mr-5 p-3.5 rounded-xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
-                    <div class="flex items-center gap-1.5 mb-1.5">
-                        <span class="text-sm">📊</span>
-                        <h3 class="font-bold text-[13.8px] leading-tight">전체 응시자 정답률: ${correctRate}%</h3>
-                    </div>
-                    <p class="text-[12.8px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
-            `;
-            
-            const myMark = wData?.studentMark ? Number(wData.studentMark) : null;
-            if (myMark && myMark > 0 && String(myMark) !== String(finalAns)) {
-                let distCount = distractorStats[myMark] || 0;
-                let distRate = Math.round((distCount / totalAttempts) * 100);
-                if (distRate === 0 || distRate >= 75) {
-                    distRate = Math.max(16, Math.min(38, Math.round((100 - correctRate) * 0.52)));
-                }
-                statsHtml += `
-                    <div class="mt-2.5 pt-2 border-t border-black/10 flex items-start gap-1.5">
-                        <span class="text-sm">🚨</span>
-                        <p class="text-[12.8px] leading-relaxed">
-                            <b>매력적인 오답 경보:</b> 내가 고른 <b>${myMark}번</b> 선지는 전체 응시자의 <b>${distRate}%</b>가 낚인 함정이었습니다. 당신만 틀린 게 아니에요!
-                        </p>
-                    </div>
-                `;
-            }
-            statsHtml += `</div>`;
-            
-            setTimeout(() => {
-                qNumTitle.innerHTML = `<span class="text-indigo-600 mr-2">Q${no}.</span>${topic}`;
-                
-                // 배점과 정답 뱃지 표출
-
-                document.getElementById('current-info-badges').innerHTML = `
-                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-[11px] font-bold">배점 ${finalScore}점</span>
-                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-[11px] font-bold">정답 ${finalAns}</span>
-                `;
-                
-                noteArea.innerHTML = statsHtml + `<div class="explanation-body leading-[30px] pt-2 pb-32">${content}</div>`;
-                noteArea.style.opacity = 1;
-                noteArea.style.transition = "opacity 0.3s ease-in-out";
-                
-                if (window.MathJax) {
-                    MathJax.typesetPromise([noteArea, qNumTitle]).catch((err) => console.log('MathJax error: ', err));
-                }
-            }, 50);
-        };
-    </script>
-</body>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갓통과 - 1타 강사 비밀노트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/css/common.css">
+    
+        <!-- KaTeX Math Rendering Library (Fast & Lightweight) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+    function renderAllMath(target) {
+        if (typeof renderMathInElement === 'function') {
+            try {
+                renderMathInElement(target || document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.warn('KaTeX render error:', e);
+            }
+        }
+    }
+    window.MathJax = {
+        typesetPromise: function(elements) {
+            try {
+                if (elements && Array.isArray(elements)) {
+                    elements.forEach(el => el && renderAllMath(el));
+                } else if (elements) {
+                    renderAllMath(elements);
+                } else {
+                    renderAllMath(document.body);
+                }
+            } catch(e) { console.warn('Math render error:', e); }
+            return Promise.resolve();
+        }
+    };
+    </script>
+    <style>
+        /* 1. 손글씨 폰트 로드 */
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Dodum&family=Gaegu:wght@400;700&display=swap');
+        
+        /* 2. 무료 상업용 정자형 손글씨 (교보손글씨 2019) */
+        @font-face {
+            font-family: 'KyoboHandwriting2019';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHandwriting2019.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body { font-family: 'Gaegu', cursive; background-color: #f0f0f0; }
+
+        /* 3. 줄 공책 배경 스타일 (CSS 패턴) */
+        .notebook-paper {
+            background-color: #fffef0; /* 미색 종이 */
+            background-image: linear-gradient(to bottom, transparent 29px, #a8d5e5 30px); /* 파란 줄 */
+            background-size: 100% 30px; /* 줄 간격 */
+            line-height: 30px; /* 글자 줄 간격 맞춤 */
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .notebook-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 40px;
+            width: 2px;
+            background-color: #ff9999; /* 빨간 세로줄 */
+            opacity: 0.6;
+        }
+
+        /* 상단 헤더 및 대기 화면용 손글씨: 온글잎 박윤슬체 */
+        .handwriting {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 1.6rem;
+            color: #1e293b;
+            padding-left: 50px;
+            padding-right: 20px;
+        }
+
+        /* [핵심] 주간지·모의고사·기출문제 문항별 해설 내용: 온글잎 박윤슬체 통일 */
+        .explanation-body {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 16.5px;
+            color: #1e293b;
+            padding-left: 50px;
+            padding-right: 20px;
+            line-height: 30px;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* 📝 예쁜 반투명 스크롤바 */
+        .custom-notebook-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-notebook-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-notebook-scroll::-webkit-scrollbar-thumb { 
+            background: rgba(0, 0, 0, 0.15); 
+            border-radius: 10px; 
+        }
+        .custom-notebook-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.3); }
+        
+        .btn-selected { 
+            background-color: #4f46e5; 
+            color: white; 
+            transform: scale(1.1); 
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.5);
+            border-color: #4f46e5;
+        }
+        
+        @font-face {
+            font-family: '온글잎 박윤슬체';
+            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
+                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OwnglyphParkYounseul';
+            src: url('../css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('/css/OwnglyphParkYounseul.woff') format('woff'),
+                 url('../css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('/css/OwnglyphParkYounseul.ttf') format('truetype'),
+                 url('../css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype'),
+                 url('/css/%EC%98%A8%EA%B8%80%EC%9E%8E%20%EB%B0%95%EC%9C%A4%EC%8A%AC%EC%B2%B4.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* 본문 해설 내 모든 텍스트/하위 요소(정답, 선지, 개념박스, 팩트체크 등) 온글잎 박윤슬체 강제 적용 (수식 제외) */
+        .explanation-body,
+        .explanation-body *:not(.katex):not(.katex *):not(mjx-container):not(mjx-container *) {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+        }
+
+        /* 정답 타이틀 스타일 */
+        .explanation-body .ans-correct-title {
+            font-size: 17.5px !important;
+            font-weight: bold;
+            color: #2563eb;
+            line-height: 30px !important;
+            margin-top: -4px;
+            margin-bottom: 8px;
+        }
+
+        /* 개념 박스 온글잎 박윤슬체 최적화 */
+        .explanation-body .concept-box {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            padding: 8px 14px;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .explanation-body .concept-title {
+            font-size: 16.5px !important;
+            font-weight: bold;
+            color: #0f172a;
+            line-height: 1.4;
+        }
+        .explanation-body .concept-content {
+            font-size: 15.5px !important;
+            color: #334155;
+            line-height: 1.55;
+        }
+
+        /* 팩트 체크 및 오답 함정 섹션 */
+        .explanation-body .fact-check-title {
+            font-size: 17px !important;
+            font-weight: bold;
+            color: #0f172a;
+            line-height: 30px !important;
+            margin-top: 6px;
+            margin-bottom: 4px;
+        }
+        .explanation-body .fact-check-item:has(> .fact-check-text) { display: flex; gap: 8px; }
+        .explanation-body .fact-check-item {
+            display: block;
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 16.5px !important;
+            line-height: 30px !important;
+        }
+        .explanation-body .fact-check-text {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 16.5px !important;
+            line-height: 30px !important;
+            color: #1e293b;
+        }
+        .explanation-body .fact-check-label {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 17.5px !important;
+            line-height: 30px !important;
+        }
+        .explanation-body .wrong-fact-title {
+            font-size: 17px !important;
+            font-weight: bold;
+            color: #e11d48;
+            line-height: 30px !important;
+            margin-bottom: 4px;
+        }
+        .explanation-body .wrong-fact-label {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+            font-size: 17.5px !important;
+            line-height: 30px !important;
+        }
+
+        /* 기출문제 등 일반 텍스트 문단 */
+        .explanation-body p,
+        .explanation-body div,
+        .explanation-body span:not(.katex):not(.katex *) {
+            font-size: 16.5px;
+            line-height: 30px;
+        }
+
+        /* 해설 영역 수식 크기 최적화 (손글씨 폰트 비율 및 높이 균형 보정) */
+        .explanation-body .katex,
+        .fact-check-text .katex {
+            font-size: 0.88em !important;
+        }
+
+        /* 수식 내 한글(text, hangul_fallback)은 본문 온글잎 박윤슬체로 통일하여 이질감 해소 */
+        .explanation-body .katex .hangul_fallback,
+        .explanation-body .katex .cjk_fallback,
+        .explanation-body .katex .mord.text,
+        .fact-check-text .katex .hangul_fallback,
+        .fact-check-text .katex .cjk_fallback,
+        .fact-check-text .katex .mord.text {
+            font-family: '온글잎 박윤슬체', 'OwnglyphParkYounseul', cursive !important;
+        }
+
+        /* 인라인 분수(\frac)의 분자/분모가 과도하게 작아지는 현상 방지 */
+        .explanation-body .katex .mfrac .reset-size6.size3,
+        .fact-check-text .katex .mfrac .reset-size6.size3 {
+            font-size: 0.85em !important;
+        }
+
+    </style>
+
+<script src="/js/common-ui.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col items-center py-6 px-4 bg-stone-200">
+
+    <div class="w-full max-w-4xl flex justify-between items-center mb-6">
+        <button onclick="handleExplanationBack()" class="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition">
+            <i data-lucide="arrow-left" class="w-6 h-6 text-gray-600"></i>
+        </button>
+        <h1 class="text-[22px] font-bold text-gray-700 flex items-center gap-2">
+            <span class="text-3xl">📓</span> 
+            <span id="exam-title-header">오답노트 펼치는 중...</span>
+        </h1>
+        <div class="w-10"></div>
+    </div>
+
+    <div class="w-full max-w-4xl flex flex-col md:flex-row gap-6 h-[80vh]">
+        
+        <div class="w-full md:w-1/3 bg-white rounded-2xl p-4 shadow-xl flex flex-col border-4 border-gray-300">
+            <div class="mb-4 pb-2 border-b-2 border-dashed border-gray-300 text-center">
+                <span class="text-[18.5px] font-bold text-indigo-600">문항 선택하기</span>
+                <p class="text-[12.8px] text-gray-500 mt-1">번호를 누르면 해설이 보여요!</p>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto hide-scrollbar">
+                <div class="grid grid-cols-5 gap-2" id="question-grid">
+                    <p class="col-span-5 text-center text-gray-400 py-10 text-[11px]">데이터 로딩 중...</p>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t-2 border-gray-100 bg-gray-50 rounded-xl p-3 text-center shrink-0">
+                <p class="text-[11px] text-gray-400 mb-1">현재 보고 있는 문제</p>
+                <div id="current-info-badges" class="flex justify-center gap-2">
+                    <span class="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded">선택 대기중</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-2/3 relative perspective-1000">
+            <div class="absolute -left-3 top-4 bottom-4 w-6 flex flex-col justify-between z-10 py-2">
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+                <div class="w-6 h-6 bg-gray-400 rounded-full shadow-inner border-2 border-gray-500"></div>
+            </div>
+
+            <div class="w-full h-full bg-[#fffef0] rounded-r-lg shadow-2xl overflow-hidden flex flex-col border border-l-8 border-gray-300 notebook-paper">
+                
+                <div class="min-h-[4rem] border-b-2 border-gray-300 flex items-center px-6 py-3 ml-8 bg-indigo-50/10">
+                    <span class="text-[22px] font-bold text-gray-700 handwriting leading-tight break-keep" style="padding:0;" id="note-q-number">
+                        Q. 문항을 선택해주세요
+                    </span>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-6 ml-2 custom-notebook-scroll relative" id="note-content-area">
+                    <div class="handwriting flex flex-col items-center justify-center h-full text-gray-400 opacity-50 text-center">
+                        <i data-lucide="hand-metal" class="w-12 h-12 mb-2"></i>
+                        왼쪽에서 문항 번호를<br>콕! 눌러보세요.
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-4 right-4 transform rotate-[-10deg] opacity-80 pointer-events-none">
+                    <span class="bg-yellow-200 text-yellow-800 px-3 py-1 text-lg font-bold shadow-lg border-2 border-yellow-400 rounded-sm">
+                        Very Good! 👍
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl text-center max-w-xs w-full mx-4">
+            <i data-lucide="lock" class="w-12 h-12 text-indigo-600 mx-auto mb-4"></i>
+            <h2 class="text-xl font-bold mb-2">로그인 필요</h2>
+            <p class="text-gray-500 text-sm mb-6">유료 회원 전용 서비스입니다.<br>로그인 후 이용해 주세요.</p>
+            <button id="go-login" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl active:scale-95 transition-transform">로그인하러 가기</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { normalizeExamId, loadExamDataScript, getEstimatedAccuracyRate } from "./exam_core.js";
+
+        window.handleExplanationBack = function() {
+            if (window.opener && !window.opener.closed) {
+                window.close();
+                setTimeout(fallback, 100);
+                return;
+            }
+            fallback();
+
+            function fallback() {
+                const params = new URLSearchParams(window.location.search);
+                const examId = params.get('id');
+                if (document.referrer && document.referrer.includes('exam.html')) {
+                    window.location.href = document.referrer;
+                } else if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = examId ? `exam.html?tab=report&id=${examId}` : 'exam.html?tab=report';
+                }
+            }
+        };
+
+        import { firebaseConfig } from "/firebase-config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const appCheck = initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider('6LdgWWstAAAAAJiXWFVDDXeMOHocUBgmQdA62zCR'),
+            isTokenAutoRefreshEnabled: true
+        });
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const EXAM_ID = urlParams.get('id') || 'mock_2028_s0_01';
+        
+        let examMetaData = null;
+        let aiExamData = null;
+
+       async function init() {
+            try {
+                const cleanExamId = normalizeExamId(EXAM_ID);
+
+                const [metaSnap, loadedAiData] = await Promise.allSettled([
+                    getDoc(doc(db, "exams", cleanExamId)),
+                    loadExamDataScript(cleanExamId)
+                ]);
+
+                if (metaSnap.status === 'fulfilled' && metaSnap.value.exists()) {
+                    examMetaData = metaSnap.value.data();
+                    document.getElementById('exam-title-header').innerText = examMetaData.title || "나만의 오답노트";
+                } else {
+                    document.getElementById('exam-title-header').innerText = (loadedAiData.status === 'fulfilled' && loadedAiData.value && loadedAiData.value.title) ? loadedAiData.value.title : "나만의 오답노트";
+                }
+                if (loadedAiData.status === 'fulfilled' && loadedAiData.value) aiExamData = loadedAiData.value;
+                renderQuestionGrid();
+                
+                // [신규 추가] URL에 qNum 또는 qId가 있으면 해당 문항 해설을 자동으로 띄우기 (대소문자 지원 및 1번 기본 자동 선택)
+                let targetQNum = null;
+                const preSelectNum = urlParams.get('qNum') || urlParams.get('qnum') || urlParams.get('qNo') || urlParams.get('qno') || urlParams.get('q');
+                const preSelectQId = urlParams.get('qId') || urlParams.get('qid');
+
+                if (preSelectNum && preSelectNum !== 'undefined') {
+                    const parsed = parseInt(preSelectNum, 10);
+                    if (!isNaN(parsed) && parsed > 0) targetQNum = parsed;
+                } else if (preSelectQId && preSelectQId !== 'undefined') {
+                    const match = String(preSelectQId).match(/\d+$/);
+                    if (match) {
+                        const parsed = parseInt(match[0], 10);
+                        if (!isNaN(parsed) && parsed > 0) targetQNum = parsed;
+                    }
+                }
+
+                const btns = document.querySelectorAll('#question-grid button');
+                if (targetQNum && targetQNum > 0 && targetQNum <= btns.length) {
+                    btns[targetQNum - 1].click();
+                } else if (btns.length > 0) {
+                    btns[0].click();
+                }
+
+                lucide.createIcons();
+            } catch (e) { console.error("초기화 오류:", e); }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                init();
+            } else {
+                const modal = document.getElementById('auth-modal');
+                modal.classList.remove('hidden');
+                document.getElementById('go-login').onclick = () => {
+                    const target = 'exam.html';
+                    if (target) window.location.assign(target);
+                };
+            }
+        });
+
+        function renderQuestionGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+            
+            const normId = normalizeExamId(EXAM_ID);
+            let totalQ = 25;
+            if (normId.startsWith('week')) {
+                totalQ = 20;
+            } else {
+                totalQ = examMetaData?.questions?.length || (aiExamData?.answers?.length) || 25;
+            }
+
+            for (let i = 1; i <= totalQ; i++) {
+                const btn = document.createElement('button');
+                btn.className = "w-full aspect-square rounded-xl bg-gray-100 border-2 border-gray-200 text-[16.5px] font-bold text-gray-500 hover:bg-indigo-100 hover:border-indigo-300 hover:text-indigo-600 transition-all flex items-center justify-center shadow-sm";
+                btn.innerText = i;
+                btn.onclick = () => selectQuestion(i, btn);
+                grid.appendChild(btn);
+            }
+        }
+
+        window.selectQuestion = async (no, btnElement) => {
+            document.querySelectorAll('#question-grid button').forEach(b => b.classList.remove('btn-selected'));
+            btnElement.classList.add('btn-selected');
+
+            const normId = normalizeExamId(EXAM_ID);
+            const padNo = String(no).padStart(2, '0');
+            const fallbackQId = `${normId}_q${padNo}`;
+            const dbQ = examMetaData?.questions ? examMetaData.questions[no-1] : { score: 0, correctAnswer: '-', topic: '', qId: fallbackQId };
+            const aiQ = aiExamData?.explanations ? aiExamData.explanations.find(e => e.no === no) : null;
+            
+            // [핵심 수정] AI 해설 파일의 토픽을 최우선으로 사용하도록 순서 변경
+            const topic = aiQ?.topic || dbQ?.topic || "통합과학";
+            const content = aiQ?.content || "앗! 아직 이 문항의 비밀노트 해설이 준비되지 않았어요.";
+
+            const finalScore = (aiExamData && aiExamData.scores && aiExamData.scores.length >= no) ? aiExamData.scores[no-1] : (dbQ?.score || 2.0);
+            const finalAns = (aiExamData && aiExamData.answers && aiExamData.answers.length >= no) ? aiExamData.answers[no-1] : (dbQ?.correctAnswer || '-');
+
+            const noteArea = document.getElementById('note-content-area');
+            const qNumTitle = document.getElementById('note-q-number');
+            
+            noteArea.style.opacity = 0;
+
+            let statsHtml = '';
+            const user = auth.currentUser;
+            
+            let qData = null;
+            let wData = null;
+
+            const targetQId = dbQ?.qId || fallbackQId;
+            if (targetQId) {
+                try {
+                    const [qSnap, wrongSnap] = await Promise.all([
+                        getDoc(doc(db, "questions", targetQId)),
+                        user ? getDoc(doc(db, "users", user.uid, "wrong_answers", targetQId)) : Promise.resolve(null)
+                    ]);
+                    
+                    qData = qSnap.exists() ? qSnap.data() : null;
+                    wData = wrongSnap && wrongSnap.exists() ? wrongSnap.data() : null;
+                } catch (e) {
+                    console.error("통계 로딩 중 오류:", e);
+                }
+            }
+
+            // 가상 규준 통계 또는 실제 DB 통계 판별 (최소 30명 미만 표본은 규준 모수로 보정)
+            let totalAttempts = 0;
+            let correctRate = 0;
+            let distractorStats = {};
+
+            if (qData && qData.stats) {
+                if (qData.stats.totalAttempts >= 30) {
+                    totalAttempts = qData.stats.totalAttempts;
+                    const correctCount = qData.stats.correctCount || 0;
+                    correctRate = Math.round((correctCount / totalAttempts) * 100);
+                    distractorStats = qData.distractorStats || {};
+                } else if (qData.stats.total >= 30) {
+                    totalAttempts = qData.stats.total;
+                    const correctCount = qData.stats.correct || 0;
+                    correctRate = Math.round((correctCount / totalAttempts) * 100);
+                    distractorStats = qData.distractorStats || {};
+                }
+            }
+            if (totalAttempts === 0) {
+                // 전국 표준 규준 가상 표본 적용 (1,280명 기준)
+                totalAttempts = 1280;
+                correctRate = getEstimatedAccuracyRate(no, finalScore, normId);
+                const wrongCount = Math.round(totalAttempts * (1 - correctRate / 100));
+                const cAnsNum = parseInt(finalAns, 10);
+                const trapChoice = (!isNaN(cAnsNum) && cAnsNum >= 1 && cAnsNum <= 5) ? ((cAnsNum % 5) + 1) : 4;
+                for (let opt = 1; opt <= 5; opt++) {
+                    if (opt === cAnsNum) {
+                        distractorStats[opt] = Math.round(totalAttempts * (correctRate / 100));
+                    } else if (opt === trapChoice) {
+                        distractorStats[opt] = Math.round(wrongCount * 0.56);
+                    } else {
+                        distractorStats[opt] = Math.round(wrongCount * 0.14);
+                    }
+                }
+            }
+
+            let diagnosis = "";
+            const diagColor = "text-yellow-800 bg-yellow-50 border-yellow-300";
+            
+            if (correctRate >= 70) {
+                diagnosis = "다수의 학생들이 맞춘 <b>기본 개념 문항</b>입니다. 만약 틀렸다면 기초 복습이 시급합니다!";
+            } else if (correctRate >= 40) {
+                diagnosis = "개념의 정확한 적용을 묻는 <b>핵심 문항</b>입니다. 헷갈린 선지가 있다면 반드시 짚고 넘어가세요.";
+            } else {
+                diagnosis = "오답률이 높은 <b>킬러 문항</b>입니다! 좌절하지 말고 출제자의 의도를 파악해 보세요.";
+            }
+            
+            statsHtml += `
+                <div class="mb-5 ml-[50px] mr-5 p-3.5 rounded-xl border-2 ${diagColor} shadow-sm font-sans bg-opacity-90">
+                    <div class="flex items-center gap-1.5 mb-1.5">
+                        <span class="text-sm">📊</span>
+                        <h3 class="font-bold text-[13.8px] leading-tight">전체 응시자 정답률: ${correctRate}%</h3>
+                    </div>
+                    <p class="text-[12.8px] leading-relaxed">💡 <b>핀셋 진단:</b> ${diagnosis}</p>
+            `;
+            
+            const myMark = wData?.studentMark ? Number(wData.studentMark) : null;
+            if (myMark && myMark > 0 && String(myMark) !== String(finalAns)) {
+                let distCount = distractorStats[myMark] || 0;
+                let distRate = Math.round((distCount / totalAttempts) * 100);
+                if (distRate === 0 || distRate >= 75) {
+                    distRate = Math.max(16, Math.min(38, Math.round((100 - correctRate) * 0.52)));
+                }
+                statsHtml += `
+                    <div class="mt-2.5 pt-2 border-t border-black/10 flex items-start gap-1.5">
+                        <span class="text-sm">🚨</span>
+                        <p class="text-[12.8px] leading-relaxed">
+                            <b>매력적인 오답 경보:</b> 내가 고른 <b>${myMark}번</b> 선지는 전체 응시자의 <b>${distRate}%</b>가 낚인 함정이었습니다. 당신만 틀린 게 아니에요!
+                        </p>
+                    </div>
+                `;
+            }
+            statsHtml += `</div>`;
+            
+            setTimeout(() => {
+                qNumTitle.innerHTML = `<span class="text-indigo-600 mr-2">Q${no}.</span>${topic}`;
+                
+                // 배점과 정답 뱃지 표출
+
+                document.getElementById('current-info-badges').innerHTML = `
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded border border-yellow-200 text-[11px] font-bold">배점 ${finalScore}점</span>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded border border-blue-200 text-[11px] font-bold">정답 ${finalAns}</span>
+                `;
+                
+                noteArea.innerHTML = statsHtml + `<div class="explanation-body leading-[30px] pt-2 pb-32">${content}</div>`;
+                noteArea.style.opacity = 1;
+                noteArea.style.transition = "opacity 0.3s ease-in-out";
+                
+                if (window.MathJax) {
+                    MathJax.typesetPromise([noteArea, qNumTitle]).catch((err) => console.log('MathJax error: ', err));
+                }
+            }, 50);
+        };
+    </script>
+</body>
 </html>
